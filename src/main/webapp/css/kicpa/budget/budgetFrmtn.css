@@ -1,0 +1,62 @@
+.setup {
+    background: url("/auigrid/AUIGrid/images/search.png") no-repeat;
+    vertical-align: middle;
+    width:16px;
+    height: 16px;
+    border: none;
+    cursor: pointer;
+}
+
+ul#budgetFrmtn_select_menu {
+    display:flex;
+    flex-direction: row;
+    flex-wrap:wrap ;
+    flex-basis: content;
+    list-style-type: none;
+    width:500px;
+}
+
+.grid_left_style {
+    text-align: left!important;
+}
+
+.grid_right_style {
+    text-align: right!important;
+}
+
+.aui-grid-new-row-style {
+    background-color: #fde5dc!important;
+}
+
+.aui-grid-active-row-style {
+    background-color: #AAAAAA !important;
+}
+
+#budgetFrmtn_textArea_wrap {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    font-size:12px;
+    min-width:100px;
+    border:1px solid #555;
+    left:0;
+    top:0;
+    padding:4px;
+    text-align:left;
+    z-index:9999;
+}
+#budgetFrmtn_textArea {
+    flex-grow: 2;
+}
+
+#budgetFrmtn_textArea_control {
+    list-style-type: none;
+    flex-grow: 0;
+    display: flex;
+    justify-content: flex-end;
+    gap:5px;
+}
+
+#budgetFrmtn_textArea_error {
+    color:red;
+}

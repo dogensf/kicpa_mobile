@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="Users">
+
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+    <typeAlias  alias="user" type="adminwork.kicpa.user.service.User"/>
+    <typeAlias  alias="userVOs" type="adminwork.kicpa.user.service.UserVO"/>
+	<typeAlias  alias="comDefaultVO" type="adminwork.com.cmm.ComDefaultVO"/>
+		
+	
+	<select id="userDAO.selectUserList" parameterClass="userVOs" resultClass="user">
+		<![CDATA[ 
+            SELECT 
+					esntl_id, 
+			        user_id, 
+			        user_nm, 
+			        aima_dept_pname, 
+			        aima_dept_name,
+			        aima_posi_name, 
+			        aima_posi_rname
+			FROM KICPA_COMVNUSERMASTER
+			WHERE USER_ID != 'admin'
+		]]> 
+	</select>
+	
+	<select id="userDAO.getUserMenuList" parameterClass="userVOs" resultClass="user">
+			<![CDATA[ 
+	            SELECT 
+						menu_no,
+						user_no,
+						mapng_creat_id,
+						favorites_menu,
+						admin_auth
+				FROM LETTNMENUCREATUSER
+				WHERE USER_NO = #user_no#
+			]]> 
+	</select>
+	
+	
+	<delete id="userDAO.delUserMenuList" parameterClass="userVOs" >
+		DELETE FROM LETTNMENUCREATUSER WHERE USER_NO = #user_no#
+	</delete>
+	
+	<insert id="userDAO.setUserMenuList" parameterClass="userVOs" >
+		INSERT INTO LETTNMENUCREATUSER(menu_no,user_no,mapng_creat_id,favorites_menu,admin_auth)
+       			VALUES(#menu_no#,#user_no#,#mapng_creat_id#,#favorites_menu#,#admin_auth#)
+	</insert>
+	
+
+	
+	<update id="userDAO.editUserMenuList" parameterClass="userVOs" >
+		UPDATE LETTNMENUCREATUSER
+		SET menu_no = #menu_no#,
+			user_no = #user_no#,
+			mapng_creat_id = #mapng_creat_id#,
+			favorites_menu = #favorites_menu#,
+			admin_auth = #admin_auth#
+		WHERE USER_NO = #user_no#	
+	</update>
+	
+	
+	
+	
+	
+	
+	
+ 
+
+</sqlMap>

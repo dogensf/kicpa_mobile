@@ -1,0 +1,20 @@
+@charset "utf-8";
+
+html,body{color:#333;}
+body{ font:normal 1em thoma, arial, Verdana, AppleGothic, sans-serif;}
+
+body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,textarea,select,p,blockquote,th,td{margin:0;padding:0;}
+
+img{border:0; vertical-align:middle;}
+address,caption,cite,code,dfn,em,var{font-style:normal;font-weight:normal;}
+li{list-style:none;}
+h1,h2,h3,h4,h5,h6{font-size:100%; font-weight:normal;}
+
+.grid_font_bold .x-grid-cell {
+    font-weight: bold; 
+    color: #830302;
+}
+
+.edge-accordion-tap .x-accordion-hd {
+    background-color: #63afe3;
+}

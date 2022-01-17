@@ -1,0 +1,326 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="Dues">
+
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+    <typeAlias  alias="dues" type="adminwork.kicpa.dues.service.Dues"/>
+    <typeAlias  alias="duesVO" type="adminwork.kicpa.dues.service.DuesVO"/>
+    <typeAlias  alias="giroApi" type="adminwork.kicpa.dues.service.GiroApi"/>
+    <typeAlias  alias="giroApiLog" type="adminwork.kicpa.dues.service.GiroApiLog"/>
+    
+	<typeAlias  alias="comDefaultVO" type="adminwork.com.cmm.ComDefaultVO"/>
+			
+	 <insert id="DuesDAO.insertGiroApiLog" parameterClass="giroApiLog">
+        INSERT INTO GIRO_API_LOG ( LOG_TM ,LOG_SN ,EPAY_NO ,GIRO_CD ,ETC_TYPE_CODE ,LOG )
+        VALUES ( SYSTIMESTAMP, KIPADM.GIRO_API_LOG_SEQ.NEXTVAL , #epayNo#, #giroCd#, #etcTypeCode#, #log#)
+    </insert>
+
+    <insert id="DuesDAO.insertGiroApiLogAll" parameterClass="java.util.List">
+        INSERT ALL
+        <iterate conjunction=" ">
+            INTO GIRO_API_LOG ( LOG_TM ,LOG_SN ,EPAY_NO ,GIRO_CD ,ETC_TYPE_CODE ,LOG )
+        VALUES ( TO_TIMESTAMP(#[].logTm#,'YYYYMMDDHH24MISSFF') , KIPADM.GIRO_API_LOG_SEQ.NEXTVAL , #[].epayNo#, #[].giroCd#, #[].etcTypeCode#, #[].log#)
+        </iterate>
+        SELECT * FROM DUAL
+    </insert>
+	
+	<select id="DuesDAO.selectGiroApi" resultClass="giroApi">
+        SELECT CLIENT_ID AS clientId
+             , CLIENT_SECRET AS clientSecret
+             , ACCESS_TOKEN AS accessToken
+             , TOKEN_TYPE AS tokenType
+             , EXPIRES_IN AS expiresIn
+             , EXPIRES_DE AS expiresDe
+             , SCOPE AS scope
+         FROM GIRO_API
+        WHERE EXPIRES_DE > TO_CHAR(SYSDATE,'YYYYMMDD')
+    </select>
+    
+    <update id="DuesDAO.updateGiroApi" parameterClass="giroApi">
+        UPDATE GIRO_API
+           SET ACCESS_TOKEN = #accessToken#
+             , TOKEN_TYPE = #tokenType#
+             , EXPIRES_IN = #expiresIn#
+             , EXPIRES_DE = TO_CHAR(SYSDATE + (CASE WHEN #expiresIn# IS NOT NULL AND #expiresIn# != 0 THEN #expiresIn# / (24 * 60 * 60) ELSE 0 END) , 'YYYYMMDD')
+             , SCOPE = #scope#
+    </update>
+    
+    
+    <update id="DuesDAO.updateGiroNticCanCl" parameterClass="dues">
+        UPDATE GIRO_NTIC
+           SET NTIC_CANCL_FLAG = ( CASE WHEN NTIC_FLAG = 'Y' THEN 'C' ELSE 'Y' END )
+         WHERE EPAY_NO = #epay_no#
+           AND ETC_TYPE_CODE = #etc_type_code#
+           AND NTIC_CANCL_FLAG = 'N'
+           AND PAY_YN = 'N'
+           AND NOTI_DL_DT >= TO_CHAR(SYSDATE,'YYYYMMDD')
+    </update>
+    
+    <insert id="DuesDAO.insertGiroNtic" parameterClass="duesVO">
+        INSERT INTO GIRO_NTIC
+            ( EPAY_NO ,PAY_YYMM_SEQ ,NOTI_ISSU_TYPE ,ETC_TYPE_CODE ,GIRO_CD ,CUST_INQR_NO ,DUDT_IN_AMT ,DUDT_AFT_AMT ,DUDT
+            ,NOTI_DL_DT ,NAME ,PAY_PRRT_RANK ,DEFLT_PRD ,DEFLT_MM_CNT ,ETC_INFO_TTL ,ETC_INFO_CNTE ,NTIC_FLAG
+             ,NTIC_CANCL_FLAG ,PAY_YN , ORG_TRAN_ID ,FRST_REGIST_ID ,FRST_REGIST_DT ,LAST_UPDT_ID ,LAST_UPDT_DT )
+        VALUES
+            ( #epay_no#, #pay_yymm_seq# ,#noti_issu_type# ,#etc_type_code# ,#giro_cd# ,#cust_inqr_no# ,#dudt_in_amt# ,#dudt_aft_amt# ,#dudt#
+            ,#noti_dl_dt# ,#name# ,#pay_prrt_rank# ,#deflt_prd# ,#deflt_mm_cnt# ,#etc_info_ttl# ,#etc_info_cnte# ,#ntic_flag#
+             ,#ntic_cancl_flag# ,#pay_yn# , #org_tran_id# ,#frst_regist_id# ,SYSTIMESTAMP ,#last_updt_id# ,SYSTIMESTAMP )
+    </insert>
+    
+    <update id="DuesDAO.updateGiroNtic" parameterClass="dues">
+        UPDATE GIRO_NTIC
+           SET NTIC_FLAG = ( CASE WHEN #ntic_flag# IS NOT NULL THEN #ntic_flag# ELSE NTIC_FLAG END )
+              , NTIC_CANCL_FLAG = ( CASE WHEN #ntic_cancl_flag# IS NOT NULL THEN #ntic_cancl_flag# ELSE NTIC_CANCL_FLAG END )
+              , ORG_TRAN_ID = ( CASE WHEN #org_tran_id# IS NOT NULL THEN #org_tran_id# ELSE ORG_TRAN_ID END )
+            <isNotEmpty property="dudt_in_amt">
+              , DUDT_IN_AMT = #dudt_in_amt#
+            </isNotEmpty>
+            <isNotEmpty property="dudt_aft_amt">
+              , DUDT_AFT_AMT = #dudt_aft_amt#
+            </isNotEmpty>
+            <isNotEmpty property="last_updt_id">
+              , LAST_UPDT_ID = #last_updt_id#
+              , LAST_UPDT_DT = SYSTIMESTAMP
+            </isNotEmpty>
+         WHERE EPAY_NO = #epay_no#
+           AND PAY_YYMM_SEQ = #pay_yymm_seq#
+           AND NOTI_ISSU_TYPE = #noti_issu_type#
+           AND ETC_TYPE_CODE = #etc_type_code#
+           AND GIRO_CD = #giro_cd#
+    </update>
+    
+	
+	<select id="DuesDAO.selectTempDuesList" parameterClass="duesVO" resultClass="dues">
+		<![CDATA[		 		
+			SELECT 
+					  GM.RQEST_CD
+					, (SELECT CD_NM FROM CMMN_CODE WHERE GRP_CD = 'G35230' AND CD = GM.RQEST_CD) AS RQEST_NM
+					, GM.NTIC_DE, GM.NTIC_AMT,GN.*
+			FROM	GIRO_NTIC GN
+			INNER JOIN  
+					GIRO_MASTER GM
+					ON GN.GIRO_CD = GM.GIRO_CD AND GM.PROCESS_FLAG = '0'
+			WHERE 					
+					GN.NTIC_CANCL_FLAG = 'N'
+			AND 	NVL(GN.PAY_YN,'N') = 'N'
+			AND 	GM.CUST_INQR_NO = '0061120120323'
+			AND     GN.SUB_GIRO_CD IS NOT NULL			
+		]]>
+	</select>
+	
+	<select id="DuesDAO.selectDues" parameterClass="duesVO" resultClass="dues">
+		<![CDATA[		 		
+			SELECT 
+					  GM.RQEST_CD
+					, (SELECT CD_NM FROM CMMN_CODE WHERE GRP_CD = 'G35230' AND CD = GM.RQEST_CD) AS RQEST_NM
+					, GM.NTIC_DE, GM.NTIC_AMT,GN.*
+			FROM	GIRO_NTIC GN
+			INNER JOIN  
+					GIRO_MASTER GM
+					ON GN.GIRO_CD = GM.GIRO_CD AND GM.PROCESS_FLAG = '0'
+			WHERE 					
+					GN.GIRO_CD = #giro_cd#			
+		]]>
+	</select>
+	
+	<delete id="DuesDAO.deleteGiroMaster" parameterClass="duesVO">
+		<![CDATA[	
+			DELETE 
+			  FROM	GIRO_MASTER
+			 WHERE  GIRO_CD = #giro_cd# 		
+		]]>
+	</delete>	
+	<delete id="DuesDAO.deleteGiroNtic" parameterClass="duesVO">
+		<![CDATA[	
+			DELETE 
+			  FROM	GIRO_NTIC
+			 WHERE  GIRO_CD = #giro_cd#		
+		]]>
+	</delete>	
+	
+	
+	
+	<select id="DuesDAO.selectDuesMasterList" parameterClass="duesVO" resultClass="dues">
+		<![CDATA[
+		
+		SELECT
+					RQEST_CD
+					,(SELECT CD_NM FROM CMMN_CODE WHERE GRP_CD = 'G35230' AND CD = GM.RQEST_CD) AS RQEST_NM
+					,SUM(GN.DUDT_IN_AMT) AS DUDT_IN_AMT
+		FROM 		GIRO_NTIC GN
+		INNER JOIN	GIRO_MASTER GM
+		ON GN.GIRO_CD = GM.GIRO_CD AND GM.PROCESS_FLAG = '0'
+		WHERE 1=1 
+		AND 	GN.NTIC_CANCL_FLAG = 'N'
+		AND 	NVL(GN.PAY_YN,'N') = 'N'
+		AND 	GM.CUST_INQR_NO = '0061120120323'
+		AND     GN.SUB_GIRO_CD IS NULL		
+		GROUP BY GM.RQEST_CD
+				
+		]]>
+	</select>	
+	
+	<select id="DuesDAO.selectDuesDetailList" parameterClass="duesVO" resultClass="dues">
+		<![CDATA[		 		
+			SELECT 
+					  GM.RQEST_CD, GM.CSTMR_FLAG, GM.CSTMR_CD, GM.CSTMR_NM
+					, (SELECT CD_NM FROM CMMN_CODE WHERE GRP_CD = 'G35230' AND CD = GM.RQEST_CD) AS RQEST_NM
+					, GM.NTIC_DE, GM.NTIC_AMT,GN.*
+			FROM	GIRO_NTIC GN
+			INNER JOIN  
+					GIRO_MASTER GM
+					ON GN.GIRO_CD = GM.GIRO_CD AND GM.PROCESS_FLAG = '0'
+			WHERE 					
+					GN.NTIC_CANCL_FLAG = 'N'
+			AND 	NVL(GN.PAY_YN,'N') = 'N'
+			AND 	GM.CUST_INQR_NO = '0061120120323'
+			AND     GN.SUB_GIRO_CD IS NULL			
+		]]>
+	</select>	
+	
+	<select id="DuesDAO.selectEtcTypeCode" parameterClass="duesVO" resultClass="java.lang.String">
+		<![CDATA[		 		
+			SELECT 
+					nvl(to_char(to_number(nvl(MAX(ETC_TYPE_CODE),'22')) + 1),'22') AS ETC_TYPE_CODE
+			FROM	GIRO_NTIC GN			
+			WHERE 					
+					GN.EPAY_NO      = #epay_no#
+			AND 	GN.PAY_YYMM_SEQ = #pay_yymm_seq#
+			AND     GN.ETC_TYPE_CODE > 20
+			
+		]]>
+	</select>	
+	
+	
+	
+	<insert id="DuesDAO.insertGiroBass" parameterClass="HashMap">
+        <selectKey keyProperty="giroJobCd"  resultClass="Long">
+            SELECT KIPADM.GIRO_BASS_SEQ.NEXTVAL FROM DUAL
+        </selectKey>
+
+        INSERT INTO GIRO_BASS
+            ( GIRO_JOB_CD ,RQEST_CD ,GIRO_JOB_NM ,RQEST_DE
+            ,FRST_REGIST_ID ,FRST_REGIST_DT ,LAST_UPDT_ID ,LAST_UPDT_DT )
+            VALUES
+            ( #giroJobCd# ,#rqestCd# ,#giroJobNm# ,#rqestDe#
+            ,#frstRegistId# ,SYSTIMESTAMP ,#lastUpdtId# ,SYSTIMESTAMP )
+    </insert>
+	
+	<select id="DuesDAO.selectGiroCd" parameterClass="Integer" resultClass="String" fetchSize="1000">
+        SELECT LPAD(KIPADM.GIRO_MASTER_SEQ.NEXTVAL,10,'0') AS giroCd
+          FROM DUAL
+		<![CDATA[ CONNECT BY LEVEL <= #value# ]]>
+    </select>
+    
+    <insert id="DuesDAO.insertGiroAll" parameterClass="java.util.List">
+        INSERT ALL
+        <iterate conjunction=" ">
+            INTO GIRO_MASTER
+            ( GIRO_CD ,CHECK_DIGIT ,GIRO_JOB_CD ,SUP_GIRO_CD
+            ,CUST_INQR_NO ,NTIC_DE ,NTIC_AMT ,CSTMR_FLAG ,CSTMR_CD ,CSTMR_NM ,RQEST_CD
+            ,RQEST_DE ,PROCESS_FLAG ,PAY_DE ,TRANSFR_DE ,SUCCES_AMT ,FEE_AMT ,FRST_REGIST_ID ,FRST_REGIST_DT ,LAST_UPDT_ID ,LAST_UPDT_DT)
+            VALUES
+            ( #[].giroCd# , KIPADM.acc_giro_mem_digit_func(#[].giroCd#)
+            ,#[].giroJobCd# , (CASE WHEN #[].supGiroCd# IS NULL THEN #[].giroCd# ELSE #[].supGiroCd# END)
+            ,#[].custInqrNo# ,#[].nticDe# ,#[].nticAmt# ,#[].cstmrFlag# ,#[].cstmrCd# ,#[].cstmrNm# ,#[].rqestCd#
+            ,#[].rqestDe# ,#[].processFlag# ,#[].payDe# ,#[].transfrDe# ,#[].succesAmt# ,#[].feeAmt# ,#[].frstRegistId# ,SYSTIMESTAMP ,#[].lastUpdtId# ,SYSTIMESTAMP )
+        </iterate>
+        SELECT * FROM DUAL
+    </insert>
+	<insert id="DuesDAO.insertGiroDetailAll" parameterClass="java.util.List">
+        INSERT ALL
+        <iterate conjunction=" ">
+            INTO GIRO_DETAIL
+            ( GIRO_CD ,DUES_CL ,GIRO_SN ,KEY1 ,KEY2 ,KEY3 ,KEY4 ,KEY5 )
+            VALUES
+            ( #[].giroCd# ,#[].duesCl# ,#[].giroSn# ,#[].key1# ,#[].key2# ,#[].key3# ,#[].key4# ,#[].key5# )
+        </iterate>
+        SELECT * FROM DUAL
+    </insert>
+    
+    <update id="DuesDAO.updateGiroNticCanClAll" parameterClass="java.util.List">
+        UPDATE GIRO_NTIC gn
+           SET NTIC_CANCL_FLAG = ( CASE WHEN NTIC_FLAG = 'Y' THEN 'C' ELSE 'Y' END )
+         WHERE NTIC_CANCL_FLAG = 'N'
+           AND PAY_YN = 'N'
+           AND NOTI_DL_DT >= TO_CHAR(SYSDATE,'YYYYMMDD')
+            AND EXISTS (
+                SELECT 1 FROM (
+            <iterate conjunction=" UNION ALL " >
+                SELECT #[].epayNo# AS EPAY_NO ,
+                       #[].etcTypeCode# AS ETC_TYPE_CODE
+                  FROM DUAL
+            </iterate>
+                ) gn2
+                WHERE gn.EPAY_NO = gn2.EPAY_NO
+                  AND gn.ETC_TYPE_CODE = gn2.ETC_TYPE_CODE
+            )
+    </update>
+    
+    <insert id="DuesDAO.insertGiroNticAll" parameterClass="java.util.List">
+        INSERT ALL
+        <iterate conjunction=" ">
+            INTO GIRO_NTIC
+            ( EPAY_NO ,PAY_YYMM_SEQ ,NOTI_ISSU_TYPE ,ETC_TYPE_CODE ,GIRO_CD ,CUST_INQR_NO ,DUDT_IN_AMT ,DUDT_AFT_AMT ,DUDT
+            ,NOTI_DL_DT ,NAME ,PAY_PRRT_RANK ,DEFLT_PRD ,DEFLT_MM_CNT ,ETC_INFO_TTL ,ETC_INFO_CNTE ,NTIC_FLAG
+            ,NTIC_CANCL_FLAG ,PAY_YN , ORG_TRAN_ID ,FRST_REGIST_ID ,FRST_REGIST_DT ,LAST_UPDT_ID ,LAST_UPDT_DT,SUB_GIRO_CD )
+            VALUES
+            ( #[].epayNo# ,#[].payYymmSeq# ,#[].notiIssuType# ,#[].etcTypeCode# ,#[].giroCd# ,#[].custInqrNo# ,#[].dudtInAmt# ,#[].dudtAftAmt# ,#[].dudt#
+            ,#[].notiDlDt# ,#[].name# ,#[].payPrrtRank# ,#[].defltPrd# ,#[].defltMmCnt# ,#[].etcInfoTtl# ,#[].etcInfoCnte# ,#[].nticFlag#
+            ,#[].nticCanclFlag# ,#[].payYn# , #[].orgTranId# ,#[].frstRegistId# ,SYSTIMESTAMP ,#[].lastUpdtId# ,SYSTIMESTAMP , #[].subGiroCd#)
+        </iterate>
+        SELECT * FROM DUAL
+    </insert>
+	
+	
+	
+	
+	
+	
+	<select id="DuesDAO.selectDuesResultInfo" parameterClass="duesVO" resultClass="dues">
+		<![CDATA[		 		
+			SELECT  SUM(SUCCES_AMT) AS succes_amt ,MAX(GN.EPAY_NO) as epay_no
+			FROM	GIRO_NTIC GN
+			INNER JOIN  
+					GIRO_MASTER GM
+					ON GN.GIRO_CD = GM.GIRO_CD AND GM.PROCESS_FLAG = '0'
+			WHERE 					
+					GN.NTIC_CANCL_FLAG = 'N'
+			AND 	NVL(GN.PAY_YN,'N') = 'Y'			
+			AND     GN.SUB_GIRO_CD IS NOT NULL
+			AND 	GM.CUST_INQR_NO = '0061120120323'
+			AND     GN.PAY_DE BETWEEN REPLACE(#searchBgnDe#,'-','') AND REPLACE(#searchEndDe#,'-','')	
+					
+		]]>
+	</select>
+	
+	
+	
+	<select id="DuesDAO.selectDuesResultList" parameterClass="duesVO" resultClass="dues">
+		<![CDATA[		 		
+			SELECT 
+					  GM.RQEST_CD,GM.SUCCES_AMT
+					, (SELECT CD_NM FROM CMMN_CODE WHERE GRP_CD = 'G35230' AND CD = GM.RQEST_CD) AS RQEST_NM
+					, GM.NTIC_DE, GM.NTIC_AMT,GN.*
+			FROM	GIRO_NTIC GN
+			INNER JOIN  
+					GIRO_MASTER GM
+					ON GN.GIRO_CD = GM.GIRO_CD AND GM.PROCESS_FLAG = '0'
+			WHERE 					
+					GN.NTIC_CANCL_FLAG = 'N'
+			AND 	NVL(GN.PAY_YN,'N') = 'Y'			
+			AND     GN.SUB_GIRO_CD IS NOT NULL
+			AND 	GM.CUST_INQR_NO = '0061120120323'
+			AND     GN.PAY_DE BETWEEN REPLACE(#searchBgnDe#,'-','') AND REPLACE(#searchEndDe#,'-','')			
+		]]>
+	</select>
+	
+	
+	
+	
+	
+	
+ 
+
+</sqlMap>

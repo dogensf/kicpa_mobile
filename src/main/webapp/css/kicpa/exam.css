@@ -1,0 +1,10 @@
+.closeable {
+background-image: url('../../images/close.png');
+height: 16px;
+width: 16px;
+display: inline-block;
+position: relative;
+right: -13px;
+top: 4px;
+width: 16px;
+}

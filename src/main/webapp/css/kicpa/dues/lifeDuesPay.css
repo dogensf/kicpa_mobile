@@ -1,0 +1,21 @@
+.grid_left_style {
+    text-align: left!important;
+}
+
+.grid_right_style {
+    text-align: right!important;
+}
+.aui-grid-lifeDuesPay-dues-cell {
+    text-align: right!important;
+    font-size: 16px!important;
+}
+
+.aui-grid-lifeDuesPay-footer-title {
+    font-size: 24px!important;
+}
+
+.aui-grid-lifeDuesPay-footer-sum-total {
+    text-align: right!important;
+    color:red!important;
+    font-size: 24px!important;
+}
