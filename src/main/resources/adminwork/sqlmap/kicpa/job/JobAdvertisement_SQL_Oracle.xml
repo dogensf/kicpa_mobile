@@ -1,0 +1,341 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="JobAdvertisement">
+
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+
+	<select id="JobAdvertisementDAO.selectBoardList" parameterClass="HashMap" resultClass="egovMap">
+	 	SELECT A.*
+		FROM(
+	    	SELECT ROW_NUMBER() OVER( ORDER BY A.ij_sort_ord DESC, A.ij_wdate DESC) RUWNUM,
+         		ROW_NUMBER() OVER( ORDER BY A.ij_sort_ord ASC, A.ij_wdate ASC) RUWNUM_SHOW,
+	            TRIM(A.IJ_ID_NUM) BOARD_ID,
+	            TO_CHAR(A.IJ_WDATE,'YYYY.MM.DD') IJ_WDATE,
+	            A.IJ_CO_NAME,
+	            A.IJ_WTITLE,
+	            A.IJ_CO_SEP,
+	            A.IJ_USE_AT,
+	            A.IJ_MENU_CODE,
+	            A.IJ_RECOUNT,
+	            A.IJ_JOB_SEP,
+	            A.IJ_AREA,
+	            A.IJ_INT_ID,
+	            A.IJ_USE,
+	            A.IJ_SORT_ORD,
+	            NVL(B.CODE_NAME,'') SIDO_AREA,
+	            NVL(C.CODE_NAME,'') GUGUN_AREA,
+	            NVL(D.CODE_NAME,'') JOB_NAME,
+	            lead(A.IJ_ID_NUM,1) over (order by A.ij_sort_ord DESC) pre_id,
+		        lag(A.IJ_ID_NUM,1) over (order by A.ij_sort_ord DESC) next_id,
+		        lead(A.IJ_SORT_ORD,1) over (order by A.ij_sort_ord DESC) pre_sort_ord,
+		        lag(A.IJ_SORT_ORD,1) over (order by A.ij_sort_ord DESC) next_sort_ord
+	        FROM INFO_JOB  A
+	        	LEFT JOIN CODEBASE B
+   					ON B.system_code ='KP'
+   					AND B.CODE_ID = 'DIST_CLS'
+   					AND    SUBSTR(A.IJ_AREA, 0, 2) = B.CODE
+   				LEFT JOIN CODEBASE C
+   					ON C.system_code ='KP'
+   					AND C.CODE_ID = CONCAT('DIST',SUBSTR(A.IJ_AREA,0,2))
+   					AND    A.IJ_AREA = C.CODE
+   				LEFT JOIN CODEBASE D
+   					ON D.system_code ='KP'
+   					AND D.CODE_ID = 'HIRE_TYP'
+   					AND D.CODE = A.IJ_JOB_SEP
+	        WHERE
+	        	IJ_MENU_CODE = '001'
+	        	AND
+	        	((IJ_USE <![CDATA[ <> ]]> 0 AND IJ_INT_ID = #ijIntId#) OR IJ_USE = 1)
+	        	AND
+				TO_CHAR(IJ_WDATE,'YYYYMMDD') BETWEEN  TO_CHAR(ADD_MONTHS(SYSDATE,-2), 'YYYYMMDD') AND TO_CHAR(SYSDATE,'YYYYMMDD')
+	        	<isNotNull property="ijJobSep">
+	        		<isNotEmpty property="ijJobSep">
+			        	AND
+			        	IJ_JOB_SEP = #ijJobSep#
+			        	<!-- <isEqual property="ijJobSep" compareValue="1">
+			        		AND
+		        			IJ_USE_AT = 1
+			        	</isEqual> -->
+			        </isNotEmpty>
+<!-- 		        	<isNotEqual property="ijJobSep" compareValue="1"> -->
+<!-- 	        			AND  -->
+<!-- 						IJ_JOB_SEP <![CDATA[ <> ]]> 1  -->
+<!-- 		        	</isNotEqual> -->
+		        </isNotNull>
+	        	<isEmpty property="ijJobSep">
+		        	AND
+					IJ_JOB_SEP <![CDATA[ <> ]]> 1
+				</isEmpty>
+		        <isNotNull property="ijCoSep">
+			 		AND
+			 		IJ_CO_SEP = #ijCoSep#
+			 	</isNotNull>
+		        <isNull property="ijCoSep">
+		        	AND
+		        	IJ_CO_SEP = '1'
+		        </isNull>
+
+
+		     	<isNotNull property="searchType1">
+        			<isNotEmpty property="searchType1">
+        				AND  SUBSTR(A.IJ_AREA, 0, 2) = #searchType1#
+        			</isNotEmpty>
+        		</isNotNull>
+		     	<isNotNull property="searchType2">
+        			<isNotEmpty property="searchType2">
+        				AND A.IJ_EMP_SEP = #searchType2#
+        			</isNotEmpty>
+        		</isNotNull>
+		     	<isNotNull property="searchType3">
+        			<isNotEmpty property="searchType3">
+        				AND A.IJ_JOB_SEP = #searchType2#
+        			</isNotEmpty>
+        		</isNotNull>
+
+        		<isNotNull property="searchKeyword">
+        			<isNotEmpty property="searchKeyword">
+        				AND (UPPER(A.IJ_WTITLE) LIKE '%'||UPPER(#searchKeyword#)||'%' OR UPPER(A.IJ_CO_NAME) LIKE '%'||UPPER(#searchKeyword#)||'%' )
+        			</isNotEmpty>
+        		</isNotNull>
+
+		         ORDER BY RUWNUM_SHOW DESC
+	    )A
+		WHERE A.RUWNUM BETWEEN #pageIndex# AND (#pageIndex#-1)+#pageSize#
+	 </select>
+
+
+	 <select id="JobAdvertisementDAO.selectBoardListCnt" parameterClass="HashMap" resultClass="int">
+    	SELECT	COUNT(*)
+        FROM INFO_JOB A
+        WHERE
+        	IJ_MENU_CODE = '001'
+        	AND
+        	((IJ_USE <![CDATA[ <> ]]> 0 AND IJ_INT_ID = #ijIntId#) OR IJ_USE = 1)
+        	AND
+			TO_CHAR(IJ_WDATE,'YYYYMMDD') BETWEEN  TO_CHAR(ADD_MONTHS(SYSDATE,-2), 'YYYYMMDD') AND TO_CHAR(SYSDATE,'YYYYMMDD')
+        	<isNotNull property="ijJobSep">
+        		<isNotEmpty property="ijJobSep">
+		        	AND
+		        	IJ_JOB_SEP = #ijJobSep#
+		        	<!-- <isEqual property="ijJobSep" compareValue="1">
+		        		AND
+	        			IJ_USE_AT = 1
+		        	</isEqual> -->
+			        </isNotEmpty>
+<!-- 		        	<isNotEqual property="ijJobSep" compareValue="1"> -->
+<!-- 	        			AND  -->
+<!-- 						IJ_JOB_SEP <![CDATA[ <> ]]> 1  -->
+<!-- 		        	</isNotEqual> -->
+	        </isNotNull>
+        	<isEmpty property="ijJobSep">
+	        	AND
+				IJ_JOB_SEP <![CDATA[ <> ]]> 1
+			</isEmpty>
+	        <isNotNull property="ijCoSep">
+		 		AND
+		 		IJ_CO_SEP = #ijCoSep#
+		 	</isNotNull>
+	        <isNull property="ijCoSep">
+	        	AND
+	        	IJ_CO_SEP = '1'
+	        </isNull>
+	     	<isNotNull property="searchType1">
+       			<isNotEmpty property="searchType1">
+       				AND  SUBSTR(A.IJ_AREA, 0, 2) = #searchType1#
+       			</isNotEmpty>
+       		</isNotNull>
+	     	<isNotNull property="searchType2">
+       			<isNotEmpty property="searchType2">
+       				AND A.IJ_EMP_SEP = #searchType2#
+       			</isNotEmpty>
+       		</isNotNull>
+	     	<isNotNull property="searchType3">
+       			<isNotEmpty property="searchType3">
+       				AND A.IJ_JOB_SEP = #searchType2#
+       			</isNotEmpty>
+       		</isNotNull>
+
+	        <isNotNull property="searchKeyword">
+       			<isNotEmpty property="searchKeyword">
+       				AND (UPPER(A.IJ_WTITLE) LIKE '%'||UPPER(#searchKeyword#)||'%' OR UPPER(A.IJ_CO_NAME) LIKE '%'||UPPER(#searchKeyword#)||'%' )
+       			</isNotEmpty>
+       		</isNotNull>
+	 </select>
+
+	 <select id="JobAdvertisementDAO.selectBoardFileList" parameterClass="HashMap" resultClass="egovMap">
+	  	SELECT
+		    SEQ_NUM AS FILE_ID,
+		    FILESIZE AS FILE_SIZE,
+		    FILENAME AS FILE_NM,
+		    HOST_FILENAME AS FILE_MASK
+		FROM
+		   INFO_JOB_FILE
+		WHERE
+		   RTRIM(ID_NUM) = #boardId#
+	 </select>
+
+	 <select id="JobAdvertisementDAO.selectBoardDetail" parameterClass="HashMap" resultClass="egovMap">
+	 	SELECT A.IJ_ID_NUM,
+		       A.IJ_WNAME,
+		       A.IJ_EMAIL,
+		       TO_CHAR(A.IJ_WDATE,'YYYY.MM.DD') IJ_WDATE,
+		       A.IJ_WTITLE,
+		       A.IJ_CONTENT,
+		       A.IJ_RECOUNT,
+		       A.IJ_USE,
+		       A.IJ_SOURCE,
+		       A.IJ_INT_ID,
+		       A.IJ_P_NUM_ID,
+		       A.IJ_P_LEVEL,
+		       A.IJ_P_SERIAL,
+		       A.IJ_HOMEP,
+		       A.IJ_FAX,
+		       A.IJ_TEL,
+		       A.IJ_HP,
+		       A.IJ_CO_NAME,
+		       A.IJ_DAMDANG,
+		       A.IJ_DEPART,
+		       A.IJ_AREA,
+		       A.IJ_SEX,
+<!-- 		       CASE WHEN A.IJ_CAREER = '0' THEN '무관'	 -->
+<!-- 		       		WHEN A.IJ_CAREER = '1' THEN '신입' -->
+<!-- 		       		WHEN A.IJ_CAREER = '2' THEN '경력1~3년' -->
+<!-- 		       		WHEN A.IJ_CAREER = '3' THEN '경력3~5년' -->
+<!-- 		       		WHEN A.IJ_CAREER = '4' THEN '경력5~10년' -->
+<!-- 		       		WHEN A.IJ_CAREER = '5' THEN '경력10년 이상' -->
+<!-- 		        ELSE ''  -->
+<!-- 		        END IJ_CAREER, -->
+				(SELECT CODE_NAME FROM CODEBASE	WHERE CODE_ID = 'CAREER_TYP' AND LANG_KND = 'ko' AND CODE = A.IJ_CAREER ) IJ_CAREER,
+            	(SELECT CODE_NAME FROM CODEBASE	WHERE CODE_ID = 'FNL_EDU' AND LANG_KND = 'ko' AND CODE = A.IJ_LASTSCHOOL ) IJ_LASTSCHOOL,
+		       A.IJ_JOB_TERM_SEP,
+		       TO_CHAR(A.IJ_JOB_TERM,'YYYY.MM.DD') IJ_JOB_TERM,
+		       A.IJ_JOB_SEP,
+		       A.IJ_YEAR_SEP,
+		       A.IJ_YEAR,
+		       A.IJ_MENU_CODE,
+		       A.IJ_APPLICATION,
+		       (SELECT CODE_NAME FROM CODEBASE	WHERE CODE_ID = 'PAY_TYP' AND LANG_KND = 'ko' AND CODE = A.IJ_PAY ) IJ_PAY,
+		       A.IJ_EMPLOY,
+		       (SELECT CODE_NAME FROM CODEBASE	WHERE CODE_ID = 'COMP_TYP' AND LANG_KND = 'ko' AND CODE = A.IJ_CO_SEP ) IJ_CO_SEP,
+		       A.IJ_PREFER,
+     		   (SELECT CODE_NAME FROM CODEBASE	WHERE CODE_ID = 'AT_CERT_PREF' AND LANG_KND = 'ko' AND CODE = A.IJ_AT ) IJ_AT,
+		       A.IJ_ADDR,
+		       A.IJ_TRANS,
+		       (SELECT CODE_NAME FROM CODEBASE	WHERE CODE_ID = 'EMP_TYP' AND LANG_KND = 'ko' AND CODE = A.IJ_EMP_SEP ) IJ_EMP_SEP,
+		       A.IJ_USE_AT,
+		       A.IJ_RECOUNT_AT,
+		       A.IJ_SORT_ORD,
+		       A.IJ_UNPUB_RSN,
+		       A.IJ_INCRUIT_YN,
+               NVL(B.CODE_NAME,'') SIDO_AREA,
+	           NVL(C.CODE_NAME,'') GUGUN_AREA,
+	           NVL(D.CODE_NAME,'') JOB_NAME
+		FROM   INFO_JOB A
+			LEFT JOIN CODEBASE B
+				ON B.system_code ='KP'
+				AND B.CODE_ID = 'DIST_CLS'
+				AND    SUBSTR(A.IJ_AREA, 0, 2) = B.CODE
+			LEFT JOIN CODEBASE C
+				ON C.system_code ='KP'
+				AND C.CODE_ID = CONCAT('DIST',SUBSTR(A.IJ_AREA,0,2))
+				AND    A.IJ_AREA = C.CODE
+			LEFT JOIN CODEBASE D
+				ON D.system_code ='KP'
+				AND D.CODE_ID = 'HIRE_TYP'
+				AND D.CODE = A.IJ_JOB_SEP
+		WHERE  RTRIM(A.IJ_ID_NUM) = #boardId#
+
+	 </select>
+
+	<update id="JobAdvertisementDAO.updateBoardReadcount" parameterClass="HashMap">
+		UPDATE INFO_JOB
+		SET	IJ_RECOUNT = IJ_RECOUNT + 1
+		WHERE RTRIM(IJ_ID_NUM) = #boardId#
+	</update>
+
+	<select id="JobAdvertisementDAO.selectMemberPollList" parameterClass="HashMap" resultClass="egovMap">
+		SELECT ijsb_id_num,
+		       ijsb_psl_id,
+		       ijsb_title,
+		       ijsb_job_sep,
+		       ijsb_area ,
+		       ijsb_area2,
+		       ijsb_job_type,
+		       ijsb_pay,
+		       ijsb_emp_sep,
+		       ijsb_pro_field ,
+		       ijsb_content,
+		       ijsb_use,
+		       ijsb_info_yn,
+		       ijsb_recount,
+		       TO_CHAR(ijsb_sys_date,'YYYY.MM.DD') ijsb_sys_date ,
+		       (select code_name
+		        from   portal.codebase c1
+		        where  c1.code_id='COMP_TYP'
+		        and    c1.code = s1.ijsb_job_sep) as comp_name ,
+		       (select code_name
+		        from   portal.codebase c1
+		        where  c1.code_id='EMP_TYP'
+		        and    c1.code = s1.ijsb_emp_sep) as emp_name ,
+		       (select code_name
+		        from   portal.codebase c1
+		        where  c1.code_id = 'DIST_CLS'
+		        and    c1.code = substr(s1.ijsb_area, 1, 2) ) as area_name1 ,
+		       (select code_name
+		        from   portal.codebase c1
+		        where  c1.code_id in ('DIST01',
+		                       'DIST02',
+		                       'DIST03',
+		                       'DIST04',
+		                       'DIST05',
+		                       'DIST06',
+		                       'DIST07',
+		                       'DIST08',
+		                       'DIST09',
+		                       'DIST10',
+		                       'DIST11',
+		                       'DIST12',
+		                       'DIST13',
+		                       'DIST14',
+		                       'DIST15',
+		                       'DIST16',
+		                       'DIST17',
+		                       'DIST18')
+		        and    c1.code = s1.ijsb_area) as area_name2 ,
+		       ici_kor_name,
+		       ici_e_mail,
+		       ici_tel1,
+		       ici_add1
+		from   portal.info_job_seek_basic s1,
+		       portal.int_cpa_info
+		where  ijsb_psl_id = ici_psl_id(+)
+		and    ijsb_use = 1
+		and    ijsb_info_yn = 1
+       <isNotNull property="searchKeyword">
+    		<isNotEmpty property="searchKeyword">
+       				AND (UPPER(ijsb_title) LIKE '%'||UPPER(#searchKeyword#)||'%')
+       		</isNotEmpty>
+       	</isNotNull>
+
+		order by ijsb_sys_date desc
+	</select>
+
+	<select id="JobAdvertisementDAO.selectMemberPollListCnt" parameterClass="HashMap" resultClass="int">
+		SELECT COUNT(*)
+		from   portal.info_job_seek_basic s1,
+		       portal.int_cpa_info
+		where  ijsb_psl_id = ici_psl_id(+)
+		and    ijsb_use = 1
+		and    ijsb_info_yn = 1
+	    <isNotNull property="searchKeyword">
+    		<isNotEmpty property="searchKeyword">
+       				AND (UPPER(ijsb_title) LIKE '%'||UPPER(#searchKeyword#)||'%')
+       		</isNotEmpty>
+       	</isNotNull>
+		order by ijsb_sys_date desc
+
+	</select>
+
+
+</sqlMap>

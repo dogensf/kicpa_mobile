@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="KicpaComm">
+
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+
+	<select id="KicpaCommDAO.selectCodebaseList" parameterClass="HashMap" resultClass="egovMap">
+		SELECt SYSTEM_CODE, DOMAIN_ID, CODE_ID, CODE, LANG_KND, CODE_TAG1, CODE_TAG2, CODE_NAME, CODE_NAME2, REMARK
+		FROM codebase
+		WHERE CODE_ID = #codeId#
+		AND CODE != '0000000000'
+    	<isNotNull property="codeTag2">
+	   		<isNotEmpty property="codeTag2">
+				AND CODE_TAG2 = #codeTag2#
+			</isNotEmpty>
+		</isNotNull>
+		<isEqual property="codeTag2Gbn" compareValue="Y">
+			<isNull property="codeTag2">
+				<isEmpty property="codeTag2">
+					AND CODE_TAG2 IS NULL
+				</isEmpty>
+			</isNull>
+		</isEqual>
+		ORDER BY CODE_TAG1 ASC
+
+	</select>
+
+</sqlMap>

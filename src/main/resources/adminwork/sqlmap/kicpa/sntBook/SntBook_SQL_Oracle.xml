@@ -1,0 +1,461 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="SntBook">
+
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+
+	<resultMap id="egovProcedureReturnMap" class="HashMap">
+		<result property="regCnt" column="REG_CNT" />
+		<result property="regCnt0" column="REG_CNT0" />
+		<result property="regCnt1" column="REG_CNT1" />
+		<result property="attend" column="ATTEND" />
+		<result property="eduCode" column="EDU_CODE" />
+		<result property="eduName" column="EDU_NAME" />
+		<result property="dateStr" column="DATE_STR" />
+		<result property="timeStr" column="TIME_STR" />
+		<result property="cost" column="COST" />
+		<result property="teach" column="TEACH" />
+		<result property="detail" column="DETAIL" />
+		<result property="url" column="URL" />
+		<result property="use" column="USE" />
+		<result property="useName" column="USE_NAME" />
+		<result property="orderNum" column="ORDER_NUM" />
+		<result property="cnt" column="CNT" />
+		<result property="regDt" column="REG_DT" />
+		<result property="updDt" column="UPD_DT" />
+		<result property="useName" column="USE_NAME" />
+	</resultMap>
+
+	<parameterMap class="HashMap" id="egovProcedureParam">
+		<parameter property="gbn" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="schtype" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="schword" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="eduCode" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="result" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" resultMap="egovProcedureReturnMap" mode="OUT"/>
+		<parameter property="resultCode" jdbcType="DECIMAL" javaType="long" mode="OUT"/>
+	</parameterMap>
+
+	<parameterMap class="HashMap" id="egovProcedureParam2">
+		<parameter property="gbn" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="emaIdNum" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="emaPslId" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="emaEduCode" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="emaKname" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="emaOffKname" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="emaHp" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="emaEmail" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="emaAttend" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="emaIp" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="resultCode" jdbcType="VARCHAR" javaType="java.lang.String" mode="OUT"/>
+	</parameterMap>
+
+
+
+
+
+
+	<select id="SntBookDAO.selectBookList" parameterClass="Hashmap" resultClass="egovMap">
+		SELECT A.IBM_BOOK_CODE
+			,A.IBM_NUM
+			,A.IBM_BOOK_NAME
+			,A.IBM_IMAGE
+			,(SELECT file_path||'/'||file_nm FROM COMM_FILE WHERE file_id = A.IBM_IMAGE) AS ibm_image_path
+			,A.IBM_CONTENT
+			,TRIM(TO_CHAR( A.IBM_PRICE1, '999,999,999,999,999')) IBM_PRICE1
+        	,TRIM(TO_CHAR( A.IBM_PRICE2, '999,999,999,999,999')) IBM_PRICE2
+        	,TRIM(TO_CHAR( A.IBM_PAGE , '999,999,999,999,999')) IBM_PAGE
+			,A.IBM_STANDARD
+			,SUBSTR(A.IBM_YM,0,4)||'년 '||SUBSTR(A.IBM_YM,5,2)||'월' AS IBM_YM
+			,A.IBM_USE
+			,TO_CHAR(A.IBM_WDATE , 'YYYYMMDD') AS IBM_WDATE
+			,A.IBM_TITLE
+			,A.IBM_GONGGI_NUM
+			,A.IBM_PUBLISH_SEP
+			,CASE WHEN IBM_PUBLISH_SEP>1 AND IBM_PUBLISH_SEP<![CDATA[<]]>9 THEN 'Y' ELSE 'N' END AS IBM_PUBLISH_SEP_YN
+			,A.IBM_PAGE_SEP
+			,(SELECT file_nm FROM COMM_FILE WHERE file_id = A.IBM_FILENAME) AS IBM_FILENAME
+			,A.IBM_EUSE
+			,A.IBM_BOOK_ENAME
+			,A.IBM_ECONTENT
+			,F_GET_CODE_NM('EN_PUB_YN',A.IBM_EUSE) AS IBM_EUSE_NAME
+			,F_GET_CODE_NM('BOOK_USE_YN',A.IBM_USE) AS IBM_USE_NAME
+			,F_GET_CODE_NM('BOOK_PUB_YN',A.IBM_PUBLISH_SEP) AS IBM_PUBLISH_SEP_NAME
+		  FROM INT_BOOK_MASTER A
+		 WHERE 1=1
+		 <isNull property="ibmNum">
+			 <isEmpty property="ibmNum">
+		 		AND A.IBM_USE IN (1,2)
+			 </isEmpty>
+		 </isNull>
+		 <isNotNull property="ibmNum">
+			 <isNotEmpty property="ibmNum">
+			 	AND IBM_NUM IN ($ibmNum$)
+			 </isNotEmpty>
+		 </isNotNull>
+		 ORDER BY A.IBM_GONGGI_NUM ASC, A.IBM_NUM DESC
+
+	</select>
+
+	<select id="SntBookDAO.selectBookListCnt" parameterClass="Hashmap" resultClass="int">
+		SELECT COUNT(*) CNT
+		  FROM INT_BOOK_MASTER A
+		 WHERE 1=1
+	 	 <isNull property="ibmNum">
+			 <isEmpty property="ibmNum">
+		 		AND A.IBM_USE IN (1,2)
+			 </isEmpty>
+		 </isNull>
+	  	<isNotNull property="ibmNum">
+			 <isNotEmpty property="ibmNum">
+			 	AND IBM_NUM IN ($ibmNum$)
+			 </isNotEmpty>
+		 </isNotNull>
+<!-- 		 <isNotEmpty property="srchKeyWord"> -->
+<!-- 			<isEqual property="srchKeyField" compareValue="title" prepend="AND"> -->
+<!-- 				A.IBM_BOOK_NAME LIKE '%'||#srchKeyWord#||'%' -->
+<!-- 			</isEqual> -->
+<!-- 			<isEqual property="srchKeyField" compareValue="content" prepend="AND"> -->
+<!-- 				A.IBM_CONTENT LIKE '%'||#srchKeyWord#||'%' -->
+<!-- 			</isEqual> -->
+<!-- 			<isEqual property="srchKeyField" compareValue="all" prepend="AND"> -->
+<!-- 				( A.IBM_BOOK_NAME LIKE '%'||#srchKeyWord#||'%' OR A.IBM_CONTENT LIKE '%'||#srchKeyWord#||'%' ) -->
+<!-- 			</isEqual>					 -->
+<!-- 		 </isNotEmpty> -->
+	</select>
+
+	<select id="SntBookDAO.selectBookFormatList" parameterClass="Hashmap" resultClass="egovMap">
+		SELECT *
+		  FROM
+		       (SELECT (COUNT(1) OVER()-ROWNUM+1) AS RNUM,
+		              ROWNUM AS SNUM,
+		              A1.*
+		         FROM
+		             (SELECT C.FILE_ID,
+		                     C.FILE_NAME,
+		                     C.FILE_TITLE,
+		                     TRIM(TO_CHAR( C.ORG_PRICE , '999,999,999,999,999')) ORG_PRICE,
+		                     TRIM(TO_CHAR( C.DOWN_PRICE , '999,999,999,999,999')) DOWN_PRICE,
+		                     TO_CHAR(TO_DATE(C.PRESS_DATE, 'YYYYMMDD'), 'YYYY.MM.DD') AS PRESS_DATE,
+		                     C.SELL_YN,
+		                     C.WDATE,
+		                     C.DOWN_DAY,
+		                     C.DOWN_CNT,
+		                     (SELECT COUNT(*) AS CNT
+		                        FROM INT_ORDER A
+		                        JOIN INT_ORDER_ITEM B
+		                          ON A.ORD_NO = B.ORD_NO
+		                       WHERE A.USER_ID = #USER_ID#
+		                         AND B.BOOK_CODE = C.FILE_ID
+		                         AND A.PAY_DATE IS NOT NULL
+		                         AND A.CAN_DATE IS NULL
+		                         AND B.DOWN_DATE <![CDATA[ >= ]]> TO_CHAR(SYSDATE,'YYYY-MM-DD')
+		                     ) AS DOWN_CHK,
+		                     C.UNIT
+		                FROM AUDIT_DOWN C
+		               WHERE C.SELL_YN = 'Y'
+		               ORDER BY  C.ORDER_NUM, C.WDATE DESC, C.FILE_ID
+		              )A1
+       			)
+
+	</select>
+
+
+	<select id="SntBookDAO.selectBookFormatListCnt" parameterClass="Hashmap" resultClass="int">
+		SELECT COUNT(*) CNT
+		FROM AUDIT_DOWN C
+		WHERE C.SELL_YN = 'Y'
+	</select>
+
+	<select id="SntBookDAO.selectBookDetail" parameterClass="Hashmap" resultClass="egovMap">
+	<![CDATA[
+		SELECT A.IBM_BOOK_CODE
+			,A.IBM_NUM
+			,A.IBM_BOOK_NAME
+			,A.IBM_IMAGE
+			,(SELECT file_path||'/'||file_nm FROM COMM_FILE WHERE file_id = A.IBM_IMAGE) AS ibm_image_path
+			,replace(A.IBM_CONTENT,chr(10),'<br/>') IBM_CONTENT
+			,TRIM(TO_CHAR( A.IBM_PRICE1, '999,999,999,999,999')) IBM_PRICE1
+	       	,TRIM(TO_CHAR( A.IBM_PRICE2, '999,999,999,999,999')) IBM_PRICE2
+	       	,TRIM(TO_CHAR( A.IBM_PAGE , '999,999,999,999,999')) IBM_PAGE
+			,A.IBM_STANDARD
+			,SUBSTR(A.IBM_YM,0,4)||'년 '||SUBSTR(A.IBM_YM,5,2)||'월' AS IBM_YM
+			,A.IBM_USE
+			,TO_CHAR(A.IBM_WDATE , 'YYYYMMDD') AS IBM_WDATE
+			,A.IBM_TITLE
+			,A.IBM_GONGGI_NUM
+			,A.IBM_PUBLISH_SEP
+			,CASE WHEN IBM_PUBLISH_SEP>1 AND IBM_PUBLISH_SEP<9 THEN 'Y' ELSE 'N' END AS IBM_PUBLISH_SEP_YN
+			,A.IBM_PAGE_SEP
+			,(SELECT file_nm FROM COMM_FILE WHERE file_id = A.IBM_FILENAME) AS IBM_FILENAME
+			,A.IBM_EUSE
+			,A.IBM_BOOK_ENAME
+			,A.IBM_ECONTENT
+			,F_GET_CODE_NM('EN_PUB_YN',A.IBM_EUSE) AS IBM_EUSE_NAME
+			,F_GET_CODE_NM('BOOK_USE_YN',A.IBM_USE) AS IBM_USE_NAME
+			,F_GET_CODE_NM('BOOK_PUB_YN',A.IBM_PUBLISH_SEP) AS IBM_PUBLISH_SEP_NAME
+	  FROM INT_BOOK_MASTER A
+	  WHERE IBM_BOOK_CODE = #ibmBookCode#
+]]>
+	</select>
+
+	<procedure id="SntBookDAO.procedureEduMasterList" parameterMap="egovProcedureParam">
+		call portal.edu_master_info_01_proc(?, ?, ?, ?, 0,1000,	 ?, ?)
+	</procedure>
+
+	<select id="SntBookDAO.selectEduMasterListDetail" parameterClass="Hashmap" resultClass="egovMap">
+		select   emi_edu_code                                              as  edu_code ,
+		 		(select count(*) from portal.edu_master_attend b where b.ema_edu_code = a.emi_edu_code and ema_attend in ( '0' , '1')  ) as reg_cnt,
+                 emi_edu_name                                             as  edu_name ,
+                 emi_date_str                                                  as  date_str ,
+                 emi_time_str                                                  as  time_str  ,
+                 TRIM(TO_CHAR( a.emi_cost , '999,999,999,999,999')) as  cost  ,
+                 emi_teach                                                        as  teach ,
+                 replace(emi_detail,'\n','<![CDATA[<br/>]]>')                                                        as  detail ,
+                 emi_url                                                              as  url ,
+                 emi_use                                                             as  use ,
+                 decode(emi_use,'1','사용 ','0','미사용')    as  use_name ,
+                 emi_order_num                                              as  order_num ,
+                 emi_cnt                                                              as  cnt  ,
+                 emi_reg_dt                                                        as  reg_dt ,
+                 emi_upd_dt                                                        as  upd_dt
+		   from portal.edu_master_info a
+		where  emi_edu_code  = #eduCode#
+
+	</select>
+
+	<select id="SntBookDAO.selectOfflineEduList" parameterClass="Hashmap" resultClass="egovMap">
+		SELECT
+			   ROWNUM RNO,
+		       ST1.ID_NUM,
+		       ST1.WTITLE,
+		       ST1.USE,
+		       ST1.SUPOT_EDU,
+		       ST1.EDU_TERM,
+		       ST1.EDU_MNY,
+		       ST1.EDU_MNY_GEN,
+		       ST1.EDU_TIME,
+		       ST1.EDU_CODE,
+		       NVL(ST1.EDU_COUNT,0) AS EDU_COUNT,
+		       NVL(ST1.TOTAL,0) AS BILL_COUNT
+		  FROM
+		       (
+		       	SELECT A.*,B.BOOK_CODE , B.TOTAL
+		         FROM ACC_EDU A
+	         	   LEFT OUTER JOIN
+			       (SELECT B.BOOK_CODE,
+			              COUNT(*) AS TOTAL
+			         FROM INT_ORDER A
+			          JOIN INT_ORDER_ITEM B
+			              ON A.ORD_NO = B.ORD_NO
+			        WHERE A.CAN_DATE IS NULL
+			        GROUP BY B.BOOK_CODE
+			       ) B
+		           ON A.EDU_CODE = B.BOOK_CODE
+		        WHERE A.USE = #accEduUse#
+	              AND A.EDU_TERM_TO > TO_CHAR(SYSDATE-1,'YYYY.MM.DD')
+	            ORDER BY A.ORDER_NUM,A.ID_NUM
+		       ) ST1
+	</select>
+
+
+	<select id="SntBookDAO.selectOfflineEduDetail" parameterClass="Hashmap" resultClass="egovMap">
+		SELECT
+			   ST1.ID_NUM,
+	           ST1.WNAME,
+	           ST1.REG_PART,
+	           ST1.PASSWD,
+	           TO_CHAR(ST1.WDATE,'YYYY-MM-DD') AS WDATE,
+	           ST1.WTITLE,
+	           ST1.RECOUNT,
+	           ST1.USE,
+	           ST1.USE_GEN,
+	           ST1.FILENAME,
+	           ST1.FILESIZE,
+	           ST1.EDU_TERM,
+	           TRIM(TO_CHAR( ST1.EDU_MNY , '999,999,999,999,999')) EDU_MNY,
+	           ST1.EDU_MNY_GEN,
+	           ST1.SOSOK,
+	           ST1.DAMDANG,
+	           ST1.EDU_WH,
+	           ST1.TEACHER,
+	           ST1.EDU_TIME,
+	           ST1.SUPOT_EDU,
+	           replace(ST1.EDU_CNT,chr(10),'<![CDATA[<br/>]]>') EDU_CNT,
+	           ST1.EDU_CODE,
+	           ST1.EDU_CODE2,
+		       NVL(ST1.EDU_COUNT,0) AS EDU_COUNT,
+		       NVL(ST1.TOTAL,0) AS BILL_COUNT
+		  FROM
+		       (
+		       	SELECT A.*,B.BOOK_CODE , B.TOTAL
+		         FROM ACC_EDU A
+	         	   LEFT OUTER JOIN
+			       (SELECT B.BOOK_CODE,
+			              COUNT(*) AS TOTAL
+			         FROM INT_ORDER A
+			          JOIN INT_ORDER_ITEM B
+			              ON A.ORD_NO = B.ORD_NO
+			        WHERE A.CAN_DATE IS NULL
+			        GROUP BY B.BOOK_CODE
+			       ) B
+		           ON A.EDU_CODE = B.BOOK_CODE
+		         WHERE ID_NUM = #idNum#
+		       ) ST1
+	</select>
+
+	<update id="SntBookDAO.updateOfflineEduReadCnt" parameterClass="Hashmap">
+		UPDATE ACC_EDU A
+		   SET A.RECOUNT = NVL(A.RECOUNT,0) + 1
+		 WHERE A.ID_NUM = #idNum#
+	</update>
+
+	<select id="SntBookDAO.selectOfflineEduAppList" parameterClass="Hashmap" resultClass="egovMap">
+		SELECT BOOK_NAME,
+	           BOOK_CODE,
+	           DECODE(CERTI_NAME,NULL,USER_NAME,CERTI_NAME) AS USER_NAME,
+	           TO_CHAR(TO_DATE(ORD_DATE,'YYYY-MM-DD HH24:MI:SS'),'YYYY.MM.DD') ORD_DATE,
+	           JOB_SEP,
+	           SALE_AMT,
+	           CAN_DATE,
+	           ID_NUM,
+	           INT_ORDER.ORD_NO,
+	           PG_SNO,
+	           EDU_TERM_STR,
+	           EDU_TERM_END,
+	           USER_ID,
+	           PSL_ID,
+	           TRIM(TO_CHAR( PAY_TOTAL_AMT , '999,999,999,999,999')) PAY_TOTAL_AMT,
+	           IO_BILLSEQ,
+	           ORD_SEQ,
+	           DENSE_RANK() OVER (ORDER BY INT_ORDER.ORD_NO DESC) RNK
+	      FROM INT_ORDER INT_ORDER
+	       JOIN INT_ORDER_ITEM INT_ORDER_ITEM
+	           ON INT_ORDER.ORD_NO=INT_ORDER_ITEM.ORD_NO
+	       LEFT OUTER JOIN
+	           (SELECT ID_NUM,
+	                  EDU_CODE,
+	                  WTITLE,
+	                  EDU_TERM_STR,
+	                  EDU_TERM_END
+	             FROM
+	                  (SELECT ID_NUM,
+	                         EDU_CODE,
+	                         WTITLE,
+	                         REPLACE(SUBSTR(EDU_TERM, 0,10),'.','') AS EDU_TERM_STR,
+	                         REPLACE(EDU_TERM_TO,'.','') AS EDU_TERM_END,
+	                         ROW_NUMBER() OVER(PARTITION BY EDU_CODE ORDER BY ID_NUM DESC) AS RNUM
+	                    FROM ACC_EDU
+	                ORDER BY EDU_CODE DESC
+	                  )
+	            WHERE RNUM = 1
+	           ) ACC_EDU
+	           ON INT_ORDER_ITEM.BOOK_CODE = ACC_EDU.EDU_CODE
+	     WHERE INT_ORDER.PSL_ID = #pslId#
+	           AND INT_ORDER_ITEM.BOOK_DIV = 5
+	    ORDER BY INT_ORDER.ORD_DATE DESC, INT_ORDER_ITEM.ORD_SEQ ASC
+
+	</select>
+
+	<select id="SntBookDAO.selectCartInputBookList" parameterClass="Hashmap" resultClass="egovMap">
+		SELECT ST.IBM_BOOK_CODE
+			,ST.IBM_NUM
+			,ST.IBM_BOOK_NAME
+			,(SELECT file_nm FROM COMM_FILE WHERE file_id = ST.IBM_IMAGE) AS IBM_IMAGE
+			,ST.IBM_CONTENT
+			,TRIM(TO_CHAR( ST.IBM_PRICE1 , '999,999,999,999,999')) IBM_PRICE1
+			,TRIM(TO_CHAR( ST.IBM_PRICE2 , '999,999,999,999,999')) IBM_PRICE2
+			,ST.IBM_PAGE
+			,ST.IBM_STANDARD
+			,ST.IBM_YM
+			,ST.IBM_USE
+			,TO_CHAR(ST.IBM_WDATE , 'YYYY.MM.DD') AS IBM_WDATE
+			,ST.IBM_TITLE
+			,ST.IBM_GONGGI_NUM
+			,ST.IBM_PUBLISH_SEP
+			,ST.IBM_PAGE_SEP
+			,(SELECT file_nm FROM COMM_FILE WHERE file_id = ST.IBM_FILENAME) AS IBM_FILENAME
+			,ST.IBM_EUSE
+			,ST.IBM_BOOK_ENAME
+			,ST.IBM_ECONTENT
+			,'2' BOOK_DIV
+			, 1 CNT
+			, F_GET_CODE_NM('EN_PUB_YN',ST.IBM_EUSE) AS IBM_EUSE_NAME
+			, F_GET_CODE_NM('BOOK_USE_YN',ST.IBM_USE) AS IBM_USE_NAME
+			, F_GET_CODE_NM('BOOK_PUB_YN',ST.IBM_PUBLISH_SEP) AS IBM_PUBLISH_SEP_NAME
+			, F_GET_CODE_NM('PAGE_BRK',ST.IBM_PAGE_SEP) AS IBM_PAGE_SEP_NAME
+		  FROM INT_BOOK_MASTER ST
+		  WHERE ST.IBM_PUBLISH_SEP != 9
+		  AND ST.IBM_BOOK_CODE IN
+ 		  <iterate  property="ibmBookCode" open="(" close=")" conjunction=",">
+	        	#ibmBookCode[]#
+	      </iterate>
+	</select>
+
+	<select id="SntBookDAO.selectBookBuyHistoryList" parameterClass="Hashmap" resultClass="egovMap">
+		SELECT A.ORD_NO,
+		       B.BOOK_NAME,
+		        TO_CHAR(TO_DATE(ORD_DATE,'YYYY-MM-DD HH24:MI:SS'),'YYYY.MM.DD HH24:MI:SS') ORD_DATE,
+		       B.BOOK_DIV,
+		       A.PAY_CODE,
+		       A.CAN_DATE,
+		       TRIM(TO_CHAR( PAY_TOTAL_AMT , '999,999,999,999,999')) PAY_TOTAL_AMT,
+		       TRIM(TO_CHAR( SALE_AMT , '999,999,999,999,999')) SALE_AMT,
+		       TRIM(TO_CHAR( BOOK_CNT , '999,999,999,999,999')) BOOK_CNT
+		  FROM INT_ORDER A
+		  LEFT JOIN INT_ORDER_ITEM B
+		    ON A.ORD_NO = B.ORD_NO
+		 WHERE A.PSL_ID = #pslId#
+		   AND B.BOOK_DIV != 5
+		 ORDER BY A.ORD_DATE DESC
+	</select>
+
+	<select id="SntBookDAO.selectBookBuyHistoryOrderMaster" parameterClass="Hashmap" resultClass="egovMap">
+		SELECT ORD_NO,
+		       ORD_DATE,
+		       TRIM(TO_CHAR( PAY_TOTAL_AMT , '999,999,999,999,999')) PAY_TOTAL_AMT,
+		       PAY_CODE,
+		       DECODE(PAY_CODE,'1','신용카드','2','온라인이체','기타') AS PAY_CODE_NM,
+		       BILL_YN,
+		       DECODE(BILL_YN,'1','발행','-') AS BILL_YN_NM,
+		       REC_BANK,
+		       REC_DATE,
+		       REC_NAME,
+		       RV_NAME,
+		       RV_CPY_NAME,
+		       DECODE(LENGTH(TRIM(RV_POST_NO)), 6, SUBSTR(RV_POST_NO,1,3)||'-'||SUBSTR(RV_POST_NO,4,3), RV_POST_NO) AS RV_POST_NO,
+		       RV_ADDRESS,
+		       TEL_NO,
+		       GAM_ID,
+		       DECODE(GAM_ID,NULL,' ',(SELECT ACI_OFF_KNAME FROM ACC_CORP_INFO a WHERE a.ACI_GAM_ID='002300' AND ROWNUM=1)) AS GAM_NM
+		 FROM INT_ORDER
+		 WHERE ORD_NO = #ordNo#
+		 AND PSL_ID = #pslId#
+
+	</select>
+
+	<select id="SntBookDAO.selectBookBuyHistoryOrderDetailList" parameterClass="Hashmap" resultClass="egovMap">
+		SELECT A.ORD_NO,
+	       B.BOOK_CODE,
+	       B.BOOK_NAME,
+	       B.BOOK_CNT,
+	       TRIM(TO_CHAR( B.SALE_AMT , '999,999,999,999,999')) SALE_AMT ,
+	       B.BOOK_DIV,
+	       ROWNUM AS RNUM
+	  FROM INT_ORDER A
+	  	INNER JOIN INT_ORDER_ITEM B
+	  		ON A.ORD_NO = B.ORD_NO
+	  WHERE A.ORD_NO=#ordNo#
+	  AND A.PSL_ID = #pslId#
+	</select>
+
+	<procedure id="SntBookDAO.procedureEduAppAndModify" parameterMap="egovProcedureParam2">
+		call portal.edu_master_attend_01_add_proc(?, ?, ?, ?, ?,    ?, ?, ?, ?, ?,    ?  )
+	</procedure>
+
+
+
+
+
+
+</sqlMap>
