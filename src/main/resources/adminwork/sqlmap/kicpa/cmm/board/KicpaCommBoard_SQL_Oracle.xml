@@ -1,0 +1,1134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="KicpaCommBoard">
+
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+
+
+
+	<resultMap id="egovMapDetail" class="egovMap">
+		<result property="boardId" column="BOARD_ID" />
+		<result property="bltnNo" column="BLTN_NO"  />
+		<result property="bltnGid" column="BLTN_GID"  />
+		<result property="bltnGn" column="BLTN_GN" />
+		<result property="bltnGq" column="BLTN_GQ" />
+		<result property="bltnLev" column="BLTN_LEV" />
+		<result property="cateId" column="CATE_ID" />
+		<result property="userId" column="USER_ID" />
+		<result property="userPass" column="USER_PASS" />
+		<result property="userNick" column="USER_NICK" />
+		<result property="userIp" column="USER_IP" />
+		<result property="bltnReadCnt" column="BLTN_READ_CNT" />
+		<result property="bltnReplyCnt" column="BLTN_REPLY_CNT" />
+		<result property="bltnMemoCnt" column="BLTN_MEMO_CNT" />
+		<result property="bltnFileCnt" column="BLTN_FILE_CNT" />
+		<result property="bltnTopTag" column="BLTN_TOP_TAG" />
+		<result property="bltnBestLevel" column="BLTN_BEST_LEVEL" />
+		<result property="bltnSecretYn" column="BLTN_SECRET_YN" />
+		<result property="bltnPermitYn" column="BLTN_PERMIT_YN" />
+		<result property="betPnt" column="BET_PNT" />
+		<result property="bltnIcon" column="BLTN_ICON" />
+		<result property="bltnBgnYmd" column="BLTN_BGN_YMD" />
+		<result property="bltnEndYmd" column="BLTN_END_YMD" />
+		<result property="subBoardId" column="SUB_BOARD_ID" />
+		<result property="extStr0" column="EXT_STR0" />
+		<result property="extStr1" column="EXT_STR1" />
+		<result property="extStr2" column="EXT_STR2" />
+		<result property="extStr3" column="EXT_STR3" />
+		<result property="extStr4" column="EXT_STR4" />
+		<result property="extStr5" column="EXT_STR5" />
+		<result property="extStr6" column="EXT_STR6" />
+		<result property="extStr7" column="EXT_STR7" />
+		<result property="extStr8" column="EXT_STR8" />
+		<result property="extStr9" column="EXT_STR9" />
+		<result property="bltnSubj" column="BLTN_SUBJ" />
+		<result property="regDatim" column="REG_DATIM" />
+		<result property="updDatim" column="UPD_DATIM" />
+		<result property="cateNm" column="CATE_NM" />
+		<result property="bltnCntt" column="BLTN_CNTT" jdbcType="CLOB"  javaType="java.lang.String" />
+	</resultMap>
+
+	<select id="KicpaCommBoardDAO.selectBoardMaster" parameterClass="HashMap" resultClass="egovMap">
+		SELECT A.board_id,
+		       MAX(A.board_rid) board_rid,
+		       MAX(a.board_active) board_active,
+		       MAX(a.domain_id) domain_id,
+		       MAX(a.board_sys) board_sys,
+		       MAX(a.owntbl_yn) owntbl_yn,
+		       MAX(a.owntbl_fix) owntbl_fix,
+		       MAX(a.board_type) board_type,
+		       MAX(a.merge_type) merge_type,
+		       MAX(a.func_yns) func_yns,
+		       MAX(substr(a.func_yns,1,1)) func_yns1,
+		       MAX(substr(a.func_yns,2,1)) func_yns2,
+		       MAX(substr(a.func_yns,3,1)) func_yns3,
+		       MAX(substr(a.func_yns,4,1)) func_yns4,
+		       MAX(substr(a.func_yns,5,1)) func_yns5,
+		       MAX(substr(a.func_yns,6,1)) func_yns6,
+		       MAX(substr(a.func_yns,7,1)) func_yns7,
+		       MAX(substr(a.func_yns,8,1)) func_yns8,
+		       MAX(substr(a.func_yns,9,1)) func_yns9,
+		       MAX(substr(a.func_yns,10,1)) func_yns10,
+		       MAX(a.buga_yns) buga_yns,
+		       MAX(substr(a.buga_yns,1,1)) buga_yns1,
+		       MAX(substr(a.buga_yns,2,1)) buga_yns2,
+		       MAX(substr(a.buga_yns,3,1)) buga_yns3,
+		       MAX(substr(a.buga_yns,4,1)) buga_yns4,
+		       MAX(substr(a.buga_yns,5,1)) buga_yns5,
+		       MAX(substr(a.buga_yns,6,1)) buga_yns6,
+		       MAX(substr(a.buga_yns,7,1)) buga_yns7,
+		       MAX(substr(a.buga_yns,8,1)) buga_yns8,
+		       MAX(substr(a.buga_yns,9,1)) buga_yns9,
+		       MAX(substr(a.buga_yns,10,1)) buga_yns10,
+		       MAX(substr(a.buga_yns,11,1)) buga_yns11,
+		       MAX(substr(a.buga_yns,12,1)) buga_yns12,
+		       MAX(substr(a.buga_yns,13,1)) buga_yns13,
+		       MAX(substr(a.buga_yns,14,1)) buga_yns14,
+		       MAX(a.list_yns) list_yns,
+		       MAX(substr(a.list_yns,1,1)) list_yns1,
+		       MAX(substr(a.list_yns,2,1)) list_yns2,
+		       MAX(substr(a.list_yns,3,1)) list_yns3,
+		       MAX(substr(a.list_yns,4,1)) list_yns4,
+		       MAX(a.read_yns) read_yns,
+		       MAX(substr(a.read_yns,1,1)) read_yns1,
+		       MAX(substr(a.read_yns,2,1)) read_yns2,
+		       MAX(substr(a.read_yns,3,1)) read_yns3,
+		       MAX(substr(a.read_yns,4,1)) read_yns4,
+		       MAX(a.srch_yns) srch_yns,
+		       MAX(substr(a.srch_yns,1,1)) srch_yns1,
+		       MAX(substr(a.srch_yns,2,1)) srch_yns2,
+		       MAX(substr(a.srch_yns,3,1)) srch_yns3,
+		       MAX(substr(a.srch_yns,4,1)) srch_yns4,
+		       MAX(substr(a.srch_yns,5,1)) srch_yns5,
+		       MAX(substr(a.srch_yns,6,1)) srch_yns6,
+		       MAX(substr(a.srch_yns,7,1)) srch_yns7,
+		       MAX(a.ttl_yns) ttl_yns,
+		       MAX(substr(a.ttl_yns,1,1)) ttl_yns1,
+		       MAX(substr(a.ttl_yns,2,1)) ttl_yns2,
+		       MAX(substr(a.ttl_yns,3,1)) ttl_yns3,
+		       MAX(substr(a.ttl_yns,4,1)) ttl_yns4,
+		       MAX(substr(a.ttl_yns,5,1)) ttl_yns5,
+		       MAX(substr(a.ttl_yns,6,1)) ttl_yns6,
+		       MAX(substr(a.ttl_yns,7,1)) ttl_yns7,
+		       MAX(substr(a.ttl_yns,8,1)) ttl_yns8,
+		       MAX(substr(a.ttl_yns,9,1)) ttl_yns9,
+		       MAX(substr(a.ttl_yns,10,1)) ttl_yns10,
+		       MAX(substr(a.ttl_yns,11,1)) ttl_yns11,
+		       MAX(a.ttl_lens) ttl_lens,
+		       MAX(a.term_flag) term_flag,
+		       MAX(a.board_skin) board_skin,
+		       MAX(a.raise_color) raise_color,
+		       MAX(a.raise_cnt) raise_cnt,
+		       MAX(a.new_term) new_term,
+		       MAX(a.max_file_cnt) max_file_cnt,
+		       MAX(a.max_file_size) max_file_size,
+		       MAX(a.max_file_down) max_file_down,
+		       MAX(a.list_set_cnt) list_set_cnt,
+		       MAX(a.bad_std_cnt) bad_std_cnt,
+		       MAX(a.mini_trgt_win) mini_trgt_win,
+		       MAX(a.mini_trgt_url) mini_trgt_url,
+		       MAX(a.extn_class_nm) extn_class_nm,
+		       MAX(a.board_width) board_width,
+		       MAX(a.top_html) top_html,
+		       MAX(a.bottom_html) bottom_html,
+		       MAX(a.board_bg_pic) board_bg_pic,
+		       MAX(a.board_bg_color) board_bg_color,
+		       MAX(a.upd_user_id) upd_user_id,
+		       MAX(TO_CHAR(a.upd_datim ,'YYYY.MM.DD')) upd_datim,
+		       MAX(B.LANG_KND) LANG_KND,
+		       MAX(B.BOARD_NM) BOARD_NM,
+		       MAX(B.BOARD_TTL) BOARD_TTL,
+		       MAX(C.INPUT_TERM) INPUT_TERM,
+		       MAX(C.EVAL_LEVEL) EVAL_LEVEL,
+		       MAX(C.BEST_LIMIT) BEST_LIMIT,
+		       MAX(C.EXT_MASK) EXT_MASK,
+		       MAX(C.BAD_EXT_MASK) BAD_EXT_MASK,
+		       MAX(C.ACCEPT_IP) ACCEPT_IP,
+		       MAX(C.ACCEPT_ID) ACCEPT_ID,
+		       MAX(C.BAD_IP) BAD_IP,
+		       MAX(C.BAD_ID) BAD_ID,
+		       MAX(C.BAD_NICK) BAD_NICK,
+		       MAX(C.BAD_CNTT) BAD_CNTT,
+		       MAX(C.BAD_NICK_YN) BAD_NICK_YN,
+		       MAX(C.BAD_CNTT_YN) BAD_CNTT_YN,
+               MAX(DECODE(D.FLD_NM,'ext_str0',TITLE,NULL)) EXT_TITLE0,
+               MAX(DECODE(D.FLD_NM,'ext_str1',TITLE,NULL)) EXT_TITLE1,
+               MAX(DECODE(D.FLD_NM,'ext_str2',TITLE,NULL)) EXT_TITLE2,
+               MAX(DECODE(D.FLD_NM,'ext_str3',TITLE,NULL)) EXT_TITLE3,
+               MAX(DECODE(D.FLD_NM,'ext_str4',TITLE,NULL)) EXT_TITLE4,
+               MAX(DECODE(D.FLD_NM,'ext_str5',TITLE,NULL)) EXT_TITLE5,
+               MAX(DECODE(D.FLD_NM,'ext_str6',TITLE,NULL)) EXT_TITLE6,
+               MAX(DECODE(D.FLD_NM,'ext_str7',TITLE,NULL)) EXT_TITLE7,
+               MAX(DECODE(D.FLD_NM,'ext_str8',TITLE,NULL)) EXT_TITLE8,
+               MAX(DECODE(D.FLD_NM,'ext_str9',TITLE,NULL)) EXT_TITLE9,
+               MAX(DECODE(D.FLD_NM,'ext_str10',TITLE,NULL)) EXT_TITLE10
+		FROM   board a
+		    INNER JOIN BOARD_LANG B
+		        ON A.BOARD_ID = B.BOARD_ID
+		        AND LANG_KND = 'ko'
+		    LEFT join BOARD_PROP C
+		        ON A.BOARD_ID = C.BOARD_ID
+            left join BLTN_EXTN_PROP d
+                on a.board_id = d.board_id
+                AND d.use_yn = 'Y'
+            left join BLTN_EXTN_PROP_LANG e
+                ON a.board_id = e.board_id
+                and d.FLD_NM = e.FLD_NM
+                and e.LANG_KND = 'ko'
+		WHERE A.BOARD_ACTIVE ='Y'
+		AND A.board_id = #boardId#
+	    group by A.BOARD_ID
+	</select>
+
+	<select id="KicpaCommBoardDAO.selectCommonBoardList" parameterClass="egovMap" resultClass="egovMap">
+		SELECT r1.board_id,
+	       r1.bltn_no,
+	       r1.del_flag,
+	       r1.user_nick,
+	       r1.bltn_subj,
+	       r1.bltn_top_tag,
+	       r1.bltn_read_cnt,
+	       TO_CHAR(r1.reg_datim,'YYYY.MM.DD') reg_datim,
+	       TO_CHAR(r1.upd_datim, 'YYYY.MM.DD') upd_datim,
+	       r1.BLTN_LEV,
+	       r1.BLTN_ICON,
+	       r1.EXT_STR0,
+	       r1.EXT_STR1,
+	       r1.EXT_STR2,
+	       r1.EXT_STR3,
+	       r1.EXT_STR4,
+	       r1.EXT_STR5,
+	       r1.EXT_STR6,
+	       r1.EXT_STR7,
+	       r1.EXT_STR8,
+	       r1.EXT_STR9,
+	       (SELECT COUNT(*) FROM BLTN_FILE WHERE R1.board_id = board_id AND R1.bltn_no = bltn_no) FILE_CNT
+		from   (SELECT rownum rnum,
+		               m1.board_id,
+		               m1.bltn_no ,
+		               m1.del_flag,
+		               m1.user_nick,
+		               m1.bltn_subj,
+		               m1.bltn_top_tag,
+		               m1.bltn_read_cnt,
+		               m1.reg_datim,
+		               m1.upd_datim,
+		               m1.BLTN_LEV,
+		               m1.BLTN_ICON,
+		               m1.EXT_STR0,
+				       m1.EXT_STR1,
+				       m1.EXT_STR2,
+				       m1.EXT_STR3,
+				       m1.EXT_STR4,
+				       m1.EXT_STR5,
+				       m1.EXT_STR6,
+				       m1.EXT_STR7,
+				       m1.EXT_STR8,
+				       m1.EXT_STR9
+		        FROM   (SELECT t1.board_id,
+		                       t1.bltn_no,
+		                       UPPER(t1.del_flag) del_flag,
+		                       t1.user_nick,
+		                       t1.bltn_subj,
+		                       t1.bltn_top_tag,
+		                       t1.bltn_read_cnt,
+		                       t1.reg_datim,
+		                       t1.upd_datim,
+		                       t1.BLTN_LEV,
+		                       t1.BLTN_ICON,
+		                       t6.EXT_STR0,
+						       t6.EXT_STR1,
+						       t6.EXT_STR2,
+						       t6.EXT_STR3,
+						       t6.EXT_STR4,
+						       t6.EXT_STR5,
+						       t6.EXT_STR6,
+						       t6.EXT_STR7,
+						       t6.EXT_STR8,
+						       t6.EXT_STR9
+		                FROM   bulletin t1
+		                	LEFT JOIN BLTN_EXTN T6
+					    	    ON t6.board_id=t1.board_id
+						        AND    t6.bltn_no=t1.bltn_no
+		                WHERE  t1.board_id= #boardId#
+
+		                <isEqual property="listYns3" compareValue="Y">
+		                	AND    t1.bltn_gq = '0' <!-- LIST_YNS 3번째가 Y이면 아니면 조건없이-->
+		                </isEqual>
+		               	<isEqual property="bugaYns1" compareValue="Y">
+<!-- 		                AND    ( t1.del_flag != 'Y' OR     (t1.del_flag='T'  AND    t1.user_id='')) BUGA_YNS 첫번째 값이 Y이면서 로그인햇을때 -->
+<!-- 		                	AND    ( t1.del_flag != 'Y' OR     (t1.del_flag='T')) BUGA_YNS 첫번째 값이 Y이면서 로그인햇을때 -->
+		               	</isEqual>
+		               	<isEqual property="bugaYns1" compareValue="Y">
+			                AND    t1.del_flag != 'Y' <!-- BUGA_YNS 첫번째 값이 Y이면서로그인 안했을때-->
+		               	</isEqual>
+						<!--BUGA_YNS 첫번째 값이 N이라면 위 2개 조건x -->
+		               	<isEqual property="funcYns10" compareValue="Y">
+			                AND    ( t1.user_id='') <!-- FUNC_YNS 마지막이 Y면 비밀글 작성자 혹은 권한이 있는사람들만 확인가능한거같은데 bltn_auth,bltn_prin 테이블은 사용안하며, 현재 게시판에 비밀글사용여부가 없으므로 삭제해도 될거같음-->
+		               	</isEqual>
+						<!-- BUGA_YNS 두번째가 Y FUNC_YNS 7번째가 Y일때 해당조건 -->
+		               	<isEqual property="bugaYns2" compareValue="Y">
+			               	<isEqual property="funcYns7" compareValue="Y">
+			                	AND    (t1.bltn_top_tag = 'N'
+			                    	OR ((t1.bltn_top_tag = 'Y' OR t1.bltn_top_tag = 'T') AND    (t1.bltn_bgn_ymd is null OR     TO_CHAR(t1.bltn_bgn_ymd,'YYYYMMDD') <![CDATA[<=]]> TO_CHAR(sysdate, 'YYYYMMDD')) AND    (t1.bltn_end_ymd is null OR TO_CHAR(t1.bltn_end_ymd,'YYYYMMDD') >= TO_CHAR(sysdate, 'YYYYMMDD'))))
+			                </isEqual>
+		                </isEqual>
+						<!--조건끝 -->
+
+		                <!-- FUNC_YNS 7번째가 Y일때 해당조건   -->
+		                <isEqual property="funcYns7" compareValue="Y">
+
+		                	<isEqual property="termFlag" compareValue="A">
+				                AND    ( t1.bltn_bgn_ymd is null OR TO_CHAR(t1.bltn_bgn_ymd,'YYYYMMDD') <![CDATA[<=]]> TO_CHAR(SYSDATE, 'YYYYMMDD')) <!--BOARD TERM_FLAG = 'A'일때 로그인안했으면 아이디는 지우고..-->
+         			                AND    ( t1.bltn_end_ymd is null OR TO_CHAR(t1.bltn_end_ymd,'YYYYMMDD') >= TO_CHAR(SYSDATE, 'YYYYMMDD'))   <!--여기까지 -->
+		                	</isEqual>
+		                	<isEqual property="termFlag" compareValue="B">
+		                		AND    ( t1.bltn_end_ymd is null OR TO_CHAR(t1.bltn_end_ymd,'YYYYMMDD') >= TO_CHAR(sysdate, 'YYYYMMDD')) <!-- BOARD TERM_FLAG = 'B'일때 로그인안했으면 아이디는 지우고..(BOARD 테이블 데이터상 A만있음) -->
+		                	</isEqual>
+		                	<isEqual property="termFlag" compareValue="C">
+			               	 	AND    ( t1.bltn_bgn_ymd is null OR TO_CHAR(t1.bltn_bgn_ymd,'YYYYMMDDHH24MISS') <![CDATA[<=]]> TO_CHAR(sysdate, 'YYYYMMDDHH24MISS')) <!--BOARD TERM_FLAG = 'C'일때 로그인안했으면 아이디는 지우고.. (BOARD 테이블 데이터상 A만있음) -->
+		                	</isEqual>
+		                	<isEqual property="termFlag" compareValue="D">
+		                	    AND    ( t1.bltn_bgn_ymd is null OR TO_CHAR(t1.bltn_bgn_ymd,'YYYYMMDD') > TO_CHAR(sysdate, 'YYYYMMDD') OR t1.bltn_end_ymd is null OR     t1.user_id='' OR TO_CHAR(t1.bltn_end_ymd,'YYYYMMDD') <![CDATA[<=]]> TO_CHAR(sysdate, 'YYYYMMDD')) <!-- BOARD TERM_FLAG = 'D'일때 로그인안했으면 아이디는 지우고..(BOARD 테이블 데이터상 A만있음) -->
+		                	</isEqual>
+<!-- 			                AND    ( t1.bltn_bgn_ymd is null OR t1.user_id='' OR TO_CHAR(t1.bltn_bgn_ymd,'YYYYMMDD') <![CDATA[<=]]> TO_CHAR(SYSDATE, 'YYYYMMDD')) BOARD TERM_FLAG = 'A'일때 로그인안했으면 아이디는 지우고.. -->
+<!-- 			                AND    ( t1.bltn_end_ymd is null OR t1.user_id='' OR TO_CHAR(t1.bltn_end_ymd,'YYYYMMDD') >= TO_CHAR(SYSDATE, 'YYYYMMDD'))  여기까지 -->
+<!-- 			                AND    ( t1.bltn_end_ymd is null OR t1.user_id='' OR TO_CHAR(t1.bltn_end_ymd,'YYYYMMDD') >= TO_CHAR(sysdate, 'YYYYMMDD')) BOARD TERM_FLAG = 'B'일때 로그인안했으면 아이디는 지우고..(BOARD 테이블 데이터상 A만있음) -->
+<!-- 			                AND    ( t1.bltn_bgn_ymd is null OR t1.user_id='' OR TO_CHAR(t1.bltn_bgn_ymd,'YYYYMMDDHH24MISS') <![CDATA[<=]]> TO_CHAR(sysdate, 'YYYYMMDDHH24MISS')) BOARD TERM_FLAG = 'C'일때 로그인안했으면 아이디는 지우고.. (BOARD 테이블 데이터상 A만있음) -->
+<!-- 			                AND    ( t1.bltn_bgn_ymd is null OR t1.user_id='' OR TO_CHAR(t1.bltn_bgn_ymd,'YYYYMMDD') > TO_CHAR(sysdate, 'YYYYMMDD') OR t1.bltn_end_ymd is null OR     t1.user_id='' OR TO_CHAR(t1.bltn_end_ymd,'YYYYMMDD') <![CDATA[<=]]> TO_CHAR(sysdate, 'YYYYMMDD')) BOARD TERM_FLAG = 'D'일때 로그인안했으면 아이디는 지우고..(BOARD 테이블 데이터상 A만있음) -->
+						</isEqual>
+		                <!-- BUGA_YNS 3번째 데이터가 Y일때-->
+		                <isEqual property="bugaYns3" compareValue="Y">
+	               			AND    ( t1.bltn_permit_yn='Y' OR (t1.bltn_permit_yn='N')) <!-- 로그인했을떄 추가 -->
+<!-- 		                AND    ( t1.bltn_permit_yn='Y' OR (t1.bltn_permit_yn='N' AND t1.user_id='')) 로그인했을떄 추가 -->
+						</isEqual>
+						<isNotNull property="searchKeyword">
+				       		<isNotEmpty property="searchKeyword">
+				       			AND (UPPER(T1.BLTN_SUBJ) LIKE '%'||UPPER(#searchKeyword#)||'%')
+				       		</isNotEmpty>
+				       	</isNotNull>
+						START WITH BLTN_LEV = 1
+						CONNECT BY PRIOR case when BLTN_LEV = 1 then BLTN_GN
+				                         else null
+				                         end  = case when BLTN_LEV != 1 then BLTN_GN
+			                             else null
+			                             end
+						<isNotNull property="sortColumn">
+							<isNotEmpty property="sortColumn">
+								ORDER BY Siblings $sortColumn$ $sortMethod$
+							</isNotEmpty>
+						</isNotNull>
+						<isEqual property="bugaYns3" compareValue="Y">
+			                ORDER BY Siblings t1.bltn_permit_yn, t1.bltn_gn DESC, t1.bltn_gq DESC <!-- BUGA_YNS 3번째 데이터가 Y이고 getAblePermit = TRUE 일때 인데...getAblePermit이게뭔지모르겟음-->
+						</isEqual>
+						<isNull property="sortColumn">
+							<isEmpty property="sortColumn">
+								<isNotEqual property="bugaYns3" compareValue="Y">
+<!-- 					                ORDER BY t1.bltn_gn DESC, t1.bltn_gq DESC 이건 기본정렬 그외 파라미터로 정렬해서 하는것도 있음 -->
+					                ORDER Siblings BY  case when nvl(t1.BLTN_TOP_TAG,'N') = 'T' then 1 when nvl(t1.BLTN_TOP_TAG,'N') = 'Y' THEN 2 ELSE 3 END  ASC,t1.reg_datim DESC   <!--   이건 기본정렬 그외 파라미터로 정렬해서 하는것도 있음  -->
+								</isNotEqual>
+							</isEmpty>
+						</isNull>
+		             ) m1
+		        WHERE  rownum  <![CDATA[<=]]> #pageIndex#+#pageSize#
+		 ) r1 where r1.rnum BETWEEN #pageIndex# AND (#pageIndex#-1)+#pageSize#
+
+	</select>
+
+
+	<select id="KicpaCommBoardDAO.selectCommonBoardListCnt" parameterClass="egovMap" resultClass="int">
+						SELECT COUNT(*)
+		                FROM   bulletin t1
+		                WHERE  t1.board_id= #boardId#
+
+		               <isEqual property="listYns3" compareValue="Y">
+		                	AND    t1.bltn_gq = '0' <!-- LIST_YNS 3번째가 Y이면 아니면 조건없이-->
+		                </isEqual>
+		               	<isEqual property="bugaYns1" compareValue="Y">
+<!-- 		                AND    ( t1.del_flag != 'Y' OR     (t1.del_flag='T'  AND    t1.user_id='')) BUGA_YNS 첫번째 값이 Y이면서 로그인햇을때 -->
+<!-- 		                	AND    ( t1.del_flag != 'Y' OR     (t1.del_flag='T')) BUGA_YNS 첫번째 값이 Y이면서 로그인햇을때 -->
+		               	</isEqual>
+		               	<isEqual property="bugaYns1" compareValue="Y">
+			                AND    t1.del_flag != 'Y' <!-- BUGA_YNS 첫번째 값이 Y이면서로그인 안했을때-->
+		               	</isEqual>
+						<!--BUGA_YNS 첫번째 값이 N이라면 위 2개 조건x -->
+		               	<isEqual property="funcYns10" compareValue="Y">
+			                AND    ( t1.user_id='') <!-- FUNC_YNS 마지막이 Y면 비밀글 작성자 혹은 권한이 있는사람들만 확인가능한거같은데 bltn_auth,bltn_prin 테이블은 사용안하며, 현재 게시판에 비밀글사용여부가 없으므로 삭제해도 될거같음-->
+		               	</isEqual>
+						<!-- BUGA_YNS 두번째가 Y FUNC_YNS 7번째가 Y일때 해당조건 -->
+		               	<isEqual property="bugaYns2" compareValue="Y">
+			               	<isEqual property="funcYns7" compareValue="Y">
+			                	AND    (t1.bltn_top_tag = 'N'
+			                    	OR ((t1.bltn_top_tag = 'Y' OR t1.bltn_top_tag = 'T') AND    (t1.bltn_bgn_ymd is null OR     TO_CHAR(t1.bltn_bgn_ymd,'YYYYMMDD') <![CDATA[<=]]> TO_CHAR(sysdate, 'YYYYMMDD')) AND    (t1.bltn_end_ymd is null OR TO_CHAR(t1.bltn_end_ymd,'YYYYMMDD') >= TO_CHAR(sysdate, 'YYYYMMDD'))))
+			                </isEqual>
+		                </isEqual>
+						<!--조건끝 -->
+
+		                <!-- FUNC_YNS 7번째가 Y일때 해당조건   -->
+		                <isEqual property="funcYns7" compareValue="Y">
+
+		                	<isEqual property="termFlag" compareValue="A">
+				                AND    ( t1.bltn_bgn_ymd is null OR TO_CHAR(t1.bltn_bgn_ymd,'YYYYMMDD') <![CDATA[<=]]> TO_CHAR(SYSDATE, 'YYYYMMDD')) <!--BOARD TERM_FLAG = 'A'일때 로그인안했으면 아이디는 지우고..-->
+         			                AND    ( t1.bltn_end_ymd is null OR TO_CHAR(t1.bltn_end_ymd,'YYYYMMDD') >= TO_CHAR(SYSDATE, 'YYYYMMDD'))   <!--여기까지 -->
+		                	</isEqual>
+		                	<isEqual property="termFlag" compareValue="B">
+		                		AND    ( t1.bltn_end_ymd is null OR TO_CHAR(t1.bltn_end_ymd,'YYYYMMDD') >= TO_CHAR(sysdate, 'YYYYMMDD')) <!-- BOARD TERM_FLAG = 'B'일때 로그인안했으면 아이디는 지우고..(BOARD 테이블 데이터상 A만있음) -->
+		                	</isEqual>
+		                	<isEqual property="termFlag" compareValue="C">
+			               	 	AND    ( t1.bltn_bgn_ymd is null OR TO_CHAR(t1.bltn_bgn_ymd,'YYYYMMDDHH24MISS') <![CDATA[<=]]> TO_CHAR(sysdate, 'YYYYMMDDHH24MISS')) <!--BOARD TERM_FLAG = 'C'일때 로그인안했으면 아이디는 지우고.. (BOARD 테이블 데이터상 A만있음) -->
+		                	</isEqual>
+		                	<isEqual property="termFlag" compareValue="D">
+		                	    AND    ( t1.bltn_bgn_ymd is null OR TO_CHAR(t1.bltn_bgn_ymd,'YYYYMMDD') > TO_CHAR(sysdate, 'YYYYMMDD') OR t1.bltn_end_ymd is null OR     t1.user_id='' OR TO_CHAR(t1.bltn_end_ymd,'YYYYMMDD') <![CDATA[<=]]> TO_CHAR(sysdate, 'YYYYMMDD')) <!-- BOARD TERM_FLAG = 'D'일때 로그인안했으면 아이디는 지우고..(BOARD 테이블 데이터상 A만있음) -->
+		                	</isEqual>
+<!-- 			                AND    ( t1.bltn_bgn_ymd is null OR t1.user_id='' OR TO_CHAR(t1.bltn_bgn_ymd,'YYYYMMDD') <![CDATA[<=]]> TO_CHAR(SYSDATE, 'YYYYMMDD')) BOARD TERM_FLAG = 'A'일때 로그인안했으면 아이디는 지우고.. -->
+<!-- 			                AND    ( t1.bltn_end_ymd is null OR t1.user_id='' OR TO_CHAR(t1.bltn_end_ymd,'YYYYMMDD') >= TO_CHAR(SYSDATE, 'YYYYMMDD'))  여기까지 -->
+<!-- 			                AND    ( t1.bltn_end_ymd is null OR t1.user_id='' OR TO_CHAR(t1.bltn_end_ymd,'YYYYMMDD') >= TO_CHAR(sysdate, 'YYYYMMDD')) BOARD TERM_FLAG = 'B'일때 로그인안했으면 아이디는 지우고..(BOARD 테이블 데이터상 A만있음) -->
+<!-- 			                AND    ( t1.bltn_bgn_ymd is null OR t1.user_id='' OR TO_CHAR(t1.bltn_bgn_ymd,'YYYYMMDDHH24MISS') <![CDATA[<=]]> TO_CHAR(sysdate, 'YYYYMMDDHH24MISS')) BOARD TERM_FLAG = 'C'일때 로그인안했으면 아이디는 지우고.. (BOARD 테이블 데이터상 A만있음) -->
+<!-- 			                AND    ( t1.bltn_bgn_ymd is null OR t1.user_id='' OR TO_CHAR(t1.bltn_bgn_ymd,'YYYYMMDD') > TO_CHAR(sysdate, 'YYYYMMDD') OR t1.bltn_end_ymd is null OR     t1.user_id='' OR TO_CHAR(t1.bltn_end_ymd,'YYYYMMDD') <![CDATA[<=]]> TO_CHAR(sysdate, 'YYYYMMDD')) BOARD TERM_FLAG = 'D'일때 로그인안했으면 아이디는 지우고..(BOARD 테이블 데이터상 A만있음) -->
+						</isEqual>
+		                <!-- BUGA_YNS 3번째 데이터가 Y일때-->
+		                <isEqual property="bugaYns3" compareValue="Y">
+	               			AND    ( t1.bltn_permit_yn='Y' OR (t1.bltn_permit_yn='N')) <!-- 로그인했을떄 추가 -->
+<!-- 		                AND    ( t1.bltn_permit_yn='Y' OR (t1.bltn_permit_yn='N' AND t1.user_id='')) 로그인했을떄 추가 -->
+						</isEqual>
+						<isNotNull property="searchKeyword">
+				       		<isNotEmpty property="searchKeyword">
+				       			AND (UPPER(T1.BLTN_SUBJ) LIKE '%'||UPPER(#searchKeyword#)||'%')
+				       		</isNotEmpty>
+				       	</isNotNull>
+	</select>
+
+
+	<select id="KicpaCommBoardDAO.selectCommonCafeBoardList" parameterClass="egovMap" resultClass="egovMap">
+		SELECT r1.board_id,
+		       r1.bltn_no,
+		       r1.del_flag,
+		       r1.user_nick,
+		       r1.bltn_subj,
+		       r1.bltn_top_tag,
+		       r1.bltn_read_cnt,
+		       TO_CHAR(r1.reg_datim,'YYYY.MM.DD') reg_datim,
+	       	   TO_CHAR(r1.upd_datim, 'YYYY.MM.DD') upd_datim,
+	       	   r1.BLTN_LEV,
+	       	   r1.BLTN_ICON,
+	       	   r1.EXT_STR0,
+		       r1.EXT_STR1,
+		       r1.EXT_STR2,
+		       r1.EXT_STR3,
+		       r1.EXT_STR4,
+		       r1.EXT_STR5,
+		       r1.EXT_STR6,
+		       r1.EXT_STR7,
+		       r1.EXT_STR8,
+		       r1.EXT_STR9,
+		       (SELECT COUNT(*) FROM BLTN_CAFE_FILE WHERE R1.board_id = board_id AND R1.bltn_no = bltn_no) FILE_CNT
+		from   (SELECT rownum rnum,
+		               m1.board_id,
+		               m1.bltn_no ,
+		               m1.del_flag,
+		               m1.user_nick,
+		               m1.bltn_subj,
+		               m1.bltn_top_tag,
+		               m1.bltn_read_cnt,
+		               m1.reg_datim,
+		               m1.upd_datim,
+		               m1.BLTN_ICON,
+		               m1.BLTN_LEV,
+		               m1.EXT_STR0,
+				       m1.EXT_STR1,
+				       m1.EXT_STR2,
+				       m1.EXT_STR3,
+				       m1.EXT_STR4,
+				       m1.EXT_STR5,
+				       m1.EXT_STR6,
+				       m1.EXT_STR7,
+				       m1.EXT_STR8,
+				       m1.EXT_STR9
+		        FROM   (SELECT t1.board_id,
+		                       t1.bltn_no,
+		                       UPPER(t1.del_flag) del_flag,
+		                       t1.user_nick,
+		                       t1.bltn_subj,
+		                       t1.bltn_top_tag,
+		                       t1.bltn_read_cnt,
+		                       t1.reg_datim,
+		                       t1.upd_datim,
+		                       t1.BLTN_ICON,
+		                       t1.BLTN_LEV,
+		                       t6.EXT_STR0,
+						       t6.EXT_STR1,
+						       t6.EXT_STR2,
+						       t6.EXT_STR3,
+						       t6.EXT_STR4,
+						       t6.EXT_STR5,
+						       t6.EXT_STR6,
+						       t6.EXT_STR7,
+						       t6.EXT_STR8,
+						       t6.EXT_STR9
+		                FROM   bltn_cafe t1
+	                	    LEFT JOIN BLTN_EXTN T6
+						        ON t6.board_id=t1.board_id
+						        AND    t6.bltn_no=t1.bltn_no
+		                WHERE  t1.board_id= #boardId#
+
+		                <isEqual property="listYns3" compareValue="Y">
+		                	AND    t1.bltn_gq = '0' <!-- LIST_YNS 3번째가 Y이면 아니면 조건없이-->
+		                </isEqual>
+		               	<isEqual property="bugaYns1" compareValue="Y">
+<!-- 		                AND    ( t1.del_flag != 'Y' OR     (t1.del_flag='T'  AND    t1.user_id='')) BUGA_YNS 첫번째 값이 Y이면서 로그인햇을때 -->
+<!-- 		                	AND    ( t1.del_flag != 'Y' OR     (t1.del_flag='T')) BUGA_YNS 첫번째 값이 Y이면서 로그인햇을때 -->
+		               	</isEqual>
+		               	<isEqual property="bugaYns1" compareValue="Y">
+			                AND    t1.del_flag != 'Y' <!-- BUGA_YNS 첫번째 값이 Y이면서로그인 안했을때-->
+		               	</isEqual>
+						<!--BUGA_YNS 첫번째 값이 N이라면 위 2개 조건x -->
+		               	<isEqual property="funcYns10" compareValue="Y">
+			                AND    ( t1.user_id='') <!-- FUNC_YNS 마지막이 Y면 비밀글 작성자 혹은 권한이 있는사람들만 확인가능한거같은데 bltn_auth,bltn_prin 테이블은 사용안하며, 현재 게시판에 비밀글사용여부가 없으므로 삭제해도 될거같음-->
+		               	</isEqual>
+						<!-- BUGA_YNS 두번째가 Y FUNC_YNS 7번째가 Y일때 해당조건 -->
+		               	<isEqual property="bugaYns2" compareValue="Y">
+			               	<isEqual property="funcYns7" compareValue="Y">
+			                	AND    (t1.bltn_top_tag = 'N'
+			                    	OR ((t1.bltn_top_tag = 'Y' OR t1.bltn_top_tag = 'T') AND    (t1.bltn_bgn_ymd is null OR     TO_CHAR(t1.bltn_bgn_ymd,'YYYYMMDD') <![CDATA[<=]]> TO_CHAR(sysdate, 'YYYYMMDD')) AND    (t1.bltn_end_ymd is null OR TO_CHAR(t1.bltn_end_ymd,'YYYYMMDD') >= TO_CHAR(sysdate, 'YYYYMMDD'))))
+			                </isEqual>
+		                </isEqual>
+						<!--조건끝 -->
+
+		                <!-- FUNC_YNS 7번째가 Y일때 해당조건   -->
+		                <isEqual property="funcYns7" compareValue="Y">
+
+		                	<isEqual property="termFlag" compareValue="A">
+				                AND    ( t1.bltn_bgn_ymd is null OR TO_CHAR(t1.bltn_bgn_ymd,'YYYYMMDD') <![CDATA[<=]]> TO_CHAR(SYSDATE, 'YYYYMMDD')) <!--BOARD TERM_FLAG = 'A'일때 로그인안했으면 아이디는 지우고..-->
+         			                AND    ( t1.bltn_end_ymd is null OR TO_CHAR(t1.bltn_end_ymd,'YYYYMMDD') >= TO_CHAR(SYSDATE, 'YYYYMMDD'))   <!--여기까지 -->
+		                	</isEqual>
+		                	<isEqual property="termFlag" compareValue="B">
+		                		AND    ( t1.bltn_end_ymd is null OR TO_CHAR(t1.bltn_end_ymd,'YYYYMMDD') >= TO_CHAR(sysdate, 'YYYYMMDD')) <!-- BOARD TERM_FLAG = 'B'일때 로그인안했으면 아이디는 지우고..(BOARD 테이블 데이터상 A만있음) -->
+		                	</isEqual>
+		                	<isEqual property="termFlag" compareValue="C">
+			               	 	AND    ( t1.bltn_bgn_ymd is null OR TO_CHAR(t1.bltn_bgn_ymd,'YYYYMMDDHH24MISS') <![CDATA[<=]]> TO_CHAR(sysdate, 'YYYYMMDDHH24MISS')) <!--BOARD TERM_FLAG = 'C'일때 로그인안했으면 아이디는 지우고.. (BOARD 테이블 데이터상 A만있음) -->
+		                	</isEqual>
+		                	<isEqual property="termFlag" compareValue="D">
+		                	    AND    ( t1.bltn_bgn_ymd is null OR TO_CHAR(t1.bltn_bgn_ymd,'YYYYMMDD') > TO_CHAR(sysdate, 'YYYYMMDD') OR t1.bltn_end_ymd is null OR     t1.user_id='' OR TO_CHAR(t1.bltn_end_ymd,'YYYYMMDD') <![CDATA[<=]]> TO_CHAR(sysdate, 'YYYYMMDD')) <!-- BOARD TERM_FLAG = 'D'일때 로그인안했으면 아이디는 지우고..(BOARD 테이블 데이터상 A만있음) -->
+		                	</isEqual>
+<!-- 			                AND    ( t1.bltn_bgn_ymd is null OR t1.user_id='' OR TO_CHAR(t1.bltn_bgn_ymd,'YYYYMMDD') <![CDATA[<=]]> TO_CHAR(SYSDATE, 'YYYYMMDD')) BOARD TERM_FLAG = 'A'일때 로그인안했으면 아이디는 지우고.. -->
+<!-- 			                AND    ( t1.bltn_end_ymd is null OR t1.user_id='' OR TO_CHAR(t1.bltn_end_ymd,'YYYYMMDD') >= TO_CHAR(SYSDATE, 'YYYYMMDD'))  여기까지 -->
+<!-- 			                AND    ( t1.bltn_end_ymd is null OR t1.user_id='' OR TO_CHAR(t1.bltn_end_ymd,'YYYYMMDD') >= TO_CHAR(sysdate, 'YYYYMMDD')) BOARD TERM_FLAG = 'B'일때 로그인안했으면 아이디는 지우고..(BOARD 테이블 데이터상 A만있음) -->
+<!-- 			                AND    ( t1.bltn_bgn_ymd is null OR t1.user_id='' OR TO_CHAR(t1.bltn_bgn_ymd,'YYYYMMDDHH24MISS') <![CDATA[<=]]> TO_CHAR(sysdate, 'YYYYMMDDHH24MISS')) BOARD TERM_FLAG = 'C'일때 로그인안했으면 아이디는 지우고.. (BOARD 테이블 데이터상 A만있음) -->
+<!-- 			                AND    ( t1.bltn_bgn_ymd is null OR t1.user_id='' OR TO_CHAR(t1.bltn_bgn_ymd,'YYYYMMDD') > TO_CHAR(sysdate, 'YYYYMMDD') OR t1.bltn_end_ymd is null OR     t1.user_id='' OR TO_CHAR(t1.bltn_end_ymd,'YYYYMMDD') <![CDATA[<=]]> TO_CHAR(sysdate, 'YYYYMMDD')) BOARD TERM_FLAG = 'D'일때 로그인안했으면 아이디는 지우고..(BOARD 테이블 데이터상 A만있음) -->
+						</isEqual>
+		                <!-- BUGA_YNS 3번째 데이터가 Y일때-->
+		                <isEqual property="bugaYns3" compareValue="Y">
+	               			AND    ( t1.bltn_permit_yn='Y' OR (t1.bltn_permit_yn='N')) <!-- 로그인했을떄 추가 -->
+<!-- 		                AND    ( t1.bltn_permit_yn='Y' OR (t1.bltn_permit_yn='N' AND t1.user_id='')) 로그인했을떄 추가 -->
+						</isEqual>
+						<isNotNull property="searchKeyword">
+				       		<isNotEmpty property="searchKeyword">
+				       			AND (UPPER(T1.BLTN_SUBJ) LIKE '%'||UPPER(#searchKeyword#)||'%')
+				       		</isNotEmpty>
+				       	</isNotNull>
+						START WITH BLTN_LEV = 1
+						CONNECT BY PRIOR case when BLTN_LEV = 1 then BLTN_GN
+				                         else null
+				                         end  = case when BLTN_LEV != 1 then BLTN_GN
+			                             else null
+			                             end
+						<isNotNull property="sortColumn">
+							<isNotEmpty property="sortColumn">
+								ORDER Siblings BY $sortColumn$ $sortMethod$
+							</isNotEmpty>
+						</isNotNull>
+						<isEqual property="bugaYns3" compareValue="Y">
+			                ORDER Siblings BY t1.bltn_permit_yn, t1.bltn_gn DESC, t1.bltn_gq DESC <!-- BUGA_YNS 3번째 데이터가 Y이고 getAblePermit = TRUE 일때 인데...getAblePermit이게뭔지모르겟음-->
+						</isEqual>
+						<isNull property="sortColumn">
+							<isEmpty property="sortColumn">
+								<isNotEqual property="bugaYns3" compareValue="Y">
+<!-- 					                ORDER BY t1.bltn_gn DESC, t1.bltn_gq DESC 이건 기본정렬 그외 파라미터로 정렬해서 하는것도 있음 -->
+					                ORDER Siblings BY case when nvl(t1.BLTN_TOP_TAG,'N') = 'T' then 1 when nvl(t1.BLTN_TOP_TAG,'N') = 'Y' THEN 2 ELSE 3 END  ASC, t1.reg_datim DESC   <!--   이건 기본정렬 그외 파라미터로 정렬해서 하는것도 있음  -->
+								</isNotEqual>
+							</isEmpty>
+						</isNull>
+		             ) m1
+		        WHERE  rownum  <![CDATA[<=]]> #pageIndex#+#pageSize#
+		 ) r1 where r1.rnum BETWEEN #pageIndex# AND (#pageIndex#-1)+#pageSize#
+
+	</select>
+
+
+	<select id="KicpaCommBoardDAO.selectCommonCafeBoardListCnt" parameterClass="egovMap" resultClass="int">
+						SELECT COUNT(*)
+		                FROM   bltn_cafe t1
+		                WHERE  t1.board_id= #boardId#
+
+		                <isEqual property="listYns3" compareValue="Y">
+		                	AND    t1.bltn_gq = '0' <!-- LIST_YNS 3번째가 Y이면 아니면 조건없이-->
+		                </isEqual>
+		               	<isEqual property="bugaYns1" compareValue="Y">
+<!-- 		                AND    ( t1.del_flag != 'Y' OR     (t1.del_flag='T'  AND    t1.user_id='')) BUGA_YNS 첫번째 값이 Y이면서 로그인햇을때 -->
+<!-- 		                	AND    ( t1.del_flag != 'Y' OR     (t1.del_flag='T')) BUGA_YNS 첫번째 값이 Y이면서 로그인햇을때 -->
+		               	</isEqual>
+		               	<isEqual property="bugaYns1" compareValue="Y">
+			                AND    t1.del_flag != 'Y' <!-- BUGA_YNS 첫번째 값이 Y이면서로그인 안했을때-->
+		               	</isEqual>
+						<!--BUGA_YNS 첫번째 값이 N이라면 위 2개 조건x -->
+		               	<isEqual property="funcYns10" compareValue="Y">
+			                AND    ( t1.user_id='') <!-- FUNC_YNS 마지막이 Y면 비밀글 작성자 혹은 권한이 있는사람들만 확인가능한거같은데 bltn_auth,bltn_prin 테이블은 사용안하며, 현재 게시판에 비밀글사용여부가 없으므로 삭제해도 될거같음-->
+		               	</isEqual>
+						<!-- BUGA_YNS 두번째가 Y FUNC_YNS 7번째가 Y일때 해당조건 -->
+		               	<isEqual property="bugaYns2" compareValue="Y">
+			               	<isEqual property="funcYns7" compareValue="Y">
+			                	AND    (t1.bltn_top_tag = 'N'
+			                    	OR ((t1.bltn_top_tag = 'Y' OR t1.bltn_top_tag = 'T') AND    (t1.bltn_bgn_ymd is null OR     TO_CHAR(t1.bltn_bgn_ymd,'YYYYMMDD') <![CDATA[<=]]> TO_CHAR(sysdate, 'YYYYMMDD')) AND    (t1.bltn_end_ymd is null OR TO_CHAR(t1.bltn_end_ymd,'YYYYMMDD') >= TO_CHAR(sysdate, 'YYYYMMDD'))))
+			                </isEqual>
+		                </isEqual>
+						<!--조건끝 -->
+
+		                <!-- FUNC_YNS 7번째가 Y일때 해당조건   -->
+		                <isEqual property="funcYns7" compareValue="Y">
+
+		                	<isEqual property="termFlag" compareValue="A">
+				                AND    ( t1.bltn_bgn_ymd is null OR TO_CHAR(t1.bltn_bgn_ymd,'YYYYMMDD') <![CDATA[<=]]> TO_CHAR(SYSDATE, 'YYYYMMDD')) <!--BOARD TERM_FLAG = 'A'일때 로그인안했으면 아이디는 지우고..-->
+         			                AND    ( t1.bltn_end_ymd is null OR TO_CHAR(t1.bltn_end_ymd,'YYYYMMDD') >= TO_CHAR(SYSDATE, 'YYYYMMDD'))   <!--여기까지 -->
+		                	</isEqual>
+		                	<isEqual property="termFlag" compareValue="B">
+		                		AND    ( t1.bltn_end_ymd is null OR TO_CHAR(t1.bltn_end_ymd,'YYYYMMDD') >= TO_CHAR(sysdate, 'YYYYMMDD')) <!-- BOARD TERM_FLAG = 'B'일때 로그인안했으면 아이디는 지우고..(BOARD 테이블 데이터상 A만있음) -->
+		                	</isEqual>
+		                	<isEqual property="termFlag" compareValue="C">
+			               	 	AND    ( t1.bltn_bgn_ymd is null OR TO_CHAR(t1.bltn_bgn_ymd,'YYYYMMDDHH24MISS') <![CDATA[<=]]> TO_CHAR(sysdate, 'YYYYMMDDHH24MISS')) <!--BOARD TERM_FLAG = 'C'일때 로그인안했으면 아이디는 지우고.. (BOARD 테이블 데이터상 A만있음) -->
+		                	</isEqual>
+		                	<isEqual property="termFlag" compareValue="D">
+		                	    AND    ( t1.bltn_bgn_ymd is null OR TO_CHAR(t1.bltn_bgn_ymd,'YYYYMMDD') > TO_CHAR(sysdate, 'YYYYMMDD') OR t1.bltn_end_ymd is null OR     t1.user_id='' OR TO_CHAR(t1.bltn_end_ymd,'YYYYMMDD') <![CDATA[<=]]> TO_CHAR(sysdate, 'YYYYMMDD')) <!-- BOARD TERM_FLAG = 'D'일때 로그인안했으면 아이디는 지우고..(BOARD 테이블 데이터상 A만있음) -->
+		                	</isEqual>
+<!-- 			                AND    ( t1.bltn_bgn_ymd is null OR t1.user_id='' OR TO_CHAR(t1.bltn_bgn_ymd,'YYYYMMDD') <![CDATA[<=]]> TO_CHAR(SYSDATE, 'YYYYMMDD')) BOARD TERM_FLAG = 'A'일때 로그인안했으면 아이디는 지우고.. -->
+<!-- 			                AND    ( t1.bltn_end_ymd is null OR t1.user_id='' OR TO_CHAR(t1.bltn_end_ymd,'YYYYMMDD') >= TO_CHAR(SYSDATE, 'YYYYMMDD'))  여기까지 -->
+<!-- 			                AND    ( t1.bltn_end_ymd is null OR t1.user_id='' OR TO_CHAR(t1.bltn_end_ymd,'YYYYMMDD') >= TO_CHAR(sysdate, 'YYYYMMDD')) BOARD TERM_FLAG = 'B'일때 로그인안했으면 아이디는 지우고..(BOARD 테이블 데이터상 A만있음) -->
+<!-- 			                AND    ( t1.bltn_bgn_ymd is null OR t1.user_id='' OR TO_CHAR(t1.bltn_bgn_ymd,'YYYYMMDDHH24MISS') <![CDATA[<=]]> TO_CHAR(sysdate, 'YYYYMMDDHH24MISS')) BOARD TERM_FLAG = 'C'일때 로그인안했으면 아이디는 지우고.. (BOARD 테이블 데이터상 A만있음) -->
+<!-- 			                AND    ( t1.bltn_bgn_ymd is null OR t1.user_id='' OR TO_CHAR(t1.bltn_bgn_ymd,'YYYYMMDD') > TO_CHAR(sysdate, 'YYYYMMDD') OR t1.bltn_end_ymd is null OR     t1.user_id='' OR TO_CHAR(t1.bltn_end_ymd,'YYYYMMDD') <![CDATA[<=]]> TO_CHAR(sysdate, 'YYYYMMDD')) BOARD TERM_FLAG = 'D'일때 로그인안했으면 아이디는 지우고..(BOARD 테이블 데이터상 A만있음) -->
+						</isEqual>
+		                <!-- BUGA_YNS 3번째 데이터가 Y일때-->
+		                <isEqual property="bugaYns3" compareValue="Y">
+	               			AND    ( t1.bltn_permit_yn='Y' OR (t1.bltn_permit_yn='N')) <!-- 로그인했을떄 추가 -->
+<!-- 		                AND    ( t1.bltn_permit_yn='Y' OR (t1.bltn_permit_yn='N' AND t1.user_id='')) 로그인했을떄 추가 -->
+						</isEqual>
+						<isNotNull property="searchKeyword">
+				       		<isNotEmpty property="searchKeyword">
+				       			AND (UPPER(T1.BLTN_SUBJ) LIKE '%'||UPPER(#searchKeyword#)||'%')
+				       		</isNotEmpty>
+				       	</isNotNull>
+
+	</select>
+
+	<select id="KicpaCommBoardDAO.selectCommonBoardDetail" parameterClass="egovMap" resultMap="egovMapDetail">
+		SELECT t1.board_id,
+		       t1.bltn_no,
+		       t1.bltn_gid,
+		       t1.bltn_gn,
+		       t1.bltn_gq,
+		       t1.bltn_lev,
+		       t1.cate_id,
+		       t1.user_id,
+		       t1.user_pass,
+		       t1.user_nick,
+		       t1.user_ip,
+		       t1.bltn_read_cnt,
+		       t1.bltn_reply_cnt,
+		       t1.bltn_memo_cnt,
+		       t1.bltn_file_cnt,
+		       t1.bltn_top_tag,
+		       t1.bltn_best_level,
+		       t1.bltn_secret_yn,
+		       t1.bltn_permit_yn,
+		       t1.bet_pnt,
+		       t1.bltn_icon,
+		       t1.bltn_bgn_ymd,
+		       t1.bltn_end_ymd,
+		       t1.sub_board_id,
+		       t6.EXT_STR0,
+		       t6.EXT_STR1,
+		       t6.EXT_STR2,
+		       t6.EXT_STR3,
+		       t6.EXT_STR4,
+		       t6.EXT_STR5,
+		       t6.EXT_STR6,
+		       t6.EXT_STR7,
+		       t6.EXT_STR8,
+		       t6.EXT_STR9,
+		       bltn_subj,
+		       t2.bltn_cntt,
+	   		   TO_CHAR(t1.reg_datim,'YYYY.MM.DD') reg_datim,
+		       TO_CHAR(t1.upd_datim,'YYYY.MM.DD') upd_datim,
+		       c.cate_nm
+		FROM   BULLETIN t1
+		    INNER JOIN BLTN_CNTT t2
+		        ON t2.board_id=t1.board_id
+		        AND t2.bltn_no=t1.bltn_no
+		    LEFT JOIN BLTN_EXTN T6
+		        ON t6.board_id=t1.board_id
+		        AND    t6.bltn_no=t1.bltn_no
+   	        left join BLTN_CATE b
+		        on t1.board_id = b.board_id
+		        and t1.CATE_ID = b.CATE_ID
+		    left join BLTN_CATE_LANG c
+		        on b.board_id = c.board_id
+		        and b.CATE_ID = c.CATE_ID
+		        and LANG_KND = 'ko'
+		WHERE  t1.board_id = #boardId#
+		AND    t1.bltn_no = #bltnNo#
+		AND    t1.del_flag !='Y'
+	</select>
+
+	<select id="KicpaCommBoardDAO.selectCommonCafeBoardDetail" parameterClass="egovMap" resultMap="egovMapDetail">
+		SELECT t1.board_id,
+		       t1.bltn_no,
+		       t1.bltn_gid,
+		       t1.bltn_gn,
+		       t1.bltn_gq,
+		       t1.bltn_lev,
+		       t1.cate_id,
+		       t1.user_id,
+		       t1.user_pass,
+		       t1.user_nick,
+		       t1.user_ip,
+		       t1.bltn_read_cnt,
+		       t1.bltn_reply_cnt,
+		       t1.bltn_memo_cnt,
+		       t1.bltn_file_cnt,
+		       t1.bltn_top_tag,
+		       t1.bltn_best_level,
+		       t1.bltn_secret_yn,
+		       t1.bltn_permit_yn,
+		       t1.bet_pnt,
+		       t1.bltn_icon,
+		       t1.bltn_bgn_ymd,
+		       t1.bltn_end_ymd,
+		       t1.sub_board_id,
+		       t6.EXT_STR0,
+		       t6.EXT_STR1,
+		       t6.EXT_STR2,
+		       t6.EXT_STR3,
+		       t6.EXT_STR4,
+		       t6.EXT_STR5,
+		       t6.EXT_STR6,
+		       t6.EXT_STR7,
+		       t6.EXT_STR8,
+		       t6.EXT_STR9,
+		       bltn_subj,
+		       t2.bltn_cntt,
+	   		   TO_CHAR(t1.reg_datim,'YYYY.MM.DD') reg_datim,
+		       TO_CHAR(t1.upd_datim,'YYYY.MM.DD') upd_datim
+		FROM   BLTN_CAFE t1
+		    INNER JOIN BLTN_CAFE_CNTT t2
+		        ON t2.board_id=t1.board_id
+		        AND t2.bltn_no=t1.bltn_no
+		    LEFT JOIN BLTN_EXTN T6
+		        ON t6.board_id=t1.board_id
+		        AND    t6.bltn_no=t1.bltn_no
+		WHERE  t1.board_id = #boardId#
+		AND    t1.bltn_no = #bltnNo#
+		AND    t1.del_flag !='Y'
+	</select>
+
+	<select id="KicpaCommBoardDAO.selectCommonBoardFileList" parameterClass="egovMap" resultClass="egovMap">
+		SELECT board_id,
+		       bltn_no,
+		       file_seq,
+		       atch_type,
+		       file_nm,
+		       file_mask,
+		       file_size,
+		       down_cnt
+		FROM   BLTN_FILE
+		WHERE  board_id = #boardId#
+		AND    bltn_no = #bltnNo#
+		AND    file_mask NOT LIKE 'X%'
+		ORDER BY file_seq
+	</select>
+
+	<select id="KicpaCommBoardDAO.selectCommonCafeBoardFileList" parameterClass="egovMap" resultClass="egovMap">
+		SELECT board_id,
+		       bltn_no,
+		       file_seq,
+		       atch_type,
+		       file_nm,
+		       file_mask,
+		       file_size,
+		       down_cnt
+		FROM   BLTN_CAFE_FILE
+		WHERE  board_id = #boardId#
+		AND    bltn_no = #bltnNo#
+		AND    file_mask NOT LIKE 'X%'
+		ORDER BY file_seq
+	</select>
+
+	<select id="KicpaCommBoardDAO.selectCommonBoardGroupList" parameterClass="egovMap" resultClass="egovMap">
+		SELECT t1.board_id,
+		       t1.bltn_no,
+		       bltn_gn,
+		       bltn_gq,
+		       bltn_lev,
+		       del_flag,
+		       cate_id,
+		       bltn_icon,
+		       user_id,
+		       user_nick,
+		       bltn_read_cnt,
+		       bltn_reply_cnt,
+		       bltn_memo_cnt,
+		       bltn_file_cnt,
+		       bltn_best_level,
+		       bltn_secret_yn ,
+		       t6.EXT_STR0,
+		       t6.EXT_STR1,
+		       t6.EXT_STR2,
+		       t6.EXT_STR3,
+		       t6.EXT_STR4,
+		       t6.EXT_STR5,
+		       t6.EXT_STR6,
+		       t6.EXT_STR7,
+		       t6.EXT_STR8,
+		       t6.EXT_STR9
+		FROM   BULLETIN t1
+			INNER JOIN BLTN_CNTT T2
+				ON t2.board_id=t1.board_id
+				AND t2.bltn_no=t1.bltn_no
+			LEFT OUTER JOIN BLTN_EXTN T6
+				ON t6.board_id=t1.board_id
+				AND t6.bltn_no=t1.bltn_no
+		WHERE  t1.board_id = #boardId#
+		AND    t1.bltn_gn = #bltnGn#
+		and    t1.bltn_gq != 0  <!-- 이건 내가 추가-->
+		AND    t1.del_flag != 'Y'
+		ORDER BY bltn_best_level DESC, bltn_gq DESC
+	</select>
+
+	<select id="KicpaCommBoardDAO.selectCommonCafeBoardGroupList" parameterClass="egovMap" resultClass="egovMap">
+		SELECT t1.board_id,
+		       t1.bltn_no,
+		       bltn_gn,
+		       bltn_gq,
+		       bltn_lev,
+		       del_flag,
+		       cate_id,
+		       bltn_icon,
+		       user_id,
+		       user_nick,
+		       bltn_read_cnt,
+		       bltn_reply_cnt,
+		       bltn_memo_cnt,
+		       bltn_file_cnt,
+		       bltn_best_level,
+		       bltn_secret_yn ,
+		       t6.EXT_STR0,
+		       t6.EXT_STR1,
+		       t6.EXT_STR2,
+		       t6.EXT_STR3,
+		       t6.EXT_STR4,
+		       t6.EXT_STR5,
+		       t6.EXT_STR6,
+		       t6.EXT_STR7,
+		       t6.EXT_STR8,
+		       t6.EXT_STR9
+		FROM   BLTN_CAFE t1
+			INNER JOIN BLTN_CAFE_CNTT T2
+				ON t2.board_id=t1.board_id
+				AND t2.bltn_no=t1.bltn_no
+			LEFT OUTER JOIN BLTN_EXTN T6
+				ON t6.board_id=t1.board_id
+				AND t6.bltn_no=t1.bltn_no
+		WHERE  t1.board_id = #boardId#
+		AND    t1.bltn_gn = #bltnGn#
+		and    t1.bltn_gq != 0  <!-- 이건 내가 추가-->
+		AND    t1.del_flag != 'Y'
+		ORDER BY bltn_best_level DESC, bltn_gq DESC
+	</select>
+
+	<update id="KicpaCommBoardDAO.updateCommonBoardReadCnt" parameterClass="egovMap">
+		UPDATE BULLETIN
+		SET BLTN_READ_CNT = BLTN_READ_CNT+1
+		WHERE  board_id = #boardId#
+		AND    bltn_no = #bltnNo#
+	</update>
+
+	<update id="KicpaCommBoardDAO.updateCommonCafeBoardReadCnt" parameterClass="egovMap">
+		UPDATE BLTN_CAFE
+		SET BLTN_READ_CNT = BLTN_READ_CNT+1
+		WHERE  board_id = #boardId#
+		AND    bltn_no = #bltnNo#
+	</update>
+
+
+	<select id="KicpaCommBoardDAO.selectCommonBoardIdArrList" parameterClass="HashMap" resultClass="egovMap">
+		SELECT
+			M3.snum,
+	        m3.board_id,
+	        m3.bltn_no,
+	        m3.user_nick,
+	        m3.bltn_top_tag,
+	        m3.bltn_read_cnt,
+	        m3.bltn_memo_cnt,
+	        m3.bltn_reply_cnt,
+	        m3.bltn_subj,
+	        m3.bltn_lev,
+	        m3.reg_datim,
+	        m3.is_new,
+	        m3.board_nm,
+	        m3.ext_str1,
+	        m3.ext_str4,
+	        (SELECT COUNT(*) FROM BLTN_CAFE_FILE WHERE m3.board_id = board_id AND m3.bltn_no = bltn_no) FILE_CNT
+		FROM
+			(
+		        SELECT
+		        	  ROWNUM AS RNUM,
+		      		  (COUNT(1) OVER()-ROWNUM+ 1) AS SNUM,
+		              M2.*
+		        FROM
+		       (
+			        SELECT
+			        	M1.*
+			        FROM
+			        (
+						SELECT
+			            B.BOARD_ID,
+			            B.BLTN_NO,
+			            B.USER_NICK,
+			            B.BLTN_TOP_TAG,
+			            NVL(B.BLTN_READ_CNT,0) BLTN_READ_CNT,
+                   		NVL(B.BLTN_MEMO_CNT,0) BLTN_MEMO_CNT,
+                   		NVL(B.BLTN_REPLY_CNT,0) BLTN_REPLY_CNT,
+			            B.BLTN_SUBJ,
+			            B.BLTN_LEV,
+			            TO_CHAR(B.REG_DATIM,'YYYY.MM.DD') AS REG_DATIM,
+			            CASE
+			                WHEN SYSDATE <![CDATA[<]]> (B.REG_DATIM + A.NEW_TERM/24)
+			                THEN 'T'
+			                ELSE 'F'
+			            END AS IS_NEW,
+			            TO_CHAR(SYSDATE, 'YYYYMMDD') AS TODAY,
+			            TO_CHAR(B.BLTN_BGN_YMD, 'YYYYMMDD') AS GBN_YMD,
+			            TO_CHAR(B.BLTN_END_YMD, 'YYYYMMDD') AS END_YMD,
+			            B.BLTN_BGN_YMD,
+			            B.BLTN_END_YMD,
+			            F.BOARD_NM,
+			            E.EXT_STR1,
+			            E.EXT_STR4
+			          FROM BOARD A
+			          JOIN BULLETIN B
+			          ON A.BOARD_ID = B.BOARD_ID
+			          AND A.BOARD_ID IN
+					  <iterate open="(" close=")" property="boardIds" conjunction=",">
+					  	#boardIds[]#
+					  </iterate>
+			          AND B.DEL_FLAG = 'N'
+			          AND B.BLTN_PERMIT_YN = 'Y'
+			          AND B.BLTN_SECRET_YN = 'N'
+						<isNotNull property="searchKeyword">
+				       		<isNotEmpty property="searchKeyword">
+				       			AND (UPPER(B.BLTN_SUBJ) LIKE '%'||UPPER(#searchKeyword#)||'%')
+				       		</isNotEmpty>
+				       	</isNotNull>
+			          JOIN BLTN_CNTT C
+			          ON a.board_id = c.BOARD_ID
+			          AND b.bltn_no = c.bltn_no
+			          <isNotEmpty property="srchKey">
+			          	<isEqual property="srchType" compareValue="cntt">
+			          		AND C.BLTN_CNTT LIKE '%'||#srchKey#||'%'
+			          	</isEqual>
+			          </isNotEmpty>
+			          JOIN BOARD_LANG F
+			          	ON A.BOARD_ID = F.BOARD_ID
+			          	AND LANG_KND = 'ko'
+			          left outer JOIN BLTN_EXTN E
+                   		ON A.board_id = e.BOARD_ID
+                        AND b.bltn_no = e.BLTN_NO
+			          ORDER BY B.REG_DATIM DESC, B.BLTN_GN DESC , B.BLTN_LEV
+			        ) M1
+			        WHERE
+				       (
+				          M1.TODAY BETWEEN GBN_YMD AND END_YMD
+				           OR
+				           M1.BLTN_BGN_YMD IS NULL
+				           AND M1.BLTN_END_YMD IS NULL
+				       )
+		       ) M2
+	    	) M3 WHERE M3.RNUM BETWEEN #pageIndex# AND (#pageIndex#-1)+#pageSize#
+	</select>
+
+	<select id="KicpaCommBoardDAO.selectCommonBoardIdArrListCnt" parameterClass="HashMap" resultClass="int">
+		SELECT
+        	COUNT(*)
+        FROM
+        (
+			SELECT
+            B.BOARD_ID,
+            B.BLTN_NO,
+            B.USER_NICK,
+            B.BLTN_TOP_TAG,
+            NVL(B.BLTN_READ_CNT,0) BLTN_READ_CNT,
+                		NVL(B.BLTN_MEMO_CNT,0) BLTN_MEMO_CNT,
+                		NVL(B.BLTN_REPLY_CNT,0) BLTN_REPLY_CNT,
+            B.BLTN_SUBJ,
+            B.BLTN_LEV,
+            TO_CHAR(B.REG_DATIM,'YYYY.MM.DD') AS REG_DATIM,
+            CASE
+                WHEN SYSDATE <![CDATA[<]]> (B.REG_DATIM + A.NEW_TERM/24)
+                THEN 'T'
+                ELSE 'F'
+            END AS IS_NEW,
+            TO_CHAR(SYSDATE, 'YYYYMMDD') AS TODAY,
+            TO_CHAR(B.BLTN_BGN_YMD, 'YYYYMMDD') AS GBN_YMD,
+            TO_CHAR(B.BLTN_END_YMD, 'YYYYMMDD') AS END_YMD,
+            B.BLTN_BGN_YMD,
+            B.BLTN_END_YMD,
+            F.BOARD_NM,
+            E.EXT_STR1,
+            E.EXT_STR4
+          FROM BOARD A
+          JOIN BULLETIN B
+          ON A.BOARD_ID = B.BOARD_ID
+          AND A.BOARD_ID IN
+		  <iterate open="(" close=")" property="boardIds" conjunction=",">
+		  	#boardIds[]#
+		  </iterate>
+          AND B.DEL_FLAG = 'N'
+          AND B.BLTN_PERMIT_YN = 'Y'
+          AND B.BLTN_SECRET_YN = 'N'
+		<isNotNull property="searchKeyword">
+       		<isNotEmpty property="searchKeyword">
+       			AND (UPPER(B.BLTN_SUBJ) LIKE '%'||UPPER(#searchKeyword#)||'%')
+       		</isNotEmpty>
+       	</isNotNull>
+          JOIN BLTN_CNTT C
+          ON a.board_id = c.BOARD_ID
+          AND b.bltn_no = c.bltn_no
+          JOIN BOARD_LANG F
+          	ON A.BOARD_ID = F.BOARD_ID
+          	AND LANG_KND = 'ko'
+          left outer JOIN BLTN_EXTN E
+                		ON A.board_id = e.BOARD_ID
+                     AND b.bltn_no = e.BLTN_NO
+          ORDER BY B.REG_DATIM DESC, B.BLTN_GN DESC , B.BLTN_LEV
+        ) M1
+        WHERE
+	       (
+	          M1.TODAY BETWEEN GBN_YMD AND END_YMD
+	           OR
+	           M1.BLTN_BGN_YMD IS NULL
+	           AND M1.BLTN_END_YMD IS NULL
+	       )
+
+
+	</select>
+
+	<insert id="KicpaCommBoardDAO.insertCommonBoard" parameterClass="HashMap">
+		INSERT INTO BULLETIN ( board_id, bltn_no, bltn_gid, bltn_gn, bltn_gq, bltn_lev, del_flag, cate_id, user_id, user_pass,
+							 user_nick, user_ip, bltn_read_cnt, bltn_reply_cnt, bltn_memo_cnt, bltn_file_cnt, bltn_top_tag, bltn_best_level, bltn_secret_yn, bltn_permit_yn,
+		 					 bet_pnt, bltn_icon, bltn_bgn_ymd, bltn_end_ymd, sub_board_id, bltn_subj, reg_datim, upd_datim )
+		 			 VALUES(
+		 			 #boardId#
+					,#bltn_no#
+					,'EB'
+					,#bltnGn#
+					,0
+					,1
+					,'N'
+					,#cateId#
+					,#userId#
+					,#userPass#
+					,#userNick#
+					,#userIp#
+					,0
+					,0
+					,0
+					,#bltnFileCnt#
+					,#bltnTopTag#
+					,0
+					,#bltnSecretYn#
+					,#bltnPermitYn#
+					,0
+					,#bltnIcon#
+					,#bltnBgnYmd#
+					,#bltnEndYmd#
+					,#subBoardId#
+					,#bltnSubj#
+					,sysdate
+					,sysdate
+		 			 )
+
+	</insert>
+
+	<insert id="KicpaCommBoardDAO.insertCommonCafeBoard" parameterClass="HashMap">
+		INSERT INTO BLTN_CAFE ( board_id, bltn_no, bltn_gid, bltn_gn, bltn_gq, bltn_lev, del_flag, cate_id, user_id, user_pass,
+							 user_nick, user_ip, bltn_read_cnt, bltn_reply_cnt, bltn_memo_cnt, bltn_file_cnt, bltn_top_tag, bltn_best_level, bltn_secret_yn, bltn_permit_yn,
+		 					 bet_pnt, bltn_icon, bltn_bgn_ymd, bltn_end_ymd, sub_board_id, bltn_subj, reg_datim, upd_datim )
+		 			 VALUES(
+		 			 #boardId#
+					,#bltn_no#
+					,'EB'
+					,#bltnGn#
+					,0
+					,1
+					,'N'
+					,#cateId#
+					,#userId#
+					,#userPass#
+					,#userNick#
+					,#userIp#
+					,0
+					,0
+					,0
+					,#bltnFileCnt#
+					,#bltnTopTag#
+					,0
+					,#bltnSecretYn#
+					,#bltnPermitYn#
+					,0
+					,#bltnIcon#
+					,#bltnBgnYmd#
+					,#bltnEndYmd#
+					,#subBoardId#
+					,#bltnSubj#
+					,sysdate
+					,sysdate
+		 			 )
+	</insert>
+
+	<insert id="KicpaCommBoardDAO.insertCommonBoardCnnt" parameterClass="HashMap">
+		INSERT INTO BLTN_CNTT (BOARD_ID, BLTN_NO, BLTN_CNTT) VALUES (#boardId#,#bltnNo#,#bltnCntt#)
+	</insert>
+
+	<insert id="KicpaCommBoardDAO.insertCommonCafeBoardCnnt" parameterClass="HashMap">
+		INSERT INTO BLTN_CAFE_CNTT (BOARD_ID, BLTN_NO, BLTN_CNTT) VALUES (#boardId#,#bltnNo#,#bltnCntt#)
+	</insert>
+
+
+	<insert id="KicpaCommBoardDAO.insertCommonCafeBoardFile">
+		INSERT INTO BLTN_FILE(BOARD_ID, BLTN_NO, FILE_SEQ, ATCH_TYPE, FILE_NM, FILE_MASK, FILE_SIZE, DOWN_CNT, ATCH_DATIM)
+		VALUES (#boardId#
+			   ,#bltnNo#
+			   ,(SELECT NVL(MAX(FILE_SEQ),0)+1 FROM BLTN_FILE WHERE BOARD_ID = #boardId# AND BLTN_NO = #bltnNo#)
+			   ,#atchType#
+			   ,#fileNm#
+			   ,#fileMask#
+			   ,#fileSize#
+			   ,0
+			   ,SYSDATE)
+	</insert>
+
+	<insert id="KicpaCommBoardDAO.insertCommonCafeBoardFile">
+		INSERT INTO BLTN_CAFE_FILE(BOARD_ID, BLTN_NO, FILE_SEQ, ATCH_TYPE, FILE_NM, FILE_MASK, FILE_SIZE, DOWN_CNT, ATCH_DATIM)
+		VALUES (#boardId#
+			   ,#bltnNo#
+			   ,(SELECT NVL(MAX(FILE_SEQ),0)+1 FROM BLTN_CAFE_FILE WHERE BOARD_ID = #boardId# AND BLTN_NO = #bltnNo#)
+			   ,#atchType#
+			   ,#fileNm#
+			   ,#fileMask#
+			   ,#fileSize#
+			   ,0
+			   ,SYSDATE)
+	</insert>
+
+
+
+
+</sqlMap>

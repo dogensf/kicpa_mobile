@@ -1,0 +1,347 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="CounselCenter">
+
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<resultMap id="egovMapDetail" class="egovMap">
+		<result property="bltnNo" column="BLTN_NO" />
+		<result property="bltnLev" column="BLTN_LEV" />
+		<result property="cateId" column="CATE_ID" />
+		<result property="userNick" column="USER_NICK" />
+		<result property="userEmail" column="USER_EMAIL" />
+		<result property="userTelNo" column="USER_TEL_NO" />
+		<result property="bltnReadCnt" column="BLTN_READ_CNT" />
+		<result property="bltnReplyCnt" column="BLTN_REPLY_CNT" />
+		<result property="bltnSubj" column="BLTN_SUBJ" />
+		<result property="bltnCntt" column="BLTN_CNTT" jdbcType="CLOB"  javaType="java.lang.String" />
+		<result property="replyStatus" column="REPLY_STATUS" />
+		<result property="replyUser" column="REPLY_USER" />
+		<result property="replyDate" column="REPLY_DATE" />
+		<result property="regDatim" column="REG_DATIM" />
+
+	</resultMap>
+
+	<select id="CounselCenterDAO.selectDeclarationBoardList" parameterClass="Hashmap" resultClass="egovMap">
+		 SELECT *
+		 FROM (
+			 SELECT ROW_NUMBER() OVER( ORDER BY a.ar_reg_date DESC) RNO,
+			 	   a.ar_id_num,
+			       a.ar_sep,
+			       a.ar_wname,
+			       a.ar_birth_ymd,
+			       a.ar_user_id ,
+			       a.ar_email,
+			       a.ar_tel,
+			       a.ar_tel_sms_yn,
+			       a.ar_wtitle,
+			       a.ar_coname ,
+			       a.ar_report1,
+			       a.ar_report2,
+			       a.ar_report3,
+			       a.ar_report0,
+			       a.ar_report_etc ,
+			       a.ar_status,
+			       a.ar_add1,
+			       a.ar_add2,
+			       a.ar_add3,
+			       a.ar_zip ,
+			       a.ar_detail,
+			       a.ar_content,
+			       a.ar_kicpa_etc,
+			       a.ar_report_use,
+			       a.ar_report_coname ,
+			       a.ar_use,
+			       a.ar_cnt,
+			       TO_CHAR(a.ar_reg_date,'YYYY.MM.DD') ar_reg_date,
+			       a.ar_upd_date,
+			       a.ar_ip ,
+			       a.ar_pswd,
+			       B.CODE_NAME
+			from   portal.acc_report a
+			    LEFT JOIN CODEBASE B
+			        ON B.CODE_ID = 'AR_STATUS'
+			        AND AR_STATUS = B.CODE
+			        AND CODE != 1
+			where ar_use ='Y'
+	<!-- 		and ar_user_id = #ar_user_id# -->
+			<isNotNull property="searchKeyword">
+	       		<isNotEmpty property="searchKeyword">
+	       			AND (UPPER(A.AR_WTITLE) LIKE '%'||UPPER(#searchKeyword#)||'%')
+	       		</isNotEmpty>
+	       	</isNotNull>
+			order by ar_reg_date desc
+		) WHERE RNO BETWEEN #pageIndex# AND (#pageIndex#-1)+#pageSize#
+	</select>
+
+	<select id="CounselCenterDAO.selectDeclarationBoardListCnt" parameterClass="Hashmap" resultClass="int">
+		SELECT COUNT(*)
+		from   portal.acc_report
+		where ar_use ='Y'
+		<isNotNull property="searchKeyword">
+       		<isNotEmpty property="searchKeyword">
+       			AND (UPPER(AR_WTITLE) LIKE '%'||UPPER(#searchKeyword#)||'%')
+       		</isNotEmpty>
+       	</isNotNull>
+<!-- 		and ar_user_id = #ar_user_id# -->
+		order by ar_reg_date desc
+	</select>
+
+	<select id="CounselCenterDAO.selectDeclarationBoardDetail" parameterClass="Hashmap" resultClass="egovMap">
+		 SELECT    a.ar_id_num,
+			       a.ar_sep,
+			       a.ar_wname,
+			       case when length(trim(A.ar_birth_ymd)) = 8 then substr(A.ar_birth_ymd,1,4)||'.'||substr(A.ar_birth_ymd,5,2)||'.'||substr(A.ar_birth_ymd,7,2)
+			            when length(trim(A.ar_birth_ymd)) = 6 then substr(A.ar_birth_ymd,1,2)||'.'||substr(A.ar_birth_ymd,3,2)||'.'||substr(A.ar_birth_ymd,5,2)
+			       else a.ar_birth_ymd
+			       end ar_birth_ymd,
+			       a.ar_user_id ,
+			       a.ar_email,
+			       a.ar_tel,
+			       a.ar_tel_sms_yn,
+			       a.ar_wtitle,
+			       a.ar_coname ,
+			       a.ar_report1,
+			       a.ar_report2,
+			       a.ar_report3,
+			       a.ar_report0,
+			       a.ar_report_etc ,
+			       a.ar_status,
+			       a.ar_add1,
+			       a.ar_add2,
+			       a.ar_add3,
+			       a.ar_zip ,
+			       a.ar_detail,
+			       a.ar_content,
+			       a.ar_kicpa_etc,
+			       a.ar_report_use,
+			       a.ar_report_coname ,
+			       a.ar_use,
+			       a.ar_cnt,
+			       TO_CHAR(a.ar_reg_date,'YYYY.MM.DD') ar_reg_date,
+			       a.ar_upd_date,
+			       a.ar_ip ,
+			       a.ar_pswd,
+			       B.CODE_NAME
+			from   portal.acc_report a
+			    LEFT JOIN CODEBASE B
+			        ON B.CODE_ID = 'AR_STATUS'
+			        AND AR_STATUS = B.CODE
+			        AND CODE != 1
+			where ar_use ='Y'
+			and AR_ID_NUM = #arIdNum#
+	<!-- 		and ar_user_id = #ar_user_id# -->
+
+	</select>
+
+	<select id="CounselCenterDAO.selectDeclarationBoardFileList" parameterClass="Hashmap" resultClass="egovMap">
+		selecT SEQ_NUM, ID_NUM, FILENAME, FILESIZE, HOST_FILENAME
+		from ACC_REPORT_FILE
+		where ID_NUM = #arIdNum#
+		ORDER BY SEQ_NUM
+	</select>
+
+	<update id="CounselCenterDAO.updateDeclarationBoardReadCnt" parameterClass="Hashmap">
+		UPDATE portal.acc_report
+		SET ar_cnt=ar_cnt+1
+		where ar_id_num = #arIdNum#
+
+	</update>
+
+	<select id="CounselCenterDAO.selectMemberCounselBoardList" parameterClass="Hashmap" resultClass="egovMap">
+		SELECT
+			*
+		FROM
+			(SELECT
+				ROWNUM AS RNUM,
+				(COUNT(1) OVER()-ROWNUM+1) AS SNUM,
+				A1.*
+			FROM
+				(SELECT
+					BLTN_NO,
+					BLTN_GN,
+					BLTN_SUBJ,
+					TRIM(USER_NICK) AS USER_NICK,
+					TO_CHAR(REG_DATIM,'YYYY.MM.DD') REG_DATIM,
+					REPLY_DATE,
+					REPLY_STATUS,
+					REPLY_USER,
+					NVL(BLTN_REPLY_CNT,0) BLTN_REPLY_CNT,
+					NVL(BLTN_READ_CNT,0) BLTN_READ_CNT,
+					NVL(BLTN_MEMO_CNT,0) BLTN_MEMO_CNT
+				FROM
+					TAX_CONST_BLTN
+				WHERE
+					DEL_FLAG = '0' AND
+					BLTN_LEV = 1
+					<isNotEmpty property="cateId">
+						AND CATE_ID = #cateId#
+					</isNotEmpty>
+<!-- 					<isNotEmpty property="keyWord"> -->
+<!-- 						<isEqual property="keyField" compareValue="bltnSubj"> -->
+<!-- 							AND BLTN_SUBJ LIKE '%'||#keyWord#||'%' -->
+<!-- 						</isEqual> -->
+<!-- 						<isEqual property="keyField" compareValue="userNick"> -->
+<!-- 							AND USER_NICK LIKE '%'||#keyWord#||'%' -->
+<!-- 						</isEqual> -->
+<!-- 						<isEqual property="keyField" compareValue="replyUser"> -->
+<!-- 							AND REPLY_USER LIKE '%'||#keyWord#||'%' -->
+<!-- 						</isEqual> -->
+<!-- 					</isNotEmpty> -->
+				<isNotNull property="searchKeyword">
+		       		<isNotEmpty property="searchKeyword">
+		       			AND (UPPER(BLTN_SUBJ) LIKE '%'||UPPER(#searchKeyword#)||'%')
+		       		</isNotEmpty>
+		       	</isNotNull>
+				ORDER BY REG_DATIM DESC
+				)A1
+			)
+		WHERE RNUM BETWEEN #pageIndex# AND (#pageIndex#-1)+#pageSize#
+
+	</select>
+
+
+	<select id="CounselCenterDAO.selectMemberCounselBoardListCnt" parameterClass="Hashmap" resultClass="int">
+		SELECT
+			COUNT(*) CNT
+		FROM
+			TAX_CONST_BLTN
+		WHERE
+			DEL_FLAG = '0' AND
+			BLTN_LEV = 1
+			<isNotNull property="searchKeyword">
+	       		<isNotEmpty property="searchKeyword">
+	       			AND (UPPER(BLTN_SUBJ) LIKE '%'||UPPER(#searchKeyword#)||'%')
+	       		</isNotEmpty>
+	       	</isNotNull>
+			<isNotEmpty property="cateId">
+				AND CATE_ID = #cateId#
+			</isNotEmpty>
+			<!-- 					<isNotEmpty property="keyWord"> -->
+<!-- 						<isEqual property="keyField" compareValue="bltnSubj"> -->
+<!-- 							AND BLTN_SUBJ LIKE '%'||#keyWord#||'%' -->
+<!-- 						</isEqual> -->
+<!-- 						<isEqual property="keyField" compareValue="userNick"> -->
+<!-- 							AND USER_NICK LIKE '%'||#keyWord#||'%' -->
+<!-- 						</isEqual> -->
+<!-- 						<isEqual property="keyField" compareValue="replyUser"> -->
+<!-- 							AND REPLY_USER LIKE '%'||#keyWord#||'%' -->
+<!-- 						</isEqual> -->
+<!-- 					</isNotEmpty> -->
+
+	</select>
+
+	<select id="CounselCenterDAO.selectMemberCounselBoardDetail" parameterClass="Hashmap" resultMap="egovMapDetail">
+		SELECT
+			BLTN_NO,
+			BLTN_LEV,
+			CATE_ID,
+			USER_ID,
+			TRIM(USER_NICK) AS USER_NICK,
+			USER_EMAIL,
+			USER_TEL_NO,
+			BLTN_READ_CNT,
+			BLTN_REPLY_CNT,
+			BLTN_SUBJ,
+			BLTN_CNTT,
+			REPLY_STATUS,
+			REPLY_USER,
+			REPLY_DATE,
+			TO_CHAR(REG_DATIM,'YYYY.MM.DD') REG_DATIM
+		FROM
+			TAX_CONST_BLTN
+		WHERE
+			BLTN_NO = #bltnNo#
+	</select>
+
+	<select id="CounselCenterDAO.selectMemberCounselBoardReply" parameterClass="Hashmap" resultMap="egovMapDetail">
+		SELECT BLTN_NO,
+				BLTN_LEV,
+				CATE_ID,
+				USER_ID,
+				USER_NICK,
+				USER_EMAIL,
+				USER_TEL_NO,
+				BLTN_READ_CNT,
+				BLTN_REPLY_CNT,
+				BLTN_SUBJ,
+				BLTN_CNTT,
+				REPLY_STATUS,
+				REPLY_USER,
+				REPLY_DATE,
+				REG_DATIM
+        FROM (
+			SELECT
+					BLTN_NO,
+					BLTN_LEV,
+					CATE_ID,
+					USER_ID,
+					TRIM(USER_NICK) AS USER_NICK,
+					USER_EMAIL,
+					USER_TEL_NO,
+					BLTN_READ_CNT,
+					BLTN_REPLY_CNT,
+					BLTN_SUBJ,
+					BLTN_CNTT,
+					REPLY_STATUS,
+					REPLY_USER,
+					REPLY_DATE,
+					TO_CHAR(REG_DATIM,'YYYY.MM.DD') REG_DATIM,
+					ROW_NUMBER() OVER(ORDER BY REG_DATIM DESC) AS rnum
+			FROM
+				TAX_CONST_BLTN
+			WHERE BLTN_GN = #bltnNo#
+			AND BLTN_LEV = 2
+		) TMP
+        WHERE rnum = 1
+
+	</select>
+
+
+	<update id="CounselCenterDAO.updateMemberCounselBoardReadCnt" parameterClass="Hashmap">
+		UPDATE TAX_CONST_BLTN
+		SET	BLTN_READ_CNT = BLTN_READ_CNT + 1
+		WHERE BLTN_NO = #bltnNo#
+	</update>
+
+	<select id="CounselCenterDAO.selectMemberCounselBoardMemoList" parameterClass="Hashmap" resultClass="egovMap">
+		SELECT
+			BLTN_NO,
+			MEMO_SEQ,
+			USER_ID,
+				CASE WHEN LENGTH(USER_NICK) > 2 THEN  SUBSTR(USER_NICK,1,1) || LPAD('*',LENGTH(USER_NICK)-2,'*') || SUBSTR(USER_NICK,LENGTH(USER_NICK),1)
+                 WHEN LENGTH(USER_NICK) = 2 THEN  SUBSTR(USER_NICK,1,1) || '*'
+            else '*'
+            end USER_NICK,
+			REPLACE(MEMO_CNTT,CHR(10),'<![CDATA[<br/>]]>') MEMO_CNTT,
+			TO_CHAR(REG_DATIM,'YYYY.MM.DD') REG_DATIM
+		FROM
+			TAX_CONST_MEMO
+		WHERE
+			BLTN_NO	= #bltnNo#
+		ORDER BY BLTN_NO DESC
+
+
+	</select>
+	<insert id="CounselCenterDAO.insertMemberCounselBoardMemo" parameterClass="Hashmap">
+		INSERT INTO	TAX_CONST_MEMO
+			(
+				BLTN_NO,
+				MEMO_SEQ,
+				USER_ID,
+				USER_NICK,
+				MEMO_CNTT,
+				REG_DATIM
+			)
+			VALUES
+			(
+				#bltnNo#,
+				#memoSeq#,
+				#userId#,
+				#userNick#,
+				#memoCntt#,
+				SYSDATE
+			)
+	</insert>
+
+</sqlMap>
