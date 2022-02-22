@@ -3,8 +3,11 @@
     "http://www.ibatis.com/dtd/sql-map-config-2.dtd">
 
 <sqlMapConfig>
-    <sqlMap resource="adminwork/sqlmap/kicpa/faq/KICPA_SQL_Faq.xml"/>
-    <sqlMap resource="adminwork/sqlmap/kicpa/ofnt/KICPA_SQL_Ofnt.xml"/>
-    <sqlMap resource="adminwork/sqlmap/kicpa/qna/KICPA_SQL_Qna.xml"/>
-    
+    <sqlMap resource="adminwork/sqlmap/kicpa/job/JobAdvertisement_SQL_Oracle.xml"/>
+    <sqlMap resource="adminwork/sqlmap/kicpa/counselCenter/CounselCenter_SQL_Oracle.xml"/>
+    <sqlMap resource="adminwork/sqlmap/kicpa/sntBook/SntBook_SQL_Oracle.xml"/>
+    <sqlMap resource="adminwork/sqlmap/kicpa/cmm/comm/KicpaComm_SQL_Oracle.xml"/>
+    <sqlMap resource="adminwork/sqlmap/kicpa/cmm/board/KicpaCommBoard_SQL_Oracle.xml"/>
+<!--     <sqlMap resource="adminwork/sqlmap/kicpa/ofnt/KICPA_SQL_Ofnt.xml"/> -->
+<!--     <sqlMap resource="adminwork/sqlmap/kicpa/qna/KICPA_SQL_Qna.xml"/> --> 
 </sqlMapConfig>

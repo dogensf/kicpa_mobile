@@ -1,13 +1,13 @@
 /****************************************************************
- * 
+ *
  * 파일명 : KicpaCommon.js
  * 설  명 : KICPA 공통 기능 사용 JavaScript
- * 
+ *
  *    수정일           수정자        Version        Function 명
  * ------------    ---------   -------------  ----------------------------
  * 2021.09.01       KIK         1.0             최초생성
- * 
- * 
+ *
+ *
  * **************************************************************/
 
 function fn_trim(str) {
@@ -21,11 +21,11 @@ function fn_trim(str) {
     while ((st < len) && (str.charAt(st) <= ' ')) {
         st++;
     }
-    
+
     while ((st < len) && (str.charAt(len - 1) <= ' ')) {
         len--;
     }
-    
+
     return ((st > 0) || (len < count)) ? str.substring(st, len) : str;
 }
 
@@ -177,7 +177,7 @@ function fn_call_popup(href, container, fnm, param, popFn, args, returnType, div
 		}
 
 	});
- * 
+ *
  */
 
 function fn_ajax_form_call(href, param, sfn) {
@@ -254,6 +254,34 @@ function fn_load_html(href, container, param, fn, args) {
 	});
 };
 
+function fn_portal_pop(obj,text){
+	$("#"+ obj).addClass("show");
+	$("body").addClass("stop");
+
+	$("#" +obj + " .btn-close").off().on("click",function(){
+		$("#"+ obj).removeClass("show");
+		$("body").removeClass("stop");
+	});
+
+
+	if(text.gray != null){
+		$(".gray-box").html(text.gray )
+	}
+
+	if(text.notice != null){
+		$(".notice").html(text.notice )
+	}
+
+    $("#searchKeyword").on("keydown",function(key) {
+        if (key.keyCode == 13) {
+        	$("#searchPop .btn-send").click();
+        }
+    });
+
+
+
+};
+
 $.fn.serializeObject = function() {
 
     var result = {}
@@ -273,5 +301,7 @@ $.fn.serializeObject = function() {
     $.each(this.serializeArray(), extend)
     return result
 }
+
+
 
 $.datepicker.setDefaults({ closeText: "닫기", currentText: "오늘", prevText: '이전 달', nextText: '다음 달', monthNames: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'], monthNamesShort: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'], dayNames: ['일', '월', '화', '수', '목', '금', '토'], dayNamesShort: ['일', '월', '화', '수', '목', '금', '토'], dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'], weekHeader: "주", yearSuffix: '년' });

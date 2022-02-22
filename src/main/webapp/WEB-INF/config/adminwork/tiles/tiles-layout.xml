@@ -1,44 +1,47 @@
 <!DOCTYPE tiles-definitions PUBLIC
 "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"
 "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
- 
-<tiles-definitions> 
+
+<tiles-definitions>
    <definition name="base" template="/WEB-INF/jsp/cmm/_tiles/layout.jsp">
 	   <put-attribute name="head" value="/WEB-INF/jsp/cmm/_tiles/head.jsp" />
 	   <put-attribute name="header" value="/WEB-INF/jsp/cmm/_tiles/header.jsp" />
-	   <put-attribute name="left" value="/kicpa/leftMenu.do" />
-	   <put-attribute name="content" value="/WEB-INF/jsp/kicpa/main.jsp" />
+<!-- 	   <put-attribute name="left" value="/kicpa/leftMenu.do" /> -->
 	   <put-attribute name="footer" value="/WEB-INF/jsp/cmm/_tiles/footer.jsp" />
 	   <put-attribute name="scripts" value="/WEB-INF/jsp/cmm/_tiles/scripts.jsp" />
-	   <put-attribute name="common" value="/WEB-INF/jsp/cmm/_tiles/common.jsp" />
+<!-- 	   <put-attribute name="common" value="/WEB-INF/jsp/cmm/_tiles/common.jsp" /> -->
 	   <put-attribute name="popup" value="/WEB-INF/jsp/cmm/_tiles/popup.jsp" />
 	 </definition>
- 
- <!-- (1) 레이아웃을 적용하지않는화면-->    
-    <definition name=".login" template="/WEB-INF/jsp/cmm/_tiles/tempLayout.jsp">
-        <put-attribute name="title" value="" />
-        <put-attribute name="header" value="" />
-        <put-attribute name="menu" value="" />        
-        <put-attribute name="footer" value="" />
-    </definition>
+   <definition name="main" template="/WEB-INF/jsp/cmm/_tiles/main/layout.jsp">
+	   <put-attribute name="head" value="/WEB-INF/jsp/cmm/_tiles/head.jsp" />
+	   <put-attribute name="header" value="/WEB-INF/jsp/cmm/_tiles/main/header.jsp" />
+	   <put-attribute name="footer" value="/WEB-INF/jsp/cmm/_tiles/main/footer.jsp" />
+	   <put-attribute name="scripts" value="/WEB-INF/jsp/cmm/_tiles/scripts.jsp" />
+<!-- 	   <put-attribute name="common" value="/WEB-INF/jsp/cmm/_tiles/common.jsp" /> -->
+	   <put-attribute name="popup" value="/WEB-INF/jsp/cmm/_tiles/popup.jsp" />
+	 </definition>
 
-
- <definition name="kicpa/*" extends="base">
- 	<put-attribute name="content" value="/WEB-INF/jsp/kicpa/{1}.jsp" />
+ <definition name="kicpa/main/*" extends="main">
+ 	<put-attribute name="body" value="/WEB-INF/jsp/kicpa/main/{1}.jsp" />
  </definition>
- 
+
+ <definition name="kicpa/**/*" extends="base">
+ 	<put-attribute name="body" value="/WEB-INF/jsp/kicpa/{1}/{2}.jsp" />
+ </definition>
+
+
 <!-- <definition name="kicpa/*/*" extends="base">
  	<put-attribute name="content" value="/WEB-INF/jsp/kicpa/{1}/{2}.jsp" />
  </definition>
- 
+
  <definition name="kicpa/*/*/*" extends="base">
  	<put-attribute name="content" value="/WEB-INF/jsp/kicpa/{1}/{2}/{3}.jsp" />
  </definition>
- 
+
  <definition name="kicpa/*/*/*/*" extends="base">
  	<put-attribute name="content" value="/WEB-INF/jsp/kicpa/{1}/{2}/{3}/{4}.jsp" />
  </definition> -->
- 
+
 
 <!--  <definition name="uat/*/*" extends=".login">
     <put-attribute name="content" value="/WEB-INF/jsp/uat/{1}/{2}.jsp" />
