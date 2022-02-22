@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMapConfig PUBLIC "-//iBATIS.com//DTD SQL Map Config 2.0//EN"
+    "http://www.ibatis.com/dtd/sql-map-config-2.dtd">
+
+<sqlMapConfig>
+    <sqlMap resource="adminwork/sqlmap/kicpa/faq/KICPA_SQL_Faq.xml"/>
+    <sqlMap resource="adminwork/sqlmap/kicpa/ofnt/KICPA_SQL_Ofnt.xml"/>
+    <sqlMap resource="adminwork/sqlmap/kicpa/qna/KICPA_SQL_Qna.xml"/>
+    
+</sqlMapConfig>

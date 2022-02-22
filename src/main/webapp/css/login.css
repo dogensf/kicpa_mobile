@@ -1,0 +1,168 @@
+@charset "utf-8";
+@font-face {
+	font-family: 'Pretendard';
+	font-weight: 900;
+	font-display: swap;
+	src: local('Pretendard Black'), url('../font/Pretendard-Black.woff2') format('woff2'), url('../font/Pretendard-Black.woff') format('woff');
+}
+
+@font-face {
+	font-family: 'Pretendard';
+	font-weight: 800;
+	font-display: swap;
+	src: local('Pretendard ExtraBold'), url('../font/Pretendard-ExtraBold.woff2') format('woff2'), url('../font/Pretendard-ExtraBold.woff') format('woff');
+}
+
+@font-face {
+	font-family: 'Pretendard';
+	font-weight: 700;
+	font-display: swap;
+	src: local('Pretendard Bold'), url('../font/Pretendard-Bold.woff2') format('woff2'), url('../font/Pretendard-Bold.woff') format('woff');
+}
+
+@font-face {
+	font-family: 'Pretendard';
+	font-weight: 600;
+	font-display: swap;
+	src: local('Pretendard SemiBold'), url('../font/Pretendard-SemiBold.woff2') format('woff2'), url('../font/Pretendard-SemiBold.woff') format('woff');
+}
+
+@font-face {
+	font-family: 'Pretendard';
+	font-weight: 500;
+	font-display: swap;
+	src: local('Pretendard Medium'), url('../font/Pretendard-Medium.woff2') format('woff2'), url('../font/Pretendard-Medium.woff') format('woff');
+}
+
+@font-face {
+	font-family: 'Pretendard';
+	font-weight: 400;
+	font-display: swap;
+	src: local('Pretendard Regular'), url('../font/Pretendard-Regular.woff2') format('woff2'), url('../font/Pretendard-Regular.woff') format('woff');
+}
+
+@font-face {
+	font-family: 'Pretendard';
+	font-weight: 300;
+	font-display: swap;
+	src: local('Pretendard Light'), url('../font/Pretendard-Light.woff2') format('woff2'), url('../font/Pretendard-Light.woff') format('woff');
+}
+
+@font-face {
+	font-family: 'Pretendard';
+	font-weight: 200;
+	font-display: swap;
+	src: local('Pretendard ExtraLight'), url('../font/Pretendard-ExtraLight.woff2') format('woff2'), url('../font/Pretendard-ExtraLight.woff') format('woff');
+}
+
+@font-face {
+	font-family: 'Pretendard';
+	font-weight: 100;
+	font-display: swap;
+	src: local('Pretendard Thin'), url('../font/Pretendard-Thin.woff2') format('woff2'), url('../font/Pretendard-Thin.woff') format('woff');
+}
+
+.kicpa-layer-content *{
+	font-family: 'Pretendard';
+	font-weight: 400;
+}
+
+.kicpa-layer-content a{
+	text-decoration: none;
+}
+
+.kicpa-layer-content .login{
+	width: 343px;
+	margin: 0 auto;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+
+.kicpa-layer-content .login .logo{
+	width: 343px;
+	height: 94px;
+	background: url('../image/img_login-logo.png') center center no-repeat;
+	background-size: 100%;
+	text-indent: -9999px;
+}
+
+.kicpa-layer-content .login .login-form{
+	margin: 40px 0 0 0;
+	border-top: 1px solid #999;
+	padding: 37px 0;
+}
+
+.kicpa-layer-content .login .login-form .login-input{
+	display: block;
+	margin-bottom: 16px;
+}
+
+.kicpa-layer-content .login .login-form .login-input label{
+	display: block;
+	font-family: Roboto;
+	font-style: normal;
+	font-weight: bold;
+	font-size: 14px;
+	line-height: 16px;
+	color: #4A5568;
+	margin: 0 0 10px 10px;
+}
+
+.kicpa-layer-content .login .login-form input{
+	display: block;
+	height: 56px;
+	background: #FFFFFF;
+	border: 1px solid #CBCBCB;
+	box-sizing: border-box;
+	border-radius: 50px;
+	width: 100%;
+	text-indent: 20px;
+	font-size: 14px;
+	font-size: 14px;
+	color: #2D3748;
+}
+
+.kicpa-layer-content .login .login-form .login-input.active label{
+	color: #17B1B2;
+}
+
+.kicpa-layer-content .login .login-form .login-input.active input{
+	border: 1px solid #17B1B2;
+}
+
+.kicpa-layer-content .login .login-form .check{
+	margin-left: 10px;
+	margin-top: 5px;
+}
+
+.kicpa-layer-content .login button{
+	width: 100%;
+	background: #002060;
+	border-radius: 50px;
+	height: 56px;
+	text-align: center;
+	color: #fff;
+	font-size: 16px;
+	line-height: 19px;
+	font-weight: 700;
+	border: 0;
+	margin-top: 20px;
+}
+
+.kicpa-layer-content .login .login-tips{
+	background: #FFE4DA;
+	border: 1px solid #FF8E65;
+	box-sizing: border-box;
+	border-radius: 5px;
+	padding: 8px 10px;
+}
+
+.kicpa-layer-content .login .login-tips li{
+	font-style: normal;
+	font-size: 11px;
+	line-height: 13px;
+	color: #2D3748;
+	padding: 5px 0;
+}

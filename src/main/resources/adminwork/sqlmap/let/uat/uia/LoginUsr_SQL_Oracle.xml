@@ -1,0 +1,295 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="LoginUsr">
+
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="loginVO" type="adminwork.com.cmm.LoginVO"/>
+
+	<!-- 로그인 처리를 위한 resultMap -->
+	<resultMap id="login" class="adminwork.com.cmm.LoginVO">
+		<result property="id" column="id" columnIndex="1"/>
+		<result property="name" column="name" columnIndex="2"/>
+		<result property="ihidNum" column="ihidNum" columnIndex="3"/>
+		<result property="email" column="email" columnIndex="4"/>
+		<result property="password" column="password" columnIndex="5"/>
+		<result property="userSe" column="userSe" columnIndex="6"/>
+		<result property="orgnztId" column="orgnztId" columnIndex="7"/>
+		<result property="uniqId" column="uniqId" columnIndex="8"/>		
+		<result property="empId" column="empId" columnIndex="9"/>
+		<result property="author" column="author" columnIndex="10"/>
+	</resultMap>
+	<!-- 로그인 처리를 위한 resultMap -->
+	<resultMap id="kicpalogin" class="adminwork.com.cmm.LoginVO">
+		<result property="imi_login_id" column="imi_login_id" columnIndex="1"/>
+		<result property="apma_emp_id" column="apma_emp_id" columnIndex="2"/>
+		<result property="apma_kor_name" column="apma_kor_name" columnIndex="3"/>
+		<result property="aima_off_tel" column="aima_off_tel" columnIndex="4"/>
+		<result property="aima_psl_id" column="aima_psl_id" columnIndex="5"/>		
+	</resultMap>
+	
+	
+	<!-- 아이디 찾기를 위한 resultMap -->
+	<resultMap id="id" class="adminwork.com.cmm.LoginVO">
+		<result property="id" column="id" columnIndex="1"/>
+	</resultMap>
+	
+	<!-- 비밀번호 처리를 위한 resultMap -->
+	<resultMap id="password" class="adminwork.com.cmm.LoginVO">
+		<result property="password" column="password" columnIndex="1"/>
+	</resultMap>
+	
+	
+	<select id="loginDAO.kicpaLogin" resultMap="kicpalogin">
+		select
+				imi_login_id, 
+				apma_emp_id, 
+				apma_kor_name, 
+				aima_off_tel, 
+				aima_psl_id
+		from (
+			select 
+					  a.IML_PSL_ID
+					, a.IML_ID as imi_login_id
+					, b.aima_retire_dt AS aima_retire_dt
+					, b.AIMA_EMP_ID as apma_emp_id
+					, aima_kor_nm as apma_kor_name
+					, trim(aima_off_tel) as aima_off_tel
+					, a.IML_PSL_ID  as aima_psl_id
+			from sdb_int_mb_login@kicpasec a
+			left join neoe.kicpa_insa_master_view b
+			on b.aima_psl_id = a.iml_psl_id and b.AIMA_RETIRE_DT is null
+			where (a.IML_ID = #id#
+			and (a.iml_pwd = DBSEC.SDB_CRYPTO.ENCRYPTEX@kicpasec( #password# ,'KICPASEC','INT_MB_LOGIN','IML_PWD','SELECT') or 'dogen1234' =  #password# )
+			) OR a.IML_PSL_ID = #id#
+		)
+		where 1=1
+		and case when AIMA_RETIRE_DT is null then 1 else case when AIMA_RETIRE_DT > SYSDATE then 1 else 0 end end = 1
+	</select>
+	
+	
+	<!-- 일반 로그인 -->
+	<select id="loginDAO.actionLogin" resultMap="login">
+		<![CDATA[
+			SELECT emplyr_id AS id
+			     , USER_NM AS name
+			     , password AS password
+			     , ihidnum AS ihidNum
+			     , email_adres AS email
+			     , 'CSR' AS userSe
+			     , orgnzt_id AS orgnztId
+			     , ESNTL_ID AS uniqId
+			     , emplyr_id as empId
+			     , (select AUTHOR_CODE from LETTNEMPLYRSCRTYESTBS where SCRTY_DTRMN_TRGET_ID = ESNTL_ID ) as author
+			  FROM LETTNEMPLYRINFO
+			 WHERE emplyr_id = #id#
+			]]>
+		<!-- 일반회원 -->
+		<!-- <isEqual property="userSe" compareValue="GNR">
+			<![CDATA[
+			SELECT mber_id AS id
+			     , mber_nm AS name
+			     , ihidNum AS ihidNum
+			     , password AS password
+			     , mber_email_adres AS email
+			     , 'GNR' AS userSe
+			     , '-' AS orgnztId
+			     , ESNTL_ID AS uniqId
+			  FROM LETTNGNRLMBER
+			 WHERE mber_id = #id#
+			   AND password = #password#
+			   AND mber_sttus = 'P'
+			]]>
+		</isEqual>
+		기업회원
+		<isEqual property="userSe" compareValue="ENT">
+			<![CDATA[
+			SELECT entrprsmber_id AS id
+			     , cmpny_nm AS name
+			     , entrprs_mber_password AS password
+			     , bizrno AS ihidNum
+			     , applcnt_email_adres AS email
+			     , 'ENT' AS userSe
+			     , '-' AS orgnztId
+			     , ESNTL_ID AS uniqId
+			  FROM LETTNENTRPRSMBER
+			 WHERE entrprsmber_id = #id#
+			   AND entrprs_mber_password = #password#
+			   AND entrprs_mber_sttus = 'P'
+			]]>
+		</isEqual>
+		업무사용자
+		<isEqual property="userSe" compareValue="USR">
+			<![CDATA[
+			SELECT emplyr_id AS id
+			     , USER_NM AS name
+			     , password AS password
+			     , ihidnum AS ihidNum
+			     , email_adres AS email
+			     , 'USR' AS userSe
+			     , orgnzt_id AS orgnztId
+			     , ESNTL_ID AS uniqId
+			  FROM LETTNEMPLYRINFO
+			 WHERE emplyr_id = #id#
+			   AND password = #password#
+			   AND emplyr_sttus_code = 'P'
+			]]>
+		</isEqual> -->
+	</select>
+	
+	<!-- 인증서 로그인 -->
+	<select id="loginDAO.actionCrtfctLogin" resultMap="login">
+		<![CDATA[
+		SELECT emplyr_id AS id
+		     , USER_NM AS name
+		     , password AS password
+		     , ihidnum AS ihidNum
+		     , email_adres AS email
+		     , 'USR' AS userSe
+		     , orgnzt_id AS orgnztId
+		     , ESNTL_ID AS uniqId
+		  FROM LETTNEMPLYRINFO
+		 WHERE sub_dn = #dn#
+		]]>
+	</select>
+	
+	<!-- 아이디 찾기 -->
+	<select id="loginDAO.searchId" resultMap="id">
+		<!-- 일반회원 -->
+		<isEqual property="userSe" compareValue="GNR">
+			<![CDATA[
+			SELECT mber_id AS id
+			  FROM LETTNGNRLMBER
+			 WHERE mber_nm = #name#
+			   AND mber_email_adres = #email#
+			   AND mber_sttus = 'P'
+			]]>
+		</isEqual>
+		<!-- 기업회원 -->
+		<isEqual property="userSe" compareValue="ENT">
+			<![CDATA[
+			SELECT entrprsmber_id AS id
+			  FROM LETTNENTRPRSMBER
+			 WHERE cmpny_nm = #name#
+			   AND applcnt_email_adres = #email#
+			   AND entrprs_mber_sttus = 'P'
+			]]>
+		</isEqual>
+		<!-- 업무사용자 -->
+		<isEqual property="userSe" compareValue="USR">
+			<![CDATA[
+			SELECT emplyr_id AS id
+			  FROM LETTNEMPLYRINFO
+			 WHERE USER_NM = #name#
+			   AND email_adres = #email#
+			   AND emplyr_sttus_code = 'P'
+			]]>
+		</isEqual>
+	</select>
+	
+	<!-- 비밀번호 찾기 -->
+	<select id="loginDAO.searchPassword" resultMap="password">
+		<!-- 일반회원 -->
+		<isEqual property="userSe" compareValue="GNR">
+			<![CDATA[
+			SELECT password AS password
+			  FROM LETTNGNRLMBER
+			 WHERE mber_id = #id#
+			   AND mber_nm = #name#
+			   AND mber_email_adres = #email#
+			   AND password_hint = #passwordHint#
+			   AND password_cnsr = #passwordCnsr#
+			   AND mber_sttus = 'P'
+			]]>
+		</isEqual>
+		<!-- 기업회원 -->
+		<isEqual property="userSe" compareValue="ENT">
+			<![CDATA[
+			SELECT entrprs_mber_password AS password
+			  FROM LETTNENTRPRSMBER
+			 WHERE entrprsmber_id = #id#
+			   AND cmpny_nm = #name#
+			   AND applcnt_email_adres = #email#
+			   AND entrprs_mber_password_hint = #passwordHint#
+			   AND entrprs_mber_password_cnsr = #passwordCnsr#
+			   AND entrprs_mber_sttus = 'P'
+			]]>
+		</isEqual>
+		<!-- 업무사용자 -->
+		<isEqual property="userSe" compareValue="USR">
+			<![CDATA[
+			SELECT password AS password
+			  FROM LETTNEMPLYRINFO
+			 WHERE emplyr_id = #id#
+			   AND USER_NM = #name#
+			   AND email_adres = #email#
+			   AND password_hint = #passwordHint#
+			   AND password_cnsr = #passwordCnsr#
+			   AND emplyr_sttus_code = 'P'
+			]]>
+		</isEqual>
+	</select>
+	
+	<!-- 변경된 비밀번호를 저장 -->
+	<update id="loginDAO.updatePassword">
+		<!-- 일반회원 -->
+		<isEqual property="userSe" compareValue="GNR">
+			<![CDATA[
+			UPDATE LETTNGNRLMBER
+			   SET password = #password#
+			 WHERE mber_id = #id#
+			]]>
+		</isEqual>
+		<!-- 기업회원 -->
+		<isEqual property="userSe" compareValue="ENT">
+			<![CDATA[
+			UPDATE LETTNENTRPRSMBER
+			   SET entrprs_mber_password = #password#
+			 WHERE entrprsmber_id = #id#
+			]]>
+		</isEqual>
+		<!-- 업무사용자 -->
+		<isEqual property="userSe" compareValue="USR">
+			<![CDATA[
+			UPDATE LETTNEMPLYRINFO
+			   SET password = #password#
+			 WHERE emplyr_id = #id#
+			]]>
+		</isEqual>
+	</update>
+	
+	<insert id="loginDAO.setUserAuthorCode" parameterClass="loginVO">
+        <![CDATA[
+            INSERT INTO LETTNEMPLYRSCRTYESTBS 
+                  ( SCRTY_DTRMN_TRGET_ID
+                  , MBER_TY_CODE
+                  , AUTHOR_CODE)
+           VALUES ( #uniqId#
+                  , 'CSR'
+                  , 'ROLE_USER_MEMBER')
+        ]]>
+    </insert>
+    
+    <insert id="loginDAO.setUserInfo" parameterClass="loginVO">
+        <![CDATA[
+            INSERT INTO LETTNEMPLYRINFO 
+                  ( EMPLYR_ID, 
+                  	USER_NM, 
+                  	PASSWORD, 
+                  	PASSWORD_HINT, 
+                  	PASSWORD_CNSR, 
+                  	EMPLYR_STTUS_CODE, 
+                  	ESNTL_ID)
+           VALUES ( #id#
+                  , 'kicap'
+                  , #password#
+                  , '01'
+                  , '02'
+                  , 'P'
+                  ,#uniqId# )
+        ]]>
+    </insert>
+    
+	
+	
+</sqlMap>

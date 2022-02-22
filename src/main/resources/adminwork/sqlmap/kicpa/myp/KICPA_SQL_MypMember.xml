@@ -1,0 +1,754 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="MypMember">
+
+	<typeAlias  alias="EgovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+
+
+
+	<select id="MypMemberDAO.selectMypCpaMemberRegisterRegFlagInfo" parameterClass="HashMap" resultClass="String">
+
+		<![CDATA[
+            SELECT
+					cm.CPA_SN
+			FROM CPA_MYP cm
+			WHERE cm.CPA_SN = (SELECT MAX(CPA_SN) FROM CPA_MYP WHERE PIN = #pin#)
+			  AND cm.REG_FLAG='N'
+		]]>
+	</select>
+
+	<select id="MypMemberDAO.selectCpaAuditPopupSearchList" parameterClass="HashMap" resultClass="EgovMap">
+
+		<![CDATA[
+            SELECT /*+ INDEX( ai PK_AUDIT_INFO_I01 ) */
+					ai.AUDIT_CD
+				,   ai.KOR_AUD_NM
+			FROM AUDIT_INFO ai
+			WHERE ai.DEL_YN = 'N'
+			AND ai.STATUS_CL = 'A3040010'
+			AND ai.AUD_GRP_CL <> 'A3019999'
+		]]>
+		<isNotEmpty property="searchText">
+			<![CDATA[
+        		AND ai.KOR_AUD_NM || ai.AUDIT_CD LIKE CONCAT(concat('%' , #searchText#) , '%')
+          ]]>
+		</isNotEmpty>
+	</select>
+
+	<insert id="MypMemberDAO.mypCpaMemberRegisterAidMberInfoSave" parameterClass="HashMap">
+
+		<selectKey keyProperty="mypCpaSn" resultClass="int">
+			SELECT NVL(MAX(CPA_SN), 0) + 1 FROM CPA_MYP
+		</selectKey>
+
+		<![CDATA[
+
+			MERGE INTO CPA_MYP
+                USING DUAL
+                ON (PIN = #pin# AND CPA_SN = #cpaSn#)
+                WHEN MATCHED THEN
+                          UPDATE SET
+                          AID_MBER_FLAG = #aidMberFlag#, BIZR_NO = #bizrNo#, KOREAN_NM = #koreanNm#, BRTHDY = #brthdy#,
+                          LAST_UPDT_ID = #userId#, LAST_UPDT_DT = SYSTIMESTAMP
+
+                WHEN NOT MATCHED THEN
+                          INSERT (CPA_SN, PIN, AID_MBER_FLAG, BIZR_NO, KOREAN_NM, BRTHDY,
+                          		FRST_REGIST_ID, FRST_REGIST_DT, LAST_UPDT_ID, LAST_UPDT_DT)
+
+                          VALUES (#mypCpaSn#, #pin#, #aidMberFlag#, #bizrNo#, #koreanNm#, #brthdy#,
+		        				#userId#, SYSTIMESTAMP, #userId#, SYSTIMESTAMP)
+
+		]]>
+	</insert>
+
+	<update id="MypMemberDAO.mypCpaMemberRegisterCpaCareerInfoSave" parameterClass="HashMap">
+		<![CDATA[
+
+			UPDATE CPA_MYP
+            SET
+				REGIST_DE = #registDe#,
+				LAST_REGIST_DE = #registDe#,
+				MBER_FLAG = #mberFlag#,
+				AUDIT_NM = #auditNm#,
+				AUDIT_ID = #auditId#,
+				AUDIT_OFCPS = #auditOfcps#,
+               	LAST_UPDT_ID = #userId#,
+               	LAST_UPDT_DT = SYSTIMESTAMP
+
+            WHERE PIN = #pin#
+              AND CPA_SN = #cpaSn#
+		]]>
+
+	</update>
+
+	<insert id="MypMemberDAO.mypCpaMemberRegisterNmstOthbcInfoSave" parameterClass="HashMap">
+
+		<![CDATA[
+
+            MERGE INTO CPA_NMST_OTHBC_MYP
+                USING DUAL
+                ON (PIN = #pin#)
+                WHEN MATCHED THEN
+                          UPDATE SET
+                          OFC_ADRES_YN = #ofcAdresYn#, OFC_NAME_YN = #ofcNameYn#, OFC_TEL_YN = #ofcTelYn#, OFC_FAX_YN = #ofcFaxYn#, EMAIL_YN = #emailYn#
+                        , PHOTO_YN = #photoYn#, LAST_UPDT_ID = #userId#, LAST_UPDT_DT = SYSTIMESTAMP
+
+                WHEN NOT MATCHED THEN
+                          INSERT (PIN, OFC_ADRES_YN, OFC_NAME_YN, OFC_TEL_YN, OFC_FAX_YN, EMAIL_YN, PHOTO_YN,
+                                FRST_REGIST_ID, FRST_REGIST_DT, LAST_UPDT_ID, LAST_UPDT_DT)
+
+                          VALUES (#pin# , #ofcAdresYn# , #ofcNameYn# , #ofcTelYn# , #ofcFaxYn# , #emailYn# , #photoYn# ,
+                                #userId# , SYSTIMESTAMP , #userId# , SYSTIMESTAMP)
+        ]]>
+	</insert>
+
+	<delete id="MypMemberDAO.mypCpaMemberRegisterProFieldInfoDelete" parameterClass="HashMap">
+
+		<![CDATA[
+            DELETE FROM PRO_FIELD_MYP
+            WHERE PIN=#pin#
+         ]]>
+
+	</delete>
+
+	<insert id="MypMemberDAO.mypCpaMemberRegisterProFieldInfoSave" parameterClass="HashMap">
+
+		<![CDATA[
+
+            INSERT INTO PRO_FIELD_MYP(
+
+					    PRO_FILD_CD, PIN, REMARK
+                    ,   FRST_REGIST_ID, FRST_REGIST_DT, LAST_UPDT_ID, LAST_UPDT_DT
+                )
+				VALUES(
+					    #proFildCd#, #pin#, #remark#
+					,   #userId#, SYSTIMESTAMP, #userId#, SYSTIMESTAMP
+				)
+
+        ]]>
+	</insert>
+
+	<delete id="MypMemberDAO.mypCpaMemberRegisterProCareerInfoDelete" parameterClass="HashMap">
+
+		<![CDATA[
+            DELETE FROM PRO_CAREER_MYP
+            WHERE PIN=#pin#
+         ]]>
+
+	</delete>
+
+	<insert id="MypMemberDAO.mypCpaMemberRegisterProCareerInfoSave" parameterClass="HashMap">
+
+		<![CDATA[
+
+            INSERT INTO PRO_CAREER_MYP(
+
+					    CAREER_SN, PIN, INSTT_CD, INSTT_NM, BGN_YM
+					,	END_YM, RSP_OFC, CHRG_JOB, REMARK
+					,	FRST_REGIST_ID, FRST_REGIST_DT, LAST_UPDT_ID, LAST_UPDT_DT
+
+                )
+				VALUES(
+					    KIPADM.PRO_CAREER_MYP_SEQ.nextval, #pin#, #insttCd#, #insttNm#, #bgnYm#
+					,   #endYm#, #rspOfc#, #chrgJob#, #remark#
+					,   #userId#, SYSTIMESTAMP, #userId#, SYSTIMESTAMP
+				)
+
+        ]]>
+	</insert>
+
+	<delete id="MypMemberDAO.mypCpaMemberRegisterProCmitInfoDelete" parameterClass="HashMap">
+
+		<![CDATA[
+            DELETE FROM PRO_CMIT_MYP
+            WHERE PIN=#pin#
+         ]]>
+
+	</delete>
+
+	<insert id="MypMemberDAO.mypCpaMemberRegisterProCmitInfoSave" parameterClass="HashMap">
+
+		<![CDATA[
+
+            INSERT INTO PRO_CMIT_MYP(
+
+					    	CMIT_SN, PIN, CMIT_CD, CMIT_NM, BGN_YM
+						,	END_YM, ENTRST_INSTT, CHRG_JOB, REMARK
+						,	FRST_REGIST_ID, FRST_REGIST_DT, LAST_UPDT_ID, LAST_UPDT_DT
+
+                )
+				VALUES(
+					    KIPADM.PRO_CMIT_MYP_SEQ.nextval, #pin#, #cmitCd#, #cmitNm#, #bgnYm#
+					,   #endYm#, #entrstInstt#, #chrgJob#, #remark#
+					,   #userId#, SYSTIMESTAMP, #userId#, SYSTIMESTAMP
+				)
+
+        ]]>
+	</insert>
+
+	<delete id="MypMemberDAO.mypCpaMemberRegisterProLicenseInfoDelete" parameterClass="HashMap">
+
+		<![CDATA[
+            DELETE FROM PRO_LICENSE_MYP
+            WHERE PIN=#pin#
+         ]]>
+
+	</delete>
+
+	<insert id="MypMemberDAO.mypCpaMemberRegisterProLicenseInfoSave" parameterClass="HashMap">
+
+		<![CDATA[
+
+            INSERT INTO PRO_LICENSE_MYP(
+
+					    	LCNS_SN, PIN, LCNS_CD, LCNS_NM, ACQS_YM
+						,	ISSU_INSTT, REMARK
+						,	FRST_REGIST_ID, FRST_REGIST_DT, LAST_UPDT_ID, LAST_UPDT_DT
+
+
+                )
+				VALUES(
+					    KIPADM.PRO_LICENSE_MYP_SEQ.nextval, #pin#, #lcnsCd#, #lcnsNm#, #acqsYm#
+					,   #issuInstt#, #remark#
+					,   #userId#, SYSTIMESTAMP, #userId#, SYSTIMESTAMP
+				)
+
+        ]]>
+	</insert>
+
+	<delete id="MypMemberDAO.mypCpaMemberRegisterProLtrryInfoDelete" parameterClass="HashMap">
+
+		<![CDATA[
+            DELETE FROM PRO_LTRRY_MYP
+            WHERE PIN=#pin#
+         ]]>
+
+	</delete>
+
+	<insert id="MypMemberDAO.mypCpaMemberRegisterProLtrryInfoSave" parameterClass="HashMap">
+
+		<![CDATA[
+
+            INSERT INTO PRO_LTRRY_MYP(
+
+					    	LTRRY_SN, PIN, LTRRY_YEAR, SUBJECT_NM, MAIN_CN, REMARK
+						,	FRST_REGIST_ID, FRST_REGIST_DT, LAST_UPDT_ID, LAST_UPDT_DT
+
+                )
+				VALUES(
+					    KIPADM.PRO_LTRRY_MYP_SEQ.nextval, #pin#, #ltrryYear#, #subjectNm#, #mainCn#, #remark#
+					,   #userId#, SYSTIMESTAMP, #userId#, SYSTIMESTAMP
+				)
+
+        ]]>
+	</insert>
+
+	<delete id="MypMemberDAO.mypCpaMemberRegisterProWnpzInfoDelete" parameterClass="HashMap">
+
+		<![CDATA[
+            DELETE FROM PRO_WNPZ_MYP
+            WHERE PIN=#pin#
+         ]]>
+
+	</delete>
+
+	<insert id="MypMemberDAO.mypCpaMemberRegisterProWnpzInfoSave" parameterClass="HashMap">
+
+		<![CDATA[
+
+            INSERT INTO PRO_WNPZ_MYP(
+
+					    	WNPZ_SN, PIN, WNPZ_YM, WNPZ_NM, RELATE_INSTT, REMARK
+						,	FRST_REGIST_ID, FRST_REGIST_DT, LAST_UPDT_ID, LAST_UPDT_DT
+
+                )
+				VALUES(
+					    KIPADM.PRO_WNPZ_MYP_SEQ.nextval, #pin#, #wnpzYm#, #wnpzNm#, #relateInstt#, #remark#
+					,   #userId#, SYSTIMESTAMP, #userId#, SYSTIMESTAMP
+				)
+
+        ]]>
+	</insert>
+
+	<update id="MypMemberDAO.mypCpaMemberRegisterAtchFileIdSave" parameterClass="HashMap">
+		<![CDATA[
+
+			UPDATE CPA_MYP
+            SET
+            	PASS_CRTI_FILE_ID = #passCrtiFileId#,
+				RSUM_FILE_ID = #rsumFileId#,
+				EVENTN = #eventn#,
+				APNTC_END_FILE_ID = #apntcEndFileId#,
+        ]]>
+		<isNotEmpty property="atchFileId">
+			<![CDATA[
+           ATCH_FILE_ID = #atchFileId#,
+          ]]>
+		</isNotEmpty>
+
+		<![CDATA[
+               LAST_UPDT_ID = #userId#,
+               LAST_UPDT_DT = SYSTIMESTAMP
+
+            WHERE PIN = #pin#
+              AND CPA_SN = #cpaSn#
+		]]>
+
+	</update>
+
+	<select id="MypMemberDAO.selectCpaMemberRegistReviewInfoList" parameterClass="HashMap" resultClass="EgovMap">
+
+		<![CDATA[
+            SELECT
+            		cm.PIN
+            	,	cm.AID_MBER_FLAG
+				,	CASE WHEN cm.AID_MBER_FLAG = 'R' THEN '정회원' ELSE '준회원' END AS AID_MBER_FLAG_NM
+				,	cm.BIZR_NO
+				,	TO_CHAR(TO_DATE(cm.REGIST_DE, 'YYYY-MM-DD'),'YYYY-MM-DD') AS REGIST_DE
+				,	cm.MBER_FLAG
+				,	CASE WHEN cm.MBER_FLAG = 'A2020010' THEN '전업' WHEN cm.MBER_FLAG = 'A2020030' THEN '개업' ELSE '휴업' END AS MBER_FLAG_NM
+				,	cm.AUDIT_NM
+				,	cm.AUDIT_ID
+				,	cm.AUDIT_OFCPS
+				,   (SELECT cc.CD_NM FROM CMMN_CODE cc WHERE cc.GRP_CD ='GA3020' AND cc.CD = cm.AUDIT_OFCPS) AS AUDIT_OFCPS_NM
+				,	(SELECT ld.ORIGNL_FILE_NM FROM LETTNFILEDETAIL ld WHERE cm.PASS_CRTI_FILE_ID =ld.ATCH_FILE_ID) AS PASS_CRTI_FILE_ID
+				,	(SELECT ld.ORIGNL_FILE_NM FROM LETTNFILEDETAIL ld WHERE cm.RSUM_FILE_ID =ld.ATCH_FILE_ID) AS RSUM_FILE_ID
+				,	(SELECT ld.ORIGNL_FILE_NM FROM LETTNFILEDETAIL ld WHERE cm.APNTC_END_FILE_ID =ld.ATCH_FILE_ID) AS APNTC_END_FILE_ID
+				,	(SELECT ld.ORIGNL_FILE_NM FROM LETTNFILEDETAIL ld WHERE cm.ATCH_FILE_ID =ld.ATCH_FILE_ID) AS ATCH_FILE_ID
+				,	cm.EVENTN
+				,	cm.REG_FLAG
+				,   TO_CHAR(cm.FRST_REGIST_DT, 'YYYY-MM-DD') AS FRST_REGIST_DT
+				,	REJECT_RSN
+				,	REMARK
+
+            FROM CPA_MYP cm
+            WHERE cm.CPA_SN = (SELECT MAX(CPA_SN) FROM CPA_MYP WHERE PIN = #pin#
+        ]]>
+            <isNotEmpty property="regFlag">
+            <![CDATA[
+                AND REG_FLAG = #regFlag#
+            ]]>
+			</isNotEmpty>
+		<![CDATA[
+			)
+		]]>
+
+	</select>
+
+	<select id="MypMemberDAO.selectCpaMemberRegistNmstOthbcInfoList" parameterClass="HashMap" resultClass="EgovMap">
+
+		<![CDATA[
+            SELECT
+            		PIN
+            	,	OFC_ADRES_YN
+				,	OFC_NAME_YN
+				,	OFC_TEL_YN
+				,	OFC_FAX_YN
+				,	EMAIL_YN
+				,	PHOTO_YN
+				,	CASE WHEN OFC_ADRES_YN = 'Y' THEN '공개' ELSE '비공개' END AS OFC_ADRES_YN_NM
+				,	CASE WHEN OFC_NAME_YN = 'Y' THEN '공개' ELSE '비공개' END AS OFC_NAME_YN_NM
+				,	CASE WHEN OFC_TEL_YN = 'Y' THEN '공개' ELSE '비공개' END AS OFC_TEL_YN_NM
+				,	CASE WHEN OFC_FAX_YN = 'Y' THEN '공개' ELSE '비공개' END AS OFC_FAX_YN_NM
+				,	CASE WHEN EMAIL_YN = 'Y' THEN '공개' ELSE '비공개' END AS EMAIL_YN_NM
+				,	CASE WHEN PHOTO_YN = 'Y' THEN '공개' ELSE '비공개' END AS PHOTO_YN_NM
+
+            FROM CPA_NMST_OTHBC_MYP
+            WHERE PIN = #pin#
+         ]]>
+
+	</select>
+
+	<select id="MypMemberDAO.selectCpaMemberRegistProFieldInfoList" parameterClass="HashMap" resultClass="EgovMap">
+
+		<![CDATA[
+            SELECT
+
+                a.PIN,
+                a.PRO_FILD_CD,
+                a.REMARK,
+                a.PRO_FILD_CD_FLAG,
+                CASE WHEN a.PRO_FILD_CD_FLAG = '3' AND a.PRO_FILD_CD <> 'A2180399' THEN Substr(a.PRO_FILD_CD_NM,instr(a.PRO_FILD_CD_NM,'[',1,1)+1,(instr(a.PRO_FILD_CD_NM,']',1,1)-instr(a.PRO_FILD_CD_NM,'[',1,1))-1) ELSE a.PRO_FILD_CD_NM END AS PRO_FILD_CD_NM
+
+            FROM
+                (SELECT
+            		PIN
+				,	PRO_FILD_CD
+				,	REMARK
+				,   SUBSTR(PRO_FILD_CD,6,1) as PRO_FILD_CD_FLAG
+                ,   (SELECT cc.CD_NM FROM CMMN_CODE cc WHERE cc.GRP_CD ='GA2180' AND cc.CD = PRO_FILD_CD) AS PRO_FILD_CD_NM
+
+				FROM PRO_FIELD_MYP
+				WHERE PIN = #pin#
+				) a
+         ]]>
+
+	</select>
+
+	<select id="MypMemberDAO.selectCpaMemberRegistProCareerInfoList" parameterClass="HashMap" resultClass="EgovMap">
+
+		<![CDATA[
+            SELECT
+            		CAREER_SN
+				,	PIN
+				,	INSTT_CD
+				,	(SELECT cc.CD_NM FROM CMMN_CODE cc WHERE cc.GRP_CD ='GA2190' AND cc.CD = INSTT_CD) AS INSTT_CD_NM
+				,	INSTT_NM
+				,	TO_CHAR(TO_DATE(BGN_YM, 'YYYY-MM'),'YYYY-MM') AS BGN_YM
+				,	TO_CHAR(TO_DATE(END_YM, 'YYYY-MM'),'YYYY-MM') AS END_YM
+				,	RSP_OFC
+				,	CHRG_JOB
+				,	REMARK
+
+            FROM PRO_CAREER_MYP
+            WHERE PIN = #pin#
+         ]]>
+
+	</select>
+
+	<select id="MypMemberDAO.selectCpaMemberRegistProCmitInfoList" parameterClass="HashMap" resultClass="EgovMap">
+
+		<![CDATA[
+            SELECT
+            		CMIT_SN
+				,	PIN
+				,	CMIT_CD
+				,	(SELECT cc.CD_NM FROM CMMN_CODE cc WHERE cc.GRP_CD ='GA2190' AND cc.CD = CMIT_CD) AS CMIT_CD_NM
+				,	CMIT_NM
+				,	TO_CHAR(TO_DATE(BGN_YM, 'YYYY-MM'),'YYYY-MM') AS BGN_YM
+				,	TO_CHAR(TO_DATE(END_YM, 'YYYY-MM'),'YYYY-MM') AS END_YM
+				,	ENTRST_INSTT
+				,	CHRG_JOB
+				,	REMARK
+
+            FROM PRO_CMIT_MYP
+            WHERE PIN = #pin#
+         ]]>
+
+	</select>
+
+	<select id="MypMemberDAO.selectCpaMemberRegistProLicenseInfoList" parameterClass="HashMap" resultClass="EgovMap">
+
+		<![CDATA[
+            SELECT
+            		LCNS_SN
+				,	PIN
+				,	LCNS_CD
+				,	(SELECT cc.CD_NM FROM CMMN_CODE cc WHERE cc.GRP_CD ='GA2200' AND cc.CD = LCNS_CD) AS LCNS_CD_NM
+				,	LCNS_NM
+				,	TO_CHAR(TO_DATE(ACQS_YM, 'YYYY-MM'),'YYYY-MM') AS ACQS_YM
+				,	ISSU_INSTT
+				,	REMARK
+
+            FROM PRO_LICENSE_MYP
+            WHERE PIN = #pin#
+         ]]>
+
+	</select>
+
+	<select id="MypMemberDAO.selectCpaMemberRegistProLtrryInfoList" parameterClass="HashMap" resultClass="EgovMap">
+
+		<![CDATA[
+            SELECT
+            		LTRRY_SN
+				,	PIN
+				,	LTRRY_YEAR
+				,	SUBJECT_NM
+				,	MAIN_CN
+				,	REMARK
+
+            FROM PRO_LTRRY_MYP
+            WHERE PIN = #pin#
+         ]]>
+
+	</select>
+
+	<select id="MypMemberDAO.selectCpaMemberRegistProWnpzInfoList" parameterClass="HashMap" resultClass="EgovMap">
+
+		<![CDATA[
+            SELECT
+            		WNPZ_SN
+				,	PIN
+				,	TO_CHAR(TO_DATE(WNPZ_YM, 'YYYY-MM'),'YYYY-MM') AS WNPZ_YM
+				,	WNPZ_NM
+				,	CONTENTS
+				,	RELATE_INSTT
+				,	REMARK
+
+            FROM PRO_WNPZ_MYP
+            WHERE PIN = #pin#
+         ]]>
+
+	</select>
+
+	<select id="MypMemberDAO.selectCpaMemberRegistProFieldRegFlagFList" parameterClass="HashMap" resultClass="EgovMap">
+
+		<![CDATA[
+            SELECT
+                    PRO_FILD_CD
+                ,   REMARK
+
+            FROM PRO_FIELD_MYP
+            WHERE
+                PIN = #pin#
+         ]]>
+
+	</select>
+
+	<update id="MypMemberDAO.mypCpaMemberRegisterRegFlagSave" parameterClass="HashMap">
+		<![CDATA[
+
+			UPDATE CPA_MYP
+            SET
+       			REG_FLAG = #regFlag#,
+               	LAST_UPDT_ID = #userId#,
+               	LAST_UPDT_DT = SYSTIMESTAMP
+
+            WHERE PIN = #pin#
+              AND CPA_SN = #cpaSn#
+		]]>
+
+	</update>
+
+	<select id="MypMemberDAO.selectCpaMemberRegProFieldList" parameterClass="HashMap" resultClass="EgovMap">
+
+		<![CDATA[
+            SELECT
+                    PRO_FILD_CD
+                ,   REMARK
+
+            FROM PRO_FIELD
+            WHERE
+                PIN = #pin#
+         ]]>
+
+	</select>
+
+	<insert id="MypMemberDAO.mypCpaMemberRegisterNmstOthbcInfoUpdate" parameterClass="HashMap">
+		<![CDATA[
+
+			MERGE INTO CPA_NMST_OTHBC
+                USING DUAL
+                ON (PIN = #pin#)
+                WHEN MATCHED THEN
+                          UPDATE SET
+                          OFC_ADRES_YN = #ofcAdresYn#, OFC_NAME_YN = #ofcNameYn#, OFC_TEL_YN = #ofcTelYn#, OFC_FAX_YN = #ofcFaxYn#, EMAIL_YN = #emailYn#
+                        , PHOTO_YN = #photoYn#, LAST_UPDT_ID = #userId#, LAST_UPDT_DT = SYSTIMESTAMP
+
+                WHEN NOT MATCHED THEN
+                          INSERT (PIN, OFC_ADRES_YN, OFC_NAME_YN, OFC_TEL_YN, OFC_FAX_YN, EMAIL_YN, PHOTO_YN,
+                                FRST_REGIST_ID, FRST_REGIST_DT, LAST_UPDT_ID, LAST_UPDT_DT)
+
+                          VALUES (#pin# , #ofcAdresYn# , #ofcNameYn# , #ofcTelYn# , #ofcFaxYn# , #emailYn# , #photoYn# ,
+                                #userId# , SYSTIMESTAMP , #userId# , SYSTIMESTAMP)
+		]]>
+
+	</insert>
+
+	<delete id="MypMemberDAO.mypCpaMemberRegProFieldRealInfoDelete" parameterClass="HashMap">
+
+		<![CDATA[
+            DELETE FROM PRO_FIELD
+            WHERE PIN = #pin#
+         ]]>
+
+	</delete>
+
+	<insert id="MypMemberDAO.mypCpaMemberRegisterProFieldInfoUpdate" parameterClass="HashMap">
+		<![CDATA[
+
+			INSERT INTO PRO_FIELD(
+
+					    PRO_FILD_CD, PIN, REMARK
+                    ,   FRST_REGIST_ID, FRST_REGIST_DT, LAST_UPDT_ID, LAST_UPDT_DT
+                )
+				VALUES(
+					    #proFildCd#, #pin#, #remark#
+					,   #userId#, SYSTIMESTAMP, #userId#, SYSTIMESTAMP
+				)
+		]]>
+
+	</insert>
+
+	<update id="MypMemberDAO.mypCpaPassRegisterProCareerDelete" parameterClass="HashMap">
+		<![CDATA[
+
+			UPDATE PRO_CAREER
+            SET
+                DELETE_YN = #deleteYn#
+            ,   LAST_UPDT_ID = #userId#
+            ,   LAST_UPDT_DT = SYSTIMESTAMP
+
+            WHERE CAREER_SN =#careerSnDel#
+              AND PIN = #pin#
+		]]>
+
+	</update>
+
+	<insert id="MypMemberDAO.mypCpaMemberRegisterProCareerInfoUpdate" parameterClass="HashMap">
+		<![CDATA[
+
+			MERGE INTO PRO_CAREER
+                USING DUAL
+                ON (CAREER_SN = #careerSn# AND PIN = #pin#)
+                WHEN MATCHED THEN
+                          UPDATE SET
+                          INSTT_CD = #insttCd#, INSTT_NM = #insttNm#, BGN_YM = #bgnYm#, END_YM = #endYm#, RSP_OFC = #rspOfc#
+                        , CHRG_JOB = #chrgJob#, DELETE_YN = #deleteYn#, REMARK = #remark#, LAST_UPDT_ID = #userId#, LAST_UPDT_DT = SYSTIMESTAMP
+
+                WHEN NOT MATCHED THEN
+                          INSERT (CAREER_SN ,PIN ,INSTT_CD ,INSTT_NM ,BGN_YM ,END_YM ,RSP_OFC ,CHRG_JOB ,DELETE_YN ,REMARK
+                                ,FRST_REGIST_ID ,FRST_REGIST_DT ,LAST_UPDT_ID ,LAST_UPDT_DT)
+
+                          VALUES (KIPADM.PRO_CAREER_SEQ.nextval, #pin#, #insttCd#, #insttNm#, #bgnYm#, #endYm#, #rspOfc#, #chrgJob# , #deleteYn# , #remark# ,
+                                #userId# , SYSTIMESTAMP , #userId# , SYSTIMESTAMP)
+		]]>
+
+	</insert>
+
+	<update id="MypMemberDAO.mypCpaMemberRegisterProCmitDelete" parameterClass="HashMap">
+		<![CDATA[
+
+			UPDATE PRO_CMIT
+            SET
+                DELETE_YN = #deleteYn#
+            ,   LAST_UPDT_ID = #userId#
+            ,   LAST_UPDT_DT = SYSTIMESTAMP
+
+            WHERE CMIT_SN =#cmitSnDel#
+              AND PIN = #pin#
+		]]>
+
+	</update>
+
+	<insert id="MypMemberDAO.mypCpaMemberRegisterProCmitInfoUpdate" parameterClass="HashMap">
+		<![CDATA[
+
+			MERGE INTO PRO_CMIT
+                USING DUAL
+                ON (CMIT_SN = #cmitSn# AND PIN = #pin#)
+                WHEN MATCHED THEN
+                          UPDATE SET
+                          CMIT_CD = #cmitCd#, CMIT_NM = #cmitNm#, BGN_YM = #bgnYm#, END_YM = #endYm#, ENTRST_INSTT = #entrstInstt#
+                        , CHRG_JOB = #chrgJob#, DELETE_YN = #deleteYn#, REMARK = #remark#, LAST_UPDT_ID = #userId#, LAST_UPDT_DT = SYSTIMESTAMP
+
+                WHEN NOT MATCHED THEN
+                          INSERT (CMIT_SN ,PIN ,CMIT_CD ,CMIT_NM ,BGN_YM ,END_YM ,ENTRST_INSTT ,CHRG_JOB ,DELETE_YN ,REMARK
+                                ,FRST_REGIST_ID ,FRST_REGIST_DT ,LAST_UPDT_ID ,LAST_UPDT_DT)
+
+                          VALUES (KIPADM.PRO_CMIT_SEQ.nextval, #pin#, #cmitCd#, #cmitNm#, #bgnYm#, #endYm#, #entrstInstt#, #chrgJob# , #deleteYn# , #remark# ,
+                                #userId# , SYSTIMESTAMP , #userId# , SYSTIMESTAMP)
+		]]>
+
+	</insert>
+
+	<update id="MypMemberDAO.mypCpaMemberRegisterProLicenseDelete" parameterClass="HashMap">
+		<![CDATA[
+
+			UPDATE PRO_LICENSE
+            SET
+                DELETE_YN = #deleteYn#
+            ,   LAST_UPDT_ID = #userId#
+            ,   LAST_UPDT_DT = SYSTIMESTAMP
+
+            WHERE LCNS_SN =#lcnsSnDel#
+              AND PIN = #pin#
+		]]>
+
+	</update>
+
+	<insert id="MypMemberDAO.mypCpaMemberRegisterProLicenseInfoUpdate" parameterClass="HashMap">
+		<![CDATA[
+
+			MERGE INTO PRO_LICENSE
+                USING DUAL
+                ON (LCNS_SN = #lcnsSn# AND PIN = #pin#)
+                WHEN MATCHED THEN
+                          UPDATE SET
+                          LCNS_CD = #lcnsCd#, LCNS_NM = #lcnsNm#, ACQS_YM = #acqsYm#, ISSU_INSTT = #issuInstt#, DELETE_YN = #deleteYn#, REMARK = #remark#,
+                          LAST_UPDT_ID = #userId#, LAST_UPDT_DT = SYSTIMESTAMP
+
+                WHEN NOT MATCHED THEN
+                          INSERT (LCNS_SN ,PIN ,LCNS_CD ,LCNS_NM ,ACQS_YM ,ISSU_INSTT ,DELETE_YN ,REMARK
+                                ,FRST_REGIST_ID ,FRST_REGIST_DT ,LAST_UPDT_ID ,LAST_UPDT_DT)
+
+                          VALUES (KIPADM.PRO_LICENSE_SEQ.nextval, #pin#, #lcnsCd#, #lcnsNm#, #acqsYm#, #issuInstt#, #deleteYn# , #remark# ,
+                                #userId# , SYSTIMESTAMP , #userId# , SYSTIMESTAMP)
+		]]>
+
+	</insert>
+
+	<update id="MypMemberDAO.mypCpaMemberRegisterProLtrryDelete" parameterClass="HashMap">
+		<![CDATA[
+
+			UPDATE PRO_LTRRY
+            SET
+                DELETE_YN = #deleteYn#
+            ,   LAST_UPDT_ID = #userId#
+            ,   LAST_UPDT_DT = SYSTIMESTAMP
+
+            WHERE LTRRY_SN =#ltrrySnDel#
+              AND PIN = #pin#
+		]]>
+
+	</update>
+
+	<insert id="MypMemberDAO.mypCpaMemberRegisterProLtrryInfoUpdate" parameterClass="HashMap">
+		<![CDATA[
+
+			MERGE INTO PRO_LTRRY
+                USING DUAL
+                ON (LTRRY_SN = #ltrrySn# AND PIN = #pin#)
+                WHEN MATCHED THEN
+                          UPDATE SET
+                          LTRRY_YEAR = #ltrryYear#, SUBJECT_NM = #subjectNm#, MAIN_CN = #mainCn#, DELETE_YN = #deleteYn#, REMARK = #remark#,
+                          LAST_UPDT_ID = #userId#, LAST_UPDT_DT = SYSTIMESTAMP
+
+                WHEN NOT MATCHED THEN
+                          INSERT (LTRRY_SN ,PIN ,LTRRY_YEAR ,SUBJECT_NM ,MAIN_CN , DELETE_YN ,REMARK
+                                ,FRST_REGIST_ID ,FRST_REGIST_DT ,LAST_UPDT_ID ,LAST_UPDT_DT)
+
+                          VALUES (KIPADM.PRO_LTRRY_SEQ.nextval, #pin#, #ltrryYear#, #subjectNm#, #mainCn#, #deleteYn# , #remark# ,
+                                #userId# , SYSTIMESTAMP , #userId# , SYSTIMESTAMP)
+		]]>
+
+	</insert>
+
+	<update id="MypMemberDAO.mypCpaMemberRegisterProWnpzDelete" parameterClass="HashMap">
+		<![CDATA[
+
+			UPDATE PRO_WNPZ
+            SET
+                DELETE_YN = #deleteYn#
+            ,   LAST_UPDT_ID = #userId#
+            ,   LAST_UPDT_DT = SYSTIMESTAMP
+
+            WHERE WNPZ_SN =#wnpzSnDel#
+              AND PIN = #pin#
+		]]>
+
+	</update>
+
+	<insert id="MypMemberDAO.mypCpaMemberRegisterProWnpzInfoUpdate" parameterClass="HashMap">
+		<![CDATA[
+
+			MERGE INTO PRO_WNPZ
+                USING DUAL
+                ON (WNPZ_SN = #wnpzSn# AND PIN = #pin#)
+                WHEN MATCHED THEN
+                          UPDATE SET
+                          WNPZ_YM = #wnpzYm#, WNPZ_NM = #wnpzNm#, RELATE_INSTT = #relateInstt#, DELETE_YN = #deleteYn#, REMARK = #remark#,
+                          LAST_UPDT_ID = #userId#, LAST_UPDT_DT = SYSTIMESTAMP
+
+                WHEN NOT MATCHED THEN
+                          INSERT (WNPZ_SN ,PIN ,WNPZ_YM ,WNPZ_NM ,RELATE_INSTT , DELETE_YN ,REMARK
+                                ,FRST_REGIST_ID ,FRST_REGIST_DT ,LAST_UPDT_ID ,LAST_UPDT_DT)
+
+                          VALUES (KIPADM.PRO_WNPZ_SEQ.nextval, #pin#, #wnpzYm#, #wnpzNm#, #relateInstt#, #deleteYn# , #remark# ,
+                                #userId# , SYSTIMESTAMP , #userId# , SYSTIMESTAMP)
+		]]>
+
+	</insert>
+
+</sqlMap>

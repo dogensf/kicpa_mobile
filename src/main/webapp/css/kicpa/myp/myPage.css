@@ -1,0 +1,12 @@
+input[type=file]::-webkit-file-upload-button {
+    display: none;
+}
+
+.kicpa-modal * {
+    font-family: 'Pretendard';
+    font-weight: 400;
+}
+
+.kicpa-modal .modal-result {
+    margin-top: 15px;
+}

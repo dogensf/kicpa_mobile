@@ -1,0 +1,23 @@
+.input.mypCpaTrainReg-inline-input {
+    display: inline-block;
+    width: 50%;
+}
+
+.kicpa-layer-content .checkbox-type1 input[type=checkbox] {
+    opacity: 0;
+    position: static;
+}
+
+input[type=file]::-webkit-file-upload-button {
+    display: none;
+}
+
+.tableFixHead {
+    overflow: auto;
+    height: 100px;
+}
+
+.tableFixHead thead th {
+    position: sticky;
+    top: 0;
+}

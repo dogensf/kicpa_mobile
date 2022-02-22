@@ -1,0 +1,909 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="Myp">
+
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+
+
+	<select id="MypDAO.selectCpaPassRegistInfoList" parameterClass="HashMap" resultClass="EgovMap">
+
+		<![CDATA[
+            SELECT
+            		PIN
+				,	KOREAN_NM
+				,	CHCRT_NM
+				,	ENG_NM
+				,	TO_CHAR(TO_DATE(BRTHDY), 'YYYY-MM-DD') AS BRTHDY
+				,	HOUSE_TEL_NO
+				,	MOBL_PHON_NO
+				,	MAIN_EMAIL
+				,	SUB_EMAIL
+				,	EMAIL_SNDNG_YN
+				,	SMS_SNDNG_YN
+				,	POST_SNDNG_YN
+				,	REG_FLAG
+
+            FROM MBER_INDVDLINFO
+            WHERE PIN = #pin#
+
+         ]]>
+
+	</select>
+
+	<select id="MypDAO.selectCpaPassRegistAeresInfoList" parameterClass="HashMap" resultClass="EgovMap">
+
+		<![CDATA[
+            SELECT
+					ZIP_CD
+				,	RD_ADRES
+				,	RD_ADRES_DETAIL
+
+            FROM ADRES_INFO
+            WHERE ADR_CL = #adrCl#
+              AND ADR_TRG_CL = #trgCl#
+              AND ADR_TRG_ID = #pin#
+
+         ]]>
+
+	</select>
+
+	<select id="MypDAO.selectCpaPassRegistOfcInfoList" parameterClass="HashMap" resultClass="EgovMap">
+
+		<![CDATA[
+            SELECT
+            		OFC_TEL_NO
+            	,	OFC_FAX_NO
+				,	OFICE_NM
+				,	SECTION_NM
+				,	DEPT_NM
+				,	RSP_OFC
+
+            FROM OFICE_INFO
+            WHERE OFC_CL = #trgCl#
+              AND OFC_TRG_ID = #pin#
+
+         ]]>
+
+	</select>
+
+	<select id="MypDAO.selectCpaPassRegistAcdmcrInfoList" parameterClass="HashMap" resultClass="EgovMap">
+
+		<![CDATA[
+            SELECT
+            		ACDMCR_SN
+				,	SCHUL_CL
+				,	DEGREE
+				,	SCHUL_NM
+				,	MAJOR
+				,	GRDTN_YEAR
+
+            FROM MBER_ACDMCR
+            WHERE PIN = #pin#
+              AND DELETE_YN = 'N'
+            ORDER BY ACDMCR_SN ASC
+
+         ]]>
+
+	</select>
+
+	<select id="MypDAO.selectCpaPassRegistRsumInfoList" parameterClass="HashMap" resultClass="EgovMap">
+
+		<![CDATA[
+            SELECT
+					mr.REGIST_DE
+                ,	mr.PIN
+                ,	mr.EVENTN
+                ,	mr.RSUM_FILE
+                ,	mr.ATCH_FILE_ID
+                ,	(select ld.ORIGNL_FILE_NM from LETTNFILEDETAIL ld where mr.ATCH_FILE_ID =ld.ATCH_FILE_ID) as FILE_NM
+                ,	(select ld.FILE_STRE_COURS||'/'||ld.STRE_FILE_NM from LETTNFILEDETAIL ld where mr.ATCH_FILE_ID =ld. ATCH_FILE_ID) as FILE_URL
+
+            FROM MBER_RSUM mr
+            WHERE mr.REGIST_DE = (SELECT MAX(REGIST_DE) FROM MBER_RSUM WHERE pin = #pin#)
+
+         ]]>
+
+	</select>
+
+	<select id="MypDAO.selectCpaPassRegistMberPhotoInfo" parameterClass="HashMap" resultClass="EgovMap">
+
+		<![CDATA[
+            SELECT
+                mp.PTG_SN,
+		        mp.PTG_TRG_ID,
+		        mp.ATCH_FILE_ID,
+		        mp.LAST_YN,
+		        (select ld.FILE_STRE_COURS||'/'||ld.STRE_FILE_NM from LETTNFILEDETAIL ld where mp.ATCH_FILE_ID =ld. ATCH_FILE_ID) AS FILE_URL
+            FROM MBER_PHOTO mp
+            WHERE mp.LAST_YN = 'N'
+            AND mp.PTG_TRG_ID = #pin#
+         ]]>
+
+	</select>
+
+	<select id="MypDAO.selectCpaLndctnQualfManageInfoList" parameterClass="HashMap" resultClass="EgovMap">
+
+		<![CDATA[
+            SELECT
+                	lqm.PIN
+				,	lqm.SEQ
+				,	lqm.LNDCTN_SBSCRB
+				,	lqm.QUALF_REQST_YN
+				,	lqm.CRQFC_NO
+				,	TO_CHAR(TO_DATE(lqm.CRQFC_ISUE_DE),'YYYY-MM-DD') AS CRQFC_ISUE_DE
+				,	lqm.REGIST_REQST_YN
+				,	lqm.LNDCTN_CL
+				,	lqm.LNDCTN_NO
+				,	lqm.VRIFY_NO
+				,	lqm.LNDCTN_ID
+				,	TO_CHAR(TO_DATE(lqm.REGIST_DE),'YYYY-MM-DD') AS REGIST_DE
+				,	lqm.UPDT_REQST_YN
+				,	TO_CHAR(TO_DATE(lqm.UPDT_DE),'YYYY-MM-DD') AS UPDT_DE
+				,	lqm.RM
+				,	lqm.OPBIZ_DE
+				,	lqm.OPBIZ_CL
+				,   (SELECT cc.CD_NM FROM CMMN_CODE cc WHERE cc.GRP_CD ='GA4010' AND cc.CD = lqm.OPBIZ_CL) AS OPBIZ_CL_NM
+				,   CONCAT(lqm.LNDCTN_CL, CONCAT('-', CONCAT(SUBSTR(lqm.LNDCTN_NO, -4), CONCAT('-', lqm.VRIFY_NO)) )) AS LNDCTN_VRIFY_NO_CL
+
+            FROM LNDCTN_QUALF_MANAGE lqm
+            WHERE lqm.PIN = #pin#
+              AND lqm.SEQ = (SELECT MAX(SEQ) FROM LNDCTN_QUALF_MANAGE WHERE PIN = #pin#)
+         ]]>
+
+	</select>
+
+	<select id="MypDAO.selectCpaTrainRegistInfoList" parameterClass="HashMap" resultClass="EgovMap">
+
+		<![CDATA[
+            SELECT
+                ac.APP_CPA_NO
+            ,   ac.PIN
+            ,   TO_CHAR(TO_DATE(ac.APP_REGIST_DE),'YYYY-MM-DD') AS APP_REGIST_DE
+            ,   TO_CHAR(ADD_MONTHS(TO_DATE(ac.APP_REGIST_DE, 'YYYY-MM-DD'), + 12),'YYYY-MM-DD') AS APP_REGIST_END_DE
+            ,   TO_CHAR(TO_DATE(ac.APP_END_DE),'YYYY-MM-DD') AS APP_END_DE
+            ,   TO_CHAR(TO_DATE(ac.AUD_REGIST_DE),'YYYY-MM-DD') AS AUD_REGIST_DE
+            ,   TO_CHAR(ADD_MONTHS(TO_DATE(ac.AUD_REGIST_DE, 'YYYY-MM-DD'), + 12),'YYYY-MM-DD') AS AUD_REGIST_END_DE
+            ,   TO_CHAR(TO_DATE(ac.AUD_END_DE),'YYYY-MM-DD') AS AUD_END_DE
+            ,   ac.APNTC_CL
+            ,   ac.APP_INSTT_CD
+            ,   (SELECT ai.KOR_AUD_NM FROM AUDIT_INFO ai WHERE ai.AUDIT_CD=ac.APP_INSTT_CD) AS APP_INSTT_CD_NM
+            ,   ac.APP_INSTT_ETC
+            ,   ac.APP_INSTT_ETC_YN
+            ,   ac.GUIDE_CPA_SN
+            ,   (SELECT mi.KOREAN_NM FROM MBER_INDVDLINFO mi WHERE mi.PIN = (SELECT c.PIN FROM CPA c WHERE c.CPA_ID = ac.GUIDE_CPA_SN)) AS GUIDE_CPA_NM
+            ,   ac.REMARK
+            ,   ac.MEMO
+            ,   (SELECT MAX(ach.OPETR_DE) FROM APNTC_CPA_HIST ach WHERE ach.APP_CPA_NO=ac.APP_CPA_NO AND ach.PIN=ac.PIN AND ach.DELETE_YN ='N') AS LAST_REGIST_DE
+        FROM
+            APNTC_CPA ac
+        WHERE ac.APP_CPA_NO = (SELECT MAX(ac2.APP_CPA_NO) FROM APNTC_CPA ac2 WHERE ac2.PIN = #pin# AND ac2.DELETE_YN = 'N')
+
+         ]]>
+
+	</select>
+
+	<select id="MypDAO.selectCpaTrainApntcBrfInfoList" parameterClass="HashMap" resultClass="EgovMap">
+
+		<![CDATA[
+            SELECT
+                 BRF_YEAR,
+                 DECODE (m1, 1, 'on', 'off')      BRF_MT1,
+                 DECODE (m2, 1, 'on', 'off')      BRF_MT2,
+                 DECODE (m3, 1, 'on', 'off')      BRF_MT3,
+                 DECODE (m4, 1, 'on', 'off')      BRF_MT4,
+                 DECODE (m5, 1, 'on', 'off')      BRF_MT5,
+                 DECODE (m6, 1, 'on', 'off')      BRF_MT6,
+                 DECODE (m7, 1, 'on', 'off')      BRF_MT7,
+                 DECODE (m8, 1, 'on', 'off')      BRF_MT8,
+                 DECODE (m9, 1, 'on', 'off')      BRF_MT9,
+                 DECODE (m10, 1, 'on', 'off')     BRF_MT10,
+                 DECODE (m11, 1, 'on', 'off')     BRF_MT11,
+                 DECODE (m12, 1, 'on', 'off')     BRF_MT12
+            FROM
+             (  SELECT APP_CPA_NO,
+                       BRF_YEAR,
+                       SUM (DECODE (BRF_MT, 1, 1, 0))      m1,
+                       SUM (DECODE (BRF_MT, 2, 1, 0))      m2,
+                       SUM (DECODE (BRF_MT, 3, 1, 0))      m3,
+                       SUM (DECODE (BRF_MT, 4, 1, 0))      m4,
+                       SUM (DECODE (BRF_MT, 5, 1, 0))      m5,
+                       SUM (DECODE (BRF_MT, 6, 1, 0))      m6,
+                       SUM (DECODE (BRF_MT, 7, 1, 0))      m7,
+                       SUM (DECODE (BRF_MT, 8, 1, 0))      m8,
+                       SUM (DECODE (BRF_MT, 9, 1, 0))      m9,
+                       SUM (DECODE (BRF_MT, 10, 1, 0))     m10,
+                       SUM (DECODE (BRF_MT, 11, 1, 0))     m11,
+                       SUM (DECODE (BRF_MT, 12, 1, 0))     m12
+                  FROM APNTC_BRF
+                 WHERE APP_CPA_NO = #appCpaNo#
+              GROUP BY APP_CPA_NO, BRF_YEAR)
+         ]]>
+
+	</select>
+
+	<select id="MypDAO.selectCpaTrainTrnngResultInfoList" parameterClass="HashMap" resultClass="EgovMap">
+
+		<![CDATA[
+            SELECT
+                    atr.APP_TRN_SN
+                ,   atr.APP_CPA_NO
+                ,   atr.PIN
+                ,   CASE WHEN atr.TRN_ODR = 1 THEN '기본' ELSE '외감' END AS TRN_ODR
+                ,   atr.COMPL_YN
+                ,   atr.PSEXAM_YN
+                ,   TO_CHAR(TO_DATE(atr.TRN_BGN_DE),'YYYY-MM-DD') AS TRN_BGN_DE
+                ,   TO_CHAR(TO_DATE(atr.TRN_END_DE),'YYYY-MM-DD') AS TRN_END_DE
+                ,   atr.TRN_TM
+                ,   atr.ATEND_TM
+                ,   atr.ATEND_SCORE
+                ,   atr.PRCAFS_ABILITY_SCORE
+                ,   atr.VOC_ETHICS_SCORE
+                ,   atr.ENTRPRS_ACCNUT_SCORE
+                ,   atr.ACCNUT_AUDIT_SCORE
+                ,   atr.TAXLAW_SCORE
+                ,   atr.MNGMT_EVL_SCORE
+                ,   atr.ETC1_SCORE
+                ,   atr.ETC2_SCORE
+                ,   atr.COMPL_SBJECT_CO
+                ,   atr.TOT_SCORE
+                ,   atr.AVRG_SCORE
+            FROM
+                APNTC_TRNNG_RESULT atr
+            WHERE
+                atr.DELETE_YN = 'N'
+            AND atr.APP_CPA_NO = #appCpaNo#
+            ORDER BY atr.APP_TRN_SN ASC
+         ]]>
+
+	</select>
+
+	<select id="MypDAO.selectCpaMemberRegistInfoList" parameterClass="HashMap" resultClass="EgovMap">
+
+		<![CDATA[
+            SELECT
+                    c.CPA_SN
+                ,   c.PIN
+                ,   c.CPA_CL
+                ,   c.CPA_ID
+                ,   c.OPETR_DE
+                ,   TO_CHAR(TO_DATE(REGIST_DE),'YYYY-MM-DD') AS REGIST_DE
+                ,   TO_CHAR(TO_DATE(LAST_REGIST_DE),'YYYY-MM-DD') AS LAST_REGIST_DE
+                ,   c.MBER_FLAG
+                ,   c.AUDIT_ID
+                ,   c.AUDIT_OFCPS
+                ,   c.CANCL_CL
+                ,   c.RSNDQF_END_DE
+                ,   c.REMARK
+                ,   c.MEMO
+                ,   c.EXTRL_AUD_CL
+                ,   c.EXTRL_AUD_DE
+                ,   c.BIZR_NO
+                ,   TO_CHAR(ADD_MONTHS(TO_DATE(c.LAST_REGIST_DE, 'YYYY-MM-DD'), + 60),'YYYY-MM-DD') AS UPDT_REGIST_DE
+
+            FROM CPA c
+            WHERE c.CPA_SN = (SELECT MAX(CPA_SN) FROM CPA WHERE PIN = #pin#)
+         ]]>
+
+	</select>
+
+	<select id="MypDAO.selectCpaMemberRegistCareerInfoList" parameterClass="HashMap" resultClass="EgovMap">
+
+		<![CDATA[
+            with
+				x_cpa_career_hist(career_sn,opetr_de,sort_no,mber_flag) as (
+				select career_sn,
+					   opetr_de,
+					   sort_no,
+					   mber_flag
+				from kipadm.cpa_career_hist
+				where delete_yn = 'N'
+				  and pin = #pin#
+				union all
+				select 999999999,
+					   to_char(sysdate,'yyyymmdd'),
+					   99999,
+					   'A9999999'
+				from dual
+				),
+
+				x_career as (
+				select substr(max(a.opetr_de||trim(to_char(NVL(a.sort_no,0),'00000'))||trim(to_char(a.career_sn,'0000000000'))||a.opetr_de),24)  fr_opetr_de,
+					   substr(max(a.opetr_de||trim(to_char(NVL(a.sort_no,0),'00000'))||trim(to_char(a.career_sn,'0000000000'))||a.mber_flag),24) fr_mber_flag,
+					   b.opetr_de  to_opetr_de,
+					   b.sort_no   to_sort_no,
+					   b.mber_flag to_mber_flag,
+					   to_date(b.opetr_de,'yyyymmdd') - to_date(substr(max(a.opetr_de||trim(to_char(NVL(a.sort_no,0),'00000'))||a.opetr_de),14),'yyyymmdd') carr_cnt
+				from x_cpa_career_hist a,
+					 x_cpa_career_hist b
+				where a.opetr_de||trim(to_char(NVL(a.sort_no,0),'00000'))||trim(to_char(a.career_sn,'0000000000')) < b.opetr_de||trim(to_char(NVL(b.sort_no,0),'00000'))||trim(to_char(b.career_sn,'0000000000'))
+				group by
+					   b.opetr_de||trim(to_char(NVL(b.sort_no,0),'00000'))||trim(to_char(b.career_sn,'0000000000')),
+					   b.opetr_de,
+					   b.sort_no,
+					   b.mber_flag
+				),
+
+				x_career2 as (
+				select sum(carr_cnt) x_cnt1,
+					   sum(decode(fr_mber_flag,'A2020010',carr_cnt,'A2020020',carr_cnt,'A2020030',carr_cnt,0)) x_cnt2,
+					   sum(decode(fr_mber_flag,'A2020010',carr_cnt,0)) x_cnt3
+				from x_career
+				where fr_mber_flag <> 'A2020070'
+				)
+
+				select trim(to_char(trunc(x_cnt1/365),'990'))||'년 '||trim(to_char(trunc(mod(x_cnt1,365)/30.4167),'90'))||'개월' as temp01,
+					   trim(to_char(trunc(x_cnt2/365),'990'))||'년 '||trim(to_char(trunc(mod(x_cnt2,365)/30.4167),'90'))||'개월' as temp02,
+					   trim(to_char(trunc(x_cnt3/365),'990'))||'년 '||trim(to_char(trunc(mod(x_cnt3,365)/30.4167),'90'))||'개월' as temp03
+				from x_career2
+         ]]>
+
+	</select>
+
+	<select id="MypDAO.selectCpaMemberRegistTrnngSmInfoList" parameterClass="HashMap" resultClass="EgovMap">
+
+		<![CDATA[
+            select
+            	tot_accnut_tm as temp01,
+			   	least(tot_accnut_tm,accnut_tm) as temp02,
+			   	greatest(tot_accnut_tm-accnut_tm,0) as temp03,
+			   	tot_morals_tm as temp04,
+			   	least(tot_morals_tm,morals_time) as temp05,
+			   	greatest(tot_morals_tm-morals_time,0) as temp06,
+			   	cyfd_atmpt_tm+stdr_tm -(tot_accnut_tm+tot_morals_tm) as temp07,
+			   	cyfd_excess_tm+rcogn_tm -(least(tot_accnut_tm,accnut_tm)+least(tot_morals_tm,morals_time)) as temp08,
+			   	greatest(cyfd_atmpt_tm+stdr_tm -(tot_accnut_tm+tot_morals_tm) - (cyfd_excess_tm+rcogn_tm -(least(tot_accnut_tm,accnut_tm)+least(tot_morals_tm,morals_time))),0) as temp09,
+			   	cyfd_atmpt_tm+stdr_tm as temp10,
+			   	cyfd_excess_tm+rcogn_tm as temp11,
+			   	atmpt_tm as temp12
+			from kipadm.cpa_trnng_sm
+			where trn_year = '2021'
+			  and pin = #pin#
+         ]]>
+
+	</select>
+
+	<select id="MypDAO.selectCpaMemberRegistAidMasterInfoList" parameterClass="HashMap" resultClass="EgovMap">
+
+		<![CDATA[
+            SELECT
+                    PIN
+                ,   MBER_FLAG
+                ,   SBSCRB_DE
+                ,   CASE WHEN MBER_FLAG = 'R' THEN '정회원' ELSE '준회원' END AS MBER_FLAG_NM
+
+            FROM AID_MASTER
+            WHERE PIN = #pin#
+         ]]>
+
+	</select>
+
+	<select id="MypDAO.selectCpaMemberRegistInsrncPayInfoList" parameterClass="HashMap" resultClass="EgovMap">
+
+		<![CDATA[
+            SELECT
+					TO_CHAR(TO_DATE(a.INS_BGN_DD),'YYYY-MM-DD') AS INS_BGN_DD
+				,   TO_CHAR(TO_DATE(a.INS_END_DD),'YYYY-MM-DD') AS INS_END_DD
+				,	a.PAY_YEAR
+				,   a.PAY_SN
+				,   a.CPA_SN
+				,   a.APRP_AMT
+				,   TO_CHAR(TO_DATE(a.PAY_DE),'YYYY-MM-DD') AS PAY_DE
+				,   a.REMARK
+				,   a.REPRATN_LMT_AMT
+				,   a.IDSR_AMT
+			FROM (SELECT
+						ip.PAY_YEAR
+					,   ip.PAY_SN
+					,   ip.CPA_SN
+					,   ip.INS_BGN_DD
+					,   ip.INS_END_DD
+					,   ip.APRP_AMT
+					,   ip.PAY_DE
+					,   ip.REMARK
+					,   ip.REPRATN_LMT_AMT
+					,   ip.IDSR_AMT
+
+			FROM INSRNC_PAY ip
+			WHERE ip.PAY_YEAR = (SELECT MAX(PAY_YEAR) FROM INSRNC_PAY WHERE CPA_SN = #cpaSn#)
+			  AND ip.CPA_SN = #cpaSn#
+			  ORDER BY PAY_SN) a
+
+			WHERE ROWNUM = 1
+         ]]>
+
+	</select>
+
+	<select id="MypDAO.selectCpaMemberRegistCareerHistInfoList" parameterClass="HashMap" resultClass="EgovMap">
+
+		<![CDATA[
+            SELECT
+                    TO_CHAR(TO_DATE(cch.OPETR_DE),'YYYY-MM-DD') AS OPETR_DE
+                ,   cch.MBER_FLAG
+                ,   (SELECT cc.CD_NM FROM CMMN_CODE cc WHERE cc.GRP_CD ='GA2020' AND cc.CD = cch.MBER_FLAG) AS MBER_FLAG_NM
+                ,   cch.AUDIT_ID
+                ,   cch.AUDIT_NM
+                ,   cch.AUDIT_OFCPS
+                ,   (SELECT cc.CD_NM FROM CMMN_CODE cc WHERE cc.GRP_CD ='GA3020' AND cc.CD = cch.AUDIT_OFCPS) AS AUDIT_OFCPS_NM
+                ,   cch.CANCL_CL
+                ,   TO_CHAR(TO_DATE(cch.RSNDQF_END_DE),'YYYY-MM-DD') AS RSNDQF_END_DE
+                ,   cch.REMARK
+
+            FROM CPA_CAREER_HIST cch
+            WHERE
+                cch.CAREER_SN = (SELECT MAX(CAREER_SN) FROM CPA_CAREER_HIST WHERE CPA_SN = #cpaSn# AND PIN = #pin# AND DELETE_YN = 'N')
+         ]]>
+
+	</select>
+
+	<select id="MypDAO.selectCpaMemberRegNmstOthbcInfoList" parameterClass="HashMap" resultClass="EgovMap">
+
+		<![CDATA[
+            SELECT
+            		PIN
+            	,	OFC_ADRES_YN
+            	,	OFC_NAME_YN
+            	,	OFC_TEL_YN
+            	,	OFC_FAX_YN
+            	,	EMAIL_YN
+            	,	PHOTO_YN
+				,	CASE WHEN OFC_ADRES_YN = 'Y' THEN '공개' ELSE '비공개' END AS OFC_ADRES_YN_NM
+				,	CASE WHEN OFC_NAME_YN = 'Y' THEN '공개' ELSE '비공개' END AS OFC_NAME_YN_NM
+				,	CASE WHEN OFC_TEL_YN = 'Y' THEN '공개' ELSE '비공개' END AS OFC_TEL_YN_NM
+				,	CASE WHEN OFC_FAX_YN = 'Y' THEN '공개' ELSE '비공개' END AS OFC_FAX_YN_NM
+				,	CASE WHEN EMAIL_YN = 'Y' THEN '공개' ELSE '비공개' END AS EMAIL_YN_NM
+				,	CASE WHEN PHOTO_YN = 'Y' THEN '공개' ELSE '비공개' END AS PHOTO_YN_NM
+
+            FROM CPA_NMST_OTHBC
+            WHERE PIN = #pin#
+         ]]>
+
+	</select>
+
+	<select id="MypDAO.selectCpaMemberRegProFieldInfoList" parameterClass="HashMap" resultClass="EgovMap">
+
+		<![CDATA[
+            SELECT
+				CASE WHEN remark is not null THEN concat(PRO_FILD_CD_NM,concat('(',concat(remark,')'))) WHEN remark is null THEN PRO_FILD_CD_NM END as PRO_FILD_CD_NM
+				,PRO_FILD_CD_FLAG
+			FROM(SELECT
+					LISTAGG(trim(PRO_FILD_CD_NM), ' · ')  WITHIN GROUP(ORDER BY PRO_FILD_CD) as PRO_FILD_CD_NM
+					,LISTAGG(trim(REMARK), ',')  WITHIN GROUP(ORDER BY PRO_FILD_CD) AS REMARK
+					,PRO_FILD_CD_FLAG
+				FROM (SELECT
+					a.PRO_FILD_CD,
+					a.REMARK,
+					a.PRO_FILD_CD_FLAG,
+					CASE WHEN a.PRO_FILD_CD_FLAG = '3' AND a.PRO_FILD_CD <> 'A2180399' THEN Substr(a.PRO_FILD_CD_NM,instr(a.PRO_FILD_CD_NM,'[',1,1)+1,(instr(a.PRO_FILD_CD_NM,']',1,1)-instr(a.PRO_FILD_CD_NM,'[',1,1))-1) ELSE a.PRO_FILD_CD_NM END AS PRO_FILD_CD_NM
+
+            	FROM
+					(SELECT
+						PIN
+					,	PRO_FILD_CD
+					,	REMARK
+					,   SUBSTR(PRO_FILD_CD,6,1) as PRO_FILD_CD_FLAG
+					,   (SELECT cc.CD_NM FROM CMMN_CODE cc WHERE cc.GRP_CD ='GA2180' AND cc.CD = PRO_FILD_CD) AS PRO_FILD_CD_NM
+
+					FROM PRO_FIELD
+					WHERE PIN = #pin#
+					) a)
+				group by PRO_FILD_CD_FLAG)
+         ]]>
+
+	</select>
+
+	<select id="MypDAO.selectCpaMemberRegProCareerInfoList" parameterClass="HashMap" resultClass="EgovMap">
+
+		<![CDATA[
+            SELECT
+            		CAREER_SN
+				,	PIN
+				,	INSTT_CD
+				,	(SELECT cc.CD_NM FROM CMMN_CODE cc WHERE cc.GRP_CD ='GA2190' AND cc.CD = INSTT_CD) AS INSTT_CD_NM
+				,	INSTT_NM
+				,	TO_CHAR(TO_DATE(BGN_YM, 'YYYY-MM'),'YYYY-MM') AS BGN_YM
+				,	TO_CHAR(TO_DATE(END_YM, 'YYYY-MM'),'YYYY-MM') AS END_YM
+				,	RSP_OFC
+				,	CHRG_JOB
+				,	REMARK
+
+            FROM PRO_CAREER
+            WHERE PIN = #pin#
+              AND DELETE_YN = 'N'
+            ORDER BY CAREER_SN ASC
+         ]]>
+
+	</select>
+
+	<select id="MypDAO.selectCpaMemberRegProCmitInfoList" parameterClass="HashMap" resultClass="EgovMap">
+
+		<![CDATA[
+            SELECT
+            		CMIT_SN
+				,	PIN
+				,	CMIT_CD
+				,	(SELECT cc.CD_NM FROM CMMN_CODE cc WHERE cc.GRP_CD ='GA2190' AND cc.CD = CMIT_CD) AS CMIT_CD_NM
+				,	CMIT_NM
+				,	TO_CHAR(TO_DATE(BGN_YM, 'YYYY-MM'),'YYYY-MM') AS BGN_YM
+				,	TO_CHAR(TO_DATE(END_YM, 'YYYY-MM'),'YYYY-MM') AS END_YM
+				,	ENTRST_INSTT
+				,	CHRG_JOB
+				,	REMARK
+
+            FROM PRO_CMIT
+            WHERE PIN = #pin#
+              AND DELETE_YN = 'N'
+            ORDER BY CMIT_SN ASC
+         ]]>
+
+	</select>
+
+	<select id="MypDAO.selectCpaMemberRegProLicenseInfoList" parameterClass="HashMap" resultClass="EgovMap">
+
+		<![CDATA[
+            SELECT
+            		LCNS_SN
+				,	PIN
+				,	LCNS_CD
+				,	(SELECT cc.CD_NM FROM CMMN_CODE cc WHERE cc.GRP_CD ='GA2200' AND cc.CD = LCNS_CD) AS LCNS_CD_NM
+				,	LCNS_NM
+				,	TO_CHAR(TO_DATE(ACQS_YM, 'YYYY-MM'),'YYYY-MM') AS ACQS_YM
+				,	ISSU_INSTT
+				,	REMARK
+
+            FROM PRO_LICENSE
+            WHERE PIN = #pin#
+              AND DELETE_YN = 'N'
+            ORDER BY LCNS_SN ASC
+         ]]>
+
+	</select>
+
+	<select id="MypDAO.selectCpaMemberRegProLtrryInfoList" parameterClass="HashMap" resultClass="EgovMap">
+
+		<![CDATA[
+            SELECT
+            		LTRRY_SN
+				,	PIN
+				,	LTRRY_YEAR
+				,	SUBJECT_NM
+				,	MAIN_CN
+				,	REMARK
+
+            FROM PRO_LTRRY
+            WHERE PIN = #pin#
+              AND DELETE_YN = 'N'
+            ORDER BY LTRRY_SN ASC
+         ]]>
+
+	</select>
+
+	<select id="MypDAO.selectCpaMemberRegProWnpzInfoList" parameterClass="HashMap" resultClass="EgovMap">
+
+		<![CDATA[
+            SELECT
+            		WNPZ_SN
+				,	PIN
+				,	TO_CHAR(TO_DATE(WNPZ_YM, 'YYYY-MM'),'YYYY-MM') AS WNPZ_YM
+				,	WNPZ_NM
+				,	CONTENTS
+				,	RELATE_INSTT
+				,	REMARK
+
+            FROM PRO_WNPZ
+            WHERE PIN = #pin#
+              AND DELETE_YN = 'N'
+            ORDER BY WNPZ_SN ASC
+         ]]>
+
+	</select>
+
+	<select id="MypDAO.selectCpaLastRsumInfoList" parameterClass="HashMap" resultClass="EgovMap">
+
+		<![CDATA[
+            SELECT
+                	mr.REGIST_DE
+                ,	mr.PIN
+                ,	mr.EVENTN
+                ,	mr.ATCH_FILE_ID
+                ,	(SELECT ld.ORIGNL_FILE_NM FROM LETTNFILEDETAIL ld WHERE mr.ATCH_FILE_ID =ld.ATCH_FILE_ID) AS FILE_NM
+                ,	(SELECT ld.FILE_STRE_COURS||'/'||ld.STRE_FILE_NM FROM LETTNFILEDETAIL ld WHERE mr.ATCH_FILE_ID =ld. ATCH_FILE_ID) AS FILE_URL
+
+            FROM MBER_RSUM mr
+            WHERE mr.REGIST_DE = (SELECT MAX(REGIST_DE) FROM MBER_RSUM WHERE PIN = #pin#)
+         ]]>
+
+	</select>
+
+	<select id="MypDAO.mypCpaLastRsumInfoSave" parameterClass="HashMap" resultClass="EgovMap">
+
+		<![CDATA[
+            MERGE INTO MBER_RSUM
+                USING DUAL
+                ON (REGIST_DE = #registDe# AND PIN = #pin#)
+                WHEN MATCHED THEN
+                          UPDATE SET
+                                EVENTN = #eventn#, ATCH_FILE_ID = #atchFileId#,
+                                LAST_UPDT_ID = #userId#, LAST_UPDT_DT = SYSTIMESTAMP
+                WHEN NOT MATCHED THEN
+                          INSERT (REGIST_DE,   PIN,   EVENTN,   ATCH_FILE_ID,
+                                    FRST_REGIST_ID,   FRST_REGIST_DT,   LAST_UPDT_ID,   LAST_UPDT_DT)
+                          VALUES (#registDe# , #pin# , #eventn# , #atchFileId# ,
+                                    #userId# , SYSTIMESTAMP , #userId# , SYSTIMESTAMP)
+         ]]>
+
+	</select>
+
+
+
+	<!-- 감사인 마이페이지 -->
+	<select id="MypDAO.selectgammyPageList" parameterClass="HashMap" resultClass="EgovMap">
+		<![CDATA[
+			SELECT
+					 a.kor_aud_nm
+					, a.chc_aud_nm
+					, a.eng_aud_nm
+					, d.KOREAN_NM
+					, TO_CHAR(TO_DATE(a.regist_de),'YYYY-MM-DD') AS regist_de
+					, a.audit_cd
+					, b.audit_id
+					, b.tax_grp_no
+					, b.tel_no1
+					, b.FAX_NO
+					, e.zip_cd
+					, e.rd_adres
+					, e.rd_adres_detail
+					, (select f.korean_nm from MBER_INDVDLINFO f where f.pin = a.rep_pin) as rep_pin
+					, d.pin
+					FROM AUDIT_INFO a
+					LEFT OUTER JOIN AUDIT_OFFICE b ON b.AUDIT_CD = a.AUDIT_CD
+					LEFT OUTER JOIN CPA c ON c.AUDIT_ID = b.AUDIT_ID
+					LEFT OUTER JOIN MBER_INDVDLINFO d ON d.PIN = c.PIN
+					left outer join adres_info e on e.ADR_TRG_ID = b.audit_id
+					WHERE c.AUDIT_OFCPS = 'A3020010'
+					and b.AUDIT_CL = 'A3050010'
+					and a.audit_cd = #auditCd#
+		]]>
+	</select>
+
+	<!-- 감사인 사무소 -->
+	<select id="MypDAO.selectgamofficemyPageList" parameterClass="HashMap" resultClass="EgovMap">
+		<![CDATA[
+			select
+				 audit_id
+			   , (select cd1. code_name from intladm.com_code_master cd1 where cd1.code = a.audit_cl) as status_cl
+			   , b.zip_cd
+			   , b.rd_adres
+			   , b.rd_adres_detail
+			   , a.fax_no
+			from audit_office a
+			left outer join adres_info b on a.audit_id = b.adr_trg_id
+			where audit_cd = #auditCd#
+			and del_yn = 'N'
+			order by audit_id
+		]]>
+	</select>
+
+	<!-- 감사인 회계법인행정직원 -->
+	<select id="MypDAO.selectgammypageAuditEmpList" parameterClass="HashMap" resultClass="EgovMap">
+		<![CDATA[
+			select
+				  emp_sn
+				, emp_nm
+				, rsp_ofc
+				, email
+				, tel_no
+				, mobl_phon_no
+				, audit_id
+			from audit_emp
+			where audit_id = #auditId#
+			and delete_yn = 'N'
+			order by emp_sn desc
+		]]>
+	</select>
+	<!-- 감사인 회계법인행정직원 insert -->
+	<insert id="MypDAO.insertgammypageAuditEmpList" parameterClass="HashMap">
+		<![CDATA[
+			insert into audit_emp  (
+				emp_sn
+				, audit_cd
+				, audit_id
+				, emp_nm
+				, rsp_ofc
+				, tel_no
+				, mobl_phon_no
+				, email
+				, delete_yn
+				, frst_regist_id
+				, frst_regist_dt
+				, last_updt_id
+				, last_updt_dt
+				)
+				values(
+				(select nvl(max(emp_sn),0)+1 from audit_emp)
+				,#auditCd#
+				,#auditId#
+				,#empNm#
+				,#rspOfc#
+				,#telNo#
+				,#moblPhonNo#
+				,#email#
+				,'N'
+				,#userId#
+				,systimestamp
+				,#userId#
+				,systimestamp
+				)
+		]]>
+	</insert>
+	<!-- 감사인 회계법인행정직원 delete-->
+	<update id="MypDAO.deletegammypageAuditEmpList" parameterClass="HashMap">
+		<![CDATA[
+			update audit_emp set
+				delete_yn = 'Y'
+				where emp_sn = #empSn#
+		]]>
+	</update>
+	<!-- 감사인 회계법인행정직원 update-->
+	<update id="MypDAO.updategammypageAuditEmpList" parameterClass="HashMap">
+		<![CDATA[
+			update audit_emp set
+				emp_nm = #empNm#
+				,rsp_ofc = #rspOfc#
+				,tel_no = #telNo#
+				,mobl_phon_no = #moblPhonNo#
+				,email = #email#
+				where emp_sn = #empSn#
+		]]>
+	</update>
+	<!-- 수습회계사 등록신청접수 현황 -->
+	<select id="MypDAO.selectgammyPageapntcmypList" parameterClass="HashMap" resultClass="EgovMap">
+		select
+			'A' as type
+			, DECODE(reg_flag,'Y','제출','E','승인완료','F','반려') AS reg_flag
+			, APNTC_SN
+			, to_char(to_date(APP_REGIST_DE, 'YYYY-MM-DD'),'YYYY-MM-DD') as APP_REGIST_DE
+			, korean_nm
+			, to_char(to_date(brthdy, 'YYYY-MM-DD'),'YYYY-MM-DD') as brthdy
+			, GUIDE_CPA_NM
+			, GUIDE_CPA_no
+			, GRDT_SATAUS
+			, to_char(to_date(GRDT_DE, 'YYYY-MM-DD'),'YYYY-MM-DD') as GRDT_DE
+			, to_char(to_date(VACATION_STR_DE, 'YYYY-MM-DD') ,'YYYY-MM-DD') as VACATION_STR_DE
+			, to_char(to_date(VACATION_end_De, 'YYYY-MM-DD'),'YYYY-MM-DD') as VACATION_end_De
+			from apntc_cpa_myp
+			where APP_INSTT_CD = #auditCd#
+
+		<isNotEmpty property="approval">
+			<![CDATA[
+				AND    reg_flag = #approval#
+			]]>
+		</isNotEmpty>
+
+		<isNotEmpty property="startDate">
+			<![CDATA[
+				AND    app_regist_de >= #startDate#
+			]]>
+		</isNotEmpty>
+
+		<isNotEmpty property="endDate">
+			<![CDATA[
+				AND    app_regist_de <= #endDate#
+			]]>
+		</isNotEmpty>
+
+		<isNotEmpty property="graduation">
+			<![CDATA[
+				AND    GRDT_SATAUS = #graduation#
+			]]>
+		</isNotEmpty>
+
+		<isNotEmpty property="searchText">
+			<![CDATA[
+				AND    korean_nm  LIKE '%' || #searchText# || '%'
+			]]>
+		</isNotEmpty>
+
+		union
+
+		select
+			'B' as type
+			, DECODE(reg_flag,'Y','제출','E','승인완료','F','반려') AS reg_flag
+			, APNTC_SN
+			, to_char(to_date(AUD_REGIST_DE, 'YYYY-MM-DD'),'YYYY-MM-DD') as AUD_REGIST_DE
+			, korean_nm
+			,to_char(to_date(brthdy, 'YYYY-MM-DD'),'YYYY-MM-DD') as brthdy
+			, GUIDE_CPA_NM
+			, GUIDE_CPA_no
+			,'' as GRDT_SATAUS
+			, '' as GRDT_DE
+			, '' as VACATION_STR_DE
+			, '' as VACATION_end_De
+			from apntc_aud_cpa_myp
+		where APP_INSTT_CD = #auditCd#
+
+		<isNotEmpty property="approval">
+			<![CDATA[
+				AND    reg_flag = #approval#
+			]]>
+		</isNotEmpty>
+
+		<isNotEmpty property="startDate">
+			<![CDATA[
+				AND    app_regist_de >= #startDate#
+			]]>
+		</isNotEmpty>
+
+		<isNotEmpty property="endDate">
+			<![CDATA[
+				AND    app_regist_de <= #endDate#
+			]]>
+		</isNotEmpty>
+
+		<isNotEmpty property="graduation">
+			<![CDATA[
+				AND    GRDT_SATAUS = #graduation#
+			]]>
+		</isNotEmpty>
+
+		<isNotEmpty property="searchText">
+			<![CDATA[
+				AND    korean_nm  LIKE '%' || #searchText# || '%'
+			]]>
+		</isNotEmpty>
+	</select>
+
+	<select id="MypDAO.selectgammyPagecpamypList" parameterClass="HashMap" resultClass="EgovMap">
+		<![CDATA[
+			select
+				  reg_flag
+				, cpa_sn
+				, to_char(to_date(regist_de, 'YYYY-MM-DD'),'YYYY-MM-DD') as regist_de
+				, korean_nm
+				, to_char(to_date(brthdy, 'YYYY-MM-DD'),'YYYY-MM-DD') as brthdy
+				, regist_flag
+				, to_char(to_date(pay_de, 'YYYY-MM-DD'),'YYYY-MM-DD') as pay_de
+				, decode(pay_id_flag, 'P', '개인', 'A','감사인') AS pay_id_flag
+				 from cpa_myp a
+			left outer join sbscrb_master b on a.pin = b.pin
+			where b.pay_id = #auditCd#
+			and pay_id_flag = 'A'
+			]]>
+
+		<isNotEmpty property="approval">
+			<![CDATA[
+				AND    reg_flag >= #approval#
+			]]>
+		</isNotEmpty>
+
+
+		<isNotEmpty property="startDate">
+			<![CDATA[
+				AND    regist_de >= #startDate#
+			]]>
+		</isNotEmpty>
+
+		<isNotEmpty property="endDate">
+			<![CDATA[
+					AND    regist_de <= #endDate#
+				]]>
+		</isNotEmpty>
+
+		<isNotEmpty property="searchText">
+			<![CDATA[
+				AND    korean_nm  LIKE '%' || #searchText# || '%'
+			]]>
+		</isNotEmpty>
+
+	</select>
+
+	<!-- 행정대표 변경 -->
+	<update id="MypDAO.updategammypageReppinList" parameterClass="HashMap">
+		<![CDATA[
+			update audit_info set
+			rep_pin = #pin#
+			where audit_cd = #auditCd#
+		]]>
+	</update>
+
+</sqlMap>
