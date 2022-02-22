@@ -5,4 +5,6 @@
 <sqlMapConfig>
     <sqlMap resource="adminwork/sqlmap/let/cmm/use/CmmUse_SQL_Oracle.xml"/>      
     <sqlMap resource="adminwork/sqlmap/let/cmm/fms/File_SQL_Oracle.xml"/>
+    
+    
 </sqlMapConfig>
