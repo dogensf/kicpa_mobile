@@ -1102,7 +1102,7 @@
 	</insert>
 
 
-	<insert id="KicpaCommBoardDAO.insertCommonCafeBoardFile">
+	<insert id="KicpaCommBoardDAO.insertCommonBoardFile" parameterClass="HashMap">
 		INSERT INTO BLTN_FILE(BOARD_ID, BLTN_NO, FILE_SEQ, ATCH_TYPE, FILE_NM, FILE_MASK, FILE_SIZE, DOWN_CNT, ATCH_DATIM)
 		VALUES (#boardId#
 			   ,#bltnNo#
@@ -1115,7 +1115,7 @@
 			   ,SYSDATE)
 	</insert>
 
-	<insert id="KicpaCommBoardDAO.insertCommonCafeBoardFile">
+	<insert id="KicpaCommBoardDAO.insertCommonCafeBoardFile" parameterClass="HashMap">
 		INSERT INTO BLTN_CAFE_FILE(BOARD_ID, BLTN_NO, FILE_SEQ, ATCH_TYPE, FILE_NM, FILE_MASK, FILE_SIZE, DOWN_CNT, ATCH_DATIM)
 		VALUES (#boardId#
 			   ,#bltnNo#
@@ -1128,6 +1128,41 @@
 			   ,SYSDATE)
 	</insert>
 
+	<select id="KicpaCommBoardDAO.selectCommonBoardKey" parameterClass="HashMap" resultClass="egovMap">
+		SELECT SEQ FROM KEYGEN WHERE ENTITY_NAME= #entityName#
+	</select>
+
+	<update id="KicpaCommBoardDAO.mergeCommonBoardKey" parameterClass="HashMap">
+		MERGE INTO KEYGEN A
+	    USING (SELECT  #entityName# ENTITY_NAME FROM DUAL) B
+	        ON (A.ENTITY_NAME = B.ENTITY_NAME)
+	    WHEN MATCHED THEN
+	        UPDATE SET
+	            A.SEQ = A.SEQ+1
+	     WHEN NOT MATCHED THEN
+	        INSERT (ENTITY_NAME,SEQ)
+	        VALUES (B.ENTITY_NAME,1);
+	</update>
+
+	<update id="KicpaCommBoardDAO.mergeCommonBoardUserHistory" parameterClass="HashMap">
+		MERGE INTO USER_BOARD_HIST A
+		USING (SELECT  #userId# USER_ID, #boardId# BOARD_ID
+			  FROM DUAL) B
+		ON (A.USER_ID = B.USER_ID
+			AND A.BOARD_ID = B.BOARD_ID)
+		WHEN MATCHED THEN
+	        UPDATE SET
+	        	A.WRT_CNT = A.WRT_CNT+1
+	   	 WHEN NOT MATCHED THEN
+	   	 	INSERT (USER_ID, BOARD_ID, WRT_CNT, REPLY_CNT, MEMO_CNT, MEMO_REPLY_CNT)
+	        VALUES (B.USER_ID, BBOARD_ID, 1, 0, 0, 0);
+	</update>
+
+<!-- 	<insert id=""> -->
+<!-- 		INSERT INTO ACTION_HIST(SEQ, DOMAIN_ID, REG_DATIM, USER_IP, USER_ID, BOARD_ID, BLTN_NO, ACTION_CD, FILE_MASK) -->
+<!-- 		VALUES() -->
+
+<!-- 	</insert> -->
 
 
 
