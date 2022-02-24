@@ -1128,7 +1128,7 @@
 			   ,SYSDATE)
 	</insert>
 
-	<select id="KicpaCommBoardDAO.selectCommonBoardKey" parameterClass="HashMap" resultClass="egovMap">
+	<select id="KicpaCommBoardDAO.selectCommonBoardKey" parameterClass="HashMap" resultClass="string">
 		SELECT SEQ FROM KEYGEN WHERE ENTITY_NAME= #entityName#
 	</select>
 
@@ -1158,11 +1158,21 @@
 	        VALUES (B.USER_ID, BBOARD_ID, 1, 0, 0, 0);
 	</update>
 
-<!-- 	<insert id=""> -->
-<!-- 		INSERT INTO ACTION_HIST(SEQ, DOMAIN_ID, REG_DATIM, USER_IP, USER_ID, BOARD_ID, BLTN_NO, ACTION_CD, FILE_MASK) -->
-<!-- 		VALUES() -->
+	<insert id="KicpaCommBoardDAO.insertCommonBoardUserActionHistory" parameterClass="HashMap">
+		INSERT INTO ACTION_HIST(SEQ, DOMAIN_ID, REG_DATIM, USER_IP, USER_ID, BOARD_ID, BLTN_NO, ACTION_CD, FILE_MASK)
+		VALUES(
+			#SEQ#,
+			1,
+			SYSDATE,
+			#userIp#,
+			#userId#,
+			#boardId#,
+			#bltnNo#,
+			#actionCd#,
+			#fileMask#
+		)
 
-<!-- 	</insert> -->
+	</insert>
 
 
 

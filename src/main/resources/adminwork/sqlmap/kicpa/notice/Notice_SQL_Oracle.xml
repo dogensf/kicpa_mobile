@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="Notice">
+
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+
+	<select id="NoticeDAO.selectNewsList" parameterClass="HashMap" resultClass="egovMap">
+		SELECT *
+		FROM (
+			SELECT ROW_NUMBER() OVER(order by A.KNL_REG_DATE_ORDER desc) AS rnum
+			    ,A.*
+			FROM (
+			        SELECT
+			            m.knl_gubun,
+			            to_char(KNL_ID) KNL_ID,
+			            m.KNL_URL,m.KNL_SUBJECT,m.KNL_SOURCE,TO_CHAR(m.KNL_REG_DATE,'YYYY.MM.DD HH24:MI:SS') KNL_REG_DATE_ORDER,TO_CHAR(m.KNL_REG_DATE,'YYYY.MM.DD') KNL_REG_DATE
+			        from KICPA_NEWS_LETTER m
+			        where knl_use='3' and knl_send_date is not NULL
+			        and (
+			                (m.knl_gubun = 'scrap' and knl_sep_code in ('02620200','02620300','02620400','02620500','02620550','02620600'))
+			                or
+			                (m.knl_gubun = 'clipp' and knl_sep in ('10','30','50','60','80') and knl_info_yn ='1')
+			             )
+		        	<isNotNull property="searchKeyword">
+			       		<isNotEmpty property="searchKeyword">
+			       			AND (UPPER(M.KNL_SUBJECT) LIKE '%'||UPPER(#searchKeyword#)||'%')
+			       		</isNotEmpty>
+			       	</isNotNull>
+			        union all
+			        SELECT t1.board_id,
+			               t1.bltn_no,
+			               '' KNL_URL,
+			               t1.bltn_subj,
+			               case when t1.board_id = 'rpnofin04' then t6.EXT_STR1
+			                    when t1.board_id = 'prsrls' then t6.EXT_STR3
+			               else ''
+			               end KNL_SOURCE,
+			               TO_CHAR(t1.REG_DATIM,'YYYY.MM.DD HH24:MI:SS') KNL_REG_DATE_ORDER,
+			               TO_CHAR(t1.REG_DATIM,'YYYY.MM.DD HH24:MI:SS') KNL_REG_DATE
+			        FROM   bulletin t1
+			            LEFT JOIN BLTN_EXTN T6
+			                ON t6.board_id=t1.board_id
+			                AND    t6.bltn_no=t1.bltn_no
+			        WHERE  t1.board_id in ('rpnofin04','prsrls')
+			        AND t1.DEL_FLAG = 'N'
+			        AND t1.BLTN_PERMIT_YN = 'Y'
+			        AND t1.BLTN_SECRET_YN = 'N'
+		         	<isNotNull property="searchKeyword">
+			       		<isNotEmpty property="searchKeyword">
+			       			AND (UPPER(T1.BLTN_SUBJ) LIKE '%'||UPPER(#searchKeyword#)||'%')
+			       		</isNotEmpty>
+			       	</isNotNull>
+			     ) A
+			)B
+		WHERE rnum BETWEEN #pageIndex# AND (#pageIndex#-1)+#pageSize#
+
+	</select>
+
+	<select id="NoticeDAO.selectNewsListCnt" parameterClass="HashMap" resultClass="int">
+		SELECT COUNT(*)
+		FROM (
+		        SELECT
+		            m.knl_gubun,
+		            to_char(KNL_ID) KNL_ID,
+		            m.KNL_URL,m.KNL_SUBJECT,m.KNL_SOURCE,TO_CHAR(m.KNL_REG_DATE,'YYYY.MM.DD HH24:MI:SS') KNL_REG_DATE_ORDER,TO_CHAR(m.KNL_REG_DATE,'YYYY.MM.DD') KNL_REG_DATE
+		        from KICPA_NEWS_LETTER m
+		        where knl_use='3' and knl_send_date is not NULL
+		        and (
+		                (m.knl_gubun = 'scrap' and knl_sep_code in ('02620200','02620300','02620400','02620500','02620550','02620600'))
+		                or
+		                (m.knl_gubun = 'clipp' and knl_sep in ('10','30','50','60','80') and knl_info_yn ='1')
+		             )
+	        	<isNotNull property="searchKeyword">
+		       		<isNotEmpty property="searchKeyword">
+		       			AND (UPPER(M.KNL_SUBJECT) LIKE '%'||UPPER(#searchKeyword#)||'%')
+		       		</isNotEmpty>
+		       	</isNotNull>
+		        union all
+		        SELECT t1.board_id,
+		               t1.bltn_no,
+		               '' KNL_URL,
+		               t1.bltn_subj,
+		               case when t1.board_id = 'rpnofin04' then t6.EXT_STR1
+		                    when t1.board_id = 'prsrls' then t6.EXT_STR3
+		               else ''
+		               end KNL_SOURCE,
+		               TO_CHAR(t1.REG_DATIM,'YYYY.MM.DD HH24:MI:SS') KNL_REG_DATE_ORDER,
+		               TO_CHAR(t1.REG_DATIM,'YYYY.MM.DD HH24:MI:SS') KNL_REG_DATE
+		        FROM   bulletin t1
+		            LEFT JOIN BLTN_EXTN T6
+		                ON t6.board_id=t1.board_id
+		                AND    t6.bltn_no=t1.bltn_no
+		        WHERE  t1.board_id in ('rpnofin04','prsrls')
+		        AND t1.DEL_FLAG = 'N'
+		        AND t1.BLTN_PERMIT_YN = 'Y'
+		        AND t1.BLTN_SECRET_YN = 'N'
+	         	<isNotNull property="searchKeyword">
+		       		<isNotEmpty property="searchKeyword">
+		       			AND (UPPER(T1.BLTN_SUBJ) LIKE '%'||UPPER(#searchKeyword#)||'%')
+		       		</isNotEmpty>
+		       	</isNotNull>
+		     ) A
+
+
+	</select>
+
+
+
+
+
+</sqlMap>

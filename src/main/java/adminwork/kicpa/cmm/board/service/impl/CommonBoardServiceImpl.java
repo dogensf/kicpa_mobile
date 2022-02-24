@@ -1,6 +1,7 @@
 package adminwork.kicpa.cmm.board.service.impl;
 
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -8,6 +9,7 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
+import adminwork.com.cmm.StringUtil;
 import adminwork.kicpa.cmm.board.service.CommonBoardService;
 import adminwork.kicpa.cmm.comm.service.KicpaCommService;
 import adminwork.kicpa.job.service.JobAdvertisementService;
@@ -47,30 +49,30 @@ public class CommonBoardServiceImpl extends EgovAbstractServiceImpl implements C
 
 	@Override
 	public EgovMap selectCommonBoardDetail(Map<String, Object> map) throws Exception {
-		
+
 		EgovMap boardDetail = null;
-		
+
 		boardDetail = commonBoardDAO.selectCommonBoardDetail(map);
 		if(boardDetail != null && !boardDetail.isEmpty()) {
 			map.put("bltnGn", boardDetail.get("bltnGn"));
 			boardDetail.put("fileList", commonBoardDAO.selectCommonBoardFileList(map));
 			boardDetail.put("boardGroupList", commonBoardDAO.selectCommonBoardGroupList(map));
 		}
-		
+
 		return boardDetail;
 	}
 
 	@Override
 	public EgovMap selectCommonCafeBoardDetail(Map<String, Object> map) throws Exception {
 		EgovMap boardDetail = null;
-		
+
 		boardDetail = commonBoardDAO.selectCommonCafeBoardDetail(map);
-		
+
 		if(boardDetail != null && !boardDetail.isEmpty()) {
 			boardDetail.put("fileList", commonBoardDAO.selectCommonCafeBoardFileList(map));
 			boardDetail.put("boardGroupList", commonBoardDAO.selectCommonCafeBoardGroupList(map));
 		}
-		
+
 		return boardDetail;
 	}
 
@@ -124,8 +126,70 @@ public class CommonBoardServiceImpl extends EgovAbstractServiceImpl implements C
 		return commonBoardDAO.selectCommonBoardIdArrListCnt(map);
 	}
 
+	@Override
+	public void insertCommonBoard(Map<String, Object> map) throws Exception {
+
+		try {
+			List<HashMap<String,Object>> fileList = (List<HashMap<String, Object>>) map.get("fileList");
 
 
-	
-	
+
+			String key = commonBoardDAO.selectCommonBoardKey(map);
+
+			if("".equals(StringUtil.isNullToString(key))) {
+				key = "1";
+			}
+
+			if("Y".equals(map.get("bltnTopTag"))) {
+				map.put("bltnGn", (Long.parseLong(key) +9000000000L ) );
+			}else if("T".equals(map.get("bltnTopTag"))) {
+				map.put("bltnGn", (Long.parseLong(key) +9900000000L ) );
+			}else {
+				map.put("bltnGn", (Long.parseLong(key)));
+			}
+
+			commonBoardDAO.mergeCommonBoardKey(map);
+
+
+
+			String bltnNo = "1" + System.currentTimeMillis();
+			map.put("bltnNo", bltnNo);
+			if("Y".equals(map.get("owntblYn")) && "CAFE".equals(map.get("owntblFix"))) {
+				commonBoardDAO.insertCommonCafeBoard(map);
+				commonBoardDAO.insertCommonCafeBoardCnnt(map);
+
+			}else {
+				commonBoardDAO.insertCommonBoard(map);
+				commonBoardDAO.insertCommonBoardCnnt(map);
+			}
+
+
+			if(fileList != null && !fileList.isEmpty()) {
+
+				for(HashMap<String,Object> fileMap : fileList) {
+					if("Y".equals(map.get("owntblYn")) && "CAFE".equals(map.get("owntblFix"))) {
+						commonBoardDAO.insertCommonCafeBoardFile(map);
+					}else {
+						commonBoardDAO.insertCommonBoardFile(map);
+					}
+				}
+
+			}
+
+			commonBoardDAO.mergeCommonBoardUserHistory(map);
+			commonBoardDAO.insertCommonBoardUserActionHistory(map);
+
+
+		}catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+
+
+	}
+
+
+
+
+
 }

@@ -4,10 +4,11 @@
 
 <sqlMapConfig>
     <sqlMap resource="adminwork/sqlmap/kicpa/job/JobAdvertisement_SQL_Oracle.xml"/>
+    <sqlMap resource="adminwork/sqlmap/kicpa/notice/Notice_SQL_Oracle.xml"/>
     <sqlMap resource="adminwork/sqlmap/kicpa/counselCenter/CounselCenter_SQL_Oracle.xml"/>
     <sqlMap resource="adminwork/sqlmap/kicpa/sntBook/SntBook_SQL_Oracle.xml"/>
     <sqlMap resource="adminwork/sqlmap/kicpa/cmm/comm/KicpaComm_SQL_Oracle.xml"/>
     <sqlMap resource="adminwork/sqlmap/kicpa/cmm/board/KicpaCommBoard_SQL_Oracle.xml"/>
 <!--     <sqlMap resource="adminwork/sqlmap/kicpa/ofnt/KICPA_SQL_Ofnt.xml"/> -->
-<!--     <sqlMap resource="adminwork/sqlmap/kicpa/qna/KICPA_SQL_Qna.xml"/> --> 
+<!--     <sqlMap resource="adminwork/sqlmap/kicpa/qna/KICPA_SQL_Qna.xml"/> -->
 </sqlMapConfig>

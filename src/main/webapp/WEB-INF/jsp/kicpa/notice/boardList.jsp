@@ -5,8 +5,8 @@
 <script src="/js/kicpa/notice/notice.js"></script>
 <script>
 $(document).ready(function(){
-	board.boardListInit();
-// 	notice.init();
+// 	board.boardListInit();
+	notice.boardListInit();
 });
 </script>
 
@@ -27,11 +27,11 @@ $(document).ready(function(){
 	    <a class="tab-link active" href="javascript:void(0);" onclick="notice.menuChange(this,'noti')">
 	        <span>공지사항</span>
 	    </a>
-	    <a class="tab-link" href="javascript:void(0);" onclick="notice.menuChange(this,'press02')">
+	    <a class="tab-link" href="javascript:void(0);" onclick="notice.menuChange(this,'NEWS')">
 	        <span>주요기사(Newsclips)</span>
 	    </a>
 
-	    <a class="tab-link" href="javascript:void(0);" onclick="notice.menuChange(this,'intl04/intl05/intl06/intl07/intl08')">
+	    <a class="tab-link" href="javascript:void(0);" onclick="notice.menuChange(this,'intl04/intl05/intl06/intl07/intl08/rpnofin05')">
 	        <span>국제동향</span>
 	    </a>
 	</div>

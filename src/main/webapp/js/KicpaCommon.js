@@ -264,11 +264,14 @@ function fn_portal_pop(obj,text){
 	});
 
 
-	if(text.gray != null){
+
+
+
+	if(text != null && text.gray != null){
 		$(".gray-box").html(text.gray )
 	}
 
-	if(text.notice != null){
+	if(text != null && text.notice != null){
 		$(".notice").html(text.notice )
 	}
 
