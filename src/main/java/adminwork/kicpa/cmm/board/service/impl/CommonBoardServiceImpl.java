@@ -132,7 +132,7 @@ public class CommonBoardServiceImpl extends EgovAbstractServiceImpl implements C
 		try {
 			List<HashMap<String,Object>> fileList = (List<HashMap<String, Object>>) map.get("fileList");
 
-
+			EgovMap boardMaster = commonBoardDAO.selectBoardMaster(map);
 
 			String key = commonBoardDAO.selectCommonBoardKey(map);
 
@@ -154,13 +154,17 @@ public class CommonBoardServiceImpl extends EgovAbstractServiceImpl implements C
 
 			String bltnNo = "1" + System.currentTimeMillis();
 			map.put("bltnNo", bltnNo);
-			if("Y".equals(map.get("owntblYn")) && "CAFE".equals(map.get("owntblFix"))) {
+			if("Y".equals(boardMaster.get("owntblYn")) && "CAFE".equals(boardMaster.get("owntblFix"))) {
 				commonBoardDAO.insertCommonCafeBoard(map);
 				commonBoardDAO.insertCommonCafeBoardCnnt(map);
 
 			}else {
 				commonBoardDAO.insertCommonBoard(map);
 				commonBoardDAO.insertCommonBoardCnnt(map);
+			}
+
+			if("Y".equals(boardMaster.get("funcYns9")) || "Y".equals(boardMaster.get("funcYns8"))) {
+				commonBoardDAO.insertCommonBoardExtn(map);
 			}
 
 

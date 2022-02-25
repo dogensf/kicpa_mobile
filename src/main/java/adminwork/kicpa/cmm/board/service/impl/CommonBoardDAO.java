@@ -106,5 +106,8 @@ public class CommonBoardDAO extends EgovAbstractDAO{
 	public int insertCommonBoardUserActionHistory(Map<String, Object> map) throws Exception {
 		return (int) update("KicpaCommBoardDAO.insertCommonBoardUserActionHistory",map);
 	}
+	public int insertCommonBoardExtn(Map<String, Object> map) throws Exception {
+		return (int) update("KicpaCommBoardDAO.insertCommonBoardExtn",map);
+	}
 }
 

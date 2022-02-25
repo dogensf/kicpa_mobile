@@ -1,3 +1,4 @@
+@charset "UTF-8";
 @font-face {
   font-family: 'Spoqa Han Sans';
   src: local("Spoqa Han Sans");
@@ -118,6 +119,10 @@ input {
           box-sizing: border-box;
 }
 
+input:focus {
+  outline: none;
+}
+
 table {
   border-collapse: collapse;
   word-break: break-all;
@@ -135,8 +140,14 @@ caption {
   padding: 0;
 }
 
+.container {
+  position: relative;
+  padding-bottom: 7rem;
+}
+
 .content {
-  padding-bottom: 8.4rem;
+  position: relative;
+  min-height: 400px;
 }
 
 .head-main {
@@ -354,12 +365,8 @@ address span.between-line a + a::before {
   background-color: #EFF4F9;
 }
 
-.padding-wrap {
-  padding: 3rem 1.6rem 0;
-}
-
-.padding-wrap .board-top, .padding-wrap .board-list {
-  padding: 0;
+.pd-wrap {
+  padding: 3rem 1.6rem;
 }
 
 .view-list li {
@@ -482,6 +489,62 @@ ol.blt li::before {
   display: block;
 }
 
+.login-wrap {
+  padding: 21rem 1.6rem 2rem;
+  background: url(/images/kicpa/logo-login.png) no-repeat 50% 5rem;
+  background-size: 18.6rem 6rem;
+}
+
+.login-wrap .inp-box + .inp-box {
+  margin-top: 2rem;
+}
+
+.login-wrap .login-box {
+  padding: 0 3.1rem;
+  margin-bottom: 5rem;
+}
+
+.login-guide {
+  margin-top: -1px;
+}
+
+.login-guide .ment {
+  position: relative;
+  padding: 5.8rem 0 3rem;
+  text-align: center;
+  font-size: 1.8rem;
+  font-weight: 400;
+  line-height: 2.6rem;
+  color: #222;
+  background-color: #EFF4F9;
+}
+
+.login-guide .ment::before {
+  content: '';
+  display: block;
+  position: relative;
+  z-index: 1;
+  margin: 0 auto;
+  margin-bottom: 2.8rem;
+  width: 9rem;
+  height: 9rem;
+  background: url("data:image/svg+xml;charset=utf8,%3Csvg width='90' height='90' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M51.421 80.587a36.887 36.887 0 0 0 14.752-66.54 36.886 36.886 0 1 0-14.752 66.54Z' stroke='%23F5222D' stroke-width='2'/%3E%3Ccircle cx='45.262' cy='63.443' r='2.951' stroke='%23F5222D' stroke-width='2'/%3E%3Cpath d='M45.262 26.558v23.606' stroke='%23F5222D' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat 50%;
+  background-size: 100%;
+}
+
+.login-guide button {
+  margin: 5rem 1.6rem 0;
+}
+
+.login-guide p, .login-guide p a {
+  margin-top: 4.6rem;
+  text-align: center;
+  font-size: 1.4rem;
+  font-weight: 400;
+  line-height: 2rem;
+  color: #222;
+}
+
 button {
   cursor: pointer;
 }
@@ -565,9 +628,7 @@ button:focus {
 }
 
 .btn-round {
-  -webkit-box-flex: 1;
-      -ms-flex: 1;
-          flex: 1;
+  width: 100%;
   font-size: 1.6rem;
   font-weight: 500;
   line-height: 2.2rem;
@@ -580,6 +641,15 @@ button:focus {
 .btn-round.fill {
   background-color: #0070c0;
   color: #fff;
+}
+
+.btn-round:disabled:not(.fill) {
+  border-color: #ccc;
+  color: #ccc;
+}
+
+.btn-round.readonly:not(.fill) {
+  opacity: .4;
 }
 
 .btn-round-m {
@@ -647,7 +717,7 @@ button:focus {
   -webkit-box-direction: reverse;
       -ms-flex-direction: column-reverse;
           flex-direction: column-reverse;
-  bottom: 5.4rem;
+  bottom: 7.4rem;
   right: 1.6rem;
   z-index: 100;
 }
@@ -760,12 +830,60 @@ button:focus {
 }
 
 .btn-text-blue {
-  display: block;
-  width: 100%;
   font-size: 1.6rem;
   font-weight: 700;
   line-height: 2.2rem;
   color: #0070C0;
+}
+
+.btn-text-back {
+  margin: 0 auto;
+  padding-left: 1.5rem;
+  font-size: 1.6rem;
+  font-weight: 700;
+  line-height: 2.2rem;
+  color: #0070C0;
+  background: url("data:image/svg+xml;charset=utf8,%3Csvg width='14' height='22' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M13.06 3.06A1.5 1.5 0 0 0 10.94.94l2.12 2.12ZM3 11 1.94 9.94.878 11l1.06 1.06L3 11Zm7.94 10.06a1.5 1.5 0 0 0 2.12-2.12l-2.12 2.12Zm0-20.12-9 9 2.12 2.12 9-9L10.94.94Zm-9 11.12 9 9 2.12-2.12-9-9-2.12 2.12Z' fill='%230070C0'/%3E%3C/svg%3E") no-repeat 0 50%;
+  background-size: .6rem;
+}
+
+.btn-page-bottom {
+  margin-top: 5rem;
+  text-align: center;
+}
+
+.btn-line-plus {
+  margin: 5rem auto 0 auto;
+  text-align: center;
+}
+
+.btn-line-plus button {
+  border: 1px solid #0070C0;
+  border-radius: .6rem;
+  height: 4rem;
+  padding: 0 1.6rem;
+}
+
+.btn-line-plus button span {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  font-size: 1.4rem;
+  font-weight: 500;
+  line-height: 2rem;
+  color: #0070C0;
+}
+
+.btn-line-plus button span::before {
+  content: '';
+  width: 2rem;
+  height: 2rem;
+  background: url("data:image/svg+xml;charset=utf8,%3Csvg width='14' height='14' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M7 1v12M13 7H1' stroke='%230070C0' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat 50%;
+  background-size: 1.2rem;
+  margin-right: .8rem;
 }
 
 .board-top {
@@ -1442,17 +1560,16 @@ input[type=button] {
   border-bottom: 1px solid #666;
 }
 
-input[type=text]:focus,
-input[type=email]:focus,
-input[type=password]:focus,
-input[type=number]:focus,
-input[type=tel]:focus,
-input[type=url]:focus,
-input[type=date]:focus,
-input[type=search]:focus,
-input[type=time]:focus,
-input[type=button]:focus {
-  outline: none;
+input[type=text]:focus:not(:readonly),
+input[type=email]:focus:not(:readonly),
+input[type=password]:focus:not(:readonly),
+input[type=number]:focus:not(:readonly),
+input[type=tel]:focus:not(:readonly),
+input[type=url]:focus:not(:readonly),
+input[type=date]:focus:not(:readonly),
+input[type=search]:focus:not(:readonly),
+input[type=time]:focus:not(:readonly),
+input[type=button]:focus:not(:readonly) {
   border-color: #0070C0;
 }
 
@@ -1643,34 +1760,19 @@ input[type="checkbox"]:disabled + label::before {
 }
 
 input[type="radio"] + label::before {
-  border: .1rem solid #666;
-}
-
-input[type="radio"] + label::after {
-  position: absolute;
-  width: .8rem;
-  height: .8rem;
-  border-radius: 50%;
-  overflow: hidden;
-  left: .6rem;
-  top: .65rem;
-  background-color: #0070C0;
+  border: 1px solid #666;
+  -webkit-box-shadow: inset 0 0 0 6px #fff;
+          box-shadow: inset 0 0 0 6px #fff;
+  background-color: #fff;
 }
 
 input[type="radio"]:checked + label::before {
   border-color: #0070C0;
-}
-
-input[type="radio"]:checked + label::after {
-  content: '';
+  background-color: #0070C0;
 }
 
 input[type="radio"]:disabled + label::before {
   border-color: #ccc;
-}
-
-input[type="radio"]:disabled + label::after {
-  content: '';
   background-color: #ccc;
 }
 
@@ -1724,6 +1826,84 @@ select.readonly {
   color: #222;
   border-color: #ccc;
   background-image: url("data:image/svg+xml;charset=utf8,%3Csvg width='16' height='10' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M14.293.293a1 1 0 1 1 1.414 1.414L14.293.293ZM8 8l.707.707L8 9.414l-.707-.707L8 8ZM.293 1.707A1 1 0 0 1 1.707.293L.293 1.707Zm15.414 0-7 7-1.414-1.414 7-7 1.414 1.414Zm-8.414 7-7-7L1.707.293l7 7-1.414 1.414Z' fill='%23999'/%3E%3C/svg%3E");
+}
+
+input[type="file"] {
+  overflow: hidden;
+  position: absolute;
+  clip: rect(0, 0, 0, 0);
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  border: 0;
+  padding: 0;
+}
+
+input[type="file"] + label {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 3.4rem;
+  font-size: 1.8rem;
+  font-weight: 400;
+  line-height: 2.6rem;
+  color: #ccc;
+  -webkit-appearance: none;
+  border-bottom: 1px solid #666;
+}
+
+input[type="file"] + label::after {
+  content: '첨부';
+  position: absolute;
+  top: 0;
+  right: 0;
+  border: 1px solid #0070C0;
+  border-radius: 1.6rem;
+  height: 2.4rem;
+  padding: 0 2.2rem;
+  font-size: 1.4rem;
+  font-weight: 400;
+  line-height: 2rem;
+  color: #0070C0;
+}
+
+.file-item {
+  position: relative;
+  overflow: hidden;
+  height: 3.4rem;
+  border-bottom: 1px solid #666;
+}
+
+.file-item .file {
+  width: 30rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 1.8rem;
+  font-weight: 400;
+  line-height: 2.6rem;
+  color: #222;
+}
+
+.file-item .btn-del {
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 2rem;
+  height: 2rem;
+  background: url("data:image/svg+xml;charset=utf8,%3Csvg width='24' height='24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='12' cy='12' r='10' stroke='%230070C0' stroke-width='2' stroke-linecap='round'/%3E%3Cpath d='m8.666 15.333 6.667-6.667M15.334 15.333 8.667 8.666' stroke='%230070C0' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat 50%;
+  background-size: 100%;
+}
+
+.file-item .btn-del span {
+  overflow: hidden;
+  position: absolute;
+  clip: rect(0, 0, 0, 0);
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  border: 0;
+  padding: 0;
 }
 
 .select-box {
@@ -1848,6 +2028,36 @@ select.readonly {
   margin-top: 3rem;
 }
 
+.inp-set {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.inp-set .inp-check {
+  margin-right: 2.3rem;
+}
+
+.phone {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.phone input {
+  text-align: center;
+}
+
+.phone input + * {
+  margin-left: 2rem;
+}
+
 .textarea-wrap {
   border: 1px solid #666;
   padding: 1rem;
@@ -1890,6 +2100,14 @@ select.readonly {
 .textarea-wrap + .b-area {
   text-align: right;
   margin-top: 1rem;
+}
+
+.inp-messeage {
+  margin-top: 2rem;
+  font-size: 1.4rem;
+  font-weight: 400;
+  line-height: 2rem;
+  color: #F5222D;
 }
 
 .table-row {
@@ -2484,6 +2702,111 @@ ul.list-wrap button.m-link b {
   padding: 0 .4rem;
 }
 
+.between-list.line {
+  border-bottom: 1px solid #ccc;
+}
+
+.between-list li {
+  border-top: 1px solid #ccc;
+}
+
+.between-list .inp-check {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  height: 5.8rem;
+  border-bottom: 1px solid #E5E5E7;
+  background: url("data:image/svg+xml;charset=utf8,%3Csvg width='11' height='18' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1.093 2.507a1 1 0 0 1 1.414-1.414L1.093 2.507ZM9 9l.707-.707.707.707-.707.707L9 9Zm-6.493 7.907a1 1 0 0 1-1.414-1.414l1.414 1.414Zm0-15.814 7.2 7.2-1.414 1.414-7.2-7.2 1.414-1.414Zm7.2 8.614-7.2 7.2-1.414-1.414 7.2-7.2 1.414 1.414Z' fill='%23222'/%3E%3C/svg%3E") no-repeat 98% 50%;
+  background-size: 1.1rem;
+}
+
+.between-list .inp-check label {
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+}
+
+.between-list .title {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  padding: 1.6rem 0;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  border-bottom: 1px solid #E5E5E7;
+}
+
+.between-list .title h4 {
+  font-size: 1.8rem;
+  font-weight: 500;
+  line-height: 2.6rem;
+  color: #222;
+  display: -webkit-box;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.between-list .title b {
+  font-size: 1.8rem;
+  font-weight: 700;
+  line-height: 2.6rem;
+  color: #222;
+}
+
+.between-list .detail {
+  margin: 2rem 0;
+}
+
+.between-list .detail p {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+.between-list .detail p + p {
+  margin-top: .8rem;
+}
+
+.between-list .detail p.total b {
+  font-size: 1.4rem;
+  font-weight: 400;
+  line-height: 2rem;
+  color: #F5222D;
+}
+
+.between-list .detail p.total span {
+  font-size: 1.6rem;
+  font-weight: 700;
+  line-height: 2.2rem;
+  color: #F5222D;
+}
+
+.between-list .detail p b {
+  font-size: 1.4rem;
+  font-weight: 400;
+  line-height: 2rem;
+  color: #666;
+}
+
+.between-list .detail p span {
+  font-size: 1.4rem;
+  font-weight: 400;
+  line-height: 2rem;
+  color: #222;
+}
+
 .profile-box {
   position: relative;
   padding: 2rem 3rem;
@@ -2616,6 +2939,13 @@ ul.list-wrap button.m-link b {
   margin-bottom: 3rem;
 }
 
+.mypage-wrap h4 {
+  font-size: 1.8rem;
+  font-weight: 500;
+  line-height: 2.6rem;
+  color: #222;
+}
+
 .mypage-wrap .status-detail .status-box {
   margin-bottom: 5rem;
 }
@@ -2732,6 +3062,296 @@ ul.list-wrap button.m-link b {
   background-color: #f6f6f6;
 }
 
+.step-box {
+  position: relative;
+  padding: 3rem 1.6rem;
+  background-color: #EFF4F9;
+}
+
+.step-box span {
+  display: block;
+  font-size: 1.4rem;
+  font-weight: 400;
+  line-height: 2rem;
+  color: #666;
+  margin-bottom: .8rem;
+}
+
+.step-box h4 {
+  margin-bottom: 2rem;
+  font-size: 2.2rem;
+  font-weight: 700;
+  line-height: 3.0rem;
+  color: #222;
+}
+
+.step-box p {
+  font-size: 1.6rem;
+  font-weight: 400;
+  line-height: 2.2rem;
+  color: #222;
+}
+
+.step-box .step-by {
+  position: absolute;
+  top: 3rem;
+  right: 1.6rem;
+  font-size: 1.4rem;
+  font-weight: 400;
+  line-height: 2rem;
+  color: #666;
+  background-color: #fff;
+  height: 2.4rem;
+  line-height: 2.2rem;
+  border-radius: 1.6rem;
+  border: 1px solid #999999;
+  padding: 0 1.5rem;
+}
+
+.step-box .step-by b {
+  color: #0070C0;
+}
+
+.inp-all-check {
+  margin-top: 1.5rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid #ccc;
+}
+
+.inp-all-check label {
+  font-weight: 700 !important;
+}
+
+.terms_box {
+  margin-top: 1.5rem;
+  padding: 1.3rem 1rem 1.5rem 1rem;
+  font-size: 1.4rem;
+  font-weight: 400;
+  line-height: 2rem;
+  color: #666;
+  background: #F7F7F7;
+  border: 1px solid #E5E5E7;
+}
+
+.field-box + .field-box {
+  margin-top: 4.3rem;
+}
+
+.field-box legend {
+  display: block;
+  font-size: 1.6rem;
+  font-weight: 700;
+  line-height: 2.2rem;
+  color: #222;
+  padding-bottom: 1.3rem;
+  margin-bottom: 2.6rem;
+  border-bottom: 1px solid #A5A5A5;
+}
+
+.field-box .set {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.field-box .set + .set {
+  margin-top: 2.2rem;
+}
+
+.field-box .set .inp-check {
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+}
+
+.field-box .set.ect .inp-check {
+  -webkit-box-flex: 0;
+      -ms-flex: 0;
+          flex: 0;
+}
+
+.field-box .set.ect .inp-box {
+  margin-left: 2.8rem;
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+}
+
+.add-box .add-num {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  background: #F7F7F7;
+  padding: 1.3rem 1.6rem;
+  margin-top: 3.2rem;
+}
+
+.add-box .add-num span {
+  font-size: 1.6rem;
+  font-weight: 400;
+  line-height: 2.2rem;
+  color: #222;
+}
+
+.add-box .add-num .btn-delete {
+  width: 2.2rem;
+  height: 2.2rem;
+  background: url(/images/kicpa/delete-circle.png) no-repeat 50%;
+  background-size: 2.4rem;
+}
+
+.add-box .add-num .btn-delete span {
+  overflow: hidden;
+  position: absolute;
+  clip: rect(0, 0, 0, 0);
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  border: 0;
+  padding: 0;
+}
+
+.add-box .form {
+  margin-top: 2.6rem;
+  padding: 0 1.6rem;
+}
+
+.submit-txt {
+  position: relative;
+  text-align: center;
+  font-size: 1.4rem;
+  font-weight: 400;
+  line-height: 2rem;
+  color: #0070C0;
+  padding-bottom: 3rem;
+  border-bottom: 1px solid #ccc;
+}
+
+.submit-txt::before {
+  content: '';
+  display: block;
+  margin: 0 auto;
+  width: 3.8rem;
+  height: 5rem;
+  background: url("data:image/svg+xml;charset=utf8,%3Csvg width='38' height='50' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M8.364 24.2h21.273M8.364 30.6h21.273M8.364 37H23.09M1 5a4 4 0 0 1 4-4h17.745a4 4 0 0 1 2.725 1.072l10.255 9.545A4 4 0 0 1 37 14.545V45a4 4 0 0 1-4 4H5a4 4 0 0 1-4-4V5Z' stroke='%230070c0' stroke-width='2'/%3E%3Cpath d='M22.273 1.8v12.4a2 2 0 0 0 2 2h10.273' stroke='%230070c0' stroke-width='2'/%3E%3C/svg%3E") no-repeat 50% 0;
+  background-image: 100%;
+  margin-bottom: 2rem;
+}
+
+.cont-line {
+  margin-top: 3rem;
+  padding-bottom: 3rem;
+  border-bottom: 1px solid #ccc;
+}
+
+.breakdown-list {
+  margin-top: 2rem;
+}
+
+.breakdown-list li {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+.breakdown-list li + li {
+  margin-top: .8rem;
+}
+
+.breakdown-list li span {
+  font-size: 1.4rem;
+  font-weight: 400;
+  line-height: 2rem;
+  color: #666;
+}
+
+.breakdown-list li p {
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  text-align: right;
+  font-size: 1.4rem;
+  font-weight: 400;
+  line-height: 2rem;
+  color: #222;
+}
+
+.pay-list li {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+.pay-list li + li {
+  margin-top: .8rem;
+}
+
+.pay-list li span {
+  font-size: 1.4rem;
+  font-weight: 400;
+  line-height: 2rem;
+  color: #666;
+}
+
+.pay-list li b {
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  text-align: right;
+  font-size: 1.8rem;
+  font-weight: 500;
+  line-height: 2.6rem;
+  color: #222;
+}
+
+.pay-list li.total {
+  margin-top: 2rem;
+  padding-top: 2rem;
+  border-top: 1px solid #E5E5E7;
+}
+
+.pay-list li.total span {
+  font-size: 1.6rem;
+  font-weight: 700;
+  line-height: 2.2rem;
+  color: #666;
+}
+
+.pay-list li.total b {
+  font-size: 1.8rem;
+  font-weight: 700;
+  line-height: 2.6rem;
+  color: #F5222D;
+}
+
+.pay-guide {
+  margin-top: 5rem;
+}
+
+.pay-guide button {
+  margin-bottom: 3rem;
+}
+
+.pay-guide p {
+  text-align: center;
+  font-size: 1.4rem;
+  font-weight: 400;
+  line-height: 2rem;
+  color: #222;
+}
+
 .my-menu-list {
   margin-top: 5rem;
   border-bottom: 1px solid #E5E5E7;
@@ -2788,6 +3408,14 @@ ul.list-wrap button.m-link b {
   background-image: url("data:image/svg+xml,%3Csvg width='24' height='24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='m14.136 3.361.498-.05-.498.05Zm-.152-.82-.445.23.445-.23Zm.447 2.277.398-.303-.398.303Zm.929.384-.067-.495.067.495Zm1.238-.82.317.386-.317-.387Zm.687-.473.152.476-.152-.476Zm.702.035.199-.459-.199.46Zm.637.538-.353.354.353-.354Zm.894.894.353-.354-.353.354Zm.538.637.459-.199-.46.199Zm.035.702.476.152-.476-.152Zm-.472.687-.387-.317.387.317Zm-.822 1.239-.495-.067.495.067Zm.385.928-.303.397.303-.397Zm1.457.295.05-.498-.05.498Zm.82.152.229-.444-.23.444Zm.47.521.466-.184-.465.184Zm.001 2.926-.465-.184.465.184Zm-.472.52.23.445-.23-.444Zm-.82.153-.05-.497-.015.001-.017.003.083.493Zm0 0 .05.498.017-.002.016-.003-.082-.493Zm-1.456.295-.303-.398.303.398Zm-.384.929-.496.066.496-.066Zm.821 1.238-.387.316.387-.316Zm.472.687-.477.152.477-.152Zm-.035.702-.459-.199.459.199Zm-.538.637.354.353-.354-.353Zm-.894.893-.353-.353.353.353Zm-.637.538.2.46-.2-.46Zm-.702.035-.152.477.152-.477Zm-.687-.472.317-.387-.005-.003-.312.39Zm0 0-.317.387.005.004.312-.39Zm-1.238-.82.066-.496-.066.495Zm-.929.384.398.303-.398-.303Zm-.295 1.456-.497-.05.497.05Zm-.152.82-.445-.229.445.23Zm-.521.472-.184-.465.184.465Zm-2.926 0 .184-.465-.184.465Zm-.52-.472.444-.229-.445.23Zm-.153-.82-.498.05.498-.05Zm-.295-1.456-.398.303.398-.303Zm-.928-.384-.067-.496.067.495Zm-1.239.82-.317-.386-.007.006-.008.007.332.374Zm0 0 .317.388.008-.007.007-.006-.332-.374Zm-.687.473.152.476-.152-.476Zm-.702-.035-.2.459.2-.46Zm-.637-.538.353-.354-.353.354Zm-.894-.894-.353.354.353-.354Zm-.538-.637.459-.198-.459.198Zm-.035-.702.476.152-.476-.152Zm.472-.687.387.317-.387-.317Zm.821-1.239.496.067-.496-.067Zm-.384-.928.303-.397-.303.397Zm-1.457-.295-.05.498.05-.498Zm-.82-.152.23-.445-.23.445Zm-.47-.521-.466.184.465-.184Zm0-2.926-.466-.184.465.184Zm.47-.52-.229-.445.23.444Zm.82-.153v-.5h-.024l-.025.002.05.498Zm0 0v.5h.025l.025-.003-.05-.497Zm1.457-.295-.303-.398.303.398Zm.385-.928.495-.067-.495.067ZM4.38 7.4l.387-.316-.387.317Zm-.472-.687.476-.152-.476.152Zm.035-.702-.459-.198.46.198Zm.538-.637.354.354-.354-.354Zm.894-.893-.354-.354.354.354Zm.637-.538-.199-.46.199.46Zm.702-.035.152-.477-.152.477Zm.687.472.317-.387-.317.387Zm1.238.821.067-.495-.067.495Zm.93-.385-.399-.303.398.303Zm.294-1.456.497.05-.497-.05Zm.152-.82-.444-.228.444.229Zm.521-.471.184.465-.184-.465Zm2.926 0 .184-.465-.184.465Zm1.17 1.242c-.02-.21-.038-.393-.063-.542a1.525 1.525 0 0 0-.142-.458l-.889.459c.01.02.027.06.044.164.019.11.033.253.056.476l.995-.1Zm.196 1.203c-.012-.015-.048-.076-.087-.29a13.27 13.27 0 0 1-.108-.913l-.995.1c.04.401.073.732.119.99.045.252.115.509.276.72l.795-.607Zm.464.192a.5.5 0 0 1-.464-.192l-.796.606a1.5 1.5 0 0 0 1.393.577l-.133-.991Zm.988-.713c-.325.267-.547.448-.722.569-.179.124-.248.141-.266.144l.133.991c.262-.035.493-.167.704-.314.215-.15.472-.36.785-.616l-.634-.774Zm.852-.561c-.16.051-.295.132-.423.223-.124.088-.265.204-.429.338l.634.774c.173-.142.285-.233.375-.297a.566.566 0 0 1 .148-.086l-.305-.952Zm1.053.052a1.5 1.5 0 0 0-1.053-.052l.305.952a.5.5 0 0 1 .35.018l.398-.918Zm.792.644c-.15-.15-.279-.28-.393-.38a1.524 1.524 0 0 0-.399-.264l-.398.918c.021.009.059.03.139.1.083.072.185.174.344.333l.707-.707Zm.893.893-.893-.893-.707.707.893.893.707-.707Zm.644.792a1.527 1.527 0 0 0-.265-.399c-.1-.114-.23-.243-.379-.393l-.707.707c.159.159.26.261.334.344.07.08.09.118.099.139l.918-.398Zm.052 1.053a1.5 1.5 0 0 0-.052-1.053l-.918.398a.5.5 0 0 1 .017.35l.953.305Zm-.561.852c.134-.164.25-.305.338-.429.09-.128.172-.263.223-.423l-.953-.305a.565.565 0 0 1-.085.148 8.04 8.04 0 0 1-.297.375l.774.634Zm-.713.988c.003-.018.02-.087.144-.266.121-.175.302-.397.569-.722l-.774-.634c-.256.313-.467.57-.616.785-.147.21-.279.442-.314.704l.991.133Zm.192.464a.5.5 0 0 1-.192-.464l-.991-.133a1.5 1.5 0 0 0 .577 1.392l.606-.795Zm1.203.195c-.419-.042-.703-.07-.913-.108-.214-.039-.275-.075-.29-.087l-.606.795c.21.16.467.23.72.276.257.046.588.08.99.12l.1-.996Zm1 .206a1.525 1.525 0 0 0-.458-.142c-.15-.025-.332-.043-.542-.064l-.1.995c.224.023.367.037.477.056a.568.568 0 0 1 .164.044l.459-.89Zm.707.781a1.5 1.5 0 0 0-.707-.781l-.459.889a.5.5 0 0 1 .236.26l.93-.368Zm.105 1.015c0-.211 0-.394-.01-.546a1.522 1.522 0 0 0-.095-.469l-.93.368c.008.021.02.063.027.168.008.11.008.255.008.48h1Zm0 1.264v-1.264h-1v1.264h1Zm-.105 1.014c.062-.156.085-.312.095-.469.01-.151.01-.334.01-.545h-1c0 .224 0 .368-.008.479a.567.567 0 0 1-.027.168l.93.367Zm-.707.782a1.5 1.5 0 0 0 .707-.782l-.93-.367a.5.5 0 0 1-.236.26l.459.89Zm-1 .206c.21-.021.393-.04.542-.065.155-.025.308-.064.457-.14l-.458-.89a.565.565 0 0 1-.164.044c-.11.019-.253.033-.476.056l.1.995Zm.033-.005-.165-.986.165.986Zm-1.235.2c.015-.012.076-.049.29-.087.21-.038.494-.067.912-.108l-.1-.995c-.401.04-.732.072-.99.119-.252.045-.508.115-.719.275l.607.796Zm-.193.464a.5.5 0 0 1 .193-.464l-.607-.796a1.5 1.5 0 0 0-.577 1.393l.991-.133Zm.713.988a13.366 13.366 0 0 1-.569-.722c-.124-.178-.141-.248-.144-.266l-.99.133c.035.262.167.493.313.704.15.214.36.472.616.784l.774-.633Zm.561.852a1.528 1.528 0 0 0-.223-.424c-.088-.123-.204-.265-.338-.428l-.774.633c.142.174.233.285.297.376a.567.567 0 0 1 .085.147l.953-.304Zm-.052 1.053a1.5 1.5 0 0 0 .052-1.053l-.953.304a.5.5 0 0 1-.017.351l.918.398Zm-.643.791c.149-.149.278-.278.378-.392.104-.119.198-.245.265-.4l-.918-.397a.566.566 0 0 1-.1.138 8.001 8.001 0 0 1-.333.344l.707.707Zm-.894.894.893-.894-.707-.707-.893.894.707.707Zm-.792.643c.154-.067.28-.16.399-.264.114-.1.243-.23.393-.38l-.707-.706c-.159.159-.261.26-.344.333a.568.568 0 0 1-.139.1l.398.917Zm-1.053.053a1.5 1.5 0 0 0 1.053-.053l-.398-.917a.5.5 0 0 1-.35.017l-.305.953Zm-.852-.562c.164.134.305.25.429.338.128.091.263.173.423.224l.305-.953a.565.565 0 0 1-.148-.085 8.028 8.028 0 0 1-.375-.298l-.634.774Zm.005.004.624-.781-.624.78Zm-.993-.716c.018.002.088.02.266.144.175.121.397.302.722.568l.634-.774c-.313-.255-.57-.466-.785-.616-.21-.146-.442-.278-.704-.313l-.133.99Zm-.464.192a.5.5 0 0 1 .464-.192l.133-.991a1.5 1.5 0 0 0-1.392.576l.795.607Zm-.195 1.203c.042-.419.07-.703.108-.913.039-.214.075-.275.087-.29l-.795-.607c-.16.21-.23.468-.276.72-.046.257-.08.588-.12.99l.996.1Zm-.206 1c.077-.15.115-.303.141-.458.026-.15.044-.332.065-.542l-.995-.1a7.989 7.989 0 0 1-.056.477.567.567 0 0 1-.044.164l.89.459Zm-.781.707a1.5 1.5 0 0 0 .781-.707l-.889-.459a.5.5 0 0 1-.26.236l.368.93Zm-1.015.105c.211 0 .394 0 .546-.01.156-.01.313-.033.469-.095l-.368-.93a.567.567 0 0 1-.168.027c-.11.008-.255.008-.48.008v1Zm-1.264 0h1.264v-1h-1.264v1Zm-1.015-.105c.157.062.313.085.47.095.151.01.334.01.545.01v-1c-.224 0-.368 0-.479-.008a.568.568 0 0 1-.168-.027l-.368.93Zm-.781-.707a1.5 1.5 0 0 0 .781.707l.368-.93a.5.5 0 0 1-.26-.236l-.89.459Zm-.206-1c.021.21.04.393.064.542.026.155.065.308.142.458l.889-.459a.568.568 0 0 1-.044-.164 7.977 7.977 0 0 1-.056-.476l-.995.1Zm-.195-1.203c.012.015.048.076.087.29.038.21.066.495.108.913l.995-.1c-.04-.401-.073-.732-.119-.99-.045-.252-.115-.509-.276-.72l-.795.607Zm-.464-.192a.5.5 0 0 1 .464.192l.795-.606a1.5 1.5 0 0 0-1.392-.577l.133.991Zm-.988.713c.325-.267.547-.448.722-.569.179-.124.248-.142.266-.144l-.133-.991c-.262.035-.493.167-.704.314-.215.149-.472.36-.785.616l.634.774Zm.015-.013-.664-.748.664.748Zm-.867.574c.16-.051.295-.132.423-.223.124-.088.265-.204.429-.338l-.634-.774a8.046 8.046 0 0 1-.375.297.563.563 0 0 1-.148.085l.305.953Zm-1.053-.052a1.5 1.5 0 0 0 1.053.052l-.305-.953a.5.5 0 0 1-.35-.017l-.398.918Zm-.792-.644c.15.15.279.28.393.38.118.103.245.197.399.264l.398-.918a.565.565 0 0 1-.139-.1 8.08 8.08 0 0 1-.344-.333l-.707.707Zm-.893-.893.893.893.707-.707-.893-.893-.707.707Zm-.644-.792c.067.154.161.28.265.399.1.114.23.243.379.393l.707-.707a8.072 8.072 0 0 1-.334-.344.567.567 0 0 1-.1-.139l-.917.398Zm-.052-1.053a1.5 1.5 0 0 0 .052 1.053l.918-.398a.5.5 0 0 1-.018-.35l-.952-.305Zm.561-.852c-.134.164-.25.305-.338.429a1.528 1.528 0 0 0-.223.423l.952.305a.566.566 0 0 1 .086-.148c.064-.09.155-.202.297-.375l-.774-.634Zm.713-.988c-.003.018-.02.087-.144.266-.122.175-.302.397-.569.722l.774.634c.256-.313.467-.57.616-.785.147-.21.279-.442.314-.704l-.991-.133Zm-.192-.464a.5.5 0 0 1 .192.464l.991.133a1.5 1.5 0 0 0-.577-1.393l-.606.796Zm-1.203-.195c.419.041.703.07.913.108.214.039.275.075.29.087l.606-.796c-.21-.16-.467-.23-.72-.275-.257-.046-.588-.08-.99-.12l-.1.996Zm-1-.206c.15.077.303.115.458.141.15.026.331.044.542.065l.1-.995a7.973 7.973 0 0 1-.477-.056.568.568 0 0 1-.164-.044l-.459.89Zm-.707-.782a1.5 1.5 0 0 0 .707.782l.459-.889a.5.5 0 0 1-.236-.26l-.93.367ZM1.5 12.633c0 .211 0 .394.01.546.01.156.033.312.095.468l.93-.367a.568.568 0 0 1-.027-.168 8.061 8.061 0 0 1-.008-.48h-1Zm0-1.264v1.264h1v-1.264h-1Zm.105-1.015a1.526 1.526 0 0 0-.095.47c-.01.151-.01.334-.01.545h1c0-.224 0-.368.008-.479a.566.566 0 0 1 .027-.168l-.93-.368Zm.707-.781a1.5 1.5 0 0 0-.707.781l.93.368a.5.5 0 0 1 .236-.26l-.459-.89Zm1-.206c-.21.021-.393.04-.542.064a1.525 1.525 0 0 0-.458.142l.459.889c.02-.01.06-.027.164-.044.11-.019.253-.033.476-.056l-.1-.995Zm.05-.002v1-1Zm0 0v1-1Zm1.153-.193c-.015.012-.076.048-.29.087-.21.038-.494.066-.913.108l.1.995c.401-.04.733-.073.99-.119.253-.045.51-.115.72-.276l-.607-.795Zm.192-.464a.5.5 0 0 1-.192.464l.607.795a1.5 1.5 0 0 0 .576-1.392l-.99.133Zm-.713-.989c.267.326.448.548.57.723.124.179.14.248.143.266l.991-.133c-.035-.262-.167-.493-.314-.704-.149-.215-.36-.472-.616-.785l-.774.633Zm-.561-.852c.05.16.132.296.223.424.088.123.204.265.338.428l.774-.633a8.054 8.054 0 0 1-.297-.376.566.566 0 0 1-.086-.147l-.952.304Zm.052-1.052a1.5 1.5 0 0 0-.052 1.052l.952-.304a.5.5 0 0 1 .018-.35l-.918-.398Zm.644-.792c-.15.149-.28.278-.38.393a1.525 1.525 0 0 0-.264.399l.918.397a.566.566 0 0 1 .1-.138c.072-.083.174-.186.333-.344l-.707-.707Zm.893-.894-.893.894.707.707.893-.894-.707-.707Zm0 0 .707.707-.707-.707Zm.792-.643c-.154.067-.28.16-.399.264-.114.1-.244.23-.393.38l.707.706c.159-.158.261-.26.344-.333.08-.07.118-.09.139-.1l-.398-.917Zm1.053-.053a1.5 1.5 0 0 0-1.053.053l.398.918a.5.5 0 0 1 .35-.018l.305-.953Zm.852.562c-.164-.134-.305-.25-.429-.338a1.525 1.525 0 0 0-.423-.224l-.305.953a.566.566 0 0 1 .148.085c.09.065.202.156.376.298l.633-.774Zm.988.713c-.018-.003-.087-.02-.266-.144a13.335 13.335 0 0 1-.722-.57l-.633.775c.312.256.57.467.784.616.21.146.442.278.704.314l.133-.991Zm.464-.193a.5.5 0 0 1-.464.193l-.133.99a1.5 1.5 0 0 0 1.393-.576l-.796-.607Zm.195-1.202c-.042.418-.07.703-.108.912-.039.214-.075.275-.087.29l.796.607c.16-.21.23-.467.275-.72.046-.257.08-.588.12-.99l-.996-.1Zm.206-1c-.077.15-.116.303-.142.458-.025.15-.043.331-.064.542l.995.1a7.97 7.97 0 0 1 .056-.477.564.564 0 0 1 .044-.164l-.89-.458Zm.782-.707a1.5 1.5 0 0 0-.782.708l.889.458a.5.5 0 0 1 .26-.236l-.367-.93Zm1.014-.105c-.211 0-.394 0-.546.01-.156.01-.312.033-.468.095l.367.93a.566.566 0 0 1 .168-.027c.11-.008.255-.008.48-.008v-1Zm1.264 0h-1.264v1h1.264v-1Zm1.014.105a1.525 1.525 0 0 0-.468-.095c-.152-.01-.335-.01-.546-.01v1c.224 0 .368 0 .479.008.105.007.147.019.168.027l.367-.93Zm.782.707a1.5 1.5 0 0 0-.782-.707l-.367.93a.5.5 0 0 1 .26.236l.89-.459ZM15.5 12a3.5 3.5 0 0 1-3.5 3.5v1a4.5 4.5 0 0 0 4.5-4.5h-1ZM12 8.5a3.5 3.5 0 0 1 3.5 3.5h1A4.5 4.5 0 0 0 12 7.5v1ZM8.5 12A3.5 3.5 0 0 1 12 8.5v-1A4.5 4.5 0 0 0 7.5 12h1Zm3.5 3.5A3.5 3.5 0 0 1 8.5 12h-1a4.5 4.5 0 0 0 4.5 4.5v-1Z' fill='%23222'/%3E%3C/svg%3E");
 }
 
+.dues-wrap {
+  padding: 3rem 1.6rem 0;
+}
+
+.dues-wrap .board-top, .dues-wrap .board-list {
+  padding: 0;
+}
+
 .guest-private {
   text-align: center;
 }
@@ -2833,6 +3461,7 @@ ul.list-wrap button.m-link b {
           justify-content: center;
   width: auto;
   margin: auto;
+  background-color: #fff;
 }
 
 .internal-revenue p span {
@@ -2846,79 +3475,6 @@ ul.list-wrap button.m-link b {
 
 .internal-revenue p span + span {
   border-left: .2rem solid #0071c299;
-}
-
-.dues-list {
-  padding: 0;
-}
-
-.dues-list li {
-  border-top: 1px solid #ccc;
-  border-bottom: 1px solid #ccc;
-}
-
-.dues-list .inp-check {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  height: 5.8rem;
-  border-bottom: 1px solid #E5E5E7;
-  background: url("data:image/svg+xml;charset=utf8,%3Csvg width='11' height='18' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1.093 2.507a1 1 0 0 1 1.414-1.414L1.093 2.507ZM9 9l.707-.707.707.707-.707.707L9 9Zm-6.493 7.907a1 1 0 0 1-1.414-1.414l1.414 1.414Zm0-15.814 7.2 7.2-1.414 1.414-7.2-7.2 1.414-1.414Zm7.2 8.614-7.2 7.2-1.414-1.414 7.2-7.2 1.414 1.414Z' fill='%23222'/%3E%3C/svg%3E") no-repeat 98% 50%;
-  background-size: 1.1rem;
-}
-
-.dues-list .inp-check label {
-  -webkit-box-flex: 1;
-      -ms-flex: 1;
-          flex: 1;
-}
-
-.dues-list .detail {
-  margin: 2rem 0 3rem 0;
-}
-
-.dues-list .detail p {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
-}
-
-.dues-list .detail p + p {
-  margin-top: .8rem;
-}
-
-.dues-list .detail p.total b {
-  font-size: 1.4rem;
-  font-weight: 400;
-  line-height: 2rem;
-  color: #F5222D;
-}
-
-.dues-list .detail p.total span {
-  font-size: 1.6rem;
-  font-weight: 700;
-  line-height: 2.2rem;
-  color: #F5222D;
-}
-
-.dues-list .detail p b {
-  font-size: 1.4rem;
-  font-weight: 400;
-  line-height: 2rem;
-  color: #666;
-}
-
-.dues-list .detail p span {
-  font-size: 1.4rem;
-  font-weight: 400;
-  line-height: 2rem;
-  color: #222;
 }
 
 .period-set {

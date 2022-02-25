@@ -1026,7 +1026,7 @@
 		 					 bet_pnt, bltn_icon, bltn_bgn_ymd, bltn_end_ymd, sub_board_id, bltn_subj, reg_datim, upd_datim )
 		 			 VALUES(
 		 			 #boardId#
-					,#bltn_no#
+					,#bltnNo#
 					,'EB'
 					,#bltnGn#
 					,0
@@ -1047,7 +1047,8 @@
 					,#bltnPermitYn#
 					,0
 					,#bltnIcon#
-					,#bltnBgnYmd#
+					,sysdate
+<!-- 					,#bltnBgnYmd# -->
 					,#bltnEndYmd#
 					,#subBoardId#
 					,#bltnSubj#
@@ -1091,6 +1092,24 @@
 					,sysdate
 					,sysdate
 		 			 )
+	</insert>
+
+	<insert id="KicpaCommBoardDAO.insertCommonBoardExtn"  parameterClass="HashMap">
+		INSERT INTO BLTN_EXTN(BOARD_ID, BLTN_NO, EXT_STR0, EXT_STR1, EXT_STR2, EXT_STR3, EXT_STR4, EXT_STR5, EXT_STR6, EXT_STR7, EXT_STR8, EXT_STR9)
+		VALUES(
+				  #boardId#
+				, #bltnNo#
+				, #extStr0#
+				, #extStr1#
+				, #extStr2#
+				, #extStr3#
+				, #extStr4#
+				, #extStr5#
+				, #extStr6#
+				, #extStr7#
+				, #extStr8#
+				, #extStr9#
+			)
 	</insert>
 
 	<insert id="KicpaCommBoardDAO.insertCommonBoardCnnt" parameterClass="HashMap">
@@ -1141,7 +1160,7 @@
 	            A.SEQ = A.SEQ+1
 	     WHEN NOT MATCHED THEN
 	        INSERT (ENTITY_NAME,SEQ)
-	        VALUES (B.ENTITY_NAME,1);
+	        VALUES (B.ENTITY_NAME,1)
 	</update>
 
 	<update id="KicpaCommBoardDAO.mergeCommonBoardUserHistory" parameterClass="HashMap">
@@ -1155,13 +1174,13 @@
 	        	A.WRT_CNT = A.WRT_CNT+1
 	   	 WHEN NOT MATCHED THEN
 	   	 	INSERT (USER_ID, BOARD_ID, WRT_CNT, REPLY_CNT, MEMO_CNT, MEMO_REPLY_CNT)
-	        VALUES (B.USER_ID, BBOARD_ID, 1, 0, 0, 0);
+	        VALUES (B.USER_ID, B.BOARD_ID, 1, 0, 0, 0)
 	</update>
 
 	<insert id="KicpaCommBoardDAO.insertCommonBoardUserActionHistory" parameterClass="HashMap">
 		INSERT INTO ACTION_HIST(SEQ, DOMAIN_ID, REG_DATIM, USER_IP, USER_ID, BOARD_ID, BLTN_NO, ACTION_CD, FILE_MASK)
 		VALUES(
-			#SEQ#,
+			(SELECT MAX(SEQ)+1 FROM ACTION_HIST),
 			1,
 			SYSDATE,
 			#userIp#,
