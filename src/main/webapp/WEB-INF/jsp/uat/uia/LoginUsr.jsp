@@ -153,7 +153,7 @@
 								<button class="btn btn-blue h-50px w-100 rounded-pill" onclick="javascript:actionLogin()">로그인</button>
 							</div>
 							<div class="login-info p-5">
-								<p>1. 이 페이지는 KICPA 통합 플랫폼을 위한 페이지입니다.</p>
+								<p>1. 이 페이지는 KICPA mobile 페이지입니다.</p>
 								<p>2. 각 권한에 따른 인증된 관리자만 접속이 가능합니다.</p>
 								<p class="m-0">3. 관리 작업을 마치신 후 반드시 로그아웃 하시기 바랍니다.</p>
 							</div>

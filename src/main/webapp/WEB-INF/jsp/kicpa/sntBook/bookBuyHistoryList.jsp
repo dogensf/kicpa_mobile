@@ -6,10 +6,15 @@
 $(document).ready(function(){
 
 });
+
+function fncLocation(){
+	location.href="/kicpa/main/main.do";
+}
+
 </script>
 
 <section class="head-sub">
-  	<button class="btn-back" type="button">
+  	<button class="btn-back" type="button" onclick="fncLocation();">
         <span>이전</span>
     </button>
     <h3>장바구니/구매</h3>

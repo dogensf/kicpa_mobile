@@ -6,6 +6,11 @@
 $(document).ready(function(){
 	counselCenter.counselInit();
 });
+
+function fncLocation(){
+	location.href="/kicpa/main/main.do";
+}
+
 </script>
 
 <form id="boardForm" name="boardForm">
@@ -14,7 +19,7 @@ $(document).ready(function(){
 	<input type="hidden" name="searchKeyword" value="">
 </form>
 <section class="head-sub">
-	<button class="btn-back" type="button">
+	<button class="btn-back" type="button" onclick="fncLocation();">
         <span>이전</span>
     </button>
     <h3>회원전문 세무상담</h3>

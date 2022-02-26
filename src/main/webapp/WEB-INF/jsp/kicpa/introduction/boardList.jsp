@@ -8,15 +8,19 @@ $(document).ready(function(){
 	board.boardListInit();
 // 	introduction.init();
 });
+
+function fncLocation(){
+	location.href="/kicpa/main/main.do";
+}
+
 </script>
 
 <form id="boardForm" name="boardForm">
 	<input type="hidden" name="pageIndex" id="pageIndex" value="1">
 	<input type="hidden" name="boardId" id="boardId" value="kjnoti">
-	<input type="hidden" name="searchKeyword" value="">
 </form>
 <section class="head-sub">
-  	<button class="btn-back" type="button">
+  	<button class="btn-back" type="button" onclick="fncLocation();">
         <span>이전</span>
     </button>
     <h3>공인회계사 소개</h3>
@@ -38,7 +42,7 @@ $(document).ready(function(){
 
 	<div id="tabMain1" class="tab-main-content show">
 	    <div class="search-box">
-	        <input class="search" type="text" placeholder="검색하세요." />
+	        <input class="search" type="text" name="searchKeyword" placeholder="검색하세요." />
 	    </div>
 
 	    <div id="tabSub1" class="tab-sub-content show">

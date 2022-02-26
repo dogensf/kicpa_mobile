@@ -17,10 +17,10 @@
     <h1>
       <img src="/images/kicpa/logo.png" alt="KICPA">
     </h1>
-    <button class="btn-login" type="button">
+    <button class="btn-login" onclick="location.href='<c:url value='/uat/uia/LoginUsr.do'/>';" type="button">
      	 로그인
     </button>
     <button class="btn-menu" type="button">
       	카테고리
     </button>
-</section>
+</section> 

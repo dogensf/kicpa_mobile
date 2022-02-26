@@ -7,11 +7,16 @@ $(document).ready(function(){
 	sntBook.cartInit();
 
 });
+
+function fncLocation(){
+	location.href="/kicpa/main/main.do";
+}
+
 </script>
 <form id="cartForm" name="cartForm" onsubmit="return false;">
 
 	<section class="head-sub">
-	  	<button class="btn-back" type="button">
+	  	<button class="btn-back" type="button" onclick="fncLocation();">
 	        <span>이전</span>
 	    </button>
 	    <h3>장바구니/구매</h3>

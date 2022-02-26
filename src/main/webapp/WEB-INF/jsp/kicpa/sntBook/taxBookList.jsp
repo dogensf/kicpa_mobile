@@ -6,12 +6,17 @@
 $(document).ready(function(){
 	sntBook.taxBookInit();
 });
+
+function fncLocation(){
+	location.href="/kicpa/main/main.do";
+}
+
 </script>
 <form id="boardForm" name="boardForm">
 	<input type="hidden" name="pageIndex" id="pageIndex" value="1">
 	<input type="hidden" name="ibmNum" id="ibmNum" value="174,175,176,177,178,179,180,181,182,183,184">
 	<section class="head-sub">
-	 	<button class="btn-back" type="button">
+	 	<button class="btn-back" type="button" onclick="fncLocation();">
 	        <span>이전</span>
 	    </button>
 	    <h3>세무단행본구매</h3>

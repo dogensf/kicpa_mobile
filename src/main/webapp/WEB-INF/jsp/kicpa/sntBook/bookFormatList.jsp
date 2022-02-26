@@ -6,10 +6,15 @@
 $(document).ready(function(){
 	sntBook.bookFormatInit();
 });
+
+function fncLocation(){
+	location.href="/kicpa/main/main.do";
+}
+
 </script>
 
 <section class="head-sub">
-  		 <button class="btn-back" type="button">
+ 	 <button class="btn-back" type="button" onclick="fncLocation();">
         <span>이전</span>
     </button>
     <h3>도서자료 리스트</h3>

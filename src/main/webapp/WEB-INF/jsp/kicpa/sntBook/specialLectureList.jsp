@@ -6,13 +6,18 @@
 $(document).ready(function(){
 	sntBook.lectureInit();
 });
+
+function fncLocation(){
+	location.href="/kicpa/main/main.do";
+}
+
 </script>
 <form id="boardForm" name="boardForm">
 	<input type="hidden" name="pageIndex" id="pageIndex" value="1">
 	<input type="hidden" name="gbn" id="gbn" value="LISTPAGE2">
 
 	<section class="head-sub">
-	    <button class="btn-back" type="button">
+	    <button class="btn-back" type="button" onclick="fncLocation();">
 	        <span>이전</span>
 	    </button>
 	    <h3>실무특강 리스트</h3>

@@ -6,12 +6,17 @@
 $(document).ready(function(){
 	sntBook.kifrsBookInit();
 });
+
+function fncLocation(){
+	location.href="/kicpa/main/main.do";
+}
+
 </script>
 <form id="boardForm" name="boardForm">
 	<input type="hidden" name="pageIndex" id="pageIndex" value="1">
 	<input type="hidden" name="ibmNum" id="ibmNum" value="189,190,191,192,193,194,195,196,197,198">
 	<section class="head-sub">
-   		<button class="btn-back" type="button">
+   		<button class="btn-back" type="button" onclick="fncLocation();">
 	        <span>이전</span>
 	    </button>
 	    <h3>K-IFRS 실무사례와 해설 시리즈 구매</h3>

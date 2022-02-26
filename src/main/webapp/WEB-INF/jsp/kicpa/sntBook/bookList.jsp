@@ -6,12 +6,17 @@
 $(document).ready(function(){
 	sntBook.bookInit();
 });
+
+function fncLocation(){
+	location.href="/kicpa/main/main.do";
+}
+
 </script>
 <form id="boardForm" name="boardForm">
 	<input type="hidden" name="pageIndex" id="pageIndex" value="1">
 </form>
 <section class="head-sub">
-  	<button class="btn-back" type="button">
+  	<button class="btn-back" type="button" onclick="fncLocation();">
         <span>이전</span>
     </button>
     <h3>도서자료 리스트</h3>
