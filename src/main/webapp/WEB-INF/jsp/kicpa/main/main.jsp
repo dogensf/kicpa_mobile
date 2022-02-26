@@ -19,13 +19,13 @@
 			        <button class="tax" type="button">
 			         	 회비관리
 			        </button>
-			        <button class="counsel" type="button" onclick="javascript:location.href='/kicpa/taxNews/boardList.do';">
+			        <button class="counsel" type="button" onclick="javascript:location.href='<c:url value='/kicpa/taxNews/boardList.do'/>';">
 			          	상담센터
 			        </button>
-			        <button class="job" type="button" onclick="javascript:location.href='/kicpa/job/boardList.do';">
+			        <button class="job" type="button" onclick="javascript:location.href='<c:url value='/kicpa/job/boardList.do'/>';">
 			        	 구인정보
 			        </button>
-			        <button class="familyEvent" type="button" onclick="javascript:location.href='/kicpa/memberEvent/boardList.do';">
+			        <button class="familyEvent" type="button" onclick="javascript:location.href='<c:url value='/kicpa/memberEvent/boardList.do'/>';">
 			       		   회원경조사
 			        </button>
 	     		</div>
@@ -36,7 +36,7 @@
 			        <button class="alret" type="button">
 			     	     회계∙감사 Alert
 			        </button>
-			        <button class="news" type="button" onclick="javascript:location.href='/kicpa/taxNews/boardList.do';">
+			        <button class="news" type="button" onclick="javascript:location.href='<c:url value='/kicpa/taxNews/boardList.do'/>';">
 			   		       세무속보
 			        </button>
 			        <button class="book" type="button">
@@ -60,20 +60,20 @@
 <!-- KICPA 알림마당 게시판 -->
 	<div class="title-box">
 	  <h3>KICPA 알림마당</h3>
-	  <button type="button" class="btn-detail">상세보기</button>
+	  <button type="button" onClick="location.href='<c:url value='/kicpa/notice/boardList.do'/>'" class="btn-detail">상세보기</button>
 	</div>
 
 	<div class="cont">
 		<div class="tab-sub">
 		    <ul>
 		        <li class="active">
-		            <a href="#">회계법인</a>
+		            <a href="#">공지사항</a>
 		        </li>
 		        <li>
 		            <a href="#">주요 기사 (Newsaclips)</a>
 		        </li>
 		        <li>
-		            <a href="#">공공기관</a>
+		            <a href="#">국제동향</a>
 		        </li>
 		    </ul>
 	  	</div>
@@ -102,7 +102,7 @@
 
 <!-- KICPA 구인정보 게시판 -->
 	<div class="title-box">
-		<h3>KICPA 알림마당</h3>
+		<h3>KICPA 구인정보</h3>
 		<button type="button" class="btn-detail">상세보기</button>
 	</div>
 
@@ -116,7 +116,7 @@
 			        <a href="#">일반</a>
 			    </li>
 			    <li>
-			        <a href="#">한국공인회계사</a>
+			        <a href="#">한국공인회계사회</a>
 			    </li>
 			</ul>
 		</div>

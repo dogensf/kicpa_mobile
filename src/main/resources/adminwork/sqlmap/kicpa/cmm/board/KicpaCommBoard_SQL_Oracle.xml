@@ -1115,7 +1115,7 @@
 			   ,SYSDATE)
 	</insert>
 
-	<insert id="KicpaCommBoardDAO.insertCommonCafeBoardFile">
+	<!-- <insert id="KicpaCommBoardDAO.insertCommonCafeBoardFile">
 		INSERT INTO BLTN_CAFE_FILE(BOARD_ID, BLTN_NO, FILE_SEQ, ATCH_TYPE, FILE_NM, FILE_MASK, FILE_SIZE, DOWN_CNT, ATCH_DATIM)
 		VALUES (#boardId#
 			   ,#bltnNo#
@@ -1126,7 +1126,7 @@
 			   ,#fileSize#
 			   ,0
 			   ,SYSDATE)
-	</insert>
+	</insert> -->
 
 
 

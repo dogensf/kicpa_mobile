@@ -41,7 +41,7 @@
 	
 	
 	<select id="loginDAO.kicpaLogin" resultMap="kicpalogin">
-		select
+		<!-- select
 				imi_login_id, 
 				apma_emp_id, 
 				apma_kor_name, 
@@ -64,7 +64,35 @@
 			) OR a.IML_PSL_ID = #id#
 		)
 		where 1=1
-		and case when AIMA_RETIRE_DT is null then 1 else case when AIMA_RETIRE_DT > SYSDATE then 1 else 0 end end = 1
+		and case when AIMA_RETIRE_DT is null then 1 else case when AIMA_RETIRE_DT > SYSDATE then 1 else 0 end end = 1 -->
+		select iml_psl_id, <!-- PIN -->
+       		iml_member_sep <!-- 1:회원, 2:수습, 3. 임직원 -->
+		from kicpasec.dev_sdb_int_mb_login@kicpasec,
+		     (select pin
+		      from (
+		            <!-- 임직원 퇴직자 제외 -->
+		            select aima_psl_id pin
+		            from neoe.kicpa_insa_master_view
+		            where case when aima_retire_dt is null then 1
+		                  else
+		                     case when aima_retire_dt > sysdate then 1
+		                     else
+		                        0
+		                     end
+		                  end = 1
+		            union all
+		            select pin <!-- CPA합격자 -->
+		            from kipadm.cpa_psexam
+		            minus		            <!-- 회원중 사망 등록 취소자 제외 -->
+		            select pin
+		            from kipadm.cpa
+		            where cancl_cl = 'A2250010'
+		            )
+		      group by pin
+		     )
+		where iml_psl_id = pin
+		  and iml_id  = #id#
+		  and iml_pwd = DBSEC.SDB_CRYPTO.ENCRYPTEX@kicpasec( #password# ,'KICPASEC','INT_MB_LOGIN','IML_PWD','SELECT')
 	</select>
 	
 	
