@@ -266,59 +266,66 @@ public class SntBookController {
 
 			HttpSession session = request.getSession();
 
-			if(map.get("ibmBookCode") instanceof String ) {
-				List list = new ArrayList<String>();
-				list.add((String)map.get("ibmBookCode"));
-				map.put("ibmBookCode",list);
-			}
+			EgovMap userInfo =  (EgovMap) session.getAttribute("loginSession");
+			HashMap mapresult =  (HashMap) session.getAttribute("mapresult");
 
-			List<EgovMap> list = sntBookService.selectCartInputBookList(map);
+			if((userInfo != null && !userInfo.isEmpty()  )  || (mapresult != null && !mapresult.isEmpty()  ) ) {
 
-			List<EgovMap> cartList = (List<EgovMap>) session.getAttribute("cartList");
+				if(map.get("ibmBookCode") instanceof String ) {
+					List list = new ArrayList<String>();
+					list.add((String)map.get("ibmBookCode"));
+					map.put("ibmBookCode",list);
+				}
 
-			if(cartList != null && !cartList.isEmpty() ) {
+				List<EgovMap> list = sntBookService.selectCartInputBookList(map);
 
-				for(EgovMap x : cartList ) {
-					boolean flag = false;
-					EgovMap tempMap = null;
-					for(EgovMap y : list ) {
-						//같은상품이 존재하면 수량을 하나 올리고 조회내역에서 삭제
-						if(x.get("ibmBookCode").equals(y.get("ibmBookCode")) ) {
-							x.put("cnt", Integer.parseInt(StringUtil.isNullToString(x.get("cnt"),"0"))+1);
-							flag = true;
-							tempMap = y;
+				List<EgovMap> cartList = (List<EgovMap>) session.getAttribute("cartList");
+
+				if(cartList != null && !cartList.isEmpty() ) {
+
+					for(EgovMap x : cartList ) {
+						boolean flag = false;
+						EgovMap tempMap = null;
+						for(EgovMap y : list ) {
+							//같은상품이 존재하면 수량을 하나 올리고 조회내역에서 삭제
+							if(x.get("ibmBookCode").equals(y.get("ibmBookCode")) ) {
+								x.put("cnt", Integer.parseInt(StringUtil.isNullToString(x.get("cnt"),"0"))+1);
+								flag = true;
+								tempMap = y;
+							}
+						}
+						if(flag) {
+							list.remove(tempMap);
 						}
 					}
-					if(flag) {
-						list.remove(tempMap);
+					if(list != null && !list.isEmpty()) {
+						cartList.addAll(list);
+						session.setAttribute("cartList", cartList);
 					}
-				}
-				if(list != null && !list.isEmpty()) {
-					cartList.addAll(list);
-					session.setAttribute("cartList", cartList);
+
+				}else {
+					//배송란
+					EgovMap tempMap = new EgovMap();
+					tempMap.put("ibmBookCode", "999999");
+					tempMap.put("ibmNum", "999999");
+					tempMap.put("ibmBookName", "배송료");
+					tempMap.put("ibmDeliverySep", (Object) null);
+					tempMap.put("downDate", (Object) null);
+					tempMap.put("bookDiv", "9");
+					tempMap.put("CNT", "1");
+					tempMap.put("ibmPrice1", "5000");
+					tempMap.put("ibmPrice2", "5000");
+					tempMap.put("amt", "5000");
+					tempMap.put("saleAmt", "5000");
+					list.add(tempMap);
+					session.setAttribute("cartList", list);
+
 				}
 
+				modelAndView.addObject("loginFlag", true);
 			}else {
-				//배송란
-				EgovMap tempMap = new EgovMap();
-				tempMap.put("ibmBookCode", "999999");
-				tempMap.put("ibmNum", "999999");
-				tempMap.put("ibmBookName", "배송료");
-				tempMap.put("ibmDeliverySep", (Object) null);
-				tempMap.put("downDate", (Object) null);
-				tempMap.put("bookDiv", "9");
-				tempMap.put("CNT", "1");
-				tempMap.put("ibmPrice1", "5000");
-				tempMap.put("ibmPrice2", "5000");
-				tempMap.put("amt", "5000");
-				tempMap.put("saleAmt", "5000");
-				list.add(tempMap);
-				session.setAttribute("cartList", list);
-
+				modelAndView.addObject("loginFlag", false);
 			}
-
-
-
 
 //			map.put("pslId", "5650320120323");
 //			List<EgovMap> list = sntBookService.selectOfflineEduAppList(map);

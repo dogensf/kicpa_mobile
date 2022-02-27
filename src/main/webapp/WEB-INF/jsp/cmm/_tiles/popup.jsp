@@ -147,6 +147,33 @@
     </div>
 </div>
 
+<div class="layer-popup-wrap" id="checkplusPopup">
+	<form id="checkPlusForm" name="checkPlusForm" method="post">
+		<input type="hidden" name="m" value="checkplusService">						<!-- 필수 데이타로, 누락하시면 안됩니다. -->
+		<input type="hidden" name="EncodeData" value="">		<!-- 위에서 업체정보를 암호화 한 데이타입니다. -->
+	</form>
+    <div class="layer-container">
+        <div class="title-box">
+            <h2>구매하기</h2>
+        </div>
+
+        <div class="layer-content">
+            <p class="notice">
+                	개인으로 구매
+            </p>
+        </div>
+
+        <div class="layer-bottom">
+            <div class="layer-bottom">
+                <div class="btn-bottom">
+                    <button class="btn-round btn-send" type="button">본인인증</button>
+                    <button class="btn-round fill btn-close" type="button">종료</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 <div class="layer-popup-wrap" id="informationPopup">
     <div class="layer-container">

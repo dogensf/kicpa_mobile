@@ -167,15 +167,22 @@ sntBook.insertCart = function(){
 }
 
 sntBook.insertCartSuccess = function(data){
+	var loginFlag = data.loginFlag;
+	if(loginFlag){
+		fn_portal_pop("bookCartPopup")
 
-	fn_portal_pop("bookCartPopup")
+		$("#bookCartPopup .btn-send").off().on("click",function(){
+			location.href='/kicpa/sntBook/cartList.do';
+		});
 
-	$("#bookCartPopup .btn-send").off().on("click",function(){
-		location.href='/kicpa/sntBook/cartList.do';
-	});
-
+	}else{
+		sntBook.getCheckplusEncData();
+	}
 //	alert("완료 팝업창 뜰차례");
 }
+
+
+
 
 sntBook.detailInit = function(){
 	$(".btn-board-togl").on("click",function(){
@@ -579,6 +586,31 @@ sntBook.cartValidation = function(){
 		sntBook.insertCart();
 
 	});
+}
+
+
+sntBook.getCheckplusEncData = function(){
+	var param = {};
+	fn_ajax_call("/kicpa/common/getCheckplusEncData.do",param,sntBook.getCheckplusEncDataSuccess,sntBook.boardListError);
+}
+
+sntBook.getCheckplusEncDataSuccess = function(data){
+	var sMessage = data.sMessage;
+	var sEncData = data.sEncData;
+
+
+	$("#checkPlusForm input[name='EncodeData']").val(sEncData);
+
+	fn_portal_pop("checkplusPopup")
+
+	$("#checkplusPopup .btn-send").off().on("click",function(){
+		window.open('', 'popupChk', 'width=500, height=550, top=100, left=100, fullscreen=no, menubar=no, status=no, toolbar=no, titlebar=yes, location=no, scrollbar=no');
+		$("#checkPlusForm").attr({"action":"https://nice.checkplus.co.kr/CheckPlusSafeModel/checkplus.cb","target" : "popupChk"});
+		$("#checkPlusForm").submit();
+	});
+
+
+
 }
 
 
