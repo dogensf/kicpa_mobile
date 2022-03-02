@@ -11,7 +11,7 @@
     <security:http pattern="/images/**" security="none"/>
     <security:http pattern="/font/**" security="none"/>
  	<security:http pattern="/js/**" security="none"/>
- 	<!-- <security:http pattern="/kicpa/**" security="none"/> -->
+ 	<security:http pattern="/kicpa/**" security="none"/>
  	<security:http pattern="/resource/**" security="none"/>
  	<security:http pattern="\A/WEB-INF/jsp/.*\Z" request-matcher="regex" security="none"/>
  	
@@ -25,10 +25,10 @@
                 
         jdbcUsersByUsernameQuery="SELECT USER_ID, ESNTL_ID AS PASSWORD, 1 ENABLED, USER_NM, 
         							USER_SE,  '-' ORGNZT_ID, ESNTL_ID, '-' ORGNZT_NM
-        							 FROM KICPA_CS_COMVNUSERMASTER WHERE CONCAT(USER_SE, USER_ID) = ?"			
+        							 FROM COMVNUSERMASTER WHERE CONCAT(USER_SE, USER_ID) = ?"			
         
         jdbcAuthoritiesByUsernameQuery="SELECT A.SCRTY_DTRMN_TRGET_ID USER_ID, A.AUTHOR_CODE AUTHORITY 
-        							FROM LETTNEMPLYRSCRTYESTBS A, KICPA_CS_COMVNUSERMASTER B 
+        							FROM LETTNEMPLYRSCRTYESTBS A, COMVNUSERMASTER B 
         							WHERE A.SCRTY_DTRMN_TRGET_ID = B.ESNTL_ID AND B.USER_ID = ?"
         							
         jdbcMapClass="adminwork.let.uat.uia.service.impl.SessionMapping"

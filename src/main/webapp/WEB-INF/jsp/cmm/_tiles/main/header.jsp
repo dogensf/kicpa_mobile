@@ -12,14 +12,39 @@
 --%>
 <%@ page language="java" contentType="text/html; charset=utf-8"
     pageEncoding="utf-8"%>
+<%@ page import ="adminwork.com.cmm.LoginVO" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <section class="head-main">
     <h1>
       <img src="/images/kicpa/logo.png" alt="KICPA">
     </h1>
-    <button class="btn-login" onclick="location.href='<c:url value='/uat/uia/LoginUsr.do'/>';" type="button">
+    <%
+        LoginVO loginVO = (LoginVO)session.getAttribute("LoginVO");
+        if(loginVO == null){
+        %>
+        <button class="btn-login" onclick="location.href='<c:url value='/uat/uia/LoginUsr.do'/>';" type="button">
      	 로그인
-    </button>
+    	</button>
+	  	<%
+        }else{
+	  	%>
+	  	<button class="btn-login" onclick="location.href='<c:url value='/uat/uia/actionLogout.do'/>';" type="button">
+     	 로그아웃
+    	</button>
+            <%-- <c:set var="loginName" value="<%= loginVO.getName()%>"/>
+            <ul>
+	  	    <li><a href="#LINK" onclick="alert('개인정보 확인 등의 링크 제공'); return false;">
+            <c:out value="${loginName}"/> 님</a></li>
+            <li><a href="<c:url value='/uat/uia/actionLogout.do'/>">
+            <img src="<c:url value='/images/leftmenu/logout.jpg' />" alt="로그아웃" /></a></li>
+            <li>최근접속:2011-10-12 13:24</li>
+            </ul> --%>
+	  	<%
+	  	}
+        %>
+    
+    
+
     <button class="btn-menu" type="button">
       	카테고리
     </button>

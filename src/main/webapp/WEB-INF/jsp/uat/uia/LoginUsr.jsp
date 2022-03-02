@@ -8,45 +8,25 @@
 <!DOCTYPE html>
 <html lang="ko">
 	<!--begin::Head-->
-	<head><base href="../../../">
-		<meta charset="utf-8" />
-		<title>KICPA</title>
-		<meta name="description" content="Multi column form examples" />
-		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-		<link rel="canonical" href="https://keenthemes.com/metronic" />
-		<!--begin::Fonts-->
-		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" />
-		<!--end::Fonts-->
-		<!--begin::Global Theme Styles(used by all pages)-->
-		<!-- <link href="/assets/plugins/global/plugins.bundle.css" rel="stylesheet" type="text/css" />
-		<link href="/assets/plugins/custom/prismjs/prismjs.bundle.css" rel="stylesheet" type="text/css" />
-		<link href="/assets/css/style.bundle.css" rel="stylesheet" type="text/css" /> -->
-		<!--end::Global Theme Styles-->
-		<!--begin::Layout Themes(used by all pages)-->
-		<!-- <link href="/assets/css/themes/layout/header/base/light.css" rel="stylesheet" type="text/css" />
-		<link href="/assets/css/themes/layout/header/menu/light.css" rel="stylesheet" type="text/css" />
-		<link href="/assets/css/themes/layout/brand/dark.css" rel="stylesheet" type="text/css" />
-		<link href="/assets/css/themes/layout/aside/dark.css" rel="stylesheet" type="text/css" />
-		end::Layout Themes
-		<link rel="shortcut icon" href="assets/media/logos/favicon.ico" />
-
-
-        <link href="/assets/css/custom/fonts.css" rel="stylesheet">
-		<link href="/assets/css/custom/common.css" rel="stylesheet">
-		<link href="/assets/css/custom/input.css" rel="stylesheet">
-        <link href="/assets/css/custom/button.css" rel="stylesheet">
-        <link href="/assets/css/custom/login.css" rel="stylesheet">
-        메인리스트
-		<link href="/assets/css/custom/applicant-registration.css" rel="stylesheet">
- -->
+	<head>
+		<meta charset="utf-8">
+        <meta http-equiv="Expires" content="0">
+        <meta http-equiv="Pragma" content="no-cache">
+        <title> </title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+        <meta name="description" content="">
+        <meta name="keyword" content="">
+        <meta property="og:title" content="">
+        <meta property="og:image" content="">
+        <meta property="og:description" content="">
+        <meta property="og:url" content="">
+        <meta name="format-detection" content="telephone=no">
+        <link rel="stylesheet" href="<c:url value='/css/kicpa/app.css'/>">
 
 
 
 		<script type="text/javascript">		
-		<!--
-		<c:if test="${!empty sessionScope.returnUrl}">
-			document.location.href="/kicpacs${sessionScope.returnUrl}";
-		</c:if>
+	
 		function actionLogin() {
 		
 		    if (document.loginForm.id.value =="") {
@@ -110,9 +90,6 @@
 		    getid(document.loginForm);
 
 		}
-		document.addEventListener("DOMContentLoaded", function(){
-			fnInit();
-		});
 
 
 		//-->
@@ -120,9 +97,9 @@
 	</head>
 	<!--end::Head-->
 	<!--begin::Body-->
-	<body id="kt_body" class="header-fixed header-mobile-fixed subheader-enabled subheader-fixed aside-enabled aside-fixed aside-minimize-hoverable page-loading">
+	<body>
 		<!--begin::Main-->
-		<div class="login-wrap">
+		<%-- <div class="login-wrap">
 			<div class="d-flex justify-content-center align-items-center flex-column vw-100 vh-100">
 				<div>
 					<div class="login-top pb-5">
@@ -164,14 +141,62 @@
 					</div>
 				</div>
 			</div>
-		</div>
+		</div> --%>
 
 
 
 
-		
+ 		<div class="wrap">
+            <div class="container">
+                <section class="head-sub">
+                    <button class="btn-back" type="button" onClick="javascript:location.href='<c:url value='/'/>';">
+                        <span>이전</span>
+                    </button>
+                    <h3>로그인</h3>
+                </section>
 
-		<!--end::Global Theme Bundle-->
+                <section class="content">
+                    <div class="login-wrap">
+                        <form id="loginForm" name="loginForm" method="post">
+                            <div class="login-box">
+                                <!-- 아이디 -->
+                                <div class="inp-box">
+                                    <input type="text" id="id" name="id" placeholder="아이디" />
+                                </div>
+                                <!-- 비밀번호 -->
+                                <div class="inp-box">
+                                    <input type="password" id="password" name="password" placeholder="비밀번호" />
+                                </div>
+                                <div class="inp-box">
+                                    <input type="checkbox" checked name="bk-item" id="ch02" />
+                                    <label for="ch02">로그인 상태 유지</label>
+                                </div>
+                            </div>
+                            <div class="btn-area">
+                                <button type="button" class="btn-primary" onclick="javascript:actionLogin()" >로그인</button>
+                            </div>
+                            <input type="hidden" name="message" value="${message}" />
+							<input type="hidden" name="userSe"  value="USR"/>
+							<input name="j_username" type="hidden"/>
+                        </form>
+                    </div>
+                </section>
+
+                <footer>
+                    <address>
+                      <span>
+                        서울특별시 서대문구 충정로7길 12 (충정로 2가) 한국공인회계사회
+                      </span>
+                      <span>TEL : 02-3149-0100</span> 
+                      <span class="between-line">
+                        <a href="#">개인정보처리방침</a>
+                        <a href="#">이용약관</a>
+                      </span>
+                      <span>COPYRIGHT (C) KICPA, ALL RIGHTS RESERVED.</span>
+                    </address>
+                  </footer>
+            </div>
+        </div>
 	</body>
 	<!--end::Body-->
 </html>

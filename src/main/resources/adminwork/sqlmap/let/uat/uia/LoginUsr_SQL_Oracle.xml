@@ -104,7 +104,7 @@
 			     , password AS password
 			     , ihidnum AS ihidNum
 			     , email_adres AS email
-			     , 'CSR' AS userSe
+			     , 'USR' AS userSe
 			     , orgnzt_id AS orgnztId
 			     , ESNTL_ID AS uniqId
 			     , emplyr_id as empId

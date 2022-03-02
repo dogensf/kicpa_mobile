@@ -157,7 +157,7 @@ public class LoginController {
 	@RequestMapping(value = "/uat/uia/actionSecurityLogin.do")
 	public String actionSecurityLogin(@ModelAttribute("loginVO") LoginVO loginVO, HttpServletResponse response, HttpServletRequest request, ModelMap model) throws Exception {
 
-		request.getSession().setAttribute("LoginVO", null);
+		//request.getSession().setAttribute("LoginVO", null);
 		//request.getSession().setAttribute("returnUrl", null);
 		
 		// 접속IP
@@ -200,11 +200,13 @@ public class LoginController {
 			}
 		}*/
 		resultVO = loginService.actionLogin(loginVO);
-		System.out.println("========loginVO.getId :: "+loginVO.getId());
+		//resultVO = loginService.kicpaLogin(loginVO);
+		
+		/*System.out.println("========loginVO.getId :: "+loginVO.getId());
 		if (resultVO == null || resultVO.getId() == null) {
 			loginService.setUserInfo(loginVO);
 			resultVO = loginService.actionLogin(loginVO);
-		}
+		}*/
 		
 		//if (resultVO != null && resultVO.getId() != null && !resultVO.getId().equals("") && loginPolicyYn) {
 		if (resultVO != null && resultVO.getId() != null && !resultVO.getId().equals("")) {
@@ -343,16 +345,8 @@ public class LoginController {
 			model.addAttribute("message", egovMessageSource.getMessage("fail.common.login"));
 			return "uat/uia/LoginUsr";
 		}
-		String url = "";
-		System.out.println("request2======="+request.getParameter("url"));
-		url = request.getParameter("url");
-		if(url != null && url != "") {
-			//model.addAttribute("url", url);
-			//return "uat/uia/movePage";
-			return "forward:"+url;
-		}else {
-			return "uat/uia/LoginUsr";
-		}
+		return "redirect:/kicpa/main/main.do";
+		
 		// 2. 메인 페이지 이동
 		/*LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
 		if(user.getId().endsWith("admin")) {
