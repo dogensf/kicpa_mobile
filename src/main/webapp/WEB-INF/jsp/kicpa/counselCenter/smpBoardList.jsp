@@ -5,6 +5,13 @@
 <script src="/js/kicpa/counselCenter/counselCenter.js"></script>
 <script>
 $(document).ready(function(){
+
+	$(".btn-write").show();
+
+	$(".btn-write").on("click",function(){
+		window.open("/kicpa/counselCenter/boardForm.do?boardId="+$("#boardForm input[name='boardId']").val() , "boardForm")
+	});
+
 	board.boardListInit();
 });
 

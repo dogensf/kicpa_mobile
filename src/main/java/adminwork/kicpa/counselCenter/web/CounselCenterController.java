@@ -1,6 +1,7 @@
 package adminwork.kicpa.counselCenter.web;
 
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -81,6 +82,12 @@ public class CounselCenterController {
 	public String suggestBoardList(@RequestParam Map<String,Object> map,HttpServletRequest request,HttpServletResponse response,ModelMap model) throws Exception{
 
 		return "kicpa/counselCenter/suggestBoardList";
+	}
+
+	@RequestMapping(value = "/boardForm.do")
+	public String boardForm(@RequestParam Map<String,Object> map,HttpServletRequest request,HttpServletResponse response,ModelMap model) throws Exception{
+
+		return "kicpa/counselCenter/boardForm";
 	}
 
 
@@ -178,6 +185,53 @@ public class CounselCenterController {
 
 		return modelAndView;
 	}
+
+
+
+	@RequestMapping(value="/insertBoard.do")
+	public ModelAndView getOfflineEduAppList(@RequestParam Map<String,Object> map, HttpServletRequest request,MultipartHttpServletRequest multipart) throws Exception{
+		ModelAndView modelAndView = new ModelAndView();
+
+		try{
+			modelAndView.setViewName("jsonView");
+			map.put("actionCd", "01" );
+			map.put("entityName", "BULLETIN.BLTN_GN" );
+			map.put("userPass", "5650320120323");
+			map.put("userNick", "최경수");
+			map.put("userId", "cks6451");
+			map.put("userIp", request.getRemoteAddr());
+			map.put("bltnTopTag", "N");
+			map.put("bltnSecretYn", "N");
+			map.put("bltnPermitYn", "Y");
+			map.put("extStr6", StringUtil.isNullToString(map.get("phoneNumber1"))+"-"+StringUtil.isNullToString(map.get("phoneNumber2"))+"-" +StringUtil.isNullToString(map.get("phoneNumber3")));
+			map.put("extStr7",null); // kp:cpaId userId="${_enview_info_.userId}"/>
+			map.put("extStr8", null); //답변형태
+			map.put("extStr5", null); //진행상태
+
+
+			List<HashMap<String,Object>> fileList = null;
+
+			if(fileList != null && !fileList.isEmpty() ) {
+				map.put("bltnIcon", "B");
+				map.put("bltnFileCnt", fileList.size());
+			}else {
+				map.put("bltnIcon", "A");
+				map.put("bltnFileCnt", 0);
+			}
+
+
+			commonBoardService.insertCommonBoard(map);
+
+//			list.forEach(x -> StringUtil.checkMapReplaceHtml(x));
+//			modelAndView.addObject("list", list);
+
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return modelAndView;
+	}
+
 
 
 }

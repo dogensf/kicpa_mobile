@@ -6,6 +6,8 @@ counselCenter.declarationInit = function(){
 	var param = $("#boardForm").serializeObject();
 	fn_ajax_call("/kicpa/counselCenter/getDeclarationBoardList.do",param,counselCenter.getBoardListSuccess,counselCenter.boardListError);
 }
+
+
 counselCenter.counselInit = function(){
 
 	$(".search-box .search").on("click",function(){
@@ -37,6 +39,16 @@ counselCenter.declarationDetailInit = function(){
 	});
 }
 
+counselCenter.regInit = function(){
+
+	$("#phoneNumber1,#phoneNumber2,#phoneNumber3").on("keyup",function(){
+		$(this).val( $(this).val().replace(/[^0-9]/g, ""));
+	});
+
+
+}
+
+
 counselCenter.memoCheckValidation = function(){
 	if($("#boardForm textarea[name='memoCntt']").val() == ''){
 		alert("의견을 입력해주세요.");
@@ -60,6 +72,13 @@ counselCenter.categoryTab = function(obj,cateId){
 }
 
 counselCenter.kifrsTab = function(obj,boardId){
+
+	if(boardId == 'kifrs'){
+		$(".btn-write").show();
+	}else{
+		$(".btn-write").hide();
+	}
+
 	$("#boardForm input[name='searchKeyword']").val("");
 	$(".tab-link").removeClass("active");
 	$("#boardId").val(boardId);
@@ -194,6 +213,51 @@ counselCenter.insertMemberCounselBoardMemoSuccess = function(data){
 	}
 
 }
+
+counselCenter.insertValicationCheck = function(){
+
+	if($("#boardId").val() == ''){
+		alert("비정상적인 접근입니다.");
+		return false;
+	}
+
+	if($.trim($("#boardForm input[name='bltnSubj']").val()) == '' ){
+		alert("제목을 입력해주세요.");
+		return false;
+	}
+
+
+	if($("#boardId").val() == 'nonextaudit01' || $("#boardId").val() == 'nonextaudit02' || $("#boardId").val() == 'nonextaudit04' || $("#boardId").val() == 'nonextaudit05'    ){
+		if($.trim($("#phoneNumber1").val()) == '' || $.trim($("#phoneNumber2").val()) == '' || $.trim($("#phoneNumber3").val()) == ''){
+			alert("전화번호를 입력해주세요.")
+			return false;
+		}
+	}
+
+	if($.trim($("#boardForm textarea[name='bltnCntt']").val()) == '' ){
+		alert("내용을 입력해주세요.");
+		return false;
+	}
+
+
+	var param = new FormData($("#boardForm")[0]);
+	fn_ajax_form_call("/kicpa/counselCenter/insertBoard.do",param,counselCenter.insertBoardSuccess);
+
+}
+
+
+
+counselCenter.insertBoardSuccess = function(data){
+	alert("등록되었습니다.");
+
+
+	$(opener.document).find("#pageIndex").val(1);
+	$(opener.document).find(".board-list ul").html("");
+	opener.board.boardBoardListAjax();
+	window.close();
+//	location.href="/kicpa/counselCenter/kifrsBoardList.do";
+}
+
 
 
 

@@ -5,6 +5,15 @@
 <script src="/js/kicpa/memberEvent/memberEvent.js"></script>
 <script>
 $(document).ready(function(){
+
+
+	$(".btn-write").show();
+
+	$(".btn-write").on("click",function(){
+		window.open("/kicpa/memberEvent/regMemberEvent.do?boardId="+$("#boardForm input[name='boardId']").val() , "boardForm")
+	});
+
+
 	board.boardListInit();
 // 	memberEvent.init();
 });

@@ -655,7 +655,7 @@
 		       t6.EXT_STR8,
 		       t6.EXT_STR9,
 		       bltn_subj,
-		       t2.bltn_cntt,
+		       <![CDATA[replace(t2.bltn_cntt,chr(10),'<br/>') bltn_cntt]]>,
 	   		   TO_CHAR(t1.reg_datim,'YYYY.MM.DD') reg_datim,
 		       TO_CHAR(t1.upd_datim,'YYYY.MM.DD') upd_datim,
 		       c.cate_nm
@@ -714,7 +714,7 @@
 		       t6.EXT_STR8,
 		       t6.EXT_STR9,
 		       bltn_subj,
-		       t2.bltn_cntt,
+		       <![CDATA[replace(t2.bltn_cntt,chr(10),'<br/>') bltn_cntt]]>,
 	   		   TO_CHAR(t1.reg_datim,'YYYY.MM.DD') reg_datim,
 		       TO_CHAR(t1.upd_datim,'YYYY.MM.DD') upd_datim
 		FROM   BLTN_CAFE t1

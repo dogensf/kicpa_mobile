@@ -6,7 +6,7 @@ var flag = true;
 memberEvent.regInit = function(){
 
 
-	$("#phoneNumber1,#phoneNumber2,#phoneNumber1").on("keyup",function(){
+	$("#phoneNumber1,#phoneNumber2,#phoneNumber3").on("keyup",function(){
 		$(this).val( $(this).val().replace(/[^0-9]/g, ""));
 	});
 
@@ -60,7 +60,8 @@ memberEvent.insertValicationCheck = function(){
 
 memberEvent.insertMemberEventSuccess = function(data){
 	alert("등록되었습니다.");
-	location.href="/kicpa/memberEvent/boardList.do";
+	opener.location.reload();
+	window.close();
 }
 
 

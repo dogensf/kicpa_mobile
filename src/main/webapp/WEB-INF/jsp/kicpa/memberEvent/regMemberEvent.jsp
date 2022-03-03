@@ -8,13 +8,18 @@ $(document).ready(function(){
 	memberEvent.regInit();
 // 	memberEvent.init();
 });
+
+
+function fncLocation(){
+	window.close();
+}
 </script>
 
 <form id="boardForm" name="boardForm" enctype="multipart/form-data" onsubmit="return false;">
 	<input type="hidden" name="boardId" id="boardId" value="mstate">
 
 	<section class="head-sub">
-	     <button class="btn-back" type="button">
+	     <button class="btn-back" type="button" onclick="fncLocation();">
 	         <span>이전</span>
 	     </button>
 	     <h3>등록</h3>
