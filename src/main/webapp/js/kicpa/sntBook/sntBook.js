@@ -200,15 +200,6 @@ sntBook.specialLectureChange = function(obj,gbn){
 	$(obj).addClass("active");
 	$("#pageIndex").val(1);
 	$(".board-list ul").html("");
-
-	if(gbn == 'LISTPAGE2'){
-		$("#tabMain1 .blue-box").hide();
-		$(".sticky-bottom").show();
-	}else{
-		$("#tabMain1 .blue-box").show();
-		$(".sticky-bottom").hide();
-	}
-
 	sntBook.specialLectureListAjax();
 }
 
@@ -428,89 +419,118 @@ sntBook.getBooFormatkListSuccess = function(data){
 sntBook.getSpecialLectureListSuccess = function(data){
 	var list = data.list;
 	var gbn = data.gbn;
+	var isLogin = data.isLogin;
 	var txt = "";
 	var totalCost = 0;
-	if(list != null && list.length > 0){
-		$("#totalCnt").text(list.length+"건");
-		$.each(list,function(i,o){
-			txt+='<li> \n';
-			txt+='	<a href="/kicpa/sntBook/specialLectureDetail.do?eduCode='+o.eduCode+'"> \n';
+
+	if(isLogin){
+		$(".login-guide").hide();
+		$("#tabMain1").show();
+		if(gbn == 'LISTPAGE2'){
+			$("#tabMain1 .blue-box").hide();
+			$(".sticky-bottom").show();
+		}else{
+			$("#tabMain1 .blue-box").show();
+			$(".sticky-bottom").hide();
+		}
+
+
+		if(list != null && list.length > 0){
+			$("#totalCnt").text(list.length+"건");
+			$.each(list,function(i,o){
+				txt+='<li> \n';
+				txt+='	<a href="/kicpa/sntBook/specialLectureDetail.do?eduCode='+o.eduCode+'"> \n';
+
+				if(gbn == 'LISTPAGE2'){
+
+					if(o.cnt - o.regCnt <=  0){
+						txt+='				<input type="checkbox" name="emaEduCode" id="emaEduCode'+i+'" value="'+o.eduCode+'" disabled/>\n';
+						txt+='				<label for="emaEduCode'+i+'">선택</label>\n';
+					}else{
+						txt+='				<input type="checkbox" name="emaEduCode" id="emaEduCode'+i+'" value="'+o.eduCode+'"/>\n';
+						txt+='				<label for="emaEduCode'+i+'">선택</label>\n';
+					}
+				}
+				txt+=' 		<div class="title-zone"> \n';
+				txt+=' 			<p>'+o.eduName+'</p> \n';
+				txt+=' 	      	<div class="other"> \n';
+				if(o.cnt - o.regCnt <=  0){
+					txt+=' 	        	<span class="state">마감</span> \n';
+				}else{
+					txt+=' 	        	<span class="ico-arrow"></span> \n';
+				}
+
+				txt+=' 	        </div> \n';
+				txt+=' 	    </div> \n';
+				txt+='      <div class="info-zone"> \n';
+				txt+='            <span>'+o.dateStr+' '+o.timeStr+'</span> \n';
+				txt+='            <span>'+o.cost.replace(/\B(?=(\d{3})+(?!\d))/g, ",")+'원</span> \n';
+				txt+='        </div> \n';
+				txt+='	</a> \n';
+				txt+='</li> \n';
+
+				totalCost+= Number(o.cost);
+			});
+			$(".board-list ul").append(txt);
 
 			if(gbn == 'LISTPAGE2'){
-
-				if(o.cnt - o.regCnt <=  0){
-					txt+='				<input type="checkbox" name="emaEduCode" id="emaEduCode'+i+'" value="'+o.eduCode+'" disabled/>\n';
-					txt+='				<label for="emaEduCode'+i+'">선택</label>\n';
-				}else{
-					txt+='				<input type="checkbox" name="emaEduCode" id="emaEduCode'+i+'" value="'+o.eduCode+'"/>\n';
-					txt+='				<label for="emaEduCode'+i+'">선택</label>\n';
-				}
-			}
-			txt+=' 		<div class="title-zone"> \n';
-			txt+=' 			<p>'+o.eduName+'</p> \n';
-			txt+=' 	      	<div class="other"> \n';
-			if(o.cnt - o.regCnt <=  0){
-				txt+=' 	        	<span class="state">마감</span> \n';
+				$("#appBtn").prop("disabled",true);
+				$("#boardForm input[name='emaEduCode']").off().on("change",function(){
+					if($("#boardForm input[name='emaEduCode']:checked").length <= 0){
+						$("#appBtn").prop("disabled",true);
+					}else{
+						$("#appBtn").prop("disabled",false);
+					}
+				});
 			}else{
-				txt+=' 	        	<span class="ico-arrow"></span> \n';
+				$("#tabMain1 .blue-box em").text(String(totalCost).replace(/\B(?=(\d{3})+(?!\d))/g, ",") +"원");
 			}
-
-			txt+=' 	        </div> \n';
-			txt+=' 	    </div> \n';
-			txt+='      <div class="info-zone"> \n';
-			txt+='            <span>'+o.dateStr+' '+o.timeStr+'</span> \n';
-			txt+='            <span>'+o.cost.replace(/\B(?=(\d{3})+(?!\d))/g, ",")+'원</span> \n';
-			txt+='        </div> \n';
-			txt+='	</a> \n';
-			txt+='</li> \n';
-
-			totalCost+= Number(o.cost);
-		});
-		$(".board-list ul").append(txt);
-
-		if(gbn == 'LISTPAGE2'){
-			$("#appBtn").prop("disabled",true);
-			$("#boardForm input[name='emaEduCode']").off().on("change",function(){
-				if($("#boardForm input[name='emaEduCode']:checked").length <= 0){
-					$("#appBtn").prop("disabled",true);
-				}else{
-					$("#appBtn").prop("disabled",false);
-				}
-			});
 		}else{
-			$("#tabMain1 .blue-box em").text(String(totalCost).replace(/\B(?=(\d{3})+(?!\d))/g, ",") +"원");
+			$("#totalCnt").text(0+"건");
 		}
+
+
 	}else{
-		$("#totalCnt").text(0+"건");
+		$(".login-guide").show();
+		$("#tabMain1").hide();
+		$(".sticky-bottom").hide();
 	}
 
 }
 
 sntBook.getOfflineEduListSuccess = function(data){
 	var list = data.list;
+	var isLogin = data.isLogin;
 	var txt = "";
-	if(list != null && list.length > 0){
-		$("#totalCnt").text(list.length+"건");
-		$.each(list,function(i,o){
-			txt+='<li> \n';
-			txt+='	<a href="/kicpa/sntBook/offlineEduDetail.do?idNum='+o.idNum+'" target="_blank"> \n';
-			txt+=' 		<div class="title-zone"> \n';
-			txt+=' 			<p>'+o.wtitle+'</p> \n';
-			txt+=' 	      	<div class="other"> \n';
-			txt+=' 	        	<span class="state">'+o.supotEdu+'</span> \n';
+	if(isLogin){
+		$(".login-guide").hide();
+		$("#tabMain1,.tab-main").show();
+		if(list != null && list.length > 0){
+			$("#totalCnt").text(list.length+"건");
+			$.each(list,function(i,o){
+				txt+='<li> \n';
+				txt+='	<a href="/kicpa/sntBook/offlineEduDetail.do?idNum='+o.idNum+'" target="_blank"> \n';
+				txt+=' 		<div class="title-zone"> \n';
+				txt+=' 			<p>'+o.wtitle+'</p> \n';
+				txt+=' 	      	<div class="other"> \n';
+				txt+=' 	        	<span class="state">'+o.supotEdu+'</span> \n';
 
-			txt+=' 	        </div> \n';
-			txt+=' 	    </div> \n';
-			txt+='      <div class="info-zone"> \n';
-			txt+='            <span>'+o.eduTerm+'</span> \n';
-			txt+='            <span>교육시간 '+o.eduTime+'</span> \n';
-			txt+='        </div> \n';
-			txt+='	</a> \n';
-			txt+='</li> \n';
-		});
-		$(".board-list ul").append(txt);
+				txt+=' 	        </div> \n';
+				txt+=' 	    </div> \n';
+				txt+='      <div class="info-zone"> \n';
+				txt+='            <span>'+o.eduTerm+'</span> \n';
+				txt+='            <span>교육시간 '+o.eduTime+'</span> \n';
+				txt+='        </div> \n';
+				txt+='	</a> \n';
+				txt+='</li> \n';
+			});
+			$(".board-list ul").append(txt);
+		}else{
+			$("#totalCnt").text(0+"건");
+		}
 	}else{
-		$("#totalCnt").text(0+"건");
+		$(".login-guide").show();
+		$("#tabMain1,.tab-main").hide();
 	}
 }
 

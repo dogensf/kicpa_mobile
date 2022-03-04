@@ -16,6 +16,7 @@ function fncLocation(){
 <form id="boardForm" name="boardForm">
 	<input type="hidden" name="pageIndex" id="pageIndex" value="1">
 	<input type="hidden" name="searchKeyword" value="">
+	<input type="hidden" name="loginYn" id="loginYn" value="Y">
 </form>
 <section class="head-sub">
 	<button class="btn-back" type="button" onclick="fncLocation();">
@@ -24,7 +25,6 @@ function fncLocation(){
     <h3>실명신고</h3>
 </section>
 <section class="content">
-
 	<div id="tabMain1" class="tab-main-content show">
 	    <div id="tabSub1" class="tab-sub-content show">
 	        <div class="board-top">
@@ -41,4 +41,5 @@ function fncLocation(){
 	      </div>
 	  </div><!-- tabSub1 -->
 	</div><!-- tabMain1 -->
+	<jsp:include page="/include/includeLoign.jsp"/>
 </section>

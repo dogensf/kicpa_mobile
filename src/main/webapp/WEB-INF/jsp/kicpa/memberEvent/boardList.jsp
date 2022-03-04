@@ -6,7 +6,6 @@
 <script>
 $(document).ready(function(){
 
-
 	$(".btn-write").show();
 
 	$(".btn-write").on("click",function(){
@@ -27,6 +26,7 @@ function fncLocation(){
 <form id="boardForm" name="boardForm">
 	<input type="hidden" name="pageIndex" id="pageIndex" value="1">
 	<input type="hidden" name="boardId" id="boardId" value="mstate">
+	<input type="hidden" name="loginYn" id="loginYn" value="Y">
 
 	<section class="head-sub">
 	    <button class="btn-back" type="button" onclick="fncLocation();">
@@ -57,4 +57,5 @@ function fncLocation(){
 		  </div><!-- tabSub1 -->
 		</div><!-- tabMain1 -->
 	</section>
+	<jsp:include page="/include/includeLoign.jsp"/>
 </form>

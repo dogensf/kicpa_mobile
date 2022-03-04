@@ -28,6 +28,7 @@ import adminwork.com.cmm.StringUtil;
 import adminwork.kicpa.cmm.comm.service.KicpaCommService;
 import adminwork.kicpa.job.service.JobAdvertisementService;
 import adminwork.kicpa.sntBook.service.SntBookService;
+import egovframework.rte.fdl.security.userdetails.util.EgovUserDetailsHelper;
 import egovframework.rte.psl.dataaccess.util.EgovMap;
 
 
@@ -68,14 +69,28 @@ public class SntBookController {
 
 	@RequestMapping(value = "/specialLectureList.do")
 	public String specialLectureList(@RequestParam Map<String,Object> map,HttpServletRequest request,HttpServletResponse response,ModelMap model) throws Exception{
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		model.addAttribute("isLogin", isAuthenticated);
+		model.addAttribute("title", "실무특강 리스트");
+		if(isAuthenticated) {
+			return "kicpa/sntBook/specialLectureList";
+		}else {
+			return "kicpa/common/authLogin";
+		}
 
-		return "kicpa/sntBook/specialLectureList";
 	}
 
 	@RequestMapping(value = "/offlineEduList.do")
 	public String offlineEduList(@RequestParam Map<String,Object> map,HttpServletRequest request,HttpServletResponse response,ModelMap model) throws Exception{
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		model.addAttribute("isLogin", isAuthenticated);
+		model.addAttribute("title", "집합연수");
+		if(isAuthenticated) {
+			return "kicpa/sntBook/offlineEduList";
+		}else {
+			return "kicpa/common/authLogin";
+		}
 
-		return "kicpa/sntBook/offlineEduList";
 	}
 
 	@RequestMapping(value = "/offlineEduAppList.do")
@@ -98,18 +113,36 @@ public class SntBookController {
 
 		HttpSession session = request.getSession();
 		List<EgovMap> list = (List<EgovMap>) session.getAttribute("cartList");
-		System.out.println(list);
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		model.addAttribute("isLogin", isAuthenticated);
 		model.addAttribute("cartList", list);
-		return "kicpa/sntBook/cartList";
+		model.addAttribute("title", "장바구니/구매");
+		if(isAuthenticated) {
+			return "kicpa/sntBook/cartList";
+		}else {
+			return "kicpa/common/authLogin";
+		}
+
 	}
 
 	@RequestMapping(value = "/bookBuyHistoryList.do")
 	public String bookBuyHistoryList(@RequestParam Map<String,Object> map,HttpServletRequest request,HttpServletResponse response,ModelMap model) throws Exception{
 
-		map.put("pslId", "5650320120323");
-		List<EgovMap> list = sntBookService.selectBookBuyHistoryList(map);
-		model.addAttribute("buyHistoryList", list);
-		return "kicpa/sntBook/bookBuyHistoryList";
+
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		model.addAttribute("isLogin", isAuthenticated);
+
+		model.addAttribute("title", "장바구니/구매");
+		if(isAuthenticated) {
+			map.put("pslId", "5650320120323");
+			List<EgovMap> list = sntBookService.selectBookBuyHistoryList(map);
+			model.addAttribute("buyHistoryList", list);
+			return "kicpa/sntBook/bookBuyHistoryList";
+		}else {
+			return "kicpa/common/authLogin";
+		}
+
+
 	}
 
 	@RequestMapping(value = "/bookBuyHistoryDetail.do")
@@ -195,22 +228,33 @@ public class SntBookController {
 
 		try{
 			modelAndView.setViewName("jsonView");
-			map.put("eduCode", "5650320120323"); //세선정보에서 불러오는거 현재 로그인이 없으므로 고정
-			map.put("schtype", StringUtil.isNullToString(map.get("schtype"), "use"));
-			map.put("schword", StringUtil.isNullToString(map.get("schword"), "1"));
+
+
+			Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+
+			if(isAuthenticated) {
+
+
+				map.put("eduCode", "5650320120323"); //세선정보에서 불러오는거 현재 로그인이 없으므로 고정
+				map.put("schtype", StringUtil.isNullToString(map.get("schtype"), "use"));
+				map.put("schword", StringUtil.isNullToString(map.get("schword"), "1"));
 
 
 
-			sntBookService.procedureEduMasterList(map);
-//			List<EgovMap> list = sntBookService.selectBookFormatList(map);
-//
-//			int totalCnt = sntBookService.selectBookFormatListCnt(map);
+				sntBookService.procedureEduMasterList(map);
+	//			List<EgovMap> list = sntBookService.selectBookFormatList(map);
+	//
+	//			int totalCnt = sntBookService.selectBookFormatListCnt(map);
 
-			List<HashMap<String,Object>> list = (List<HashMap<String,Object>>) map.get("result");
-			list.forEach(x -> StringUtil.checkMapReplaceHtml(x));
-			modelAndView.addObject("list", list);
-			modelAndView.addObject("gbn", map.get("gbn"));
-
+				List<HashMap<String,Object>> list = (List<HashMap<String,Object>>) map.get("result");
+				list.forEach(x -> StringUtil.checkMapReplaceHtml(x));
+				modelAndView.addObject("list", list);
+				modelAndView.addObject("gbn", map.get("gbn"));
+				modelAndView.addObject("isLogin", true);
+			}else {
+				modelAndView.addObject("gbn", map.get("gbn"));
+				modelAndView.addObject("isLogin", false);
+			}
 		}catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -225,11 +269,19 @@ public class SntBookController {
 
 		try{
 			modelAndView.setViewName("jsonView");
-			List<EgovMap> list = sntBookService.selectOfflineEduList(map);
 
-			list.forEach(x -> StringUtil.checkMapReplaceHtml(x));
-			modelAndView.addObject("list", list);
+			Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
 
+			if(isAuthenticated) {
+
+				List<EgovMap> list = sntBookService.selectOfflineEduList(map);
+
+				list.forEach(x -> StringUtil.checkMapReplaceHtml(x));
+				modelAndView.addObject("list", list);
+				modelAndView.addObject("isLogin", true);
+			}else {
+				modelAndView.addObject("isLogin", false);
+			}
 		}catch (Exception e) {
 			e.printStackTrace();
 		}

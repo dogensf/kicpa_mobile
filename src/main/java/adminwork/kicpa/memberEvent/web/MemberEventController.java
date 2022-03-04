@@ -25,6 +25,7 @@ import adminwork.kicpa.cmm.comm.service.KicpaCommService;
 import adminwork.kicpa.job.service.JobAdvertisementService;
 import adminwork.kicpa.sntBook.service.SntBookService;
 import adminwork.kicpa.taxNews.service.TaxNewsService;
+import egovframework.rte.fdl.security.userdetails.util.EgovUserDetailsHelper;
 import egovframework.rte.psl.dataaccess.util.EgovMap;
 
 
@@ -42,8 +43,15 @@ public class MemberEventController {
 
 	@RequestMapping(value = "/boardList.do")
 	public String boardList(@RequestParam Map<String,Object> map,HttpServletRequest request,HttpServletResponse response,ModelMap model) throws Exception{
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		model.addAttribute("isLogin", isAuthenticated);
+		model.addAttribute("title", "회원경조사");
+		if(isAuthenticated) {
+			return "kicpa/memberEvent/boardList";
+		}else {
+			return "kicpa/common/authLogin";
+		}
 
-		return "kicpa/memberEvent/boardList";
 	}
 	@RequestMapping(value = "/regMemberEvent.do")
 	public String regMemberEvent(@RequestParam Map<String,Object> map,HttpServletRequest request,HttpServletResponse response,ModelMap model) throws Exception{

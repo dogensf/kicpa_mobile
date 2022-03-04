@@ -18,6 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 import adminwork.com.cmm.StringUtil;
 import adminwork.kicpa.cmm.board.service.CommonBoardService;
 import adminwork.kicpa.job.service.JobAdvertisementService;
+import egovframework.rte.fdl.security.userdetails.util.EgovUserDetailsHelper;
 import egovframework.rte.psl.dataaccess.util.EgovMap;
 
 
@@ -62,34 +63,42 @@ public class CommonBoardController {
 		ModelAndView modelAndView = new ModelAndView();
 
     	try{
+    		modelAndView.setViewName("jsonView");
 
-    		List<EgovMap> boardList = null;
-    		int totalCnt;
+    		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    		if(!"Y".equals(map.get("loginYn")) || isAuthenticated) {
 
-	        modelAndView.setViewName("jsonView");
-	        map.put("pageIndex", StringUtil.isNullToString(map.get("pageIndex"), "1"));
-	        map.put("pageSize", 10);
+	    		List<EgovMap> boardList = null;
+	    		int totalCnt;
 
-	        Map<String,Object> boardMaster = commonBoardService.selectBoardMaster(map);
 
-	        //param를 boardmaster맵으로 merge
-	        map.forEach((key,value)-> boardMaster.merge(key, value, (v1,v2)->v2));
+		        map.put("pageIndex", StringUtil.isNullToString(map.get("pageIndex"), "1"));
+		        map.put("pageSize", 10);
 
-	        if("Y".equals(boardMaster.get("owntblYn")) && "CAFE".equals(boardMaster.get("owntblFix"))) {
-	        	boardList = commonBoardService.selectCommonCafeBoardList(boardMaster);
-	        	totalCnt = commonBoardService.selectCommonCafeBoardListCnt(boardMaster);
-	        }else {
-	        	boardList = commonBoardService.selectCommonBoardList(boardMaster);
-	        	totalCnt = commonBoardService.selectCommonBoardListCnt(boardMaster);
+		        Map<String,Object> boardMaster = commonBoardService.selectBoardMaster(map);
 
-	        }
+		        //param를 boardmaster맵으로 merge
+		        map.forEach((key,value)-> boardMaster.merge(key, value, (v1,v2)->v2));
 
-	        boardList.forEach(x -> StringUtil.checkMapReplaceHtml(x));
-			modelAndView.addObject("boardList", boardList);
-			modelAndView.addObject("boardMaster", boardMaster);
-			modelAndView.addObject("totalCnt", totalCnt);
-			modelAndView.addObject("pageIndex", map.get("pageIndex"));
+		        if("Y".equals(boardMaster.get("owntblYn")) && "CAFE".equals(boardMaster.get("owntblFix"))) {
+		        	boardList = commonBoardService.selectCommonCafeBoardList(boardMaster);
+		        	totalCnt = commonBoardService.selectCommonCafeBoardListCnt(boardMaster);
+		        }else {
+		        	boardList = commonBoardService.selectCommonBoardList(boardMaster);
+		        	totalCnt = commonBoardService.selectCommonBoardListCnt(boardMaster);
 
+		        }
+
+		        boardList.forEach(x -> StringUtil.checkMapReplaceHtml(x));
+				modelAndView.addObject("boardList", boardList);
+				modelAndView.addObject("boardMaster", boardMaster);
+				modelAndView.addObject("totalCnt", totalCnt);
+				modelAndView.addObject("pageIndex", map.get("pageIndex"));
+				modelAndView.addObject("isLogin", true);
+
+    		}else {
+    			modelAndView.addObject("isLogin", false);
+    		}
     	}catch (Exception e) {
     		e.printStackTrace();
 		}
@@ -103,40 +112,48 @@ public class CommonBoardController {
 		ModelAndView modelAndView = new ModelAndView();
 
     	try{
+    		modelAndView.setViewName("jsonView");
 
-    		List<EgovMap> boardList = null;
-    		int totalCnt;
+    		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    		if(!"Y".equals(map.get("loginYn")) || isAuthenticated) {
 
-	        modelAndView.setViewName("jsonView");
-	        map.put("pageIndex", StringUtil.isNullToString(map.get("pageIndex"), "1"));
-	        map.put("pageSize", 10);
+	    		List<EgovMap> boardList = null;
+	    		int totalCnt;
 
-	        map.put("boardIds", StringUtil.isNullToString(map.get("boardId"),"").split("/"));
 
-//	        Map<String,Object> boardMaster = commonBoardService.selectBoardMaster(map);
+		        map.put("pageIndex", StringUtil.isNullToString(map.get("pageIndex"), "1"));
+		        map.put("pageSize", 10);
 
-	        //param를 boardmaster맵으로 merge
-//	        map.forEach((key,value)-> boardMaster.merge(key, value, (v1,v2)->v2));
-//
-//	        if("Y".equals(boardMaster.get("owntblYn")) && "CAFE".equals(boardMaster.get("owntblFix"))) {
-//	        	boardList = commonBoardService.selectCommonCafeBoardList(boardMaster);
-//	        	totalCnt = commonBoardService.selectCommonCafeBoardListCnt(boardMaster);
-//	        }else {
-//	        	boardList = commonBoardService.selectCommonBoardList(boardMaster);
-//	        	totalCnt = commonBoardService.selectCommonBoardListCnt(boardMaster);
-//
-//	        }
+		        map.put("boardIds", StringUtil.isNullToString(map.get("boardId"),"").split("/"));
 
-	        boardList = commonBoardService.selectCommonBoardIdArrList(map);
-	        totalCnt = commonBoardService.selectCommonBoardIdArrListCnt(map);
+	//	        Map<String,Object> boardMaster = commonBoardService.selectBoardMaster(map);
 
-//
-	        boardList.forEach(x -> StringUtil.checkMapReplaceHtml(x));
+		        //param를 boardmaster맵으로 merge
+	//	        map.forEach((key,value)-> boardMaster.merge(key, value, (v1,v2)->v2));
+	//
+	//	        if("Y".equals(boardMaster.get("owntblYn")) && "CAFE".equals(boardMaster.get("owntblFix"))) {
+	//	        	boardList = commonBoardService.selectCommonCafeBoardList(boardMaster);
+	//	        	totalCnt = commonBoardService.selectCommonCafeBoardListCnt(boardMaster);
+	//	        }else {
+	//	        	boardList = commonBoardService.selectCommonBoardList(boardMaster);
+	//	        	totalCnt = commonBoardService.selectCommonBoardListCnt(boardMaster);
+	//
+	//	        }
 
-			modelAndView.addObject("boardList", boardList);
-			modelAndView.addObject("totalCnt", totalCnt);
-			modelAndView.addObject("pageIndex", map.get("pageIndex"));
+		        boardList = commonBoardService.selectCommonBoardIdArrList(map);
+		        totalCnt = commonBoardService.selectCommonBoardIdArrListCnt(map);
 
+	//
+		        boardList.forEach(x -> StringUtil.checkMapReplaceHtml(x));
+
+				modelAndView.addObject("boardList", boardList);
+				modelAndView.addObject("totalCnt", totalCnt);
+				modelAndView.addObject("pageIndex", map.get("pageIndex"));
+				modelAndView.addObject("isLogin", true);
+
+     		}else {
+    			modelAndView.addObject("isLogin", false);
+    		}
     	}catch (Exception e) {
     		e.printStackTrace();
 		}

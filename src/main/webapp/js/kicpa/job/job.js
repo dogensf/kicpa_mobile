@@ -88,12 +88,15 @@ job.menuChange = function(obj,ijJobSep){
 	$(".board-list ul").html("");
 	$("#boardSearchForm")[0].reset();
 	if(ijJobSep != 'jobInfoKicpa'){
+		$(".login-guide").hide();
+		$("#tabMain1").show();
 		$(".tab-sub").show();
 		$("#ijJobSep").val(ijJobSep);
 		job.getSearchTypeList();
 		var param = $("#boardForm").serializeObject();
 		fn_ajax_call("/kicpa/job/getBoardList.do",param,job.boardListSuccess,job.boardListError);
 	}else{
+		$("#loginYn").val('Y');
 		$("#ijJobSep").val(ijJobSep);
 		$("#boardId").val(ijJobSep);
 		$(".tab-sub").hide();

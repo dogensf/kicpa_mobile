@@ -14,6 +14,13 @@ taxNews.detailInit = function(){
 
 
 taxNews.menuChange = function(obj,boardId){
+
+	if(boardId == 'taxinfo06' || boardId == 'taxinfo09'){
+		$("#loginYn").val('Y');
+	}else{
+		$("#loginYn").val('N');
+	}
+
 	$("#boardForm input[name='searchKeyword']").val("")
 	$("#boardId").val(boardId);
 	$(".tab-link").removeClass("active");
