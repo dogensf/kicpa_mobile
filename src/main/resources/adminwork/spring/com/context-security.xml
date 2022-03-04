@@ -11,7 +11,7 @@
     <security:http pattern="/images/**" security="none"/>
     <security:http pattern="/font/**" security="none"/>
  	<security:http pattern="/js/**" security="none"/>
- 	<security:http pattern="/kicpa/**" security="none"/>
+ 	<!-- <security:http pattern="/kicpa/**" security="none"/> -->
  	<security:http pattern="/resource/**" security="none"/>
  	<security:http pattern="\A/WEB-INF/jsp/.*\Z" request-matcher="regex" security="none"/>
  	
@@ -38,7 +38,7 @@
         hash="plaintext"
         hashBase64="false"
 		
-		concurrentMaxSessons="1"
+		concurrentMaxSessons="10"
 		concurrentExpiredUrl="/uat/uia/actionMain.do"
 
 		defaultTargetUrl="/uat/uia/actionMain.do"

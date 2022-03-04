@@ -16,7 +16,7 @@
   		<div class="swiper-wrapper">
 	    	<div class="swiper-slide">
 	      		<div>
-			        <button class="tax" type="button">
+			        <button class="tax" type="button"  onclick="javascript:location.href='<c:url value='/kicpa/dues/selectDuesList.do'/>';">
 			         	 회비관리
 			        </button>
 			        <button class="counsel" type="button" onclick="javascript:location.href='<c:url value='/kicpa/taxNews/boardList.do'/>';">

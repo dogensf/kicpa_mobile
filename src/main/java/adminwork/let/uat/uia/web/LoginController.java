@@ -211,9 +211,9 @@ public class LoginController {
 		//if (resultVO != null && resultVO.getId() != null && !resultVO.getId().equals("") && loginPolicyYn) {
 		if (resultVO != null && resultVO.getId() != null && !resultVO.getId().equals("")) {
 		
-			if(("").equals(resultVO.getAuthor()) || null == resultVO.getAuthor()) {
+			/*if(("").equals(resultVO.getAuthor()) || null == resultVO.getAuthor()) {
 				loginService.setUserAuthorCode(resultVO);
-			}
+			}*/
 			// 2. spring security 연동
 			request.getSession().setAttribute("LoginVO", resultVO);
 
@@ -239,10 +239,10 @@ public class LoginController {
 						
 			springSecurity.doFilter(new RequestWrapperForSecurity(request, resultVO.getUserSe()+ resultVO.getId(), resultVO.getUniqId()), response, null);
 			System.out.println("loginVO.getUrl()=="+loginVO.getUrl());
-			if(loginVO.getUrl() != null && loginVO.getUrl() != "") {
+			/*if(loginVO.getUrl() != null && loginVO.getUrl() != "") {
 				request.getSession().setAttribute("returnUrl", loginVO.getUrl());
 				return "forward:/uat/uia/actionRedirect.do?url="+loginVO.getUrl(); // 성공 시 페이지.. (redirect 불가)
-			}
+			}*/
 			return "forward:/uat/uia/actionMain.do"; // 성공 시 페이지.. (redirect 불가)
 		} else {
 
