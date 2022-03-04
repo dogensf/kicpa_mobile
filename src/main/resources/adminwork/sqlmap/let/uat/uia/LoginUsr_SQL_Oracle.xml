@@ -17,7 +17,7 @@
 		<result property="orgnztId" column="orgnztId" columnIndex="7"/>
 		<result property="uniqId" column="uniqId" columnIndex="8"/>		
 		<result property="empId" column="empId" columnIndex="9"/>
-		<result property="author" column="author" columnIndex="10"/>
+		<!-- <result property="author" column="author" columnIndex="10"/> -->
 	</resultMap>
 	<!-- 로그인 처리를 위한 resultMap -->
 	<resultMap id="kicpalogin" class="adminwork.com.cmm.LoginVO">
@@ -107,10 +107,10 @@
 			     , 'USR' AS userSe
 			     , orgnzt_id AS orgnztId
 			     , ESNTL_ID AS uniqId
-			     , emplyr_id as empId
-			     , (select AUTHOR_CODE from LETTNEMPLYRSCRTYESTBS where SCRTY_DTRMN_TRGET_ID = ESNTL_ID ) as author
+			     , emplyr_id as empId			     
 			  FROM LETTNEMPLYRINFO
 			 WHERE emplyr_id = #id#
+			 AND password = #password#
 			]]>
 		<!-- 일반회원 -->
 		<!-- <isEqual property="userSe" compareValue="GNR">

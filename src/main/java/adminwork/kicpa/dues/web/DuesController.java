@@ -87,21 +87,21 @@ public class DuesController {
 	public String selectDuesList(String Pin,@ModelAttribute("searchVO") DuesVO vo,ModelMap model, HttpServletRequest request,HttpServletResponse response)
 	  throws Exception{		
 		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		System.out.println("isAuthenticated========="+isAuthenticated);
 		
+		/*if(Pin != null && user.getId() != Pin) {
+			System.out.println("pin========="+Pin);
+			model.addAttribute("id", Pin);
+			model.addAttribute("url", "/kicpa/dues/selectDuesList.do");
+			return "uat/uia/LoginUsr";
+		}*/		
 		if (isAuthenticated) {
 			LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();	
-			if(Pin != null && user.getId() != Pin) {
-				System.out.println("pin========="+Pin);
-				model.addAttribute("id", Pin);
-				model.addAttribute("url", "/kicpa/dues/selectDuesList.do");
-				return "uat/uia/LoginSso";
-			}
-			
-			System.out.println("========="+user.getId());
+			System.out.println("========="+user.getId());	
 			vo.setCust_inqr_no(user.getId());
 			boolean success = true;
 			// 합산지로 있는지 체크해서 삭제  TEMP --> PAY_YN = 'N' 취소 처리
-			List<Dues> tempList = duesService.selectTempDuesList(vo);
+			/*List<Dues> tempList = duesService.selectTempDuesList(vo);
 			//합산지로 처리한 데이터가 있으면 일단 삭제하고 처리 한다.
 			if(tempList.size() > 0) {
 				success = false;
@@ -121,12 +121,12 @@ public class DuesController {
 				model.addAttribute("errMsg", "이전 합산지로 정보가 존재합니다. 관리자에게 문의 하세요.");
 				model.addAttribute("searchVO", vo);
 				
-			}
+			}*/
 		}else {
 			System.out.println("pin========="+Pin);
 			model.addAttribute("id", Pin);
 			model.addAttribute("url", "/kicpa/dues/selectDuesList.do");
-			return "uat/uia/LoginSso";
+			return "uat/uia/LoginUsr";
 			
 		}
 		
@@ -285,24 +285,24 @@ public class DuesController {
 	public String selectDuesResult(@ModelAttribute("searchVO") DuesVO vo,ModelMap model, HttpServletRequest request)
 	  throws Exception{
 		//LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
-		/*Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
 
 		if (isAuthenticated) {
-			//model.addAttribute("cmmCodeList", cmmUseService.getCmmCodeDetailAll());
+			if(vo.getSearchBgnDe() == null || vo.getSearchBgnDe() == "") {
+				vo.setSearchBgnDe(DateUtil.getCurrentDate(""));
+				vo.setSearchEndDe("");
+			}
+		/*	Dues info = duesService.selectDuesResultInfo(vo);
+			List<Dues> list = duesService.selectDuesResultList(vo);
+			model.addAttribute("info",info);
+			model.addAttribute("list",list);
+			model.addAttribute("searchVO", vo);*/
 		}else {
 			return "redirect:/uat/uia/LoginUsr.do";
-		}*/
+		}
 		
 		//날짜가 없을 경우 현재 날짜로 셋팅한다.
-		if(vo.getSearchBgnDe() == null || vo.getSearchBgnDe() == "") {
-			vo.setSearchBgnDe(DateUtil.getCurrentDate(""));
-			vo.setSearchEndDe("");
-		}
-		Dues info = duesService.selectDuesResultInfo(vo);
-		List<Dues> list = duesService.selectDuesResultList(vo);
-		model.addAttribute("info",info);
-		model.addAttribute("list",list);
-		model.addAttribute("searchVO", vo);
+		
 		
 		return "kicpa/dues/selectDuesResult";
 	}
