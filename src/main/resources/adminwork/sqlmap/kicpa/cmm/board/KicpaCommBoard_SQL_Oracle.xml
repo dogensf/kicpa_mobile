@@ -1047,8 +1047,14 @@
 					,#bltnPermitYn#
 					,0
 					,#bltnIcon#
-					,sysdate
-<!-- 					,#bltnBgnYmd# -->
+					<isNotNull property="bltnEndYmd">
+			       		<isNotEmpty property="bltnEndYmd">
+							,sysdate
+			       		</isNotEmpty>
+			       	</isNotNull>
+			       	<isNull property="bltnEndYmd">
+						,null
+			       	</isNull>
 					,#bltnEndYmd#
 					,#subBoardId#
 					,#bltnSubj#

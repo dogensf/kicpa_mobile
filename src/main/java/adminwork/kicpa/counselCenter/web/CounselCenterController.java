@@ -203,10 +203,11 @@ public class CounselCenterController {
 			map.put("bltnTopTag", "N");
 			map.put("bltnSecretYn", "N");
 			map.put("bltnPermitYn", "Y");
-			map.put("extStr6", StringUtil.isNullToString(map.get("phoneNumber1"))+"-"+StringUtil.isNullToString(map.get("phoneNumber2"))+"-" +StringUtil.isNullToString(map.get("phoneNumber3")));
+
+			if(!"".equals(StringUtil.isNullToString(map.get("phoneNumber1"))) && !"".equals(StringUtil.isNullToString(map.get("phoneNumber2"))) && !"".equals(StringUtil.isNullToString(map.get("phoneNumber3"))) ) {
+				map.put("extStr6", StringUtil.isNullToString(map.get("phoneNumber1"))+"-"+StringUtil.isNullToString(map.get("phoneNumber2"))+"-" +StringUtil.isNullToString(map.get("phoneNumber3")));
+			}
 			map.put("extStr7",null); // kp:cpaId userId="${_enview_info_.userId}"/>
-			map.put("extStr8", null); //답변형태
-			map.put("extStr5", null); //진행상태
 
 
 			List<HashMap<String,Object>> fileList = null;
