@@ -24,6 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
+import adminwork.com.cmm.LoginVO;
 import adminwork.com.cmm.StringUtil;
 import adminwork.kicpa.cmm.comm.service.KicpaCommService;
 import adminwork.kicpa.job.service.JobAdvertisementService;
@@ -110,7 +111,6 @@ public class SntBookController {
 
 	@RequestMapping(value = "/cartList.do")
 	public String cartList(@RequestParam Map<String,Object> map,HttpServletRequest request,HttpServletResponse response,ModelMap model) throws Exception{
-
 		HttpSession session = request.getSession();
 		List<EgovMap> list = (List<EgovMap>) session.getAttribute("cartList");
 		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();

@@ -94,5 +94,14 @@ public interface  CounselCenterService {
 	 */
 	public List<EgovMap> selectMemberCounselBoardMemoList(Map<String,Object> map) throws Exception;
 
+	/**
+	 * 회원전문 세무상담 등록
+	 * @param map
+	 * @return
+	 * @throws Exception
+	 */
+	public void insertMemberCounselBoard(Map<String,Object> map) throws Exception;
+
+
 
 }

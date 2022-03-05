@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import adminwork.com.cmm.LoginVO;
 import adminwork.com.cmm.StringUtil;
 import adminwork.kicpa.cmm.board.service.CommonBoardService;
 import adminwork.kicpa.job.service.JobAdvertisementService;
@@ -49,6 +50,12 @@ public class CommonBoardController {
         	boardDetail = commonBoardService.selectCommonBoardDetail(boardMaster);
         }
 
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		if(isAuthenticated) {
+			LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+			model.addAttribute("loginVO", user);
+		}
+
 //        StringUtil.checkMapReplaceHtml(boardDetail);
         model.addAttribute("boardDetail", boardDetail);
         model.addAttribute("boardMaster", boardMaster);
@@ -67,6 +74,11 @@ public class CommonBoardController {
 
     		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
     		if(!"Y".equals(map.get("loginYn")) || isAuthenticated) {
+
+    			if(isAuthenticated) {
+    				LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+    				map.put("userId", user.getId());
+    			}
 
 	    		List<EgovMap> boardList = null;
 	    		int totalCnt;

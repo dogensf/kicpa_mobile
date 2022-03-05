@@ -64,7 +64,7 @@
 			        AND AR_STATUS = B.CODE
 			        AND CODE != 1
 			where ar_use ='Y'
-	<!-- 		and ar_user_id = #ar_user_id# -->
+			and ar_user_id = #userId#
 			<isNotNull property="searchKeyword">
 	       		<isNotEmpty property="searchKeyword">
 	       			AND (UPPER(A.AR_WTITLE) LIKE '%'||UPPER(#searchKeyword#)||'%')
@@ -83,7 +83,7 @@
        			AND (UPPER(AR_WTITLE) LIKE '%'||UPPER(#searchKeyword#)||'%')
        		</isNotEmpty>
        	</isNotNull>
-<!-- 		and ar_user_id = #ar_user_id# -->
+		and ar_user_id = #userId#
 		order by ar_reg_date desc
 	</select>
 
@@ -130,7 +130,7 @@
 			        AND CODE != 1
 			where ar_use ='Y'
 			and AR_ID_NUM = #arIdNum#
-	<!-- 		and ar_user_id = #ar_user_id# -->
+			and ar_user_id = #userId#
 
 	</select>
 
@@ -243,7 +243,7 @@
 			BLTN_READ_CNT,
 			BLTN_REPLY_CNT,
 			BLTN_SUBJ,
-			BLTN_CNTT,
+			REPLACE(BLTN_CNTT,CHR(10),'<![CDATA[<br/>]]>') BLTN_CNTT,
 			REPLY_STATUS,
 			REPLY_USER,
 			REPLY_DATE,
@@ -343,5 +343,27 @@
 				SYSDATE
 			)
 	</insert>
+
+	<insert id="CounselCenterDAO.insertMemberCounselBoard" parameterClass="Hashmap">
+		INSERT INTO TAX_CONST_BLTN(BLTN_NO, BLTN_GN,  BLTN_LEV, DEL_FLAG, CATE_ID, USER_ID, USER_NICK, USER_EMAIL, USER_TEL_NO, BLTN_READ_CNT, BLTN_REPLY_CNT, BLTN_MEMO_CNT, BLTN_FILE_CNT, BLTN_SUBJ,    REG_DATIM,  BLTN_CNTT )
+		VALUES(
+				#bltnNo#
+		     	, #bltnNo#
+			    , 1
+			    , 0
+			    , #cateId#
+			    , #userId#
+			    , #userNick#
+			    , #userEmail#
+			    , #userTelNo#
+			    , 0
+			    , 0
+			    , 0
+			    , 0
+			    , #bltnSubj#
+			    , SYSDATE
+			    , #bltnCntt# )
+	</insert>
+
 
 </sqlMap>

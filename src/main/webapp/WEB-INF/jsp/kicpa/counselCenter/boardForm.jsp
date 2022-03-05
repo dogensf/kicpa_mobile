@@ -37,7 +37,7 @@ function fncLocation(){
                  <!-- 인풋 필수 -->
                  <div class="inp-box">
                      <label class="label essen" for="regUserName">성명</label>
-                     <input type="text" id="regUserName" name="regUserName" disabled="disabled" placeholder="" />
+                     <input type="text" id="regUserName" name="regUserName" disabled="disabled" placeholder="" value="${loginVO.name }" />
                  </div>
 
                  <div class="inp-box">

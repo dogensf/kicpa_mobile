@@ -20,10 +20,13 @@ counselCenter.counselInit = function(){
 		$("#pageIndex").val(1);
 		$(".board-list ul").html("");
 		$("#boardForm input[name='searchKeyword']").val($("#searchKeyword").val());
-		var param = $("#boardForm").serializeObject();
-		fn_ajax_call("/kicpa/counselCenter/getCounselBoardList.do",param,counselCenter.getCounselBoardListSuccess,counselCenter.boardListError);
+		counselCenter.counselBoardAjax();
 	});
 
+	counselCenter.counselBoardAjax();
+}
+
+counselCenter.counselBoardAjax = function(){
 	var param = $("#boardForm").serializeObject();
 	fn_ajax_call("/kicpa/counselCenter/getCounselBoardList.do",param,counselCenter.getCounselBoardListSuccess,counselCenter.boardListError);
 }
@@ -66,8 +69,7 @@ counselCenter.categoryTab = function(obj,cateId){
 	$("#pageIndex").val(1);
 	$(".board-list ul").html("");
 	$(obj).addClass("active");
-	var param = $("#boardForm").serializeObject();
-	fn_ajax_call("/kicpa/counselCenter/getCounselBoardList.do",param,counselCenter.getCounselBoardListSuccess,counselCenter.boardListError);
+	counselCenter.counselBoardAjax();
 
 }
 
@@ -164,8 +166,14 @@ counselCenter.getCounselBoardListSuccess = function(data){
 				txt+=' 		<div class="title-zone"> \n';
 				txt+=' 			<p>'+o.bltnSubj+'[' +o.bltnMemoCnt+']</p> \n';
 				txt+=' 	      	<div class="other"> \n';
-				if(o.replyStatus = 'C'){
+				if(o.replyStatus == 'C'){
 					txt+=' 	        	<span class="state">답변완료</span> \n';
+				}else if(o.replyStatus == 'A'){
+					txt+=' 	        	<span class="state">접수</span> \n';
+				}else if(o.replyStatus == 'B'){
+					txt+=' 	        	<span class="state">답변준비중</span> \n';
+				}else{
+					txt+=' 	        	<span class="ico-arrow"></span> \n';
 				}
 				txt+=' 	        </div> \n';
 				txt+=' 	    </div> \n';
@@ -189,8 +197,7 @@ counselCenter.getCounselBoardListSuccess = function(data){
 				if ($(window).scrollTop() >= $(document).height() - $(window).height() - 150 && flag ) {
 					flag = false;
 					$("#pageIndex").val(Number($("#pageIndex").val())+10);
-					var param = $("#boardForm").serializeObject();
-					fn_ajax_call("/kicpa/counselCenter/getCounselBoardList.do",param,counselCenter.getCounselBoardListSuccess,counselCenter.boardListError);
+					counselCenter.counselBoardAjax();
 				}
 			});
 		}
@@ -204,7 +211,7 @@ counselCenter.getCounselBoardListSuccess = function(data){
 
 counselCenter.insertMemberCounselBoardMemo = function(){
 	var param = $("#boardForm").serializeObject();
-	fn_ajax_call("/kicpa/counselCenter/insertMemberCounselBoardMemo.do",param,counselCenter.insertMemberCounselBoardMemoSuccess,counselCenter.boardListError);
+	fn_ajax_call("/kicpa/counselCenter/insertMemberCounselBoardMemo.do",param,counselCenter.insertMemberCounselBoardMemoSuccess,counselCenter.boardInsertError);
 
 }
 
@@ -275,6 +282,53 @@ counselCenter.insertValicationCheck = function(){
 
 }
 
+counselCenter.counselBoardValicationCheck = function(){
+	if($("#cateId").val() == ''){
+		alert("비정상적인 접근입니다.");
+		return false;
+	}
+
+	if($.trim($("#boardForm input[name='bltnSubj']").val()) == '' ){
+		alert("제목을 입력해주세요.");
+		return false;
+	}
+
+
+	if($.trim($("#userEmail").val()) == ''){
+		alert("이메일을 입력해주세요.")
+		return false;
+	}
+
+	var regex=/^[-A-Za-z0-9_]+[-A-Za-z0-9_.]*[@]{1}[-A-Za-z0-9_]+[-A-Za-z0-9_.]*[.]{1}[A-Za-z]{1,5}$/;
+	if(!regex.test($.trim($("#userEmail").val()))) {
+		alert("올바르지 않은 이메일주소입니다.");
+		return false;
+	}
+
+	if($.trim($("#phoneNumber1").val()) == '' || $.trim($("#phoneNumber2").val()) == '' || $.trim($("#phoneNumber3").val()) == ''){
+		alert("전화번호를 입력해주세요.")
+		return false;
+	}
+
+	if($.trim($("#boardForm textarea[name='bltnCntt']").val()) == '' ){
+		alert("내용을 입력해주세요.");
+		return false;
+	}
+
+	var param = $("#boardForm").serializeObject();
+	fn_ajax_call("/kicpa/counselCenter/insertMemberCounselBoard.do",param,counselCenter.insertMemberCounselBoardSuccess,counselCenter.boardInsertError);
+
+}
+
+counselCenter.insertMemberCounselBoardSuccess = function(data){
+	alert("등록되었습니다.");
+	$(opener.document).find("#pageIndex").val(1);
+	$(opener.document).find(".board-list ul").html("");
+	opener.counselCenter.counselBoardAjax();
+	window.close();
+
+}
+
 
 
 counselCenter.insertBoardSuccess = function(data){
@@ -292,6 +346,9 @@ counselCenter.insertBoardSuccess = function(data){
 counselCenter.boardListError = function(data,status, error){
 	flag = true;
 	alert("조회실패");
+}
+counselCenter.boardInsertError = function(data,status, error){
+	alert("등록실패");
 }
 
 

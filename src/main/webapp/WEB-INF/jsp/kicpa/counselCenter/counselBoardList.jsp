@@ -4,6 +4,17 @@
 <script src="/js/kicpa/counselCenter/counselCenter.js"></script>
 <script>
 $(document).ready(function(){
+
+	if(${isLogin} == true){
+
+		$(".btn-write").show();
+
+		$(".btn-write").on("click",function(){
+
+			window.open("/kicpa/counselCenter/counselBoardForm.do?cateId="+$("#boardForm input[name='cateId']").val() , "boardForm")
+
+		});
+	}
 	counselCenter.counselInit();
 });
 
