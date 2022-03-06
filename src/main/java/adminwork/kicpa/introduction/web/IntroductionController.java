@@ -24,6 +24,7 @@ import adminwork.kicpa.cmm.comm.service.KicpaCommService;
 import adminwork.kicpa.job.service.JobAdvertisementService;
 import adminwork.kicpa.sntBook.service.SntBookService;
 import adminwork.kicpa.taxNews.service.TaxNewsService;
+import egovframework.rte.fdl.security.userdetails.util.EgovUserDetailsHelper;
 import egovframework.rte.psl.dataaccess.util.EgovMap;
 
 
@@ -41,7 +42,8 @@ public class IntroductionController {
 
 	@RequestMapping(value = "/boardList.do")
 	public String boardList(@RequestParam Map<String,Object> map,HttpServletRequest request,HttpServletResponse response,ModelMap model) throws Exception{
-
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		model.addAttribute("isLogin", isAuthenticated);
 		return "kicpa/introduction/boardList";
 	}
 

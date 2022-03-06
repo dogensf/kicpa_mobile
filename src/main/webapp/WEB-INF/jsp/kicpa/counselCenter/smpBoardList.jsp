@@ -6,11 +6,13 @@
 <script>
 $(document).ready(function(){
 
-	$(".btn-write").show();
+	if(${isLogin} == true){
+		$(".btn-write").show();
 
-	$(".btn-write").on("click",function(){
-		window.open("/kicpa/counselCenter/boardForm.do?boardId="+$("#boardForm input[name='boardId']").val() , "boardForm")
-	});
+		$(".btn-write").on("click",function(){
+			window.open("/kicpa/counselCenter/boardForm.do?boardId="+$("#boardForm input[name='boardId']").val() , "boardForm")
+		});
+	}
 
 	board.boardListInit();
 });
@@ -24,7 +26,7 @@ function fncLocation(){
 <form id="boardForm" name="boardForm">
 	<input type="hidden" name="pageIndex" id="pageIndex" value="1">
 	<input type="hidden" name="boardId" id="boardId" value="smpadt">
-
+	<input type="hidden" name="loginYn" id="loginYn" value="Y">
 	<section class="head-sub">
 		<button class="btn-back" type="button" onclick="fncLocation();">
 	        <span>이전</span>
@@ -32,7 +34,6 @@ function fncLocation(){
 	    <h3>회계기준 회원상담 (SMP감사품질)</h3>
 	</section>
 	<section class="content">
-
 
 
 		<div id="tabMain1" class="tab-main-content show">
@@ -55,5 +56,6 @@ function fncLocation(){
 		      </div>
 		  </div><!-- tabSub1 -->
 		</div><!-- tabMain1 -->
+		<jsp:include page="/include/includeLoign.jsp"/>
 	</section>
 </form>

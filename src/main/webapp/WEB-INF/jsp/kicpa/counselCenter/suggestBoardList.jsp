@@ -5,6 +5,16 @@
 <script src="/js/kicpa/counselCenter/counselCenter.js"></script>
 <script>
 $(document).ready(function(){
+
+	if(${isLogin} == true){
+		$(".btn-write").show();
+
+		$(".btn-write").on("click",function(){
+			window.open("/kicpa/counselCenter/boardForm.do?boardId="+$("#boardForm input[name='boardId']").val() , "boardForm")
+		});
+	}
+
+
 	board.boardListInit();
 });
 
@@ -17,6 +27,7 @@ function fncLocation(){
 <form id="boardForm" name="boardForm">
 	<input type="hidden" name="pageIndex" id="pageIndex" value="1">
 	<input type="hidden" name="boardId" id="boardId" value="sugt01">
+	<input type="hidden" name="loginYn" id="loginYn" value="Y">
 
 	<section class="head-sub">
 		<button class="btn-back" type="button" onclick="fncLocation();">
@@ -25,7 +36,6 @@ function fncLocation(){
 	    <h3>건의사항</h3>
 	</section>
 	<section class="content">
-
 		<div class="tab-main">
 			<a class="tab-link active" href="javascript:void(0);" onclick="counselCenter.kifrsTab(this,'sugt01')">
 		        <span>제도개선 건의</span>
@@ -61,5 +71,6 @@ function fncLocation(){
 		      </div>
 		  </div><!-- tabSub1 -->
 		</div><!-- tabMain1 -->
+		<jsp:include page="/include/includeLoign.jsp"/>
 	</section>
 </form>

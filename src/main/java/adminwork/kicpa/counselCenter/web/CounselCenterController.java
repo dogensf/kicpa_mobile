@@ -19,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
+import adminwork.com.cmm.LoginVO;
 import adminwork.com.cmm.StringUtil;
 import adminwork.kicpa.cmm.board.service.CommonBoardService;
 import adminwork.kicpa.cmm.comm.service.KicpaCommService;
@@ -26,6 +27,7 @@ import adminwork.kicpa.counselCenter.service.CounselCenterService;
 import adminwork.kicpa.job.service.JobAdvertisementService;
 import adminwork.kicpa.sntBook.service.SntBookService;
 import adminwork.kicpa.taxNews.service.TaxNewsService;
+import egovframework.rte.fdl.security.userdetails.util.EgovUserDetailsHelper;
 import egovframework.rte.psl.dataaccess.util.EgovMap;
 
 
@@ -46,48 +48,120 @@ public class CounselCenterController {
 
 	@RequestMapping(value = "/declarationBoardList.do")
 	public String declarationBoardList(@RequestParam Map<String,Object> map,HttpServletRequest request,HttpServletResponse response,ModelMap model) throws Exception{
-
-		return "kicpa/counselCenter/declarationBoardList";
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		model.addAttribute("isLogin", isAuthenticated);
+		model.addAttribute("title", "실명신고");
+		if(isAuthenticated) {
+			return "kicpa/counselCenter/declarationBoardList";
+		}else {
+			return "kicpa/common/authLogin";
+		}
 	}
 
 	@RequestMapping(value = "/counselBoardList.do")
 	public String counselBoardList(@RequestParam Map<String,Object> map,HttpServletRequest request,HttpServletResponse response,ModelMap model) throws Exception{
-		map.put("codeId", "TAX_CONST_CATE");
-		List<EgovMap> codeList = kicpaCommService.selectCodebaseList(map);
 
-		model.addAttribute("codeList",codeList);
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		model.addAttribute("title", "회원전문 세무상담");
+		if(isAuthenticated) {
+			map.put("codeId", "TAX_CONST_CATE");
+			List<EgovMap> codeList = kicpaCommService.selectCodebaseList(map);
 
-		return "kicpa/counselCenter/counselBoardList";
+			model.addAttribute("isLogin", isAuthenticated);
+			model.addAttribute("codeList",codeList);
+
+			return "kicpa/counselCenter/counselBoardList";
+		}else {
+			return "kicpa/common/authLogin";
+		}
+
 	}
 
 	@RequestMapping(value = "/kifrsBoardList.do")
 	public String kifrsBoardList(@RequestParam Map<String,Object> map,HttpServletRequest request,HttpServletResponse response,ModelMap model) throws Exception{
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		model.addAttribute("isLogin", isAuthenticated);
+		model.addAttribute("title", "회계기준 회원상담 (K-IFRS상담)");
+		if(isAuthenticated) {
+			return "kicpa/counselCenter/kifrsBoardList";
+		}else {
+			return "kicpa/common/authLogin";
+		}
 
-		return "kicpa/counselCenter/kifrsBoardList";
+
 	}
 
 	@RequestMapping(value = "/nonExtBoardList.do")
 	public String nonExtBoardList(@RequestParam Map<String,Object> map,HttpServletRequest request,HttpServletResponse response,ModelMap model) throws Exception{
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		model.addAttribute("isLogin", isAuthenticated);
+		model.addAttribute("title", "회계기준 회원상담 (비외감대상)");
+		if(isAuthenticated) {
+			return "kicpa/counselCenter/nonExtBoardList";
+		}else {
+			return "kicpa/common/authLogin";
+		}
 
-		return "kicpa/counselCenter/nonExtBoardList";
+
 	}
 
 	@RequestMapping(value = "/smpBoardList.do")
 	public String smpBoardList(@RequestParam Map<String,Object> map,HttpServletRequest request,HttpServletResponse response,ModelMap model) throws Exception{
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		model.addAttribute("isLogin", isAuthenticated);
+		model.addAttribute("title", "회계기준 회원상담 (SMP감사품질)");
+		if(isAuthenticated) {
+			return "kicpa/counselCenter/smpBoardList";
+		}else {
+			return "kicpa/common/authLogin";
+		}
 
-		return "kicpa/counselCenter/smpBoardList";
+
+
 	}
 
 	@RequestMapping(value = "/suggestBoardList.do")
 	public String suggestBoardList(@RequestParam Map<String,Object> map,HttpServletRequest request,HttpServletResponse response,ModelMap model) throws Exception{
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		model.addAttribute("isLogin", isAuthenticated);
+		model.addAttribute("title", "건의사항");
 
-		return "kicpa/counselCenter/suggestBoardList";
+		if(isAuthenticated) {
+			return "kicpa/counselCenter/suggestBoardList";
+		}else {
+			return "kicpa/common/authLogin";
+		}
+
 	}
 
 	@RequestMapping(value = "/boardForm.do")
 	public String boardForm(@RequestParam Map<String,Object> map,HttpServletRequest request,HttpServletResponse response,ModelMap model) throws Exception{
 
-		return "kicpa/counselCenter/boardForm";
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		if(isAuthenticated) {
+			LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+			model.addAttribute("loginVO", user);
+			return "kicpa/counselCenter/boardForm";
+		}else {
+			return "kicpa/common/authLogin";
+		}
+
+
+	}
+
+	@RequestMapping(value = "/counselBoardForm.do")
+	public String counselBoardForm(@RequestParam Map<String,Object> map,HttpServletRequest request,HttpServletResponse response,ModelMap model) throws Exception{
+
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		if(isAuthenticated) {
+			LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+			model.addAttribute("loginVO", user);
+			return "kicpa/counselCenter/counselBoardForm";
+		}else {
+			return "kicpa/common/authLogin";
+		}
+
+
 	}
 
 
@@ -99,6 +173,13 @@ public class CounselCenterController {
 		boardDetail = counselCenterService.selectMemberCounselBoardDetail(map);
 		counselCenterService.updateMemberCounselBoardReadCnt(map);
 
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		if(isAuthenticated) {
+			LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+			model.addAttribute("loginVO", user);
+		}
+
+
 //		StringUtil.checkMapReplaceHtml(boardDetail);
 		model.addAttribute("boardDetail", boardDetail);
 
@@ -109,9 +190,14 @@ public class CounselCenterController {
 	public String boardDetail(@RequestParam Map<String,Object> map,HttpServletRequest request,HttpServletResponse response,ModelMap model) throws Exception{
 
 		EgovMap boardDetail = null;
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		if(isAuthenticated) {
+			LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+			map.put("userId", user.getId());
+			boardDetail = counselCenterService.selectDeclarationBoardDetail(map);
+			counselCenterService.updateDeclarationBoardReadCnt(map);
+		}
 
-		boardDetail = counselCenterService.selectDeclarationBoardDetail(map);
-		counselCenterService.updateDeclarationBoardReadCnt(map);
 //		StringUtil.checkMapReplaceHtml(boardDetail);
         model.addAttribute("boardDetail", boardDetail);
 
@@ -125,16 +211,24 @@ public class CounselCenterController {
 
     	try{
 	        modelAndView.setViewName("jsonView");
-	        map.put("pageIndex", StringUtil.isNullToString(map.get("pageIndex"), "1"));
-	        map.put("pageSize", 10);
-	        List<EgovMap> list = counselCenterService.selectDeclarationBoardList(map);
 
-	        int totalCnt = counselCenterService.selectDeclarationBoardListCnt(map);
-	        list.forEach(x -> StringUtil.checkMapReplaceHtml(x));
-			modelAndView.addObject("boardList", list);
-			modelAndView.addObject("totalCnt", totalCnt);
-			modelAndView.addObject("pageIndex", map.get("pageIndex"));
+	        Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    		if(isAuthenticated) {
+				LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+				map.put("userId", user.getId());
+		        map.put("pageIndex", StringUtil.isNullToString(map.get("pageIndex"), "1"));
+		        map.put("pageSize", 10);
+		        List<EgovMap> list = counselCenterService.selectDeclarationBoardList(map);
 
+		        int totalCnt = counselCenterService.selectDeclarationBoardListCnt(map);
+		        list.forEach(x -> StringUtil.checkMapReplaceHtml(x));
+				modelAndView.addObject("boardList", list);
+				modelAndView.addObject("totalCnt", totalCnt);
+				modelAndView.addObject("pageIndex", map.get("pageIndex"));
+				modelAndView.addObject("isLogin", true);
+    		}else {
+    			modelAndView.addObject("isLogin", false);
+    		}
     	}catch (Exception e) {
     		e.printStackTrace();
 		}
@@ -148,15 +242,22 @@ public class CounselCenterController {
 
 		try{
 			modelAndView.setViewName("jsonView");
-			map.put("pageIndex", StringUtil.isNullToString(map.get("pageIndex"), "1"));
-			map.put("pageSize", 10);
-			List<EgovMap> list = counselCenterService.selectMemberCounselBoardList(map);
 
-			int totalCnt = counselCenterService.selectMemberCounselBoardListCnt(map);
-			list.forEach(x -> StringUtil.checkMapReplaceHtml(x));
-			modelAndView.addObject("boardList", list);
-			modelAndView.addObject("totalCnt", totalCnt);
-			modelAndView.addObject("pageIndex", map.get("pageIndex"));
+			Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    		if(isAuthenticated) {
+				map.put("pageIndex", StringUtil.isNullToString(map.get("pageIndex"), "1"));
+				map.put("pageSize", 10);
+				List<EgovMap> list = counselCenterService.selectMemberCounselBoardList(map);
+
+				int totalCnt = counselCenterService.selectMemberCounselBoardListCnt(map);
+				list.forEach(x -> StringUtil.checkMapReplaceHtml(x));
+				modelAndView.addObject("boardList", list);
+				modelAndView.addObject("totalCnt", totalCnt);
+				modelAndView.addObject("pageIndex", map.get("pageIndex"));
+				modelAndView.addObject("isLogin", true);
+    		}else {
+    			modelAndView.addObject("isLogin", false);
+    		}
 
 		}catch (Exception e) {
 			e.printStackTrace();
@@ -171,10 +272,15 @@ public class CounselCenterController {
 
 		try{
 			modelAndView.setViewName("jsonView");
-			map.put("memoCntt",StringUtil.isNullToString(map.get("memoCntt")).replaceAll("\n", "<br>"));
-			map.put("userId", "cks6451");
-			map.put("userNick", "관리자");
-			counselCenterService.insertMemberCounselBoardMemo(map);
+			Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+			if(isAuthenticated) {
+				LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+				map.put("memoCntt",StringUtil.isNullToString(map.get("memoCntt")).replaceAll("\n", "<br>"));
+				map.put("userNick", user.getName());
+				map.put("userId", user.getId());
+				counselCenterService.insertMemberCounselBoardMemo(map);
+
+			}
 			List<EgovMap> memoList = counselCenterService.selectMemberCounselBoardMemoList(map);
 			memoList.forEach(x -> StringUtil.checkMapReplaceHtml(x));
 			modelAndView.addObject("memoList", memoList);
@@ -194,33 +300,45 @@ public class CounselCenterController {
 
 		try{
 			modelAndView.setViewName("jsonView");
-			map.put("actionCd", "01" );
-			map.put("entityName", "BULLETIN.BLTN_GN" );
-			map.put("userPass", "5650320120323");
-			map.put("userNick", "최경수");
-			map.put("userId", "cks6451");
-			map.put("userIp", request.getRemoteAddr());
-			map.put("bltnTopTag", "N");
-			map.put("bltnSecretYn", "N");
-			map.put("bltnPermitYn", "Y");
-			map.put("extStr6", StringUtil.isNullToString(map.get("phoneNumber1"))+"-"+StringUtil.isNullToString(map.get("phoneNumber2"))+"-" +StringUtil.isNullToString(map.get("phoneNumber3")));
-			map.put("extStr7",null); // kp:cpaId userId="${_enview_info_.userId}"/>
-			map.put("extStr8", null); //답변형태
-			map.put("extStr5", null); //진행상태
+
+			Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+			if(isAuthenticated) {
+				LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+				map.put("actionCd", "01" );
+				map.put("entityName", "BULLETIN.BLTN_GN" );
+				map.put("userPass", "5650320120323");
+				map.put("userNick", user.getName());
+				map.put("userId", user.getId());
+				map.put("userIp", request.getRemoteAddr());
+				map.put("bltnTopTag", "N");
 
 
-			List<HashMap<String,Object>> fileList = null;
+				map.put("bltnSecretYn", StringUtil.isNullToString(map.get("bltnSecretYn"),"N") );
+				map.put("bltnPermitYn", "Y");
 
-			if(fileList != null && !fileList.isEmpty() ) {
-				map.put("bltnIcon", "B");
-				map.put("bltnFileCnt", fileList.size());
-			}else {
-				map.put("bltnIcon", "A");
-				map.put("bltnFileCnt", 0);
+				if(!"".equals(StringUtil.isNullToString(map.get("phoneNumber1"))) && !"".equals(StringUtil.isNullToString(map.get("phoneNumber2"))) && !"".equals(StringUtil.isNullToString(map.get("phoneNumber3"))) ) {
+					map.put("extStr6", StringUtil.isNullToString(map.get("phoneNumber1"))+"-"+StringUtil.isNullToString(map.get("phoneNumber2"))+"-" +StringUtil.isNullToString(map.get("phoneNumber3")));
+				}
+				map.put("extStr7",null); // kp:cpaId userId="${_enview_info_.userId}"/>
+
+
+				List<HashMap<String,Object>> fileList = null;
+
+
+				if("Y".equals(map.get("bltnSecretYn"))) {
+					map.put("bltnIcon", "D");
+				}else if(fileList != null && !fileList.isEmpty() ) {
+					map.put("bltnIcon", "B");
+					map.put("bltnFileCnt", fileList.size());
+				}else {
+					map.put("bltnIcon", "A");
+					map.put("bltnFileCnt", 0);
+				}
+
+
+				commonBoardService.insertCommonBoard(map);
+
 			}
-
-
-			commonBoardService.insertCommonBoard(map);
 
 //			list.forEach(x -> StringUtil.checkMapReplaceHtml(x));
 //			modelAndView.addObject("list", list);
@@ -231,6 +349,37 @@ public class CounselCenterController {
 
 		return modelAndView;
 	}
+
+
+	@RequestMapping(value="/insertMemberCounselBoard.do")
+	public ModelAndView insertMemberCounselBoard(@RequestBody Map<String,Object> map, HttpServletRequest request) throws Exception{
+		ModelAndView modelAndView = new ModelAndView();
+
+		try{
+			modelAndView.setViewName("jsonView");
+
+			Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+			if(isAuthenticated) {
+				LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+				map.put("userNick", user.getName());
+				map.put("userId", user.getId());
+				System.out.println(map);
+				if(!"".equals(StringUtil.isNullToString(map.get("phoneNumber1"))) && !"".equals(StringUtil.isNullToString(map.get("phoneNumber2"))) && !"".equals(StringUtil.isNullToString(map.get("phoneNumber3"))) ) {
+					map.put("userTelNo", StringUtil.isNullToString(map.get("phoneNumber1"))+"-"+StringUtil.isNullToString(map.get("phoneNumber2"))+"-" +StringUtil.isNullToString(map.get("phoneNumber3")));
+				}
+
+				counselCenterService.insertMemberCounselBoard(map);
+
+			}
+
+
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return modelAndView;
+	}
+
 
 
 

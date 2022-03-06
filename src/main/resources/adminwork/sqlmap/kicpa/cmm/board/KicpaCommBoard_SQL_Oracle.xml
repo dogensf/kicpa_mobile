@@ -257,15 +257,20 @@
 		                	AND    t1.bltn_gq = '0' <!-- LIST_YNS 3번째가 Y이면 아니면 조건없이-->
 		                </isEqual>
 		               	<isEqual property="bugaYns1" compareValue="Y">
-<!-- 		                AND    ( t1.del_flag != 'Y' OR     (t1.del_flag='T'  AND    t1.user_id='')) BUGA_YNS 첫번째 값이 Y이면서 로그인햇을때 -->
-<!-- 		                	AND    ( t1.del_flag != 'Y' OR     (t1.del_flag='T')) BUGA_YNS 첫번째 값이 Y이면서 로그인햇을때 -->
+		               		<isNotNull property="userId">
+								<isNotEmpty property="userId">
+			           		    	AND    ( t1.del_flag != 'Y' OR     (t1.del_flag='T'  AND    t1.user_id=#userId#)) <!--  BUGA_YNS 첫번째 값이 Y이면서 로그인햇을때 -->
+			           		    </isNotEmpty>
+		               		</isNotNull>
 		               	</isEqual>
 		               	<isEqual property="bugaYns1" compareValue="Y">
-			                AND    t1.del_flag != 'Y' <!-- BUGA_YNS 첫번째 값이 Y이면서로그인 안했을때-->
+		               		<isNull property="userId">
+			            	    AND    t1.del_flag != 'Y' <!-- BUGA_YNS 첫번째 값이 Y이면서로그인 안했을때-->
+		               		</isNull>
 		               	</isEqual>
 						<!--BUGA_YNS 첫번째 값이 N이라면 위 2개 조건x -->
 		               	<isEqual property="funcYns10" compareValue="Y">
-			                AND    ( t1.user_id='') <!-- FUNC_YNS 마지막이 Y면 비밀글 작성자 혹은 권한이 있는사람들만 확인가능한거같은데 bltn_auth,bltn_prin 테이블은 사용안하며, 현재 게시판에 비밀글사용여부가 없으므로 삭제해도 될거같음-->
+			                AND    ( t1.user_id=#userId#) <!-- FUNC_YNS 마지막이 Y면 비밀글 작성자 혹은 권한이 있는사람들만 확인가능한거같은데 bltn_auth,bltn_prin 테이블은 사용안하며, 현재 게시판에 비밀글사용여부가 없으므로 삭제해도 될거같음-->
 		               	</isEqual>
 						<!-- BUGA_YNS 두번째가 Y FUNC_YNS 7번째가 Y일때 해당조건 -->
 		               	<isEqual property="bugaYns2" compareValue="Y">
@@ -280,17 +285,47 @@
 		                <isEqual property="funcYns7" compareValue="Y">
 
 		                	<isEqual property="termFlag" compareValue="A">
-				                AND    ( t1.bltn_bgn_ymd is null OR TO_CHAR(t1.bltn_bgn_ymd,'YYYYMMDD') <![CDATA[<=]]> TO_CHAR(SYSDATE, 'YYYYMMDD')) <!--BOARD TERM_FLAG = 'A'일때 로그인안했으면 아이디는 지우고..-->
-         			                AND    ( t1.bltn_end_ymd is null OR TO_CHAR(t1.bltn_end_ymd,'YYYYMMDD') >= TO_CHAR(SYSDATE, 'YYYYMMDD'))   <!--여기까지 -->
+				                AND    ( t1.bltn_bgn_ymd is null OR
+			                	<isNotNull property="userId">
+									<isNotEmpty property="userId">
+				           		    	t1.user_id=#userId# OR
+				           		    </isNotEmpty>
+			               		</isNotNull>
+				                		 TO_CHAR(t1.bltn_bgn_ymd,'YYYYMMDD') <![CDATA[<=]]> TO_CHAR(SYSDATE, 'YYYYMMDD')) <!--BOARD TERM_FLAG = 'A'일때 로그인안했으면 아이디는 지우고..-->
+         			            AND    ( t1.bltn_end_ymd is null OR
+  			            		<isNotNull property="userId">
+									<isNotEmpty property="userId">
+				           		    	t1.user_id=#userId# OR
+				           		    </isNotEmpty>
+			               		</isNotNull>
+         			            TO_CHAR(t1.bltn_end_ymd,'YYYYMMDD') >= TO_CHAR(SYSDATE, 'YYYYMMDD'))   <!--여기까지 -->
 		                	</isEqual>
 		                	<isEqual property="termFlag" compareValue="B">
-		                		AND    ( t1.bltn_end_ymd is null OR TO_CHAR(t1.bltn_end_ymd,'YYYYMMDD') >= TO_CHAR(sysdate, 'YYYYMMDD')) <!-- BOARD TERM_FLAG = 'B'일때 로그인안했으면 아이디는 지우고..(BOARD 테이블 데이터상 A만있음) -->
+		                		AND    ( t1.bltn_end_ymd is null OR
+	                			<isNotNull property="userId">
+									<isNotEmpty property="userId">
+				           		    	t1.user_id=#userId# OR
+				           		    </isNotEmpty>
+			               		</isNotNull>
+		                		 TO_CHAR(t1.bltn_end_ymd,'YYYYMMDD') >= TO_CHAR(sysdate, 'YYYYMMDD')) <!-- BOARD TERM_FLAG = 'B'일때 로그인안했으면 아이디는 지우고..(BOARD 테이블 데이터상 A만있음) -->
 		                	</isEqual>
 		                	<isEqual property="termFlag" compareValue="C">
-			               	 	AND    ( t1.bltn_bgn_ymd is null OR TO_CHAR(t1.bltn_bgn_ymd,'YYYYMMDDHH24MISS') <![CDATA[<=]]> TO_CHAR(sysdate, 'YYYYMMDDHH24MISS')) <!--BOARD TERM_FLAG = 'C'일때 로그인안했으면 아이디는 지우고.. (BOARD 테이블 데이터상 A만있음) -->
+			               	 	AND    ( t1.bltn_bgn_ymd is null OR
+		               	 		<isNotNull property="userId">
+									<isNotEmpty property="userId">
+				           		    	t1.user_id=#userId# OR
+				           		    </isNotEmpty>
+			               		</isNotNull>
+			               	 	TO_CHAR(t1.bltn_bgn_ymd,'YYYYMMDDHH24MISS') <![CDATA[<=]]> TO_CHAR(sysdate, 'YYYYMMDDHH24MISS')) <!--BOARD TERM_FLAG = 'C'일때 로그인안했으면 아이디는 지우고.. (BOARD 테이블 데이터상 A만있음) -->
 		                	</isEqual>
 		                	<isEqual property="termFlag" compareValue="D">
-		                	    AND    ( t1.bltn_bgn_ymd is null OR TO_CHAR(t1.bltn_bgn_ymd,'YYYYMMDD') > TO_CHAR(sysdate, 'YYYYMMDD') OR t1.bltn_end_ymd is null OR     t1.user_id='' OR TO_CHAR(t1.bltn_end_ymd,'YYYYMMDD') <![CDATA[<=]]> TO_CHAR(sysdate, 'YYYYMMDD')) <!-- BOARD TERM_FLAG = 'D'일때 로그인안했으면 아이디는 지우고..(BOARD 테이블 데이터상 A만있음) -->
+		                	    AND    ( t1.bltn_bgn_ymd is null OR
+	                	    	<isNotNull property="userId">
+									<isNotEmpty property="userId">
+				           		    	t1.user_id=#userId# OR
+				           		    </isNotEmpty>
+			               		</isNotNull>
+		                	     TO_CHAR(t1.bltn_bgn_ymd,'YYYYMMDD') > TO_CHAR(sysdate, 'YYYYMMDD') OR t1.bltn_end_ymd is null OR     t1.user_id='' OR TO_CHAR(t1.bltn_end_ymd,'YYYYMMDD') <![CDATA[<=]]> TO_CHAR(sysdate, 'YYYYMMDD')) <!-- BOARD TERM_FLAG = 'D'일때 로그인안했으면 아이디는 지우고..(BOARD 테이블 데이터상 A만있음) -->
 		                	</isEqual>
 <!-- 			                AND    ( t1.bltn_bgn_ymd is null OR t1.user_id='' OR TO_CHAR(t1.bltn_bgn_ymd,'YYYYMMDD') <![CDATA[<=]]> TO_CHAR(SYSDATE, 'YYYYMMDD')) BOARD TERM_FLAG = 'A'일때 로그인안했으면 아이디는 지우고.. -->
 <!-- 			                AND    ( t1.bltn_end_ymd is null OR t1.user_id='' OR TO_CHAR(t1.bltn_end_ymd,'YYYYMMDD') >= TO_CHAR(SYSDATE, 'YYYYMMDD'))  여기까지 -->
@@ -300,7 +335,13 @@
 						</isEqual>
 		                <!-- BUGA_YNS 3번째 데이터가 Y일때-->
 		                <isEqual property="bugaYns3" compareValue="Y">
-	               			AND    ( t1.bltn_permit_yn='Y' OR (t1.bltn_permit_yn='N')) <!-- 로그인했을떄 추가 -->
+	               			AND    ( t1.bltn_permit_yn='Y' OR (t1.bltn_permit_yn='N'
+               				<isNotNull property="userId">
+								<isNotEmpty property="userId">
+			           		    	AND t1.user_id=#userId#
+			           		    </isNotEmpty>
+		               		</isNotNull>
+	               			)) <!-- 로그인했을떄 추가 -->
 <!-- 		                AND    ( t1.bltn_permit_yn='Y' OR (t1.bltn_permit_yn='N' AND t1.user_id='')) 로그인했을떄 추가 -->
 						</isEqual>
 						<isNotNull property="searchKeyword">
@@ -341,20 +382,24 @@
 						SELECT COUNT(*)
 		                FROM   bulletin t1
 		                WHERE  t1.board_id= #boardId#
-
 		               <isEqual property="listYns3" compareValue="Y">
 		                	AND    t1.bltn_gq = '0' <!-- LIST_YNS 3번째가 Y이면 아니면 조건없이-->
 		                </isEqual>
 		               	<isEqual property="bugaYns1" compareValue="Y">
-<!-- 		                AND    ( t1.del_flag != 'Y' OR     (t1.del_flag='T'  AND    t1.user_id='')) BUGA_YNS 첫번째 값이 Y이면서 로그인햇을때 -->
-<!-- 		                	AND    ( t1.del_flag != 'Y' OR     (t1.del_flag='T')) BUGA_YNS 첫번째 값이 Y이면서 로그인햇을때 -->
+		               		<isNotNull property="userId">
+								<isNotEmpty property="userId">
+			           		    	AND    ( t1.del_flag != 'Y' OR     (t1.del_flag='T'  AND    t1.user_id=#userId#)) <!--  BUGA_YNS 첫번째 값이 Y이면서 로그인햇을때 -->
+			           		    </isNotEmpty>
+		               		</isNotNull>
 		               	</isEqual>
 		               	<isEqual property="bugaYns1" compareValue="Y">
-			                AND    t1.del_flag != 'Y' <!-- BUGA_YNS 첫번째 값이 Y이면서로그인 안했을때-->
+		               		<isNull property="userId">
+			            	    AND    t1.del_flag != 'Y' <!-- BUGA_YNS 첫번째 값이 Y이면서로그인 안했을때-->
+		               		</isNull>
 		               	</isEqual>
 						<!--BUGA_YNS 첫번째 값이 N이라면 위 2개 조건x -->
 		               	<isEqual property="funcYns10" compareValue="Y">
-			                AND    ( t1.user_id='') <!-- FUNC_YNS 마지막이 Y면 비밀글 작성자 혹은 권한이 있는사람들만 확인가능한거같은데 bltn_auth,bltn_prin 테이블은 사용안하며, 현재 게시판에 비밀글사용여부가 없으므로 삭제해도 될거같음-->
+			                AND    ( t1.user_id=#userId#) <!-- FUNC_YNS 마지막이 Y면 비밀글 작성자 혹은 권한이 있는사람들만 확인가능한거같은데 bltn_auth,bltn_prin 테이블은 사용안하며, 현재 게시판에 비밀글사용여부가 없으므로 삭제해도 될거같음-->
 		               	</isEqual>
 						<!-- BUGA_YNS 두번째가 Y FUNC_YNS 7번째가 Y일때 해당조건 -->
 		               	<isEqual property="bugaYns2" compareValue="Y">
@@ -369,17 +414,47 @@
 		                <isEqual property="funcYns7" compareValue="Y">
 
 		                	<isEqual property="termFlag" compareValue="A">
-				                AND    ( t1.bltn_bgn_ymd is null OR TO_CHAR(t1.bltn_bgn_ymd,'YYYYMMDD') <![CDATA[<=]]> TO_CHAR(SYSDATE, 'YYYYMMDD')) <!--BOARD TERM_FLAG = 'A'일때 로그인안했으면 아이디는 지우고..-->
-         			                AND    ( t1.bltn_end_ymd is null OR TO_CHAR(t1.bltn_end_ymd,'YYYYMMDD') >= TO_CHAR(SYSDATE, 'YYYYMMDD'))   <!--여기까지 -->
+				                AND    ( t1.bltn_bgn_ymd is null OR
+			                	<isNotNull property="userId">
+									<isNotEmpty property="userId">
+				           		    	t1.user_id=#userId# OR
+				           		    </isNotEmpty>
+			               		</isNotNull>
+				                		 TO_CHAR(t1.bltn_bgn_ymd,'YYYYMMDD') <![CDATA[<=]]> TO_CHAR(SYSDATE, 'YYYYMMDD')) <!--BOARD TERM_FLAG = 'A'일때 로그인안했으면 아이디는 지우고..-->
+         			            AND    ( t1.bltn_end_ymd is null OR
+  			            		<isNotNull property="userId">
+									<isNotEmpty property="userId">
+				           		    	t1.user_id=#userId# OR
+				           		    </isNotEmpty>
+			               		</isNotNull>
+         			            TO_CHAR(t1.bltn_end_ymd,'YYYYMMDD') >= TO_CHAR(SYSDATE, 'YYYYMMDD'))   <!--여기까지 -->
 		                	</isEqual>
 		                	<isEqual property="termFlag" compareValue="B">
-		                		AND    ( t1.bltn_end_ymd is null OR TO_CHAR(t1.bltn_end_ymd,'YYYYMMDD') >= TO_CHAR(sysdate, 'YYYYMMDD')) <!-- BOARD TERM_FLAG = 'B'일때 로그인안했으면 아이디는 지우고..(BOARD 테이블 데이터상 A만있음) -->
+		                		AND    ( t1.bltn_end_ymd is null OR
+	                			<isNotNull property="userId">
+									<isNotEmpty property="userId">
+				           		    	t1.user_id=#userId# OR
+				           		    </isNotEmpty>
+			               		</isNotNull>
+		                		 TO_CHAR(t1.bltn_end_ymd,'YYYYMMDD') >= TO_CHAR(sysdate, 'YYYYMMDD')) <!-- BOARD TERM_FLAG = 'B'일때 로그인안했으면 아이디는 지우고..(BOARD 테이블 데이터상 A만있음) -->
 		                	</isEqual>
 		                	<isEqual property="termFlag" compareValue="C">
-			               	 	AND    ( t1.bltn_bgn_ymd is null OR TO_CHAR(t1.bltn_bgn_ymd,'YYYYMMDDHH24MISS') <![CDATA[<=]]> TO_CHAR(sysdate, 'YYYYMMDDHH24MISS')) <!--BOARD TERM_FLAG = 'C'일때 로그인안했으면 아이디는 지우고.. (BOARD 테이블 데이터상 A만있음) -->
+			               	 	AND    ( t1.bltn_bgn_ymd is null OR
+		               	 		<isNotNull property="userId">
+									<isNotEmpty property="userId">
+				           		    	t1.user_id=#userId# OR
+				           		    </isNotEmpty>
+			               		</isNotNull>
+			               	 	TO_CHAR(t1.bltn_bgn_ymd,'YYYYMMDDHH24MISS') <![CDATA[<=]]> TO_CHAR(sysdate, 'YYYYMMDDHH24MISS')) <!--BOARD TERM_FLAG = 'C'일때 로그인안했으면 아이디는 지우고.. (BOARD 테이블 데이터상 A만있음) -->
 		                	</isEqual>
 		                	<isEqual property="termFlag" compareValue="D">
-		                	    AND    ( t1.bltn_bgn_ymd is null OR TO_CHAR(t1.bltn_bgn_ymd,'YYYYMMDD') > TO_CHAR(sysdate, 'YYYYMMDD') OR t1.bltn_end_ymd is null OR     t1.user_id='' OR TO_CHAR(t1.bltn_end_ymd,'YYYYMMDD') <![CDATA[<=]]> TO_CHAR(sysdate, 'YYYYMMDD')) <!-- BOARD TERM_FLAG = 'D'일때 로그인안했으면 아이디는 지우고..(BOARD 테이블 데이터상 A만있음) -->
+		                	    AND    ( t1.bltn_bgn_ymd is null OR
+	                	    	<isNotNull property="userId">
+									<isNotEmpty property="userId">
+				           		    	t1.user_id=#userId# OR
+				           		    </isNotEmpty>
+			               		</isNotNull>
+		                	     TO_CHAR(t1.bltn_bgn_ymd,'YYYYMMDD') > TO_CHAR(sysdate, 'YYYYMMDD') OR t1.bltn_end_ymd is null OR     t1.user_id='' OR TO_CHAR(t1.bltn_end_ymd,'YYYYMMDD') <![CDATA[<=]]> TO_CHAR(sysdate, 'YYYYMMDD')) <!-- BOARD TERM_FLAG = 'D'일때 로그인안했으면 아이디는 지우고..(BOARD 테이블 데이터상 A만있음) -->
 		                	</isEqual>
 <!-- 			                AND    ( t1.bltn_bgn_ymd is null OR t1.user_id='' OR TO_CHAR(t1.bltn_bgn_ymd,'YYYYMMDD') <![CDATA[<=]]> TO_CHAR(SYSDATE, 'YYYYMMDD')) BOARD TERM_FLAG = 'A'일때 로그인안했으면 아이디는 지우고.. -->
 <!-- 			                AND    ( t1.bltn_end_ymd is null OR t1.user_id='' OR TO_CHAR(t1.bltn_end_ymd,'YYYYMMDD') >= TO_CHAR(SYSDATE, 'YYYYMMDD'))  여기까지 -->
@@ -389,7 +464,13 @@
 						</isEqual>
 		                <!-- BUGA_YNS 3번째 데이터가 Y일때-->
 		                <isEqual property="bugaYns3" compareValue="Y">
-	               			AND    ( t1.bltn_permit_yn='Y' OR (t1.bltn_permit_yn='N')) <!-- 로그인했을떄 추가 -->
+	               			AND    ( t1.bltn_permit_yn='Y' OR (t1.bltn_permit_yn='N'
+               				<isNotNull property="userId">
+								<isNotEmpty property="userId">
+			           		    	AND t1.user_id=#userId#
+			           		    </isNotEmpty>
+		               		</isNotNull>
+	               			)) <!-- 로그인했을떄 추가 -->
 <!-- 		                AND    ( t1.bltn_permit_yn='Y' OR (t1.bltn_permit_yn='N' AND t1.user_id='')) 로그인했을떄 추가 -->
 						</isEqual>
 						<isNotNull property="searchKeyword">
@@ -472,19 +553,24 @@
 						        AND    t6.bltn_no=t1.bltn_no
 		                WHERE  t1.board_id= #boardId#
 
-		                <isEqual property="listYns3" compareValue="Y">
+		               <isEqual property="listYns3" compareValue="Y">
 		                	AND    t1.bltn_gq = '0' <!-- LIST_YNS 3번째가 Y이면 아니면 조건없이-->
 		                </isEqual>
 		               	<isEqual property="bugaYns1" compareValue="Y">
-<!-- 		                AND    ( t1.del_flag != 'Y' OR     (t1.del_flag='T'  AND    t1.user_id='')) BUGA_YNS 첫번째 값이 Y이면서 로그인햇을때 -->
-<!-- 		                	AND    ( t1.del_flag != 'Y' OR     (t1.del_flag='T')) BUGA_YNS 첫번째 값이 Y이면서 로그인햇을때 -->
+		               		<isNotNull property="userId">
+								<isNotEmpty property="userId">
+			           		    	AND    ( t1.del_flag != 'Y' OR     (t1.del_flag='T'  AND    t1.user_id=#userId#)) <!--  BUGA_YNS 첫번째 값이 Y이면서 로그인햇을때 -->
+			           		    </isNotEmpty>
+		               		</isNotNull>
 		               	</isEqual>
 		               	<isEqual property="bugaYns1" compareValue="Y">
-			                AND    t1.del_flag != 'Y' <!-- BUGA_YNS 첫번째 값이 Y이면서로그인 안했을때-->
+		               		<isNull property="userId">
+			            	    AND    t1.del_flag != 'Y' <!-- BUGA_YNS 첫번째 값이 Y이면서로그인 안했을때-->
+		               		</isNull>
 		               	</isEqual>
 						<!--BUGA_YNS 첫번째 값이 N이라면 위 2개 조건x -->
 		               	<isEqual property="funcYns10" compareValue="Y">
-			                AND    ( t1.user_id='') <!-- FUNC_YNS 마지막이 Y면 비밀글 작성자 혹은 권한이 있는사람들만 확인가능한거같은데 bltn_auth,bltn_prin 테이블은 사용안하며, 현재 게시판에 비밀글사용여부가 없으므로 삭제해도 될거같음-->
+			                AND    ( t1.user_id=#userId#) <!-- FUNC_YNS 마지막이 Y면 비밀글 작성자 혹은 권한이 있는사람들만 확인가능한거같은데 bltn_auth,bltn_prin 테이블은 사용안하며, 현재 게시판에 비밀글사용여부가 없으므로 삭제해도 될거같음-->
 		               	</isEqual>
 						<!-- BUGA_YNS 두번째가 Y FUNC_YNS 7번째가 Y일때 해당조건 -->
 		               	<isEqual property="bugaYns2" compareValue="Y">
@@ -499,17 +585,47 @@
 		                <isEqual property="funcYns7" compareValue="Y">
 
 		                	<isEqual property="termFlag" compareValue="A">
-				                AND    ( t1.bltn_bgn_ymd is null OR TO_CHAR(t1.bltn_bgn_ymd,'YYYYMMDD') <![CDATA[<=]]> TO_CHAR(SYSDATE, 'YYYYMMDD')) <!--BOARD TERM_FLAG = 'A'일때 로그인안했으면 아이디는 지우고..-->
-         			                AND    ( t1.bltn_end_ymd is null OR TO_CHAR(t1.bltn_end_ymd,'YYYYMMDD') >= TO_CHAR(SYSDATE, 'YYYYMMDD'))   <!--여기까지 -->
+				                AND    ( t1.bltn_bgn_ymd is null OR
+			                	<isNotNull property="userId">
+									<isNotEmpty property="userId">
+				           		    	t1.user_id=#userId# OR
+				           		    </isNotEmpty>
+			               		</isNotNull>
+				                		 TO_CHAR(t1.bltn_bgn_ymd,'YYYYMMDD') <![CDATA[<=]]> TO_CHAR(SYSDATE, 'YYYYMMDD')) <!--BOARD TERM_FLAG = 'A'일때 로그인안했으면 아이디는 지우고..-->
+         			            AND    ( t1.bltn_end_ymd is null OR
+  			            		<isNotNull property="userId">
+									<isNotEmpty property="userId">
+				           		    	t1.user_id=#userId# OR
+				           		    </isNotEmpty>
+			               		</isNotNull>
+         			            TO_CHAR(t1.bltn_end_ymd,'YYYYMMDD') >= TO_CHAR(SYSDATE, 'YYYYMMDD'))   <!--여기까지 -->
 		                	</isEqual>
 		                	<isEqual property="termFlag" compareValue="B">
-		                		AND    ( t1.bltn_end_ymd is null OR TO_CHAR(t1.bltn_end_ymd,'YYYYMMDD') >= TO_CHAR(sysdate, 'YYYYMMDD')) <!-- BOARD TERM_FLAG = 'B'일때 로그인안했으면 아이디는 지우고..(BOARD 테이블 데이터상 A만있음) -->
+		                		AND    ( t1.bltn_end_ymd is null OR
+	                			<isNotNull property="userId">
+									<isNotEmpty property="userId">
+				           		    	t1.user_id=#userId# OR
+				           		    </isNotEmpty>
+			               		</isNotNull>
+		                		 TO_CHAR(t1.bltn_end_ymd,'YYYYMMDD') >= TO_CHAR(sysdate, 'YYYYMMDD')) <!-- BOARD TERM_FLAG = 'B'일때 로그인안했으면 아이디는 지우고..(BOARD 테이블 데이터상 A만있음) -->
 		                	</isEqual>
 		                	<isEqual property="termFlag" compareValue="C">
-			               	 	AND    ( t1.bltn_bgn_ymd is null OR TO_CHAR(t1.bltn_bgn_ymd,'YYYYMMDDHH24MISS') <![CDATA[<=]]> TO_CHAR(sysdate, 'YYYYMMDDHH24MISS')) <!--BOARD TERM_FLAG = 'C'일때 로그인안했으면 아이디는 지우고.. (BOARD 테이블 데이터상 A만있음) -->
+			               	 	AND    ( t1.bltn_bgn_ymd is null OR
+		               	 		<isNotNull property="userId">
+									<isNotEmpty property="userId">
+				           		    	t1.user_id=#userId# OR
+				           		    </isNotEmpty>
+			               		</isNotNull>
+			               	 	TO_CHAR(t1.bltn_bgn_ymd,'YYYYMMDDHH24MISS') <![CDATA[<=]]> TO_CHAR(sysdate, 'YYYYMMDDHH24MISS')) <!--BOARD TERM_FLAG = 'C'일때 로그인안했으면 아이디는 지우고.. (BOARD 테이블 데이터상 A만있음) -->
 		                	</isEqual>
 		                	<isEqual property="termFlag" compareValue="D">
-		                	    AND    ( t1.bltn_bgn_ymd is null OR TO_CHAR(t1.bltn_bgn_ymd,'YYYYMMDD') > TO_CHAR(sysdate, 'YYYYMMDD') OR t1.bltn_end_ymd is null OR     t1.user_id='' OR TO_CHAR(t1.bltn_end_ymd,'YYYYMMDD') <![CDATA[<=]]> TO_CHAR(sysdate, 'YYYYMMDD')) <!-- BOARD TERM_FLAG = 'D'일때 로그인안했으면 아이디는 지우고..(BOARD 테이블 데이터상 A만있음) -->
+		                	    AND    ( t1.bltn_bgn_ymd is null OR
+	                	    	<isNotNull property="userId">
+									<isNotEmpty property="userId">
+				           		    	t1.user_id=#userId# OR
+				           		    </isNotEmpty>
+			               		</isNotNull>
+		                	     TO_CHAR(t1.bltn_bgn_ymd,'YYYYMMDD') > TO_CHAR(sysdate, 'YYYYMMDD') OR t1.bltn_end_ymd is null OR     t1.user_id='' OR TO_CHAR(t1.bltn_end_ymd,'YYYYMMDD') <![CDATA[<=]]> TO_CHAR(sysdate, 'YYYYMMDD')) <!-- BOARD TERM_FLAG = 'D'일때 로그인안했으면 아이디는 지우고..(BOARD 테이블 데이터상 A만있음) -->
 		                	</isEqual>
 <!-- 			                AND    ( t1.bltn_bgn_ymd is null OR t1.user_id='' OR TO_CHAR(t1.bltn_bgn_ymd,'YYYYMMDD') <![CDATA[<=]]> TO_CHAR(SYSDATE, 'YYYYMMDD')) BOARD TERM_FLAG = 'A'일때 로그인안했으면 아이디는 지우고.. -->
 <!-- 			                AND    ( t1.bltn_end_ymd is null OR t1.user_id='' OR TO_CHAR(t1.bltn_end_ymd,'YYYYMMDD') >= TO_CHAR(SYSDATE, 'YYYYMMDD'))  여기까지 -->
@@ -519,7 +635,13 @@
 						</isEqual>
 		                <!-- BUGA_YNS 3번째 데이터가 Y일때-->
 		                <isEqual property="bugaYns3" compareValue="Y">
-	               			AND    ( t1.bltn_permit_yn='Y' OR (t1.bltn_permit_yn='N')) <!-- 로그인했을떄 추가 -->
+	               			AND    ( t1.bltn_permit_yn='Y' OR (t1.bltn_permit_yn='N'
+               				<isNotNull property="userId">
+								<isNotEmpty property="userId">
+			           		    	AND t1.user_id=#userId#
+			           		    </isNotEmpty>
+		               		</isNotNull>
+	               			)) <!-- 로그인했을떄 추가 -->
 <!-- 		                AND    ( t1.bltn_permit_yn='Y' OR (t1.bltn_permit_yn='N' AND t1.user_id='')) 로그인했을떄 추가 -->
 						</isEqual>
 						<isNotNull property="searchKeyword">
@@ -560,20 +682,24 @@
 						SELECT COUNT(*)
 		                FROM   bltn_cafe t1
 		                WHERE  t1.board_id= #boardId#
-
-		                <isEqual property="listYns3" compareValue="Y">
+		              <isEqual property="listYns3" compareValue="Y">
 		                	AND    t1.bltn_gq = '0' <!-- LIST_YNS 3번째가 Y이면 아니면 조건없이-->
 		                </isEqual>
 		               	<isEqual property="bugaYns1" compareValue="Y">
-<!-- 		                AND    ( t1.del_flag != 'Y' OR     (t1.del_flag='T'  AND    t1.user_id='')) BUGA_YNS 첫번째 값이 Y이면서 로그인햇을때 -->
-<!-- 		                	AND    ( t1.del_flag != 'Y' OR     (t1.del_flag='T')) BUGA_YNS 첫번째 값이 Y이면서 로그인햇을때 -->
+		               		<isNotNull property="userId">
+								<isNotEmpty property="userId">
+			           		    	AND    ( t1.del_flag != 'Y' OR     (t1.del_flag='T'  AND    t1.user_id=#userId#)) <!--  BUGA_YNS 첫번째 값이 Y이면서 로그인햇을때 -->
+			           		    </isNotEmpty>
+		               		</isNotNull>
 		               	</isEqual>
 		               	<isEqual property="bugaYns1" compareValue="Y">
-			                AND    t1.del_flag != 'Y' <!-- BUGA_YNS 첫번째 값이 Y이면서로그인 안했을때-->
+		               		<isNull property="userId">
+			            	    AND    t1.del_flag != 'Y' <!-- BUGA_YNS 첫번째 값이 Y이면서로그인 안했을때-->
+		               		</isNull>
 		               	</isEqual>
 						<!--BUGA_YNS 첫번째 값이 N이라면 위 2개 조건x -->
 		               	<isEqual property="funcYns10" compareValue="Y">
-			                AND    ( t1.user_id='') <!-- FUNC_YNS 마지막이 Y면 비밀글 작성자 혹은 권한이 있는사람들만 확인가능한거같은데 bltn_auth,bltn_prin 테이블은 사용안하며, 현재 게시판에 비밀글사용여부가 없으므로 삭제해도 될거같음-->
+			                AND    ( t1.user_id=#userId#) <!-- FUNC_YNS 마지막이 Y면 비밀글 작성자 혹은 권한이 있는사람들만 확인가능한거같은데 bltn_auth,bltn_prin 테이블은 사용안하며, 현재 게시판에 비밀글사용여부가 없으므로 삭제해도 될거같음-->
 		               	</isEqual>
 						<!-- BUGA_YNS 두번째가 Y FUNC_YNS 7번째가 Y일때 해당조건 -->
 		               	<isEqual property="bugaYns2" compareValue="Y">
@@ -588,17 +714,47 @@
 		                <isEqual property="funcYns7" compareValue="Y">
 
 		                	<isEqual property="termFlag" compareValue="A">
-				                AND    ( t1.bltn_bgn_ymd is null OR TO_CHAR(t1.bltn_bgn_ymd,'YYYYMMDD') <![CDATA[<=]]> TO_CHAR(SYSDATE, 'YYYYMMDD')) <!--BOARD TERM_FLAG = 'A'일때 로그인안했으면 아이디는 지우고..-->
-         			                AND    ( t1.bltn_end_ymd is null OR TO_CHAR(t1.bltn_end_ymd,'YYYYMMDD') >= TO_CHAR(SYSDATE, 'YYYYMMDD'))   <!--여기까지 -->
+				                AND    ( t1.bltn_bgn_ymd is null OR
+			                	<isNotNull property="userId">
+									<isNotEmpty property="userId">
+				           		    	t1.user_id=#userId# OR
+				           		    </isNotEmpty>
+			               		</isNotNull>
+				                		 TO_CHAR(t1.bltn_bgn_ymd,'YYYYMMDD') <![CDATA[<=]]> TO_CHAR(SYSDATE, 'YYYYMMDD')) <!--BOARD TERM_FLAG = 'A'일때 로그인안했으면 아이디는 지우고..-->
+         			            AND    ( t1.bltn_end_ymd is null OR
+  			            		<isNotNull property="userId">
+									<isNotEmpty property="userId">
+				           		    	t1.user_id=#userId# OR
+				           		    </isNotEmpty>
+			               		</isNotNull>
+         			            TO_CHAR(t1.bltn_end_ymd,'YYYYMMDD') >= TO_CHAR(SYSDATE, 'YYYYMMDD'))   <!--여기까지 -->
 		                	</isEqual>
 		                	<isEqual property="termFlag" compareValue="B">
-		                		AND    ( t1.bltn_end_ymd is null OR TO_CHAR(t1.bltn_end_ymd,'YYYYMMDD') >= TO_CHAR(sysdate, 'YYYYMMDD')) <!-- BOARD TERM_FLAG = 'B'일때 로그인안했으면 아이디는 지우고..(BOARD 테이블 데이터상 A만있음) -->
+		                		AND    ( t1.bltn_end_ymd is null OR
+	                			<isNotNull property="userId">
+									<isNotEmpty property="userId">
+				           		    	t1.user_id=#userId# OR
+				           		    </isNotEmpty>
+			               		</isNotNull>
+		                		 TO_CHAR(t1.bltn_end_ymd,'YYYYMMDD') >= TO_CHAR(sysdate, 'YYYYMMDD')) <!-- BOARD TERM_FLAG = 'B'일때 로그인안했으면 아이디는 지우고..(BOARD 테이블 데이터상 A만있음) -->
 		                	</isEqual>
 		                	<isEqual property="termFlag" compareValue="C">
-			               	 	AND    ( t1.bltn_bgn_ymd is null OR TO_CHAR(t1.bltn_bgn_ymd,'YYYYMMDDHH24MISS') <![CDATA[<=]]> TO_CHAR(sysdate, 'YYYYMMDDHH24MISS')) <!--BOARD TERM_FLAG = 'C'일때 로그인안했으면 아이디는 지우고.. (BOARD 테이블 데이터상 A만있음) -->
+			               	 	AND    ( t1.bltn_bgn_ymd is null OR
+		               	 		<isNotNull property="userId">
+									<isNotEmpty property="userId">
+				           		    	t1.user_id=#userId# OR
+				           		    </isNotEmpty>
+			               		</isNotNull>
+			               	 	TO_CHAR(t1.bltn_bgn_ymd,'YYYYMMDDHH24MISS') <![CDATA[<=]]> TO_CHAR(sysdate, 'YYYYMMDDHH24MISS')) <!--BOARD TERM_FLAG = 'C'일때 로그인안했으면 아이디는 지우고.. (BOARD 테이블 데이터상 A만있음) -->
 		                	</isEqual>
 		                	<isEqual property="termFlag" compareValue="D">
-		                	    AND    ( t1.bltn_bgn_ymd is null OR TO_CHAR(t1.bltn_bgn_ymd,'YYYYMMDD') > TO_CHAR(sysdate, 'YYYYMMDD') OR t1.bltn_end_ymd is null OR     t1.user_id='' OR TO_CHAR(t1.bltn_end_ymd,'YYYYMMDD') <![CDATA[<=]]> TO_CHAR(sysdate, 'YYYYMMDD')) <!-- BOARD TERM_FLAG = 'D'일때 로그인안했으면 아이디는 지우고..(BOARD 테이블 데이터상 A만있음) -->
+		                	    AND    ( t1.bltn_bgn_ymd is null OR
+	                	    	<isNotNull property="userId">
+									<isNotEmpty property="userId">
+				           		    	t1.user_id=#userId# OR
+				           		    </isNotEmpty>
+			               		</isNotNull>
+		                	     TO_CHAR(t1.bltn_bgn_ymd,'YYYYMMDD') > TO_CHAR(sysdate, 'YYYYMMDD') OR t1.bltn_end_ymd is null OR     t1.user_id='' OR TO_CHAR(t1.bltn_end_ymd,'YYYYMMDD') <![CDATA[<=]]> TO_CHAR(sysdate, 'YYYYMMDD')) <!-- BOARD TERM_FLAG = 'D'일때 로그인안했으면 아이디는 지우고..(BOARD 테이블 데이터상 A만있음) -->
 		                	</isEqual>
 <!-- 			                AND    ( t1.bltn_bgn_ymd is null OR t1.user_id='' OR TO_CHAR(t1.bltn_bgn_ymd,'YYYYMMDD') <![CDATA[<=]]> TO_CHAR(SYSDATE, 'YYYYMMDD')) BOARD TERM_FLAG = 'A'일때 로그인안했으면 아이디는 지우고.. -->
 <!-- 			                AND    ( t1.bltn_end_ymd is null OR t1.user_id='' OR TO_CHAR(t1.bltn_end_ymd,'YYYYMMDD') >= TO_CHAR(SYSDATE, 'YYYYMMDD'))  여기까지 -->
@@ -608,7 +764,13 @@
 						</isEqual>
 		                <!-- BUGA_YNS 3번째 데이터가 Y일때-->
 		                <isEqual property="bugaYns3" compareValue="Y">
-	               			AND    ( t1.bltn_permit_yn='Y' OR (t1.bltn_permit_yn='N')) <!-- 로그인했을떄 추가 -->
+	               			AND    ( t1.bltn_permit_yn='Y' OR (t1.bltn_permit_yn='N'
+               				<isNotNull property="userId">
+								<isNotEmpty property="userId">
+			           		    	AND t1.user_id=#userId#
+			           		    </isNotEmpty>
+		               		</isNotNull>
+	               			)) <!-- 로그인했을떄 추가 -->
 <!-- 		                AND    ( t1.bltn_permit_yn='Y' OR (t1.bltn_permit_yn='N' AND t1.user_id='')) 로그인했을떄 추가 -->
 						</isEqual>
 						<isNotNull property="searchKeyword">
@@ -1047,8 +1209,14 @@
 					,#bltnPermitYn#
 					,0
 					,#bltnIcon#
-					,sysdate
-<!-- 					,#bltnBgnYmd# -->
+					<isNotNull property="bltnEndYmd">
+			       		<isNotEmpty property="bltnEndYmd">
+							,sysdate
+			       		</isNotEmpty>
+			       	</isNotNull>
+			       	<isNull property="bltnEndYmd">
+						,null
+			       	</isNull>
 					,#bltnEndYmd#
 					,#subBoardId#
 					,#bltnSubj#

@@ -129,4 +129,14 @@ public class CounselCenterDAO extends EgovAbstractDAO{
 		return update("CounselCenterDAO.updateMemberCounselBoardReadCnt",map);
 	}
 
+	/**
+	 * 회원전문 세무상담 등록
+	 * @param map
+	 * @return
+	 * @throws Exception
+	 */
+	public int insertMemberCounselBoard(Map<String,Object> map) throws Exception {
+		return update("CounselCenterDAO.insertMemberCounselBoard",map);
+	}
+
 }

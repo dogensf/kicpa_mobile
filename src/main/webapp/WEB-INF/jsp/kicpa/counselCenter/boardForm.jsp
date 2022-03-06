@@ -37,7 +37,7 @@ function fncLocation(){
                  <!-- 인풋 필수 -->
                  <div class="inp-box">
                      <label class="label essen" for="regUserName">성명</label>
-                     <input type="text" id="regUserName" name="regUserName" disabled="disabled" placeholder="" />
+                     <input type="text" id="regUserName" name="regUserName" disabled="disabled" placeholder="" value="${loginVO.name }" />
                  </div>
 
                  <div class="inp-box">
@@ -45,6 +45,20 @@ function fncLocation(){
                      <input type="text" id="bltnSubj" name="bltnSubj" placeholder="제목을 압력하세요" />
                  </div>
 
+                 <c:if test="${param.boardId eq 'sugt01' or param.boardId eq 'sugt02' or param.boardId eq 'sugt03' }">
+	                 <div class="inp-box">
+	                     <label class="label essen" for="extStr0">이메일</label>
+	                     <input type="text" id="extStr0" name="extStr0" placeholder="이메일을 입력하세요." />
+	                 </div>
+
+	                 <div class="inp-box">
+                           <div class="label essen">비공개 여부</div>
+                           <div class="inp-all-check">
+                               <input type="checkbox" name="bltnSecretYn" id="bltnSecretYn" value="Y">
+                               <label for="bltnSecretYn">비공개적용</label>
+                           </div>
+                       </div>
+                 </c:if>
 
                  <!-- 전화번호 -->
 

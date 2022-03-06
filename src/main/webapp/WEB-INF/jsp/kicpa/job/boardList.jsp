@@ -19,6 +19,7 @@ function fncLocation(){
 	<input type="hidden" name="ijCoSep" id="ijCoSep" value="1">
 	<input type="hidden" name="boardId" id="boardId" value="${param.boardId }">
 	<input type="hidden" name="ijJobSep" id="ijJobSep" value="1">
+	<input type="hidden" name="loginYn" id="loginYn" value="">
 <!-- 	<input type="hidden" name="searchKeyword" value=""> -->
 
 	<section class="head-sub">
@@ -40,7 +41,6 @@ function fncLocation(){
 		        <span>공인회계사회</span>
 		    </a>
 		</div>
-
 		<div id="tabMain1" class="tab-main-content show">
 		    <div class="search-box">
 		        <input class="search" type="text" readonly="readonly" name="searchKeyword" placeholder="검색하세요." />
@@ -101,5 +101,6 @@ function fncLocation(){
 		      </div>
 		  </div><!-- tabSub1 -->
 		</div><!-- tabMain1 -->
+		<jsp:include page="/include/includeLoign.jsp"/>
 	</section>
 </form>

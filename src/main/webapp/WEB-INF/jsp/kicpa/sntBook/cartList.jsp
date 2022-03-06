@@ -14,7 +14,7 @@ function fncLocation(){
 
 </script>
 <form id="cartForm" name="cartForm" onsubmit="return false;">
-
+	<input type="hidden" name="loginYn" id="loginYn" value="Y">
 	<section class="head-sub">
 	  	<button class="btn-back" type="button" onclick="fncLocation();">
 	        <span>이전</span>
@@ -74,7 +74,7 @@ function fncLocation(){
 	            </c:if>
 	        </ul>
 	    </div>
-
+		<jsp:include page="/include/includeLoign.jsp"/>
 	    <!-- 페이지 하단 버튼 -->
 	    <div class="sticky-bottom">
 	        <button class="btn-sticky" id="totalBtn" disabled type="button">합계금액 0원</button>

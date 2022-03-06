@@ -18,9 +18,11 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
+import adminwork.com.cmm.LoginVO;
 import adminwork.com.cmm.StringUtil;
 import adminwork.kicpa.cmm.comm.service.KicpaCommService;
 import adminwork.kicpa.job.service.JobAdvertisementService;
+import egovframework.rte.fdl.security.userdetails.util.EgovUserDetailsHelper;
 import egovframework.rte.psl.dataaccess.util.EgovMap;
 
 
@@ -51,6 +53,13 @@ public class JobAdvertisementController {
 		try {
 			jobAdvertisementService.updateBoardReadcount(map);
 			EgovMap boardDetail = jobAdvertisementService.selectBoardDetail(map);
+
+			Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+			if(isAuthenticated) {
+				LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+				model.addAttribute("loginVO", user);
+			}
+
 //			StringUtil.checkMapReplaceHtml(boardDetail);
 			model.addAttribute("boardDetail",boardDetail);
 		}catch (Exception e) {

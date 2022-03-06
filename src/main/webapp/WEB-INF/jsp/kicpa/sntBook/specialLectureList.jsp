@@ -15,6 +15,7 @@ function fncLocation(){
 <form id="boardForm" name="boardForm">
 	<input type="hidden" name="pageIndex" id="pageIndex" value="1">
 	<input type="hidden" name="gbn" id="gbn" value="LISTPAGE2">
+	<input type="hidden" name="loginYn" id="loginYn" value="Y">
 
 	<section class="head-sub">
 	    <button class="btn-back" type="button" onclick="fncLocation();">
@@ -24,7 +25,8 @@ function fncLocation(){
 	</section>
 	<section class="content">
 
-			<div class="tab-main">
+
+		<div class="tab-main">
 		    <a class="tab-link active" href="javascript:void(0);" onclick="sntBook.specialLectureChange(this,'LISTPAGE2');">
 		        <span>수강신청</span>
 		    </a>
@@ -32,7 +34,6 @@ function fncLocation(){
 		        <span>신청내역</span>
 		    </a>
 		</div>
-
 		<div id="tabMain1" class="tab-main-content show">
 			<div class="blue-box" style="display: none;">
 				<div class="application-sum">
@@ -56,6 +57,7 @@ function fncLocation(){
 		      </div>
 		  </div><!-- tabSub1 -->
 		</div><!-- tabMain1 -->
+		<jsp:include page="/include/includeLoign.jsp"/>
 		 <!-- 페이지 하단 버튼 -->
 	    <div class="sticky-bottom">
 	        <button class="btn-sticky" id="appBtn" disabled type="button">선택 신청하기</button>

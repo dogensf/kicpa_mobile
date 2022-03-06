@@ -12,7 +12,9 @@ function fncLocation(){
 }
 
 </script>
-
+<form id="cartForm" name="cartForm" onsubmit="return false;">
+	<input type="hidden" name="loginYn" id="loginYn" value="Y">
+</form>
 <section class="head-sub">
   	<button class="btn-back" type="button" onclick="fncLocation();">
         <span>이전</span>
@@ -73,5 +75,6 @@ function fncLocation(){
        	   </ul>
       	</div>
     </div>
+    <jsp:include page="/include/includeLoign.jsp"/>
 
 </section>

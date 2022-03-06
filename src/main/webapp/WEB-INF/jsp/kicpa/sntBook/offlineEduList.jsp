@@ -15,6 +15,7 @@ function fncLocation(){
 <form id="boardForm" name="boardForm">
 	<input type="hidden" name="pageIndex" id="pageIndex" value="1">
 	<input type="hidden" name="accEduUse" id="accEduUse" value="1">
+	<input type="hidden" name="loginYn" id="loginYn" value="Y">
 </form>
 <section class="head-sub">
   	<button class="btn-back" type="button" onclick="fncLocation();">
@@ -23,7 +24,6 @@ function fncLocation(){
     <h3>집합연수</h3>
 </section>
 <section class="content">
-
 
 	<div class="tab-main">
 	    <a class="tab-link active" href="javascript:void(0);" onclick="sntBook.offlineEduMainTabs(this,1)">
@@ -64,4 +64,5 @@ function fncLocation(){
 	      </div>
 	  </div><!-- tabSub1 -->
 	</div><!-- tabMain1 -->
+	<jsp:include page="/include/includeLoign.jsp"/>
 </section>

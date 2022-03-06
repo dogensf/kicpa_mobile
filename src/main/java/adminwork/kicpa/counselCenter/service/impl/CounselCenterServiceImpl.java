@@ -118,5 +118,17 @@ public class CounselCenterServiceImpl extends EgovAbstractServiceImpl implements
 		return counselCenterDAO.selectMemberCounselBoardMemoList(map);
 	}
 
+	@Override
+	public void insertMemberCounselBoard(Map<String, Object> map) throws Exception {
+		try {
+			map.put("bltnNo", System.currentTimeMillis());
+			counselCenterDAO.insertMemberCounselBoard(map);
+		}catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+
+	}
+
 
 }
