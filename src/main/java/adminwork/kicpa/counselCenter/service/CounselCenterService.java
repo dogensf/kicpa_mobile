@@ -102,6 +102,14 @@ public interface  CounselCenterService {
 	 */
 	public void insertMemberCounselBoard(Map<String,Object> map) throws Exception;
 
+	/**
+	 * 신고 등록
+	 * @param map
+	 * @return
+	 * @throws Exception
+	 */
+	public void insertDeclarationBoard(Map<String,Object> map) throws Exception;
+
 
 
 }

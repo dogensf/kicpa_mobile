@@ -365,5 +365,62 @@
 			    , #bltnCntt# )
 	</insert>
 
+	<insert id="CounselCenterDAO.insertDeclarationBoard" parameterClass="Hashmap">
+
+	    <selectKey keyProperty="arIdNum" resultClass="int">
+	        SELECT NVL(MAX(AR_ID_NUM),0)+1 AS AR_ID_NUM FROM ACC_REPORT
+	    </selectKey>
+
+		<![CDATA[
+		INSERT INTO ACC_REPORT(AR_ID_NUM, AR_SEP, AR_WNAME, AR_BIRTH_YMD, AR_USER_ID, AR_EMAIL, AR_TEL, AR_TEL_SMS_YN, AR_WTITLE, AR_CONAME, AR_REPORT1, AR_REPORT2, AR_REPORT3, AR_REPORT0, AR_REPORT_ETC, AR_STATUS, AR_ADD1, AR_ADD2, AR_ADD3, AR_ZIP, AR_DETAIL, AR_CONTENT, AR_KICPA_ETC, AR_REPORT_USE, AR_REPORT_CONAME, AR_USE, AR_CNT, AR_REG_DATE, AR_IP, AR_PSWD )
+		VALUES(
+				#arIdNum#
+			  , 1
+			  , #arWname#
+			  , #arBirthYmd#
+			  , #userId#
+			  , #arEmail#
+			  , #arTel#
+			  , #arTelSmsYn#
+			  , #arWtitle#
+			  , #arConame#
+			  , #arReport1#
+			  , #arReport2#
+			  , #arReport3#
+			  , #arReport0#
+			  , #arReportEtc#
+			  , 1
+			  , #arAdd1#
+			  , #arAdd2#
+			  , #arAdd3#
+			  , #arZip#
+			  , #arDetail#
+			  , #arContent#
+			  , #arKicpaEtc#
+			  , #arReportUse#
+			  , #arReportConame#
+			  , 'Y'
+			  , 0
+			  , SYSDATE
+			  , #arIp#
+			  , #arPswd#
+				)
+		 ]]>
+
+	</insert>
+
+	<insert id="CounselCenterDAO.insertDeclarationBoardFile" parameterClass="Hashmap">
+		INSERT INTO ACC_REPORT_FILE(SEQ_NUM, ID_NUM, FILENAME, FILESIZE, HOST_FILENAME )
+		VALUES(
+				(SELECT NVL(MAX(SEQ_NUM),0)+1 FROM ACC_REPORT_FILE )
+				,#arIdNum#
+				,#filename#
+				,#filesize#
+				,#hostFilename#
+				)
+	</insert>
+
+
+
 
 </sqlMap>
