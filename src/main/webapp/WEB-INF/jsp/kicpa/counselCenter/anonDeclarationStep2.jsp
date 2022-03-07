@@ -8,7 +8,7 @@ $(document).ready(function(){
 });
 
 function fncLocation(){
-	window.close();
+	location.href="/kicpa/main/main.do";
 }
 
 </script>
@@ -25,10 +25,14 @@ function fncLocation(){
 	<section class="content">
 
 		<div class="step-box">
-		    <span>실명신고</span>
-	        <h4>회계부정신고 · 포상 (등록)</h4>
+		    <span>익명신고</span>
+	        <h4>익명신고(등록)</h4>
+		   	<div class="terms_box">
+	   		사실관계확인 및 포상금 지급 안내와 관련하여 신고자에게 연락할 수 있읍니다. 연락처나 이메일 주소 등을 기재하여 주시기 바랍니다.
+	      	</div>
+	      	<br/>
 	        <p>&lt; 감리·윤리행정실 TEL : 02-3149-0392 &gt;</p>
-	        <p>(*) 표시된 항목은 필수 입력사항 입니다.</p>
+	        <p class="">(*) 표시된 항목은 필수 입력사항 입니다.</p>
 	        <div class="step-by">
 	            <b>2</b> / <em>2</em>
 	        </div>
@@ -46,6 +50,14 @@ function fncLocation(){
 				    <div class="inp-box">
 				        <label class="label essen" for="arWtitle">제목</label>
 				        <input type="text" id="arWtitle" name="arWtitle" placeholder="제목을 입력하세요." maxlength="100" />
+				    </div>
+			       	<div class="inp-box">
+				        <label class="label essen" for="arPswd">비밀번호</label>
+				        <input type="password" id="arPswd" name="arPswd" placeholder="비밀번호를 입력하세요." />
+				    </div>
+			       	<div class="inp-box">
+				        <label class="label essen" for="arWname">성명</label>
+				        <input type="text" id="arWname" name="arWname" placeholder="성명을 입력하세요." maxlength="10" />
 				    </div>
 	        		<div class="inp-box">
 				        <label class="label essen" for="arBirthYmd">생년월일</label>
@@ -132,6 +144,22 @@ function fncLocation(){
 				            </div>
 				        </div>
 				    </div>
+
+
+
+	<!--                 첨부파일 -->
+	<!--                 <div class="inp-box"> -->
+	<!--                     <div class="label">첨부파일</div> -->
+	<!--                     <div class="file-item"> -->
+	<!--                         <div class="file">이력서파일명들어오는거인지아아아아아아.pdf</div> -->
+	<!--                         <button class="btn-del" type="button"><span>닫기</span></button> -->
+	<!--                     </div> -->
+	<!--                     <div class="file-item"> -->
+	<!--                         <div class="file">이력서파일명들어오는거인지아아아아아아.pdf</div> -->
+	<!--                         <button class="btn-del" type="button"><span>닫기</span></button> -->
+	<!--                     </div> -->
+	<!--                 </div> -->
+
 	            </div>
 	        </div>
 	        <div class="add-box">
@@ -188,7 +216,7 @@ function fncLocation(){
 </form>
 <!-- 이전페이지로 이동 -->
 <div class="btn-page-bottom">
-	<button class="btn-text-back" onclick="javascript:location.href='/kicpa/counselCenter/declarationStep1.do'" type="button">이전페이지로 이동</button>
+    <button class="btn-text-back" onclick="javascript:location.href='/kicpa/counselCenter/anonDeclarationStep1.do'" type="button">이전페이지로 이동</button>
 </div>
 
 <!-- 페이지하단 버튼 -->

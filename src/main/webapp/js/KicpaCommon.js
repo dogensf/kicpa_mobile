@@ -263,10 +263,6 @@ function fn_portal_pop(obj,text){
 		$("body").removeClass("stop");
 	});
 
-
-
-
-
 	if(text != null && text.gray != null){
 		$(".gray-box").html(text.gray )
 	}
@@ -275,7 +271,7 @@ function fn_portal_pop(obj,text){
 		$(".notice").html(text.notice )
 	}
 
-    $("#searchKeyword").on("keydown",function(key) {
+    $("#boardSearchForm input[name='searchKeyword']").on("keydown",function(key) {
         if (key.keyCode == 13) {
         	$("#searchPop .btn-send").click();
         }

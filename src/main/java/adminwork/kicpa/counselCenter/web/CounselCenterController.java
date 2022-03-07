@@ -76,9 +76,38 @@ public class CounselCenterController {
 		}
 
 	}
+
+	@RequestMapping(value = "/declarationStep1.do")
+	public String declarationStep1(@RequestParam Map<String,Object> map,HttpServletRequest request,HttpServletResponse response,ModelMap model) throws Exception{
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		if(isAuthenticated) {
+			model.addAttribute("gubun", "nonAnonymous");
+			return "kicpa/counselCenter/declarationStep1";
+		}else {
+			return "kicpa/common/authLogin";
+		}
+
+	}
 	@RequestMapping(value = "/declarationStep2.do")
 	public String declarationStep2(@RequestParam Map<String,Object> map,HttpServletRequest request,HttpServletResponse response,ModelMap model) throws Exception{
-		return "kicpa/counselCenter/declarationStep2";
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		if(isAuthenticated) {
+			model.addAttribute("gubun", "nonAnonymous");
+			return "kicpa/counselCenter/declarationStep2";
+		}else {
+			return "kicpa/common/authLogin";
+		}
+
+	}
+
+	@RequestMapping(value = "/anonDeclarationStep1.do")
+	public String anonDeclarationStep1(@RequestParam Map<String,Object> map,HttpServletRequest request,HttpServletResponse response,ModelMap model) throws Exception{
+		return "kicpa/counselCenter/anonDeclarationStep1";
+	}
+	@RequestMapping(value = "/anonDeclarationStep2.do")
+	public String anonDeclarationStep2(@RequestParam Map<String,Object> map,HttpServletRequest request,HttpServletResponse response,ModelMap model) throws Exception{
+		model.addAttribute("gubun", "anonymous");
+		return "kicpa/counselCenter/anonDeclarationStep2";
 	}
 
 	@RequestMapping(value = "/kifrsBoardList.do")
@@ -394,9 +423,12 @@ public class CounselCenterController {
 			modelAndView.setViewName("jsonView");
 
 			Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
-			if(isAuthenticated) {
-				LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
-				map.put("userId", user.getId());
+			if("nonAnonymous".equals(map.get("gubun"))) {
+				if(isAuthenticated) {
+					LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+					map.put("userId", user.getId());
+					map.put("arWname", user.getName());
+				}
 			}else {
 				map.put("userId", "-");
 			}

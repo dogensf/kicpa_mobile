@@ -25,7 +25,7 @@
 
                     <div class="inp-box">
                         <label class="label" for="search">검색어</label>
-                        <input type="search" class="search" id="searchKeyword" name="searchKeyword" placeholder="제목을 입력하세요." />
+                        <input type="search" class="search" name="searchKeyword" placeholder="제목을 입력하세요." />
                     </div>
                 </fieldset>
             </form>

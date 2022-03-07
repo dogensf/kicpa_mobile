@@ -14,8 +14,21 @@ job.init = function(){
 		$("#searchPop .btn-close").click();
 		$("#pageIndex").val(1);
 		$(".board-list ul").html("");
-		$("#boardForm input[name='searchKeyword']").val($("#searchKeyword").val());
-		;
+
+
+		var txt = "";
+		$.each($("#boardSearchForm select[name^='searchType']") ,function(){
+			txt += $(this).find("option:selected").text()+" - ";
+		});
+
+		if($("#boardSearchForm input[name='searchKeyword']").val() != ''){
+			txt += $("#boardSearchForm input[name='searchKeyword']").val();
+		}else{
+			txt = txt.substring(0,txt.length - 3);
+		}
+
+		$("#readInput").val(txt);
+
 		if($("#ijJobSep").val() != 'jobInfoKicpa'){
 			var param = $("#boardForm").serializeObject();
 			fn_ajax_call("/kicpa/job/getBoardList.do",param,job.boardListSuccess,job.boardListError);
@@ -81,6 +94,7 @@ job.ijCoSepChange = function(obj,ijCoSep){
 }
 
 job.menuChange = function(obj,ijJobSep){
+	$("#readInput").val("");
 	$("#boardForm input[name='searchKeyword']").val("");
 	$(".tab-link").removeClass("active");
 	$(obj).addClass("active");

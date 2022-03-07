@@ -18,7 +18,7 @@ counselCenter.counselInit = function(){
 		$("#searchPop .btn-close").click();
 		$("#pageIndex").val(1);
 		$(".board-list ul").html("");
-		$("#boardForm input[name='searchKeyword']").val($("#searchKeyword").val());
+		$("#boardForm input[name='searchKeyword']").val($("#boardSearchForm input[name='searchKeyword']").val());
 		counselCenter.counselBoardAjax();
 	});
 
