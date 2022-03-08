@@ -15,7 +15,7 @@ function fncLocation(){
 
 </script>
 
-<form id="boardForm" name="boardForm" onsubmit="return false;">
+<form id="boardForm" name="boardForm" enctype="multipart/form-data" onsubmit="return false;">
 	<input type="hidden" name="cateId" id="cateId" value="${param.cateId }">
 	<section class="head-sub">
 	     <button class="btn-back" type="button" onclick="fncLocation();">

@@ -545,6 +545,45 @@ ol.blt li::before {
   color: #222;
 }
 
+.blt-dot li {
+  position: relative;
+  padding-left: 1.6rem;
+  font-size: 1.4rem;
+  font-weight: 400;
+  line-height: 2rem;
+  color: #222;
+}
+
+.blt-dot li + li {
+  margin-top: .4rem;
+}
+
+.blt-dot li::before {
+  content: '';
+  position: absolute;
+  width: .2rem;
+  height: .2rem;
+  background-color: #002060;
+  left: .5rem;
+  top: .8rem;
+}
+
+.blt-dot li b {
+  display: inline-block;
+  font-size: 1.4rem;
+  font-weight: 500;
+  line-height: 2rem;
+  color: #222;
+}
+
+.blt-dot li span, .blt-dot li a {
+  display: inline-block;
+  font-size: 1.4rem;
+  font-weight: 400;
+  line-height: 2rem;
+  color: #222;
+}
+
 button {
   cursor: pointer;
 }
@@ -1718,30 +1757,27 @@ input[type="radio"] {
 
 input[type="checkbox"] + label,
 input[type="radio"] + label {
-  display: block;
   position: relative;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  display: inline-block;
   font-size: 1.6rem;
   font-weight: 400;
   line-height: 2.2rem;
   color: #222;
+  padding-left: 3rem;
   white-space: nowrap;
 }
 
 input[type="checkbox"] + label::before,
 input[type="radio"] + label::before {
   content: '';
-  display: block;
+  position: absolute;
   width: 2rem;
   height: 2rem;
+  left: 0;
+  top: 50%;
+  margin-top: -1rem;
   border-radius: 50%;
   overflow: hidden;
-  margin-right: 1rem;
 }
 
 input[type="checkbox"] + label::before {
@@ -1774,6 +1810,55 @@ input[type="radio"]:checked + label::before {
 input[type="radio"]:disabled + label::before {
   border-color: #ccc;
   background-color: #ccc;
+}
+
+.inp-in {
+  margin-top: 2rem;
+}
+
+.inp-in .inp-check {
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+}
+
+.inp-in input[type="checkbox"] + label {
+  white-space: unset;
+  font-size: 1.4rem;
+  font-weight: 400;
+  line-height: 2rem;
+  color: #222;
+}
+
+.inp-in input[type="checkbox"] + label::before {
+  top: 0;
+  margin-top: 0;
+}
+
+.inp-set {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  margin-top: 1.3rem;
+}
+
+.inp-set .inp-check {
+  margin-right: 2.3rem;
+}
+
+.in-row {
+  margin-top: 1.3rem;
+}
+
+.in-row .inp-check + .inp-check {
+  margin-top: 1.5rem;
+}
+
+.in-row .ect {
+  margin-top: 1rem;
 }
 
 select {
@@ -1872,6 +1957,10 @@ input[type="file"] + label::after {
   overflow: hidden;
   height: 3.4rem;
   border-bottom: 1px solid #666;
+}
+
+.file-item + .file-item {
+  margin-top: 1rem;
 }
 
 .file-item .file {
@@ -2026,19 +2115,6 @@ input[type="file"] + label::after {
 
 .inp-box + .inp-box {
   margin-top: 3rem;
-}
-
-.inp-set {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-}
-
-.inp-set .inp-check {
-  margin-right: 2.3rem;
 }
 
 .phone {
@@ -3148,7 +3224,7 @@ ul.list-wrap button.m-link b {
   border-bottom: 1px solid #A5A5A5;
 }
 
-.field-box .set {
+.set {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -3157,23 +3233,23 @@ ul.list-wrap button.m-link b {
           align-items: center;
 }
 
-.field-box .set + .set {
+.set + .set {
   margin-top: 2.2rem;
 }
 
-.field-box .set .inp-check {
+.set .inp-check {
   -webkit-box-flex: 1;
       -ms-flex: 1;
           flex: 1;
 }
 
-.field-box .set.ect .inp-check {
+.set.ect .inp-check {
   -webkit-box-flex: 0;
       -ms-flex: 0;
           flex: 0;
 }
 
-.field-box .set.ect .inp-box {
+.set.ect .inp-box {
   margin-left: 2.8rem;
   -webkit-box-flex: 1;
       -ms-flex: 1;
@@ -3215,6 +3291,25 @@ ul.list-wrap button.m-link b {
   margin: -1px;
   border: 0;
   padding: 0;
+}
+
+.add-box .title {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  background: #F7F7F7;
+  padding: 1rem 1.6rem;
+  margin-top: 3.2rem;
+}
+
+.add-box .title span {
+  font-size: 1.4rem;
+  font-weight: 400;
+  line-height: 2rem;
+  color: #222;
 }
 
 .add-box .form {

@@ -139,4 +139,23 @@ public class CounselCenterDAO extends EgovAbstractDAO{
 		return update("CounselCenterDAO.insertMemberCounselBoard",map);
 	}
 
+	/**
+	 * 신고 등록
+	 * @param map
+	 * @return
+	 * @throws Exception
+	 */
+	public int insertDeclarationBoard(Map<String,Object> map) throws Exception {
+		return (int) insert("CounselCenterDAO.insertDeclarationBoard",map);
+	}
+	/**
+	 * 신고 첨부파일 등록
+	 * @param map
+	 * @return
+	 * @throws Exception
+	 */
+	public int insertDeclarationBoardFile(Map<String,Object> map) throws Exception {
+		return update("CounselCenterDAO.insertDeclarationBoardFile",map);
+	}
+
 }

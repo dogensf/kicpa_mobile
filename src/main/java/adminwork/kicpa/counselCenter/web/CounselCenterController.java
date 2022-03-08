@@ -76,6 +76,10 @@ public class CounselCenterController {
 		}
 
 	}
+	@RequestMapping(value = "/declarationStep2.do")
+	public String declarationStep2(@RequestParam Map<String,Object> map,HttpServletRequest request,HttpServletResponse response,ModelMap model) throws Exception{
+		return "kicpa/counselCenter/declarationStep2";
+	}
 
 	@RequestMapping(value = "/kifrsBoardList.do")
 	public String kifrsBoardList(@RequestParam Map<String,Object> map,HttpServletRequest request,HttpServletResponse response,ModelMap model) throws Exception{
@@ -372,6 +376,57 @@ public class CounselCenterController {
 
 			}
 
+
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return modelAndView;
+	}
+
+
+
+	@RequestMapping(value="/insertDeclarationBoard.do")
+	public ModelAndView insertDeclarationBoard(@RequestParam Map<String,Object> map, HttpServletRequest request,MultipartHttpServletRequest multipart) throws Exception{
+		ModelAndView modelAndView = new ModelAndView();
+
+		try{
+			modelAndView.setViewName("jsonView");
+
+			Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+			if(isAuthenticated) {
+				LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+				map.put("userId", user.getId());
+			}else {
+				map.put("userId", "-");
+			}
+
+
+			map.put("arReport0", StringUtil.isNullToString(map.get("arReport0"),"0"));
+			map.put("arReport1", StringUtil.isNullToString(map.get("arReport1"),"0"));
+			map.put("arReport2", StringUtil.isNullToString(map.get("arReport2"),"0"));
+			map.put("arReport3", StringUtil.isNullToString(map.get("arReport3"),"0"));
+			map.put("arTelSmsYn", StringUtil.isNullToString(map.get("arTelSmsYn"),"0"));
+			map.put("arIp", request.getRemoteAddr());
+
+
+			if(!"".equals(StringUtil.isNullToString(map.get("phone1"))) && !"".equals(StringUtil.isNullToString(map.get("phone2"))) && !"".equals(StringUtil.isNullToString(map.get("phone3"))) ) {
+				map.put("arTel", StringUtil.isNullToString(map.get("phone1"))+"-"+StringUtil.isNullToString(map.get("phone2"))+"-" +StringUtil.isNullToString(map.get("phone3")));
+			}
+
+
+			List<HashMap<String,Object>> fileList = null;
+
+			map.put("fileList", fileList);
+
+
+
+			counselCenterService.insertDeclarationBoard(map);
+
+			modelAndView.addObject("isLogin", isAuthenticated);
+
+//			list.forEach(x -> StringUtil.checkMapReplaceHtml(x));
+//			modelAndView.addObject("list", list);
 
 		}catch (Exception e) {
 			e.printStackTrace();

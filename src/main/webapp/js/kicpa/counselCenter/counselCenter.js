@@ -3,8 +3,7 @@ var flag = true;
 //function fn_ajax_call(href, param, sfn, efn) {
 counselCenter.declarationInit = function(){
 
-	var param = $("#boardForm").serializeObject();
-	fn_ajax_call("/kicpa/counselCenter/getDeclarationBoardList.do",param,counselCenter.getBoardListSuccess,counselCenter.boardListError);
+	counselCenter.getDeclarationBoardListAjax();
 }
 
 
@@ -49,6 +48,40 @@ counselCenter.regInit = function(){
 	});
 
 
+}
+
+counselCenter.declarationStep2Init = function(){
+	$("#arReport0").on("change",function(){
+		if($(this).prop("checked")){
+			$("#arReportEtc").closest(".inp-box").show();
+			$("#arReportEtc").prop("disabled",false);
+		}else{
+			$("#arReportEtc").closest(".inp-box").hide();
+			$("#arReportEtc").prop("disabled",true);
+			$("#arReportEtc").val("");
+		}
+	});
+
+	$("input[name='arReportUse']").on("change",function(){
+		if($("#reportUse1").prop("checked")){
+			$("#arReportConame").closest(".inp-box").show();
+			$("#arReportConame").prop("disabled",false);
+		}else{
+			$("#arReportConame").closest(".inp-box").hide();
+			$("#arReportConame").prop("disabled",true);
+			$("#arReportConame").val("");
+		}
+	});
+
+
+	$("#phone1,#phone2,#phone3,#arBirthYmd").on("keyup",function(){
+		$(this).val( $(this).val().replace(/[^0-9]/g, ""));
+	});
+}
+
+counselCenter.getDeclarationBoardListAjax = function(){
+	var param = $("#boardForm").serializeObject();
+	fn_ajax_call("/kicpa/counselCenter/getDeclarationBoardList.do",param,counselCenter.getBoardListSuccess,counselCenter.boardListError);
 }
 
 
@@ -135,7 +168,7 @@ counselCenter.getBoardListSuccess = function(data){
 					flag = false;
 					$("#pageIndex").val(Number($("#pageIndex").val())+10);
 					var param = $("#boardForm").serializeObject();
-					fn_ajax_call("/kicpa/counselCenter/getDeclarationBoardList.do",param,counselCenter.getBoardListSuccess,counselCenter.boardListError);
+					counselCenter.getDeclarationBoardListAjax();
 				}
 			});
 		}
@@ -319,6 +352,109 @@ counselCenter.counselBoardValicationCheck = function(){
 	fn_ajax_call("/kicpa/counselCenter/insertMemberCounselBoard.do",param,counselCenter.insertMemberCounselBoardSuccess,counselCenter.boardInsertError);
 
 }
+
+counselCenter.declarationStep2Validation = function(){
+	if($.trim($("#boardForm input[name='arWtitle']").val()) == '' ){
+		alert("제목을 입력해주세요.");
+		return false;
+	}
+	if($.trim($("#boardForm input[name='arPswd']").val()) == '' ){
+		alert("비밀번호를 입력해주세요.");
+		return false;
+	}
+	if($.trim($("#boardForm input[name='arWname']").val()) == '' ){
+		alert("성명을 입력해주세요.");
+		return false;
+	}
+	if($.trim($("#boardForm input[name='arBirthYmd']").val()) == '' ){
+		alert("생년월일을 입력해주세요.");
+		return false;
+	}
+
+	if($.trim($("#arEmail").val()) == ''){
+		alert("이메일을 입력해주세요.")
+		return false;
+	}
+
+	var regex=/^[-A-Za-z0-9_]+[-A-Za-z0-9_.]*[@]{1}[-A-Za-z0-9_]+[-A-Za-z0-9_.]*[.]{1}[A-Za-z]{1,5}$/;
+	if(!regex.test($.trim($("#arEmail").val()))) {
+		alert("올바르지 않은 이메일주소입니다.");
+		return false;
+	}
+
+	if($.trim($("#phone1").val()) == '' || $.trim($("#phone2").val()) == '' || $.trim($("#phone3").val()) == ''){
+		alert("전화번호를 입력해주세요.")
+		return false;
+	}
+
+	if($.trim($("#arZip").val()) == ''){
+		alert("우편번호를 입력해주세요.")
+		return false;
+	}
+	if($.trim($("#arAdd1").val()) == ''){
+		alert("주소를 입력해주세요.")
+		return false;
+	}
+	if($.trim($("#arAdd2").val()) == ''){
+		alert("참고주소를 입력해주세요.")
+		return false;
+	}
+	if($.trim($("#arAdd3").val()) == ''){
+		alert("상세주소를 입력해주세요.")
+		return false;
+	}
+	if($.trim($("#arConame").val()) == ''){
+		alert("법인명(회사명) 입력해주세요.")
+		return false;
+	}
+
+
+	if($("#boardForm input[name^='arReport'][type='checkbox']:checked").length == 0 ){
+		alert("회계부정행위를 선택해주세요.");
+		return false;
+	}
+
+	if($("#arReport0").prop("checked") && $.trim($("#arReportEtc").val()) == ''  ){
+		alert("기타 회계부정행위를 입력해주세요.");
+		return false;
+	}
+
+	if($.trim($("#arContent").val()) == ''){
+		alert("신고내용을 입력해주세요.")
+		return false;
+	}
+
+	if($.trim($("#boardForm input[name='arReportUse']:checked").val()) == ''){
+		alert("다기관 신고여부를 선택해주세요.")
+		return false;
+	}
+
+	if($.trim($("#boardForm input[name='arReportUse']:checked").val()) == '1' && $.trim($("#arReportConame").val()) == ''){
+		alert("신고기관을 입력해주세요.")
+		return false;
+	}
+
+
+	var param = new FormData($("#boardForm")[0]);
+	fn_ajax_form_call("/kicpa/counselCenter/insertDeclarationBoard.do",param,counselCenter.insertDeclarationBoardSuccess);
+
+}
+
+counselCenter.insertDeclarationBoardSuccess = function(data){
+	var isLogin =data.isLogin;
+	alert("등록되었습니다.");
+
+	if(isLogin){
+		$(opener.document).find("#pageIndex").val(1);
+		$(opener.document).find(".board-list ul").html("");
+		opener.counselCenter.getDeclarationBoardListAjax();
+		window.close();
+	}else{
+		location.href="/kicpa/counselCenter/declarationBoardList.do";
+	}
+}
+
+
 
 counselCenter.insertMemberCounselBoardSuccess = function(data){
 	alert("등록되었습니다.");

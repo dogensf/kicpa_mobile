@@ -1,6 +1,8 @@
 package adminwork.kicpa.counselCenter.service.impl;
 
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -128,6 +130,27 @@ public class CounselCenterServiceImpl extends EgovAbstractServiceImpl implements
 			throw e;
 		}
 
+	}
+
+	@Override
+	public void insertDeclarationBoard(Map<String, Object> map) throws Exception {
+		try {
+
+			List<HashMap<String,Object>> fileList = (List<HashMap<String, Object>>) map.get("fileList");
+
+			counselCenterDAO.insertDeclarationBoard(map);
+
+
+			if(fileList != null && !fileList.isEmpty()) {
+				for(HashMap<String,Object> fileMap : fileList ) {
+					fileMap.put("arIdNum", map.get("arIdNum"));
+					counselCenterDAO.insertDeclarationBoardFile(fileMap);
+				}
+			}
+		}catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
 	}
 
 
