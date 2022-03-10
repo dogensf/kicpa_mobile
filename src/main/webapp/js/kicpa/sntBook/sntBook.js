@@ -113,6 +113,19 @@ sntBook.cartInit = function(){
 		sntBook.updateCart('DELETE',$(this).closest("li").find("input[name='ibmBookCode']").val());
 	});
 
+	$("#totalBtn").on("click",function(){
+		if($("#cartForm input[name='ibmBookCode']:checked").length == 0){
+			alert("선택된 상품이 없습니다.");
+			return false;
+		}
+
+
+		sntBook.orderCartFrom();
+	});
+
+
+
+
 //	sntBook.specialLectureListAjax();
 }
 
@@ -120,6 +133,39 @@ sntBook.bookDetailInit = function(){
 	$(".btn-sticky").on("click",function(){
 		sntBook.insertCart();
 	});
+}
+
+sntBook.orderFormInit = function(){
+
+
+	$("#mobileweb input[name='payCode']").on("change",function(){
+
+		if($("#mobileweb input[name='payCode']:checked").val() == '2'){
+			$(".tax").show();
+		}else{
+			$(".tax, .company").hide();
+		}
+
+	});
+
+	$("#mobileweb input[name='cpyId']").on("change",function(){
+
+		if($("#mobileweb input[name='cpyId']:checked").val() == '1'){
+			$(".company").show();
+		}else{
+			$(".company").hide();
+		}
+
+	});
+
+	$("#mobileweb input[name='payCode']").on("change",function(){
+		if($("#mobileweb input[name='payCode']:checked").val() == '1'){
+			$("#mobileweb input[name='P_INI_PAYMENT']").val('CARD');
+		}else{
+			$("#mobileweb input[name='P_INI_PAYMENT']").val('BANK');
+		}
+	});
+
 }
 
 sntBook.updateCart = function(gbn,ibmBookCode){
@@ -167,8 +213,8 @@ sntBook.insertCart = function(){
 }
 
 sntBook.insertCartSuccess = function(data){
-	var loginFlag = data.loginFlag;
-	if(loginFlag){
+	var isLogin = data.isLogin;
+	if(isLogin){
 		fn_portal_pop("bookCartPopup")
 
 		$("#bookCartPopup .btn-send").off().on("click",function(){
@@ -633,6 +679,90 @@ sntBook.getCheckplusEncDataSuccess = function(data){
 
 }
 
+
+sntBook.orderCartFrom = function(){
+	var param =$("#cartForm").serializeObject();
+	fn_ajax_call("/kicpa/sntBook/orderCartForm.do",param,sntBook.orderCartFormSuccess,sntBook.boardListError);
+}
+
+sntBook.orderCartFormSuccess = function(data){
+	var result = data.result;
+
+	if(result == '0000'){
+		location.href="kicpa/sntBook/cartOrderForm.do?gamYn=N";
+	}else if(result == '0001'){
+		alert("장바구니에 상품이 존재하지 않습니다.");
+	}else if(result == '0002'){
+		alert("선택된 상품이 존재하지 않습니다.");
+	}else{
+		alert("정상적으로 처리되지 않았습니다.")
+		locarion.reload();
+	}
+}
+
+sntBook.orderFormValidation = function(){
+
+	if(!$("#terms02").prop("checked")){
+		alert("약관동의를 선택해주세요.");
+		return false;
+	}
+
+	if($.trim($("#recName").val()) == ''){
+		alert("이름를 입력해주세요.");
+		return false;
+	}
+	if($.trim($("#rvZip").val()) == ''){
+		alert("우편번호를 입력해주세요.");
+		return false;
+	}
+	if($.trim($("#rvAdd1").val()) == ''){
+		alert("주소를 입력해주세요.");
+		return false;
+	}
+	if($.trim($("#rvAdd3").val()) == ''){
+		alert("상세주소를 입력해주세요.");
+		return false;
+	}
+	if($.trim($("#telNo1").val()) == '' || $.trim($("#telNo2").val()) == '' || $.trim($("#telNo3").val()) == ''){
+		alert("전화번호를 입력해주세요.");
+		return false;
+	}
+	if($.trim($("#hpNo1").val()) == '' || $.trim($("#hpNo2").val()) == '' || $.trim($("#hpNo3").val()) == ''){
+		alert("핸드폰 번호를 입력해주세요.");
+		return false;
+	}
+	if($.trim($("#email").val()) == ''){
+		alert("이메일을 입력해주세요.");
+		return false;
+	}
+	if($.trim($("#rvCpyName").val()) == ''){
+		alert("회사명을 입력해주세요.");
+		return false;
+	}
+
+
+	sntBook.orderFormCheck();
+}
+
+
+sntBook.orderFormCheck = function(){
+	var param =$("#mobileweb").serializeObject();
+	fn_ajax_call("/kicpa/sntBook/orderFormCheck.do",param,sntBook.orderFormCheckSuccess,sntBook.boardListError);
+}
+
+sntBook.orderFormCheckSuccess = function(data){
+	var result =data.result;
+	var oid = data.oid;
+	if(result == '0000'){
+		$("#mobileweb input[name='P_OID']").val(oid);
+		$("#mobileweb input[name='P_AMT']").val(1000);
+		$("#mobileweb").attr("action","https://mobile.inicis.com/smart/payment/").submit();
+	}else if(result == '0001'){
+		alert("주문데이터가 존재하지 않습니다.")
+	}else{
+		alert("결제금액과 결제내용이 일치하지 않아 결제가 정상적으로 되지 않고 있습니다.")
+	}
+}
 
 sntBook.boardListError = function(data,status, error){
 //	flag = true;

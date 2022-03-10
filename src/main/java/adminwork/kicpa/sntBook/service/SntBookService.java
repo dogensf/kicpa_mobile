@@ -37,5 +37,6 @@ public interface  SntBookService {
 
 	public void procedureEduAppAndModify(Map<String,Object> map) throws Exception;
 
+	public void insertOrder(Map<String,Object> map) throws Exception;
 
 }

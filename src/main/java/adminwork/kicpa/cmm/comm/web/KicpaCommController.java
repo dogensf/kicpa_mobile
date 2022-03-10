@@ -1,7 +1,12 @@
 package adminwork.kicpa.cmm.comm.web;
 
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -307,6 +312,7 @@ public class KicpaCommController {
 		}
 
 	}
+
 
 
 	public String requestReplace (String paramValue, String gubun) {

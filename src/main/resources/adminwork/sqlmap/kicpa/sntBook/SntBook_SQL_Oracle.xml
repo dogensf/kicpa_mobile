@@ -453,6 +453,264 @@
 		call portal.edu_master_attend_01_add_proc(?, ?, ?, ?, ?,    ?, ?, ?, ?, ?,    ?  )
 	</procedure>
 
+	<insert id="SntBookDAO.insertOrder" parameterClass="Hashmap">
+<!-- 		INSERT INTO INT_ORDER  -->
+<!-- 		       (  -->
+<!-- 		           ORD_NO, -->
+<!-- 		           USER_ID, -->
+<!-- 		           USER_NAME, -->
+<!-- 		           PSL_ID, -->
+<!-- 		           POST_NO,  -->
+<!-- 		           ADDRESS, -->
+<!-- 		           TEL_NO, -->
+<!-- 		           HP_NO, -->
+<!-- 		           EMAIL, -->
+<!-- 		           RV_NAME,  -->
+<!-- 		           RV_POST_NO, -->
+<!-- 		           RV_ADDRESS, -->
+<!-- 		           RV_CPY_NAME, -->
+<!-- 		           RV_TEL_NO, -->
+<!-- 		           EMAIL_YN,  -->
+<!-- 		           GAM_YN, -->
+<!-- 		           GAM_ID, -->
+<!-- 		           CPY_ID, -->
+<!-- 		           ORD_DATE, -->
+<!-- 		           CAN_DATE,  -->
+<!-- 		           PAY_DATE, -->
+<!-- 		           IP, -->
+<!-- 		           PAY_CODE, -->
+<!-- 		           PAY_TOTAL_AMT, -->
+<!-- 		           BILL_YN,  -->
+<!-- 		           REC_BANK, -->
+<!-- 		           JOB_CODE, -->
+<!-- 		           REC_NAME, -->
+<!-- 		           PG_SNO, -->
+<!-- 		           PG_PAY_DATE,  -->
+<!-- 		           PG_CD_APRVNO, -->
+<!-- 		           REC_DATE, -->
+<!-- 		           SND_DATE, -->
+<!-- 		           IO_BILLSEQ, -->
+<!-- 		           RV_ADD1, -->
+<!--                    RV_ADD2, -->
+<!--                    RV_ADD3, -->
+<!--                    RV_ZIP, -->
+<!--                    BPM_NO, -->
+<!--                    PAY_TOTAL_AMT1  -->
+<!-- 		       )  -->
+<!-- 		       VALUES  -->
+<!-- 		       (  -->
+<!-- 		           #v_ord_no#, -->
+<!-- 		           #v_user_id#, -->
+<!-- 		           #v_user_name#, -->
+<!-- 		           #v_psl_id#, -->
+<!-- 		           #v_post_no#,  -->
+<!-- 		           #v_address#, -->
+<!-- 		           #v_tel_no#, -->
+<!-- 		           #v_hp_no#, -->
+<!-- 		           #v_email#, -->
+<!-- 		           #v_rv_name#,  -->
+<!-- 		           #v_rv_post_no#, -->
+<!-- 		           #v_rv_address#, -->
+<!-- 		           #v_rv_cpy_name#, -->
+<!-- 		           #v_rv_tel_no#, -->
+<!-- 		           #v_email_yn#,  -->
+<!-- 		           #v_gam_yn#, -->
+<!-- 		           #v_gam_id#, -->
+<!-- 		           #v_cpy_id#, -->
+<!-- 		           #v_ord_date#, -->
+<!-- 		           #v_can_date#,  -->
+<!-- 		           #v_pay_date#, -->
+<!-- 		           #v_ip#, -->
+<!-- 		           #v_pay_code#, -->
+<!-- 		           #v_pay_total_amt#, -->
+<!-- 		           #v_bill_yn#,  -->
+<!-- 		           #v_rec_bank#, -->
+<!-- 		           #v_job_code#, -->
+<!-- 		           #v_rec_name#, -->
+<!-- 		           #v_pg_sno#, -->
+<!-- 		           #v_pg_pay_date#,  -->
+<!-- 		           #v_pg_cd_aprvno#, -->
+<!-- 		           #v_rec_date#, -->
+<!-- 		           #v_snd_date#, -->
+<!-- 		           #v_billseq_num#, -->
+<!-- 		           #v_rv_add1#, -->
+<!--                    #v_rv_add2#, -->
+<!--                    #v_rv_add3#, -->
+<!--                    #v_rv_zip#, -->
+<!--                    #v_bpm_no#, -->
+<!--                    #v_pay_total_amt#  -->
+<!-- 		       ) -->
+		  INSERT INTO INT_ORDER
+		       (
+		           ORD_NO,
+		           USER_ID,
+		           USER_NAME,
+		           PSL_ID,
+		           POST_NO,
+		           ADDRESS,
+		           TEL_NO,
+		           HP_NO,
+		           EMAIL,
+		           RV_NAME,
+		           RV_POST_NO,
+		           RV_ADDRESS,
+		           RV_CPY_NAME,
+		           RV_TEL_NO,
+		           EMAIL_YN,
+		           GAM_YN,
+		           GAM_ID,
+		           CPY_ID,
+		           ORD_DATE,
+		           CAN_DATE,
+		           PAY_DATE,
+		           IP,
+		           PAY_CODE,
+		           PAY_TOTAL_AMT,
+		           BILL_YN,
+		           REC_BANK,
+		           JOB_CODE,
+		           REC_NAME,
+		           PG_SNO,
+		           PG_PAY_DATE,
+		           PG_CD_APRVNO,
+		           REC_DATE,
+		           SND_DATE,
+		           IO_BILLSEQ,
+		           RV_ADD1,
+                   RV_ADD2,
+                   RV_ADD3,
+                   RV_ZIP,
+                   BPM_NO,
+                   PAY_TOTAL_AMT1
+		       )
+		       VALUES
+		       (
+		           #ordNo#,
+		           #userId#,
+		           #recName#,
+		           #pslId#,
+		           #postNo#,
+		           #address#,
+		           #telNo#,
+		           #hpNo#,
+		           #email#,
+		           #rvName#,
+		           #rvZip#,
+		           #rvAddress#,
+		           #rvCpyName#,
+		           #rvTelNo#,
+		           #emailYn#,
+		           #gamYn#,
+		           #gamId#,
+		           #mtrcCompanyId#,
+		           TO_CHAR(SYSDATE,'YYYY-MM-DD HH24:MI:SS'),
+		           '',
+		           TO_CHAR(SYSDATE,'YYYY-MM-DD HH24:MI:SS'),
+		           #ip#,
+		           #payCode#,
+		           #payTotalAmt#,
+		           #cpyId#,
+		           #recBank#,
+		           3,
+		           #recName#,
+		           #pgSno#,
+		           #pgPayDate#,
+		           #pgCdAprvno#,
+		           TO_CHAR(SYSDATE,'YYYY-MM-DD HH24:MI:SS'),
+		           TO_CHAR(SYSDATE,'YYYY-MM-DD HH24:MI:SS'),
+		           #ioBillseq#,
+		           #rvAdd1#,
+                   #rvAdd2#,
+                   #rvAdd3#,
+                   #rvZip#,
+                   #bpmNo#,
+                   #payTotalAmt#
+		       )
+	</insert>
+
+
+	<insert id="SntBookDAO.insertOrderItem" parameterClass="Hashmap">
+<!-- 		INSERT INTO INT_ORDER_ITEM -->
+<!-- 		       ( -->
+<!-- 		           ORD_NO, -->
+<!-- 		           ORD_SEQ, -->
+<!-- 		           BOOK_DIV, -->
+<!-- 		           BOOK_CODE, -->
+<!-- 		           BOOK_NAME, -->
+<!-- 		           BOOK_CNT, -->
+<!-- 		           BOOK_AMT, -->
+<!-- 		           BGN_DATE, -->
+<!-- 		           END_DATE, -->
+<!-- 		           SALE_AMT, -->
+<!-- 		           DOWN_DATE, -->
+<!-- 		           JOB_SEP, -->
+<!-- 		           RCPT_NUM, -->
+<!-- 		           ACC_SEP, -->
+<!-- 		           CERTI_CODE, -->
+<!-- 		           CERTI_NAME -->
+<!-- 		       ) -->
+<!-- 		       VALUES -->
+<!-- 		       ( -->
+<!-- 		           #v_ord_no#, -->
+<!-- 		           #v_ord_seq#, -->
+<!-- 		           #v_book_div#, -->
+<!-- 		           #v_book_code#, -->
+<!-- 		           #v_book_name#, -->
+<!-- 		           #v_book_cnt#, -->
+<!-- 		           #v_book_amt#, -->
+<!-- 		           #v_bgn_date#, -->
+<!-- 		           #v_end_date#, -->
+<!-- 		           #v_sale_amt#, -->
+<!-- 		           #v_down_date#, -->
+<!-- 		           0, -->
+<!-- 		           #v_rcpt_num#, -->
+<!-- 		           0, -->
+<!-- 		           #v_certi_code#, -->
+<!-- 		           #v_certi_name# -->
+<!-- 		       ) -->
+
+
+		INSERT INTO INT_ORDER_ITEM
+		       (
+		           ORD_NO,
+		           ORD_SEQ,
+		           BOOK_DIV,
+		           BOOK_CODE,
+		           BOOK_NAME,
+		           BOOK_CNT,
+		           BOOK_AMT,
+		           BGN_DATE,
+		           END_DATE,
+		           SALE_AMT,
+		           DOWN_DATE,
+		           JOB_SEP,
+		           RCPT_NUM,
+		           ACC_SEP,
+		           CERTI_CODE,
+		           CERTI_NAME
+		       )
+		       VALUES
+		       (
+		           #ordNo#,
+		           (SELECT NVL(MAX(ORD_SEQ) ,1)+1 FROM INT_ORDER_ITEM WHERE ORD_NO = #ordNo#),
+		           #bookDiv#,
+		           #bookCode#,
+		           #bookName#,
+		           #bookCnt#,
+		           #bookAmt#,
+		           #bgnDate#,
+		           #endDate#,
+		           #saleAmt#,
+		           #downDate#,
+		           0,
+		           STY_BOOK_INPUT_NUM.NEXTVAL,
+		           0,
+		           #certiCode#,
+		           #certiName#
+		       )
+
+	</insert>
+
 
 
 

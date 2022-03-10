@@ -75,4 +75,10 @@ public class SntBookDAO extends EgovAbstractDAO{
 		return (List<EgovMap>) list("SntBookDAO.selectBookBuyHistoryOrderDetailList",map);
 	}
 
+	public int insertOrder(Map<String,Object> map) throws Exception {
+		return update("SntBookDAO.insertOrder",map);
+	}
+	public int insertOrderItem(Map<String,Object> map) throws Exception {
+		return update("SntBookDAO.insertOrderItem",map);
+	}
 }

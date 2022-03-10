@@ -1,7 +1,15 @@
 package adminwork.kicpa.sntBook.web;
 
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.math.BigInteger;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.security.MessageDigest;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,11 +32,16 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.ibm.icu.text.SimpleDateFormat;
+
+import adminwork.com.cmm.HttpUtil;
 import adminwork.com.cmm.LoginVO;
 import adminwork.com.cmm.StringUtil;
 import adminwork.kicpa.cmm.comm.service.KicpaCommService;
+import adminwork.kicpa.cmm.comm.web.KicpaCommController;
 import adminwork.kicpa.job.service.JobAdvertisementService;
 import adminwork.kicpa.sntBook.service.SntBookService;
+import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.fdl.security.userdetails.util.EgovUserDetailsHelper;
 import egovframework.rte.psl.dataaccess.util.EgovMap;
 
@@ -43,6 +56,9 @@ public class SntBookController {
 
 	@Resource(name = "kicpaCommService")
 	private KicpaCommService kicpaCommService;
+
+	@Resource(name = "propertiesService")
+	protected EgovPropertyService propertyService;
 
 
 	@RequestMapping(value = "/bookFormatList.do")
@@ -165,6 +181,39 @@ public class SntBookController {
 		}
 
 		return "kicpa/sntBook/offlineEduDetail";
+	}
+	@RequestMapping(value = "/cartOrderForm.do")
+	public String cartOrderForm(@RequestParam Map<String,Object> map,HttpServletRequest request,HttpServletResponse response,ModelMap model) throws Exception{
+
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		HttpSession session = request.getSession();
+		HashMap mapresult =  (HashMap) session.getAttribute("mapresult");
+		List<EgovMap> orderList=   (List<EgovMap>) session.getAttribute("orderList");
+		if(isAuthenticated || (mapresult != null && !mapresult.isEmpty())) {
+			if(orderList != null && !orderList.isEmpty()) {
+
+				long totalPay = 0;
+				for(EgovMap m : orderList) {
+					if(isAuthenticated) {
+						LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+						model.addAttribute("loginVO", user);
+					}
+					totalPay += (Long)m.get("saleAmt");
+				}
+
+
+				model.addAttribute("totalPay", totalPay);
+				model.addAttribute("mid",propertyService.getString("inicisMid"));
+				return "kicpa/sntBook/cartOrderForm";
+			}else {
+				return "kicpa/main/main";
+			}
+		}else {
+			return "kicpa/common/authLogin";
+		}
+
+
+//		model.addAttribute("oid", "kicpaorkr3_"+System.currentTimeMillis())
 	}
 
 	@RequestMapping(value = "/bookDetail.do")
@@ -318,10 +367,12 @@ public class SntBookController {
 
 			HttpSession session = request.getSession();
 
-			EgovMap userInfo =  (EgovMap) session.getAttribute("loginSession");
-			HashMap mapresult =  (HashMap) session.getAttribute("mapresult");
+			Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
 
-			if((userInfo != null && !userInfo.isEmpty()  )  || (mapresult != null && !mapresult.isEmpty()  ) ) {
+			if(isAuthenticated) {
+
+//			EgovMap userInfo =  (EgovMap) session.getAttribute("loginSession");
+//			HashMap mapresult =  (HashMap) session.getAttribute("mapresult");
 
 				if(map.get("ibmBookCode") instanceof String ) {
 					List list = new ArrayList<String>();
@@ -374,9 +425,9 @@ public class SntBookController {
 
 				}
 
-				modelAndView.addObject("loginFlag", true);
+				modelAndView.addObject("isLogin", true);
 			}else {
-				modelAndView.addObject("loginFlag", false);
+				modelAndView.addObject("isLogin", false);
 			}
 
 //			map.put("pslId", "5650320120323");
@@ -477,6 +528,204 @@ public class SntBookController {
 	}
 
 
+	@RequestMapping(value="/orderCartForm.do")
+	public ModelAndView orderCartForm(@RequestBody Map<String,Object> map, HttpServletRequest request) throws Exception{
+		ModelAndView modelAndView = new ModelAndView();
+
+		try{
+			modelAndView.setViewName("jsonView");
+			HttpSession session = request.getSession();
+			Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+			if(!"".equals(StringUtil.isNullToString(map.get("ibmBookCode")))) {
+
+				List<EgovMap> cartList = (List<EgovMap>) session.getAttribute("cartList");
+
+				if(cartList != null && !cartList.isEmpty() ) {
+					List<EgovMap> orderList = new ArrayList<EgovMap>();
+					for(EgovMap y : cartList ) {
+						String ibmBookCode = StringUtil.isNullToString(y.get("ibmBookCode"));
+						if(StringUtil.isNullToString(map.get("ibmBookCode")).indexOf(ibmBookCode) > -1 || "999999".equals(ibmBookCode)) {
+
+							if(isAuthenticated) {
+								y.put("ibmPrice", StringUtil.isNullToString(y.get("ibmPrice1"),"0"));
+								y.put("saleAmt",(Long.parseLong(StringUtil.isNullToString(y.get("ibmPrice1"),"0").replaceAll(",", "") ) * Integer.parseInt(StringUtil.isNullToString(y.get("cnt")))));
+
+							}else{
+								y.put("ibmPrice", StringUtil.isNullToString(y.get("ibmPrice2"),"0"));
+								y.put("saleAmt",(Long.parseLong(StringUtil.isNullToString(y.get("ibmPrice2"),"0").replaceAll(",", "") ) * Integer.parseInt(StringUtil.isNullToString(y.get("cnt")))));
+							}
+
+							orderList.add(y);
+						}
+					}
+
+
+					if(orderList.size() <= 1) {
+						modelAndView.addObject("result", "0003");
+					}else {
+						modelAndView.addObject("result", "0000");
+						session.setAttribute("orderList", orderList);
+					}
+
+				}else {
+					modelAndView.addObject("result", "0001");
+				}
+			}else {
+				modelAndView.addObject("result", "0002");
+			}
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return modelAndView;
+	}
+
+
+
+	@RequestMapping(value="/orderFormCheck.do")
+	public ModelAndView orderFormCheckdo(@RequestBody Map<String,Object> map, HttpServletRequest request) throws Exception{
+		ModelAndView modelAndView = new ModelAndView();
+
+		try{
+
+			modelAndView.setViewName("jsonView");
+			HttpSession session = request.getSession();
+//			List<EgovMap> cartList = (List<EgovMap>) session.getAttribute("cartList");
+			List<EgovMap> orderList=   (List<EgovMap>) session.getAttribute("orderList");
+			Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+			if(orderList != null && !orderList.isEmpty()) {
+				long totalPay = 0;
+				for(EgovMap m : orderList) {
+					totalPay += (Long)m.get("saleAmt");
+				}
+
+				System.out.println(map);
+				if(totalPay != Long.parseLong( StringUtil.isNullToString(map.get("P_AMT")))) {
+					modelAndView.addObject("result", "0002");
+				}else {
+					modelAndView.addObject("result", "0000");
+					modelAndView.addObject("oid",  propertyService.getString("inicisMid")+"_"+System.currentTimeMillis());
+					session.setAttribute("orderFrom", map);
+				}
+
+			}else {
+				modelAndView.addObject("result", "0001");
+			}
+
+
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return modelAndView;
+	}
+
+
+
+
+
+
+
+
+
+	@RequestMapping(value="/orderReponse.do")
+	public void orderReponse(@RequestParam Map<String,Object> map, HttpServletRequest request,HttpServletResponse response) throws Exception{
+		ModelAndView modelAndView = new ModelAndView();
+
+		Map<String,String> inicisMap = null;
+		try{
+			HttpSession session = request.getSession();
+
+			Map<String, Object> orderFrom = (Map<String, Object>) session.getAttribute("orderFrom");
+			List<EgovMap> orderList=   (List<EgovMap>) session.getAttribute("orderList");
+
+			//세션에 있는 form정보를 병합
+			orderFrom.forEach((key,value)-> map.merge(key, value, (v1,v2)->v2));
+
+			if("00".equals(map.get("P_STATUS"))) {
+
+				Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+				if(isAuthenticated) {
+					LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+					map.put("userId", user.getId());
+					map.put("rvName", user.getName());
+//				map.put("rvAddress", StringUtil.isNullToString(user.getAima_add1(),"") + " " + StringUtil.isNullToString(user.getAima_add2()) );
+					map.put("pslId","5650320120323");
+
+				}else {
+					map.put("userId", "Guest");
+				}
+
+				inicisMap =HttpUtil.inicisRequest(StringUtil.isNullToString(map.get("P_REQ_URL")), StringUtil.isNullToString(map.get("P_TID")), propertyService.getString("inicisMid"));
+
+				map.put("orderList", orderList);
+
+				if("BANK".equals(inicisMap.get("P_TYPE"))) {
+					map.put("recBank", inicisMap.get("P_FN_CD1"));
+				}
+				map.put("pgSno", inicisMap.get("P_TID"));
+				map.put("pgCdAprvno", inicisMap.get("P_AUTH_NO"));
+				map.put("pgPayDate", inicisMap.get("P_AUTH_DT"));
+				map.put("payTotalAmt",inicisMap.get("P_AMT"));
+				map.put("ip",request.getRemoteAddr());
+
+
+//				orderMap.put("v_bill_yn", "0");
+
+				if(!"".equals(StringUtil.isNullToString(map.get("telNo1"))) && !"".equals(StringUtil.isNullToString(map.get("telNo2"))) && !"".equals(StringUtil.isNullToString(map.get("telNo3"))) ) {
+					map.put("telNo", StringUtil.isNullToString(map.get("telNo1"))+"-"+StringUtil.isNullToString(map.get("telNo2"))+"-" +StringUtil.isNullToString(map.get("telNo3")));
+				}
+
+				if(!"".equals(StringUtil.isNullToString(map.get("hpNo1"))) && !"".equals(StringUtil.isNullToString(map.get("hpNo2"))) && !"".equals(StringUtil.isNullToString(map.get("hpNo3"))) ) {
+					map.put("hpNo", StringUtil.isNullToString(map.get("hpNo1"))+"-"+StringUtil.isNullToString(map.get("hpNo2"))+"-" +StringUtil.isNullToString(map.get("hpNo3")));
+				}
+
+
+				sntBookService.insertOrder(map);
+
+
+				response.setCharacterEncoding("UTF-8");
+	    		response.setContentType("text/html; charset=UTF-8");
+		        PrintWriter printWriter = response.getWriter();
+
+		        String script= "<script>";
+		        script += "alert('구매완료되었습니다.');";
+		        script += "location.href='/kicpa/sntBook/bookBuyHistoryList.do'";
+
+//		        script += "opener.location.reload();";
+//		        script += "window.close();";
+		        script += "</script>";
+
+		        printWriter.println(script);
+
+
+			}else {
+
+				response.setCharacterEncoding("UTF-8");
+	    		response.setContentType("text/html; charset=UTF-8");
+		        PrintWriter printWriter = response.getWriter();
+
+		        String script= "<script>";
+		        script += "alert('구매에 실패하였습니다.\n' "+map.get("P_RMESG1")+");";
+		        script += "location.href='/kicpa/sntBook/bookBuyHistoryList.do'";
+
+//		        script += "opener.location.reload();";
+//		        script += "window.close();";
+		        script += "</script>";
+
+		        printWriter.println(script);
+				modelAndView.addObject("msg", map.get("P_RMESG1"));
+			}
+		}catch (Exception e) {
+			if(inicisMap != null) {
+
+			//거래 취소요청
+				HttpUtil.inicisCancel("https://iniapi.inicis.com/api/v1/refund", request.getRemoteAddr(),inicisMap);
+			}
+			e.printStackTrace();
+		}
+
+	}
 
 
 

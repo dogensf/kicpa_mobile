@@ -137,5 +137,37 @@ public class SntBookServiceImpl extends EgovAbstractServiceImpl implements SntBo
 		}
 	}
 
+	@Override
+	public void insertOrder(Map<String, Object> map) throws Exception {
+		try {
+			List<EgovMap> orderList = (List<EgovMap>) map.get("orderList");
+
+			if(orderList != null && !orderList.isEmpty()) {
+				map.put("ordNo", System.currentTimeMillis());
+				sntBookDAO.insertOrder(map);
+				for(EgovMap egovMap : orderList ) {
+
+					map.put("bookDiv" , egovMap.get("bookDiv"));
+					map.put("bookCode" , egovMap.get("ibmBookCode"));
+					map.put("bookName" , egovMap.get("ibmBookName"));
+					map.put("bookCnt" , egovMap.get("cnt"));
+					map.put("bookAmt" , StringUtil.isNullToString(egovMap.get("ibmPrice")).replace(",", ""));
+					map.put("saleAmt" , egovMap.get("saleAmt"));
+					map.put("bgnDate" , egovMap.get("bgnDate"));
+					map.put("endDate" , egovMap.get("endDate"));
+					map.put("downDate" , egovMap.get("downDate"));
+					map.put("certiCode" , null);
+					map.put("certiName" , null);
+					sntBookDAO.insertOrderItem(map);
+				}
+
+			}
+		}catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+
+	}
+
 
 }
