@@ -231,6 +231,12 @@ sntBook.insertCartSuccess = function(data){
 
 
 sntBook.detailInit = function(){
+
+	$("#appBtn").on("click",function(){
+		var param = $("#boardForm").serializeObject();
+		fn_ajax_call("/kicpa/sntBook/getOfflineEduCheck.do",param,sntBook.getOfflineEduCheckSuccess,sntBook.boardListError);
+	});
+
 	$(".btn-board-togl").on("click",function(){
 		if($(this).hasClass("active")){
 			$(this).removeClass("active");
@@ -639,6 +645,23 @@ sntBook.insertSpecialLectureSuccess = function(data){
 		 alert("신청정보가 없습니다.\n\n다시한번 신청해 주시기 바랍니다.");
 	}
 
+
+}
+
+sntBook.getOfflineEduCheckSuccess = function(data){
+	var isEnable =data.isEnable;
+	var isLogin =data.isLogin;
+	if(isLogin){
+		if(isEnable){
+
+			location.href="/kicpa/sntBook/offlineEduForm.do?idNum=" + $("#idNum").val();
+		}else{
+			alert("수강신청인원이 초과되었습니다. 관리자에게 문의하세요.");
+		}
+	}else{
+		alert("로그인이 필요한 서비스입니다.");
+		location.href="/uat/uia/actionMain.do";
+	}
 
 }
 

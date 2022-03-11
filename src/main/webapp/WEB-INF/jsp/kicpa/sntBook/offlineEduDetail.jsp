@@ -12,7 +12,7 @@ function fncLocation(){
 }
 </script>
 <form id="boardForm" name="boardForm">
-	<input type="hidden" name="pageIndex" id="pageIndex" value="1">
+	<input type="hidden" name="idNum" id="idNum" value="${param.idNum }">
 </form>
 
 <section class="head-sub line">
@@ -147,7 +147,7 @@ function fncLocation(){
    	</div>
    	<c:if test="${detail.supotEdu ne '마감' }">
 	   	<div class="sticky-bottom">
-	        <button class="btn-sticky" id="appBtn" type="button">수강신청</button>
+	        <button class="btn-sticky" id="appBtn"  type="button">수강신청</button>
 	    </div>
    	</c:if>
 </section>

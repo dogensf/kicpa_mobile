@@ -216,6 +216,29 @@ public class SntBookController {
 //		model.addAttribute("oid", "kicpaorkr3_"+System.currentTimeMillis())
 	}
 
+	@RequestMapping(value = "/offlineEduForm.do")
+	public String offlineEduForm(@RequestParam Map<String,Object> map,HttpServletRequest request,HttpServletResponse response,ModelMap model) throws Exception{
+
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		HttpSession session = request.getSession();
+		HashMap mapresult =  (HashMap) session.getAttribute("mapresult");
+		if(isAuthenticated || (mapresult != null && !mapresult.isEmpty())) {
+
+			EgovMap detail = sntBookService.selectOfflineEduDetail(map);
+			if(detail != null) {
+				model.addAttribute("totalPay", StringUtil.isNullToString(detail.get("eduMny")).replace(",", "") );
+				model.addAttribute("detail", detail);
+				model.addAttribute("mid",propertyService.getString("inicisMid"));
+			}
+			return "kicpa/sntBook/offlineEduForm";
+		}else {
+			return "kicpa/common/authLogin";
+		}
+
+
+//		model.addAttribute("oid", "kicpaorkr3_"+System.currentTimeMillis())
+	}
+
 	@RequestMapping(value = "/bookDetail.do")
 	public String boardDetail(@RequestParam Map<String,Object> map,HttpServletRequest request,HttpServletResponse response,ModelMap model) throws Exception{
 
@@ -331,6 +354,37 @@ public class SntBookController {
 			}else {
 				modelAndView.addObject("isLogin", false);
 			}
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return modelAndView;
+	}
+
+	@RequestMapping(value="/getOfflineEduCheck.do")
+	public ModelAndView getOfflineEduChecks(@RequestBody Map<String,Object> map, HttpServletRequest request) throws Exception{
+		ModelAndView modelAndView = new ModelAndView();
+
+		try{
+			modelAndView.setViewName("jsonView");
+			Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+			if(isAuthenticated) {
+				EgovMap detail = sntBookService.selectOfflineEduDetail(map);
+				if(detail != null) {
+					if(Integer.parseInt(StringUtil.isNullToString(detail.get("billCount")))  < Integer.parseInt(StringUtil.isNullToString(detail.get("eduCount"))) ) {
+						modelAndView.addObject("isEnable", true);
+					}else {
+						modelAndView.addObject("isEnable", false);
+					}
+				}else {
+					modelAndView.addObject("isEnable", false);
+				}
+				modelAndView.addObject("isLogin", true);
+			}else {
+				modelAndView.addObject("isEnable", false);
+				modelAndView.addObject("isLogin", false);
+			}
+
 		}catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -683,7 +737,6 @@ public class SntBookController {
 
 				sntBookService.insertOrder(map);
 
-
 				response.setCharacterEncoding("UTF-8");
 	    		response.setContentType("text/html; charset=UTF-8");
 		        PrintWriter printWriter = response.getWriter();
@@ -697,6 +750,35 @@ public class SntBookController {
 		        script += "</script>";
 
 		        printWriter.println(script);
+
+		        //구매폼 , 구매목록 세션에서 삭제
+		        session.removeAttribute("orderFrom");
+		        session.removeAttribute("orderList");
+
+		        List<EgovMap> cartList = (List<EgovMap>) session.getAttribute("cartList");
+		        // 장바구니 삭제
+		        for(EgovMap y : orderList ) {
+					boolean flag = false;
+					EgovMap tempMap = null;
+						for(EgovMap x : cartList ) {
+						//같은상품이 존재하면 수량을 하나 올리고 조회내역에서 삭제
+						if(x.get("ibmBookCode").equals(y.get("ibmBookCode")) && !"999999".equals(y.get("ibmBookCode"))) {
+							flag = true;
+							tempMap = x;
+						}
+					}
+					if(flag) {
+						cartList.remove(tempMap);
+					}
+				}
+				if(cartList.size() == 1) {
+					session.removeAttribute("cartList");
+				}else {
+					session.setAttribute("cartList", cartList);
+				}
+
+
+
 
 
 			}else {

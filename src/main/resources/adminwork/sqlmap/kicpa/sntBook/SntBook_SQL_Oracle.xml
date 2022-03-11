@@ -253,7 +253,7 @@
 			       ) B
 		           ON A.EDU_CODE = B.BOOK_CODE
 		        WHERE A.USE = #accEduUse#
-	              AND A.EDU_TERM_TO > TO_CHAR(SYSDATE-1,'YYYY.MM.DD')
+<!-- 	              AND A.EDU_TERM_TO > TO_CHAR(SYSDATE-1,'YYYY.MM.DD') -->
 	            ORDER BY A.ORDER_NUM,A.ID_NUM
 		       ) ST1
 	</select>
