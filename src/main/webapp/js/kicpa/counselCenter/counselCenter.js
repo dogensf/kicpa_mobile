@@ -135,7 +135,7 @@ counselCenter.getBoardListSuccess = function(data){
 			$("#totalCnt").text(totalCnt+"건")
 			$.each(list,function(i,o){
 				txt+='<li> \n';
-				txt+='	<a href="/kicpa/counselCenter/declarationBoardDetail.do?arIdNum='+o.arIdNum+'" target="_blank"> \n';
+				txt+='	<a href="javascript:board.openDetailPop(\'/kicpa/counselCenter/declarationBoardDetail.do?arIdNum='+o.arIdNum+'\');"> \n';
 				txt+=' 		<div class="title-zone"> \n';
 
 				if(o.arUserId != null && o.arUserId != '' && o.arUserId != '-'){
@@ -195,7 +195,7 @@ counselCenter.getCounselBoardListSuccess = function(data){
 			$("#totalCnt").text(totalCnt+"건")
 			$.each(list,function(i,o){
 				txt+='<li> \n';
-				txt+='	<a href="/kicpa/counselCenter/counselBoardDetail.do?bltnNo='+o.bltnNo+'" target="_blank"> \n';
+				txt+='	<a href="javascript:board.openDetailPop(\'/kicpa/counselCenter/counselBoardDetail.do?bltnNo='+o.bltnNo+'\');"> \n';
 				txt+=' 		<div class="title-zone"> \n';
 				txt+=' 			<p>'+o.bltnSubj+'[' +o.bltnMemoCnt+']</p> \n';
 				txt+=' 	      	<div class="other"> \n';

@@ -410,7 +410,7 @@ sntBook.getBooFormatkListSuccess = function(data){
 		$("#totalCnt").text(totalCnt+"건")
 		$.each(list,function(i,o){
 			txt+='<li> \n';
-			txt+='	<a href="/kicpa/sntBook/bookFormatDetail.do?fileId='+o.fileId+'" target="_blank"> \n';
+			txt+='	<a href="javascript:board.openDetailPop(\'/kicpa/sntBook/bookFormatDetail.do?fileId='+o.fileId+'\');"> \n';
 			txt+=' 		<div class="title-zone"> \n';
 			txt+=' 			<p>'+o.fileTitle+'</p> \n';
 			txt+=' 	      	<div class="other"> \n';
@@ -561,7 +561,7 @@ sntBook.getOfflineEduListSuccess = function(data){
 			$("#totalCnt").text(list.length+"건");
 			$.each(list,function(i,o){
 				txt+='<li> \n';
-				txt+='	<a href="/kicpa/sntBook/offlineEduDetail.do?idNum='+o.idNum+'" target="_blank"> \n';
+				txt+='	<a href="javascript:board.openDetailPop(\'/kicpa/sntBook/offlineEduDetail.do?idNum='+o.idNum+'\');"> \n';
 				txt+=' 		<div class="title-zone"> \n';
 				txt+=' 			<p>'+o.wtitle+'</p> \n';
 				txt+=' 	      	<div class="other"> \n';
@@ -593,7 +593,7 @@ sntBook.getOfflineEduAppListSuccess = function(data){
 		$("#totalCnt").text(list.length+"건");
 		$.each(list,function(i,o){
 			txt+='<li> \n';
-			txt+='	<a href="/kicpa/sntBook/offlineEduDetail.do?idNum='+o.idNum+'" target="_blank"> \n';
+			txt+='	<a href="javascript:board.openDetailPop(\'/kicpa/sntBook/offlineEduDetail.do?idNum='+o.idNum+'\');"> \n';
 			txt+=' 		<div class="title-zone"> \n';
 			txt+=' 			<p>'+o.bookName+'</p> \n';
 			txt+=' 	      	<div class="other"> \n';

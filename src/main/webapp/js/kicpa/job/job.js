@@ -38,8 +38,12 @@ job.init = function(){
 	});
 
 
-	var param = $("#boardForm").serializeObject();
-	fn_ajax_call("/kicpa/job/getBoardList.do",param,job.boardListSuccess,job.boardListError);
+	if($("#ijJobSep").val() != 'jobInfoKicpa'){
+		var param = $("#boardForm").serializeObject();
+		fn_ajax_call("/kicpa/job/getBoardList.do",param,job.boardListSuccess,job.boardListError);
+	}else{
+		board.boardBoardListAjax();
+	}
 }
 
 job.detailInit = function(){
@@ -132,7 +136,7 @@ job.boardListSuccess = function(data){
 		$("#totalCnt").text(totalCnt+"건")
 		$.each(list,function(i,o){
 			txt+='<li> \n';
-			txt+='	<a href="/kicpa/job/boardDetail.do?boardId='+o.boardId+'" target="_blank"> \n';
+			txt+='	<a href="javascript:board.openDetailPop(\'/kicpa/job/boardDetail.do?boardId='+o.boardId+'\');"> \n';
 			txt+=' 		<div class="title-zone"> \n';
 			txt+=' 			<p>'+o.ijWtitle+'</p> \n';
 			txt+=' 	      	<div class="other"> \n';

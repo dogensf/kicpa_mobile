@@ -62,7 +62,8 @@ board.commonBoardListSuccess = function(data){
 				}
 
 				if(o.delFlag == 'N'){
-					txt+='	<a href="/kicpa/commonBoard/boardDetail.do?boardId='+o.boardId+'&bltnNo='+o.bltnNo+'" target="_blank"> \n';
+
+					txt+='	<a href="javascript:board.openDetailPop(\'/kicpa/commonBoard/boardDetail.do?boardId='+o.boardId+'&bltnNo='+o.bltnNo+'\');"> \n';
 					txt+=' 		<div class="title-zone"> \n';
 
 
@@ -162,7 +163,7 @@ board.commonBoardArrListSuccess = function(data){
 					txt+='<li> \n';
 				}
 
-				txt+='	<a href="/kicpa/commonBoard/boardDetail.do?boardId='+o.boardId+'&bltnNo='+o.bltnNo+'" target="_blank"> \n';
+				txt+='	<a href="javascript:board.openDetailPop(\'/kicpa/commonBoard/boardDetail.do?boardId='+o.boardId+'&bltnNo='+o.bltnNo+'\');"> \n';
 				txt+=' 		<div class="title-zone"> \n';
 				if(o.bltnIcon  == 'D'){
 					txt+=' 			<p class="lock">'+o.bltnSubj+'</p> \n';
@@ -237,6 +238,15 @@ board.searchTypeHtml = function(list,title,id){
 	$("#searchPop .inp-box:eq("+($('#searchPop .inp-box').length-2)+")").after(rowData);
 
 
+
+}
+
+board.openDetailPop = function(url,popId){
+	if(popId == null){
+		popId = "boardPop"
+	}
+
+	window.open(url,popId);
 
 }
 

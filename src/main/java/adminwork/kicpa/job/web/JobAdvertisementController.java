@@ -40,6 +40,7 @@ public class JobAdvertisementController {
 
 	@RequestMapping(value = "/boardList.do")
 	public String boardList(@RequestParam Map<String,Object> map,HttpServletRequest request,HttpServletResponse response,ModelMap model) throws Exception{
+
 		map.put("codeId", "COMP_TYP");
 		List<EgovMap> codeList = kicpaCommService.selectCodebaseList(map);
 

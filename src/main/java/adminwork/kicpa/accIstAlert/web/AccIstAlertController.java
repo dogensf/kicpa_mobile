@@ -98,6 +98,11 @@ public class AccIstAlertController {
 
 		return "kicpa/accIstAlert/organizationBoardList";
 	}
+	@RequestMapping(value = "/ethicsBoardList.do")
+	public String ethicsBoardList(@RequestParam Map<String,Object> map,HttpServletRequest request,HttpServletResponse response,ModelMap model) throws Exception{
+
+		return "kicpa/accIstAlert/ethicsBoardList";
+	}
 
 
 }

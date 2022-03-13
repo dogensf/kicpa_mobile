@@ -1,6 +1,7 @@
 package adminwork.kicpa.memberEvent.web;
 
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,6 +19,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.ibm.icu.text.SimpleDateFormat;
 
 import adminwork.com.cmm.LoginVO;
 import adminwork.com.cmm.StringUtil;
@@ -95,23 +98,33 @@ public class MemberEventController {
 				map.put("extStr1", "회원서비스센터");
 				map.put("bltnSubj", "[회계사번호] 이름 회계사님 " +StringUtil.isNullToString(map.get("relation"))+"별세" );
 
-				String bltnCntt = "이름(회계번호, 회계법인) 회원의 "+StringUtil.isNullToString(map.get("relation"))+"께서 작고하셨음을 알려드립니다.\n";
-				bltnCntt += "○ 작고일 : " + StringUtil.isNullToString(map.get("deaDate")) + "\n";
-				bltnCntt += "○ 빈  소 : " + StringUtil.isNullToString(map.get("mortuary")) + "\n";
-				bltnCntt += "☎ "+StringUtil.isNullToString(map.get("phoneNumber1"))+"-"+StringUtil.isNullToString(map.get("phoneNumber2"))+"-" +StringUtil.isNullToString(map.get("phoneNumber3")) + "\n";
-				bltnCntt += "○ 발인일 : " + StringUtil.isNullToString(map.get("burialDt")) + "\n";
+				SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+				Date d = format.parse(StringUtil.isNullToString(map.get("deaDate")));
+				SimpleDateFormat format2 = new SimpleDateFormat("yyyy년 MM월 dd일 ( E 요 일 )");
+				String deaDateFormat = format2.format(d);
+
+				d = format.parse(StringUtil.isNullToString(map.get("burialDt")));
+				format2 = new SimpleDateFormat("yyyy년 MM월 dd일 ( E 요 일 )");
+				String burialDtFormat = format2.format(d);
+//
+
+				String bltnCntt = "";
+				bltnCntt += "<p class=\"0\" style=\"line-height:200%;text-align:center;word-break:keep-all;mso-pagination:none;text-autospace:none;mso-padding-alt:0pt 0pt 0pt 0pt;letter-spacing:1.2pt;\" align=\"center\"><u><span style=\"font-family:궁서체;mso-fareast-font-family:궁서체;letter-spacing:1.2pt;font-size:24.0pt;\">부    고</span></u></p>\n";
+				bltnCntt += "<p></p><p></p>\n";
+				bltnCntt += "<p class=\"0\" style=\"text-align: center; line-height: 200%;\" align=\"center\"><span lang=\"EN-US\" style=\"mso-fareast-font-family:궁서체;letter-spacing:0.3pt;font-size:15.0pt;\">      </span><span style=\"font-family:궁서체;mso-fareast-font-family:궁서체;letter-spacing:0.3pt;font-size:15.0pt;\">"+user.getName()+"</span><span lang=\"EN-US\" style=\"mso-fareast-font-family:궁서체;letter-spacing:0.1pt;font-size:15.0pt;\"> </span><span lang=\"EN-US\" style=\"mso-fareast-font-family:궁서체;font-family:궁서체;mso-ascii-font-family:궁서체;mso-font-width:100%;letter-spacing:0.1pt;mso-text-raise:0pt;font-size:15.0pt;\">("+"회원번호"+", </span><span style=\"font-family:궁서체;mso-fareast-font-family:궁서체;letter-spacing:0.1pt;font-size:15.0pt;\">"+"회계법인명"+"</span><span lang=\"EN-US\" style=\"mso-fareast-font-family:궁서체;font-family:궁서체;mso-ascii-font-family:궁서체;mso-font-width:100%;letter-spacing:0.1pt;mso-text-raise:0pt;font-size:15.0pt;\">)</span><span style=\"font-family:궁서체;mso-fareast-font-family:궁서체;letter-spacing:0.1pt;font-size:15.0pt;\">회원의 </span></p>\n";
+				bltnCntt += "<p class=\"0\" style=\"text-align: center; line-height: 200%;\" align=\"center\"><span lang=\"EN-US\" style=\"mso-fareast-font-family:궁서체;letter-spacing:0.1pt;font-size:15.0pt;\">      </span><span style=\"font-family:궁서체;mso-fareast-font-family:궁서체;letter-spacing:0.1pt;font-size:15.0pt;\">"+StringUtil.isNullToString(map.get("relation"))+"께서 </span><span style=\"font-family:궁서체;mso-fareast-font-family:궁서체;letter-spacing:0.3pt;font-size:15.0pt;\">작고하셨음을 알려드립니다</span><span lang=\"EN-US\" style=\"mso-fareast-font-family:궁서체;font-family:궁서체;mso-ascii-font-family:궁서체;mso-font-width:100%;letter-spacing:0.3pt;mso-text-raise:0pt;font-size:15.0pt;\">.</span></p>\n";
+				bltnCntt += "<p></p>\n";
+				bltnCntt += "<p class=\"0\" style=\"text-align: center; line-height: 200%;\" align=\"center\"><span style=\"font-family:궁서체;mso-fareast-font-family:궁서체;mso-hansi-font-family:궁서체;mso-font-width:100%;letter-spacing:1.2pt;mso-text-raise:0pt;font-size:14.0pt;\">○ </span><span style=\"font-family:궁서체;mso-fareast-font-family:궁서체;letter-spacing:1.2pt;font-size:14.0pt;\">작고일 </span><span style=\"mso-fareast-font-family:궁서체;font-family:궁서체;mso-ascii-font-family:궁서체;mso-font-width:100%;letter-spacing:1.2pt;mso-text-raise:0pt;font-size:14.0pt;\">: "+deaDateFormat+"</span></p>\n";
+				bltnCntt += "<p class=\"0\" style=\"text-align: center; line-height: 200%;\" align=\"center\"><span style=\"font-family:궁서체;mso-fareast-font-family:궁서체;mso-hansi-font-family:궁서체;mso-font-width:100%;letter-spacing:1.2pt;mso-text-raise:0pt;font-size:14.0pt;\">○ </span><span style=\"font-family:궁서체;mso-fareast-font-family:궁서체;letter-spacing:1.2pt;font-size:14.0pt;\">빈  소  </span><span style=\"mso-fareast-font-family:궁서체;font-family:궁서체;mso-ascii-font-family:궁서체;mso-font-width:100%;letter-spacing:1.2pt;mso-text-raise:0pt;font-size:14.0pt;\">: "+StringUtil.isNullToString(map.get("mortuary"))+"</span></p>\n";
+				bltnCntt += "<p class=\"0\" style=\"text-align: center; line-height: 200%;\" align=\"center\"><span style=\"font-family:궁서체;mso-fareast-font-family:궁서체;mso-hansi-font-family:궁서체;mso-font-width:100%;letter-spacing:1.2pt;mso-text-raise:0pt;font-size:14.0pt;\">○ </span><span style=\"font-family:궁서체;mso-fareast-font-family:궁서체;letter-spacing:1.2pt;font-size:14.0pt;\">발인일 </span><span style=\"mso-fareast-font-family:궁서체;font-family:궁서체;mso-ascii-font-family:궁서체;mso-font-width:100%;letter-spacing:1.2pt;mso-text-raise:0pt;font-size:14.0pt;\">: "+burialDtFormat+"</span></p>\n";
 				map.put("bltnCntt", bltnCntt );
 
 
-				List<HashMap<String,Object>> fileList = null;
 
-				if(fileList != null && !fileList.isEmpty() ) {
-					map.put("bltnIcon", "B");
-					map.put("bltnFileCnt", fileList.size());
-				}else {
-					map.put("bltnIcon", "A");
-					map.put("bltnFileCnt", 0);
-				}
+
+
+				map.put("bltnIcon", "A");
+				map.put("bltnFileCnt", 0);
 
 
 				commonBoardService.insertCommonBoard(map);

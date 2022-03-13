@@ -18,7 +18,7 @@ function fncLocation(){
 	<input type="hidden" name="pageIndex" id="pageIndex" value="1">
 	<input type="hidden" name="ijCoSep" id="ijCoSep" value="1">
 	<input type="hidden" name="boardId" id="boardId" value="${param.boardId }">
-	<input type="hidden" name="ijJobSep" id="ijJobSep" value="1">
+	<input type="hidden" name="ijJobSep" id="ijJobSep" value="${param.ijJobSep}"">
 	<input type="hidden" name="loginYn" id="loginYn" value="">
 	<input type="hidden" name="searchKeyword" value="">
 

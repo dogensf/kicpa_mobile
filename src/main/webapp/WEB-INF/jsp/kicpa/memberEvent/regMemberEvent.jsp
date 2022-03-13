@@ -102,18 +102,18 @@ function fncLocation(){
                      <input type="date" id="burialDt" name="burialDt" data-placeholder="날짜를 선택하세요." required />
                  </div>
 
-               	<div class="inp-box">
-                     <label class="label" for="remark">비고</label>
-                     <input type="text" id="remark" name="remark" placeholder="입력하세요." />
-                 </div>
+<!--                	<div class="inp-box"> -->
+<!--                      <label class="label" for="remark">비고</label> -->
+<!--                      <input type="text" id="remark" name="remark" placeholder="입력하세요." /> -->
+<!--                  </div> -->
 
 
-                 <!-- 파일첨부 -->
-                 <div class="inp-box">
-                     <div class="label">파일첨부</div>
-                     <input type="file" id="file" name="file" />
-                     <label for="file">파일을 등록해 주세요</label>
-                 </div>
+<!--                  파일첨부 -->
+<!--                  <div class="inp-box"> -->
+<!--                      <div class="label">파일첨부</div> -->
+<!--                      <input type="file" id="file" name="file" /> -->
+<!--                      <label for="file">파일을 등록해 주세요</label> -->
+<!--                  </div> -->
 
 
 <!--                  <div class="b-area"> -->
