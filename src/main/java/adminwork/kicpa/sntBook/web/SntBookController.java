@@ -61,6 +61,12 @@ public class SntBookController {
 	protected EgovPropertyService propertyService;
 
 
+	@RequestMapping(value = "/sntBookCategory.do")
+	public String sntBookCategory(@RequestParam Map<String,Object> map,HttpServletRequest request,HttpServletResponse response,ModelMap model) throws Exception{
+
+		return "kicpa/sntBook/sntBookCategory";
+	}
+
 	@RequestMapping(value = "/bookFormatList.do")
 	public String bookFormatList(@RequestParam Map<String,Object> map,HttpServletRequest request,HttpServletResponse response,ModelMap model) throws Exception{
 
@@ -89,6 +95,8 @@ public class SntBookController {
 		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
 		model.addAttribute("isLogin", isAuthenticated);
 		model.addAttribute("title", "실무특강 리스트");
+
+		model.addAttribute("gbn", StringUtil.isNullToString(map.get("gbn"), "LISTPAGE2"));
 		if(isAuthenticated) {
 			return "kicpa/sntBook/specialLectureList";
 		}else {
@@ -102,6 +110,7 @@ public class SntBookController {
 		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
 		model.addAttribute("isLogin", isAuthenticated);
 		model.addAttribute("title", "집합연수");
+		model.addAttribute("accEduUse", StringUtil.isNullToString(map.get("accEduUse"), "1"));
 		if(isAuthenticated) {
 			return "kicpa/sntBook/offlineEduList";
 		}else {

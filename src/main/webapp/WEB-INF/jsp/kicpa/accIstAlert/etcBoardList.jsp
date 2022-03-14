@@ -10,7 +10,7 @@ $(document).ready(function(){
 });
 
 function fncLocation(){
-	location.href="/kicpa/main/main.do";
+	location.href="/kicpa/accIstAlert/accIstAlertCategory.do";
 }
 
 </script>
@@ -22,7 +22,7 @@ function fncLocation(){
 	  	<button class="btn-back" type="button" onclick="fncLocation();">
 	        <span>이전</span>
 	    </button>
-	    <h3>기타 수행업무지침</h3>
+	    <h3>금융투자업 업무수행지침</h3>
 	</section>
 	<section class="content">
 

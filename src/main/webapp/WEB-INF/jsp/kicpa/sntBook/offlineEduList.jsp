@@ -14,7 +14,7 @@ function fncLocation(){
 </script>
 <form id="boardForm" name="boardForm">
 	<input type="hidden" name="pageIndex" id="pageIndex" value="1">
-	<input type="hidden" name="accEduUse" id="accEduUse" value="1">
+	<input type="hidden" name="accEduUse" id="accEduUse" value="${accEduUse }">
 	<input type="hidden" name="loginYn" id="loginYn" value="Y">
 </form>
 <section class="head-sub">
@@ -26,10 +26,10 @@ function fncLocation(){
 <section class="content">
 
 	<div class="tab-main">
-	    <a class="tab-link active" href="javascript:void(0);" onclick="sntBook.offlineEduMainTabs(this,1)">
+	    <a class="tab-link <c:if test="${accEduUse eq '1'}">active</c:if>" href="javascript:void(0);" onclick="sntBook.offlineEduMainTabs(this,1)">
 	        <span>집합연수 리스트</span>
 	    </a>
-	    <a class="tab-link" href="javascript:void(0);" onclick="sntBook.offlineEduMainTabs(this,2)">
+	    <a class="tab-link <c:if test="${accEduUse eq '2'}">active</c:if>" href="javascript:void(0);" onclick="sntBook.offlineEduMainTabs(this,2)">
 	        <span>신청여부 리스트</span>
 	    </a>
 

@@ -18,7 +18,7 @@ function fncLocation(){
 	<input type="hidden" name="pageIndex" id="pageIndex" value="1">
 	<input type="hidden" name="ijCoSep" id="ijCoSep" value="1">
 	<input type="hidden" name="boardId" id="boardId" value="${param.boardId }">
-	<input type="hidden" name="ijJobSep" id="ijJobSep" value="${param.ijJobSep}"">
+	<input type="hidden" name="ijJobSep" id="ijJobSep" value="${param.ijJobSep}">
 	<input type="hidden" name="loginYn" id="loginYn" value="">
 	<input type="hidden" name="searchKeyword" value="">
 
@@ -29,17 +29,43 @@ function fncLocation(){
 	    <h3>구인정보</h3>
 	</section>
 	<section class="content">
-
 		<div class="tab-main">
-		    <a class="tab-link active" href="javascript:void(0);" onclick="job.menuChange(this,1)">
-		        <span>공인회계사</span>
-		    </a>
-		    <a class="tab-link" href="javascript:void(0);" onclick="job.menuChange(this,'')">
-		        <span>일반</span>
-		    </a>
-		    <a class="tab-link" href="javascript:void(0);" onclick="job.menuChange(this,'jobInfoKicpa')" >
-		        <span>공인회계사회</span>
-		    </a>
+			<c:choose>
+				<c:when test="${param.ijJobSep eq 1}">
+					<a class="tab-link active" href="javascript:void(0);" onclick="job.menuChange(this,1)">
+				        <span>공인회계사</span>
+				    </a>
+				    <a class="tab-link" href="javascript:void(0);" onclick="job.menuChange(this,'')">
+				        <span>일반</span>
+				    </a>
+				    <a class="tab-link" href="javascript:void(0);" onclick="job.menuChange(this,'jobInfoKicpa')" >
+				        <span>공인회계사회</span>
+				    </a>
+				</c:when>
+				<c:when test="${param.boardId eq 'jobInfoKicpa'}">
+					<a class="tab-link" href="javascript:void(0);" onclick="job.menuChange(this,1)">
+				        <span>공인회계사</span>
+				    </a>
+				    <a class="tab-link" href="javascript:void(0);" onclick="job.menuChange(this,'')">
+				        <span>일반</span>
+				    </a>
+				    <a class="tab-link active" href="javascript:void(0);" onclick="job.menuChange(this,'jobInfoKicpa')" >
+				        <span>공인회계사회</span>
+				    </a>
+				</c:when>
+				<c:otherwise>
+					<a class="tab-link" href="javascript:void(0);" onclick="job.menuChange(this,1)">
+				        <span>공인회계사</span>
+				    </a>
+				    <a class="tab-link active" href="javascript:void(0);" onclick="job.menuChange(this,'')">
+				        <span>일반</span>
+				    </a>
+				    <a class="tab-link" href="javascript:void(0);" onclick="job.menuChange(this,'jobInfoKicpa')" >
+				        <span>공인회계사회</span>
+				    </a>
+				</c:otherwise>
+
+			</c:choose>
 		</div>
 		<div id="tabMain1" class="tab-main-content show">
 		    <div class="search-box">

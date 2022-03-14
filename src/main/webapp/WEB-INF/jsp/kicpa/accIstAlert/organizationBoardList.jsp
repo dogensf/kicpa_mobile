@@ -10,7 +10,7 @@ $(document).ready(function(){
 });
 
 function fncLocation(){
-	location.href="/kicpa/main/main.do";
+	location.href="/kicpa/accIstAlert/accIstAlertCategory.do";
 }
 
 </script>

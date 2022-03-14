@@ -44,7 +44,7 @@ public class TaxNewsController {
 
 	@RequestMapping(value = "/boardList.do")
 	public String boardList(@RequestParam Map<String,Object> map,HttpServletRequest request,HttpServletResponse response,ModelMap model) throws Exception{
-
+		model.addAttribute("boardId", StringUtil.isNullToString(map.get("boardId"),"taxinfo02"));
 		return "kicpa/taxNews/boardList";
 	}
 

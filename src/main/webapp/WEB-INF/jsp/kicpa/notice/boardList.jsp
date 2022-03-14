@@ -17,7 +17,7 @@ function fncLocation(){
 
 <form id="boardForm" name="boardForm">
 	<input type="hidden" name="pageIndex" id="pageIndex" value="1">
-	<input type="hidden" name="boardId" id="boardId" value="noti">
+	<input type="hidden" name="boardId" id="boardId" value="${boardId }">
 
 	<section class="head-sub">
 	  	<button class="btn-back" type="button" onclick="fncLocation();">
@@ -26,18 +26,53 @@ function fncLocation(){
 	    <h3>알림마당</h3>
 	</section>
 	<section class="content">
-
 		<div class="tab-main">
-		    <a class="tab-link active" href="javascript:void(0);" onclick="notice.menuChange(this,'noti')">
-		        <span>공지사항</span>
-		    </a>
-		    <a class="tab-link" href="javascript:void(0);" onclick="notice.menuChange(this,'NEWS')">
-		        <span>주요기사(Newsclips)</span>
-		    </a>
-
-		    <a class="tab-link" href="javascript:void(0);" onclick="notice.menuChange(this,'intl04/intl05/intl06/intl07/intl08/rpnofin05')">
-		        <span>국제동향</span>
-		    </a>
+			<c:choose>
+				<c:when test="${boardId eq 'noti' }">
+				    <a class="tab-link active" href="javascript:void(0);" onclick="notice.menuChange(this,'noti')">
+				        <span>공지사항</span>
+				    </a>
+				    <a class="tab-link" href="javascript:void(0);" onclick="notice.menuChange(this,'NEWS')">
+				        <span>주요기사(Newsclips)</span>
+				    </a>
+				    <a class="tab-link" href="javascript:void(0);" onclick="notice.menuChange(this,'intl04/intl05/intl06/intl07/intl08/rpnofin05')">
+				        <span>국제동향</span>
+				    </a>
+				</c:when>
+				<c:when test="${boardId eq 'NEWS' }">
+				 	<a class="tab-link" href="javascript:void(0);" onclick="notice.menuChange(this,'noti')">
+				        <span>공지사항</span>
+				    </a>
+				    <a class="tab-link active" href="javascript:void(0);" onclick="notice.menuChange(this,'NEWS')">
+				        <span>주요기사(Newsclips)</span>
+				    </a>
+				    <a class="tab-link" href="javascript:void(0);" onclick="notice.menuChange(this,'intl04/intl05/intl06/intl07/intl08/rpnofin05')">
+				        <span>국제동향</span>
+				    </a>
+				</c:when>
+				<c:when test="${boardId eq 'intl04/intl05/intl06/intl07/intl08/rpnofin05' }">
+					<a class="tab-link" href="javascript:void(0);" onclick="notice.menuChange(this,'noti')">
+				        <span>공지사항</span>
+				    </a>
+				    <a class="tab-link" href="javascript:void(0);" onclick="notice.menuChange(this,'NEWS')">
+				        <span>주요기사(Newsclips)</span>
+				    </a>
+				    <a class="tab-link active" href="javascript:void(0);" onclick="notice.menuChange(this,'intl04/intl05/intl06/intl07/intl08/rpnofin05')">
+				        <span>국제동향</span>
+				    </a>
+				</c:when>
+				<c:otherwise>
+					<a class="tab-link" href="javascript:void(0);" onclick="notice.menuChange(this,'noti')">
+				        <span>공지사항</span>
+				    </a>
+				    <a class="tab-link" href="javascript:void(0);" onclick="notice.menuChange(this,'NEWS')">
+				        <span>주요기사(Newsclips)</span>
+				    </a>
+				    <a class="tab-link" href="javascript:void(0);" onclick="notice.menuChange(this,'intl04/intl05/intl06/intl07/intl08/rpnofin05')">
+				        <span>국제동향</span>
+				    </a>
+				</c:otherwise>
+			</c:choose>
 		</div>
 
 		<div id="tabMain1" class="tab-main-content show">

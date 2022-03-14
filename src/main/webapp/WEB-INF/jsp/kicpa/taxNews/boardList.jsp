@@ -17,7 +17,7 @@ function fncLocation(){
 
 <form id="boardForm" name="boardForm">
 	<input type="hidden" name="pageIndex" id="pageIndex" value="1">
-	<input type="hidden" name="boardId" id="boardId" value="taxinfo02">
+	<input type="hidden" name="boardId" id="boardId" value="${boardId }">
 	<input type="hidden" name="loginYn" id="loginYn" value="N">
 
 	<section class="head-sub">
@@ -28,14 +28,14 @@ function fncLocation(){
 	</section>
 	<section class="content">
 		<div class="tab-main">
-		    <a class="tab-link active" href="javascript:void(0);" onclick="taxNews.menuChange(this,'taxinfo02')">
+		    <a class="tab-link <c:if test="${boardId eq 'taxinfo02' }">active</c:if>" href="javascript:void(0);" onclick="taxNews.menuChange(this,'taxinfo02')">
 		        <span>세무안내</span>
 		    </a>
-		    <a class="tab-link" href="javascript:void(0);" onclick="taxNews.menuChange(this,'taxinfo06')">
+		    <a class="tab-link <c:if test="${boardId eq 'taxinfo06' }">active</c:if>" href="javascript:void(0);" onclick="taxNews.menuChange(this,'taxinfo06')">
 		        <span>세무자료,실무가이드</span>
 		    </a>
 
-		    <a class="tab-link" href="javascript:void(0);" onclick="taxNews.menuChange(this,'taxinfo09')">
+		    <a class="tab-link <c:if test="${boardId eq 'taxinfo09' }">active</c:if>" href="javascript:void(0);" onclick="taxNews.menuChange(this,'taxinfo09')">
 		        <span>실무쟁점,예규판례등</span>
 		    </a>
 		</div>

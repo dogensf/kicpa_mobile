@@ -38,7 +38,7 @@ job.init = function(){
 	});
 
 
-	if($("#ijJobSep").val() != 'jobInfoKicpa'){
+	if($("#boardId").val() != 'jobInfoKicpa'){
 		var param = $("#boardForm").serializeObject();
 		fn_ajax_call("/kicpa/job/getBoardList.do",param,job.boardListSuccess,job.boardListError);
 	}else{

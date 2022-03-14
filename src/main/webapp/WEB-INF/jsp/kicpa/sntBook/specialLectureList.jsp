@@ -14,7 +14,7 @@ function fncLocation(){
 </script>
 <form id="boardForm" name="boardForm">
 	<input type="hidden" name="pageIndex" id="pageIndex" value="1">
-	<input type="hidden" name="gbn" id="gbn" value="LISTPAGE2">
+	<input type="hidden" name="gbn" id="gbn" value="${gbn }">
 	<input type="hidden" name="loginYn" id="loginYn" value="Y">
 
 	<section class="head-sub">
@@ -27,10 +27,10 @@ function fncLocation(){
 
 
 		<div class="tab-main">
-		    <a class="tab-link active" href="javascript:void(0);" onclick="sntBook.specialLectureChange(this,'LISTPAGE2');">
+		    <a class="tab-link <c:if test="${gbn eq 'LISTPAGE2'}">active</c:if>" href="javascript:void(0);" onclick="sntBook.specialLectureChange(this,'LISTPAGE2');">
 		        <span>수강신청</span>
 		    </a>
-		    <a class="tab-link" href="javascript:void(0);" onclick="sntBook.specialLectureChange(this,'LISTPAGE3');">
+		    <a class="tab-link <c:if test="${gbn eq 'LISTPAGE3'}">active</c:if>" href="javascript:void(0);" onclick="sntBook.specialLectureChange(this,'LISTPAGE3');">
 		        <span>신청내역</span>
 		    </a>
 		</div>

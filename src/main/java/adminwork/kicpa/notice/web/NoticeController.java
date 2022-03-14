@@ -40,7 +40,7 @@ public class NoticeController {
 
 	@RequestMapping(value = "/boardList.do")
 	public String boardList(@RequestParam Map<String,Object> map,HttpServletRequest request,HttpServletResponse response,ModelMap model) throws Exception{
-
+		model.addAttribute("boardId", StringUtil.isNullToString(map.get("boardId"),"noti"));
 		return "kicpa/notice/boardList";
 	}
 

@@ -14,28 +14,17 @@ function fncLocation(){
 }
 
 </script>
-
 <form id="boardForm" name="boardForm">
 	<input type="hidden" name="pageIndex" id="pageIndex" value="1">
-	<input type="hidden" name="boardId" id="boardId" value="acc0801">
+	<input type="hidden" name="boardId" id="boardId" value="accstd02">
 
 	<section class="head-sub">
-		<button class="btn-back" type="button" onclick="fncLocation();">
+	  	<button class="btn-back" type="button" onclick="fncLocation();">
 	        <span>이전</span>
 	    </button>
-	    <h3>내부회계관리제도 검토기준</h3>
+	    <h3>IFRS 실무사례</h3>
 	</section>
 	<section class="content">
-
-		<div class="tab-main">
-		    <a class="tab-link active" href="javascript:void(0);" onclick="accIstAlert.menuChange(this,'acc0801')">
-		        <span>내부회계관리제도 검토기준</span>
-		    </a>
-		    <a class="tab-link" href="javascript:void(0);" onclick="accIstAlert.menuChange(this,'acc0802')">
-		        <span>내부회계관리제도 검토기준 적용지침</span>
-		    </a>
-
-		</div>
 
 		<div id="tabMain1" class="tab-main-content show">
 		    <div class="search-box">

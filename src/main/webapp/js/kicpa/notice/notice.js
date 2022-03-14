@@ -25,7 +25,13 @@ notice.boardListInit = function(){
 		}
 	});
 
-	board.boardBoardListAjax();
+	if($("#boardId").val() == 'NEWS'){
+		flag = false;
+		var param = $("#boardForm").serializeObject();
+		fn_ajax_call("/kicpa/notice/getNewsList.do",param,notice.getNewsListSuccess,notice.boardListError);
+	}else{
+		board.boardBoardListAjax();
+	}
 
 }
 

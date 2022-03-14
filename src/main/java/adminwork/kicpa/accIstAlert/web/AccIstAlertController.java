@@ -40,6 +40,11 @@ public class AccIstAlertController {
 	CommonBoardService commonBoardService;
 
 
+	@RequestMapping(value = "/accIstAlertCategory.do")
+	public String accIstAlertCategory(@RequestParam Map<String,Object> map,HttpServletRequest request,HttpServletResponse response,ModelMap model) throws Exception{
+
+		return "kicpa/accIstAlert/accIstAlertCategory";
+	}
 	@RequestMapping(value = "/accIstBoardList.do")
 	public String accIstBoardList(@RequestParam Map<String,Object> map,HttpServletRequest request,HttpServletResponse response,ModelMap model) throws Exception{
 
@@ -102,6 +107,16 @@ public class AccIstAlertController {
 	public String ethicsBoardList(@RequestParam Map<String,Object> map,HttpServletRequest request,HttpServletResponse response,ModelMap model) throws Exception{
 
 		return "kicpa/accIstAlert/ethicsBoardList";
+	}
+	@RequestMapping(value = "/contributeBoardList.do")
+	public String contributeBoardList(@RequestParam Map<String,Object> map,HttpServletRequest request,HttpServletResponse response,ModelMap model) throws Exception{
+
+		return "kicpa/accIstAlert/contributeBoardList";
+	}
+	@RequestMapping(value = "/ifrsBoardList.do")
+	public String ifrsBoardList(@RequestParam Map<String,Object> map,HttpServletRequest request,HttpServletResponse response,ModelMap model) throws Exception{
+
+		return "kicpa/accIstAlert/ifrsBoardList";
 	}
 
 
