@@ -44,13 +44,13 @@
 			        </button>
 	     	 	</div>
 	    	</div>
-	    <div class="swiper-slide">
-			<div>
-	        	<button class="add" type="button">
-	       			   추가
-	       		</button>
-	      	</div>
-    	</div>
+		    <div class="swiper-slide">
+				<div>
+		        	<button class="add" type="button">
+		       			   추가
+		       		</button>
+		      	</div>
+	    	</div>
 	</div>
   	<div class="swiper-pagination"></div>
 	</div>
