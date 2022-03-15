@@ -1,6 +1,7 @@
 package adminwork.kicpa.cmm.board.web;
 
 
+import java.io.File;
 import java.util.List;
 import java.util.Map;
 
@@ -17,6 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import adminwork.com.cmm.LoginVO;
 import adminwork.com.cmm.StringUtil;
+import adminwork.com.cmm.service.FileMngUtil;
 import adminwork.kicpa.cmm.board.service.CommonBoardService;
 import adminwork.kicpa.job.service.JobAdvertisementService;
 import egovframework.rte.fdl.security.userdetails.util.EgovUserDetailsHelper;
@@ -29,6 +31,9 @@ public class CommonBoardController {
 
 	@Resource(name = "commonBoardService")
 	private CommonBoardService commonBoardService;
+
+	@Resource(name = "FileMngUtil")
+	private FileMngUtil fileUtil;
 
 
 	@RequestMapping(value = "/boardDetail.do")
@@ -209,6 +214,48 @@ public class CommonBoardController {
 
         return modelAndView;
     }
+
+
+
+
+	@RequestMapping(value="/boardFileDownload.do")
+	public void boardFileDownload(@RequestParam Map<String,Object> map, HttpServletRequest request,HttpServletResponse response) throws Exception{
+		ModelAndView modelAndView = new ModelAndView();
+
+		try{
+
+			EgovMap boardDetail = null;
+
+			Map<String,Object> boardMaster = commonBoardService.selectBoardMaster(map);
+
+			//param를 boardmaster맵으로 merge
+//			map.forEach((key,value)-> boardMaster.merge(key, value, (v1,v2)->v2));
+
+			EgovMap fileDetail = null;
+
+			if("Y".equals(boardMaster.get("owntblYn")) && "CAFE".equals(boardMaster.get("owntblFix"))) {
+
+				fileDetail = commonBoardService.selectCommonCateBoardFileDetail(map);
+				commonBoardService.updateCommonCafeBoardFileDownCnt(map);
+			}else {
+				fileDetail = commonBoardService.selectCommonBoardFileDetail(map);
+				commonBoardService.updateCommonBoardFileDownCnt(map);
+			}
+
+//			String path = "https://www.kicpa.or.kr"+File.separator+"upload"+File.separator+"board"+File.separator+"attach"+File.separator+fileDetail.get("boardId")+File.separator+fileDetail.get("fileMask");
+			String path = request.getSession().getServletContext().getRealPath("")+ File.separator+"upload"+File.separator+"board"+File.separator+"attach"+File.separator+fileDetail.get("boardId")+"/"+fileDetail.get("fileMask");
+			fileUtil.downFile(response,path , String.valueOf(map.get("fileNm")));
+
+
+
+//	        StringUtil.checkMapReplaceHtml(boardDetail);
+
+
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
 
 
 

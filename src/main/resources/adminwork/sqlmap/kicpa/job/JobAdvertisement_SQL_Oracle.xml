@@ -47,8 +47,8 @@
 	        	IJ_MENU_CODE = '001'
 	        	AND
 	        	((IJ_USE <![CDATA[ <> ]]> 0 AND IJ_INT_ID = #ijIntId#) OR IJ_USE = 1)
-	        	AND
-				TO_CHAR(IJ_WDATE,'YYYYMMDD') BETWEEN  TO_CHAR(ADD_MONTHS(SYSDATE,-2), 'YYYYMMDD') AND TO_CHAR(SYSDATE,'YYYYMMDD')
+<!-- 	        	AND -->
+<!-- 				TO_CHAR(IJ_WDATE,'YYYYMMDD') BETWEEN  TO_CHAR(ADD_MONTHS(SYSDATE,-2), 'YYYYMMDD') AND TO_CHAR(SYSDATE,'YYYYMMDD') -->
 	        	<isNotNull property="ijJobSep">
 	        		<isNotEmpty property="ijJobSep">
 			        	AND

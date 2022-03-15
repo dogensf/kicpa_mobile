@@ -241,6 +241,11 @@ board.searchTypeHtml = function(list,title,id){
 
 }
 
+board.fileDownload = function(fileSeq){
+	$("#boardForm input[name='fileSeq']").val(fileSeq);
+	$("#boardForm").attr("action","/kicpa/commonBoard/boardFileDownload.do").submit();
+}
+
 board.openDetailPop = function(url,popId){
 	if(popId == null){
 		popId = "boardPop"

@@ -192,6 +192,26 @@ public class CommonBoardServiceImpl extends EgovAbstractServiceImpl implements C
 
 	}
 
+	@Override
+	public EgovMap selectCommonBoardFileDetail(Map<String, Object> map) throws Exception {
+		return commonBoardDAO.selectCommonBoardFileDetail(map);
+	}
+
+	@Override
+	public EgovMap selectCommonCateBoardFileDetail(Map<String, Object> map) throws Exception {
+		return commonBoardDAO.selectCommonCateBoardFileDetail(map);
+	}
+
+	@Override
+	public int updateCommonBoardFileDownCnt(Map<String, Object> map) throws Exception {
+		return commonBoardDAO.updateCommonBoardFileDownCnt(map);
+	}
+
+	@Override
+	public int updateCommonCafeBoardFileDownCnt(Map<String, Object> map) throws Exception {
+		return commonBoardDAO.updateCommonCafeBoardFileDownCnt(map);
+	}
+
 
 
 

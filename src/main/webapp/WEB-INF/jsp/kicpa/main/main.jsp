@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@ taglib prefix='c' uri='http://java.sun.com/jsp/jstl/core' %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
-
+<script src="/js/kicpa/board/board.js"></script>
+<script src="/js/kicpa/main/main.js"></script>
 <section class="bookmark-wrap">
 	<div class="title-box">
 		<h2>My 즐겨찾기</h2>
@@ -57,6 +58,11 @@
 </section>
 
 <section class="content">
+	<form id="boardForm" name="boardForm">
+		<input type="hidden" name="boardId" id="boardId">
+		<input type="hidden" name="ijJobSep">
+
+	</form>
 <!-- KICPA 알림마당 게시판 -->
 	<div class="title-box">
 	  <h3>KICPA 알림마당</h3>
@@ -64,37 +70,51 @@
 	</div>
 
 	<div class="cont">
-		<div class="tab-sub">
+		<div class="tab-sub noticeTab">
 		    <ul>
 		        <li class="active">
-		            <a href="#">공지사항</a>
+		            <a href="javascript:void(0);" onclick="main.changeBoardId(this,'noti');" >공지사항</a>
 		        </li>
 		        <li>
-		            <a href="#">주요 기사 (Newsaclips)</a>
+		            <a href="javascript:void(0);" onclick="main.changeBoardId(this,'NEWS');">주요 기사 (Newsaclips)</a>
 		        </li>
 		        <li>
-		            <a href="#">국제동향</a>
+		            <a href="javascript:void(0);" onclick="main.changeBoardId(this,'intl04/intl05/intl06/intl07/intl08/rpnofin05');">국제동향</a>
 		        </li>
 		    </ul>
 	  	</div>
 		<div class="tab-sub-content show">
-		    <div class="board-list">
+		    <div class="board-list noticeList">
 				<ul>
-					<li>
-						<a href="#">
-							<div class="title-zone">
-							    <p>다산회계법인 4본부 경력회계사님을 모십니다.</p>
-							    <div class="other">
-							        <span class="ico-file"></span>
-							    </div>
-							</div>
-							<div class="info-zone">
-							    <span>2021.12.14</span>
-							    <span>다산회계법인</span>
-							    <span>조회 16</span>
-							</div>
-						</a>
-					</li>
+					<c:if test="${boardList ne null and fn:length(boardList) > 0 }">
+						<c:forEach items="${boardList }" var="board" varStatus="index">
+							<li>
+								<a href="javascript:board.openDetailPop('/kicpa/commonBoard/boardDetail.do?boardId=${board.boardId}&bltnNo=${board.bltnNo}');">
+									<div class="title-zone">
+									    <p>${board.bltnSubj }</p>
+									    <div class="other">
+										    <c:choose>
+										    	<c:when test="${board.bltnTopTag ne 'N' }">
+											        <span class="ico-bell"></span>
+										    	</c:when>
+										    	<c:when test="${board.fileCnt > 0 }">
+											        <span class="ico-file"></span>
+										    	</c:when>
+										    	<c:otherwise>
+										    		<span class="ico-arrow"></span>
+										    	</c:otherwise>
+										    </c:choose>
+									    </div>
+									</div>
+								    <div class="info-zone">
+							            <span>${board.regDatim }</span>
+							            <span>${board.extStr1 }</span>
+							            <span>조회 ${board.bltnReadCnt }</span>
+							        </div>
+								</a>
+							</li>
+						</c:forEach>
+					</c:if>
 				</ul>
 			</div>
 		</div>
@@ -103,41 +123,48 @@
 <!-- KICPA 구인정보 게시판 -->
 	<div class="title-box">
 		<h3>KICPA 구인정보</h3>
-		<button type="button" class="btn-detail">상세보기</button>
+		<button type="button" onclick="location.href='/kicpa/job/boardList.do?ijJobSep=1'" class="btn-detail">상세보기</button>
 	</div>
 
 	<div class="cont">
-		<div class="tab-sub">
+		<div class="tab-sub jobTab">
 			<ul>
 			    <li class="active">
-			        <a href="#">공인회계사</a>
+			        <a href="javascript:void(0);" onclick="main.jobChange(this,'1');">공인회계사</a>
 			    </li>
 			    <li>
-			        <a href="#">일반</a>
+			        <a href="javascript:void(0);" onclick="main.jobChange(this,'');">일반</a>
 			    </li>
-			    <li>
-			        <a href="#">한국공인회계사회</a>
-			    </li>
+			    <c:if test="${isLogin eq true }">
+				    <li>
+				        <a href="javascript:void(0);" onclick="main.jobChange(this,'jobInfoKicpa');">한국공인회계사회</a>
+				    </li>
+			    </c:if>
 			</ul>
 		</div>
 		<div class="tab-sub-content show">
-			<div class="board-list">
+			<div class="board-list jobList">
 				<ul>
-					<li>
-					    <a href="#">
-					        <div class="title-zone">
-					            <p>다산회계법인 4본부 경력회계사님을 모십니다.</p>
-					            <div class="other">
-					                <span class="state">다섯글자씩</span>
-					            </div>
-					        </div>
-					        <div class="info-zone">
-					            <span>2021.12.14</span>
-					            <span>다산회계법인</span>
-					            <span>조회 16</span>
-					        </div>
-					    </a>
-					</li>
+					<c:if test="${jobBoardList ne null and fn:length(jobBoardList) > 0 }">
+						<c:forEach items="${jobBoardList }" var="board" varStatus="index">
+
+							<li>
+								<a href="javascript:board.openDetailPop('/kicpa/job/boardDetail.do?boardId=${board.boardId}');">
+									<div class="title-zone">
+									    <p>${board.ijWtitle }</p>
+									    <div class="other">
+								    		<span class="state">${board.jobName }</span>
+									    </div>
+									</div>
+								    <div class="info-zone">
+							            <span>${board.ijWdate }</span>
+							            <span>${board.ijCoName }</span>
+							            <span>조회 ${board.ijRecount }</span>
+							        </div>
+								</a>
+							</li>
+						</c:forEach>
+					</c:if>
 				</ul>
 			</div>
 		</div>

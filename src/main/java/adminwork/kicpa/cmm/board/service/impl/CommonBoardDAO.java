@@ -109,5 +109,22 @@ public class CommonBoardDAO extends EgovAbstractDAO{
 	public int insertCommonBoardExtn(Map<String, Object> map) throws Exception {
 		return (int) update("KicpaCommBoardDAO.insertCommonBoardExtn",map);
 	}
+
+	public EgovMap selectCommonBoardFileDetail(Map<String, Object> map) throws Exception {
+		return (EgovMap) select("KicpaCommBoardDAO.selectCommonBoardFileDetail",map);
+	}
+	public EgovMap selectCommonCateBoardFileDetail(Map<String, Object> map) throws Exception {
+		return (EgovMap) select("KicpaCommBoardDAO.selectCommonCateBoardFileDetail",map);
+	}
+
+	public int updateCommonBoardFileDownCnt(Map<String, Object> map) throws Exception {
+		return update("KicpaCommBoardDAO.updateCommonBoardFileDownCnt",map);
+	}
+
+	public int updateCommonCafeBoardFileDownCnt(Map<String, Object> map) throws Exception {
+		return update("KicpaCommBoardDAO.updateCommonCafeBoardFileDownCnt",map);
+	}
+
+
 }
 

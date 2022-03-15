@@ -187,7 +187,7 @@ function fncLocation(){
 
 				    <div class="inp-box">
 	                    <div class="label">파일첨부</div>
-	                    <input type="file" id="file" name="file" />
+	                    <input type="file" id="file" name="arFile" />
 	                    <label for="file">파일을 등록해 주세요</label>
 	                </div>
 
