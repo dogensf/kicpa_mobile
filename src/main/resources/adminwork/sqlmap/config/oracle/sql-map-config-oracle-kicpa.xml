@@ -9,6 +9,10 @@
     <sqlMap resource="adminwork/sqlmap/kicpa/sntBook/SntBook_SQL_Oracle.xml"/>
     <sqlMap resource="adminwork/sqlmap/kicpa/cmm/comm/KicpaComm_SQL_Oracle.xml"/>
     <sqlMap resource="adminwork/sqlmap/kicpa/cmm/board/KicpaCommBoard_SQL_Oracle.xml"/>
+    
+    <sqlMap resource="adminwork/sqlmap/kicpa/api/Api_SQL_Oracle.xml"/>
+    
+    
 <!--     <sqlMap resource="adminwork/sqlmap/kicpa/ofnt/KICPA_SQL_Ofnt.xml"/> -->
 <!--     <sqlMap resource="adminwork/sqlmap/kicpa/qna/KICPA_SQL_Qna.xml"/> -->
 </sqlMapConfig>

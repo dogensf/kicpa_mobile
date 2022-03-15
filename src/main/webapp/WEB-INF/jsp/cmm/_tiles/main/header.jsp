@@ -45,7 +45,7 @@
     
     
 
-    <button class="btn-menu" type="button">
+    <button class="btn-menu" type="button" onClick="javascript:window.bridge.showCategory();">
       	카테고리
     </button>
 </section> 
