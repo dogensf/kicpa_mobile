@@ -6,7 +6,7 @@
 	<div class="title-box">
 		<h2>My 즐겨찾기</h2>
 		<div class="r-area">
-		    <button class="btn-edit" type="button">
+		    <button class="btn-edit" type="button" onClick="javascript:window.bridge.showFavorites();">
 		      	편집
 		    </button>
 		</div>
