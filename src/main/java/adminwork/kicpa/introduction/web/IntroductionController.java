@@ -46,5 +46,13 @@ public class IntroductionController {
 		model.addAttribute("isLogin", isAuthenticated);
 		return "kicpa/introduction/boardList";
 	}
+	@RequestMapping(value = "/vision.do")
+	public String vision(@RequestParam Map<String,Object> map,HttpServletRequest request,HttpServletResponse response,ModelMap model) throws Exception{
+		return "kicpa/introduction/vision";
+	}
+	@RequestMapping(value = "/greetings.do")
+	public String greetings(@RequestParam Map<String,Object> map,HttpServletRequest request,HttpServletResponse response,ModelMap model) throws Exception{
+		return "kicpa/introduction/greetings";
+	}
 
 }

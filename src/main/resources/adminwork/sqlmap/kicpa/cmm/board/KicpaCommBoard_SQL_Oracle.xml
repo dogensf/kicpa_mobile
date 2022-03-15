@@ -1361,6 +1361,36 @@
 
 	</insert>
 
+	<select id="KicpaCommBoardDAO.selectCommonBoardFileDetail" parameterClass="HashMap" resultClass="egovMap">
+		SELECT BOARD_ID, BLTN_NO, FILE_SEQ, ATCH_TYPE, FILE_NM, FILE_MASK, FILE_SIZE, DOWN_CNT, ATCH_DATIM
+		FROM BLTN_FILE
+		WHERE BOARD_ID = #boardId#
+		AND BLTN_NO = #bltnNo#
+		AND FILE_SEQ = #fileSeq#
+	</select>
+	<select id="KicpaCommBoardDAO.selectCommonCafeBoardFileDetail" parameterClass="HashMap" resultClass="egovMap">
+		SELECT BOARD_ID, BLTN_NO, FILE_SEQ, ATCH_TYPE, FILE_NM, FILE_MASK, FILE_SIZE, DOWN_CNT, ATCH_DATIM
+		FROM BLTN_CAFE_FILE
+		WHERE BOARD_ID = #boardId#
+		AND BLTN_NO = #bltnNo#
+		AND FILE_SEQ = #fileSeq#
+	</select>
+
+	<update id="KicpaCommBoardDAO.updateCommonBoardFileDownCnt" parameterClass="HashMap">
+		UPDATE BLTN_FILE
+		SET DOWN_CNT = DOWN_CNT+1
+		WHERE BOARD_ID = #boardId#
+		AND BLTN_NO = #bltnNo#
+		AND FILE_SEQ = #fileSeq#
+	</update>
+	<update id="KicpaCommBoardDAO.updateCommonCafeBoardFileDownCnt" parameterClass="HashMap">
+		UPDATE BLTN_CAFE_FILE
+		SET DOWN_CNT = DOWN_CNT+1
+		WHERE BOARD_ID = #boardId#
+		AND BLTN_NO = #bltnNo#
+		AND FILE_SEQ = #fileSeq#
+	</update>
+
 
 
 </sqlMap>

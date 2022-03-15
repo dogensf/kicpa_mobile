@@ -14,6 +14,7 @@ function fncLocation(){
 <form id="boardForm" name="boardForm">
 	<input type="hidden" name="boardId" value="${param.boardId }">
 	<input type="hidden" name="bltnNo" value="${param.bltnNo }">
+	<input type="hidden" name="fileSeq">
 </form>
 
 <section class="head-sub line">
@@ -148,7 +149,7 @@ function fncLocation(){
 		                		<c:forEach items="${boardDetail.fileList}" var="item" varStatus="index">
 				                    <div class="file-box">
 				                        <p class="file-name">${item.fileNm}</p>
-				                        <button class="btn-round-sm" type="button">내려받기</button>
+				                        <button class="btn-round-sm" onclick="board.fileDownload('${item.fileSeq}')" type="button">내려받기</button>
 				                    </div>
 		                		</c:forEach>
 

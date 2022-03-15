@@ -29,10 +29,10 @@ function fncLocation(){
 	<section class="content">
 
 		<div class="tab-main">
-		    <a class="tab-link" href="javascript:void(0);">
+		    <a class="tab-link" href="/kicpa/introduction/vision.do">
 		        <span>비전</span>
 		    </a>
-		    <a class="tab-link" href="javascript:void(0);">
+		    <a class="tab-link" href="/kicpa/introduction/greetings.do">
 		        <span>인사말</span>
 		    </a>
 

@@ -38,4 +38,12 @@ public interface  CommonBoardService {
 	public int selectCommonBoardIdArrListCnt(Map<String, Object> map) throws Exception;
 
 	public void insertCommonBoard(Map<String, Object> map) throws Exception;
+
+	public EgovMap selectCommonBoardFileDetail(Map<String, Object> map) throws Exception;
+
+	public EgovMap selectCommonCateBoardFileDetail(Map<String, Object> map) throws Exception;
+
+	public int updateCommonBoardFileDownCnt(Map<String, Object> map) throws Exception;
+
+	public int updateCommonCafeBoardFileDownCnt(Map<String, Object> map) throws Exception;
 }
