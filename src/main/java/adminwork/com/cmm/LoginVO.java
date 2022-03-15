@@ -97,6 +97,7 @@ public class LoginVO implements Serializable{
 	private String apma_emp_id;
 	private String apma_kor_name;
 	
+	private String giroPin;
 	
 	/**
 	 * id attribute 를 리턴한다.
@@ -522,6 +523,12 @@ public class LoginVO implements Serializable{
 	}
 	public void setApma_kor_name(String apma_kor_name) {
 		this.apma_kor_name = apma_kor_name;
+	}
+	public String getGiroPin() {
+		return giroPin;
+	}
+	public void setGiroPin(String giroPin) {
+		this.giroPin = giroPin;
 	}
 	
 	

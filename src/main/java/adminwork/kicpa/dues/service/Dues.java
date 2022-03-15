@@ -26,11 +26,32 @@ public class Dues implements Serializable{
     private String  transfr_de;
     private String  succes_amt;
     private long    fee_amt;
+    private long    pay_no;
+	private String  checkDigit;
     private String  frst_regist_id;
     private String  frst_regist_dt;
     private String  last_updt_id;
     private String  last_updt_dt;
     
+    private String  paytype;
+    
+    private String  post_send_yn;
+    
+    
+    private String dues_cl;
+    private String dues_cl_nm;
+    private String accnut_year;
+    private String cmpy_nm;
+    private String rcept_de;
+    private String duty_dues_cl;
+    private String duty_flag;
+    private String odr;
+    private String due_de;
+    private long dues_amt;
+    private long add_amt;
+    private long delay_amt;
+    private long pass_amt;
+    private long cur_amt;
     
     
    /*GIRO_NTIC*/ 
@@ -60,6 +81,32 @@ public class Dues implements Serializable{
     
     private String linkUrl;
     
+    private String rsp_msg;
+    
+    private String sbscrb_sn;
+    private String pin;
+    private String cpa_sn;
+    
+    
+    
+	public String getSbscrb_sn() {
+		return sbscrb_sn;
+	}
+	public void setSbscrb_sn(String sbscrb_sn) {
+		this.sbscrb_sn = sbscrb_sn;
+	}
+	public String getPin() {
+		return pin;
+	}
+	public void setPin(String pin) {
+		this.pin = pin;
+	}
+	public String getCpa_sn() {
+		return cpa_sn;
+	}
+	public void setCpa_sn(String cpa_sn) {
+		this.cpa_sn = cpa_sn;
+	}
 	public String getGiro_cd() {
 		return giro_cd;
 	}
@@ -330,7 +377,120 @@ public class Dues implements Serializable{
 	public void setLinkUrl(String linkUrl) {
 		this.linkUrl = linkUrl;
 	}
-   
-	
-	
+	public long getPay_no() {
+		return pay_no;
+	}
+	public void setPay_no(long pay_no) {
+		this.pay_no = pay_no;
+	}
+	public String getPost_send_yn() {
+		return post_send_yn;
+	}
+	public void setPost_send_yn(String post_send_yn) {
+		this.post_send_yn = post_send_yn;
+	}
+	public String getPaytype() {
+		return paytype;
+	}
+	public void setPaytype(String paytype) {
+		this.paytype = paytype;
+	}
+	public String getRsp_msg() {
+		return rsp_msg;
+	}
+	public void setRsp_msg(String rsp_msg) {
+		this.rsp_msg = rsp_msg;
+	}
+	public String getDues_cl() {
+		return dues_cl;
+	}
+	public void setDues_cl(String dues_cl) {
+		this.dues_cl = dues_cl;
+	}
+	public String getAccnut_year() {
+		return accnut_year;
+	}
+	public void setAccnut_year(String accnut_year) {
+		this.accnut_year = accnut_year;
+	}
+	public String getCmpy_nm() {
+		return cmpy_nm;
+	}
+	public void setCmpy_nm(String cmpy_nm) {
+		this.cmpy_nm = cmpy_nm;
+	}
+	public String getRcept_de() {
+		return rcept_de;
+	}
+	public void setRcept_de(String rcept_de) {
+		this.rcept_de = rcept_de;
+	}
+	public String getDuty_dues_cl() {
+		return duty_dues_cl;
+	}
+	public void setDuty_dues_cl(String duty_dues_cl) {
+		this.duty_dues_cl = duty_dues_cl;
+	}
+	public String getDuty_flag() {
+		return duty_flag;
+	}
+	public void setDuty_flag(String duty_flag) {
+		this.duty_flag = duty_flag;
+	}
+	public String getOdr() {
+		return odr;
+	}
+	public void setOdr(String odr) {
+		this.odr = odr;
+	}
+	public String getDue_de() {
+		return due_de;
+	}
+	public void setDue_de(String due_de) {
+		this.due_de = due_de;
+	}
+	public long getDues_amt() {
+		return dues_amt;
+	}
+	public void setDues_amt(long dues_amt) {
+		this.dues_amt = dues_amt;
+	}
+	public long getAdd_amt() {
+		return add_amt;
+	}
+	public void setAdd_amt(long add_amt) {
+		this.add_amt = add_amt;
+	}
+	public long getDelay_amt() {
+		return delay_amt;
+	}
+	public void setDelay_amt(long delay_amt) {
+		this.delay_amt = delay_amt;
+	}
+	public long getPass_amt() {
+		return pass_amt;
+	}
+	public void setPass_amt(long pass_amt) {
+		this.pass_amt = pass_amt;
+	}
+	public long getCur_amt() {
+		return cur_amt;
+	}
+	public void setCur_amt(long cur_amt) {
+		this.cur_amt = cur_amt;
+	}
+	public String getDues_cl_nm() {
+		return dues_cl_nm;
+	}
+	public void setDues_cl_nm(String dues_cl_nm) {
+		this.dues_cl_nm = dues_cl_nm;
+	}
+
+	public String getCheckDigit() {
+		return checkDigit;
+	}
+
+	public void setCheckDigit(String checkDigit) {
+		this.checkDigit = checkDigit;
+	}
 }

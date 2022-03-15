@@ -21,6 +21,7 @@ public class Giro implements Serializable {
     private String rqestDe;
     private String processFlag;
     private String payDe;
+    private Long payNo;
     private String transfrDe;
     private Long succesAmt;
     private int feeAmt;
@@ -207,6 +208,17 @@ public class Giro implements Serializable {
 		this.subGiroCd = subGiroCd;
 	}
 
+	
+
+
+	public Long getPayNo() {
+		return payNo;
+	}
+
+	public void setPayNo(Long payNo) {
+		this.payNo = payNo;
+	}
+
 	@Override
     public String toString() {
         return "Giro{" +
@@ -225,6 +237,7 @@ public class Giro implements Serializable {
                 ", rqestDe='" + rqestDe + '\'' +
                 ", processFlag='" + processFlag + '\'' +
                 ", payDe='" + payDe + '\'' +
+                ", payNo='" + payNo + '\'' +
                 ", transfrDe='" + transfrDe + '\'' +
                 ", succesAmt=" + succesAmt +
                 ", feeAmt=" + feeAmt +

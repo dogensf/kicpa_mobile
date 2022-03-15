@@ -1,5 +1,5 @@
 <%--
-  Class Name : selectDuesList.jsp
+  Class Name : MOBILE selectDuesList.jsp
   Description : 회비 조회
   Modification Information
  
@@ -14,7 +14,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
-
+<%@ page import ="adminwork.com.cmm.LoginVO" %>
 <c:set var="ImgUrl" value="/images/"/>
 
     <link rel="stylesheet" href="<c:url value='/css/swiper-bundle.min.css'/>">
@@ -237,10 +237,32 @@
       <div class="container">
         <section class="head-main">
           <h1>회비관리</h1>
-          <button class="btn-login" type="button">
-            로그인
-          </button>
-          <button class="btn-menu" type="button">
+          <%
+	        LoginVO loginVO = (LoginVO)session.getAttribute("LoginVO");
+	        if(loginVO == null){
+	        %>
+	        <button class="btn-login" onclick="location.href='<c:url value='/uat/uia/LoginUsr.do'/>';" type="button">
+	     	 로그인
+	    	</button>
+		  	<%
+	        }else{
+		  	%>
+		  	<button class="btn-login" onclick="location.href='<c:url value='/uat/uia/actionLogout.do'/>';" type="button">
+	     	 로그아웃
+	    	</button>
+	            <%-- <c:set var="loginName" value="<%= loginVO.getName()%>"/>
+	            <ul>
+		  	    <li><a href="#LINK" onclick="alert('개인정보 확인 등의 링크 제공'); return false;">
+	            <c:out value="${loginName}"/> 님</a></li>
+	            <li><a href="<c:url value='/uat/uia/actionLogout.do'/>">
+	            <img src="<c:url value='/images/leftmenu/logout.jpg' />" alt="로그아웃" /></a></li>
+	            <li>최근접속:2011-10-12 13:24</li>
+	            </ul> --%>
+		  	<%
+		  	}
+	        %>
+
+          <button class="btn-menu" type="button" onClick="javascript:window.bridge.showCategory();">
             카테고리
           </button>
         </section>
@@ -253,9 +275,9 @@
                   <a class="tab-link" href="<c:url value='/kicpa/dues/selectDuesResult.do'/>">
                       <span>납부결과 및 조회</span>
                   </a>
-                  <a class="tab-link" href="#tabMain2">
+                  <!-- <a class="tab-link" href="#tabMain2">
                       <span>환급신청 및 조회</span>
-                  </a>
+                  </a> -->
               </div>
 
               <div id="tabMain1" class="tab-main-content show">
@@ -274,22 +296,30 @@
                   <div class="internal-revenue">
                     <b>전자납부번호</b>
                     <p>
-                      <span>1</span>
-                      <span>2</span>
-                      <span>3</span>
-                      <span>4</span>
-                      <span>5</span>
-                      <span>6</span>
-                      <span>7</span>
+	                    <span>${fn:substring(detail[0].epay_no,0,1)}</span>
+	                    <span>${fn:substring(detail[0].epay_no,1,2)}</span>
+	                    <span>${fn:substring(detail[0].epay_no,2,3)}</span>
+	                    <span>${fn:substring(detail[0].epay_no,3,4)}</span>
+	                    <span>-</span>
+	                    <span>${fn:substring(detail[0].epay_no,4,5)}</span>
+	                    <span>${fn:substring(detail[0].epay_no,5,6)}</span>
+	                    <span>${fn:substring(detail[0].epay_no,6,7)}</span>
+	                    <span>${fn:substring(detail[0].epay_no,7,8)}</span>
+	                    <span>${fn:substring(detail[0].epay_no,8,9)}</span>
+	                    <span>-</span>
+	                    <span>${fn:substring(detail[0].epay_no,9,10)}</span>
+	                    <span>${fn:substring(detail[0].epay_no,10,11)}</span>
+	                    <span>${fn:substring(detail[0].epay_no,11,12)}</span>
+	                    <span>${fn:substring(detail[0].epay_no,12,13)}</span>
                     </p>
                   </div>
                 </div>
 
                 <div class="dues-wrap">
-                  <div class="inp-box">
+                 <!--  <div class="inp-box">
                     <label class="label" for="input">납기기준월</label>
                     <input type="date" id="input" name="input" data-placeholder="선택하세요." required />
-                  </div>
+                  </div> -->
   
                   <div class="board-top">
                     <div class="total-num">
@@ -300,6 +330,94 @@
 
                   <div class="board-list">
                     <ul class="between-list line">
+                        <li>
+                          <div class="inp-check">
+                            <input type="checkbox" name="bk-item" id="ch01" />
+                            <label for="ch01">연회비 및 부조회비연회비 및 부조회비</label>
+                          </div>
+
+                          <div class="detail">
+                            <p class="total">
+                              <b>고지금액</b>
+                              <span>200,000</span>
+                            </p>
+                            <p>
+                              <b>고객조회번호</b>
+                              <span>0000711461</span>
+                            </p>
+                            <p>
+                              <b>납입기일</b>
+                              <span>2022.01.20</span>
+                            </p>
+                          </div>
+                        </li>
+                        
+                        <li>
+                          <div class="inp-check">
+                            <input type="checkbox" name="bk-item" id="ch01" />
+                            <label for="ch01">연회비 및 부조회비연회비 및 부조회비</label>
+                          </div>
+
+                          <div class="detail">
+                            <p class="total">
+                              <b>고지금액</b>
+                              <span>200,000</span>
+                            </p>
+                            <p>
+                              <b>고객조회번호</b>
+                              <span>0000711461</span>
+                            </p>
+                            <p>
+                              <b>납입기일</b>
+                              <span>2022.01.20</span>
+                            </p>
+                          </div>
+                        </li>
+                        
+                        <li>
+                          <div class="inp-check">
+                            <input type="checkbox" name="bk-item" id="ch01" />
+                            <label for="ch01">연회비 및 부조회비연회비 및 부조회비</label>
+                          </div>
+
+                          <div class="detail">
+                            <p class="total">
+                              <b>고지금액</b>
+                              <span>200,000</span>
+                            </p>
+                            <p>
+                              <b>고객조회번호</b>
+                              <span>0000711461</span>
+                            </p>
+                            <p>
+                              <b>납입기일</b>
+                              <span>2022.01.20</span>
+                            </p>
+                          </div>
+                        </li>
+                        
+                        <li>
+                          <div class="inp-check">
+                            <input type="checkbox" name="bk-item" id="ch01" />
+                            <label for="ch01">연회비 및 부조회비연회비 및 부조회비</label>
+                          </div>
+
+                          <div class="detail">
+                            <p class="total">
+                              <b>고지금액</b>
+                              <span>200,000</span>
+                            </p>
+                            <p>
+                              <b>고객조회번호</b>
+                              <span>0000711461</span>
+                            </p>
+                            <p>
+                              <b>납입기일</b>
+                              <span>2022.01.20</span>
+                            </p>
+                          </div>
+                        </li>
+                        
                         <li>
                           <div class="inp-check">
                             <input type="checkbox" name="bk-item" id="ch01" />

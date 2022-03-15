@@ -12,6 +12,9 @@ public class GiroRegVO implements Serializable {
     private String rqestDe;
     private String empPin;
     private String empId;
+    
+    private String etcInfoTtl;
+    private String etcInfoCnte;
 
     public String getRqestCd() {
         return rqestCd;
@@ -61,7 +64,25 @@ public class GiroRegVO implements Serializable {
         this.empId = empId;
     }
 
-    @Override
+    
+    
+    public String getEtcInfoTtl() {
+		return etcInfoTtl;
+	}
+
+	public void setEtcInfoTtl(String etcInfoTtl) {
+		this.etcInfoTtl = etcInfoTtl;
+	}
+
+	public String getEtcInfoCnte() {
+		return etcInfoCnte;
+	}
+
+	public void setEtcInfoCnte(String etcInfoCnte) {
+		this.etcInfoCnte = etcInfoCnte;
+	}
+
+	@Override
     public String toString() {
         return "GiroRegVO{" +
                 "rqestCd='" + rqestCd + '\'' +

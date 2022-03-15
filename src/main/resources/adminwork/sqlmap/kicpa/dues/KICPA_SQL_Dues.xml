@@ -1,0 +1,1873 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="Dues">
+
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+    <typeAlias  alias="dues" type="adminwork.kicpa.dues.service.Dues"/>
+    <typeAlias  alias="duesVO" type="adminwork.kicpa.dues.service.DuesVO"/>
+    <typeAlias  alias="duesRef" type="adminwork.kicpa.dues.service.DuesRef"/>
+    <typeAlias  alias="duesRefVO" type="adminwork.kicpa.dues.service.DuesRefVO"/>
+    <typeAlias  alias="newDues" type="adminwork.kicpa.dues.service.NewDues"/>
+    <typeAlias  alias="giroApi" type="adminwork.kicpa.dues.service.GiroApi"/>
+    <typeAlias  alias="giroApiLog" type="adminwork.kicpa.dues.service.GiroApiLog"/>
+    <typeAlias  alias="giroDetail" type="adminwork.kicpa.dues.service.GiroDetail"/>
+    
+    
+	<typeAlias  alias="comDefaultVO" type="adminwork.com.cmm.ComDefaultVO"/>
+			
+	<select id="DuesDAO.selectDuesPayNo" resultClass="Long">
+        SELECT KIPADM.DUES_PAY_SEQ.NEXTVAL FROM DUAL
+    </select>		
+			
+	<insert id="DuesDAO.insertGiroApiLog" parameterClass="giroApiLog">
+        INSERT INTO GIRO_API_LOG ( LOG_TM ,LOG_SN ,EPAY_NO ,GIRO_CD ,ETC_TYPE_CODE ,LOG )
+        VALUES ( SYSTIMESTAMP, KIPADM.GIRO_API_LOG_SEQ.NEXTVAL , #epayNo#, #giroCd#, #etcTypeCode#, #log#)
+    </insert>
+
+    <insert id="DuesDAO.insertGiroApiLogAll" parameterClass="java.util.List">
+        INSERT ALL
+        <iterate conjunction=" ">
+            INTO GIRO_API_LOG ( LOG_TM ,LOG_SN ,EPAY_NO ,GIRO_CD ,ETC_TYPE_CODE ,LOG )
+        VALUES ( TO_TIMESTAMP(#[].logTm#,'YYYYMMDDHH24MISSFF') , KIPADM.GIRO_API_LOG_SEQ.NEXTVAL , #[].epayNo#, #[].giroCd#, #[].etcTypeCode#, #[].log#)
+        </iterate>
+        SELECT * FROM DUAL
+    </insert>
+	
+	<select id="DuesDAO.selectGiroApi" resultClass="giroApi">
+        SELECT CLIENT_ID AS clientId
+             , CLIENT_SECRET AS clientSecret
+             , ACCESS_TOKEN AS accessToken
+             , TOKEN_TYPE AS tokenType
+             , EXPIRES_IN AS expiresIn
+             , EXPIRES_DE AS expiresDe
+             , SCOPE AS scope
+         FROM GIRO_API
+        WHERE EXPIRES_DE > TO_CHAR(SYSDATE,'YYYYMMDD')
+    </select>
+    
+    <update id="DuesDAO.updateGiroApi" parameterClass="giroApi">
+        UPDATE GIRO_API
+           SET ACCESS_TOKEN = #accessToken#
+             , TOKEN_TYPE = #tokenType#
+             , EXPIRES_IN = #expiresIn#
+             , EXPIRES_DE = TO_CHAR(SYSDATE + (CASE WHEN #expiresIn# IS NOT NULL AND #expiresIn# != 0 THEN #expiresIn# / (24 * 60 * 60) ELSE 0 END) , 'YYYYMMDD')
+             , SCOPE = #scope#
+    </update>
+    
+    
+    <update id="DuesDAO.updateGiroNticCanCl" parameterClass="dues">
+        UPDATE GIRO_NTIC
+           SET NTIC_CANCL_FLAG = ( CASE WHEN NTIC_FLAG = 'Y' THEN 'C' ELSE 'Y' END )
+         WHERE EPAY_NO = #epay_no#
+           AND ETC_TYPE_CODE = #etc_type_code#
+           AND NTIC_CANCL_FLAG = 'N'
+           AND PAY_YN = 'N'
+           AND NOTI_DL_DT >= TO_CHAR(SYSDATE,'YYYYMMDD')
+    </update>
+    
+    <insert id="DuesDAO.insertGiroNtic" parameterClass="duesVO">
+        INSERT INTO GIRO_NTIC
+            ( EPAY_NO ,PAY_YYMM_SEQ ,NOTI_ISSU_TYPE ,ETC_TYPE_CODE ,GIRO_CD ,CUST_INQR_NO ,DUDT_IN_AMT ,DUDT_AFT_AMT ,DUDT
+            ,NOTI_DL_DT ,NAME ,PAY_PRRT_RANK ,DEFLT_PRD ,DEFLT_MM_CNT ,ETC_INFO_TTL ,ETC_INFO_CNTE ,NTIC_FLAG
+             ,NTIC_CANCL_FLAG ,PAY_YN , ORG_TRAN_ID ,FRST_REGIST_ID ,FRST_REGIST_DT ,LAST_UPDT_ID ,LAST_UPDT_DT )
+        VALUES
+            ( #epay_no#, #pay_yymm_seq# ,#noti_issu_type# ,#etc_type_code# ,#giro_cd# ,#cust_inqr_no# ,#dudt_in_amt# ,#dudt_aft_amt# ,#dudt#
+            ,#noti_dl_dt# ,#name# ,#pay_prrt_rank# ,#deflt_prd# ,#deflt_mm_cnt# ,#etc_info_ttl# ,#etc_info_cnte# ,#ntic_flag#
+             ,#ntic_cancl_flag# ,#pay_yn# , #org_tran_id# ,#frst_regist_id# ,SYSTIMESTAMP ,#last_updt_id# ,SYSTIMESTAMP )
+    </insert>
+    
+    <insert id="DuesDAO.insertGiroDetail" parameterClass="giroDetail">
+        INSERT INTO GIRO_DETAIL
+        ( GIRO_CD ,DUES_CL ,GIRO_SN ,KEY1 ,KEY2 ,KEY3 ,KEY4 ,KEY5 )
+        VALUES
+        ( #giroCd# ,#duesCl# ,#giroSn# ,#key1# ,#key2# ,#key3# ,#key4# ,#key5# )
+    </insert>
+    
+    <update id="DuesDAO.updateGiroNtic" parameterClass="dues">
+      
+        UPDATE GIRO_NTIC
+                 SET
+                 	 LAST_UPDT_DT = SYSTIMESTAMP
+                 	,ORG_TRAN_ID = ( CASE WHEN #org_tran_id# IS NOT NULL THEN #org_tran_id# ELSE ORG_TRAN_ID END )
+                 <!-- <isNotEmpty property="dudt_in_amt"> 
+                   <![CDATA[
+                    , DUDT_IN_AMT = #dudt_in_amt#
+                 	, PAY_YN = ( CASE WHEN #pay_yn# IS NOT NULL THEN #pay_yn# ELSE PAY_YN END )
+                    , PAY_DE = TO_CHAR(SYSDATE,'YYYYMMDD')
+                    , TRANSFR_DE  = (SELECT MIN("DATE")
+                   
+                    FROM calendar
+                    WHERE "DATE" >= TO_CHAR(SYSDATE + 2,'YYYYMMDD')
+                    AND HLDY_YN = 'N' )                 
+               		]]>
+               </isNotEmpty>   -->  
+	            <isNotEmpty property="ntic_flag">
+	              , ntic_flag = #ntic_flag#
+	            </isNotEmpty>  
+	            <isNotEmpty property="ntic_cancl_flag">
+	              , ntic_cancl_flag = #ntic_cancl_flag#
+	            </isNotEmpty>                   
+	            
+	           <!--  <isNotEmpty property="dudt_aft_amt">
+	              , DUDT_AFT_AMT = #dudt_aft_amt#
+	            </isNotEmpty> -->
+	            <isNotEmpty property="last_updt_id">
+	              , LAST_UPDT_ID = #last_updt_id#             
+	            </isNotEmpty>
+         WHERE EPAY_NO = #epay_no#
+           AND PAY_YYMM_SEQ = #pay_yymm_seq#
+           AND NOTI_ISSU_TYPE = #noti_issu_type#
+           AND ETC_TYPE_CODE = #etc_type_code#
+           AND GIRO_CD = #giro_cd#
+    </update>
+    
+    <update id="DuesDAO.updateGiroNticSubCallback" parameterClass="duesVO">
+        <![CDATA[
+        UPDATE GIRO_NTIC
+           SET PAY_YN = ( CASE WHEN #pay_yn# IS NOT NULL THEN #pay_yn# ELSE PAY_YN END )
+              , PAY_DE = TO_CHAR(SYSDATE,'YYYYMMDD')
+              , TRANSFR_DE  = KIPADM.get_TRANSFR_func(TO_CHAR(SYSDATE,'YYYYMMDD'))
+           ]]>
+            <!-- <isNotEmpty property="dudt_in_amt">
+              , DUDT_IN_AMT = #dudt_in_amt#
+            </isNotEmpty>
+            <isNotEmpty property="dudt_aft_amt">
+              , DUDT_AFT_AMT = #dudt_aft_amt#
+            </isNotEmpty> -->
+            <isNotEmpty property="last_updt_id">
+              , LAST_UPDT_ID = #last_updt_id#
+              , LAST_UPDT_DT = SYSTIMESTAMP
+            </isNotEmpty>
+            <![CDATA[
+         	WHERE GIRO_CD IN (
+						    SELECT REGEXP_SUBSTR(a.langList, '[^,]+', 1, LEVEL) AS split_result
+						   FROM (SELECT SUB_GIRO_CD AS langList
+						           FROM GIRO_NTIC WHERE ORG_TRAN_ID = #org_tran_id# ) a
+						CONNECT BY LEVEL <= LENGTH(REGEXP_REPLACE(a.langList, '[^,]+','')) + 1
+						    )   
+			]]>			       
+    </update>
+    
+    <update id="DuesDAO.updateGiroNticCallback" parameterClass="duesVO">
+        <![CDATA[
+        UPDATE GIRO_NTIC
+           SET PAY_YN = ( CASE WHEN #pay_yn# IS NOT NULL THEN #pay_yn# ELSE PAY_YN END )
+              , PAY_DE = TO_CHAR(SYSDATE,'YYYYMMDD')
+              , TRANSFR_DE  = KIPADM.get_TRANSFR_func(TO_CHAR(SYSDATE,'YYYYMMDD'))
+              , GIRO_CANCEL_YN = 'N'
+           ]]>
+            <!-- <isNotEmpty property="dudt_in_amt">
+              , DUDT_IN_AMT = #dudt_in_amt#
+            </isNotEmpty>
+            <isNotEmpty property="dudt_aft_amt">
+              , DUDT_AFT_AMT = #dudt_aft_amt#
+            </isNotEmpty> -->
+            <isNotEmpty property="last_updt_id">
+              , LAST_UPDT_ID = #last_updt_id#
+              , LAST_UPDT_DT = SYSTIMESTAMP
+            </isNotEmpty>
+         WHERE ORG_TRAN_ID = #org_tran_id#          
+    </update>
+    
+    <update id="DuesDAO.updateGiroNticCallbackCancel" parameterClass="duesVO">
+        <![CDATA[
+        UPDATE GIRO_NTIC
+           SET GIRO_CANCEL_YN = 'Y'
+            ,LAST_UPDT_DT = SYSTIMESTAMP
+            ]]>
+            <isNotEmpty property="last_updt_id">
+               ,LAST_UPDT_ID = #last_updt_id#               
+            </isNotEmpty>
+         WHERE ORG_TRAN_ID = #org_tran_id#
+                   
+    </update>
+    
+	
+	<select id="DuesDAO.selectTempDuesList" parameterClass="duesVO" resultClass="dues">
+		<![CDATA[		 		
+			SELECT 
+					  GM.RQEST_CD
+					, (SELECT CD_NM FROM CMMN_CODE WHERE GRP_CD = 'G35230' AND CD = GM.RQEST_CD) AS RQEST_NM
+					, GM.NTIC_DE, GM.NTIC_AMT,GN.*
+			FROM	GIRO_NTIC GN
+			INNER JOIN  
+					GIRO_MASTER GM
+					ON GN.GIRO_CD = GM.GIRO_CD AND GM.PROCESS_FLAG = '0'
+			WHERE 					
+					GN.NTIC_CANCL_FLAG = 'N'
+			AND 	NVL(GN.PAY_YN,'N') = 'N'
+			AND 	GM.CUST_INQR_NO = #cust_inqr_no#
+			AND     GN.SUB_GIRO_CD IS NOT NULL			
+		]]>
+	</select>
+	
+	<select id="DuesDAO.selectNewDuesList" parameterClass="duesVO" resultClass="dues">
+		<![CDATA[		 		
+			SELECT 
+					  GM.RQEST_CD
+					, (SELECT CD_NM FROM CMMN_CODE WHERE GRP_CD = 'G35230' AND CD = GM.RQEST_CD) AS RQEST_NM
+					, GM.NTIC_DE, GM.NTIC_AMT,GN.*
+			FROM	GIRO_NTIC GN
+			INNER JOIN  
+					GIRO_MASTER GM
+					ON GN.GIRO_CD = GM.GIRO_CD AND GM.PROCESS_FLAG = '0'
+			WHERE 					
+					GN.NTIC_CANCL_FLAG = 'N'
+			AND 	GN.NTIC_FLAG   = 'Y'
+			AND 	GN.EPAY_NO = #epay_no#
+            AND     GN.PAY_YYMM_SEQ = #pay_yymm_seq#
+            AND 	GN.NOTI_ISSU_TYPE = #noti_issu_type#
+            AND 	GN.ETC_TYPE_CODE = #etc_type_code#			
+		]]>
+	</select>
+	
+	<select id="DuesDAO.selectDues" parameterClass="duesVO" resultClass="dues">
+		<![CDATA[		 		
+			SELECT 
+					  GM.RQEST_CD
+					, (SELECT CD_NM FROM CMMN_CODE WHERE GRP_CD = 'G35230' AND CD = GM.RQEST_CD) AS RQEST_NM
+					, GM.NTIC_DE, GM.NTIC_AMT, GM.CHECK_DIGIT,GN.*
+			FROM	GIRO_NTIC GN
+			INNER JOIN  
+					GIRO_MASTER GM
+					ON GN.GIRO_CD = GM.GIRO_CD AND GM.PROCESS_FLAG = '0'
+			WHERE 					
+					GN.GIRO_CD = #giro_cd#			
+		]]>
+	</select>
+	
+	<select id="DuesDAO.selectGiroCode" parameterClass="duesVO" resultClass="dues">
+		<![CDATA[		 		
+			SELECT 
+					GM.GIRO_CD					
+			FROM	GIRO_NTIC GN
+			INNER JOIN  
+					GIRO_MASTER GM
+					ON GN.GIRO_CD = GM.GIRO_CD
+			WHERE 					
+					GN.ORG_TRAN_ID = #org_tran_id#  		
+		]]>
+	</select>
+	
+	<select id="DuesDAO.selectNewDuesInfos" parameterClass="duesVO" resultClass="dues">
+		<![CDATA[		 		
+		 SELECT
+        		MAX(A.SBSCRB_SN) AS sbscrb_sn,
+			    A.PIN as pin,
+                MAX(B.CPA_SN) AS cpa_sn
+         FROM SBSCRB_MASTER_EXCEL A
+         inner join CPA_MYP B on B.PIN = A.PIN
+         WHERE A.SBSCRB_SN in (select key1 from giro_detail where giro_cd = #giro_cd#)
+         GROUP BY A.PIN  		
+		]]>
+	</select>
+	<update id="DuesDAO.setNewDuesInfos" parameterClass="dues" >
+		<![CDATA[		 		
+		 UPDATE CPA_MYP
+		 	set  SBSCRB_MYP_SN = #sbscrb_sn#
+				, SBSCRB_YN = 'Y'
+		 WHERE PIN = #pin#	
+		 AND CPA_SN = #cpa_sn#		  		
+		]]>	
+	</update>	
+	
+	<insert id="DuesDAO.transferNewDues" parameterClass="dues">
+        INSERT INTO SBSCRB_MASTER
+        SELECT
+        		SBSCRB_SN,
+			    PIN,
+			    REGIST_FLAG,
+			    REGIST_PRE_DE,
+			    ACCNUT_DE,
+			    PAY_DE,
+			    ACNT_CD,
+			    ACNUT_NO,
+			    GNRL_ENTRNC_AMT,
+			    GNRL_YY_AMT,
+			    CMIT_ENTRNC_AMT,
+			    ASSTN_ENTRNC_AMT,
+			    ASSTN_YY_AMT,
+			    PAY_NO,
+			    PAY_STATUS,
+			    PAY_ID_FLAG,
+			    PAY_ID,
+			    GIRO_YN,
+			    FRST_REGIST_ID,
+			    FRST_REGIST_DT,
+			    LAST_UPDT_ID,
+			    LAST_UPDT_DT
+         FROM SBSCRB_MASTER_EXCEL
+         WHERE SBSCRB_SN in (select key1 from giro_detail where giro_cd = #giro_cd#) 
+    </insert>
+	
+		
+	<update id="DuesDAO.deleteGiroMaster" parameterClass="duesVO">
+		<![CDATA[	
+			DELETE 
+			  FROM	GIRO_MASTER
+			 WHERE  GIRO_CD = #giro_cd# 		
+		]]>
+	</update>	
+	<update id="DuesDAO.deleteGiroNtic" parameterClass="duesVO">
+		<![CDATA[	
+			UPDATE	GIRO_NTIC
+			   SET  NTIC_CANCL_FLAG = 'Y'
+			 WHERE  GIRO_CD = #giro_cd#		
+		]]>
+	</update>	
+	
+	
+	
+	<select id="DuesDAO.selectDuesMasterList" parameterClass="duesVO" resultClass="dues">
+		<![CDATA[
+		
+		SELECT
+					RQEST_CD
+					,(SELECT CD_NM FROM CMMN_CODE WHERE GRP_CD = 'G35230' AND CD = GM.RQEST_CD) AS RQEST_NM
+					,SUM(GN.DUDT_IN_AMT) AS DUDT_IN_AMT
+		FROM 		GIRO_NTIC GN
+		INNER JOIN	GIRO_MASTER GM
+		ON GN.GIRO_CD = GM.GIRO_CD AND GM.PROCESS_FLAG = '0'
+		WHERE 1=1 
+		AND 	GN.NTIC_CANCL_FLAG = 'N'
+		AND 	NVL(GN.PAY_YN,'N') = 'N'
+		AND 	GM.CUST_INQR_NO = #cust_inqr_no#
+		AND     GN.SUB_GIRO_CD IS NULL		
+		GROUP BY GM.RQEST_CD
+				
+		]]>
+	</select>	
+	
+	<select id="DuesDAO.selectDuesDetailList" parameterClass="duesVO" resultClass="dues">
+		<![CDATA[		 		
+			SELECT 
+					  GM.RQEST_CD, GM.CSTMR_FLAG, GM.CSTMR_CD, GM.CSTMR_NM, GM.POST_SEND_YN
+					, (SELECT CD_NM FROM CMMN_CODE WHERE GRP_CD = 'G35230' AND CD = GM.RQEST_CD) AS RQEST_NM
+					, GM.NTIC_DE, GM.NTIC_AMT,GN.*
+			FROM	GIRO_NTIC GN
+			INNER JOIN  
+					GIRO_MASTER GM
+					ON GN.GIRO_CD = GM.GIRO_CD AND GM.PROCESS_FLAG = '0'
+			WHERE 					
+					GN.NTIC_CANCL_FLAG = 'N'
+			AND 	NVL(GN.PAY_YN,'N') = 'N'
+			AND 	GM.CUST_INQR_NO = #cust_inqr_no#
+			]]>
+			AND     TO_CHAR(SYSDATE, 'YYYYMMDD') <![CDATA[ <= ]]> GN.NOTI_DL_DT
+			<![CDATA[
+			AND     GN.SUB_GIRO_CD IS NULL			
+		]]>
+	</select>
+	
+	<select id="DuesDAO.selectDuesBillList" parameterClass="java.util.List"  resultClass="dues">
+				 		
+			 /* 연화비 */ 
+					SELECT MAX(gd.DUES_CL) AS DUES_CL
+					    , ydm.ACCNUT_YEAR
+					    , '' AS CMPY_NM
+					    , '' AS RCEPT_DE
+					    , '' DUTY_DUES_CL
+					    , '' DUTY_FLAG
+					    , 0 odr
+					    , ydm.ACCNUT_YEAR||'0731' DUE_DE
+					    , SUM(CASE WHEN ydm.DUES_FLAG = 'Y' THEN ydm.DUES_AMT ELSE 0 END) AS dues_amt   /* 회비*/
+					    , SUM(CASE WHEN ydm.DUES_FLAG = 'D' THEN ydm.DUES_AMT ELSE 0 END) AS add_amt /* 추가회비*/
+					    , 0 AS delay_amt  /* 지연회비 */
+					    , SUM(CASE WHEN ydm.ACCNUT_YEAR||'0731' <![CDATA[ < ]]> gm.RQEST_DE THEN ydm.DUES_AMT ELSE 0 END) AS pass_amt /*  경과회비 */
+					    , SUM(CASE WHEN gm.RQEST_DE BETWEEN ydm.ACCNUT_YEAR||'0401' AND ydm.ACCNUT_YEAR||'0731' THEN ydm.DUES_AMT ELSE 0 END) AS cur_amt /*  당월회비 */
+					 FROM giro_ntic gn
+					    ,giro_detail gd
+					    ,giro_master gm
+					    ,year_dues_master ydm
+					WHERE EXISTS (
+							SELECT 1
+							FROM (
+							SELECT '-' AS GIRO_CD FROM DUAL
+							<iterate open=" UNION ALL " conjunction="UNION ALL">
+								SELECT #[].giro_cd# AS GIRO_CD FROM DUAL
+							</iterate>
+							) gn2
+							WHERE gn.giro_cd = gn2.GIRO_CD
+						)
+
+					  AND gn.giro_cd = gd.giro_cd
+					  AND gd.dues_cl = '00170002'
+					  AND gn.giro_cd = gm.giro_cd
+					  AND ydm.ACCNUT_YEAR = gd.key1
+					  AND ydm.pin = gd.key2
+					  AND ydm.DUES_FLAG = gd.key3
+					  AND ydm.DUES_CL = gd.key4
+					GROUP BY ydm.ACCNUT_YEAR , ydm.pin
+					UNION ALL
+					 /* 부조회비 */ 
+					SELECT MAX(gd.dues_cl) AS dues_cl
+					    , adm.ACCNUT_YEAR
+					    , '' AS CMPY_NM
+					    , '' AS RCEPT_DE
+					    , '' DUTY_DUES_CL
+					    , '' DUTY_FLAG
+					    , 0 odr
+					    , (adm.ACCNUT_YEAR + 1)||'0331' DUE_DE
+					    , SUM(CASE WHEN adm.DUES_FLAG = 'Y' THEN adm.ACCNUT_AMT + adm.ACCNUT_CANCL_AMT ELSE 0 END) AS dues_amt
+					    , SUM(CASE WHEN adm.DUES_FLAG = 'D' THEN adm.ACCNUT_AMT + adm.ACCNUT_CANCL_AMT ELSE 0 END) AS add_amt
+					    , 0 AS delay_amt
+					    , SUM(CASE WHEN adm.ACCNUT_YEAR <![CDATA[ < ]]> TO_CHAR(ADD_MONTHS(TO_DATE(gm.RQEST_DE,'YYYYMMDD') ,-3),'YYYY') THEN adm.ACCNUT_AMT + adm.ACCNUT_CANCL_AMT ELSE 0 END) AS pass_amt /*  경과회비 */
+					    , SUM(CASE WHEN TO_CHAR(ADD_MONTHS(TO_DATE(gm.RQEST_DE,'YYYYMMDD') ,-3),'YYYY') = adm.ACCNUT_YEAR THEN adm.ACCNUT_AMT + adm.ACCNUT_CANCL_AMT ELSE 0 END) AS cur_amt /*  당월회비 */
+					 FROM giro_ntic gn
+					    ,giro_detail gd
+					    ,giro_master gm
+					    ,aid_dues_master adm
+					WHERE EXISTS (
+						SELECT 1
+						FROM (
+						SELECT '-' AS GIRO_CD FROM DUAL
+						<iterate open=" UNION ALL " conjunction="UNION ALL">
+							SELECT #[].giro_cd# AS GIRO_CD FROM DUAL
+						</iterate>
+						) gn2
+						WHERE gn.giro_cd = gn2.GIRO_CD
+						)
+					  AND gn.giro_cd = gd.giro_cd
+					  AND gd.dues_cl = '00170003'
+					  AND gn.giro_cd = gm.giro_cd
+					  AND adm.ACCNUT_YEAR = gd.key1
+					  AND adm.pin = gd.key2
+					  AND adm.DUES_FLAG = gd.key3
+					GROUP BY adm.ACCNUT_YEAR , adm.pin
+					UNION ALL
+					 /* 복지회비 */ 
+					SELECT MAX(gd.dues_cl) AS dues_cl
+					    , wpd.MANAGE_YM
+					    , '' AS CMPY_NM
+					    , '' AS RCEPT_DE
+					    , '' DUTY_DUES_CL
+					    , '' DUTY_FLAG
+					    , 0 odr
+					    , '' DUE_DE
+					    , SUM(wpd.WLFARE_DUES) AS dues_amt
+					    , 0 AS add_amt
+					    , 0 AS delay_amt
+					    , 0 AS pass_amt /* 경과회비 */
+					    , SUM(wpd.WLFARE_DUES) AS cur_amt /*  당월회비 */
+					 FROM giro_ntic gn
+					    ,giro_detail gd
+					    ,giro_master gm
+					    ,WPN_PAY_DETAIL wpd
+					WHERE EXISTS (
+						SELECT 1
+						FROM (
+						SELECT '-' AS GIRO_CD FROM DUAL
+						<iterate open=" UNION ALL " conjunction="UNION ALL">
+							SELECT #[].giro_cd# AS GIRO_CD FROM DUAL
+						</iterate>
+						) gn2
+						WHERE gn.giro_cd = gn2.GIRO_CD
+						)
+					  AND gn.giro_cd = gd.giro_cd
+					  AND gd.dues_cl = '00170004'
+					  AND gn.giro_cd = gm.giro_cd
+					  AND wpd.ACCNUT_YEAR = gd.key1
+					  AND wpd.MANAGE_YM = gd.key2
+					  AND wpd.PIN = gd.key3
+					GROUP BY wpd.ACCNUT_YEAR , wpd.MANAGE_YM
+					UNION ALL
+					/* 세무자료 */
+					SELECT MAX(gd.dues_cl) AS dues_cl
+					    , tm.MANAGE_YEAR
+					    , '' AS CMPY_NM
+					    , '' AS RCEPT_DE
+					    , '' DUTY_DUES_CL
+					    , '' DUTY_FLAG
+					    , 0 odr
+					    , '' DUE_DE
+					    , SUM(tm.REQST_TOT_AMT) AS dues_amt
+					    , 0 AS add_amt
+					    , 0 AS delay_amt
+					    , 0 AS pass_amt  /*  경과회비 */
+					    , SUM(tm.REQST_TOT_AMT) AS cur_amt /*  당월회비 */
+					 FROM giro_ntic gn
+					    ,giro_detail gd
+					    ,giro_master gm
+					    ,TAXAFS_MASTER tm
+					WHERE EXISTS (
+						SELECT 1
+						FROM (
+						SELECT '-' AS GIRO_CD FROM DUAL
+						<iterate open=" UNION ALL " conjunction="UNION ALL">
+							SELECT #[].giro_cd# AS GIRO_CD FROM DUAL
+						</iterate>
+						) gn2
+						WHERE gn.giro_cd = gn2.GIRO_CD
+						)
+					  AND gn.giro_cd = gd.giro_cd
+					  AND gd.dues_cl = '00170005'
+					  AND gn.giro_cd = gm.giro_cd
+					  AND tm.TAX_FLAG = gd.KEY1
+					  AND tm.TAX_ID = gd.KEY2
+					  AND tm.MANAGE_YEAR = gd.KEY3
+					GROUP BY tm.MANAGE_YEAR
+					UNION ALL
+					 /* 도서자료 */ 
+					SELECT MAX(gd.dues_cl) AS dues_cl
+					    , MAX(pbob.PBOB_ORD_DATE) AS PBOB_ORD_DATE
+					    , MAX(pbm.PBM_BOOK_NAME) AS CMPY_NM
+					    , '' AS RCEPT_DE
+					    , '' DUTY_DUES_CL
+					    , '' DUTY_FLAG
+					    , 0 odr
+					    , '' DUE_DE
+					    , SUM(pbob.PBOB_SEND_AMT - pbob.PBOB_PAY_AMT) AS dues_amt
+					    , 0 AS add_amt
+					    , 0 AS delay_amt
+					    , 0 AS pass_amt  /* 경과회비 */
+					    , SUM(pbob.PBOB_SEND_AMT - pbob.PBOB_PAY_AMT) AS cur_amt /*  당월회비 */
+					 FROM giro_ntic gn
+					    ,giro_detail gd
+					    ,giro_master gm
+					    ,PUB_BOOK_ORD_BASE pbob
+					    ,PUB_BOOK_MASTER pbm
+					WHERE EXISTS (
+						SELECT 1
+						FROM (
+						SELECT '-' AS GIRO_CD FROM DUAL
+						<iterate open=" UNION ALL " conjunction="UNION ALL">
+							SELECT #[].giro_cd# AS GIRO_CD FROM DUAL
+						</iterate>
+						) gn2
+						WHERE gn.giro_cd = gn2.GIRO_CD
+						)
+					  AND gn.giro_cd = gd.giro_cd
+					  AND gd.dues_cl = '00170006'
+					  AND gn.giro_cd = gm.giro_cd
+					  AND pbob.PBOB_ORD_NUM = gd.KEY1
+					  AND pbm.PBM_BOOK_CODE = pbob.PBOB_BOOK_CODE
+					GROUP BY pbob.PBOB_ORD_NUM
+					UNION ALL
+					 /* 특별회비 */
+					SELECT '00170007' AS dues_cl
+					    , MAX(gm.NTIC_DE) AS NTIC_DE
+					    , '' AS CMPY_NM
+					    , '' AS RCEPT_DE
+					    , '' DUTY_DUES_CL
+					    , '' DUTY_FLAG
+					    , 0 odr
+					    , '' DUE_DE
+					    , SUM(gm.NTIC_AMT) AS dues_amt
+					    , 0 AS add_amt
+					    , 0 AS delay_amt
+					    , 0 AS pass_amt  /*  경과회비 */
+					    , SUM(gm.NTIC_AMT) AS cur_amt /*  당월회비 */
+					 FROM giro_ntic gn
+					    ,giro_master gm
+					WHERE EXISTS (
+						SELECT 1
+						FROM (
+						SELECT '-' AS GIRO_CD FROM DUAL
+						<iterate open=" UNION ALL " conjunction="UNION ALL">
+							SELECT #[].giro_cd# AS GIRO_CD FROM DUAL
+						</iterate>
+						) gn2
+						WHERE gn.giro_cd = gn2.GIRO_CD
+						)
+					  AND gn.giro_cd = gm.giro_cd
+					  AND gm.RQEST_CD = '35230070'
+					GROUP BY gn.giro_cd
+					UNION ALL
+					<!-- /* 직무회비 */ -->
+					SELECT MAX(gd.DUES_CL) AS DUES_CL /*  회비분류 */
+					     ,'' AS ACCNUT_YEAR   /*  연도 */
+					     ,am.CMPY_NM  /*  회사명 */
+					     ,MAX(aa.RCEPT_DE) AS RCEPT_DE /*  접수일 */
+					     ,DECODE(ddm.DUTY_DUES_CL ,'56030010','회계감사','56030020','세무조정','56030030','기업진단','56030040','감리업무수수료','기타') AS DUTY_DUES_CL  /* 업무구분 */
+					     ,DECODE(ddm.DUES_FLAG  ,'56040010','직무회비','56040020','추가회비','56040030','지연가산금','기타') AS DUES_FLAG   /* 회비구분 */
+					     ,ddm.ODR /*  차수 */
+					     ,MAX(ddm.DUE_DE) AS DUE_DE  /*  납기 */
+					     ,SUM(CASE WHEN ddm.DUES_FLAG = '56040010' THEN ddm.NPY_AMT ELSE 0 END) AS dues_amt /*  직무회비 */
+					     ,SUM(CASE WHEN ddm.DUES_FLAG = '56040020' THEN ddm.NPY_AMT ELSE 0 END) AS add_amt /*  추가회비 */
+					     ,SUM(CASE WHEN ddm.DUES_FLAG = '56040030' THEN ddm.NPY_AMT ELSE 0 END) AS delay_amt /*  지연회비  */
+					     ,SUM(CASE WHEN ddm.DUES_FLAG = '56040010' AND ddm.DUE_DE <![CDATA[ < ]]> SUBSTR(gm.RQEST_DE,0,6)||'01'
+					                THEN ddm.NPY_AMT
+					               WHEN ddm.DUES_FLAG = '56040020' AND EXISTS(SELECT 1
+					                                                             FROM DUTY_DUES_MASTER ddm2
+					                                                            WHERE ddm.DUTY_DUES_CL = ddm2.DUTY_DUES_CL
+					                                                              AND ddm.DUTY_DUES_SN = ddm2.DUTY_DUES_SN
+					                                                              AND ddm.ODR = ddm2.ODR
+					                                                              AND ddm2.DUES_FLAG = '56040010'
+					                                                              AND ddm2.DUE_DE <![CDATA[ < ]]> SUBSTR(gm.RQEST_DE,0,6)||'01'
+					                                                              )
+					                THEN ddm.NPY_AMT
+					                WHEN ddm.DUES_FLAG = '56040030' AND EXISTS(SELECT 1
+					                                                             FROM DUTY_DUES_MASTER ddm2
+					                                                            WHERE ddm.DUTY_DUES_CL = ddm2.DUTY_DUES_CL
+					                                                              AND ddm.DUTY_DUES_SN = ddm2.DUTY_DUES_SN
+					                                                              AND ddm2.DUES_FLAG = '56040010'
+					                                                              AND ddm2.DUE_DE <![CDATA[ < ]]> SUBSTR(gm.RQEST_DE,0,6)||'01'
+					                                                              AND EXISTS (
+					                                                                    SELECT 1
+					                                                                      FROM DUTY_DUES_MASTER ddm3
+					                                                                     WHERE ddm2.DUTY_DUES_CL = ddm3.DUTY_DUES_CL
+					                                                                       AND ddm2.DUTY_DUES_SN = ddm3.DUTY_DUES_SN
+					                                                                       AND ddm2.DUES_FLAG = ddm3.DUES_FLAG
+					                                                                       GROUP BY ddm3.DUTY_DUES_CL , ddm3.DUTY_DUES_SN , ddm3.DUES_FLAG
+					                                                                       HAVING MIN(ddm3.ODR) = ddm2.ODR
+					
+					                                                                )
+					                                                              )
+					                THEN ddm.NPY_AMT
+					                ELSE 0
+					            END
+					          ) AS pass_amt /*  경과회비 */
+					     ,SUM(CASE WHEN ddm.DUES_FLAG = '56040010' AND ddm.DUE_DE BETWEEN SUBSTR(gm.RQEST_DE,0,6)||'01' AND gm.RQEST_DE
+					                THEN ddm.NPY_AMT
+					               WHEN ddm.DUES_FLAG = '56040020' AND EXISTS(SELECT 1
+					                                                             FROM DUTY_DUES_MASTER ddm2
+					                                                            WHERE ddm.DUTY_DUES_CL = ddm2.DUTY_DUES_CL
+					                                                              AND ddm.DUTY_DUES_SN = ddm2.DUTY_DUES_SN
+					                                                              AND ddm.ODR = ddm2.ODR
+					                                                              AND ddm2.DUES_FLAG = '56040010'
+					                                                              AND ddm2.DUE_DE BETWEEN SUBSTR(gm.RQEST_DE,0,6)||'01' AND SUBSTR(gm.RQEST_DE,0,6)||'31'
+					                                                              )
+					                THEN ddm.NPY_AMT
+					                WHEN ddm.DUES_FLAG = '56040030' AND EXISTS(SELECT 1
+					                                                             FROM DUTY_DUES_MASTER ddm2
+					                                                            WHERE ddm.DUTY_DUES_CL = ddm2.DUTY_DUES_CL
+					                                                              AND ddm.DUTY_DUES_SN = ddm2.DUTY_DUES_SN
+					                                                              AND ddm2.DUES_FLAG = '56040010'
+					                                                              AND ddm2.DUE_DE BETWEEN SUBSTR(gm.RQEST_DE,0,6)||'01' AND SUBSTR(gm.RQEST_DE,0,6)||'31'
+					                                                              AND EXISTS (
+					                                                                    SELECT 1
+					                                                                      FROM DUTY_DUES_MASTER ddm3
+					                                                                     WHERE ddm2.DUTY_DUES_CL = ddm3.DUTY_DUES_CL
+					                                                                       AND ddm2.DUTY_DUES_SN = ddm3.DUTY_DUES_SN
+					                                                                       AND ddm2.DUES_FLAG = ddm3.DUES_FLAG
+					                                                                       GROUP BY ddm3.DUTY_DUES_CL , ddm3.DUTY_DUES_SN , ddm3.DUES_FLAG
+					                                                                       HAVING MIN(ddm3.ODR) = ddm2.ODR
+					
+					                                                                )
+					                                                              )
+					                THEN ddm.NPY_AMT
+					                ELSE 0
+					            END
+					          ) AS cur_amt /* 당월회비 */
+					FROM giro_ntic gn
+					    ,giro_master gm
+					    ,giro_detail gd
+					    ,DUTY_DUES_MASTER ddm
+					    ,ACCNUT_AUDIT aa
+					    ,AUDITEES_MASTER am
+					WHERE EXISTS (
+						SELECT 1
+						FROM (
+						SELECT '-' AS GIRO_CD FROM DUAL
+						<iterate open=" UNION ALL " conjunction="UNION ALL">
+							SELECT #[].giro_cd# AS GIRO_CD FROM DUAL
+						</iterate>
+						) gn2
+						WHERE gn.giro_cd = gn2.GIRO_CD
+						)
+					  AND gn.giro_cd = gd.giro_cd
+					  AND gd.DUES_CL = '00170001'
+					  AND gn.giro_cd = gm.giro_cd
+					  AND ddm.DUTY_DUES_CL = gd.key1
+					  AND ddm.DUES_FLAG = gd.key2
+					  AND ddm.ODR = gd.key3
+					  AND ddm.DUTY_DUES_SN = gd.key4
+					  AND ddm.DUTY_DUES_CL IN ('56030010','56030040')
+					  AND ddm.DUTY_DUES_SN = aa.DUTY_DUES_SN
+					  AND aa.CMPY_CD = am.CMPY_CD
+					GROUP BY am.CMPY_NM , ddm.DUTY_DUES_CL , ddm.DUES_FLAG  , ddm.ODR
+					UNION ALL
+					SELECT MAX(gd.DUES_CL) AS DUES_CL
+					     ,'' AS ACCNUT_YEAR
+					     ,cd.CMPNY_NM
+					     ,MAX(cd.RCEPT_DE) AS RCEPT_DE
+					     ,DECODE(ddm.DUTY_DUES_CL ,'56030010','회계감사','56030020','세무조정','56030030','기업진단','56030040','감리업무수수료','기타') AS DUTY_DUES_CL  /* 업무구분 */
+					     ,DECODE(ddm.DUES_FLAG  ,'56040010','직무회비','56040020','추가회비','56040030','지연가산금','기타') AS DUES_FLAG   /* 회비구분 */					     
+					     ,ddm.ODR
+					     ,MAX(ddm.DUE_DE) AS DUE_DE
+					     ,SUM(CASE WHEN ddm.DUES_FLAG = '56040010' THEN ddm.NPY_AMT ELSE 0 END) AS dues_amt
+					     ,SUM(CASE WHEN ddm.DUES_FLAG = '56040020' THEN ddm.NPY_AMT ELSE 0 END) AS add_amt
+					     ,SUM(CASE WHEN ddm.DUES_FLAG = '56040030' THEN ddm.NPY_AMT ELSE 0 END) AS delay_amt
+					     ,SUM(CASE WHEN ddm.DUES_FLAG = '56040010' AND ddm.DUE_DE <![CDATA[ < ]]> SUBSTR(gm.RQEST_DE,0,6)||'01'
+					                THEN ddm.NPY_AMT
+					               WHEN ddm.DUES_FLAG = '56040020' AND EXISTS(SELECT 1
+					                                                             FROM DUTY_DUES_MASTER ddm2
+					                                                            WHERE ddm.DUTY_DUES_CL = ddm2.DUTY_DUES_CL
+					                                                              AND ddm.DUTY_DUES_SN = ddm2.DUTY_DUES_SN
+					                                                              AND ddm.ODR = ddm2.ODR
+					                                                              AND ddm2.DUES_FLAG = '56040010'
+					                                                              AND ddm2.DUE_DE <![CDATA[ < ]]> SUBSTR(gm.RQEST_DE,0,6)||'01'
+					                                                              )
+					                THEN ddm.NPY_AMT
+					                WHEN ddm.DUES_FLAG = '56040030' AND EXISTS(SELECT 1
+					                                                             FROM DUTY_DUES_MASTER ddm2
+					                                                            WHERE ddm.DUTY_DUES_CL = ddm2.DUTY_DUES_CL
+					                                                              AND ddm.DUTY_DUES_SN = ddm2.DUTY_DUES_SN
+					                                                              AND ddm2.DUES_FLAG = '56040010'
+					                                                              AND ddm2.DUE_DE <![CDATA[ < ]]> SUBSTR(gm.RQEST_DE,0,6)||'01'
+					                                                              AND EXISTS (
+					                                                                    SELECT 1
+					                                                                      FROM DUTY_DUES_MASTER ddm3
+					                                                                     WHERE ddm2.DUTY_DUES_CL = ddm3.DUTY_DUES_CL
+					                                                                       AND ddm2.DUTY_DUES_SN = ddm3.DUTY_DUES_SN
+					                                                                       AND ddm2.DUES_FLAG = ddm3.DUES_FLAG
+					                                                                       GROUP BY ddm3.DUTY_DUES_CL , ddm3.DUTY_DUES_SN , ddm3.DUES_FLAG
+					                                                                       HAVING MIN(ddm3.ODR) = ddm2.ODR
+					
+					                                                                )
+					                                                              )
+					                THEN ddm.NPY_AMT
+					                ELSE 0
+					            END
+					          ) AS pass_amt
+					     ,SUM(CASE WHEN ddm.DUES_FLAG = '56040010' AND ddm.DUE_DE BETWEEN SUBSTR(gm.RQEST_DE,0,6)||'01' AND gm.RQEST_DE
+					                THEN ddm.NPY_AMT
+					               WHEN ddm.DUES_FLAG = '56040020' AND EXISTS(SELECT 1
+					                                                             FROM DUTY_DUES_MASTER ddm2
+					                                                            WHERE ddm.DUTY_DUES_CL = ddm2.DUTY_DUES_CL
+					                                                              AND ddm.DUTY_DUES_SN = ddm2.DUTY_DUES_SN
+					                                                              AND ddm.ODR = ddm2.ODR
+					                                                              AND ddm2.DUES_FLAG = '56040010'
+					                                                              AND ddm2.DUE_DE BETWEEN SUBSTR(gm.RQEST_DE,0,6)||'01' AND SUBSTR(gm.RQEST_DE,0,6)||'31'
+					                                                              )
+					                THEN ddm.NPY_AMT
+					                WHEN ddm.DUES_FLAG = '56040030' AND EXISTS(SELECT 1
+					                                                             FROM DUTY_DUES_MASTER ddm2
+					                                                            WHERE ddm.DUTY_DUES_CL = ddm2.DUTY_DUES_CL
+					                                                              AND ddm.DUTY_DUES_SN = ddm2.DUTY_DUES_SN
+					                                                              AND ddm2.DUES_FLAG = '56040010'
+					                                                              AND ddm2.DUE_DE BETWEEN SUBSTR(gm.RQEST_DE,0,6)||'01' AND SUBSTR(gm.RQEST_DE,0,6)||'31'
+					                                                              AND EXISTS (
+					                                                                    SELECT 1
+					                                                                      FROM DUTY_DUES_MASTER ddm3
+					                                                                     WHERE ddm2.DUTY_DUES_CL = ddm3.DUTY_DUES_CL
+					                                                                       AND ddm2.DUTY_DUES_SN = ddm3.DUTY_DUES_SN
+					                                                                       AND ddm2.DUES_FLAG = ddm3.DUES_FLAG
+					                                                                       GROUP BY ddm3.DUTY_DUES_CL , ddm3.DUTY_DUES_SN , ddm3.DUES_FLAG
+					                                                                       HAVING MIN(ddm3.ODR) = ddm2.ODR
+					
+					                                                                )
+					                                                              )
+					                THEN ddm.NPY_AMT
+					                ELSE 0
+					            END
+					          ) AS cur_amt
+					FROM giro_ntic gn
+					    ,giro_master gm
+					    ,giro_detail gd
+					    ,DUTY_DUES_MASTER ddm
+					    ,CMPNY_DGNSS cd
+					WHERE EXISTS (
+						SELECT 1
+						FROM (
+						SELECT '-' AS GIRO_CD FROM DUAL
+						<iterate open=" UNION ALL " conjunction="UNION ALL">
+							SELECT #[].giro_cd# AS GIRO_CD FROM DUAL
+						</iterate>
+						) gn2
+						WHERE gn.giro_cd = gn2.GIRO_CD
+						)
+					  AND gn.giro_cd = gd.giro_cd
+					  AND gd.DUES_CL = '00170001'
+					  AND gn.giro_cd = gm.giro_cd
+					  AND ddm.DUTY_DUES_CL = gd.key1
+					  AND ddm.DUES_FLAG = gd.key2
+					  AND ddm.ODR = gd.key3
+					  AND ddm.DUTY_DUES_SN = gd.key4
+					  AND ddm.DUTY_DUES_CL IN ('56030030')
+					  AND ddm.DUTY_DUES_SN = cd.DUTY_DUES_SN
+					GROUP BY cd.CMPNY_NM , ddm.DUTY_DUES_CL ,ddm.DUES_FLAG , ddm.ODR
+					UNION ALL
+					SELECT MAX(gd.DUES_CL) AS DUES_CL
+					     ,'' AS ACCNUT_YEAR
+					     ,tm.CMPNY_NM
+					     ,MAX(tm.RCEPT_DE) AS RCEPT_DE
+					     ,DECODE(ddm.DUTY_DUES_CL ,'56030010','회계감사','56030020','세무조정','56030030','기업진단','56030040','감리업무수수료','기타') AS DUTY_DUES_CL  /* 업무구분 */
+					     ,DECODE(ddm.DUES_FLAG  ,'56040010','직무회비','56040020','추가회비','56040030','지연가산금','기타') AS DUES_FLAG   /* 회비구분 */					     					     
+					     ,ddm.ODR
+					     ,MAX(ddm.DUE_DE) AS DUE_DE
+					     ,SUM(CASE WHEN ddm.DUES_FLAG = '56040010' THEN ddm.NPY_AMT ELSE 0 END) AS dues_amt
+					     ,SUM(CASE WHEN ddm.DUES_FLAG = '56040020' THEN ddm.NPY_AMT ELSE 0 END) AS add_amt
+					     ,SUM(CASE WHEN ddm.DUES_FLAG = '56040030' THEN ddm.NPY_AMT ELSE 0 END) AS delay_amt
+					     ,SUM(CASE WHEN ddm.DUES_FLAG = '56040010' AND ddm.DUE_DE <![CDATA[ < ]]> SUBSTR(gm.RQEST_DE,0,6)||'01'
+					                THEN ddm.NPY_AMT
+					               WHEN ddm.DUES_FLAG = '56040020' AND EXISTS(SELECT 1
+					                                                             FROM DUTY_DUES_MASTER ddm2
+					                                                            WHERE ddm.DUTY_DUES_CL = ddm2.DUTY_DUES_CL
+					                                                              AND ddm.DUTY_DUES_SN = ddm2.DUTY_DUES_SN
+					                                                              AND ddm.ODR = ddm2.ODR
+					                                                              AND ddm2.DUES_FLAG = '56040010'
+					                                                              AND ddm2.DUE_DE <![CDATA[ < ]]> SUBSTR(gm.RQEST_DE,0,6)||'01'
+					                                                              )
+					                THEN ddm.NPY_AMT
+					                WHEN ddm.DUES_FLAG = '56040030' AND EXISTS(SELECT 1
+					                                                             FROM DUTY_DUES_MASTER ddm2
+					                                                            WHERE ddm.DUTY_DUES_CL = ddm2.DUTY_DUES_CL
+					                                                              AND ddm.DUTY_DUES_SN = ddm2.DUTY_DUES_SN
+					                                                              AND ddm2.DUES_FLAG = '56040010'
+					                                                              AND ddm2.DUE_DE <![CDATA[ < ]]> SUBSTR(gm.RQEST_DE,0,6)||'01'
+					                                                              AND EXISTS (
+					                                                                    SELECT 1
+					                                                                      FROM DUTY_DUES_MASTER ddm3
+					                                                                     WHERE ddm2.DUTY_DUES_CL = ddm3.DUTY_DUES_CL
+					                                                                       AND ddm2.DUTY_DUES_SN = ddm3.DUTY_DUES_SN
+					                                                                       AND ddm2.DUES_FLAG = ddm3.DUES_FLAG
+					                                                                       GROUP BY ddm3.DUTY_DUES_CL , ddm3.DUTY_DUES_SN , ddm3.DUES_FLAG
+					                                                                       HAVING MIN(ddm3.ODR) = ddm2.ODR
+					
+					                                                                )
+					                                                              )
+					                THEN ddm.NPY_AMT
+					                ELSE 0
+					            END
+					          ) AS pass_amt
+					     ,SUM(CASE WHEN ddm.DUES_FLAG = '56040010' AND ddm.DUE_DE BETWEEN SUBSTR(gm.RQEST_DE,0,6)||'01' AND gm.RQEST_DE
+					                THEN ddm.NPY_AMT
+					               WHEN ddm.DUES_FLAG = '56040020' AND EXISTS(SELECT 1
+					                                                             FROM DUTY_DUES_MASTER ddm2
+					                                                            WHERE ddm.DUTY_DUES_CL = ddm2.DUTY_DUES_CL
+					                                                              AND ddm.DUTY_DUES_SN = ddm2.DUTY_DUES_SN
+					                                                              AND ddm.ODR = ddm2.ODR
+					                                                              AND ddm2.DUES_FLAG = '56040010'
+					                                                              AND ddm2.DUE_DE BETWEEN SUBSTR(gm.RQEST_DE,0,6)||'01' AND SUBSTR(gm.RQEST_DE,0,6)||'31'
+					                                                              )
+					                THEN ddm.NPY_AMT
+					                WHEN ddm.DUES_FLAG = '56040030' AND EXISTS(SELECT 1
+					                                                             FROM DUTY_DUES_MASTER ddm2
+					                                                            WHERE ddm.DUTY_DUES_CL = ddm2.DUTY_DUES_CL
+					                                                              AND ddm.DUTY_DUES_SN = ddm2.DUTY_DUES_SN
+					                                                              AND ddm2.DUES_FLAG = '56040010'
+					                                                              AND ddm2.DUE_DE BETWEEN SUBSTR(gm.RQEST_DE,0,6)||'01' AND SUBSTR(gm.RQEST_DE,0,6)||'31'
+					                                                              AND EXISTS (
+					                                                                    SELECT 1
+					                                                                      FROM DUTY_DUES_MASTER ddm3
+					                                                                     WHERE ddm2.DUTY_DUES_CL = ddm3.DUTY_DUES_CL
+					                                                                       AND ddm2.DUTY_DUES_SN = ddm3.DUTY_DUES_SN
+					                                                                       AND ddm2.DUES_FLAG = ddm3.DUES_FLAG
+					                                                                       GROUP BY ddm3.DUTY_DUES_CL , ddm3.DUTY_DUES_SN , ddm3.DUES_FLAG
+					                                                                       HAVING MIN(ddm3.ODR) = ddm2.ODR
+					
+					                                                                )
+					                                                              )
+					                THEN ddm.NPY_AMT
+					                ELSE 0
+					            END
+					          ) AS cur_amt
+					FROM giro_ntic gn
+					    ,giro_master gm
+					    ,giro_detail gd
+					    ,DUTY_DUES_MASTER ddm
+					    ,TAXAFS_MDAT tm
+					WHERE EXISTS (
+						SELECT 1
+						FROM (
+						SELECT '-' AS GIRO_CD FROM DUAL
+						<iterate open=" UNION ALL " conjunction="UNION ALL">
+							SELECT #[].giro_cd# AS GIRO_CD FROM DUAL
+						</iterate>
+						) gn2
+						WHERE gn.giro_cd = gn2.GIRO_CD
+						)
+					  AND gn.giro_cd = gd.giro_cd
+					  AND gd.DUES_CL = '00170001'
+					  AND gn.giro_cd = gm.giro_cd
+					  AND ddm.DUTY_DUES_CL = gd.key1
+					  AND ddm.DUES_FLAG = gd.key2
+					  AND ddm.ODR = gd.key3
+					  AND ddm.DUTY_DUES_SN = gd.key4
+					  AND ddm.DUTY_DUES_CL IN ('56030020')
+					  AND ddm.DUTY_DUES_SN = tm.DUTY_DUES_SN
+					GROUP BY tm.CMPNY_NM , ddm.DUTY_DUES_CL , ddm.DUES_FLAG , ddm.ODR
+					ORDER BY DUES_CL, DUTY_DUES_CL, ACCNUT_YEAR		
+		
+	</select>	
+	
+	<select id="DuesDAO.selectDuesBillSum" parameterClass="java.util.List"  resultClass="dues">
+			select DECODE(A.DUES_CL,'00170002','연화비','00170003','부조회비','00170004','복지회비','00170005','세무자료','00170006','도서자료','00170007','특별회비','56030010','직무회비','56030040','직무회비','00170001','직무회비','기타') AS dues_cl_nm
+			     , A.DUES_CL as dues_cl 
+				 , MAX(A.due_de) AS due_de
+				 , SUM(A.dues_amt) AS dues_amt
+				 , SUM(A.add_amt) AS add_amt
+				 , SUM(A.delay_amt) AS delay_amt
+				 , SUM(A.pass_amt) AS pass_amt
+				 , SUM(A.cur_amt) AS cur_amt
+			from (	 		
+			 /* 연화비 */ 
+					SELECT MAX(gd.DUES_CL) AS DUES_CL
+					    , ydm.ACCNUT_YEAR
+					    , '' AS CMPY_NM
+					    , '' AS RCEPT_DE
+					    , '' DUTY_DUES_CL
+					    , '' DUTY_FLAG
+					    , 0 odr
+					    , ydm.ACCNUT_YEAR||'0731' DUE_DE
+					    , SUM(CASE WHEN ydm.DUES_FLAG = 'Y' THEN ydm.DUES_AMT ELSE 0 END) AS dues_amt   /* 회비*/
+					    , SUM(CASE WHEN ydm.DUES_FLAG = 'D' THEN ydm.DUES_AMT ELSE 0 END) AS add_amt /* 추가회비*/
+					    , 0 AS delay_amt  /* 지연회비 */
+					    , SUM(CASE WHEN ydm.ACCNUT_YEAR||'0731' <![CDATA[ < ]]> gm.RQEST_DE THEN ydm.DUES_AMT ELSE 0 END) AS pass_amt /*  경과회비 */
+					    , SUM(CASE WHEN gm.RQEST_DE BETWEEN ydm.ACCNUT_YEAR||'0401' AND ydm.ACCNUT_YEAR||'0731' THEN ydm.DUES_AMT ELSE 0 END) AS cur_amt /*  당월회비 */
+					 FROM giro_ntic gn
+					    ,giro_detail gd
+					    ,giro_master gm
+					    ,year_dues_master ydm
+					WHERE EXISTS (
+						SELECT 1
+						FROM (
+						SELECT '-' AS GIRO_CD FROM DUAL
+						<iterate open=" UNION ALL " conjunction="UNION ALL">
+							SELECT #[].giro_cd# AS GIRO_CD FROM DUAL
+						</iterate>
+						) gn2
+						WHERE gn.giro_cd = gn2.GIRO_CD
+						)
+					  AND gn.giro_cd = gd.giro_cd
+					  AND gd.dues_cl = '00170002'
+					  AND gn.giro_cd = gm.giro_cd
+					  AND ydm.ACCNUT_YEAR = gd.key1
+					  AND ydm.pin = gd.key2
+					  AND ydm.DUES_FLAG = gd.key3
+					  AND ydm.DUES_CL = gd.key4
+					GROUP BY ydm.ACCNUT_YEAR , ydm.pin
+					UNION ALL
+					 /* 부조회비 */ 
+					SELECT MAX(gd.dues_cl) AS dues_cl
+					    , adm.ACCNUT_YEAR
+					    , '' AS CMPY_NM
+					    , '' AS RCEPT_DE
+					    , '' DUTY_DUES_CL
+					    , '' DUTY_FLAG
+					    , 0 odr
+					    , (adm.ACCNUT_YEAR + 1)||'0331' DUE_DE
+					    , SUM(CASE WHEN adm.DUES_FLAG = 'Y' THEN adm.ACCNUT_AMT + adm.ACCNUT_CANCL_AMT ELSE 0 END) AS dues_amt
+					    , SUM(CASE WHEN adm.DUES_FLAG = 'D' THEN adm.ACCNUT_AMT + adm.ACCNUT_CANCL_AMT ELSE 0 END) AS add_amt
+					    , 0 AS delay_amt
+					    , SUM(CASE WHEN adm.ACCNUT_YEAR <![CDATA[ < ]]> TO_CHAR(ADD_MONTHS(TO_DATE(gm.RQEST_DE,'YYYYMMDD') ,-3),'YYYY') THEN adm.ACCNUT_AMT + adm.ACCNUT_CANCL_AMT ELSE 0 END) AS pass_amt /*  경과회비 */
+					    , SUM(CASE WHEN TO_CHAR(ADD_MONTHS(TO_DATE(gm.RQEST_DE,'YYYYMMDD') ,-3),'YYYY') = adm.ACCNUT_YEAR THEN adm.ACCNUT_AMT + adm.ACCNUT_CANCL_AMT ELSE 0 END) AS cur_amt /*  당월회비 */
+					 FROM giro_ntic gn
+					    ,giro_detail gd
+					    ,giro_master gm
+					    ,aid_dues_master adm
+					WHERE EXISTS (
+						SELECT 1
+						FROM (
+						SELECT '-' AS GIRO_CD FROM DUAL
+						<iterate open=" UNION ALL " conjunction="UNION ALL">
+							SELECT #[].giro_cd# AS GIRO_CD FROM DUAL
+						</iterate>
+						) gn2
+						WHERE gn.giro_cd = gn2.GIRO_CD
+						)
+					  AND gn.giro_cd = gd.giro_cd
+					  AND gd.dues_cl = '00170003'
+					  AND gn.giro_cd = gm.giro_cd
+					  AND adm.ACCNUT_YEAR = gd.key1
+					  AND adm.pin = gd.key2
+					  AND adm.DUES_FLAG = gd.key3
+					GROUP BY adm.ACCNUT_YEAR , adm.pin
+					UNION ALL
+					 /* 복지회비 */ 
+					SELECT MAX(gd.dues_cl) AS dues_cl
+					    , wpd.MANAGE_YM
+					    , '' AS CMPY_NM
+					    , '' AS RCEPT_DE
+					    , '' DUTY_DUES_CL
+					    , '' DUTY_FLAG
+					    , 0 odr
+					    , '' DUE_DE
+					    , SUM(wpd.WLFARE_DUES) AS dues_amt
+					    , 0 AS add_amt
+					    , 0 AS delay_amt
+					    , 0 AS pass_amt /* 경과회비 */
+					    , SUM(wpd.WLFARE_DUES) AS cur_amt /*  당월회비 */
+					 FROM giro_ntic gn
+					    ,giro_detail gd
+					    ,giro_master gm
+					    ,WPN_PAY_DETAIL wpd
+					WHERE EXISTS (
+						SELECT 1
+						FROM (
+						SELECT '-' AS GIRO_CD FROM DUAL
+						<iterate open=" UNION ALL " conjunction="UNION ALL">
+							SELECT #[].giro_cd# AS GIRO_CD FROM DUAL
+						</iterate>
+						) gn2
+						WHERE gn.giro_cd = gn2.GIRO_CD
+						)
+					  AND gn.giro_cd = gd.giro_cd
+					  AND gd.dues_cl = '00170004'
+					  AND gn.giro_cd = gm.giro_cd
+					  AND wpd.ACCNUT_YEAR = gd.key1
+					  AND wpd.MANAGE_YM = gd.key2
+					  AND wpd.PIN = gd.key3
+					GROUP BY wpd.ACCNUT_YEAR , wpd.MANAGE_YM
+					UNION ALL
+					/* 세무자료 */
+					SELECT MAX(gd.dues_cl) AS dues_cl
+					    , tm.MANAGE_YEAR
+					    , '' AS CMPY_NM
+					    , '' AS RCEPT_DE
+					    , '' DUTY_DUES_CL
+					    , '' DUTY_FLAG
+					    , 0 odr
+					    , '' DUE_DE
+					    , SUM(tm.REQST_TOT_AMT) AS dues_amt
+					    , 0 AS add_amt
+					    , 0 AS delay_amt
+					    , 0 AS pass_amt  /*  경과회비 */
+					    , SUM(tm.REQST_TOT_AMT) AS cur_amt /*  당월회비 */
+					 FROM giro_ntic gn
+					    ,giro_detail gd
+					    ,giro_master gm
+					    ,TAXAFS_MASTER tm
+					WHERE EXISTS (
+						SELECT 1
+						FROM (
+						SELECT '-' AS GIRO_CD FROM DUAL
+						<iterate open=" UNION ALL " conjunction="UNION ALL">
+							SELECT #[].giro_cd# AS GIRO_CD FROM DUAL
+						</iterate>
+						) gn2
+						WHERE gn.giro_cd = gn2.GIRO_CD
+						)
+					  AND gn.giro_cd = gd.giro_cd
+					  AND gd.dues_cl = '00170005'
+					  AND gn.giro_cd = gm.giro_cd
+					  AND tm.TAX_FLAG = gd.KEY1
+					  AND tm.TAX_ID = gd.KEY2
+					  AND tm.MANAGE_YEAR = gd.KEY3
+					GROUP BY tm.MANAGE_YEAR
+					UNION ALL
+					 /* 도서자료 */ 
+					SELECT MAX(gd.dues_cl) AS dues_cl
+					    , MAX(pbob.PBOB_ORD_DATE) AS PBOB_ORD_DATE
+					    , MAX(pbm.PBM_BOOK_NAME) AS CMPY_NM
+					    , '' AS RCEPT_DE
+					    , '' DUTY_DUES_CL
+					    , '' DUTY_FLAG
+					    , 0 odr
+					    , '' DUE_DE
+					    , SUM(pbob.PBOB_SEND_AMT - pbob.PBOB_PAY_AMT) AS dues_amt
+					    , 0 AS add_amt
+					    , 0 AS delay_amt
+					    , 0 AS pass_amt  /* 경과회비 */
+					    , SUM(pbob.PBOB_SEND_AMT - pbob.PBOB_PAY_AMT) AS cur_amt /*  당월회비 */
+					 FROM giro_ntic gn
+					    ,giro_detail gd
+					    ,giro_master gm
+					    ,PUB_BOOK_ORD_BASE pbob
+					    ,PUB_BOOK_MASTER pbm
+					WHERE EXISTS (
+						SELECT 1
+						FROM (
+						SELECT '-' AS GIRO_CD FROM DUAL
+						<iterate open=" UNION ALL " conjunction="UNION ALL">
+							SELECT #[].giro_cd# AS GIRO_CD FROM DUAL
+						</iterate>
+						) gn2
+						WHERE gn.giro_cd = gn2.GIRO_CD
+						)
+					  AND gn.giro_cd = gd.giro_cd
+					  AND gd.dues_cl = '00170006'
+					  AND gn.giro_cd = gm.giro_cd
+					  AND pbob.PBOB_ORD_NUM = gd.KEY1
+					  AND pbm.PBM_BOOK_CODE = pbob.PBOB_BOOK_CODE
+					GROUP BY pbob.PBOB_ORD_NUM
+					UNION ALL
+					 /* 특별회비 */
+					SELECT '00170007' AS dues_cl
+					    , MAX(gm.NTIC_DE) AS NTIC_DE
+					    , '' AS CMPY_NM
+					    , '' AS RCEPT_DE
+					    , '' DUTY_DUES_CL
+					    , '' DUTY_FLAG
+					    , 0 odr
+					    , '' DUE_DE
+					    , SUM(gm.NTIC_AMT) AS dues_amt
+					    , 0 AS add_amt
+					    , 0 AS delay_amt
+					    , 0 AS pass_amt  /*  경과회비 */
+					    , SUM(gm.NTIC_AMT) AS cur_amt /*  당월회비 */
+					 FROM giro_ntic gn
+					    ,giro_master gm
+					WHERE EXISTS (
+						SELECT 1
+						FROM (
+						SELECT '-' AS GIRO_CD FROM DUAL
+						<iterate open=" UNION ALL " conjunction="UNION ALL">
+							SELECT #[].giro_cd# AS GIRO_CD FROM DUAL
+						</iterate>
+						) gn2
+						WHERE gn.giro_cd = gn2.GIRO_CD
+						)
+					  AND gn.giro_cd = gm.giro_cd
+					  AND gm.RQEST_CD = '35230070'
+					GROUP BY gn.giro_cd
+					UNION ALL
+					<!-- /* 직무회비 */ -->
+					SELECT MAX(gd.DUES_CL) AS DUES_CL /*  회비분류 */
+					     ,'' AS ACCNUT_YEAR   /*  연도 */
+					     ,am.CMPY_NM  /*  회사명 */
+					     ,MAX(aa.RCEPT_DE) AS RCEPT_DE /*  접수일 */
+					     ,DECODE(ddm.DUTY_DUES_CL ,'56030010','회계감사','56030020','세무조정','56030030','기업진단','56030040','감리업무수수료','기타') AS DUTY_DUES_CL  /* 업무구분 */
+					     ,DECODE(ddm.DUES_FLAG  ,'56040010','직무회비','56040020','추가회비','56040030','지연가산금','기타') AS DUES_FLAG   /* 회비구분 */
+					     ,ddm.ODR /*  차수 */
+					     ,MAX(ddm.DUE_DE) AS DUE_DE  /*  납기 */
+					     ,SUM(CASE WHEN ddm.DUES_FLAG = '56040010' THEN ddm.NPY_AMT ELSE 0 END) AS dues_amt /*  직무회비 */
+					     ,SUM(CASE WHEN ddm.DUES_FLAG = '56040020' THEN ddm.NPY_AMT ELSE 0 END) AS add_amt /*  추가회비 */
+					     ,SUM(CASE WHEN ddm.DUES_FLAG = '56040030' THEN ddm.NPY_AMT ELSE 0 END) AS delay_amt /*  지연회비  */
+					     ,SUM(CASE WHEN ddm.DUES_FLAG = '56040010' AND ddm.DUE_DE <![CDATA[ < ]]> SUBSTR(gm.RQEST_DE,0,6)||'01'
+					                THEN ddm.NPY_AMT
+					               WHEN ddm.DUES_FLAG = '56040020' AND EXISTS(SELECT 1
+					                                                             FROM DUTY_DUES_MASTER ddm2
+					                                                            WHERE ddm.DUTY_DUES_CL = ddm2.DUTY_DUES_CL
+					                                                              AND ddm.DUTY_DUES_SN = ddm2.DUTY_DUES_SN
+					                                                              AND ddm.ODR = ddm2.ODR
+					                                                              AND ddm2.DUES_FLAG = '56040010'
+					                                                              AND ddm2.DUE_DE <![CDATA[ < ]]> SUBSTR(gm.RQEST_DE,0,6)||'01'
+					                                                              )
+					                THEN ddm.NPY_AMT
+					                WHEN ddm.DUES_FLAG = '56040030' AND EXISTS(SELECT 1
+					                                                             FROM DUTY_DUES_MASTER ddm2
+					                                                            WHERE ddm.DUTY_DUES_CL = ddm2.DUTY_DUES_CL
+					                                                              AND ddm.DUTY_DUES_SN = ddm2.DUTY_DUES_SN
+					                                                              AND ddm2.DUES_FLAG = '56040010'
+					                                                              AND ddm2.DUE_DE <![CDATA[ < ]]> SUBSTR(gm.RQEST_DE,0,6)||'01'
+					                                                              AND EXISTS (
+					                                                                    SELECT 1
+					                                                                      FROM DUTY_DUES_MASTER ddm3
+					                                                                     WHERE ddm2.DUTY_DUES_CL = ddm3.DUTY_DUES_CL
+					                                                                       AND ddm2.DUTY_DUES_SN = ddm3.DUTY_DUES_SN
+					                                                                       AND ddm2.DUES_FLAG = ddm3.DUES_FLAG
+					                                                                       GROUP BY ddm3.DUTY_DUES_CL , ddm3.DUTY_DUES_SN , ddm3.DUES_FLAG
+					                                                                       HAVING MIN(ddm3.ODR) = ddm2.ODR
+					
+					                                                                )
+					                                                              )
+					                THEN ddm.NPY_AMT
+					                ELSE 0
+					            END
+					          ) AS pass_amt /*  경과회비 */
+					     ,SUM(CASE WHEN ddm.DUES_FLAG = '56040010' AND ddm.DUE_DE BETWEEN SUBSTR(gm.RQEST_DE,0,6)||'01' AND gm.RQEST_DE
+					                THEN ddm.NPY_AMT
+					               WHEN ddm.DUES_FLAG = '56040020' AND EXISTS(SELECT 1
+					                                                             FROM DUTY_DUES_MASTER ddm2
+					                                                            WHERE ddm.DUTY_DUES_CL = ddm2.DUTY_DUES_CL
+					                                                              AND ddm.DUTY_DUES_SN = ddm2.DUTY_DUES_SN
+					                                                              AND ddm.ODR = ddm2.ODR
+					                                                              AND ddm2.DUES_FLAG = '56040010'
+					                                                              AND ddm2.DUE_DE BETWEEN SUBSTR(gm.RQEST_DE,0,6)||'01' AND SUBSTR(gm.RQEST_DE,0,6)||'31'
+					                                                              )
+					                THEN ddm.NPY_AMT
+					                WHEN ddm.DUES_FLAG = '56040030' AND EXISTS(SELECT 1
+					                                                             FROM DUTY_DUES_MASTER ddm2
+					                                                            WHERE ddm.DUTY_DUES_CL = ddm2.DUTY_DUES_CL
+					                                                              AND ddm.DUTY_DUES_SN = ddm2.DUTY_DUES_SN
+					                                                              AND ddm2.DUES_FLAG = '56040010'
+					                                                              AND ddm2.DUE_DE BETWEEN SUBSTR(gm.RQEST_DE,0,6)||'01' AND SUBSTR(gm.RQEST_DE,0,6)||'31'
+					                                                              AND EXISTS (
+					                                                                    SELECT 1
+					                                                                      FROM DUTY_DUES_MASTER ddm3
+					                                                                     WHERE ddm2.DUTY_DUES_CL = ddm3.DUTY_DUES_CL
+					                                                                       AND ddm2.DUTY_DUES_SN = ddm3.DUTY_DUES_SN
+					                                                                       AND ddm2.DUES_FLAG = ddm3.DUES_FLAG
+					                                                                       GROUP BY ddm3.DUTY_DUES_CL , ddm3.DUTY_DUES_SN , ddm3.DUES_FLAG
+					                                                                       HAVING MIN(ddm3.ODR) = ddm2.ODR
+					
+					                                                                )
+					                                                              )
+					                THEN ddm.NPY_AMT
+					                ELSE 0
+					            END
+					          ) AS cur_amt /* 당월회비 */
+					FROM giro_ntic gn
+					    ,giro_master gm
+					    ,giro_detail gd
+					    ,DUTY_DUES_MASTER ddm
+					    ,ACCNUT_AUDIT aa
+					    ,AUDITEES_MASTER am
+					WHERE EXISTS (
+						SELECT 1
+						FROM (
+						SELECT '-' AS GIRO_CD FROM DUAL
+						<iterate open=" UNION ALL " conjunction="UNION ALL">
+							SELECT #[].giro_cd# AS GIRO_CD FROM DUAL
+						</iterate>
+						) gn2
+						WHERE gn.giro_cd = gn2.GIRO_CD
+						)
+					  AND gn.giro_cd = gd.giro_cd
+					  AND gd.DUES_CL = '00170001'
+					  AND gn.giro_cd = gm.giro_cd
+					  AND ddm.DUTY_DUES_CL = gd.key1
+					  AND ddm.DUES_FLAG = gd.key2
+					  AND ddm.ODR = gd.key3
+					  AND ddm.DUTY_DUES_SN = gd.key4
+					  AND ddm.DUTY_DUES_CL IN ('56030010','56030040')
+					  AND ddm.DUTY_DUES_SN = aa.DUTY_DUES_SN
+					  AND aa.CMPY_CD = am.CMPY_CD
+					GROUP BY am.CMPY_NM , ddm.DUTY_DUES_CL , ddm.DUES_FLAG  , ddm.ODR
+					UNION ALL
+					SELECT MAX(gd.DUES_CL) AS DUES_CL
+					     ,'' AS ACCNUT_YEAR
+					     ,cd.CMPNY_NM
+					     ,MAX(cd.RCEPT_DE) AS RCEPT_DE
+					     ,DECODE(ddm.DUTY_DUES_CL ,'56030010','회계감사','56030020','세무조정','56030030','기업진단','56030040','감리업무수수료','기타') AS DUTY_DUES_CL  /* 업무구분 */
+					     ,DECODE(ddm.DUES_FLAG  ,'56040010','직무회비','56040020','추가회비','56040030','지연가산금','기타') AS DUES_FLAG   /* 회비구분 */					     
+					     ,ddm.ODR
+					     ,MAX(ddm.DUE_DE) AS DUE_DE
+					     ,SUM(CASE WHEN ddm.DUES_FLAG = '56040010' THEN ddm.NPY_AMT ELSE 0 END) AS dues_amt
+					     ,SUM(CASE WHEN ddm.DUES_FLAG = '56040020' THEN ddm.NPY_AMT ELSE 0 END) AS add_amt
+					     ,SUM(CASE WHEN ddm.DUES_FLAG = '56040030' THEN ddm.NPY_AMT ELSE 0 END) AS delay_amt
+					     ,SUM(CASE WHEN ddm.DUES_FLAG = '56040010' AND ddm.DUE_DE <![CDATA[ < ]]> SUBSTR(gm.RQEST_DE,0,6)||'01'
+					                THEN ddm.NPY_AMT
+					               WHEN ddm.DUES_FLAG = '56040020' AND EXISTS(SELECT 1
+					                                                             FROM DUTY_DUES_MASTER ddm2
+					                                                            WHERE ddm.DUTY_DUES_CL = ddm2.DUTY_DUES_CL
+					                                                              AND ddm.DUTY_DUES_SN = ddm2.DUTY_DUES_SN
+					                                                              AND ddm.ODR = ddm2.ODR
+					                                                              AND ddm2.DUES_FLAG = '56040010'
+					                                                              AND ddm2.DUE_DE <![CDATA[ < ]]> SUBSTR(gm.RQEST_DE,0,6)||'01'
+					                                                              )
+					                THEN ddm.NPY_AMT
+					                WHEN ddm.DUES_FLAG = '56040030' AND EXISTS(SELECT 1
+					                                                             FROM DUTY_DUES_MASTER ddm2
+					                                                            WHERE ddm.DUTY_DUES_CL = ddm2.DUTY_DUES_CL
+					                                                              AND ddm.DUTY_DUES_SN = ddm2.DUTY_DUES_SN
+					                                                              AND ddm2.DUES_FLAG = '56040010'
+					                                                              AND ddm2.DUE_DE <![CDATA[ < ]]> SUBSTR(gm.RQEST_DE,0,6)||'01'
+					                                                              AND EXISTS (
+					                                                                    SELECT 1
+					                                                                      FROM DUTY_DUES_MASTER ddm3
+					                                                                     WHERE ddm2.DUTY_DUES_CL = ddm3.DUTY_DUES_CL
+					                                                                       AND ddm2.DUTY_DUES_SN = ddm3.DUTY_DUES_SN
+					                                                                       AND ddm2.DUES_FLAG = ddm3.DUES_FLAG
+					                                                                       GROUP BY ddm3.DUTY_DUES_CL , ddm3.DUTY_DUES_SN , ddm3.DUES_FLAG
+					                                                                       HAVING MIN(ddm3.ODR) = ddm2.ODR
+					
+					                                                                )
+					                                                              )
+					                THEN ddm.NPY_AMT
+					                ELSE 0
+					            END
+					          ) AS pass_amt
+					     ,SUM(CASE WHEN ddm.DUES_FLAG = '56040010' AND ddm.DUE_DE BETWEEN SUBSTR(gm.RQEST_DE,0,6)||'01' AND gm.RQEST_DE
+					                THEN ddm.NPY_AMT
+					               WHEN ddm.DUES_FLAG = '56040020' AND EXISTS(SELECT 1
+					                                                             FROM DUTY_DUES_MASTER ddm2
+					                                                            WHERE ddm.DUTY_DUES_CL = ddm2.DUTY_DUES_CL
+					                                                              AND ddm.DUTY_DUES_SN = ddm2.DUTY_DUES_SN
+					                                                              AND ddm.ODR = ddm2.ODR
+					                                                              AND ddm2.DUES_FLAG = '56040010'
+					                                                              AND ddm2.DUE_DE BETWEEN SUBSTR(gm.RQEST_DE,0,6)||'01' AND SUBSTR(gm.RQEST_DE,0,6)||'31'
+					                                                              )
+					                THEN ddm.NPY_AMT
+					                WHEN ddm.DUES_FLAG = '56040030' AND EXISTS(SELECT 1
+					                                                             FROM DUTY_DUES_MASTER ddm2
+					                                                            WHERE ddm.DUTY_DUES_CL = ddm2.DUTY_DUES_CL
+					                                                              AND ddm.DUTY_DUES_SN = ddm2.DUTY_DUES_SN
+					                                                              AND ddm2.DUES_FLAG = '56040010'
+					                                                              AND ddm2.DUE_DE BETWEEN SUBSTR(gm.RQEST_DE,0,6)||'01' AND SUBSTR(gm.RQEST_DE,0,6)||'31'
+					                                                              AND EXISTS (
+					                                                                    SELECT 1
+					                                                                      FROM DUTY_DUES_MASTER ddm3
+					                                                                     WHERE ddm2.DUTY_DUES_CL = ddm3.DUTY_DUES_CL
+					                                                                       AND ddm2.DUTY_DUES_SN = ddm3.DUTY_DUES_SN
+					                                                                       AND ddm2.DUES_FLAG = ddm3.DUES_FLAG
+					                                                                       GROUP BY ddm3.DUTY_DUES_CL , ddm3.DUTY_DUES_SN , ddm3.DUES_FLAG
+					                                                                       HAVING MIN(ddm3.ODR) = ddm2.ODR
+					
+					                                                                )
+					                                                              )
+					                THEN ddm.NPY_AMT
+					                ELSE 0
+					            END
+					          ) AS cur_amt
+					FROM giro_ntic gn
+					    ,giro_master gm
+					    ,giro_detail gd
+					    ,DUTY_DUES_MASTER ddm
+					    ,CMPNY_DGNSS cd
+					WHERE EXISTS (
+						SELECT 1
+						FROM (
+						SELECT '-' AS GIRO_CD FROM DUAL
+						<iterate open=" UNION ALL " conjunction="UNION ALL">
+							SELECT #[].giro_cd# AS GIRO_CD FROM DUAL
+						</iterate>
+						) gn2
+						WHERE gn.giro_cd = gn2.GIRO_CD
+						)
+					  AND gn.giro_cd = gd.giro_cd
+					  AND gd.DUES_CL = '00170001'
+					  AND gn.giro_cd = gm.giro_cd
+					  AND ddm.DUTY_DUES_CL = gd.key1
+					  AND ddm.DUES_FLAG = gd.key2
+					  AND ddm.ODR = gd.key3
+					  AND ddm.DUTY_DUES_SN = gd.key4
+					  AND ddm.DUTY_DUES_CL IN ('56030030')
+					  AND ddm.DUTY_DUES_SN = cd.DUTY_DUES_SN
+					GROUP BY cd.CMPNY_NM , ddm.DUTY_DUES_CL ,ddm.DUES_FLAG , ddm.ODR
+					UNION ALL
+					SELECT MAX(gd.DUES_CL) AS DUES_CL
+					     ,'' AS ACCNUT_YEAR
+					     ,tm.CMPNY_NM
+					     ,MAX(tm.RCEPT_DE) AS RCEPT_DE
+					     ,DECODE(ddm.DUTY_DUES_CL ,'56030010','회계감사','56030020','세무조정','56030030','기업진단','56030040','감리업무수수료','기타') AS DUTY_DUES_CL  /* 업무구분 */
+					     ,DECODE(ddm.DUES_FLAG  ,'56040010','직무회비','56040020','추가회비','56040030','지연가산금','기타') AS DUES_FLAG   /* 회비구분 */					     					     
+					     ,ddm.ODR
+					     ,MAX(ddm.DUE_DE) AS DUE_DE
+					     ,SUM(CASE WHEN ddm.DUES_FLAG = '56040010' THEN ddm.NPY_AMT ELSE 0 END) AS dues_amt
+					     ,SUM(CASE WHEN ddm.DUES_FLAG = '56040020' THEN ddm.NPY_AMT ELSE 0 END) AS add_amt
+					     ,SUM(CASE WHEN ddm.DUES_FLAG = '56040030' THEN ddm.NPY_AMT ELSE 0 END) AS delay_amt
+					     ,SUM(CASE WHEN ddm.DUES_FLAG = '56040010' AND ddm.DUE_DE <![CDATA[ < ]]> SUBSTR(gm.RQEST_DE,0,6)||'01'
+					                THEN ddm.NPY_AMT
+					               WHEN ddm.DUES_FLAG = '56040020' AND EXISTS(SELECT 1
+					                                                             FROM DUTY_DUES_MASTER ddm2
+					                                                            WHERE ddm.DUTY_DUES_CL = ddm2.DUTY_DUES_CL
+					                                                              AND ddm.DUTY_DUES_SN = ddm2.DUTY_DUES_SN
+					                                                              AND ddm.ODR = ddm2.ODR
+					                                                              AND ddm2.DUES_FLAG = '56040010'
+					                                                              AND ddm2.DUE_DE <![CDATA[ < ]]> SUBSTR(gm.RQEST_DE,0,6)||'01'
+					                                                              )
+					                THEN ddm.NPY_AMT
+					                WHEN ddm.DUES_FLAG = '56040030' AND EXISTS(SELECT 1
+					                                                             FROM DUTY_DUES_MASTER ddm2
+					                                                            WHERE ddm.DUTY_DUES_CL = ddm2.DUTY_DUES_CL
+					                                                              AND ddm.DUTY_DUES_SN = ddm2.DUTY_DUES_SN
+					                                                              AND ddm2.DUES_FLAG = '56040010'
+					                                                              AND ddm2.DUE_DE <![CDATA[ < ]]> SUBSTR(gm.RQEST_DE,0,6)||'01'
+					                                                              AND EXISTS (
+					                                                                    SELECT 1
+					                                                                      FROM DUTY_DUES_MASTER ddm3
+					                                                                     WHERE ddm2.DUTY_DUES_CL = ddm3.DUTY_DUES_CL
+					                                                                       AND ddm2.DUTY_DUES_SN = ddm3.DUTY_DUES_SN
+					                                                                       AND ddm2.DUES_FLAG = ddm3.DUES_FLAG
+					                                                                       GROUP BY ddm3.DUTY_DUES_CL , ddm3.DUTY_DUES_SN , ddm3.DUES_FLAG
+					                                                                       HAVING MIN(ddm3.ODR) = ddm2.ODR
+					
+					                                                                )
+					                                                              )
+					                THEN ddm.NPY_AMT
+					                ELSE 0
+					            END
+					          ) AS pass_amt
+					     ,SUM(CASE WHEN ddm.DUES_FLAG = '56040010' AND ddm.DUE_DE BETWEEN SUBSTR(gm.RQEST_DE,0,6)||'01' AND gm.RQEST_DE
+					                THEN ddm.NPY_AMT
+					               WHEN ddm.DUES_FLAG = '56040020' AND EXISTS(SELECT 1
+					                                                             FROM DUTY_DUES_MASTER ddm2
+					                                                            WHERE ddm.DUTY_DUES_CL = ddm2.DUTY_DUES_CL
+					                                                              AND ddm.DUTY_DUES_SN = ddm2.DUTY_DUES_SN
+					                                                              AND ddm.ODR = ddm2.ODR
+					                                                              AND ddm2.DUES_FLAG = '56040010'
+					                                                              AND ddm2.DUE_DE BETWEEN SUBSTR(gm.RQEST_DE,0,6)||'01' AND SUBSTR(gm.RQEST_DE,0,6)||'31'
+					                                                              )
+					                THEN ddm.NPY_AMT
+					                WHEN ddm.DUES_FLAG = '56040030' AND EXISTS(SELECT 1
+					                                                             FROM DUTY_DUES_MASTER ddm2
+					                                                            WHERE ddm.DUTY_DUES_CL = ddm2.DUTY_DUES_CL
+					                                                              AND ddm.DUTY_DUES_SN = ddm2.DUTY_DUES_SN
+					                                                              AND ddm2.DUES_FLAG = '56040010'
+					                                                              AND ddm2.DUE_DE BETWEEN SUBSTR(gm.RQEST_DE,0,6)||'01' AND SUBSTR(gm.RQEST_DE,0,6)||'31'
+					                                                              AND EXISTS (
+					                                                                    SELECT 1
+					                                                                      FROM DUTY_DUES_MASTER ddm3
+					                                                                     WHERE ddm2.DUTY_DUES_CL = ddm3.DUTY_DUES_CL
+					                                                                       AND ddm2.DUTY_DUES_SN = ddm3.DUTY_DUES_SN
+					                                                                       AND ddm2.DUES_FLAG = ddm3.DUES_FLAG
+					                                                                       GROUP BY ddm3.DUTY_DUES_CL , ddm3.DUTY_DUES_SN , ddm3.DUES_FLAG
+					                                                                       HAVING MIN(ddm3.ODR) = ddm2.ODR
+					
+					                                                                )
+					                                                              )
+					                THEN ddm.NPY_AMT
+					                ELSE 0
+					            END
+					          ) AS cur_amt
+					FROM giro_ntic gn
+					    ,giro_master gm
+					    ,giro_detail gd
+					    ,DUTY_DUES_MASTER ddm
+					    ,TAXAFS_MDAT tm
+					WHERE EXISTS (
+						SELECT 1
+						FROM (
+						SELECT '-' AS GIRO_CD FROM DUAL
+						<iterate open=" UNION ALL " conjunction="UNION ALL">
+							SELECT #[].giro_cd# AS GIRO_CD FROM DUAL
+						</iterate>
+						) gn2
+						WHERE gn.giro_cd = gn2.GIRO_CD
+						)
+					  AND gn.giro_cd = gd.giro_cd
+					  AND gd.DUES_CL = '00170001'
+					  AND gn.giro_cd = gm.giro_cd
+					  AND ddm.DUTY_DUES_CL = gd.key1
+					  AND ddm.DUES_FLAG = gd.key2
+					  AND ddm.ODR = gd.key3
+					  AND ddm.DUTY_DUES_SN = gd.key4
+					  AND ddm.DUTY_DUES_CL IN ('56030020')
+					  AND ddm.DUTY_DUES_SN = tm.DUTY_DUES_SN
+					GROUP BY tm.CMPNY_NM , ddm.DUTY_DUES_CL , ddm.DUES_FLAG , ddm.ODR
+					ORDER BY DUES_CL,ACCNUT_YEAR		
+			)A
+			WHERE 1=1
+			GROUP BY A.DUES_CL
+		
+	</select>	
+	
+	<select id="DuesDAO.selectEtcTypeCode" parameterClass="duesVO" resultClass="java.lang.String">
+		<![CDATA[		 		
+			SELECT 
+					nvl(to_char(to_number(nvl(MAX(ETC_TYPE_CODE),'22')) + 6),'22') AS ETC_TYPE_CODE
+			FROM	GIRO_NTIC GN			
+			WHERE 					
+					GN.EPAY_NO      = #epay_no#
+			AND 	GN.PAY_YYMM_SEQ = #pay_yymm_seq#
+			AND     GN.ETC_TYPE_CODE > 20
+			
+		]]>
+	</select>	
+	
+	
+	
+	<insert id="DuesDAO.insertGiroBass" parameterClass="HashMap">
+        <selectKey keyProperty="giroJobCd"  resultClass="Long">
+            SELECT KIPADM.GIRO_BASS_SEQ.NEXTVAL FROM DUAL
+        </selectKey>
+
+        INSERT INTO GIRO_BASS
+            ( GIRO_JOB_CD ,RQEST_CD ,GIRO_JOB_NM ,RQEST_DE
+            ,FRST_REGIST_ID ,FRST_REGIST_DT ,LAST_UPDT_ID ,LAST_UPDT_DT )
+            VALUES
+            ( #giroJobCd# ,#rqestCd# ,#giroJobNm# ,#rqestDe#
+            ,#frstRegistId# ,SYSTIMESTAMP ,#lastUpdtId# ,SYSTIMESTAMP )
+    </insert>
+	
+	<select id="DuesDAO.selectGiroCd" parameterClass="Integer" resultClass="String" fetchSize="1000">
+        SELECT LPAD(KIPADM.GIRO_MASTER_SEQ.NEXTVAL,10,'0') AS giroCd
+          FROM DUAL
+		<![CDATA[ CONNECT BY LEVEL <= #value# ]]>
+    </select>
+    
+    <insert id="DuesDAO.insertGiroAll" parameterClass="java.util.List">
+        INSERT ALL
+        <iterate conjunction=" ">
+            INTO GIRO_MASTER
+            ( GIRO_CD ,CHECK_DIGIT ,GIRO_JOB_CD ,SUP_GIRO_CD
+            ,CUST_INQR_NO ,NTIC_DE ,NTIC_AMT ,CSTMR_FLAG ,CSTMR_CD ,CSTMR_NM ,RQEST_CD, PAY_NO
+            ,RQEST_DE ,PROCESS_FLAG ,PAY_DE ,TRANSFR_DE ,SUCCES_AMT ,FEE_AMT ,FRST_REGIST_ID ,FRST_REGIST_DT ,LAST_UPDT_ID ,LAST_UPDT_DT)
+            VALUES
+            ( #[].giroCd# , KIPADM.acc_giro_mem_digit_func(#[].giroCd#)
+            ,#[].giroJobCd# , (CASE WHEN #[].supGiroCd# IS NULL THEN #[].giroCd# ELSE #[].supGiroCd# END)
+            ,#[].custInqrNo# ,#[].nticDe# ,#[].nticAmt# ,#[].cstmrFlag# ,#[].cstmrCd# ,#[].cstmrNm# ,#[].rqestCd#,#[].payNo#
+            ,#[].rqestDe# ,#[].processFlag# ,#[].payDe# ,#[].transfrDe# ,#[].succesAmt# ,#[].feeAmt# ,#[].frstRegistId# ,SYSTIMESTAMP ,#[].lastUpdtId# ,SYSTIMESTAMP )
+        </iterate>
+        SELECT * FROM DUAL
+    </insert>
+	<insert id="DuesDAO.insertGiroDetailAll" parameterClass="java.util.List">
+        INSERT ALL
+        <iterate conjunction=" ">
+            INTO GIRO_DETAIL
+            ( GIRO_CD ,DUES_CL ,GIRO_SN ,KEY1 ,KEY2 ,KEY3 ,KEY4 ,KEY5 )
+            VALUES
+            ( #[].giroCd# ,#[].duesCl# ,#[].giroSn# ,#[].key1# ,#[].key2# ,#[].key3# ,#[].key4# ,#[].key5# )
+        </iterate>
+        SELECT * FROM DUAL
+    </insert>
+    
+    <update id="DuesDAO.updateGiroMasterSup" parameterClass="dues">      
+        UPDATE GIRO_MASTER
+           SET SUP_GIRO_CD = #sup_giro_cd#                 	
+         WHERE GIRO_CD = #giro_cd#
+    </update>
+    
+    <update id="DuesDAO.updateGiroNticCanClAll" parameterClass="java.util.List">
+        UPDATE GIRO_NTIC gn
+           SET NTIC_CANCL_FLAG = ( CASE WHEN NTIC_FLAG = 'Y' THEN 'C' ELSE 'Y' END )
+         WHERE NTIC_CANCL_FLAG = 'N'
+           AND PAY_YN = 'N'
+           AND NOTI_DL_DT >= TO_CHAR(SYSDATE,'YYYYMMDD')
+            AND EXISTS (
+                SELECT 1 FROM (
+            <iterate conjunction=" UNION ALL " >
+                SELECT #[].epayNo# AS EPAY_NO ,
+                       #[].etcTypeCode# AS ETC_TYPE_CODE
+                  FROM DUAL
+            </iterate>
+                ) gn2
+                WHERE gn.EPAY_NO = gn2.EPAY_NO
+                  AND gn.ETC_TYPE_CODE = gn2.ETC_TYPE_CODE
+            )
+    </update>
+    
+    <insert id="DuesDAO.insertGiroNticAll" parameterClass="java.util.List">
+        INSERT ALL
+        <iterate conjunction=" ">
+            INTO GIRO_NTIC
+            ( EPAY_NO ,PAY_YYMM_SEQ ,NOTI_ISSU_TYPE ,ETC_TYPE_CODE ,GIRO_CD ,CUST_INQR_NO ,DUDT_IN_AMT ,DUDT_AFT_AMT ,DUDT
+            ,NOTI_DL_DT ,NAME ,PAY_PRRT_RANK ,DEFLT_PRD ,DEFLT_MM_CNT ,ETC_INFO_TTL ,ETC_INFO_CNTE ,NTIC_FLAG
+            ,NTIC_CANCL_FLAG ,PAY_YN , ORG_TRAN_ID ,FRST_REGIST_ID ,FRST_REGIST_DT ,LAST_UPDT_ID ,LAST_UPDT_DT,SUB_GIRO_CD )
+            VALUES
+            ( #[].epayNo# ,#[].payYymmSeq# ,#[].notiIssuType# ,#[].etcTypeCode# ,#[].giroCd# ,#[].custInqrNo# ,#[].dudtInAmt# ,#[].dudtAftAmt# ,#[].dudt#
+            ,#[].notiDlDt# ,#[].name# ,#[].payPrrtRank# ,#[].defltPrd# ,#[].defltMmCnt# ,#[].etcInfoTtl# ,#[].etcInfoCnte# ,#[].nticFlag#
+            ,#[].nticCanclFlag# ,#[].payYn# , #[].orgTranId# ,#[].frstRegistId# ,SYSTIMESTAMP ,#[].lastUpdtId# ,SYSTIMESTAMP , #[].subGiroCd#)
+        </iterate>
+        SELECT * FROM DUAL
+    </insert>
+	
+	
+	
+	<select id="DuesDAO.checkDuesNewInfo" resultClass="newDues">
+        SELECT yy.ACCNUT_YEAR as accnutYear
+             , mi.KOREAN_NM as name
+             , mi.BRTHDY as brthdy
+             , mi.PIN as pin
+             , to_char(sysdate,'yyyy-mm-dd') as registPreDe
+             , #appCpaNo#  as appCpaNo
+             , c.CPA_ID as cpaId
+             , (CASE WHEN c.PIN IS NULL
+                        THEN 1500000
+                        ELSE 0
+                END ) as gnrlEntrncAmt
+             , NVL((SELECT SUM(PAY_AMT)
+                  FROM YEAR_DUES_MASTER ydm
+                 WHERE ydm.PIN = c.PIN
+                   AND ydm.ACCNUT_YEAR = yy.ACCNUT_YEAR
+                   AND ydm.DUES_FLAG != 'D'
+                ),0) as preGnrlYyAmt
+             , (CASE WHEN c.PIN IS NULL
+                        THEN 800000
+                        ELSE 0
+                    END) as cmitEntrncAmt
+             ,(CASE WHEN c.PIN IS NULL
+                     THEN 900000
+                     ELSE 0
+                    END) as asstnEntrncAmt
+             , NVL((SELECT PAY_AMT
+                 FROM AID_DUES_MASTER adm
+                WHERE adm.PIN = c.PIN
+                  AND adm.ACCNUT_YEAR = yy.ACCNUT_YEAR
+                  AND adm.DUES_FLAG = 'Y' ),0) as preAsstnYyAmt
+            ,(CASE WHEN KIPADM.full_age_func(mi.BRTHDY,ACCNUT_YEAR||'0401') >= 60
+                    THEN 'Y'
+                    ELSE 'N'
+               END) as ageDiscountYn
+            ,'N' as giroYn
+            ,'Y' as calcFlag
+          FROM MBER_INDVDLINFO mi
+             , (
+        <![CDATA[
+                SELECT NVL2(#accnutYear#,#accnutYear#,
+                            (CASE WHEN TO_CHAR(SYSDATE,'MMDD') < '0401'
+                              THEN  TO_CHAR(ADD_MONTHS(SYSDATE,-12),'YYYY')
+                              ELSE TO_CHAR(SYSDATE,'YYYY')
+                           END)) AS ACCNUT_YEAR
+                  FROM dual
+        ]]>
+                ) yy
+             , (SELECT c.CPA_ID
+                      ,c.PIN
+                  FROM CPA c
+                 WHERE c.PIN = (select pin from APNTC_CPA where app_cpa_no = #appCpaNo# )
+                   AND EXISTS( SELECT 1
+                                 FROM CPA c1
+                                WHERE c.PIN = c1.PIN
+                                  AND c1.MBER_FLAG = 'A2020070'
+                                GROUP BY c1.PIN
+                               HAVING MAX(c1.REGIST_DE) = c.REGIST_DE
+                            )
+               ) c
+         WHERE mi.PIN = (select pin from APNTC_CPA where app_cpa_no = #appCpaNo# )
+           AND mi.KOREAN_NM = #name#
+           AND mi.PIN = c.PIN(+)
+           AND ( c.PIN IS NOT NULL OR
+                 NOT EXISTS ( SELECT 1
+                               FROM SBSCRB_MASTER sm
+                              WHERE mi.PIN = sm.PIN
+                                AND sm.PAY_STATUS = 'I'
+                                AND EXISTS (
+                                     SELECT 1
+                                       FROM SBSCRB_MASTER sm2
+                                      WHERE sm.PIN = sm2.PIN
+                                      GROUP BY sm2.PIN
+                                     HAVING MAX(sm2.SBSCRB_SN) = sm.SBSCRB_SN )
+                )
+        )
+    </select>
+	
+	<insert id="DuesDAO.insertNewDuesTemp" parameterClass="newDues">
+        <selectKey keyProperty="sbscrbSn"   resultClass="Long">
+            SELECT KIPADM.SBSCRB_MASTER_SEQ.NEXTVAL FROM DUAL
+        </selectKey>
+        INSERT INTO SBSCRB_MASTER_EXCEL
+            ( SBSCRB_SN, PIN, REGIST_FLAG, REGIST_PRE_DE, ACCNUT_DE, PAY_DE, ACNT_CD, ACNUT_NO, GNRL_ENTRNC_AMT, GNRL_YY_AMT, CMIT_ENTRNC_AMT
+            , ASSTN_ENTRNC_AMT, ASSTN_YY_AMT, PAY_NO, PAY_STATUS, PAY_ID_FLAG, PAY_ID, GIRO_YN, FRST_REGIST_ID, FRST_REGIST_DT, LAST_UPDT_ID, LAST_UPDT_DT )
+        VALUES ( #sbscrbSn#, #pin#, #registFlag#, #registPreDe#, #accnutDe#, #payDe#, #acntCd#, #acnutNo#, #gnrlEntrncAmt#, #gnrlYyAmt#, #cmitEntrncAmt#
+            , #asstnEntrncAmt#, #asstnYyAmt#, #payNo#, #payStatus#, #payIdFlag#, #payId#, #giroYn#, #frstRegistId#, SYSTIMESTAMP, #lastUpdtId#, SYSTIMESTAMP )
+    </insert>
+	
+	<insert id="DuesDAO.insertNewDues" parameterClass="newDues">
+        <selectKey keyProperty="sbscrbSn"   resultClass="Long">
+            SELECT KIPADM.SBSCRB_MASTER_SEQ.NEXTVAL FROM DUAL
+        </selectKey>
+        INSERT INTO SBSCRB_MASTER
+            ( SBSCRB_SN, PIN, REGIST_FLAG, REGIST_PRE_DE, ACCNUT_DE, PAY_DE, ACNT_CD, ACNUT_NO, GNRL_ENTRNC_AMT, GNRL_YY_AMT, CMIT_ENTRNC_AMT
+            , ASSTN_ENTRNC_AMT, ASSTN_YY_AMT, PAY_NO, PAY_STATUS, PAY_ID_FLAG, PAY_ID, GIRO_YN, FRST_REGIST_ID, FRST_REGIST_DT, LAST_UPDT_ID, LAST_UPDT_DT )
+        VALUES ( #sbscrbSn#, #pin#, #registFlag#, #registPreDe#, #accnutDe#, #payDe#, #acntCd#, #acnutNo#, #gnrlEntrncAmt#, #gnrlYyAmt#, #cmitEntrncAmt#
+            , #asstnEntrncAmt#, #asstnYyAmt#, #payNo#, #payStatus#, #payIdFlag#, #payId#, #giroYn#, #frstRegistId#, SYSTIMESTAMP, #lastUpdtId#, SYSTIMESTAMP )
+    </insert>
+	
+	
+	
+	<select id="DuesDAO.selectDuesResultInfo" parameterClass="duesVO" resultClass="dues">
+		<![CDATA[		 		
+			SELECT  SUM(SUCCES_AMT) AS succes_amt ,MAX(GN.EPAY_NO) as epay_no
+			FROM	GIRO_NTIC GN
+			INNER JOIN  
+					GIRO_MASTER GM
+					ON GN.GIRO_CD = GM.GIRO_CD AND GM.PROCESS_FLAG in ('0','1')
+			WHERE 					
+					GN.NTIC_CANCL_FLAG = 'N'
+			AND 	NVL(GN.PAY_YN,'N') = 'Y'			
+			AND     GN.SUB_GIRO_CD IS NULL
+			AND 	GM.CUST_INQR_NO = #cust_inqr_no#
+			AND     GN.PAY_DE BETWEEN REPLACE(#searchBgnDe#,'-','') AND REPLACE(#searchEndDe#,'-','')	
+					
+		]]>
+	</select>
+	
+	
+	
+	<select id="DuesDAO.selectDuesResultListAll" parameterClass="duesVO" resultClass="dues">
+		<![CDATA[
+		SELECT *
+		FROM (
+		select  ydm.pin AS EPAY_NO,
+		       
+		       to_char(to_date(ydd.PRCS_DE,'yyyymmdd'),'yyyy-mm-dd') AS PAY_DE,
+		       decode(ydm.DUES_FLAG,'Y','연회비','D','연회비(추가회비)') AS RQEST_NM,
+		       sum(prcs_amt) AS DUDT_IN_AMT,
+		       '은행,지로 납부' AS paytype
+		from kipadm.year_dues_master ydm,
+		     kipadm.year_dues_detail ydd
+		where ydm.pin = ydd.pin
+		  and ydm.accnut_year = ydd.accnut_year
+		  and ydm.dues_flag   = ydd.dues_flag
+		  and ydm.pin = #cust_inqr_no#
+		  AND prcs_flag = '56050020'
+		  AND ydm.DUES_FLAG <> 'A'		   
+		  ]]>
+			<isNotEmpty property="searchBgnDe">				
+				<![CDATA[	AND to_char(to_date(ydd.PRCS_DE,'yyyymmdd'),'yyyymmdd') BETWEEN REPLACE(#searchBgnDe#,'-','') AND REPLACE(#searchEndDe#,'-','')		]]>												
+			</isNotEmpty>			
+		<![CDATA[
+		GROUP BY ydm.pin,
+		         ydm.ACCNUT_YEAR,
+		         to_char(to_date(ydd.PRCS_DE,'yyyymmdd'),'yyyy-mm-dd'),
+		         decode(ydm.DUES_FLAG,'Y','연회비','D','연회비(추가회비)')
+		
+		UNION
+		select adm.pin AS EPAY_NO,		      
+		       to_char(to_date(admd.OCCRRNC_DE,'yyyymmdd'),'yyyy-mm-dd') AS PAY_DE,
+		       decode(adm.DUES_FLAG,'E','입회비','Y','부조회비','D','부조회비(추가회비)') AS RQEST_NM,
+		       sum(admd.pay_amt) AS DUDT_IN_AMT ,
+		       '은행,지로 납부' AS paytype
+		from kipadm.aid_dues_master adm,
+		     kipadm.aid_dues_detail admd
+		where adm.pin = admd.pin
+		  and adm.accnut_year = admd.accnut_year
+		  and adm.dues_flag   = admd.dues_flag
+		  and adm.pin = #cust_inqr_no#
+		  AND accnut_flag = '56050020'
+		  AND adm.DUES_FLAG IN ('Y','D')
+		  ]]>
+			<isNotEmpty property="searchBgnDe">				
+				<![CDATA[ AND to_char(to_date(admd.OCCRRNC_DE,'yyyymmdd'),'yyyymmdd') BETWEEN REPLACE(#searchBgnDe#,'-','') AND REPLACE(#searchEndDe#,'-','')	]]>												
+			</isNotEmpty>			
+		<![CDATA[
+		  
+		GROUP BY adm.pin,
+		         adm.ACCNUT_YEAR,
+		         to_char(to_date(admd.OCCRRNC_DE,'yyyymmdd'),'yyyy-mm-dd'),
+		         decode(adm.DUES_FLAG,'E','입회비','Y','부조회비','D','부조회비(추가회비)')
+		
+			) q
+		WHERE 1=1
+		ORDER BY q.pay_de desc			
+		]]>
+	</select>
+	
+	<select id="DuesDAO.selectDuesResultList" parameterClass="duesVO" resultClass="dues">
+		<![CDATA[
+		SELECT *
+		FROM (
+			SELECT   GN.EPAY_NO
+					,to_char(to_date(GN.PAY_DE,'yyyymmdd'),'yyyy-mm-dd') AS PAY_DE
+					,(SELECT CD_NM FROM CMMN_CODE WHERE GRP_CD = 'G35230' AND CD = GM.RQEST_CD) AS RQEST_NM										
+					,GN.DUDT_IN_AMT
+					,'전자 납부' AS paytype
+			FROM	GIRO_NTIC GN
+			INNER JOIN  
+					GIRO_MASTER GM
+					ON GN.GIRO_CD = GM.GIRO_CD AND GM.PROCESS_FLAG in ('0','1')
+			WHERE 	
+					GN.NTIC_CANCL_FLAG = 'N'				
+			AND		NVL(GN.PAY_YN,'N') = 'Y'			
+			AND     GN.SUB_GIRO_CD IS NULL
+			AND 	GM.CUST_INQR_NO = #cust_inqr_no#
+			]]>
+			
+			<isNotEmpty property="searchBgnDe">				
+				<![CDATA[ AND	GN.PAY_DE BETWEEN REPLACE(#searchBgnDe#,'-','') AND REPLACE(#searchEndDe#,'-','') 		]]>												
+			</isNotEmpty>			
+		<![CDATA[			     
+			) q
+		WHERE 1=1
+		ORDER BY q.pay_de desc			
+		]]>
+	</select>
+	
+	<update id="DuesDAO.updatePostSendYn" parameterClass="duesVO" >
+		<![CDATA[
+			UPDATE  GIRO_MASTER
+			SET 	POST_SEND_YN = #post_send_yn#					
+					,LAST_UPDT_DT =  sysdate		
+			WHERE 	GIRO_CD =  #giro_cd#
+			]]>
+	</update>	
+	
+	
+	<insert id="DuesDAO.insertDuesRef" parameterClass="duesRefVO" >
+		<![CDATA[
+			INSERT INTO CS_DUES_REFUND
+			(ref_id, pin, nm, phone, ref_sj, ref_cn, ref_amt, ref_bank, ref_account, ref_depositor, ref_status,del_yn, atch_file_id, reg_id, reg_dt)
+			VALUES
+			(#ref_id#, #pin#, #nm#, #phone#, #ref_sj#, #ref_cn#, #ref_amt#, #ref_bank#, #ref_account#, #ref_depositor#, '대기중' ,'N', #atch_file_id#, #reg_id#, sysdate)			
+		]]>
+	</insert>	
+	
+	<update id="DuesDAO.updateDuesRef" parameterClass="duesRefVO" >
+		<![CDATA[
+			UPDATE CS_DUES_REFUND
+			SET 	phone = #phone#,
+					ref_sj =  #ref_sj#,
+					ref_cn =  #ref_cn#,
+					ref_amt =  #ref_amt#,
+					ref_bank =  #ref_bank#,
+					ref_account =  #ref_account#,
+					ref_depositor =  #ref_depositor#,
+					atch_file_id =  #atch_file_id#,
+					updt_id =  #updt_id#,
+					updt_dt =  sysdate		
+			WHERE 	ref_id =  #ref_id#
+			and     ref_status = '대기중'
+			]]>
+	</update>	
+	
+	<delete id="DuesDAO.deleteDuesRef" parameterClass="duesRefVO" >
+		<![CDATA[
+			UPDATE CS_DUES_REFUND
+			SET 	del_yn = 'Y',
+					updt_dt =  sysdate		
+			WHERE 	ref_id LIKE '%' || #ref_id# || '%'
+			]]>
+	</delete>	
+	
+	
+	
+	<select id="DuesDAO.selectDuesRefList" parameterClass="duesRefVO" resultClass="duesRef">
+		<![CDATA[
+		SELECT * FROM ( SELECT rownum rn, TB.* FROM (
+			SELECT
+				    ref_id,
+					pin,
+					nm,
+					phone,
+					ref_sj,
+					ref_cn,
+					ref_amt,
+					ref_bank,
+					ref_account,
+					ref_depositor,
+					ref_status,
+					atch_file_id,
+					reg_id,
+					TO_CHAR(reg_dt, 'YYYY-MM-DD') as reg_dt				
+			FROM
+				CS_DUES_REFUND 	a		 
+			WHERE
+				DEL_YN = 'N'
+			AND PIN = #pin#	
+		]]>
+			
+			<isNotEmpty property="searchCnd">				
+				<isEqual prepend="AND" property="searchCnd" compareValue="0">
+					<![CDATA[	a.ref_sj LIKE '%' || #searchWrd# || '%' 		]]>
+				</isEqual>								
+			</isNotEmpty>			
+		<![CDATA[			
+			ORDER BY a.reg_dt DESC, ref_id ASC
+			) TB ) WHERE rn BETWEEN #firstIndex# + 1 AND #firstIndex# + #recordCountPerPage#
+		]]>				
+	</select>	
+	
+	<select id="DuesDAO.selectDuesRefListCnt" parameterClass="duesRefVO" resultClass="java.lang.Integer">
+		<![CDATA[
+		
+			SELECT
+				COUNT(a.ref_id)				
+			FROM
+				CS_DUES_REFUND a			 
+			WHERE
+				DEL_YN = 'N'
+			AND PIN = #pin#
+		]]>
+			<isNotEmpty property="searchCnd">				
+				<isEqual prepend="AND" property="searchCnd" compareValue="0">
+					<![CDATA[	a.ref_sj LIKE '%' || #searchWrd# || '%' 		]]>
+				</isEqual>								
+			</isNotEmpty>	
+			
+	</select>
+	
+	<select id="DuesDAO.selectDuesRefInfo" parameterClass="duesRefVO" resultClass="duesRef" >
+		<![CDATA[
+		SELECT *
+		FROM (
+			SELECT
+				    ref_id,
+					pin,
+					nm,
+					phone,
+					ref_sj,
+					ref_cn,
+					ref_amt,
+					ref_bank,
+					ref_account,
+					ref_depositor,
+					ref_status,
+					atch_file_id,
+					reg_id,
+					TO_CHAR(reg_dt, 'YYYY-MM-DD') as reg_dt	
+					
+			FROM
+				CS_DUES_REFUND						
+			WHERE				
+				DEL_YN = 'N'
+			AND PIN = #pin#	
+		)A
+		WHERE 
+		     ref_id = #ref_id#			 		
+				
+		]]>				
+	</select> 
+	
+	
+	
+	
+	
+	
+ 
+
+</sqlMap>

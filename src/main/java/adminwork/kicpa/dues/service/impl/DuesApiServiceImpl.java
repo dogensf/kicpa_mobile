@@ -18,8 +18,10 @@ import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import adminwork.com.cmm.service.EgovProperties;
 import adminwork.kicpa.dues.service.DeusApiService;
 import adminwork.kicpa.dues.service.Dues;
+import adminwork.kicpa.dues.service.DuesService;
 import adminwork.kicpa.dues.service.DuesVO;
 import adminwork.kicpa.dues.service.GiroApi;
 import adminwork.kicpa.dues.service.GiroApiLog;
@@ -29,9 +31,21 @@ import egovframework.rte.fdl.cmmn.EgovAbstractServiceImpl;
 
 @Service("DuesApiService")
 public class DuesApiServiceImpl extends EgovAbstractServiceImpl implements DeusApiService{
-
+	
+    
 	@Resource(name="DuesDAO")
 	private DuesDAO duesDAO;
+	
+	@Resource(name = "DuesService")
+	private  DuesService duesService;
+	
+	
+
+    //@Value("#{propertie id['Globals.giro.url']}")
+    private String giroUrl = EgovProperties.getProperty("Globals.giro.url");
+
+   // @Value("#{propertie id['Globals.giro.ptco']}")
+    private String ptco = EgovProperties.getProperty("Globals.giro.ptco");
 	
 	public String createGiroApiToken() throws Exception {
         String baseUrl = "http://localhost:8081/eai/doToken";
@@ -43,7 +57,7 @@ public class DuesApiServiceImpl extends EgovAbstractServiceImpl implements DeusA
             String access_token = "";
 
             try {
-                JSONObject json = callGiroApi("doToken", "https://testapi.giro.or.kr/oauth/2.0/token", "" , "");
+                JSONObject json = callGiroApi("doToken", "https://"+ giroUrl +"/oauth/2.0/token", "" , "");
 
                 String rsp_code = (String) json.get("rsp_code");
                 String rsp_msg = (String) json.get("rsp_msg");
@@ -77,7 +91,7 @@ public class DuesApiServiceImpl extends EgovAbstractServiceImpl implements DeusA
                 }
 
             }catch(Exception e) {
-                giroApiLog.setLog("doToken : https://testapi.giro.or.kr/oauth/2.0/token =>  message : " + e.getMessage());
+                giroApiLog.setLog("doToken : https://"+ giroUrl +"/oauth/2.0/token =>  message : " + e.getMessage());
                 duesDAO.insertGiroApiLog(giroApiLog);
             }
 
@@ -100,7 +114,7 @@ public class DuesApiServiceImpl extends EgovAbstractServiceImpl implements DeusA
         for(Dues vo : duesVo) {
             JSONObject params = new JSONObject();
             if("N".equals(vo.getNtic_cancl_flag())) {
-            	params.put("ptco_code" , "951012534"); //제휴사 코드
+            	params.put("ptco_code" , ptco); //제휴사 코드
                 params.put("cls_code" , "90"); //고지내역 이용기관 분류코드
                 params.put("giro_no" , "7613018"); //고지내역 이용기관 지로번호
                 params.put("epay_no" , vo.getEpay_no()); //전자납부번호 (“-”제외)
@@ -109,7 +123,7 @@ public class DuesApiServiceImpl extends EgovAbstractServiceImpl implements DeusA
                 params.put("etc_type_code" , vo.getEtc_type_code()); //기타 구분코드
 
                 try {
-                    JSONObject json = callGiroApi("doPost", "https://testapi.giro.or.kr/v1/bills/giro/cancel", params.toString() ,accessToken);
+                    JSONObject json = callGiroApi("doPost", "https://"+ giroUrl +"/v1/bills/giro/cancel", params.toString() ,accessToken);
                     JSONObject jsonBody = (JSONObject) jsonParser.parse((String)json.get("body"));
 
                     String rsp_code = (String) jsonBody.get("rsp_code");
@@ -130,7 +144,7 @@ public class DuesApiServiceImpl extends EgovAbstractServiceImpl implements DeusA
                     }
                 }catch(Exception e) {
                 	try {
-                		giroApiLogs.add(addLog("doPost : https://testapi.giro.or.kr/v1/bills/giro/cancel => param : " + params.toString() + "  token : " + accessToken + " message : " + e.getMessage()
+                		giroApiLogs.add(addLog("doPost : https://"+ giroUrl +"/v1/bills/giro/cancel => param : " + params.toString() + "  token : " + accessToken + " message : " + e.getMessage()
                         ,vo.getEpay_no(),vo.getGiro_cd(),vo.getEtc_type_code()));
                 	}catch (Exception e1) {
 						// TODO: handle exception
@@ -168,10 +182,10 @@ public class DuesApiServiceImpl extends EgovAbstractServiceImpl implements DeusA
            
             if("N".equals(vo.getNtic_flag())) {
 
-                params.put("ptco_code" , "951012534"); //제휴사 코드
+                params.put("ptco_code" , ptco); //제휴사 코드
                 params.put("cls_code" , "90"); //고지내역 이용기관 분류코드
                 params.put("giro_no" , "7613018"); //고지내역 이용기관 지로번호
-                params.put("cust_inqr_no" , vo.getGiro_cd()); //고객조회번호
+                params.put("cust_inqr_no" , vo.getGiro_cd() + StringUtil.nullConvert(vo.getCheckDigit())); //고객조회번호
                 params.put("dudt_in_amt" , String.valueOf(vo.getDudt_in_amt())); //납기내 금액
                 params.put("dudt_aft_amt" , String.valueOf(vo.getDudt_aft_amt())); //납기후 금액
                 params.put("data_form_type" , "A"); //데이터 형식구분
@@ -187,7 +201,7 @@ public class DuesApiServiceImpl extends EgovAbstractServiceImpl implements DeusA
                 //params.put("etc_info_cnte" , giroNtic.getEtcInfoCnte()); //기타고지정보 내용
 
                 try {
-                    JSONObject json = callGiroApi("doPost", "https://testapi.giro.or.kr/v1/bills/giro", params.toString() ,accessToken);
+                    JSONObject json = callGiroApi("doPost", "https://"+ giroUrl +"/v1/bills/giro", params.toString() ,accessToken);
                     JSONObject jsonBody = (JSONObject) jsonParser.parse((String)json.get("body"));
 
                     String rsp_code = (String) jsonBody.get("rsp_code");
@@ -211,7 +225,7 @@ public class DuesApiServiceImpl extends EgovAbstractServiceImpl implements DeusA
 
                     }
                 }catch(Exception e) {
-                    giroApiLogs.add(addLog("doPost : https://testapi.giro.or.kr/v1/bills/giro => param : " + params.toString() + "  token : " + accessToken + " message : " + e.getMessage()
+                    giroApiLogs.add(addLog("doPost : https://"+ giroUrl +"/v1/bills/giro => param : " + params.toString() + "  token : " + accessToken + " message : " + e.getMessage()
                             ,vo.getEpay_no(),vo.getGiro_cd(),vo.getEtc_type_code()));
                 }
             }
@@ -243,8 +257,8 @@ public class DuesApiServiceImpl extends EgovAbstractServiceImpl implements DeusA
            
             if("Y".equals(vo.getNtic_flag())) {
             	
-                params.put("ptco_code" , "951012534"); //제휴사 코드
-                params.put("org_tran_id" , "951012534"+"T"+DateUtil.getCurrentDateTime()+"C"+vo.getCust_inqr_no().substring(vo.getCust_inqr_no().length()-5,vo.getCust_inqr_no().length())); // 제휴사 거래고유번호
+                params.put("ptco_code" , ptco); //제휴사 코드
+                params.put("org_tran_id" , ptco+"T"+DateUtil.getCurrentDateTime()+"C"+vo.getCust_inqr_no().substring(vo.getCust_inqr_no().length()-5,vo.getCust_inqr_no().length())); // 제휴사 거래고유번호
                 params.put("cls_code" , "90"); //고지내역 이용기관 분류코드
                 params.put("giro_no" , "7613018"); //고지내역 이용기관 지로번호
                 params.put("pay_meth_type" , "Q"); //고지내역 이용기관 지로번호
@@ -256,21 +270,23 @@ public class DuesApiServiceImpl extends EgovAbstractServiceImpl implements DeusA
 
                 try {
                 	System.out.println("============ link ::: "+ params.toString());
-                    JSONObject json = callGiroApi("doPost", "https://testapi.giro.or.kr/v1/payments/link-pay-url", params.toString() ,accessToken);
+                    JSONObject json = callGiroApi("doPost", "https://"+ giroUrl +"/v1/payments/link-pay-url", params.toString() ,accessToken);
                     JSONObject jsonBody = (JSONObject) jsonParser.parse((String)json.get("body"));
 
                     String rsp_code = (String) jsonBody.get("rsp_code");
                     String rsp_msg = (String) jsonBody.get("rsp_msg");                    
                     String org_tran_id = (String) jsonBody.get("org_tran_id");
                     System.out.println("============ link ::: "+ rsp_msg);
+                    vo.setRsp_msg(rsp_msg);
                     if("A0000".equals(rsp_code)) { 
                     	linkUrl = (String) jsonBody.get("link_pay_url");
                         vo.setOrg_tran_id(org_tran_id);
                         duesDAO.updateGiroNtic(vo);
                         vo.setLinkUrl(linkUrl);
-                        vo.setOrg_tran_id(org_tran_id);                        
+                        //vo.setOrg_tran_id(org_tran_id);                        
                     }else {
                         success = false;
+                        
                     }
 
                     try {
@@ -280,7 +296,7 @@ public class DuesApiServiceImpl extends EgovAbstractServiceImpl implements DeusA
 
                     }
                 }catch(Exception e) {
-                    giroApiLogs.add(addLog("doPost : https://testapi.giro.or.kr/v1/payments/link-pay-url => param : " + params.toString() + "  token : " + accessToken + " message : " + e.getMessage()
+                    giroApiLogs.add(addLog("doPost : https://"+ giroUrl +"/v1/payments/link-pay-url => param : " + params.toString() + "  token : " + accessToken + " message : " + e.getMessage()
                             ,vo.getEpay_no(),vo.getGiro_cd(),vo.getEtc_type_code()));
                 }
             }
@@ -302,7 +318,7 @@ public class DuesApiServiceImpl extends EgovAbstractServiceImpl implements DeusA
 
         String accessToken = createGiroApiToken();
         JSONParser jsonParser = new JSONParser();
-        boolean success = true;
+        boolean success = false;
 
 
         ArrayList<GiroApiLog> giroApiLogs = new ArrayList<>();
@@ -310,21 +326,21 @@ public class DuesApiServiceImpl extends EgovAbstractServiceImpl implements DeusA
 
             JSONObject params = new JSONObject();
 
-                params.put("ptco_code" , "951012534"); //제휴사 코드
+                params.put("ptco_code" , ptco); //제휴사 코드
                 params.put("org_tran_id" , vo.getOrg_tran_id()); //
-                
+                System.out.println("giroPayments :: org_tran_id ===== " + vo.getOrg_tran_id());
 
                 try {
-                    JSONObject json = callGiroApi("doGet", "https://testapi.giro.or.kr/v1/payments", params.toString() ,accessToken);
+                    JSONObject json = callGiroApi("doGet", "https://"+ giroUrl +"/v1/payments", "ptco_code="+ptco+"&org_tran_id="+ vo.getOrg_tran_id() ,accessToken);
                     JSONObject jsonBody = (JSONObject) jsonParser.parse((String)json.get("body"));
 
                     String rsp_code = (String) jsonBody.get("rsp_code");
                     String rsp_msg = (String) jsonBody.get("rsp_msg");
 
                     if("A0000".equals(rsp_code)) {
-                       /* vo.setNtic_flag("Y");
-                        vo.setNtic_cancl_flag("N");
-                        duesDAO.updateGiroNtic(vo);*/
+                        vo.setPay_yn("Y");
+                        duesService.updateGiroNticCallback(vo);
+                        success = true;
                     }else {
                         success = false;
                     }
@@ -336,7 +352,7 @@ public class DuesApiServiceImpl extends EgovAbstractServiceImpl implements DeusA
 
                     }
                 }catch(Exception e) {
-                    giroApiLogs.add(addLog("doPost : https://testapi.giro.or.kr/v1/payments => param : " + params.toString() + "  token : " + accessToken + " message : " + e.getMessage()
+                    giroApiLogs.add(addLog("doGet : https://"+ giroUrl +"/v1/payments => param : " + params.toString() + "  token : " + accessToken + " message : " + e.getMessage()
                             ,vo.getEpay_no(),vo.getGiro_cd(),vo.getEtc_type_code()));
                 }
 

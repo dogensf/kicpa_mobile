@@ -14,6 +14,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ page import ="adminwork.com.cmm.LoginVO" %>
 <c:set var="ImgUrl" value="/images/"/>
 
     <link rel="stylesheet" href="<c:url value='/css/kicpa/app.css'/>">
@@ -218,10 +219,32 @@ function downloadURI(uri, name){
       <div class="container">
         <section class="head-main">
           <h1>회비관리</h1>
-          <button class="btn-login" type="button">
-            로그인
-          </button>
-          <button class="btn-menu" type="button">
+          <%
+	        LoginVO loginVO = (LoginVO)session.getAttribute("LoginVO");
+	        if(loginVO == null){
+	        %>
+	        <button class="btn-login" onclick="location.href='<c:url value='/uat/uia/LoginUsr.do'/>';" type="button">
+	     	 로그인
+	    	</button>
+		  	<%
+	        }else{
+		  	%>
+		  	<button class="btn-login" onclick="location.href='<c:url value='/uat/uia/actionLogout.do'/>';" type="button">
+	     	 로그아웃
+	    	</button>
+	            <%-- <c:set var="loginName" value="<%= loginVO.getName()%>"/>
+	            <ul>
+		  	    <li><a href="#LINK" onclick="alert('개인정보 확인 등의 링크 제공'); return false;">
+	            <c:out value="${loginName}"/> 님</a></li>
+	            <li><a href="<c:url value='/uat/uia/actionLogout.do'/>">
+	            <img src="<c:url value='/images/leftmenu/logout.jpg' />" alt="로그아웃" /></a></li>
+	            <li>최근접속:2011-10-12 13:24</li>
+	            </ul> --%>
+		  	<%
+		  	}
+	        %>
+
+          <button class="btn-menu" type="button" onClick="javascript:window.bridge.showCategory();">
             카테고리
           </button>
         </section>

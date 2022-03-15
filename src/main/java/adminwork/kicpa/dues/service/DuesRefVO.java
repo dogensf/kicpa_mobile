@@ -1,14 +1,12 @@
 package adminwork.kicpa.dues.service;
 
 import java.io.Serializable;
-import java.util.List;
 
 
 @SuppressWarnings("serial")
-public class DuesVO extends Dues implements Serializable{
+public class DuesRefVO extends DuesRef implements Serializable{
 	
-	private List<NewDues> list;
-	private String totAmt;
+	
 	
 	/** 납기기준일 */
     private String searchYYYY = "";
@@ -51,8 +49,6 @@ public class DuesVO extends Dues implements Serializable{
 
     /** 레코드 번호 */
     private int rowNo = 0;
-    
-    private int month;
     
 
   
@@ -168,34 +164,6 @@ public class DuesVO extends Dues implements Serializable{
 		this.searchYYYY = searchYYYY;
 	}
 
-	public List<NewDues> getList() {
-		return list;
-	}
-
-	public void setList(List<NewDues> list) {
-		this.list = list;
-	}
-
-	public String getTotAmt() {
-		return totAmt;
-	}
-
-	public void setTotAmt(String totAmt) {
-		this.totAmt = totAmt;
-	}
-
-	public int getMonth() {
-		return month;
-	}
-
-	public void setMonth(int month) {
-		this.month = month;
-	}
-
-
-
 	
-	
-
     
 }
