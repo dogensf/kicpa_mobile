@@ -420,6 +420,26 @@ public class DateUtil {
 
 		return strDate;
 	}
+	
+	/**
+	 * 현재(한국기준) 날짜정보를 얻는다.                     <BR>
+	 * 표기법은 yyyy-mm-dd                                  <BR>
+	 * @return  String      yyyymmdd형태의 현재 한국시간.   <BR>
+	 */
+	public static String getCurrentDateymd(String dateType) {
+		Calendar aCalendar = Calendar.getInstance();
+
+		int year = aCalendar.get(Calendar.YEAR);
+		int month = aCalendar.get(Calendar.MONTH) + 1;
+		int date = aCalendar.get(Calendar.DATE);
+		String strDate = Integer.toString(year) +"-"+ ((month < 10) ? "0" + Integer.toString(month) : Integer.toString(month))
+				+ "-"+((date < 10) ? "0" + Integer.toString(date) : Integer.toString(date));
+
+		if (!"".equals(dateType))
+			strDate = convertDate(strDate, "yyyyMMdd", dateType);
+
+		return strDate;
+	}
 
 	public static String getCurrentDateTime() {
 		Date today = new Date();
