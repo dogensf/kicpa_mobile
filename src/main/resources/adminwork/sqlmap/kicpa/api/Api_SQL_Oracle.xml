@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="MainMenu">
+
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="apiVO" type="adminwork.kicpa.api.service.ApiVO"/>
+	<typeAlias  alias="versVO" type="adminwork.kicpa.api.service.VersVO"/>									
+	<typeAlias  alias="bottomVO" type="adminwork.kicpa.api.service.BottomsVO"/>
+	<typeAlias  alias="favorVO" type="adminwork.kicpa.api.service.FavoritesVO"/>
+    <typeAlias  alias="menuVO" type="adminwork.kicpa.api.service.MenuVO"/>
+    <typeAlias  alias="menus" type="adminwork.kicpa.api.service.Menus"/>
+	<typeAlias  alias="comDefaultVO" type="adminwork.com.cmm.ComDefaultVO"/>
+	
+	
+	<select id="apiDAO.selectVer" parameterClass="apiVO" resultClass="versVO">
+		<![CDATA[ 
+            SELECT
+			      MIN_VERSION as min
+			      ,CUR_VERSION as cur
+			FROM  LETTAPPRELEASE
+			WHERE  RELEASE_YN = 'Y'
+		]]> 
+	</select>
+
+	<select id="apiDAO.selectBottomList" parameterClass="apiVO" resultClass="bottomVO">
+		<![CDATA[ 
+            SELECT
+			      KEY as key
+			      ,TITLE as title
+			      ,URL as url
+			FROM  LETTNMENUBOTTOM
+			WHERE  1=1
+			order by MENU_ORDR
+		]]> 
+	</select>
+	
+	<select id="apiDAO.selectFavorList" parameterClass="apiVO" resultClass="favorVO">
+		<![CDATA[ 
+            SELECT
+			      NAME as name
+			      ,IMG as img
+			      ,URL as url
+			FROM  LETTNMENUFAVOR
+			WHERE  1=1
+			order by MENU_ORDR
+		]]> 
+	</select>
+	
+	
+	
+	<select id="apiDAO.selectMainMenuHead" parameterClass="menuVO" resultClass="menus">
+		<![CDATA[ 
+            SELECT
+			      B.MENU_NO           AS "menuNo"
+				, B.MENU_ORDR         AS "menuOrdr"
+				, B.MENU_NM           AS "menuNm"
+				, B.UPPER_MENU_NO     AS "upperMenuId"
+				, B.MENU_DC           AS "menuDc"
+				, B.RELATE_IMAGE_PATH AS "relateImagePath"
+				, B.RELATE_IMAGE_NM   AS "relateImageNm"
+				, B.PROGRM_FILE_NM    AS "progrmFileNm"
+				, (SELECT C.URL FROM LETTNPROGRMLIST C WHERE B.PROGRM_FILE_NM = C.PROGRM_FILE_NM) AS "chkURL"
+			FROM  LETTNMENUINFO B 
+			WHERE  B.Menu_NO > 0 
+			AND    B.UPPER_MENU_NO = 0
+			ORDER BY MENU_ORDR
+		]]> 
+	</select>
+
+	<select id="apiDAO.selectMainMenuLeft" parameterClass="menuVO" resultClass="menus">
+		<![CDATA[ 
+			SELECT
+			       B.MENU_NO           AS "menuNo"
+				 , B.MENU_ORDR         AS "menuOrdr"
+				 , B.MENU_NM           AS "menuNm"
+				 , B.UPPER_MENU_NO     AS "upperMenuId"
+				 , B.RELATE_IMAGE_PATH AS "relateImagePath"
+				 , B.RELATE_IMAGE_NM   AS "relateImageNm"
+				 , (SELECT C.URL FROM LETTNPROGRMLIST C WHERE B.PROGRM_FILE_NM = C.PROGRM_FILE_NM) AS "chkURL"	
+			FROM    LETTNMENUINFO B			
+			ORDER BY B.MENU_NO,B.MENU_ORDR
+		]]> 
+	</select>
+	
+	<!-- <select id="apiDAO.selectMainMenuHead" parameterClass="MenuManageVO" resultClass="egovMap">
+		<![CDATA[ 
+            SELECT
+			      B.MENU_NO           AS "menuNo"
+				, B.MENU_ORDR         AS "menuOrdr"
+				, B.MENU_NM           AS "menuNm"
+				, B.UPPER_MENU_NO     AS "upperMenuId"
+				, B.MENU_DC           AS "menuDc"
+				, B.RELATE_IMAGE_PATH AS "relateImagePath"
+				, B.RELATE_IMAGE_NM   AS "relateImageNm"
+				, B.PROGRM_FILE_NM    AS "progrmFileNm"
+				, (SELECT C.URL FROM LETTNPROGRMLIST C WHERE B.PROGRM_FILE_NM = C.PROGRM_FILE_NM) AS "chkURL"
+			FROM LETTNMENUCREATDTLS A, LETTNMENUINFO B 
+			WHERE  B.Menu_NO > 0 
+			AND    B.UPPER_MENU_NO = 0  
+			AND    A.MENU_NO  = B.MENU_NO 
+			AND    A.AUTHOR_CODE = (SELECT C.AUTHOR_CODE from LETTNEMPLYRSCRTYESTBS C
+	                                WHERE  C.SCRTY_DTRMN_TRGET_ID = #tmp_UniqId#)
+			ORDER BY MENU_ORDR
+		]]> 
+	</select>
+
+	<select id="apiDAO.selectMainMenuLeft" parameterClass="MenuManageVO" resultClass="egovMap">
+		<![CDATA[ 
+			SELECT
+			       B.MENU_NO           AS "menuNo"
+				 , B.MENU_ORDR         AS "menuOrdr"
+				 , B.MENU_NM           AS "menuNm"
+				 , B.UPPER_MENU_NO     AS "upperMenuId"
+				 , B.RELATE_IMAGE_PATH AS "relateImagePath"
+				 , B.RELATE_IMAGE_NM   AS "relateImageNm"
+				 , (SELECT C.URL FROM LETTNPROGRMLIST C WHERE B.PROGRM_FILE_NM = C.PROGRM_FILE_NM) AS "chkURL"	
+			FROM   LETTNMENUCREATDTLS A, LETTNMENUINFO B
+			WHERE  A.MENU_NO  = B.MENU_NO 
+			AND    A.AUTHOR_CODE = (SELECT AUTHOR_CODE from LETTNEMPLYRSCRTYESTBS
+	                                WHERE  SCRTY_DTRMN_TRGET_ID = #tmp_UniqId#)
+			ORDER BY B.MENU_ORDR
+		]]> 
+	</select> -->
+	
+</sqlMap>                            
