@@ -12,6 +12,7 @@
     <security:http pattern="/font/**" security="none"/>
  	<security:http pattern="/js/**" security="none"/>
  	<!-- <security:http pattern="/kicpa/**" security="none"/> -->
+ 	<security:http pattern="/api/**" security="none"/>
  	<security:http pattern="/resource/**" security="none"/>
  	<security:http pattern="\A/WEB-INF/jsp/.*\Z" request-matcher="regex" security="none"/>
  	
