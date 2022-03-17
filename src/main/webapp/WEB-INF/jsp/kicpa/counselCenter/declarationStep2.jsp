@@ -14,7 +14,7 @@ function fncLocation(){
 </script>
 
 <form id="boardForm" name="boardForm">
-	<input type="hidden" name="gubun" id="gubun" value="${param.gubun }">
+	<input type="hidden" name="gubun" id="gubun" value="${gubun }">
 	<section class="head-pop">
 		<h3>신고</h3>
 		<button class="btn-close" type="button" onclick="fncLocation();">
@@ -66,19 +66,19 @@ function fncLocation(){
 				        </div>
 				        <div class="inp-in">
 				            <input type="checkbox" name="arTelSmsYn" id="arTelSmsYn" value="1" />
-				            <label for="checkearTelSmsYnd">
-				            		   회계부정신고 접수여부, 담당자지정 등에 대한 안내문자(SMS)를 받는 것에 동의하는 경우 체크하십시오.
+				            <label for="arTelSmsYn">
+			            		   회계부정신고 접수여부, 담당자지정 등에 대한 안내문자(SMS)를 받는 것에 동의하는 경우 체크하십시오.
 				            </label>
 				        </div>
 				    </div>
 
 			       	<div class="inp-box">
 				        <label class="label essen" for="arZip">우편번호</label>
-				        <input type="text" id="arZip" name="arZip" placeholder="우편번호를 압력하세요." maxlength="6" />
+				        <input type="text" id="arZip" name="arZip" onclick="counselCenter.daumPostcode();" placeholder="우편번호를 압력하세요." readonly="readonly" maxlength="5" />
 				    </div>
 		         	<div class="inp-box">
 				        <label class="label essen" for="arAdd1">주소</label>
-				        <input type="text" id="arAdd1" name="arAdd1" placeholder="Ex) 서울특별시 서대문구 충정로7길 12" />
+				        <input type="text" id="arAdd1" name="arAdd1" readonly="readonly" placeholder="Ex) 서울특별시 서대문구 충정로7길 12" />
 				    </div>
 
 			    	<div class="inp-box">
@@ -159,8 +159,8 @@ function fncLocation(){
 
 				    <div class="inp-box">
 	                    <div class="label">파일첨부</div>
-	                    <input type="file" id="file" name="file" />
-	                    <label for="file">파일을 등록해 주세요</label>
+	                    <input type="file" id="fileId" name="upFile" />
+	                    <label for="fileId">파일을 등록해 주세요</label>
 	                </div>
 
 

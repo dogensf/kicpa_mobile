@@ -9,6 +9,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -20,12 +21,14 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.http.client.utils.URLEncodedUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.multipart.MultipartFile;
 //import java.util.HashMap;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import adminwork.let.utl.fcc.service.StringUtil;
 import egovframework.rte.fdl.idgnr.EgovIdGnrService;
@@ -447,109 +450,51 @@ public class FileMngUtil {
      * @throws Exception
      */
     public void downFile(HttpServletResponse response, String streFileNm, String orignFileNm) throws Exception {
-    //	String downFileName = EgovStringUtil.isNullToString(request.getAttribute("downFile")).replaceAll("..","");
-    //	String orgFileName = EgovStringUtil.isNullToString(request.getAttribute("orgFileName")).replaceAll("..","");
-    String downFileName = StringUtil.isNullToString(streFileNm).replaceAll("..","");
-	String orgFileName = StringUtil.isNullToString(orignFileNm).replaceAll("..","");
-
-	File file = new File(downFileName);
-	//log.debug(this.getClass().getName()+" downFile downFileName "+downFileName);
-	//log.debug(this.getClass().getName()+" downFile orgFileName "+orgFileName);
-
-	if (!file.exists()) {
-	    throw new FileNotFoundException(downFileName);
-	}
-
-	if (!file.isFile()) {
-	    throw new FileNotFoundException(downFileName);
-	}
-
-	//byte[] b = new byte[BUFF_SIZE]; //buffer size 2K.
-	int fSize = (int)file.length();
-	if (fSize > 0) {
-	    BufferedInputStream in = null;
-
-	    try {
-		in = new BufferedInputStream(new FileInputStream(file));
-
-    	    	String mimetype = "text/html"; //"application/x-msdownload"
-
-    	    	response.setBufferSize(fSize);
-		response.setContentType(mimetype);
-		response.setHeader("Content-Disposition:", "attachment; filename=" + orgFileName);
-		response.setContentLength(fSize);
-		//response.setHeader("Content-Transfer-Encoding","binary");
-		//response.setHeader("Pragma","no-cache");
-		//response.setHeader("Expires","0");
-		FileCopyUtils.copy(in, response.getOutputStream());
-	    } finally {
-		if (in != null) {
-		    try {
-			in.close();
-		    } catch (Exception ignore) {
-
-		    	LOGGER.debug("IGNORED: {}", ignore.getMessage());
-		    }
+    	File file = new File(streFileNm);
+    	System.out.println(orignFileNm);
+		if (!file.exists()) {
+		    throw new FileNotFoundException(streFileNm);
 		}
-	    }
-	    response.getOutputStream().flush();
-	    response.getOutputStream().close();
-	}
 
-	/*
-	String uploadPath = propertiesService.getString("fileDir");
+		if (!file.isFile()) {
+		    throw new FileNotFoundException(streFileNm);
+		}
 
-	File uFile = new File(uploadPath, requestedFile);
-	int fSize = (int) uFile.length();
+		byte[] b = new byte[BUFF_SIZE]; //buffer size 2K.
+		response.setContentType("application/octet-stream");
+		response.setHeader("Content-Disposition", "attachment; filename="+new String(orignFileNm.getBytes("KSC5601"),"ISO8859_1"));
+		response.setHeader("Content-Transfer-Encoding", "binary");
+		response.setHeader("Pragma", "no-cache");
+		response.setHeader("Expires", "0");
 
-	if (fSize > 0) {
-	    BufferedInputStream in = new BufferedInputStream(new FileInputStream(uFile));
+		BufferedInputStream fin = null;
+		BufferedOutputStream outs = null;
 
-	    String mimetype = "text/html";
+		try {
+			fin = new BufferedInputStream(new FileInputStream(file));
+		    outs = new BufferedOutputStream(response.getOutputStream());
+		    int read = 0;
 
-	    response.setBufferSize(fSize);
-	    response.setContentType(mimetype);
-	    response.setHeader("Content-Disposition", "attachment; filename=\""
-					+ requestedFile + "\"");
-	    response.setContentLength(fSize);
+			while ((read = fin.read(b)) != -1) {
+			    outs.write(b, 0, read);
+			}
+		} finally {
+		    if (outs != null) {
+				try {
+				    outs.close();
+				} catch (Exception ignore) {
+					LOGGER.debug("IGNORED: {}", ignore.getMessage());
+				}
+			    }
+			    if (fin != null) {
+				try {
+				    fin.close();
+				} catch (Exception ignore) {
+					LOGGER.debug("IGNORED: {}", ignore.getMessage());
+				}
+			    }
+			}
 
-	    FileCopyUtils.copy(in, response.getOutputStream());
-	    in.close();
-	    response.getOutputStream().flush();
-	    response.getOutputStream().close();
-	} else {
-	    response.setContentType("text/html");
-	    PrintWriter printwriter = response.getWriter();
-	    printwriter.println("<html>");
-	    printwriter.println("<br><br><br><h2>Could not get file name:<br>" + requestedFile + "</h2>");
-	    printwriter.println("<br><br><br><center><h3><a href='javascript: history.go(-1)'>Back</a></h3></center>");
-	    printwriter.println("<br><br><br>&copy; webAccess");
-	    printwriter.println("</html>");
-	    printwriter.flush();
-	    printwriter.close();
-	}
-	//*/
-
-
-	/*
-	response.setContentType("application/x-msdownload");
-	response.setHeader("Content-Disposition:", "attachment; filename=" + new String(orgFileName.getBytes(),"UTF-8" ));
-	response.setHeader("Content-Transfer-Encoding","binary");
-	response.setHeader("Pragma","no-cache");
-	response.setHeader("Expires","0");
-
-	BufferedInputStream fin = new BufferedInputStream(new FileInputStream(file));
-	BufferedOutputStream outs = new BufferedOutputStream(response.getOutputStream());
-	int read = 0;
-
-	while ((read = fin.read(b)) != -1) {
-	    outs.write(b,0,read);
-	}
-	log.debug(this.getClass().getName()+" BufferedOutputStream Write Complete!!! ");
-
-	outs.close();
-    	fin.close();
-	//*/
     }
 
 
@@ -560,77 +505,62 @@ public class FileMngUtil {
      * @return
      * @throws Exception
      */
-    public List<HashMap<String,Object>> parseFileInfMap(Map<String, MultipartFile> files, String KeyStr, int fileKeyParam, String atchFileId, String storePath) throws Exception {
-		int fileKey = fileKeyParam;
+    public  List<HashMap<String,Object>> parseFileInfMap(HttpServletRequest request, MultipartHttpServletRequest multipart,String subPath) throws Exception {
 
 		String storePathString = "";
-		String atchFileIdString = "";
 
-		if ("".equals(storePath) || storePath == null) {
-		    storePathString = propertyService.getString("Globals.fileStorePath");
-		} else {
-		    storePathString = propertyService.getString(storePath);
+	    storePathString = request.getSession().getServletContext().getRealPath("")+subPath;
+	    List<HashMap<String,Object>> fileList = new ArrayList<HashMap<String,Object>>();
+	    try {
+
+			File saveFolder = new File(storePathString);
+
+			if (!saveFolder.exists() || saveFolder.isFile()) {
+			    saveFolder.mkdirs();
+			}
+
+			List<MultipartFile> files= multipart.getFiles("upFile");
+	//		Iterator<Entry<String, MultipartFile>> itr = 	files.entrySet().iterator();
+			String filePath = "";
+
+			if(files != null && !files.isEmpty()) {
+				for(MultipartFile mFile : files ) {
+					HashMap<String,Object> fileMap = new HashMap<String,Object>();
+				    String orginFileName = mFile.getOriginalFilename();
+				    //--------------------------------------
+				    // 원 파일명이 없는 경우 처리
+				    // (첨부가 되지 않은 input file type)
+				    //--------------------------------------
+				    if ("".equals(orginFileName)) {
+					continue;
+				    }
+				    ////------------------------------------
+
+				    int index = orginFileName.lastIndexOf(".");
+				    //String fileName = orginFileName.substring(0, index);
+				    String fileExt = orginFileName.substring(index + 1);
+				    String newName = StringUtil.getTimeStamp() +"_" +orginFileName;
+				    long _size = mFile.getSize();
+
+				    if (!"".equals(orginFileName)) {
+						filePath = storePathString + File.separator + newName;
+						mFile.transferTo(new File(filePath));
+				    }
+
+				    fileMap.put("fileExtsn", fileExt);
+				    fileMap.put("fileStreCours", storePathString);
+				    fileMap.put("fileMg", Long.toString(_size));
+				    fileMap.put("orignlFileNm", orginFileName);
+				    fileMap.put("streFileNm", newName);
+
+				    //writeFile(file, newName, storePathString);
+				    fileList.add(fileMap);
+
+				}
+			}
+	    }catch (Exception e) {
+	    	e.printStackTrace();
 		}
-
-		if ("".equals(atchFileId) || atchFileId == null) {
-		    atchFileIdString = idgenService.getNextStringId();
-		} else {
-		    atchFileIdString = atchFileId;
-		}
-
-		File saveFolder = new File(storePathString);
-
-		if (!saveFolder.exists() || saveFolder.isFile()) {
-		    saveFolder.mkdirs();
-		}
-
-		Iterator<Entry<String, MultipartFile>> itr = files.entrySet().iterator();
-		MultipartFile file;
-		String filePath = "";
-		List<HashMap<String,Object>> fileList = new ArrayList<HashMap<String,Object>>();
-		FileVO fvo;
-
-		while (itr.hasNext()) {
-			HashMap<String,Object> fileMap = new HashMap<String,Object>();
-		    Entry<String, MultipartFile> entry = itr.next();
-
-		    file = entry.getValue();
-		    String orginFileName = file.getOriginalFilename();
-
-		    //--------------------------------------
-		    // 원 파일명이 없는 경우 처리
-		    // (첨부가 되지 않은 input file type)
-		    //--------------------------------------
-		    if ("".equals(orginFileName)) {
-			continue;
-		    }
-		    ////------------------------------------
-
-		    int index = orginFileName.lastIndexOf(".");
-		    //String fileName = orginFileName.substring(0, index);
-		    String fileExt = orginFileName.substring(index + 1);
-		    String newName = KeyStr + StringUtil.getTimeStamp() + fileKey;
-		    long _size = file.getSize();
-
-		    if (!"".equals(orginFileName)) {
-				filePath = storePathString + File.separator + newName;
-				file.transferTo(new File(filePath));
-		    }
-
-		    fileMap.put("fileExtsn", fileExt);
-		    fileMap.put("fileStreCours", storePathString);
-		    fileMap.put("fileMg", Long.toString(_size));
-		    fileMap.put("orignlFileNm", orginFileName);
-		    fileMap.put("streFileNm", newName);
-		    fileMap.put("atchFileId", atchFileIdString);
-		    fileMap.put("fileSn", String.valueOf(fileKey));
-
-		    //writeFile(file, newName, storePathString);
-		    fileList.add(fileMap);
-
-		    fileKey++;
-		}
-
 		return fileList;
     }
 

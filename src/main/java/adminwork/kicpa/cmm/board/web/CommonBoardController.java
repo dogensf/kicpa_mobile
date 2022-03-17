@@ -220,7 +220,6 @@ public class CommonBoardController {
 
 	@RequestMapping(value="/boardFileDownload.do")
 	public void boardFileDownload(@RequestParam Map<String,Object> map, HttpServletRequest request,HttpServletResponse response) throws Exception{
-		ModelAndView modelAndView = new ModelAndView();
 
 		try{
 

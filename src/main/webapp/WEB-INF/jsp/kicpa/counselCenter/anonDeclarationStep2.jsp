@@ -14,7 +14,7 @@ function fncLocation(){
 </script>
 
 <form id="boardForm" name="boardForm">
-	<input type="hidden" name="gubun" id="gubun" value="${param.gubun }">
+	<input type="hidden" name="gubun" id="gubun" value="${gubun }">
 	<section class="head-pop">
 		<h3>신고</h3>
 		<button class="btn-close" type="button" onclick="fncLocation();">
@@ -86,7 +86,7 @@ function fncLocation(){
 
 			       	<div class="inp-box">
 				        <label class="label essen" for="arZip">우편번호</label>
-				        <input type="text" id="arZip" name="arZip" placeholder="우편번호를 압력하세요." maxlength="6" />
+				        <input type="text" id="arZip" name="arZip" placeholder="우편번호를 압력하세요." maxlength="5" />
 				    </div>
 		         	<div class="inp-box">
 				        <label class="label essen" for="arAdd1">주소</label>
@@ -187,8 +187,8 @@ function fncLocation(){
 
 				    <div class="inp-box">
 	                    <div class="label">파일첨부</div>
-	                    <input type="file" id="file" name="arFile" />
-	                    <label for="file">파일을 등록해 주세요</label>
+	                    <input type="file" id="fileId" name="upFile" />
+	                    <label for="fileId">파일을 등록해 주세요</label>
 	                </div>
 
 
