@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="MypPass">
+
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+
+
+	<update id="MypPassDAO.mypCpaPassRegisterPassInfoSave" parameterClass="HashMap">
+		<![CDATA[
+
+			UPDATE CPA_PSEXAM_MYP
+            SET
+                CHCRT_NM = #chcrtNm#
+            ,   ENG_NM = #engNm#
+            ,   LAST_UPDT_ID = #userId#
+            ,   LAST_UPDT_DT = SYSTIMESTAMP
+
+            WHERE PIN = #pin#
+
+		]]>
+	</update>
+
+	<update id="MypPassDAO.mypCpaPassRegisterAdressInfoSave" parameterClass="HashMap">
+		<![CDATA[
+
+			UPDATE CPA_PSEXAM_MYP
+            SET
+                HUS_ADR_CL = #husAdrCl#
+            ,   HUS_ZIP_CD = #husZipCd#
+            ,   HUS_ADRES = #husAdres#
+            ,   HUS_ADRES_DETAIL = #husAdresDetail#
+            ,   HUS_LEGAL_CD = #husLegalCd#
+            ,   OFC_ADR_CL = #ofcAdrCl#
+            ,   OFC_ZIP_CD = #ofcZipCd#
+            ,   OFC_ADRES = #ofcAdres#
+            ,   OFC_ADRES_DETAIL = #ofcAdresDetail#
+            ,   OFC_LEGAL_CD = #ofcLegalCd#
+            ,   POST_SNDNG_YN = #postSndngYn#
+            ,   OFC_TEL_NO = #ofcTelNo#
+            ,   OFC_FAX_NO = #ofcFaxNo#
+            ,   OFICE_NM = #oficeNm#
+            ,   RSP_OFC = #rspOfc#
+            ,   SECTION_NM = #sectionNm#
+            ,   DEPT_NM = #deptNm#
+            ,   LAST_UPDT_ID = #userId#
+            ,   LAST_UPDT_DT = SYSTIMESTAMP
+
+            WHERE PIN = #pin#
+
+		]]>
+	</update>
+
+	<update id="MypPassDAO.mypCpaPassRegisterContactInfoSave" parameterClass="HashMap">
+		<![CDATA[
+
+			UPDATE CPA_PSEXAM_MYP
+            SET
+                MOBL_PHON_NO = #moblPhonNo#
+            ,   HUS_TEL_NO = #husTelNo#
+            ,   MAIN_EMAIL = #mainEmail#
+            ,   SUB_EMAIL = #subEmail#
+            ,   EMAIL_SNDNG_YN = #emailSndngYn#
+            ,   SMS_SNDNG_YN = #smsSndngYn#
+            ,   LAST_UPDT_ID = #userId#
+            ,   LAST_UPDT_DT = SYSTIMESTAMP
+
+            WHERE PIN = #pin#
+
+		]]>
+	</update>
+
+	<delete id="MypPassDAO.mypCpaPassRegisterAcdmcrInfoDelete" parameterClass="HashMap">
+		<![CDATA[
+
+			DELETE FROM MBER_ACDMCR_MYP
+			WHERE PIN = #pin#
+
+		]]>
+	</delete>
+
+	<update id="MypPassDAO.mypCpaPassRegisterAcdmcrInfoSave" parameterClass="HashMap">
+		<![CDATA[
+
+			MERGE INTO MBER_ACDMCR_MYP
+                USING DUAL
+                ON (ACDMCR_SN = #acdmcrSn# AND PIN = #pin#)
+                WHEN MATCHED THEN
+                          UPDATE SET
+                          SCHUL_CL = #schulCl#, DEGREE = #degree#, SCHUL_NM = #schulNm#, MAJOR = #major#, GRDTN_YEAR = #grdtnYear#,
+                          LAST_UPDT_ID = #userId#, LAST_UPDT_DT = SYSTIMESTAMP
+
+                WHEN NOT MATCHED THEN
+                          INSERT (ACDMCR_SN, PIN, SCHUL_CL, DEGREE, SCHUL_NM, MAJOR, GRDTN_YEAR,
+                          		FRST_REGIST_ID,   FRST_REGIST_DT,   LAST_UPDT_ID,   LAST_UPDT_DT)
+
+                          VALUES (KIPADM.MBER_ACDMCR_MYP_SEQ.NEXTVAL, #pin#, #schulCl#, #degree#, #schulNm#, #major#, #grdtnYear#,
+		        				#userId#, SYSTIMESTAMP, #userId#, SYSTIMESTAMP)
+
+		]]>
+	</update>
+
+
+	<update id="MypPassDAO.mypCpaPassRegisterPassInfoUpdate" parameterClass="HashMap">
+		<![CDATA[
+
+			UPDATE MBER_INDVDLINFO
+            SET
+                CHCRT_NM = #chcrtNm#
+            ,   ENG_NM = #engNm#
+            ,   LAST_UPDT_ID = #userId#
+            ,   LAST_UPDT_DT = SYSTIMESTAMP
+
+            WHERE PIN = #pin#
+
+		]]>
+	</update>
+
+	<update id="MypPassDAO.mypCpaPassRegisterAdressInfoUpdate" parameterClass="HashMap">
+		<![CDATA[
+
+            MERGE INTO ADRES_INFO
+                USING DUAL
+                ON (ADR_CL = #adrCl# AND ADR_TRG_CL = #adrTrgCl# AND ADR_TRG_ID = #pin#)
+                WHEN MATCHED THEN
+                          UPDATE SET
+        ]]>
+		<isEqual property="adrCl" compareValue="HOUSE">
+			<![CDATA[
+					  ZIP_CD = #husZipCd#, RD_ADRES = #husAdres# , RD_ADRES_DETAIL = #husAdresDetail#, LEGAL_CD = #husLegalCd#,
+					]]>
+		</isEqual>
+		<isEqual property="adrCl" compareValue="OFICE">
+			<![CDATA[
+					  ZIP_CD = #ofcZipCd#, RD_ADRES = #ofcAdres# , RD_ADRES_DETAIL = #ofcAdresDetail#, LEGAL_CD = #ofcLegalCd#,
+					]]>
+		</isEqual>
+
+		<![CDATA[
+                                REGIST_DE = #registDe#, REGIST_Cl = #registCl#,
+                                LAST_UPDT_ID = #userId#, LAST_UPDT_DT = SYSTIMESTAMP
+                WHEN NOT MATCHED THEN
+                          INSERT (ADR_CL, ADR_TRG_CL, ADR_TRG_ID, ZIP_CD, RD_ADRES, RD_ADRES_DETAIL,LEGAL_CD, REGIST_DE,
+                                     REGIST_Cl, FRST_REGIST_ID, FRST_REGIST_DT, LAST_UPDT_ID, LAST_UPDT_DT)
+                          VALUES (#adrCl# , #adrTrgCl# , #pin# ,
+        ]]>
+		<isEqual property="adrCl" compareValue="HOUSE">
+			<![CDATA[
+						#husZipCd# , #husAdres# , #husAdresDetail#, #husLegalCd#,
+				]]>
+		</isEqual>
+		<isEqual property="adrCl" compareValue="OFICE">
+			<![CDATA[
+						#ofcZipCd# , #ofcAdres# , #ofcAdresDetail#, #ofcLegalCd#,
+				]]>
+		</isEqual>
+
+		<![CDATA[
+                          #registDe#, #registCl#, #userId# , SYSTIMESTAMP , #userId# , SYSTIMESTAMP)
+
+        ]]>
+	</update>
+
+	<update id="MypPassDAO.mypCpaPassRegisterOficeInfoUpdate" parameterClass="HashMap">
+		<![CDATA[
+
+			MERGE INTO OFICE_INFO
+                USING DUAL
+                ON (OFC_CL = #adrTrgCl# AND OFC_TRG_ID = #pin#)
+                WHEN MATCHED THEN
+                          UPDATE SET
+                                OFC_TEL_NO = #ofcTelNo#, OFC_FAX_NO = #ofcFaxNo#, OFICE_NM = #oficeNm#, SECTION_NM = #sectionNm# , DEPT_NM = #deptNm#, RSP_OFC = #rspOfc#,
+                                OPETR_DE = #registDe#, REGIST_Cl = #registCl#, LAST_UPDT_ID = #userId#, LAST_UPDT_DT = SYSTIMESTAMP
+                WHEN NOT MATCHED THEN
+                          INSERT (OFC_CL, OFC_TRG_ID, OFC_TEL_NO, OFC_FAX_NO, OFICE_NM, SECTION_NM, DEPT_NM, RSP_OFC, OPETR_DE, REGIST_Cl,
+                                    FRST_REGIST_ID, FRST_REGIST_DT, LAST_UPDT_ID, LAST_UPDT_DT)
+                          VALUES (#adrTrgCl# , #pin# , #ofcTelNo# , #ofcFaxNo# , #oficeNm# , #sectionNm# , #deptNm# , #rspOfc#, #registDe#, #registCl#,
+                                    #userId# , SYSTIMESTAMP , #userId# , SYSTIMESTAMP)
+
+		]]>
+	</update>
+
+	<update id="MypPassDAO.mypCpaPassRegisterPostSndngYnUpdate" parameterClass="HashMap">
+		<![CDATA[
+
+			UPDATE MBER_INDVDLINFO
+            SET
+                POST_SNDNG_YN = #postSndngYn#
+            ,   LAST_UPDT_ID = #userId#
+            ,   LAST_UPDT_DT = SYSTIMESTAMP
+
+            WHERE PIN = #pin#
+
+		]]>
+	</update>
+
+	<update id="MypPassDAO.mypCpaPassRegisterContactInfoUpdate" parameterClass="HashMap">
+		<![CDATA[
+
+			UPDATE MBER_INDVDLINFO
+            SET
+                HOUSE_TEL_NO = #husTelNo#
+            ,   MOBL_PHON_NO = #moblPhonNo#
+            , 	MAIN_EMAIL = #mainEmail#
+            ,	SUB_EMAIL = #subEmail#
+            , 	EMAIL_SNDNG_YN = #emailSndngYn#
+            , 	SMS_SNDNG_YN = #smsSndngYn#
+            ,   LAST_UPDT_ID = #userId#
+            ,   LAST_UPDT_DT = SYSTIMESTAMP
+
+            WHERE PIN = #pin#
+		]]>
+	</update>
+
+	<update id="MypPassDAO.mypCpaPassRegisterAcdmcrInfoUpdate" parameterClass="HashMap">
+		<![CDATA[
+
+			MERGE INTO MBER_ACDMCR
+                USING DUAL
+                ON (ACDMCR_SN = #acdmcrSn# AND PIN = #pin#)
+                WHEN MATCHED THEN
+                          UPDATE SET
+                                SCHUL_CL = #schulCl#, DEGREE = #degree#, SCHUL_NM = #schulNm#, MAJOR = #major# , GRDTN_YEAR = #grdtnYear#,
+                                LAST_UPDT_ID = #userId#, LAST_UPDT_DT = SYSTIMESTAMP
+                WHEN NOT MATCHED THEN
+                          INSERT (ACDMCR_SN,   PIN,   SCHUL_CL,   DEGREE,   SCHUL_NM,   MAJOR,   GRDTN_YEAR,   DELETE_YN,
+                                    FRST_REGIST_ID,   FRST_REGIST_DT,   LAST_UPDT_ID,   LAST_UPDT_DT)
+                          VALUES (KIPADM.MBER_ACDMCR_SEQ.nextval , #pin# , #schulCl# , #degree# , #schulNm# , #major# , #grdtnYear# , #deleteYn#,
+                                    #userId# , SYSTIMESTAMP , #userId# , SYSTIMESTAMP)
+		]]>
+	</update>
+
+	<update id="MypPassDAO.mypCpaPassRegisterAcdmcrDelete" parameterClass="HashMap">
+		<![CDATA[
+
+			UPDATE MBER_ACDMCR
+            SET
+                DELETE_YN = 'Y'
+            ,   LAST_UPDT_ID = #userId#
+            ,   LAST_UPDT_DT = SYSTIMESTAMP
+
+            WHERE ACDMCR_SN = #acdmcrSnDel#
+              AND PIN = #pin#
+		]]>
+	</update>
+</sqlMap>
