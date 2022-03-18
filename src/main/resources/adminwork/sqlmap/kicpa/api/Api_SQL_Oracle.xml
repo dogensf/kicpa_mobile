@@ -50,11 +50,12 @@
 	
 	<select id="apiDAO.selectFavorListHead" parameterClass="apiVO" resultClass="favorVO">
 		<![CDATA[ 
-	           SELECT
+	        SELECT
 			      upper_name as name			     
 			FROM  LETTNMENUFAVOR
 			WHERE  1=1
 			group by upper_name
+			ORDER BY name DESC
 		]]> 
 	</select>
 	
