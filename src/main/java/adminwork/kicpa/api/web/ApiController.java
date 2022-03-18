@@ -21,6 +21,7 @@ import adminwork.kicpa.api.service.MenuVO;
 import adminwork.kicpa.api.service.Menus;
 import adminwork.kicpa.api.service.VersVO;
 import egovframework.rte.fdl.property.EgovPropertyService;
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 @Controller
@@ -53,14 +54,62 @@ public class ApiController {
 		VersVO ver = apiService.selectVer(vo);
 		model.addAttribute("ver", ver);
 		
-		//기본 즐겨 찾기 생성
+		//홈버튼 생성
 		List<BottomsVO> bottom = apiService.selectBottomList(vo);
+		for(int i=0; i < bottom.size(); i++) {
+			if(bottom.get(i).getUrl().contains("http")){
+				bottom.get(i).setUrl("window.bridge.openWeb('"+bottom.get(i).getUrl()+"')");
+				
+			}else {
+				bottom.get(i).setUrl("location.href='"+bottom.get(i).getUrl()+"'");				
+			}
+		}
+		
 		model.addAttribute("bottomList", bottom);
 		
 		//기본 즐겨 찾기 생성
-		List<FavoritesVO> favor = apiService.selectFavorList(vo);
-		model.addAttribute("myFavorites", favor);
+		List<FavoritesVO> Mfavor = apiService.selectMyFavorList(vo);		
+		for(int i=0; i < Mfavor.size(); i++) {
+			if(Mfavor.get(i).getUrl().contains("http")){
+				Mfavor.get(i).setUrl("window.bridge.openWeb('"+Mfavor.get(i).getUrl()+"')");
+				
+			}else {
+				Mfavor.get(i).setUrl("location.href='"+Mfavor.get(i).getUrl()+"'");				
+			}
+		}
+		model.addAttribute("myFavorites", Mfavor);
+		
 		//favoritesList
+		List<FavoritesVO> Hfavor = apiService.selectFavorListHead(vo);
+		List<FavoritesVO> Lfavor = apiService.selectFavorList(vo);
+		JSONArray fArr = new JSONArray();
+		JSONObject favor = new JSONObject();
+		JSONArray mArr = new JSONArray();
+		JSONObject mlist = new JSONObject();
+		
+		for(FavoritesVO hfm:Hfavor) {
+			favor = new JSONObject();
+			
+			mArr = new JSONArray();
+			for(FavoritesVO lfm:Lfavor) {
+				mlist = new JSONObject();
+				if(hfm.getName().equals(lfm.getUpperName())) {
+					mlist.put("name", lfm.getName());
+					mlist.put("img",lfm.getImg());
+					if(lfm.getUrl().contains("http")){						
+						mlist.put("url", "window.bridge.openWeb('"+lfm.getUrl()+"')");
+					}else {
+						mlist.put("url", "location.href='"+lfm.getUrl()+"'");
+					}
+					mArr.add(mlist);
+				}			
+			}	
+			favor.put("name", hfm.getName());
+			favor.put("list", mArr);
+			fArr.add(favor);
+		}
+		model.addAttribute("favoritesList", fArr);	
+			
 		
 		
 		//categoryList - 생성		

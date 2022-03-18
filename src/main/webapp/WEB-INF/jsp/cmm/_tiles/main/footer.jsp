@@ -15,12 +15,12 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!--begin::Footer-->
 <section class="link-url">
-	<a href="#" target="_blank">회계연수원</a>
- 	<a href="#" target="_blank">AT자격시험</a>
-	<a href="#" target="_blank">조세지원센터</a>
-	<a href="#" target="_blank">Youtube</a>
-	<a href="#" target="_blank">회원용 email</a>
-	<a href="#" target="_blank">PC버전 </a>
+	<a href="https://cyber.kicpa.or.kr/sso/main.php" target="_blank">회계연수원</a>
+ 	<a href="https://blog.naver.com/kicpaline" target="_blank">KICPA블로그</a>
+	<a href="https://blog.naver.com/kicpa1" target="_blank">조세지원센터</a>
+	<a href="https://www.youtube.com/channel/UCCXEbJkEOo2DrPNxYjTdIVQ" target="_blank">Youtube</a>
+	<a href="mail.kicpa.or.kr" target="_blank">회원용 email</a>
+	<a href="https://www.kicpa.or.kr/portal/default/kicpa/main/kr_pc_guest" target="_blank">PC버전 </a>
  </section>
 
 <footer>

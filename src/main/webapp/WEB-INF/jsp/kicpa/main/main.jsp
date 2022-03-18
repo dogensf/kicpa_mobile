@@ -3,6 +3,80 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <script src="/js/kicpa/board/board.js"></script>
 <script src="/js/kicpa/main/main.js"></script>
+<script>
+
+
+var aa =  [
+			{"name":"회원경조사", "img":"icon_obituary", "url":"location.href='https://m.naver.com'"},
+			{"name":"회비관리", "img":"icon_tax", "url":"location.href='https://m.naver.com'"},
+			{"name":"마이페이지", "img":"icon_mypage", "url":"location.href='https://m.naver.com'"},
+			{"name":"설문조사", "img":"icon_consulting", "url":"location.href='https://m.naver.com'"},
+			{"name":"구인정보", "img":"icon_survey", "url":"https://m.naver.com"},
+			{"name":"알림마당", "img":"icon_notice", "url":"https://m.naver.com"},
+			{"name":"공인회계사 소개", "img":"icon_intro2", "url":"https://m.naver.com"},			
+			{"name":"회비관리", "img":"icon_tax", "url":"https://m.naver.com"},
+			{"name":"마이페이지", "img":"icon_mypage", "url":"https://m.naver.com"},
+			{"name":"설문조사", "img":"icon_consulting", "url":"https://m.naver.com"},
+			{"name":"출판도서구매", "img":"icon_books2", "url":"https://m.naver.com"}
+		] ;
+
+$(document).ready(function(){
+	/* var ua = navigator.userAgent.toLowerCase();	
+	if(ua.indexOf("iamaboy") > -1) {
+		window.bridge.reqFavorite();
+	}else{
+		applyFavorite(aa);	
+	}
+	
+	 */
+	if ( !!window['bridge'] )  {
+		window.bridge.reqFavorite(); 
+	} else { 
+		applyFavorite(aa); 
+	}
+});
+
+
+
+function applyFavorite(menus) {
+	
+/* 	for(i=0;i < menus.length;i++){
+	    console.log(menus[i]);
+	    console.log(index + " ::: " , data.name);
+		console.log(index + " ::: " , data.img);
+		console.log(index + " ::: " , data.url);
+	}; */
+	var menu11="";
+	var menu12="";
+	var menu21="";
+	var menu22="";
+	menus.forEach(function(data, idx){
+		if(idx < 8){
+			if(idx < 4){
+				menu11 +="<button class=\""+data.img+"\" type=\"button\" onclick=\"javascript:"+data.url+"\">"+data.name+"</button>";	
+			}else{
+				menu12 +="<button class=\""+data.img+"\" type=\"button\" onclick=\"javascript:"+data.url+"\">"+data.name+"</button>";
+			}			
+		}else{
+			if(idx < 12){
+				menu21 +="<button class=\""+data.img+"\" type=\"button\" onclick=\"javascript:"+data.url+"\">"+data.name+"</button>";	
+			}else{
+				menu22 +="<button class=\""+data.img+"\" type=\"button\" onclick=\"javascript:"+data.url+"\">"+data.name+"</button>";
+			}			
+		}
+		console.log(idx + " ::: " , data.name);
+		console.log(idx + " ::: " , data.img);
+		console.log(idx + " ::: " , data.url);
+	});
+	
+	  $('#mfm11').html(menu11);
+	  $('#mfm12').html(menu12);
+	  $('#mfm21').html(menu21);
+	  $('#mfm22').html(menu22);
+
+}
+</script>
+
 <section class="bookmark-wrap">
 	<div class="title-box">
 		<h2>My 즐겨찾기</h2>
@@ -16,21 +90,21 @@
 	<div class="swiper mySwiper">
   		<div class="swiper-wrapper">
 	    	<div class="swiper-slide">
-	      		<div>
+	      		<div id="mfm11">
 			        <button class="tax" type="button"  onclick="javascript:location.href='<c:url value='/kicpa/dues/selectDuesList.do'/>';">
 			         	 회비관리
 			        </button>
-			        <button class="counsel" type="button" onclick="javascript:location.href='<c:url value='/kicpa/taxNews/boardList.do'/>';">
+			        <button class="icon_obituary" type="button" onclick="javascript:location.href='<c:url value='/kicpa/taxNews/boardList.do'/>';">
 			          	상담센터
 			        </button>
-			        <button class="job" type="button" onclick="javascript:location.href='<c:url value='/kicpa/job/boardList.do'/>';">
+			        <button class="icon_inquiry" type="button" onclick="javascript:location.href='<c:url value='/kicpa/job/boardList.do'/>';">
 			        	 구인정보
 			        </button>
-			        <button class="familyEvent" type="button" onclick="javascript:location.href='<c:url value='/kicpa/memberEvent/boardList.do'/>';">
+			        <button class="icon_accounting" type="button" onclick="javascript:location.href='<c:url value='/kicpa/memberEvent/boardList.do'/>';">
 			       		   회원경조사
 			        </button>
 	     		</div>
-	      		<div>
+	      		<div id="mfm12">
 			        <button class="translation" type="button">
 			    	      회계연수원
 			        </button>
@@ -46,10 +120,12 @@
 	     	 	</div>
 	    	</div>
 		    <div class="swiper-slide">
-				<div>
+				<div id="mfm21">
 		        	<button class="add" type="button">
 		       			   추가
 		       		</button>
+		      	</div>
+		      	<div id="mfm22">		        	
 		      	</div>
 	    	</div>
 	</div>
@@ -76,7 +152,7 @@
 		            <a href="javascript:void(0);" onclick="main.changeBoardId(this,'noti');" >공지사항</a>
 		        </li>
 		        <li>
-		            <a href="javascript:void(0);" onclick="main.changeBoardId(this,'NEWS');">주요 기사 (Newsaclips)</a>
+		            <a href="javascript:void(0);" onclick="main.changeBoardId(this,'NEWS');">주요기사 (Daily Newsclips)</a>
 		        </li>
 		        <li>
 		            <a href="javascript:void(0);" onclick="main.changeBoardId(this,'intl04/intl05/intl06/intl07/intl08/rpnofin05');">국제동향</a>

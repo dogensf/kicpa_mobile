@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
+import adminwork.com.cmm.service.impl.EgovComAbstractDAO2;
 import adminwork.kicpa.dues.service.Dues;
 import adminwork.kicpa.dues.service.DuesRef;
 import adminwork.kicpa.dues.service.DuesRefVO;
@@ -16,10 +17,9 @@ import adminwork.kicpa.dues.service.GiroDetail;
 import adminwork.kicpa.dues.service.GiroNtic;
 import adminwork.kicpa.dues.service.GiroVO;
 import adminwork.kicpa.dues.service.NewDues;
-import egovframework.rte.psl.dataaccess.EgovAbstractDAO;
 
 @Repository("DuesDAO")
-public class DuesDAO extends EgovAbstractDAO{
+public class DuesDAO extends EgovComAbstractDAO2{
 	
     // 납부번호 발생조회
     public Long selectDuesPayNo() throws Exception {

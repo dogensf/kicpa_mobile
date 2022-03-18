@@ -30,6 +30,14 @@ public class ApiServiceImpl extends EgovAbstractServiceImpl implements ApiServic
 		return apiDAO.selectBottomList(vo);
 	}
 	
+
+	public List<FavoritesVO> selectMyFavorList(ApiVO vo) throws Exception{
+		return apiDAO.selectMyFavorList(vo);
+	}
+	
+	public List<FavoritesVO> selectFavorListHead(ApiVO vo) throws Exception{
+		return apiDAO.selectFavorListHead(vo);
+	}
 	
 	public List<FavoritesVO> selectFavorList(ApiVO vo) throws Exception{
 		return apiDAO.selectFavorList(vo);

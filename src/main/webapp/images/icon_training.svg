@@ -1,0 +1,13 @@
+<svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect width="60" height="60" rx="20" fill="white"/>
+<rect x="12" y="12" width="36" height="36" fill="white"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M44 18H16V33H44V18ZM14 16V35H46V16H14Z" fill="#92D050"/>
+<path d="M12 37H48V39H12V37Z" fill="#92D050"/>
+<path d="M24 46H36V48H24V46Z" fill="#92D050"/>
+<path d="M29 39H31V48H29V39Z" fill="#92D050"/>
+<path d="M12 12H48V14H12V12Z" fill="#92D050"/>
+<path d="M21 28H24V31H21V28Z" fill="#92D050"/>
+<path d="M26 24H29V31H26V24Z" fill="#92D050"/>
+<path d="M31 25H34V31H31V25Z" fill="#92D050"/>
+<path d="M36 22H39V31H36V22Z" fill="#92D050"/>
+</svg>

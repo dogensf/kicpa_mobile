@@ -35,10 +35,34 @@
 		]]> 
 	</select>
 	
-	<select id="apiDAO.selectFavorList" parameterClass="apiVO" resultClass="favorVO">
+	<select id="apiDAO.selectMyFavorList" parameterClass="apiVO" resultClass="favorVO">
 		<![CDATA[ 
             SELECT
 			      NAME as name
+			      ,IMG as img
+			      ,URL as url
+			FROM  LETTNMENUFAVOR
+			WHERE  1=1
+			and defaultyn = 'Y'
+			order by MENU_ORDR
+		]]> 
+	</select>
+	
+	<select id="apiDAO.selectFavorListHead" parameterClass="apiVO" resultClass="favorVO">
+		<![CDATA[ 
+	           SELECT
+			      upper_name as name			     
+			FROM  LETTNMENUFAVOR
+			WHERE  1=1
+			group by upper_name
+		]]> 
+	</select>
+	
+	<select id="apiDAO.selectFavorList" parameterClass="apiVO" resultClass="favorVO">
+		<![CDATA[ 
+	           SELECT
+			      NAME as name
+			      ,upper_name as upperName
 			      ,IMG as img
 			      ,URL as url
 			FROM  LETTNMENUFAVOR

@@ -8,7 +8,11 @@ public interface ApiService {
 	
 	public List<BottomsVO> selectBottomList(ApiVO vo) throws Exception;
 	
+	public List<FavoritesVO> selectMyFavorList(ApiVO vo) throws Exception;
+	
+	public List<FavoritesVO> selectFavorListHead(ApiVO vo) throws Exception;
 	public List<FavoritesVO> selectFavorList(ApiVO vo) throws Exception;
+	
 	
 	/*### 메뉴관련 프로세스 ###*/
 	/**

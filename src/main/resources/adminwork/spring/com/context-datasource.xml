@@ -33,6 +33,14 @@
         <property name="password" value="${Globals.Password}"/>
     </bean>
     
+     <!-- Oracle -->
+    <bean id="dataSource-oracle2" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+        <property name="driverClassName" value="${Globals2.DriverClassName2}"/>
+        <property name="url" value="${Globals2.Url2}" />
+        <property name="username" value="${Globals2.UserName}"/>
+        <property name="password" value="${Globals2.Password}"/>
+    </bean>
+    
     <!-- Altibase -->
     <bean id="dataSource-altibase" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
         <property name="driverClassName" value="${Globals.DriverClassName}"/>

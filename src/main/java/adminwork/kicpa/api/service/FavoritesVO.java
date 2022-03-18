@@ -2,6 +2,7 @@ package adminwork.kicpa.api.service;
 
 public class FavoritesVO {
 
+	private String upperName;
 	private String name;
 	private String img;
 	private String url;
@@ -22,6 +23,12 @@ public class FavoritesVO {
 	}
 	public void setUrl(String url) {
 		this.url = url;
+	}
+	public String getUpperName() {
+		return upperName;
+	}
+	public void setUpperName(String upperName) {
+		this.upperName = upperName;
 	}
 	
 	 

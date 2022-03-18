@@ -22,7 +22,7 @@
 <!-- <link rel="canonical" href="https://keenthemes.com/metronic" /> -->
  	<link rel="stylesheet" href="/css/kicpa/app.css">
  	<link rel="stylesheet" href="/css/swiper-bundle.min.css">
-	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 	<script src="/js/jquery-ui.min.js"></script>
 	<script src="/js/KicpaCommon.js"></script>
 	<script src="/js/swiper-bundle.min.js"></script>

@@ -26,6 +26,15 @@ public class ApiDAO extends EgovAbstractDAO{
 	}
 	
 	
+	@SuppressWarnings("unchecked")
+	public List<FavoritesVO> selectMyFavorList(ApiVO vo) throws Exception{
+		return (List<FavoritesVO>) list("apiDAO.selectMyFavorList",vo);
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<FavoritesVO> selectFavorListHead(ApiVO vo) throws Exception{
+		return (List<FavoritesVO>) list("apiDAO.selectFavorListHead",vo);
+	}
 	
 	@SuppressWarnings("unchecked")
 	public List<FavoritesVO> selectFavorList(ApiVO vo) throws Exception{

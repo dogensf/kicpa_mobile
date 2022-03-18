@@ -26,5 +26,17 @@
         <property name="dataSource" ref="dataSource-${Globals.DbType}"/>
         <property name="lobHandler" ref="lobHandler"/>
     </bean>
+    
+    
+    <bean id="egov.sqlMapClient2" class="egovframework.rte.psl.orm.ibatis.SqlMapClientFactoryBean">
+        <property name="configLocations">
+            <list>
+                <value>classpath:/adminwork/sqlmap/config/${Globals2.DbType}/portal/*.xml</value>
+            </list>
+        </property>
+        <property name="dataSource" ref="dataSource-${Globals2.DbType}2"/>
+        <property name="lobHandler" ref="lobHandler"/>
+    </bean>
+
 
 </beans>    
