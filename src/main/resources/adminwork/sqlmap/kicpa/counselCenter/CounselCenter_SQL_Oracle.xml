@@ -64,7 +64,7 @@
 			        AND AR_STATUS = B.CODE
 			        AND CODE != 1
 			where ar_use ='Y'
-			and ar_user_id = #userId#
+<!-- 			and ar_user_id = #userId# -->
 			<isNotNull property="searchKeyword">
 	       		<isNotEmpty property="searchKeyword">
 	       			AND (UPPER(A.AR_WTITLE) LIKE '%'||UPPER(#searchKeyword#)||'%')
@@ -83,7 +83,7 @@
        			AND (UPPER(AR_WTITLE) LIKE '%'||UPPER(#searchKeyword#)||'%')
        		</isNotEmpty>
        	</isNotNull>
-		and ar_user_id = #userId#
+<!-- 		and ar_user_id = #userId# -->
 		order by ar_reg_date desc
 	</select>
 
@@ -139,6 +139,13 @@
 		from ACC_REPORT_FILE
 		where ID_NUM = #arIdNum#
 		ORDER BY SEQ_NUM
+	</select>
+
+	<select id="CounselCenterDAO.selectDeclarationBoardFile" parameterClass="Hashmap" resultClass="egovMap">
+		selecT SEQ_NUM, ID_NUM, FILENAME, FILESIZE, HOST_FILENAME
+		from ACC_REPORT_FILE
+		where ID_NUM = #arIdNum#
+		AND SEQ_NUM = #seqNum#
 	</select>
 
 	<update id="CounselCenterDAO.updateDeclarationBoardReadCnt" parameterClass="Hashmap">
@@ -414,9 +421,9 @@
 		VALUES(
 				(SELECT NVL(MAX(SEQ_NUM),0)+1 FROM ACC_REPORT_FILE )
 				,#arIdNum#
-				,#filename#
-				,#filesize#
-				,#hostFilename#
+				,#orignlFileNm#
+				,#fileMg#
+				,#streFileNm#
 				)
 	</insert>
 

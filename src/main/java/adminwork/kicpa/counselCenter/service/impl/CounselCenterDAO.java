@@ -158,4 +158,14 @@ public class CounselCenterDAO extends EgovAbstractDAO{
 		return update("CounselCenterDAO.insertDeclarationBoardFile",map);
 	}
 
+	/**
+	 * 파일다운로드 정보 조회
+	 * @param map
+	 * @return
+	 * @throws Exception
+	 */
+	public EgovMap selectDeclarationBoardFile(Map<String,Object> map) throws Exception {
+		return (EgovMap) select("CounselCenterDAO.selectDeclarationBoardFile",map);
+	}
+
 }

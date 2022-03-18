@@ -180,11 +180,11 @@ function pay0(){
 				    </div>
 		       		<div class="inp-box">
 				        <label class="label essen" for="cpyOffZip">우편번호</label>
-				        <input type="text" id="cpyOffZip" name="cpyOffZip" placeholder="회사명을 입력하세요." />
+				        <input type="text" id="cpyOffZip" name="cpyOffZip" readonly="readonly" onclick="sntBook.daumPostcode('company');" placeholder="회사명을 입력하세요." />
 				    </div>
 		       		<div class="inp-box">
 				        <label class="label essen" for="cpyOffAddr">주소</label>
-				        <input type="text" id="cpyOffAddr" name="cpyOffAddr" placeholder="회사명을 입력하세요." />
+				        <input type="text" id="cpyOffAddr" name="cpyOffAddr" readonly="readonly" onclick="sntBook.daumPostcode('company');" placeholder="회사명을 입력하세요." />
 				    </div>
 		       		<div class="inp-box">
 				        <label class="label essen" for="cpyOffAddr1">상세주소</label>

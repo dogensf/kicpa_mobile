@@ -87,11 +87,11 @@ function pay0(){
 				    </div>
 			     	<div class="inp-box">
 				        <label class="label essen" for="rvZip">우편번호</label>
-				        <input type="text" id="rvZip" name="rvZip" placeholder="우편번호를 압력하세요." maxlength="6" />
+				        <input type="text" id="rvZip" name="rvZip" placeholder="우편번호를 압력하세요." readonly="readonly" onclick="sntBook.daumPostcode('cart');" maxlength="6" />
 				    </div>
 		         	<div class="inp-box">
 				        <label class="label essen" for="rvAdd1">주소</label>
-				        <input type="text" id="rvAdd1" name="rvAdd1" placeholder="Ex) 서울특별시 서대문구 충정로7길 12" />
+				        <input type="text" id="rvAdd1" name="rvAdd1" readonly="readonly" onclick="sntBook.daumPostcode('cart');" placeholder="Ex) 서울특별시 서대문구 충정로7길 12" />
 				    </div>
 
 			    	<div class="inp-box">
@@ -201,11 +201,11 @@ function pay0(){
 				    </div>
 		       		<div class="inp-box">
 				        <label class="label essen" for="cpyOffZip">우편번호</label>
-				        <input type="text" id="cpyOffZip" name="cpyOffZip" placeholder="회사명을 입력하세요." />
+				        <input type="text" id="cpyOffZip" name="cpyOffZip" readonly="readonly" onclick="sntBook.daumPostcode('company');"  placeholder="회사명을 입력하세요." />
 				    </div>
 		       		<div class="inp-box">
 				        <label class="label essen" for="cpyOffAddr">주소</label>
-				        <input type="text" id="cpyOffAddr" name="cpyOffAddr" placeholder="회사명을 입력하세요." />
+				        <input type="text" id="cpyOffAddr" name="cpyOffAddr" readonly="readonly" onclick="sntBook.daumPostcode('company');"  placeholder="회사명을 입력하세요." />
 				    </div>
 		       		<div class="inp-box">
 				        <label class="label essen" for="cpyOffAddr1">상세주소</label>

@@ -8,8 +8,8 @@ $(document).ready(function(){
 });
 </script>
 <form id="boardForm" name="boardForm">
-	<input type="hidden" name="boardId" value="${param.boardId }">
-	<input type="hidden" name="bltnNo" value="${param.bltnNo }">
+	<input type="hidden" name="arIdNum" value="${param.arIdNum }">
+	<input type="hidden" name="seqNum">
 </form>
 
 <section class="head-sub line">
@@ -52,7 +52,7 @@ $(document).ready(function(){
                             <th>주소</th>
                             <c:choose>
 	                            <c:when test="${boardDetail.arZip ne null and boardDetail.arZip ne '' } ">
-	                            
+
 	                            	<td>(<c:out value="${boardDetail.arZip }"/>) <c:out value="${boardDetail.arAdd1}"/> <c:out value="${boardDetail.arAdd2}"/> <c:out value="${boardDetail.arAdd3}"/></td>
 	                            </c:when>
 	                            <c:otherwise>
@@ -67,7 +67,7 @@ $(document).ready(function(){
                     </table>
                 </div>
             </div>
-            
+
              <div class="togl-box">
                 <button class="btn-board-togl active" type="button">신고문의</button>
                 <div class="cont">
@@ -105,14 +105,14 @@ $(document).ready(function(){
             <div class="togl-box">
             	<c:choose>
 	               	<c:when test="${boardDetail.fileList ne null and fn:length(boardDetail.fileList) ne 0}">
-	               		
+
 		                <button class="btn-board-togl active" type="button">첨부파일</button>
 		                <div class="cont">
 		                		<c:forEach items="${boardDetail.fileList}" var="item" varStatus="index">
 				                    <div class="file-box">
 				                        <p class="file-name">${item.filename}</p>
-				                        <button class="btn-round-sm" type="button">내려받기</button>
-				                    </div>                		
+				                        <button class="btn-round-sm" onclick="counselCenter.fileDownload('${item.seqNum}')" type="button">내려받기</button>
+				                    </div>
 		                		</c:forEach>
 		                </div>
 	               	</c:when>

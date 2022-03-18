@@ -1,6 +1,7 @@
 package adminwork.kicpa.counselCenter.web;
 
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,6 +22,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import adminwork.com.cmm.LoginVO;
 import adminwork.com.cmm.StringUtil;
+import adminwork.com.cmm.service.FileMngUtil;
 import adminwork.kicpa.cmm.board.service.CommonBoardService;
 import adminwork.kicpa.cmm.comm.service.KicpaCommService;
 import adminwork.kicpa.counselCenter.service.CounselCenterService;
@@ -44,6 +46,9 @@ public class CounselCenterController {
 
 	@Resource(name = "commonBoardService")
 	CommonBoardService commonBoardService;
+
+	@Resource(name = "FileMngUtil")
+	private FileMngUtil fileUtil;
 
 
 	@RequestMapping(value = "/declarationBoardList.do")
@@ -447,12 +452,10 @@ public class CounselCenterController {
 			}
 
 
-			List<HashMap<String,Object>> fileList = null;
-
+			List<HashMap<String,Object>> fileList =fileUtil.parseFileInfMap(request,multipart, "upload"+File.separator+"accreport"+File.separator);
 			map.put("fileList", fileList);
 
-
-
+			System.out.println(fileList);
 			counselCenterService.insertDeclarationBoard(map);
 
 			modelAndView.addObject("isLogin", isAuthenticated);
@@ -467,6 +470,20 @@ public class CounselCenterController {
 		return modelAndView;
 	}
 
+
+	@RequestMapping(value = "/fileDownload.do")
+	public void fileDownload(@RequestParam Map<String,Object> map,HttpServletRequest request,HttpServletResponse response) throws Exception{
+		try {
+			EgovMap fileDetail =  counselCenterService.selectDeclarationBoardFile(map);
+			String filePath = request.getSession().getServletContext().getRealPath("") + "upload"+File.separator+"accreport"+File.separator+fileDetail.get("hostFilename");
+			System.out.println(filePath);
+			fileUtil.downFile(response, filePath, String.valueOf(fileDetail.get("filename")));
+
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
 
 
 

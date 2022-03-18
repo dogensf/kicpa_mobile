@@ -26,5 +26,6 @@
 	<script src="/js/jquery-ui.min.js"></script>
 	<script src="/js/KicpaCommon.js"></script>
 	<script src="/js/swiper-bundle.min.js"></script>
+	<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <!--end::Layout Themes-->
 <link rel="shortcut icon" href="assets/media/logos/favicon.ico" />
