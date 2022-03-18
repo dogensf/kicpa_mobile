@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="MypMember">
+
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+
+	<insert id="MypMemberDAO.mypCpaMemberRegisterNmstOthbcInfoSave" parameterClass="HashMap">
+
+		<![CDATA[
+
+            MERGE INTO CPA_NMST_OTHBC_MYP
+                USING DUAL
+                ON (PIN = #pin#)
+                WHEN MATCHED THEN
+                          UPDATE SET
+                          OFC_ADRES_YN = #ofcAdresYn#, OFC_NAME_YN = #ofcNameYn#, OFC_TEL_YN = #ofcTelYn#, OFC_FAX_YN = #ofcFaxYn#, EMAIL_YN = #emailYn#
+                        , PHOTO_YN = #photoYn#, LAST_UPDT_ID = #userId#, LAST_UPDT_DT = SYSTIMESTAMP
+
+                WHEN NOT MATCHED THEN
+                          INSERT (PIN, OFC_ADRES_YN, OFC_NAME_YN, OFC_TEL_YN, OFC_FAX_YN, EMAIL_YN, PHOTO_YN,
+                                FRST_REGIST_ID, FRST_REGIST_DT, LAST_UPDT_ID, LAST_UPDT_DT)
+
+                          VALUES (#pin# , #ofcAdresYn# , #ofcNameYn# , #ofcTelYn# , #ofcFaxYn# , #emailYn# , #photoYn# ,
+                                #userId# , SYSTIMESTAMP , #userId# , SYSTIMESTAMP)
+        ]]>
+	</insert>
+
+	<select id="MypMemberDAO.selectCpaMemberRegistTrnngSmInfoList" parameterClass="HashMap" resultClass="EgovMap">
+
+		<![CDATA[
+
+			select
+				decode(STDR_TM,0,0,tot_accnut_tm)     as temp01,
+				accnut_tm                             as temp02,
+				greatest(decode(STDR_TM,0,0,tot_accnut_tm)-accnut_tm,0)   as temp03,
+				decode(STDR_TM,0,0,tot_morals_tm)     as temp04,
+				morals_time                           as temp05,
+				greatest(decode(STDR_TM,0,0,tot_morals_tm)-morals_time,0)   as temp06,
+				greatest(CYFD_ATMPT_TM +STDR_TM - decode(STDR_TM,0,0,tot_accnut_tm) - decode(STDR_TM,0,0,tot_morals_tm),0) as temp07,
+				greatest(CTFD_RCOGN_TM + RCOGN_TM - accnut_tm - morals_time,0) as temp08,
+				greatest(greatest(CYFD_ATMPT_TM +STDR_TM - decode(STDR_TM,0,0,tot_accnut_tm) - decode(STDR_TM,0,0,tot_morals_tm),0) - greatest(CTFD_RCOGN_TM + RCOGN_TM - accnut_tm - morals_time,0),0) as temp09,
+				cyfd_atmpt_tm+stdr_tm as temp10,
+				CTFD_RCOGN_TM+rcogn_tm as temp11,
+				atmpt_tm as temp12
+			from kipadm.cpa_trnng_sm
+			where pin = #pin#
+        ]]>
+		<isNotEmpty property="trnYear">
+			<![CDATA[
+				and trn_year = #trnYear#
+			]]>
+		</isNotEmpty>
+		<isEmpty property="trnYear">
+			<![CDATA[
+				and trn_year = (select max(trn_year) from kipadm.cpa_trnng_sm where pin = #pin#)
+			]]>
+		</isEmpty>
+
+	</select>
+
+	<select id="MypMemberDAO.selectCpaMemberRegistTrnngSmYearList" parameterClass="HashMap" resultClass="EgovMap">
+
+		<![CDATA[
+            select
+            		trn_year
+            	,	pin
+
+			from kipadm.cpa_trnng_sm
+			where pin = #pin#
+
+			order by trn_year desc
+         ]]>
+
+	</select>
+
+	<select id="MypMemberDAO.selectCpaMemberRegNmstOthbcInfoList" parameterClass="HashMap" resultClass="EgovMap">
+
+		<![CDATA[
+            SELECT
+            		PIN
+            	,	OFC_ADRES_YN
+            	,	OFC_NAME_YN
+            	,	OFC_TEL_YN
+            	,	OFC_FAX_YN
+            	,	EMAIL_YN
+            	,	PHOTO_YN
+				,	CASE WHEN OFC_ADRES_YN = 'Y' THEN '공개' ELSE '비공개' END AS OFC_ADRES_YN_NM
+				,	CASE WHEN OFC_NAME_YN = 'Y' THEN '공개' ELSE '비공개' END AS OFC_NAME_YN_NM
+				,	CASE WHEN OFC_TEL_YN = 'Y' THEN '공개' ELSE '비공개' END AS OFC_TEL_YN_NM
+				,	CASE WHEN OFC_FAX_YN = 'Y' THEN '공개' ELSE '비공개' END AS OFC_FAX_YN_NM
+				,	CASE WHEN EMAIL_YN = 'Y' THEN '공개' ELSE '비공개' END AS EMAIL_YN_NM
+				,	CASE WHEN PHOTO_YN = 'Y' THEN '공개' ELSE '비공개' END AS PHOTO_YN_NM
+
+            FROM CPA_NMST_OTHBC
+            WHERE PIN = #pin#
+         ]]>
+
+	</select>
+
+	<insert id="MypMemberDAO.mypCpaMemberRegisterNmstOthbcInfoUpdate" parameterClass="HashMap">
+		<![CDATA[
+
+			MERGE INTO CPA_NMST_OTHBC
+                USING DUAL
+                ON (PIN = #pin#)
+                WHEN MATCHED THEN
+                          UPDATE SET
+                          OFC_ADRES_YN = #ofcAdresYn#, OFC_NAME_YN = #ofcNameYn#, OFC_TEL_YN = #ofcTelYn#, OFC_FAX_YN = #ofcFaxYn#, EMAIL_YN = #emailYn#
+                        , PHOTO_YN = #photoYn#, LAST_UPDT_ID = #userId#, LAST_UPDT_DT = SYSTIMESTAMP
+
+                WHEN NOT MATCHED THEN
+                          INSERT (PIN, OFC_ADRES_YN, OFC_NAME_YN, OFC_TEL_YN, OFC_FAX_YN, EMAIL_YN, PHOTO_YN,
+                                FRST_REGIST_ID, FRST_REGIST_DT, LAST_UPDT_ID, LAST_UPDT_DT)
+
+                          VALUES (#pin# , #ofcAdresYn# , #ofcNameYn# , #ofcTelYn# , #ofcFaxYn# , #emailYn# , #photoYn# ,
+                                #userId# , SYSTIMESTAMP , #userId# , SYSTIMESTAMP)
+		]]>
+
+	</insert>
+</sqlMap>
