@@ -45,6 +45,7 @@ function fncLocation(){
 		<div id="tabMain1" class="tab-main-content <c:if test="${isLogin eq true }">show</c:if>">
 		    <div class="search-box">
 		        <input class="search" type="text" name="searchKeyword" placeholder="검색하세요." />
+		         <button class="btn-del" type="button"><span>삭제</span></button>
 		    </div>
 
 		    <div id="tabSub1" class="tab-sub-content show">

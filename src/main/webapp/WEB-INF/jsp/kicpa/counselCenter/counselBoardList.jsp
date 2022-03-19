@@ -28,7 +28,6 @@ function fncLocation(){
 <form id="boardForm" name="boardForm">
 	<input type="hidden" name="pageIndex" id="pageIndex" value="1">
 	<input type="hidden" name="cateId" id="cateId" value="2">
-	<input type="hidden" name="searchKeyword" value="">
 	<input type="hidden" name="loginYn" id="loginYn" value="Y">
 
 	<section class="head-sub">
@@ -62,7 +61,8 @@ function fncLocation(){
 
 		<div id="tabMain1" class="tab-main-content show">
 			<div class="search-box">
-		        <input class="search" type="text" readonly="readonly" placeholder="검색하세요." />
+		        <input class="search" type="text" readonly="readonly" name="searchKeyword" placeholder="검색하세요." />
+		         <button class="btn-del" type="button"><span>삭제</span></button>
 		    </div>
 
 		    <div id="tabSub1" class="tab-sub-content show">

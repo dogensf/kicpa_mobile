@@ -14,8 +14,23 @@ notice.boardListInit = function(){
 		$("#pageIndex").val(1);
 		$(".board-list ul").html("");
 		$("#boardForm input[name='searchKeyword']").val($("#boardSearchForm input[name='searchKeyword']").val());
+		if($("#boardForm input[name='searchKeyword']").val() != ''){
+			$("#boardForm input[name='searchKeyword']").addClass("value");
+		}
 
+		if($("#boardId").val() == 'NEWS'){
+			flag = false;
+			var param = $("#boardForm").serializeObject();
+			fn_ajax_call("/kicpa/notice/getNewsList.do",param,notice.getNewsListSuccess,notice.boardListError);
+		}else{
+			board.boardBoardListAjax();
+		}
+	});
 
+	$(".btn-del").on("click",function(){
+		$("#boardForm input[name='searchKeyword']").removeClass("value");
+		$("#boardForm input[name='searchKeyword']").val("");
+		$("#boardSearchForm input[name='searchKeyword']").val("");
 		if($("#boardId").val() == 'NEWS'){
 			flag = false;
 			var param = $("#boardForm").serializeObject();
@@ -46,6 +61,7 @@ notice.detailInit = function(){
 }
 
 notice.menuChange = function(obj,boardId){
+	$("#boardForm input[name='searchKeyword']").removeClass("value");
 	$("#boardSearchForm")[0].reset();
 	$("#boardForm input[name='searchKeyword']").val("");
 	$("#boardId").val(boardId);

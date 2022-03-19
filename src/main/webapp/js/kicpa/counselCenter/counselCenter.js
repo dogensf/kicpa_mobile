@@ -19,10 +19,20 @@ counselCenter.counselInit = function(){
 		$("#pageIndex").val(1);
 		$(".board-list ul").html("");
 		$("#boardForm input[name='searchKeyword']").val($("#boardSearchForm input[name='searchKeyword']").val());
+		if($("#boardForm input[name='searchKeyword']").val() != ''){
+			$("#boardForm input[name='searchKeyword']").addClass("value");
+		}
 		counselCenter.counselBoardAjax();
 	});
 
-	counselCenter.counselBoardAjax();
+	$(".btn-del").on("click",function(){
+		$("#boardForm input[name='searchKeyword']").removeClass("value");
+		$("#boardForm input[name='searchKeyword']").val("");
+		$("#boardSearchForm input[name='searchKeyword']").val("");
+		counselCenter.counselBoardAjax();
+	});
+
+
 }
 
 counselCenter.counselBoardAjax = function(){
@@ -107,7 +117,9 @@ counselCenter.memoCheckValidation = function(){
 
 
 counselCenter.categoryTab = function(obj,cateId){
+	$("#boardForm input[name='searchKeyword']").removeClass("value");
 	$("#boardForm input[name='searchKeyword']").val("");
+	$("#boardSearchForm")[0].reset();
 	$(".tab-link").removeClass("active");
 	$("#cateId").val(cateId);
 	$("#pageIndex").val(1);
@@ -118,7 +130,7 @@ counselCenter.categoryTab = function(obj,cateId){
 }
 
 counselCenter.kifrsTab = function(obj,boardId){
-
+	$("#boardForm input[name='searchKeyword']").removeClass("value");
 	if(boardId == 'kifrs' || boardId == 'sugt01' || boardId == 'sugt02' || boardId == 'sugt03'){
 		$(".btn-write").show();
 	}else{

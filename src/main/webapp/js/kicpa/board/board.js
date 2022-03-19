@@ -13,6 +13,17 @@ board.boardListInit = function(){
 		$("#pageIndex").val(1);
 		$(".board-list ul").html("");
 		$("#boardForm input[name='searchKeyword']").val($("#boardSearchForm input[name='searchKeyword']").val());
+		if($("#boardForm input[name='searchKeyword']").val() != ''){
+			$("#boardForm input[name='searchKeyword']").addClass("value");
+		}
+		board.boardBoardListAjax();
+	});
+
+
+	$(".btn-del").on("click",function(){
+		$("#boardForm input[name='searchKeyword']").removeClass("value");
+		$("#boardForm input[name='searchKeyword']").val("");
+		$("#boardSearchForm input[name='searchKeyword']").val("");
 		board.boardBoardListAjax();
 	});
 

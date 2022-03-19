@@ -14,6 +14,7 @@ accIstAlert.detailInit = function(){
 
 
 accIstAlert.menuChange = function(obj,boardId){
+	$("#boardForm input[name='searchKeyword']").removeClass("value");
 	$("#boardForm input[name='searchKeyword']").val("")
 	$("#boardId").val(boardId);
 	$(".tab-link").removeClass("active");

@@ -27,7 +27,12 @@ job.init = function(){
 			txt = txt.substring(0,txt.length - 3);
 		}
 
+		$("#boardForm input[name='searchKeyword']").val($("#boardSearchForm input[name='searchKeyword']").val());
 		$("#readInput").val(txt);
+
+		if(txt != '' || $("#boardSearchForm input[name='searchKeyword']").val() != '' ){
+			$("#boardForm input[name='readInput']").addClass("value");
+		}
 
 		if($("#ijJobSep").val() != 'jobInfoKicpa'){
 			var param = $("#boardForm").serializeObject();
@@ -36,6 +41,28 @@ job.init = function(){
 			board.boardBoardListAjax();
 		}
 	});
+
+
+	$(".btn-del").on("click",function(){
+		$("#boardForm input[name='readInput']").removeClass("value");
+		$("#boardForm input[name='searchKeyword']").val("");
+		$("#boardSearchForm input[name='searchKeyword']").val("");
+		$("#readInput").val("");
+		$.each($("#boardSearchForm select[name^='searchType']") ,function(){
+			$(this).val("");
+		});
+		$.each($("#boardForm input[name^='searchType']") ,function(){
+			$(this).val("");
+		});
+
+		if($("#boardId").val() != 'jobInfoKicpa'){
+			var param = $("#boardForm").serializeObject();
+			fn_ajax_call("/kicpa/job/getBoardList.do",param,job.boardListSuccess,job.boardListError);
+		}else{
+			board.boardBoardListAjax();
+		}
+	});
+
 
 
 	if($("#boardId").val() != 'jobInfoKicpa'){
@@ -98,6 +125,7 @@ job.ijCoSepChange = function(obj,ijCoSep){
 }
 
 job.menuChange = function(obj,ijJobSep){
+	$("#boardForm input[name='readInput']").removeClass("value");
 	$("#readInput").val("");
 	$("#boardForm input[name='searchKeyword']").val("");
 	$(".tab-link").removeClass("active");

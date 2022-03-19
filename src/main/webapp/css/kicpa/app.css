@@ -1275,7 +1275,8 @@ button:focus {
 }
 
 .search-box {
-  padding: 3rem 1.6rem 0;
+  position: relative;
+  margin: 3rem 1.6rem 0;
 }
 
 .search-box + .board-top {
@@ -2075,7 +2076,7 @@ input[type=button].search:focus {
   background: none;
 }
 
-input[type=search] + .btn-del {
+.search + .btn-del {
   display: none;
   position: absolute;
   right: 0;
@@ -2086,7 +2087,7 @@ input[type=search] + .btn-del {
   background-size: 2.2rem;
 }
 
-input[type=search] + .btn-del span {
+.search + .btn-del span {
   overflow: hidden;
   position: absolute;
   clip: rect(0, 0, 0, 0);
@@ -2097,7 +2098,7 @@ input[type=search] + .btn-del span {
   padding: 0;
 }
 
-input[type=search].value + .btn-del {
+.search.value + .btn-del {
   display: block;
 }
 
