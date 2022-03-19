@@ -69,7 +69,8 @@ function fncLocation(){
 		</div>
 		<div id="tabMain1" class="tab-main-content show">
 		    <div class="search-box">
-		        <input class="search" type="text" readonly="readonly" name="readInput" id="readInput" placeholder="검색하세요." />
+		        <input class="search" type="search" readonly="readonly" name="readInput" id="readInput" placeholder="검색하세요." />
+		        <button class="btn-del" type="button"><span>삭제</span></button>
 		    </div>
 
 		    <div class="tab-sub">

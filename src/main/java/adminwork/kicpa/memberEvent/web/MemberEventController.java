@@ -9,6 +9,7 @@ import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -80,12 +81,18 @@ public class MemberEventController {
 
 			Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
 			if(isAuthenticated) {
+				HttpSession session = request.getSession();
 				LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+				String cpaId = (String) session.getAttribute("cpaId");
+				String auditNm = (String) session.getAttribute("auditNm");
+				String status = (String) session.getAttribute("status");;
+
+
 
 
 				map.put("actionCd", "01" );
 				map.put("entityName", "BULLETIN.BLTN_GN" );
-				map.put("userPass", "5650320120323");
+				map.put("userPass", user.getUniqId());
 				map.put("userNick", user.getName());
 				map.put("userId", user.getId());
 				map.put("cateId", "2");
@@ -96,7 +103,7 @@ public class MemberEventController {
 				map.put("bltnEndYmd", "2900-01-01");
 				map.put("extStr2", StringUtil.isNullToString(map.get("phoneNumber1"))+"-"+StringUtil.isNullToString(map.get("phoneNumber2"))+"-" +StringUtil.isNullToString(map.get("phoneNumber3")));
 				map.put("extStr1", "회원서비스센터");
-				map.put("bltnSubj", "[회계사번호] 이름 회계사님 " +StringUtil.isNullToString(map.get("relation"))+"별세" );
+				map.put("bltnSubj", "["+cpaId+"] "+user.getName()+" 회계사님 " +StringUtil.isNullToString(map.get("relation"))+"별세" );
 
 				SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 				Date d = format.parse(StringUtil.isNullToString(map.get("deaDate")));
@@ -111,7 +118,7 @@ public class MemberEventController {
 				String bltnCntt = "";
 				bltnCntt += "<p class=\"0\" style=\"line-height:200%;text-align:center;word-break:keep-all;mso-pagination:none;text-autospace:none;mso-padding-alt:0pt 0pt 0pt 0pt;letter-spacing:1.2pt;\" align=\"center\"><u><span style=\"font-family:궁서체;mso-fareast-font-family:궁서체;letter-spacing:1.2pt;font-size:24.0pt;\">부    고</span></u></p>\n";
 				bltnCntt += "<p></p><p></p>\n";
-				bltnCntt += "<p class=\"0\" style=\"text-align: center; line-height: 200%;\" align=\"center\"><span lang=\"EN-US\" style=\"mso-fareast-font-family:궁서체;letter-spacing:0.3pt;font-size:15.0pt;\">      </span><span style=\"font-family:궁서체;mso-fareast-font-family:궁서체;letter-spacing:0.3pt;font-size:15.0pt;\">"+user.getName()+"</span><span lang=\"EN-US\" style=\"mso-fareast-font-family:궁서체;letter-spacing:0.1pt;font-size:15.0pt;\"> </span><span lang=\"EN-US\" style=\"mso-fareast-font-family:궁서체;font-family:궁서체;mso-ascii-font-family:궁서체;mso-font-width:100%;letter-spacing:0.1pt;mso-text-raise:0pt;font-size:15.0pt;\">("+"회원번호"+", </span><span style=\"font-family:궁서체;mso-fareast-font-family:궁서체;letter-spacing:0.1pt;font-size:15.0pt;\">"+"회계법인명"+"</span><span lang=\"EN-US\" style=\"mso-fareast-font-family:궁서체;font-family:궁서체;mso-ascii-font-family:궁서체;mso-font-width:100%;letter-spacing:0.1pt;mso-text-raise:0pt;font-size:15.0pt;\">)</span><span style=\"font-family:궁서체;mso-fareast-font-family:궁서체;letter-spacing:0.1pt;font-size:15.0pt;\">회원의 </span></p>\n";
+				bltnCntt += "<p class=\"0\" style=\"text-align: center; line-height: 200%;\" align=\"center\"><span lang=\"EN-US\" style=\"mso-fareast-font-family:궁서체;letter-spacing:0.3pt;font-size:15.0pt;\">      </span><span style=\"font-family:궁서체;mso-fareast-font-family:궁서체;letter-spacing:0.3pt;font-size:15.0pt;\">"+user.getName()+"</span><span lang=\"EN-US\" style=\"mso-fareast-font-family:궁서체;letter-spacing:0.1pt;font-size:15.0pt;\"> </span><span lang=\"EN-US\" style=\"mso-fareast-font-family:궁서체;font-family:궁서체;mso-ascii-font-family:궁서체;mso-font-width:100%;letter-spacing:0.1pt;mso-text-raise:0pt;font-size:15.0pt;\">("+cpaId+", </span><span style=\"font-family:궁서체;mso-fareast-font-family:궁서체;letter-spacing:0.1pt;font-size:15.0pt;\">"+status+"</span><span lang=\"EN-US\" style=\"mso-fareast-font-family:궁서체;font-family:궁서체;mso-ascii-font-family:궁서체;mso-font-width:100%;letter-spacing:0.1pt;mso-text-raise:0pt;font-size:15.0pt;\">)</span><span style=\"font-family:궁서체;mso-fareast-font-family:궁서체;letter-spacing:0.1pt;font-size:15.0pt;\">회원의 </span></p>\n";
 				bltnCntt += "<p class=\"0\" style=\"text-align: center; line-height: 200%;\" align=\"center\"><span lang=\"EN-US\" style=\"mso-fareast-font-family:궁서체;letter-spacing:0.1pt;font-size:15.0pt;\">      </span><span style=\"font-family:궁서체;mso-fareast-font-family:궁서체;letter-spacing:0.1pt;font-size:15.0pt;\">"+StringUtil.isNullToString(map.get("relation"))+"께서 </span><span style=\"font-family:궁서체;mso-fareast-font-family:궁서체;letter-spacing:0.3pt;font-size:15.0pt;\">작고하셨음을 알려드립니다</span><span lang=\"EN-US\" style=\"mso-fareast-font-family:궁서체;font-family:궁서체;mso-ascii-font-family:궁서체;mso-font-width:100%;letter-spacing:0.3pt;mso-text-raise:0pt;font-size:15.0pt;\">.</span></p>\n";
 				bltnCntt += "<p></p>\n";
 				bltnCntt += "<p class=\"0\" style=\"text-align: center; line-height: 200%;\" align=\"center\"><span style=\"font-family:궁서체;mso-fareast-font-family:궁서체;mso-hansi-font-family:궁서체;mso-font-width:100%;letter-spacing:1.2pt;mso-text-raise:0pt;font-size:14.0pt;\">○ </span><span style=\"font-family:궁서체;mso-fareast-font-family:궁서체;letter-spacing:1.2pt;font-size:14.0pt;\">작고일 </span><span style=\"mso-fareast-font-family:궁서체;font-family:궁서체;mso-ascii-font-family:궁서체;mso-font-width:100%;letter-spacing:1.2pt;mso-text-raise:0pt;font-size:14.0pt;\">: "+deaDateFormat+"</span></p>\n";

@@ -42,7 +42,7 @@ function fncLocation(){
 
                  <div class="inp-box">
                      <label class="label essen" for="regUserAgency">소속</label>
-                     <input type="text" id="regUserAgency" name="regUserAgency" disabled="disabled" placeholder="입력하세요." />
+                     <input type="text" id="regUserAgency" name="regUserAgency" disabled="disabled" placeholder="입력하세요." value=${sessionScope.auditNm  } />
                  </div>
 
                  <div class="inp-box">

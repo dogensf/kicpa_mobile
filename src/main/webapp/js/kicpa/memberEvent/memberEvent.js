@@ -6,7 +6,7 @@ var flag = true;
 memberEvent.regInit = function(){
 
 
-	$("#phoneNumber1,#phoneNumber2,#phoneNumber3").on("keyup",function(){
+	$("#phoneNumber1,#phoneNumber2,#phoneNumber3").on("input",function(){
 		$(this).val( $(this).val().replace(/[^0-9]/g, ""));
 	});
 
