@@ -348,7 +348,7 @@ public class CounselCenterController {
 				LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
 				map.put("actionCd", "01" );
 				map.put("entityName", "BULLETIN.BLTN_GN" );
-				map.put("userPass", "5650320120323");
+				map.put("userPass", user.getUniqId());
 				map.put("userNick", user.getName());
 				map.put("userId", user.getId());
 				map.put("userIp", request.getRemoteAddr());
@@ -364,14 +364,14 @@ public class CounselCenterController {
 				map.put("extStr7",null); // kp:cpaId userId="${_enview_info_.userId}"/>
 
 
-				List<HashMap<String,Object>> fileList = null;
+//				List<HashMap<String,Object>> fileList = null;
 
 
 				if("Y".equals(map.get("bltnSecretYn"))) {
 					map.put("bltnIcon", "D");
-				}else if(fileList != null && !fileList.isEmpty() ) {
-					map.put("bltnIcon", "B");
-					map.put("bltnFileCnt", fileList.size());
+//				}else if(fileList != null && !fileList.isEmpty() ) {
+//					map.put("bltnIcon", "B");
+//					map.put("bltnFileCnt", fileList.size());
 				}else {
 					map.put("bltnIcon", "A");
 					map.put("bltnFileCnt", 0);

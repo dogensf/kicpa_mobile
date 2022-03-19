@@ -159,7 +159,8 @@ public class SntBookController {
 
 		model.addAttribute("title", "장바구니/구매");
 		if(isAuthenticated) {
-			map.put("pslId", "5650320120323");
+			LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+			map.put("pslId", user.getUniqId());
 			List<EgovMap> list = sntBookService.selectBookBuyHistoryList(map);
 			model.addAttribute("buyHistoryList", list);
 			return "kicpa/sntBook/bookBuyHistoryList";
@@ -172,9 +173,13 @@ public class SntBookController {
 
 	@RequestMapping(value = "/bookBuyHistoryDetail.do")
 	public String bookBuyHistoryDetail(@RequestParam Map<String,Object> map,HttpServletRequest request,HttpServletResponse response,ModelMap model) throws Exception{
-
-		map.put("pslId", "5650320120323");
-		EgovMap detail = sntBookService.selectBookBuyHistoryOrderMaster(map);
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		EgovMap detail = new EgovMap();
+		if(isAuthenticated) {
+			LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+			map.put("pslId", user.getUniqId());
+			detail = sntBookService.selectBookBuyHistoryOrderMaster(map);
+		}
 		model.addAttribute("detail", detail);
 		return "kicpa/sntBook/bookBuyHistoryDetail";
 	}
@@ -315,8 +320,8 @@ public class SntBookController {
 
 			if(isAuthenticated) {
 
-
-				map.put("eduCode", "5650320120323"); //세선정보에서 불러오는거 현재 로그인이 없으므로 고정
+				LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+				map.put("eduCode", user.getUniqId());
 				map.put("schtype", StringUtil.isNullToString(map.get("schtype"), "use"));
 				map.put("schword", StringUtil.isNullToString(map.get("schword"), "1"));
 
@@ -407,10 +412,16 @@ public class SntBookController {
 
 		try{
 			modelAndView.setViewName("jsonView");
-			map.put("pslId", "5650320120323");
-			List<EgovMap> list = sntBookService.selectOfflineEduAppList(map);
+			List<EgovMap> list = null;
+			Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
 
-			list.forEach(x -> StringUtil.checkMapReplaceHtml(x));
+			if(isAuthenticated) {
+				LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+				map.put("pslId", user.getUniqId());
+				list = sntBookService.selectOfflineEduAppList(map);
+
+				list.forEach(x -> StringUtil.checkMapReplaceHtml(x));
+			}
 			modelAndView.addObject("list", list);
 
 		}catch (Exception e) {
@@ -567,16 +578,25 @@ public class SntBookController {
 		ModelAndView modelAndView = new ModelAndView();
 
 		try{
-			modelAndView.setViewName("jsonView");
-			map.put("gbn", "INS");
-			map.put("emaPslId", "5650320120323"); //세선정보에서 불러오는거 현재 로그인이 없으므로 고정
-			map.put("emaKname", "5650320120323"); //세선정보에서 불러오는거 현재 로그인이 없으므로 고정
-			map.put("emaAttend", "0");
-		    map.put("emaIp", request.getHeader("NS-CLIENT-IP"));
 
-			sntBookService.procedureEduAppAndModify(map);
 
-			modelAndView.addObject("resultCode", map.get("resultCode"));
+			Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+
+			if(isAuthenticated) {
+				LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+
+				modelAndView.setViewName("jsonView");
+				map.put("gbn", "INS");
+				map.put("emaPslId", user.getUniqId()); //세선정보에서 불러오는거 현재 로그인이 없으므로 고정
+				map.put("emaKname",  user.getUniqId()); //세선정보에서 불러오는거 현재 로그인이 없으므로 고정
+				map.put("emaAttend", "0");
+			    map.put("emaIp", request.getHeader("NS-CLIENT-IP"));
+
+				sntBookService.procedureEduAppAndModify(map);
+
+				modelAndView.addObject("resultCode", map.get("resultCode"));
+
+			}
 //			List<EgovMap> list = sntBookService.selectBookFormatList(map);
 //
 //			int totalCnt = sntBookService.selectBookFormatListCnt(map);
@@ -713,7 +733,7 @@ public class SntBookController {
 					map.put("userId", user.getId());
 					map.put("rvName", user.getName());
 //				map.put("rvAddress", StringUtil.isNullToString(user.getAima_add1(),"") + " " + StringUtil.isNullToString(user.getAima_add2()) );
-					map.put("pslId","5650320120323");
+					map.put("pslId",user.getUniqId());
 
 				}else {
 					map.put("userId", "Guest");
