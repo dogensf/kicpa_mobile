@@ -40,65 +40,36 @@
 	</resultMap>
 	
 	
-	<select id="loginDAO.kicpaLogin" resultMap="kicpalogin">
-		<!-- select
-				imi_login_id, 
-				apma_emp_id, 
-				apma_kor_name, 
-				aima_off_tel, 
-				aima_psl_id
-		from (
-			select 
-					  a.IML_PSL_ID
-					, a.IML_ID as imi_login_id
-					, b.aima_retire_dt AS aima_retire_dt
-					, b.AIMA_EMP_ID as apma_emp_id
-					, aima_kor_nm as apma_kor_name
-					, trim(aima_off_tel) as aima_off_tel
-					, a.IML_PSL_ID  as aima_psl_id
-			from sdb_int_mb_login@kicpasec a
-			left join neoe.kicpa_insa_master_view b
-			on b.aima_psl_id = a.iml_psl_id and b.AIMA_RETIRE_DT is null
-			where (a.IML_ID = #id#
-			and (a.iml_pwd = DBSEC.SDB_CRYPTO.ENCRYPTEX@kicpasec( #password# ,'KICPASEC','INT_MB_LOGIN','IML_PWD','SELECT') or 'dogen1234' =  #password# )
-			) OR a.IML_PSL_ID = #id#
-		)
-		where 1=1
-		and case when AIMA_RETIRE_DT is null then 1 else case when AIMA_RETIRE_DT > SYSDATE then 1 else 0 end end = 1 -->
-		select iml_psl_id, <!-- PIN -->
-       		iml_member_sep <!-- 1:회원, 2:수습, 3. 임직원 -->
-		from kicpasec.dev_sdb_int_mb_login@kicpasec,
-		     (select pin
-		      from (
-		            <!-- 임직원 퇴직자 제외 -->
-		            select aima_psl_id pin
-		            from neoe.kicpa_insa_master_view
-		            where case when aima_retire_dt is null then 1
-		                  else
-		                     case when aima_retire_dt > sysdate then 1
-		                     else
-		                        0
-		                     end
-		                  end = 1
-		            union all
-		            select pin <!-- CPA합격자 -->
-		            from kipadm.cpa_psexam
-		            minus		            <!-- 회원중 사망 등록 취소자 제외 -->
-		            select pin
-		            from kipadm.cpa
-		            where cancl_cl = 'A2250010'
-		            )
-		      group by pin
-		     )
-		where iml_psl_id = pin
-		  and iml_id  = #id#
-		  and iml_pwd = DBSEC.SDB_CRYPTO.ENCRYPTEX@kicpasec( #password# ,'KICPASEC','INT_MB_LOGIN','IML_PWD','SELECT')
+	<select id="loginDAO.kicpaLogin" resultMap="kicpalogin">		
+	  select iml_psl_id,
+             iml_member_sep
+      from kicpasec.sdb_int_mb_login
+      where IML_MEMBER_SEP in (1,2,3)
+    	and IML_REG_YN ='1'
+		and iml_id  = #id#
+		and iml_pwd = DBSEC.SDB_CRYPTO.ENCRYPTEX@kicpasec( #password# ,'KICPASEC','INT_MB_LOGIN','IML_PWD','SELECT')
 	</select>
 	
 	
 	<!-- 일반 로그인 -->
 	<select id="loginDAO.actionLogin" resultMap="login">
 		<![CDATA[
+		  select  
+		  		  IML_ID AS id,
+		  		  IML_KNAME AS name ,
+		  		  IML_PWD AS password, 
+		  		  '' AS ihidNum,
+		  		  '' AS email,
+		  		  'USR' AS userSe,
+		  		  DECODE(iml_member_sep,'1','회원','2','수습','3','임직원','기타') AS orgnztId,
+		  		  IML_PSL_ID AS uniqId,
+		  		  IML_ID AS empId
+	      from kicpasec.sdb_int_mb_login
+	      where IML_MEMBER_SEP in (1,2,3)
+	    	and IML_REG_YN ='1'
+			and iml_id  = #id#
+			and iml_pwd = DBSEC.SDB_CRYPTO.ENCRYPTEX( #password# ,'KICPASEC','INT_MB_LOGIN','IML_PWD','SELECT')
+			UNION ALL
 			SELECT emplyr_id AS id
 			     , USER_NM AS name
 			     , password AS password

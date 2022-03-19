@@ -17,7 +17,7 @@ var aa =  [
 			{"name":"회비관리", "img":"icon_tax", "url":"https://m.naver.com"},
 			{"name":"마이페이지", "img":"icon_mypage", "url":"https://m.naver.com"},
 			{"name":"설문조사", "img":"icon_consulting", "url":"https://m.naver.com"},
-			{"name":"출판도서구매", "img":"icon_books2", "url":"https://m.naver.com"}
+			{"name":"출판도서구매", "img":"icon_books_1", "url":"https://m.naver.com"}
 		] ;
 
 $(document).ready(function(){

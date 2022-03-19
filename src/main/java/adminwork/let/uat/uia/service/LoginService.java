@@ -38,6 +38,8 @@ public interface LoginService {
 	 */
     LoginVO actionLogin(LoginVO vo) throws Exception;
     
+    LoginVO kicpaInfo(LoginVO vo) throws Exception;
+    
     /**
 	 * 아이디를 찾는다.
 	 * @param vo LoginVO

@@ -24,20 +24,13 @@
 		
         dataSource="egov.dataSource"
                 
-        jdbcUsersByUsernameQuery="SELECT IML_PSL_ID AS ESNTL_ID,
-							                IML_ID AS USER_ID,
-							                IML_PSL_ID AS PASSWORD,
-							                IML_KNAME AS USER_NM,
-							                1 ENABLED,
-							                DECODE(iml_member_sep,'1','회원','2','수습','3','임직원','기타') AS USER_TY
-							        FROM kicpasec.sdb_int_mb_login
-							        WHERE IML_MEMBER_SEP in (1,2,3)
-							        AND   IML_REG_YN ='1'
-        							AND  IML_ID = ?"			
+        jdbcUsersByUsernameQuery="SELECT USER_ID, ESNTL_ID AS PASSWORD, 1 ENABLED, USER_NM, 
+        							USER_SE,  '-' ORGNZT_ID, ESNTL_ID, '-' ORGNZT_NM
+        							 FROM COMVNUSERMASTER WHERE CONCAT(USER_SE, USER_ID) = ?"			
         
-        jdbcAuthoritiesByUsernameQuery="SELECT A.IML_PSL_ID USER_ID, 'ROLE_ADMIN' AUTHORITY
-        							FROM kicpasec.sdb_int_mb_login A
-        							WHERE A.IML_ID = ?"
+        jdbcAuthoritiesByUsernameQuery="SELECT A.SCRTY_DTRMN_TRGET_ID USER_ID, A.AUTHOR_CODE AUTHORITY 
+        							FROM LETTNEMPLYRSCRTYESTBS A, COMVNUSERMASTER B 
+        							WHERE A.SCRTY_DTRMN_TRGET_ID = B.ESNTL_ID AND B.USER_ID = ?"
         							
         jdbcMapClass="adminwork.let.uat.uia.service.impl.SessionMapping"
 

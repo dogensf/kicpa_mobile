@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="LoginUsr2">
+
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="loginVO" type="adminwork.com.cmm.LoginVO"/>
+	
+	<select id="loginDAO2.kicpaInfo" resultClass="loginVO">		
+	 SELECT c.PIN AS PIN ,
+             c.CPA_ID ,
+         mi.KOREAN_NM ,
+        (SELECT TRIM(cc.CD_NM)
+           FROM CMMN_CODE cc
+          WHERE cc.GRP_CD ='GA2020'
+            AND cc.CD = c.MBER_FLAG) AS MBER_FLAG_NM ,
+        (SELECT ai.KOR_AUD_NM
+           FROM AUDIT_INFO ai
+          WHERE ai.AUDIT_CD = (SELECT ao.AUDIT_CD
+                   FROM AUDIT_OFFICE ao
+                  WHERE ao.AUDIT_ID = c.AUDIT_ID)) AS AUDIT_NM
+         ,
+
+         CASE WHEN c.MBER_FLAG ='A2020010' OR  c.MBER_FLAG ='A2020020' OR  c.MBER_FLAG ='A2020030' THEN
+         (SELECT ai.KOR_AUD_NM FROM AUDIT_INFO ai WHERE ai.AUDIT_CD = (SELECT ao.AUDIT_CD
+                                                           FROM AUDIT_OFFICE ao
+                                                          WHERE ao.AUDIT_ID = c.AUDIT_ID))
+              WHEN c.MBER_FLAG ='A2020040' OR  c.MBER_FLAG ='A2020050'  THEN
+              '휴 업'
+              ELSE
+              ''
+          END AS status
+
+     FROM  CPA c
+     LEFT JOIN MBER_INDVDLINFO mi ON c.PIN = mi.PIN
+     WHERE c.pin = #uniqId#
+	</select>
+	
+	
+	
+</sqlMap>

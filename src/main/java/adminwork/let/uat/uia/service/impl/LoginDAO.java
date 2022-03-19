@@ -45,7 +45,11 @@ public class LoginDAO extends EgovAbstractDAO {
     public LoginVO actionLogin(LoginVO vo) throws Exception {
     	return (LoginVO)select("loginDAO.actionLogin", vo);
     }
+    
 
+
+    
+    
     /**
 	 * 아이디를 찾는다.
 	 * @param vo LoginVO

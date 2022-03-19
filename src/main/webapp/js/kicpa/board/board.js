@@ -251,7 +251,7 @@ board.openDetailPop = function(url,popId){
 		popId = "boardPop"
 	}
 
-	window.open(url,popId);
+	window.open(url);
 
 }
 

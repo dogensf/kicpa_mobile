@@ -237,7 +237,7 @@ public class LoginController {
 			System.out.println("resultVO.getId()=="+resultVO.getId());
 			System.out.println("resultVO.getUniqId()=="+resultVO.getUniqId());
 						
-			springSecurity.doFilter(new RequestWrapperForSecurity(request, resultVO.getUserSe()+ resultVO.getId(), resultVO.getUniqId()), response, null);
+			springSecurity.doFilter(new RequestWrapperForSecurity(request, resultVO.getId(), resultVO.getUniqId()), response, null);
 			System.out.println("loginVO.getUrl()=="+loginVO.getUrl());
 			/*if(loginVO.getUrl() != null && loginVO.getUrl() != "") {
 				request.getSession().setAttribute("returnUrl", loginVO.getUrl());
@@ -337,7 +337,7 @@ public class LoginController {
 	 * @exception Exception
 	 */
 	@RequestMapping(value = "/uat/uia/actionMain.do")
-	public String actionMain(HttpServletResponse response, HttpServletRequest request, ModelMap model) throws Exception {
+	public String actionMain(HttpServletResponse response, HttpServletRequest request, ModelMap model,HttpSession session) throws Exception {
 				
 		// 1. Spring Security 사용자권한 처리
 		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
@@ -345,7 +345,21 @@ public class LoginController {
 			model.addAttribute("message", egovMessageSource.getMessage("fail.common.login"));
 			return "uat/uia/LoginUsr";
 		}
+		LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+		LoginVO rt = loginService.kicpaInfo(user);
+		
+		session.setAttribute("cpaId", rt.getCpa_id());//회계사 번호		
+		session.setAttribute("auditNm", rt.getAudit_nm()); //법인명
+		session.setAttribute("status", rt.getStatus());//휴페업 및 법인명
+		
+		
+		
+		
+		
 		return "redirect:/kicpa/main/main.do";
+		
+		
+		
 		
 		// 2. 메인 페이지 이동
 		/*LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();

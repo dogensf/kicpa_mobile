@@ -37,6 +37,9 @@ public class LoginServiceImpl extends EgovAbstractServiceImpl implements
 
     @Resource(name="loginDAO")
     private LoginDAO loginDAO;
+    
+    @Resource(name="loginDAO2")
+    private LoginDAO2 loginDAO2;
 
     ///** EgovSndngMailRegistService */
 	//@Resource(name = "sndngMailRegistService")
@@ -81,8 +84,8 @@ public class LoginServiceImpl extends EgovAbstractServiceImpl implements
 	public LoginVO actionLogin(LoginVO vo) throws Exception {
 
     	// 1. 입력한 비밀번호를 암호화한다.
-    	String enpassword = FileScrty.encryptPassword(vo.getPassword(), vo.getId());
-    	vo.setPassword(enpassword);
+    	//String enpassword = FileScrty.encryptPassword(vo.getPassword(), vo.getId());
+    	//vo.setPassword(enpassword);
 
     	// 2. 아이디와 암호화된 비밀번호가 DB와 일치하는지 확인한다.
     	LoginVO loginVO = loginDAO.actionLogin(vo);
@@ -95,6 +98,14 @@ public class LoginServiceImpl extends EgovAbstractServiceImpl implements
     	}
 
     	return loginVO;
+    }
+    
+    @Override
+	public LoginVO kicpaInfo(LoginVO vo) throws Exception {
+
+    	LoginVO loginVO = loginDAO2.kicpaInfo(vo);
+
+      	return loginVO;
     }
 
     /**

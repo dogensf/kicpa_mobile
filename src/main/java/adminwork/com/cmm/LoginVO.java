@@ -99,6 +99,14 @@ public class LoginVO implements Serializable{
 	
 	private String giroPin;
 	
+	
+	private String pin;
+	private String cpa_id;
+	private String korean_nm;
+	private String meber_flag_nm;
+	private String audit_nm;
+	private String status;
+	
 	/**
 	 * id attribute 를 리턴한다.
 	 * @return String
@@ -529,6 +537,42 @@ public class LoginVO implements Serializable{
 	}
 	public void setGiroPin(String giroPin) {
 		this.giroPin = giroPin;
+	}
+	public String getPin() {
+		return pin;
+	}
+	public void setPin(String pin) {
+		this.pin = pin;
+	}
+	public String getCpa_id() {
+		return cpa_id;
+	}
+	public void setCpa_id(String cpa_id) {
+		this.cpa_id = cpa_id;
+	}
+	public String getKorean_nm() {
+		return korean_nm;
+	}
+	public void setKorean_nm(String korean_nm) {
+		this.korean_nm = korean_nm;
+	}
+	public String getMeber_flag_nm() {
+		return meber_flag_nm;
+	}
+	public void setMeber_flag_nm(String meber_flag_nm) {
+		this.meber_flag_nm = meber_flag_nm;
+	}
+	public String getAudit_nm() {
+		return audit_nm;
+	}
+	public void setAudit_nm(String audit_nm) {
+		this.audit_nm = audit_nm;
+	}
+	public String getStatus() {
+		return status;
+	}
+	public void setStatus(String status) {
+		this.status = status;
 	}
 	
 	
