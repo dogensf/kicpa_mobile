@@ -29,6 +29,7 @@ import adminwork.kicpa.counselCenter.service.CounselCenterService;
 import adminwork.kicpa.job.service.JobAdvertisementService;
 import adminwork.kicpa.sntBook.service.SntBookService;
 import adminwork.kicpa.taxNews.service.TaxNewsService;
+import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.fdl.security.userdetails.util.EgovUserDetailsHelper;
 import egovframework.rte.psl.dataaccess.util.EgovMap;
 
@@ -49,6 +50,9 @@ public class CounselCenterController {
 
 	@Resource(name = "FileMngUtil")
 	private FileMngUtil fileUtil;
+
+	@Resource(name = "propertiesService")
+	protected EgovPropertyService propertyService;
 
 
 	@RequestMapping(value = "/declarationBoardList.do")
@@ -475,9 +479,9 @@ public class CounselCenterController {
 	public void fileDownload(@RequestParam Map<String,Object> map,HttpServletRequest request,HttpServletResponse response) throws Exception{
 		try {
 			EgovMap fileDetail =  counselCenterService.selectDeclarationBoardFile(map);
-			String filePath = request.getSession().getServletContext().getRealPath("") + "upload"+File.separator+"accreport"+File.separator+fileDetail.get("hostFilename");
-			System.out.println(filePath);
-			fileUtil.downFile(response, filePath, String.valueOf(fileDetail.get("filename")));
+
+			String path = propertyService.getString("Globals.fileStorePath")+File.separator+ "upload"+File.separator+"accreport"+File.separator+fileDetail.get("hostFilename");
+			fileUtil.downFile(response,  path, String.valueOf(fileDetail.get("filename")));
 
 		}catch (Exception e) {
 			e.printStackTrace();

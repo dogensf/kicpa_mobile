@@ -21,6 +21,7 @@ import adminwork.com.cmm.StringUtil;
 import adminwork.com.cmm.service.FileMngUtil;
 import adminwork.kicpa.cmm.board.service.CommonBoardService;
 import adminwork.kicpa.job.service.JobAdvertisementService;
+import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.fdl.security.userdetails.util.EgovUserDetailsHelper;
 import egovframework.rte.psl.dataaccess.util.EgovMap;
 
@@ -34,6 +35,9 @@ public class CommonBoardController {
 
 	@Resource(name = "FileMngUtil")
 	private FileMngUtil fileUtil;
+
+	@Resource(name = "propertiesService")
+	protected EgovPropertyService propertyService;
 
 
 	@RequestMapping(value = "/boardDetail.do")
@@ -241,9 +245,11 @@ public class CommonBoardController {
 				commonBoardService.updateCommonBoardFileDownCnt(map);
 			}
 
+
+
 //			String path = "https://www.kicpa.or.kr"+File.separator+"upload"+File.separator+"board"+File.separator+"attach"+File.separator+fileDetail.get("boardId")+File.separator+fileDetail.get("fileMask");
-			String path = request.getSession().getServletContext().getRealPath("")+ File.separator+"upload"+File.separator+"board"+File.separator+"attach"+File.separator+fileDetail.get("boardId")+"/"+fileDetail.get("fileMask");
-			fileUtil.downFile(response,path , String.valueOf(map.get("fileNm")));
+			String path = propertyService.getString("Globals.fileStorePath")+File.separator+"board"+File.separator+"attach"+File.separator+fileDetail.get("boardId")+File.separator+fileDetail.get("fileMask");
+			fileUtil.downFile(response,path , String.valueOf(fileDetail.get("fileNm")));
 
 
 

@@ -547,7 +547,7 @@ ol.blt li::before {
 
 .login-wrap {
   padding: 21rem 1.6rem 2rem;
-  background: url(../images/logo-login.png) no-repeat 50% 5rem;
+  background: url(/images/kicpa/logo-login.png) no-repeat 50% 5rem;
   background-size: 18.6rem 6rem;
 }
 
@@ -1124,7 +1124,7 @@ button:focus {
   width: 5.4rem;
   height: 5.4rem;
   border-radius: 50%;
-  background: url(../images/icon-pen.png) no-repeat 50% #003976;
+  background: url(/images/kicpa/icon-pen.png) no-repeat 50% #003976;
   background-size: 2.4rem;
 }
 
@@ -2035,7 +2035,7 @@ input[type=search]::-webkit-search-cancel-button {
   height: 2.2rem;
   width: 2.2rem;
   border-radius: 50%;
-  background: url(../images/delete-circle.png) no-repeat 50%;
+  background: url(/images/kicpa/delete-circle.png) no-repeat 50%;
   background-size: 100%;
 }
 
@@ -3686,7 +3686,7 @@ ul.list-wrap button.m-link b {
 .add-box .add-num .btn-delete {
   width: 2.2rem;
   height: 2.2rem;
-  background: url(../images/delete-circle.png) no-repeat 50%;
+  background: url(/images/kicpa/delete-circle.png) no-repeat 50%;
   background-size: 2.4rem;
 }
 

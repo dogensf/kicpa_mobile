@@ -19,7 +19,7 @@ function fncLocation(){
 	<input type="hidden" name="ijCoSep" id="ijCoSep" value="1">
 	<input type="hidden" name="boardId" id="boardId" value="${param.boardId }">
 	<input type="hidden" name="ijJobSep" id="ijJobSep" value="${param.ijJobSep}">
-	<input type="hidden" name="loginYn" id="loginYn" value="">
+	<input type="hidden" name="loginYn" id="loginYn" value="Y">
 	<input type="hidden" name="searchKeyword" value="">
 
 	<section class="head-sub">
@@ -74,7 +74,7 @@ function fncLocation(){
 
 		    <div class="tab-sub">
 		        <ul>
-		        	<c:if test="${codeList ne null and fn:length(codeList) ne 0 }">
+		        	<c:if test="${codeList ne null and fn:length(codeList) ne 0 and param.boardId eq null}">
 		        		<c:forEach items="${codeList }" var="code"  varStatus="index" >
 		        			<c:if test="${code.code ne 8}">
 			        			<c:choose>
