@@ -22,13 +22,13 @@
         LoginVO loginVO = (LoginVO)session.getAttribute("LoginVO");
         if(loginVO == null){
         %>
-        <button class="btn-login" onclick="location.href='<c:url value='/uat/uia/LoginUsr.do'/>';" type="button">
+        <button class="btn-login" onclick="javascript:location.href='<c:url value='/uat/uia/LoginUsr.do'/>';" type="button">
      	 로그인
     	</button>
 	  	<%
         }else{
 	  	%>
-	  	<button class="btn-login" onclick="location.href='<c:url value='/uat/uia/actionLogout.do'/>';" type="button">
+	  	<button class="btn-login" onclick="javascript:location.href='<c:url value='/uat/uia/actionLogout.do'/>';" type="button">
      	 로그아웃
     	</button>
             <%-- <c:set var="loginName" value="<%= loginVO.getName()%>"/>
