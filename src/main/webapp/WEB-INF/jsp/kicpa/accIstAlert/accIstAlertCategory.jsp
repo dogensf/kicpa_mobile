@@ -65,22 +65,22 @@ function fncLocation(){
         </li>
         <li>
           <h4>회계기준</h4>
-          <button class="m-link" type="button" onclick="javascript:window.bridge.openWeb('http://www.kasb.or.kr/fe/accstd/NR_comAccList.do?bbsCd=1070&');">
+          <button class="m-link" type="button" onclick="javascript:window.bridge.newWebView('kicpa_','http://www.kasb.or.kr/fe/accstd/NR_comAccList.do?bbsCd=1070&','');">
             <span>기업회계기준 전문</span>
           </button>
-          <button class="m-link" type="button" onclick="javascript:window.bridge.openWeb('http://www.kasb.or.kr/fe/accstd/NR_list.do?divCd=01&sortCd=K-IFRS&');">
+          <button class="m-link" type="button" onclick="javascript:window.bridge.newWebView('kicpa_','http://www.kasb.or.kr/fe/accstd/NR_list.do?divCd=01&sortCd=K-IFRS&','');">
             <span>한국채택국제 회계기준</span>
           </button>
-          <button class="m-link" type="button" onclick="javascript:window.bridge.openWeb('http://www.kasb.or.kr/fe/accstd/NR_list.do?sortCd=G-COMPANY&');">
+          <button class="m-link" type="button" onclick="javascript:window.bridge.newWebView('kicpa_','http://www.kasb.or.kr/fe/accstd/NR_list.do?sortCd=G-COMPANY&','');">
             <span>일반기업회계기준</span>
           </button>
-          <button class="m-link" type="button" onclick="javascript:window.bridge.openWeb('https://www.moef.go.kr/lw/denm/detailTbDenmView.do?menuNo=7030000&searchNttId1=MOSF_000000000012003&searchBbsId1=MOSFBBS_000000000120#');">
+          <button class="m-link" type="button" onclick="javascript:window.bridge.newWebView('kicpa_','https://www.moef.go.kr/lw/denm/detailTbDenmView.do?menuNo=7030000&searchNttId1=MOSF_000000000012003&searchBbsId1=MOSFBBS_000000000120#','');">
             <span>공익법인회계기준</span>
           </button>
-          <button class="m-link" type="button" onclick="javascript:window.bridge.openWeb('http://www.kasb.or.kr/fe/bbs/NR_list.do?bbsCd=1105&');">
+          <button class="m-link" type="button" onclick="javascript:window.bridge.newWebView('kicpa_','http://www.kasb.or.kr/fe/bbs/NR_list.do?bbsCd=1105&','');">
             <span>비영리조직 회계기준</span>
           </button>
-          <button class="m-link" type="button" onclick="javascript:window.bridge.openWeb('http://www.kasb.or.kr/fe/accstd/NR_list.do;jsessionid=7104DACBC5CAE5EEC7CD3069444A15B3?sortCd=SPEACIAL&');">
+          <button class="m-link" type="button" onclick="javascript:window.bridge.newWebView('kicpa_','http://www.kasb.or.kr/fe/accstd/NR_list.do;jsessionid=7104DACBC5CAE5EEC7CD3069444A15B3?sortCd=SPEACIAL&','');">
             <span>특수분야회계기준</span>
           </button>
           <button class="m-link" type="button" onclick="javascript:location.href='/kicpa/accIstAlert/ifrsBoardList.do'">
@@ -92,10 +92,10 @@ function fncLocation(){
         </li>
         <li>
           <h4>eBOOK</h4>
-          <button class="m-link" type="button" onclick="javascript:window.bridge.openWeb('https://www.kicpa-ebook.com');">
+          <button class="m-link" type="button" onclick="javascript:window.bridge.newWebView('kicpa_','https://www.kicpa-ebook.com','');">
             <span>회계편람 e-book</span>
           </button>
-          <button class="m-link" type="button" onclick="javascript:window.bridge.openWeb('https://www.school-audit.com');">
+          <button class="m-link" type="button" onclick="javascript:window.bridge.newWebView('kicpa_','https://www.school-audit.com','');">
             <span>사립학교 감사실무 편람</span>
           </button>
         </li>

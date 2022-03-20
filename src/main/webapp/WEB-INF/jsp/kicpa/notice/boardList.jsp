@@ -33,7 +33,7 @@ function fncLocation(){
 				        <span>공지사항</span>
 				    </a>
 				    <a class="tab-link" href="javascript:void(0);" onclick="notice.menuChange(this,'NEWS')">
-				        <span>주요기사(Newsclips)</span>
+				        <span>주요기사(Daily Newsclips)</span>
 				    </a>
 				    <a class="tab-link" href="javascript:void(0);" onclick="notice.menuChange(this,'intl04/intl05/intl06/intl07/intl08/rpnofin05')">
 				        <span>국제동향</span>
@@ -44,7 +44,7 @@ function fncLocation(){
 				        <span>공지사항</span>
 				    </a>
 				    <a class="tab-link active" href="javascript:void(0);" onclick="notice.menuChange(this,'NEWS')">
-				        <span>주요기사(Newsclips)</span>
+				        <span>주요기사(Daily Newsclips)</span>
 				    </a>
 				    <a class="tab-link" href="javascript:void(0);" onclick="notice.menuChange(this,'intl04/intl05/intl06/intl07/intl08/rpnofin05')">
 				        <span>국제동향</span>
@@ -55,7 +55,7 @@ function fncLocation(){
 				        <span>공지사항</span>
 				    </a>
 				    <a class="tab-link" href="javascript:void(0);" onclick="notice.menuChange(this,'NEWS')">
-				        <span>주요기사(Newsclips)</span>
+				        <span>주요기사(Daily Newsclips)</span>
 				    </a>
 				    <a class="tab-link active" href="javascript:void(0);" onclick="notice.menuChange(this,'intl04/intl05/intl06/intl07/intl08/rpnofin05')">
 				        <span>국제동향</span>
@@ -66,7 +66,7 @@ function fncLocation(){
 				        <span>공지사항</span>
 				    </a>
 				    <a class="tab-link" href="javascript:void(0);" onclick="notice.menuChange(this,'NEWS')">
-				        <span>주요기사(Newsclips)</span>
+				        <span>주요기사(Daily Newsclips)</span>
 				    </a>
 				    <a class="tab-link" href="javascript:void(0);" onclick="notice.menuChange(this,'intl04/intl05/intl06/intl07/intl08/rpnofin05')">
 				        <span>국제동향</span>
