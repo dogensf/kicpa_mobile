@@ -15,12 +15,12 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!--begin::Footer-->
 <section class="link-url">
-	<a href="javascript:window.bridge.newWebView('etst','https://cyber.kicpa.or.kr/sso/main.php')">회계연수원</a>
- 	<a href="javascript:window.bridge.newWebView('etst','https://blog.naver.com/kicpaline')" >KICPA블로그</a>
-	<a href="javascript:window.bridge.newWebView('etst','https://blog.naver.com/kicpa1')" >조세지원센터</a>
-	<a href="javascript:window.bridge.newWebView('etst','https://www.youtube.com/channel/UCCXEbJkEOo2DrPNxYjTdIVQ')">Youtube</a>
-	<a href="javascript:window.bridge.newWebView('etst','mail.kicpa.or.kr')" >회원용 email</a>
-	<a href="javascript:window.bridge.newWebView('etst','https://www.kicpa.or.kr/portal/default/kicpa/main/kr_pc_guest')" >PC버전 </a>
+	<a href="javascript:window.bridge.newWebView('kicpa1','https://cyber.kicpa.or.kr/sso/main.php','')">회계연수원</a>
+ 	<a href="javascript:window.bridge.newWebView('kicpa2','https://blog.naver.com/kicpaline','')" >KICPA블로그</a>
+	<a href="javascript:window.bridge.newWebView('kicpa3','https://blog.naver.com/kicpa1','')" >조세지원센터</a>
+	<a href="javascript:window.bridge.newWebView('kicpa4','https://www.youtube.com/channel/UCCXEbJkEOo2DrPNxYjTdIVQ','')">Youtube</a>
+	<a href="javascript:window.bridge.newWebView('kicpa5','mail.kicpa.or.kr','')" >회원용 email</a>
+	<a href="javascript:window.bridge.newWebView('kicpa6','https://www.kicpa.or.kr/portal/default/kicpa/main/kr_pc_guest','')" >PC버전 </a>
  </section>
 
 <footer>

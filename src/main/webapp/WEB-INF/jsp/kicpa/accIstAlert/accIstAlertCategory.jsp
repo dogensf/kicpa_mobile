@@ -3,7 +3,16 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <script>
 function fncLocation(){
-	location.href="/kicpa/main/main.do";
+	//location.href="/kicpa/main/main.do";
+<c:choose>
+	<c:when test="${views eq 'home'}">
+		location.href="javascript:windows.history.back();";
+	</c:when>
+	<c:otherwise>
+		location.href="/kicpa/main/main.do";
+	</c:otherwise>
+</c:choose>
+	
 }
 
 
@@ -14,7 +23,6 @@ function fncLocation(){
     </button>
     <h3>회계 · 감사 Alert</h3>
 </section>
-
 <section class="content">
     <ul class="list-wrap">
         <li>
