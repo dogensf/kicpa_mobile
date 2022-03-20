@@ -67,6 +67,11 @@ public class CounselCenterController {
 		}
 	}
 
+	@RequestMapping(value = "/declarationPrize.do")
+	public String declarationPrize(@RequestParam Map<String,Object> map,HttpServletRequest request,HttpServletResponse response,ModelMap model) throws Exception{
+		return "kicpa/counselCenter/declarationPrize";
+	}
+
 	@RequestMapping(value = "/counselBoardList.do")
 	public String counselBoardList(@RequestParam Map<String,Object> map,HttpServletRequest request,HttpServletResponse response,ModelMap model) throws Exception{
 
