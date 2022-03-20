@@ -8,9 +8,15 @@ function fncLocation(){
 	location.href="/kicpa/main/main.do";
 }
 
+function download(fileName){
+	$("#introductionForm input[name='fileName']").val(fileName);
+	$("#introductionForm").attr("action","/kicpa/introduction/ciFileDownload.do").submit();
+}
 </script>
 
-
+<form id="introductionForm" name="introduction">
+	<input type="hidden" name="fileName">
+</form>
 <section class="head-sub">
     <button class="btn-back" type="button" onclick="fncLocation();">
         <span>이전</span>
@@ -72,8 +78,8 @@ function fncLocation(){
                 </p>
 
                 <div class="btn-area">
-                    <button class="btn-round" type="button">원본 이미지 다운로드</button>
-                    <button class="btn-round" type="button">CI 사용규정 다운로드</button>
+                    <button class="btn-round"  onclick="download('ci.zip');" type="button">원본 이미지 다운로드</button>
+                    <button class="btn-round" onclick="download('ci_rule.zip');" type="button">CI 사용규정 다운로드</button>
                 </div>
             </div>
 
