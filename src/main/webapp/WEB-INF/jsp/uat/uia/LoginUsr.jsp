@@ -147,7 +147,7 @@
  		<div class="wrap">
             <div class="container">
                 <section class="head-sub">
-                    <button class="btn-back" type="button" onClick="javascript:windows.history.back(-1);">
+                    <button class="btn-back" type="button" onClick="javascript:location.href='/kicpa/main/main.do';">
                         <span>이전</span>
                     </button>
                     <h3>로그인</h3>
