@@ -60,7 +60,7 @@ function downloadURI(uri, name){
 }
 
 
-    $.datepicker.setDefaults({
+/*     $.datepicker.setDefaults({
         dateFormat: 'yy-mm-dd',
         prevText: '이전 달',
         nextText: '다음 달',
@@ -69,10 +69,10 @@ function downloadURI(uri, name){
         dayNames: ['일', '월', '화', '수', '목', '금', '토'],
         dayNamesShort: ['일', '월', '화', '수', '목', '금', '토'],
         dayNamesMin: ['일', '월', '화', '수', '목', '금', '토']
-    });
+    }); */
 
     $(function() {
-        $("#datepicker1").datepicker({
+    	 /*    $("#datepicker1").datepicker({
             onSelect:function(dateText, inst) {
                 console.log(dateText);
             },
@@ -136,12 +136,11 @@ function downloadURI(uri, name){
         <c:if test="${empty searchVO.searchBgnDe || empty searchVO.searchEndDe}">
         $("#datepicker1").datepicker('setDate', new Date());
         $("#datepicker2").datepicker('setDate', new Date());
-        </c:if>
+        </c:if> */
         
-        $('.line-compact-button').click(function(){
-        	$('.line-compact-button').each(function(){
-        		$(this).removeClass('active');       	
-        		
+        $('.btn-round-m').click(function(){
+        	$('.btn-round-m').each(function(){
+        		$(this).removeClass('active');
         	});
         	$(this).addClass('active');
         	
@@ -149,16 +148,17 @@ function downloadURI(uri, name){
         	var month = (("00"+(myDate.getMonth() + 1)).slice(-2));
         	var day   = (("00"+ myDate.getDate()).slice(-2));
        	    var prettyDate = myDate.getFullYear() +'-'+ month+'-'  + day  ;
-       	    $("#datepicker1").val(datePlusMinus(prettyDate, - $(this).attr('month'), 'm'));
+       	 
+       	    $("#searchBgnDe").val(datePlusMinus(prettyDate, - $(this).attr('month'), 'm'));
         	
         	
         	var myDate = new Date();
        	    var month = (("00"+(myDate.getMonth() + 1)).slice(-2));
        	    var day   = (("00"+ myDate.getDate()).slice(-2));
        	    var prettyDate = myDate.getFullYear() +'-'+ month+'-'  + day  ;
-       	    $("#datepicker2").val(prettyDate);
+       	    $("#searchEndDe").val(prettyDate);
         	
-        	
+       	 $("#input_").val(datePlusMinus(prettyDate, - $(this).attr('month'), 'm') +'~' +  prettyDate);
         });
         
         
@@ -257,59 +257,65 @@ function downloadURI(uri, name){
                   <a class="tab-link active" href="<c:url value='/kicpa/dues/selectDuesResult.do'/>">
                       <span>납부결과 및 조회</span>
                   </a>
-                  <a class="tab-link" href="#tabMain2">
+                  <!-- <a class="tab-link" href="#tabMain2">
                       <span>환급신청 및 조회</span>
-                  </a>
+                  </a> -->
               </div>
 
               <div id="tabMain1" class="tab-main-content show">
 
                 <div class="dues-wrap">
                   <div class="inp-box">
-                    <label class="label" for="input">납기기준월</label>
-                    <input type="date" id="input" name="input" data-placeholder="선택하세요." required />
+                    <label class="label" for="input">납부일</label>
+                    <input type="date" id="input_" value="1" name="input" data-placeholder="선택하세요." required readonly/>
+                    <input type="hidden" name="searchBgnDe" id="searchBgnDe" value="${searchVO.searchBgnDe}">
+                    <input type="hidden" name="searchEndDe" id="searchEndDe" value="${searchVO.searchEndDe}" >
                   </div>
                   <div class="period-set">
-                    <button class="btn-round-m active" type="button">1개월</button>
-                    <button class="btn-round-m" type="button">3개월</button>
-                    <button class="btn-round-m" type="button">6개월</button>
-                    <button class="btn-round-m" type="button">12개월</button>
+                    <button class="btn-round-m active" type="button"  month="1">1개월</button>
+                    <button class="btn-round-m" type="button"  month="3">3개월</button>
+                    <button class="btn-round-m" type="button"  month="6">6개월</button>
+                    <button class="btn-round-m" type="button"  month="12">12개월</button>
                   </div>
   
                   <div class="board-top">
                     <div class="total-num">
                         <span>결과</span>
-                        <span class="find">24건</span>
+                        <span class="find">${fn:length(list)} 건</span>
                     </div>
                   </div>
 
                   <div class="board-list">
                     <ul class="between-list">
+                    <c:forEach var="drt" items="${list}" varStatus="status">
                         <li>
                           <div class="title">
-                            <h4>연회비 및 부조회비</h4>
-                            <b>300,000</b>
+                            <h4><c:out value='${drt.rqest_nm}'/></h4>
+                            <fmt:formatNumber type="number" maxFractionDigits="3" value="${drt.dudt_in_amt}" var="d_amt" />	              
+                            <b><c:out value='${d_amt}'/></b>
                           </div>
 
                           <div class="detail">
                             <p >
-                              <b>고지금액</b>
-                              <span>200,000</span>
+                              <b>납부번호</b>
+                              <span><c:out value='${drt.epay_no}'/></span>
                             </p>
+                            <p >
+                              <b>납부일</b>
+                              <span><c:out value='${drt.pay_de}'/></span>
+                            </p>                            
                             <p>
-                              <b>고객조회번호</b>
-                              <span>0000711461</span>
+                              <b>납부방법</b>
+                              <span>${drt.paytype}</span>
                             </p>
-                          </div>
-                          
-                          <div class="btn-area">
-                            <button class="btn-round" type="button">300,000원 결제</button>
                           </div>
                         </li>
+                    </c:forEach>    
                     </ul>
                   </div>
                 </div>
               <!-- //탭1 -->
+              </div>
           </section>
 
       </div>

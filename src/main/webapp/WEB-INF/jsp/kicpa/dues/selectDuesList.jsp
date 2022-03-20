@@ -100,7 +100,7 @@
 
                 }
 
-                $.ajax({
+               /*  $.ajax({
                     url: "<c:url value='/kicpa/dues/updatePostSendYn.do'/>",
                     type: 'get',
                     data: sendData,
@@ -122,9 +122,9 @@
 
                     }
                 });
+ */
 
-
-                $("#resultTbody").caa("height",140*1);
+               // $("#resultTbody").caa("height",140*1);
 
             });
 
@@ -206,7 +206,7 @@
 
         });
 
-<!--
+
     function press(event) {
         if (event.keyCode==13) {
             fn_select_duesList();
@@ -225,7 +225,7 @@
 
 
 
-        //-->
+
 
         function giroReport(){
             $('.kicpa-modal').show();
@@ -268,6 +268,16 @@
         </section>
 
           <section class="content">
+          	   <form name="frm" action ="<c:url value='/kicpa/dues/selectDuesList.do'/>" method="post">
+		            <input type="hidden" name="giro_cd" id="giroCd">
+		            <input type="hidden" name="dudt_in_amt_" id="dudtInAmt_">
+		            <input type="hidden" name="dudt_in_amt" id="dudtInAmt" value="0">
+		            <input type="hidden" name="epay_no" id="epayNo" value="${detail[0].epay_no}">
+		            <input type="hidden" name="cust_inqr_no" id="custInqrNo" value="${detail[0].cust_inqr_no}">
+		            <input type="hidden" name="cstmr_flag" id="cstmr_flag" value="${detail[0].cstmr_flag}">
+		            <input type="hidden" name="cstmr_cd" id="cstmrCd" value="${detail[0].cstmr_cd}">
+		            <input type="hidden" name="cstmr_nm" id="cstmrNm" value="${detail[0].cstmr_nm}">
+		       </form>
               <div class="tab-main">
                   <a class="tab-link active" href="<c:url value='/kicpa/dues/selectDuesList.do'/>">
                       <span>회비조회 및 납부</span>
@@ -283,13 +293,14 @@
               <div id="tabMain1" class="tab-main-content show">
                 <div class="blue-box">
                   <div class="guest-private">
+                 
                     <p>
-                      <b>전자납부번호</b>
-                      <span>1234-12345-1234</span>
+                      <b>회원명</b>
+                      <span> ${searchVO.name}</span>
                     </p>
                     <p>
-                      <b>고객번호</b>
-                      <span>1234567</span>
+                      <b>지로번호</b>
+                      <span>7613018</span>
                     </p>
                   </div>
 
@@ -316,21 +327,63 @@
                 </div>
 
                 <div class="dues-wrap">
-                 <!--  <div class="inp-box">
-                    <label class="label" for="input">납기기준월</label>
-                    <input type="date" id="input" name="input" data-placeholder="선택하세요." required />
-                  </div> -->
   
                   <div class="board-top">
                     <div class="total-num">
                         <span>결과</span>
-                        <span class="find">24건</span>
+                        <span class="find">${fn:length(detail)} 건</span>
                     </div>
                   </div>
 
                   <div class="board-list">
                     <ul class="between-list line">
-                        <li>
+                     	<c:if test="${fn:length(detail) eq 0}">
+	                    	<li>
+	                          <div>                         
+	                            	납부 내역이 존재하지 않습니다.
+	                          </div>
+	                        </li>
+                    	</c:if>
+                    	<c:forEach var="drt" items="${detail}" varStatus="status">
+	                        <li>
+	                          <div class="inp-check">
+	                            <input type="checkbox"  id="du${status.count}" value="${drt.giro_cd}" amt="${drt.dudt_in_amt}" reqcd="${drt.rqest_cd }" class="dudtInAmtCk"/>
+	                            <label for="du${status.count}"><c:out value='${fn:replace(drt.rqest_nm,"지로","")}'/></label>
+	                          </div>
+	
+	                          <div class="detail">
+	                            <p class="total">
+	                              <b>고지금액</b>
+	                              	<fmt:formatNumber type="number" maxFractionDigits="3" value="${drt.dudt_in_amt}" var="d_amt" />                                    
+	                              <span><c:out value='${d_amt}'/></span>
+	                            </p>
+	                            <p>
+	                              <b>전자납부번호</b>
+	                              <span>${fn:substring(detail[0].epay_no,0,1)}
+                                            ${fn:substring(detail[0].epay_no,1,2)}
+                                            ${fn:substring(detail[0].epay_no,2,3)}
+                                            ${fn:substring(detail[0].epay_no,3,4)}
+                                        -
+                                            ${fn:substring(detail[0].epay_no,4,5)}
+                                            ${fn:substring(detail[0].epay_no,5,6)}
+                                            ${fn:substring(detail[0].epay_no,6,7)}
+                                            ${fn:substring(detail[0].epay_no,7,8)}
+                                            ${fn:substring(detail[0].epay_no,8,9)}
+                                        -
+                                            ${fn:substring(detail[0].epay_no,9,10)}
+                                            ${fn:substring(detail[0].epay_no,10,11)}
+                                            ${fn:substring(detail[0].epay_no,11,12)}
+                                            ${fn:substring(detail[0].epay_no,12,13)}</span>
+	                            </p>
+	                            <p>
+	                              <b>납입기일</b>
+	                              <fmt:parseDate value="${drt.dudt}" var="Ddudt" pattern="yyyyMMdd"/>
+	                              <span><fmt:formatDate value="${Ddudt}" pattern="yyyy-MM-dd"/></span>
+	                            </p>
+	                          </div>
+	                        </li>
+                        </c:forEach>
+                       <!--  <li>
                           <div class="inp-check">
                             <input type="checkbox" name="bk-item" id="ch01" />
                             <label for="ch01">연회비 및 부조회비연회비 및 부조회비</label>
@@ -416,38 +469,18 @@
                               <span>2022.01.20</span>
                             </p>
                           </div>
-                        </li>
-                        
-                        <li>
-                          <div class="inp-check">
-                            <input type="checkbox" name="bk-item" id="ch01" />
-                            <label for="ch01">연회비 및 부조회비연회비 및 부조회비</label>
-                          </div>
-
-                          <div class="detail">
-                            <p class="total">
-                              <b>고지금액</b>
-                              <span>200,000</span>
-                            </p>
-                            <p>
-                              <b>고객조회번호</b>
-                              <span>0000711461</span>
-                            </p>
-                            <p>
-                              <b>납입기일</b>
-                              <span>2022.01.20</span>
-                            </p>
-                          </div>
-                        </li>
+                        </li> -->
                     </ul>
                   </div>
 
                   <div class="btn-bottom">
-                    <button class="btn-primary" type="button" disabled>300,000원 결제</button>
+                    <button class="btn-primary" id="paymentBtn" type="button">0원 결제</button>
                   </div>
 
                 </div>
               <!-- //탭1 -->
+              </div>
+              
           </section>
 
       </div>
