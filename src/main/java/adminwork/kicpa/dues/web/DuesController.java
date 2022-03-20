@@ -99,7 +99,7 @@ public class DuesController {
 	}
 
 	@RequestMapping(value = "/kicpa/dues/selectDuesList.do")
-	public String selectDuesList(String Pin,String Auth, DuesVO vo,ModelMap model, HttpServletRequest request,HttpServletResponse response,HttpSession session)
+	public String selectDuesList(String Auth, DuesVO vo,ModelMap model, HttpServletRequest request,HttpServletResponse response,HttpSession session)
 	  throws Exception{		
 		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
 		System.out.println("Auth========="+Auth);
@@ -107,18 +107,20 @@ public class DuesController {
 			session.setAttribute("auth", Auth);
 		}		
 		model.addAttribute("auth", Auth);
+		String Pin = "";
 		if (isAuthenticated) {
-			LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();	
+			LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+			Pin = user.getUniqId();
 			/*if(Pin != null && user.getId() != Pin) {
 				System.out.println("pin========="+Pin);
 				
 				model.addAttribute("id", Pin);
 				model.addAttribute("url", "/kicpa/dues/selectDuesList.do");
 				return "uat/uia/LoginSso";
-			}
+			}*/
 			
-			System.out.println("giroPin========="+user.getGiroPin());
-			vo.setCust_inqr_no(user.getId());
+			System.out.println("giroPin========="+user.getUniqId());
+			vo.setCust_inqr_no(user.getUniqId());
 			vo.setName(user.getName());
 			boolean success = true;
 			// 합산지로 있는지 체크해서 삭제  TEMP --> PAY_YN = 'N' 취소 처리
@@ -149,24 +151,15 @@ public class DuesController {
 				model.addAttribute("errMsg", "이전 합산지로 정보가 존재합니다. 관리자에게 문의 하세요.");
 				model.addAttribute("searchVO", vo);
 				
-			}*/
-			
-			
-			List<DuesVO> tt = new ArrayList<>();
-			model.addAttribute("master", tt);
-			model.addAttribute("detail", tt);		
-			model.addAttribute("bill", tt);
-			model.addAttribute("billSum", tt);				
-			model.addAttribute("result", tt);
-			model.addAttribute("errMsg", "이전 합산지로 정보가 존재합니다. 관리자에게 문의 하세요.");
-			model.addAttribute("searchVO", vo);
+			}
 			
 			
 		}else {
 			System.out.println("pin========="+Pin);
 			model.addAttribute("id", Pin);
-			model.addAttribute("url", "/kicpa/dues/selectDuesList.do");
-			return "uat/uia/LoginSso";
+			model.addAttribute("returnUrl", "/kicpa/dues/selectDuesList.do");
+			model.addAttribute("title", "회비납부/조회");
+			return "kicpa/common/authLogin";
 			
 		}
 		
@@ -288,15 +281,17 @@ public class DuesController {
 	@RequestMapping(value = "/kicpa/dues/selectPaymentResult.do")
 	public String selectPaymentResult(@ModelAttribute("searchVO") DuesVO vo,ModelMap model, HttpServletRequest request, RedirectAttributes rttr)
 	  throws Exception{
-		LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
-		/*Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
 
 		if (isAuthenticated) {
 			//model.addAttribute("cmmCodeList", cmmUseService.getCmmCodeDetailAll());
 		}else {
-			return "redirect:/uat/uia/LoginUsr.do";
-		}*/
-		vo.setCust_inqr_no(user.getId());
+			model.addAttribute("title", "회비납부/결과조회");
+			return "kicpa/common/authLogin";
+		}
+		LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+		vo.setCust_inqr_no(user.getUniqId());
 		boolean success = true;
 		Dues giroInfo = new Dues();
 		success = duesApiService.giroPayments(vo);
@@ -475,21 +470,22 @@ public class DuesController {
 	@RequestMapping(value = "/kicpa/dues/selectDuesResult.do")
 	public String selectDuesResult(@ModelAttribute("searchVO") DuesVO vo,ModelMap model, HttpServletRequest request)
 	  throws Exception{
-		LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
-		/*Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
 
 		if (isAuthenticated) {
 			//model.addAttribute("cmmCodeList", cmmUseService.getCmmCodeDetailAll());
 		}else {
-			return "redirect:/uat/uia/LoginUsr.do";
-		}*/
-		
+			model.addAttribute("title", "회비납부/결과조회");
+			return "kicpa/common/authLogin";
+		}
+		LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
 		//날짜가 없을 경우 현재 날짜로 셋팅한다.
 		if(vo.getSearchBgnDe() == null || vo.getSearchBgnDe() == "") {
 			vo.setSearchBgnDe(DateUtil.getCurrentDateymd(""));
 			vo.setSearchEndDe(DateUtil.getCurrentDateymd(""));
 		}
-		vo.setCust_inqr_no(user.getId());		
+		vo.setCust_inqr_no(user.getUniqId());		
 		Dues info = duesService.selectDuesResultInfo(vo);
 		List<Dues> list = duesService.selectDuesResultList(vo);
 		model.addAttribute("info",info);

@@ -8,7 +8,7 @@
 
 var aa =  [
 			{"name":"회원경조사", "img":"icon_obituary", "url":"location.href='https://m.naver.com'"},
-			{"name":"회비관리", "img":"icon_tax", "url":"location.href='https://m.naver.com'"},
+			{"name":"회비관리", "img":"icon_tax", "url":"location.href='/kicpa/dues/selectDuesList.do'"},
 			{"name":"마이페이지", "img":"icon_mypage", "url":"location.href='https://m.naver.com'"},
 			{"name":"설문조사", "img":"icon_consulting", "url":"location.href='https://m.naver.com'"},
 			{"name":"구인정보", "img":"icon_survey", "url":"https://m.naver.com"},
