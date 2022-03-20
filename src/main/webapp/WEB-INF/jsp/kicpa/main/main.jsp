@@ -57,7 +57,7 @@ function applyFavorite(menus) {
 			}else{
 				menu12 +="<button class=\""+data.img+"\" type=\"button\" onclick=\"javascript:"+data.url+"\">"+data.name+"</button>";
 			}			
-		}else{
+		}else{			
 			if(idx < 12){
 				menu21 +="<button class=\""+data.img+"\" type=\"button\" onclick=\"javascript:"+data.url+"\">"+data.name+"</button>";	
 			}else{

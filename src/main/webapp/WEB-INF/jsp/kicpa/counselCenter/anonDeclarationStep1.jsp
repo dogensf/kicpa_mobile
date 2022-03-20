@@ -25,7 +25,16 @@ $(document).ready(function(){
 });
 
 function fncLocation(){
-	location.href="/kicpa/main/main.do";
+	//location.href="/kicpa/main/main.do";
+	//location.href="javascript:windows.history.back();";
+	<c:choose>
+		<c:when test="${views eq 'home'}">
+			location.href="javascript:windows.history.back();";
+		</c:when>
+		<c:otherwise>
+			location.href="/kicpa/main/main.do";
+		</c:otherwise>
+	</c:choose>
 }
 
 </script>

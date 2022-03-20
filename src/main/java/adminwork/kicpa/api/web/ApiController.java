@@ -58,10 +58,10 @@ public class ApiController {
 		List<BottomsVO> bottom = apiService.selectBottomList(vo);
 		for(int i=0; i < bottom.size(); i++) {
 			if(bottom.get(i).getUrl().contains("http")){
-				bottom.get(i).setUrl("javacript:window.bridge.openWeb('"+bottom.get(i).getUrl()+"')");
+				bottom.get(i).setUrl("javascript:window.bridge.newWebView('kicpaHome','"+bottom.get(i).getUrl()+"','')");
 				
 			}else {
-				bottom.get(i).setUrl("javacript:location.href='"+bottom.get(i).getUrl()+"'");				
+				bottom.get(i).setUrl("location.href='"+bottom.get(i).getUrl()+"'");				
 			}
 		}
 		
@@ -71,10 +71,10 @@ public class ApiController {
 		List<FavoritesVO> Mfavor = apiService.selectMyFavorList(vo);		
 		for(int i=0; i < Mfavor.size(); i++) {
 			if(Mfavor.get(i).getUrl().contains("http")){
-				Mfavor.get(i).setUrl("javacript:window.bridge.openWeb('"+Mfavor.get(i).getUrl()+"')");
+				Mfavor.get(i).setUrl("window.bridge.newWebView('kicpaFavor','"+Mfavor.get(i).getUrl()+"','')");
 				
 			}else {
-				Mfavor.get(i).setUrl("javacript:location.href='"+Mfavor.get(i).getUrl()+"'");				
+				Mfavor.get(i).setUrl("location.href='"+Mfavor.get(i).getUrl()+"'");				
 			}
 		}
 		model.addAttribute("myFavorites", Mfavor);
@@ -97,9 +97,9 @@ public class ApiController {
 					mlist.put("name", lfm.getName());
 					mlist.put("img",lfm.getImg());
 					if(lfm.getUrl().contains("http")){						
-						mlist.put("url", "javacript:window.bridge.openWeb('"+lfm.getUrl()+"')");
+						mlist.put("url", "window.bridge.newWebView('kicpafav','"+lfm.getUrl()+"','')");
 					}else {
-						mlist.put("url", "javacript:location.href='"+lfm.getUrl()+"'");
+						mlist.put("url", "location.href='"+lfm.getUrl()+"'");
 					}
 					mArr.add(mlist);
 				}			
@@ -129,9 +129,9 @@ public class ApiController {
 						if(dm.getMenuNo() == dm2.getUpperMenuId()) {
 							String url = "";
 							if(dm2.getChkURL().contains("http")){
-								url = "javacript:window.bridge.openWeb('"+dm2.getChkURL()+"')";
+								url = "javascript:window.bridge.newWebView('kicpa','"+dm2.getChkURL()+"','')";
 							}else {
-								url = "javacript:location.href='"+dm2.getChkURL()+"'";
+								url = "location.href='"+dm2.getChkURL()+"'";
 							}
 							lv2.put(dm2.getMenuNm(), url);
 						}
@@ -141,9 +141,9 @@ public class ApiController {
 					}else {
 						String url = "";
 						if(dm.getChkURL().contains("http")){
-							url = "javacript:window.bridge.openWeb('"+dm.getChkURL()+"')";
+							url = "javascript:window.bridge.newWebView('kicpa','"+dm.getChkURL()+"','')";
 						}else {
-							url = "javacript:location.href='"+dm.getChkURL()+"'";
+							url = "location.href='"+dm.getChkURL()+"'";
 						}
 						lv1.put(dm.getMenuNm(), url);
 					}

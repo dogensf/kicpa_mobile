@@ -144,12 +144,10 @@
 		</div> --%>
 
 
-
-
  		<div class="wrap">
             <div class="container">
                 <section class="head-sub">
-                    <button class="btn-back" type="button" onClick="javascript:location.href='<c:url value='/'/>';">
+                    <button class="btn-back" type="button" onClick="javascript:windows.history.back(-1);">
                         <span>이전</span>
                     </button>
                     <h3>로그인</h3>
