@@ -3106,27 +3106,27 @@ body.stop {
   background-size: 5.8rem;
 }
 
-.bookmark-wrap .swiper-slide button.icon_books1::before {
+.bookmark-wrap .swiper-slide button.icon_books_1::before {
   background-image: url("/images/icon_books1.svg");
   background-size: 5.8rem;
 }
 
-.bookmark-wrap .swiper-slide button.icon_books2::before {
+.bookmark-wrap .swiper-slide button.icon_books_2::before {
   background-image: url("/images/icon_books2.svg");
   background-size: 5.8rem;
 }
 
-.bookmark-wrap .swiper-slide button.icon_books3::before {
+.bookmark-wrap .swiper-slide button.icon_books_3::before {
   background-image: url("/images/icon_books3.svg");
   background-size: 5.8rem;
 }
 
-.bookmark-wrap .swiper-slide button.icon_books4::before {
+.bookmark-wrap .swiper-slide button.icon_books_4::before {
   background-image: url("/images/icon_books4.svg");
   background-size: 5.8rem;
 }
 
-.bookmark-wrap .swiper-slide button.icon_books5::before {
+.bookmark-wrap .swiper-slide button.icon_books_5::before {
   background-image: url("/images/icon_books5.svg");
   background-size: 5.8rem;
 }
@@ -3200,6 +3200,12 @@ body.stop {
   background-image: url("/images/icon_youtube.svg");
   background-size: 5.8rem;
 }
+
+.bookmark-wrap .swiper-slide button.icon_dues::before {
+  background-image: url("/images/icon_dues.svg");
+  background-size: 5.8rem;
+}
+
 
 .link-url {
   display: -webkit-box;
