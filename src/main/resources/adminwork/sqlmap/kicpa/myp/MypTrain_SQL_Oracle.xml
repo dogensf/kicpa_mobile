@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="MypTrain">
+
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+
+	<update id="MypTrainDAO.mypCpaTrainRegisterPictInfoSave" parameterClass="HashMap">
+		<![CDATA[
+
+			UPDATE APNTC_CPA_MYP
+            SET
+                PHOTO = #pictFileId#
+            ,   PHOTO_NM = #photoNm#
+            ,   LAST_UPDT_ID = #userId#
+            ,   LAST_UPDT_DT = SYSTIMESTAMP
+
+            WHERE PIN = #pin#
+              AND APNTC_SN = #apntcSn#
+
+		]]>
+	</update>
+
+	<update id="MypTrainDAO.mypCpaTrainRegisterFlagFPictInfoSave" parameterClass="HashMap">
+		<![CDATA[
+
+			UPDATE APNTC_CPA_MYP
+            SET
+                PHOTO = (SELECT PHOTO FROM APNTC_CPA_MYP WHERE PIN = #pin# AND REG_FLAG ='F' AND APNTC_SN = (SELECT MAX(APNTC_SN) FROM APNTC_CPA_MYP WHERE PIN = #pin# AND REG_FLAG ='F'))
+            ,   PHOTO_NM = (SELECT PHOTO_NM FROM APNTC_CPA_MYP WHERE PIN = #pin# AND REG_FLAG ='F' AND APNTC_SN = (SELECT MAX(APNTC_SN) FROM APNTC_CPA_MYP WHERE PIN = #pin# AND REG_FLAG ='F'))
+            ,   LAST_UPDT_ID = #userId#
+            ,   LAST_UPDT_DT = SYSTIMESTAMP
+
+            WHERE PIN = #pin#
+              AND APNTC_SN = #apntcSn#
+
+		]]>
+	</update>
+
+	<update id="MypTrainDAO.updateCpaPassMemPict" parameterClass="HashMap">
+		<![CDATA[
+
+			UPDATE MBER_PHOTO
+            SET
+                LAST_YN ='Y',
+                LAST_UPDT_ID = #userId#,
+                LAST_UPDT_DT = SYSTIMESTAMP
+            WHERE
+                PTG_TRG_ID = #pin#
+            AND LAST_YN = 'N'
+
+		]]>
+	</update>
+
+	<insert id="MypTrainDAO.insertCpaPassMemPict" parameterClass="HashMap">
+		<![CDATA[
+
+			INSERT INTO MBER_PHOTO(
+		        PTG_SN,
+		        PTG_TRG_ID,
+		        PHOTO,
+		        LAST_YN,
+		        FRST_REGIST_ID,
+		        FRST_REGIST_DT,
+		        LAST_UPDT_ID,
+		        LAST_UPDT_DT
+		    )
+		    VALUES
+		    (   KIPADM.MBER_PHOTO_SEQ.NEXTVAL,
+		        #pin#,
+		        #pictFileId#,
+		        #lastYn#,
+		        #userId#,
+		        SYSTIMESTAMP,
+		        #userId#,
+		        SYSTIMESTAMP
+		    )
+
+		]]>
+	</insert>
+</sqlMap>
