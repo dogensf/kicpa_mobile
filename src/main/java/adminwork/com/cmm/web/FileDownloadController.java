@@ -4,9 +4,7 @@ import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.IOException;
 import java.io.PrintWriter;
-import java.net.URLEncoder;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -83,7 +81,7 @@ public class FileDownloadController {
 		String dispositionPrefix = "attachment; filename=";
 		String encodedFilename = null;
 
-		if (browser.equals("MSIE")) {
+		/*if (browser.equals("MSIE")) {
 			encodedFilename = URLEncoder.encode(filename, "UTF-8").replaceAll("\\+", "%20");
 		} else if (browser.equals("Trident")) { // IE11 문자열 깨짐 방지
 			encodedFilename = URLEncoder.encode(filename, "UTF-8").replaceAll("\\+", "%20");
@@ -105,8 +103,8 @@ public class FileDownloadController {
 		} else {
 			//throw new RuntimeException("Not supported browser");
 			throw new IOException("Not supported browser");
-		}
-
+		}*/
+		encodedFilename = "\"" + new String(filename.getBytes("UTF-8"), "ISO-8859-1") + "\"";
 		response.setHeader("Content-Disposition", dispositionPrefix + encodedFilename);
 
 		if ("Opera".equals(browser)) {

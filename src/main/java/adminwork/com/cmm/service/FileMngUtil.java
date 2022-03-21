@@ -9,7 +9,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -21,11 +20,9 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.http.client.utils.URLEncodedUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
-import org.springframework.util.FileCopyUtils;
 import org.springframework.web.multipart.MultipartFile;
 //import java.util.HashMap;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
@@ -462,7 +459,7 @@ public class FileMngUtil {
 
 		byte[] b = new byte[BUFF_SIZE]; //buffer size 2K.
 		response.setContentType("application/octet-stream");
-		response.setHeader("Content-Disposition", "attachment; filename="+new String(orignFileNm.getBytes("KSC5601"),"ISO8859_1"));
+		response.setHeader("Content-Disposition", "attachment; filename="+new String(orignFileNm.getBytes("UTF-8"),"ISO8859_1"));
 		response.setHeader("Content-Transfer-Encoding", "binary");
 		response.setHeader("Pragma", "no-cache");
 		response.setHeader("Expires", "0");
