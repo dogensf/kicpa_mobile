@@ -41,7 +41,7 @@ function fncGoAfterErrorPage(){
 			<div class="d-flex flex-row-fluid flex-column bgi-size-cover bgi-position-center bgi-no-repeat p-10 p-sm-30" style="background-image: url(assets/media/error/bg1.jpg);">
 				<!--begin::Content-->
 				<h1 class="font-weight-boldest text-dark-75 mt-15" style="font-size: 10rem">500</h1>
-				<p class="font-size-h3 text-muted font-weight-normal">데이터 처리 중 오류가 발생하였습니다. <a href="javascript:fncGoAfterErrorPage();"><img src="<c:url value='/images/egovframework/com/cmm/go_history.jpg' />" width="90" height="29" /></a></p>
+				<p class="font-size-h3 text-muted font-weight-normal">데이터 처리 중 오류가 발생하였습니다. <a href="javascript:fncGoAfterErrorPage();">뒤로가기<img src="<c:url value='/images/egovframework/com/cmm/go_history.jpg' />" width="90" height="29" /></a></p>
 				<!--end::Content-->
 			</div>
 			<!--end::Error-->

@@ -57,12 +57,12 @@ public class ApiController {
 		//홈버튼 생성
 		List<BottomsVO> bottom = apiService.selectBottomList(vo);
 		for(int i=0; i < bottom.size(); i++) {
-			if(bottom.get(i).getUrl().contains("http")){
+			/*if(bottom.get(i).getUrl().contains("http")){
 				bottom.get(i).setUrl("javascript:window.bridge.newWebView('kicpaHome','"+bottom.get(i).getUrl()+"','')");
 				
-			}else {
-				bottom.get(i).setUrl("location.href='"+bottom.get(i).getUrl()+"'");				
-			}
+			}else {*/
+				bottom.get(i).setUrl(bottom.get(i).getUrl());				
+			//}
 		}
 		
 		model.addAttribute("bottomList", bottom);

@@ -11,6 +11,7 @@ $(document).ready(function(){
 
 function fncLocation(){
 	location.href="/kicpa/accIstAlert/accIstAlertCategory.do";
+	//window.history.back();
 }
 
 </script>

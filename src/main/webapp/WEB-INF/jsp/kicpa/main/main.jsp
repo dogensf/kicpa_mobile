@@ -165,7 +165,7 @@ function applyFavorite(menus) {
 					<c:if test="${boardList ne null and fn:length(boardList) > 0 }">
 						<c:forEach items="${boardList }" var="board" varStatus="index">
 							<li>
-								<a href="javascript:board.openDetailPop('/kicpa/commonBoard/boardDetail.do?boardId=${board.boardId}&bltnNo=${board.bltnNo}');">
+								<a href="javascript:window.open('/kicpa/commonBoard/boardDetail.do?boardId=${board.boardId}&bltnNo=${board.bltnNo}');">
 									<div class="title-zone">
 									    <p>${board.bltnSubj }</p>
 									    <div class="other">

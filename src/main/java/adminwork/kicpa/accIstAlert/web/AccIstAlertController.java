@@ -28,6 +28,12 @@ public class AccIstAlertController {
 	@Resource(name = "commonBoardService")
 	CommonBoardService commonBoardService;
 
+	@RequestMapping(value = "/accIstAlertCategoryMain.do")
+	public String accIstAlertCategoryMain(@RequestParam Map<String,Object> map,HttpServletRequest request,HttpServletResponse response,ModelMap model) throws Exception{
+		
+		model.addAttribute("views", map.get("views"));
+		return "kicpa/accIstAlert/accIstAlertCategoryMain";
+	}
 
 	@RequestMapping(value = "/accIstAlertCategory.do")
 	public String accIstAlertCategory(@RequestParam Map<String,Object> map,HttpServletRequest request,HttpServletResponse response,ModelMap model) throws Exception{

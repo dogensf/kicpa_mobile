@@ -18,13 +18,7 @@ function fncLocation(){
 
 
 </script>
-<!-- <section class="head-sub">
-    <button class="btn-back" type="button" onclick="fncLocation();">
-        <span>이전</span>
-    </button>
-    <h3>회계 · 감사 Alert</h3>
-</section> -->
-<section class="head-main">
+    <section class="head-main">
           <h1>회계 · 감사 Alert</h1>
           <%
 	        LoginVO loginVO = (LoginVO)session.getAttribute("LoginVO");
@@ -54,7 +48,8 @@ function fncLocation(){
           <button class="btn-menu" type="button" onClick="javascript:window.bridge.showCategory();">
             카테고리
           </button>
-</section>
+        </section>
+
 <section class="content">
 
     <ul class="list-wrap">

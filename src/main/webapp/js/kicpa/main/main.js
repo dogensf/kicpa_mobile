@@ -41,7 +41,7 @@ main.getNewsListSuccess = function(data){
 		$.each(list,function(i,o){
 			txt+='<li> \n';
 			if(o.knlUrl == null){
-				txt+='	<a href="javascript:board.openDetailPop(\'/kicpa/commonBoard/boardDetail.do?boardId='+o.knlGubun+'&bltnNo='+o.knlId+'\');"> \n';
+				txt+='	<a href="javascript:window.open(\'/kicpa/commonBoard/boardDetail.do?boardId='+o.knlGubun+'&bltnNo='+o.knlId+'\');"> \n';
 			}else{
 				txt+='	<a href="'+o.knlUrl+'" target="_blank"> \n';
 			}
