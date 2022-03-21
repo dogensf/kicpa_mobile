@@ -9,6 +9,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -449,6 +450,7 @@ public class FileMngUtil {
     public void downFile(HttpServletResponse response, String streFileNm, String orignFileNm) throws Exception {
     	File file = new File(streFileNm);
     	System.out.println(orignFileNm);
+    	System.out.println(streFileNm);
 		if (!file.exists()) {
 		    throw new FileNotFoundException(streFileNm);
 		}
@@ -459,7 +461,7 @@ public class FileMngUtil {
 
 		byte[] b = new byte[BUFF_SIZE]; //buffer size 2K.
 		response.setContentType("application/octet-stream");
-		response.setHeader("Content-Disposition", "attachment; filename="+new String(orignFileNm.getBytes("UTF-8"),"ISO8859_1"));
+		response.setHeader("Content-Disposition", "attachment; fileName=\"" + URLEncoder.encode(orignFileNm, "UTF-8")+"\";");
 		response.setHeader("Content-Transfer-Encoding", "binary");
 		response.setHeader("Pragma", "no-cache");
 		response.setHeader("Expires", "0");
@@ -475,6 +477,9 @@ public class FileMngUtil {
 			while ((read = fin.read(b)) != -1) {
 			    outs.write(b, 0, read);
 			}
+		}catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("error");
 		} finally {
 		    if (outs != null) {
 				try {
