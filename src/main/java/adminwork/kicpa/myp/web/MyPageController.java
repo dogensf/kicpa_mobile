@@ -140,7 +140,8 @@ public class MyPageController {
 			System.out.println("pin========="+Pin);
 			model.addAttribute("id", Pin);
 			model.addAttribute("url", "/kicpa/myp/myPage.do");
-			return "uat/uia/LoginUsr";
+			model.addAttribute("title", "마이페이지");
+			return "kicpa/common/authLogin";
 
 		}
 

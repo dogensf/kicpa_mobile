@@ -50,7 +50,7 @@ myPageInfo.myPage_memberInfoUpdateBtn = function (movePage, moveFlag, pin){     
 myPageInfo.getMyPageCheckplusEncData = function(movePage, moveFlag, pin){
 
 	var param = {};
-	param.movePage = "http://localhost:8079"+myPageInfo.getContextPath()+"/myp/mypCpaConfirmSucc.do?movePage="+movePage+"&moveFlag="+moveFlag+"&pin="+pin;
+	param.movePage = "https://mkip.kicpa.or.kr"+myPageInfo.getContextPath()+"/myp/mypCpaConfirmSucc.do?movePage="+movePage+"&moveFlag="+moveFlag+"&pin="+pin;
 	fn_ajax_call("/kicpa/common/getCheckplusEncData.do",param,myPageInfo.getMyPageCheckplusEncDataSuccess,myPageInfo.myPageInfoError);
 }
 
@@ -63,7 +63,7 @@ myPageInfo.getMyPageCheckplusEncDataSuccess = function(data){
 
 	var form = document.getElementById("myPageInfo_nice");
 
-	window.open('', 'popupChk', 'width=500, height=550, top=100, left=100, fullscreen=no, menubar=no, status=no, toolbar=no, titlebar=yes, location=no, scrollbar=no');
+	window.open('', 'popupChk');
 	form.action = "https://nice.checkplus.co.kr/CheckPlusSafeModel/checkplus.cb";
 	form.target = "popupChk";
 	form.submit();
