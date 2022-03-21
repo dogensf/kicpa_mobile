@@ -1,10 +1,12 @@
 package adminwork.kicpa.myp.web;
 
 
+import adminwork.com.cmm.LoginVO;
 import adminwork.kicpa.myp.service.MyPageService;
 import adminwork.kicpa.myp.service.MypPassService;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import egovframework.rte.fdl.security.userdetails.util.EgovUserDetailsHelper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.util.Base64Utils;
@@ -67,15 +69,12 @@ public class MypPassController {
 	@RequestMapping(value = "/mypCpaPassReg.do")
 	public String mypCpaPassReg(@RequestParam Map<String, Object> paramMap, ModelMap model, HttpServletRequest request, HttpServletResponse response)
 			throws Exception{
-		/*Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
 		System.out.println("isAuthenticated========="+isAuthenticated);
 
 		if (isAuthenticated) {
 			LoginVO user = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
-			System.out.println("========="+user.getId());
-
-			Map<String, Object> paramMap = new HashMap<>();
-			paramMap.put("pin",user.getId());
+			System.out.println("========="+user.getUniqId());
 
 			//합격자 정보(성명, 연락처) 가져오기(실제 테이블)
 			List<?> cpaPassRealInfo = myPageService.selectCpaPassInfoList(paramMap);
@@ -84,48 +83,30 @@ public class MypPassController {
 				cpaMemPassRealInfo.putAll((Map<String, Object>)cpaPassRealInfo.get(0));
 			}
 
-			if("Y".equals(cpaMemPassRealInfo.get("regFlag"))){
-				//di 정보
-				List<?> diCheckList = myPageService.selectCpaPassDiCheckList(paramMap);
-
-
-				model.addAttribute("cpaPassRealInfo", cpaPassRealInfo);
-				model.addAttribute("diCheckList", diCheckList);
+			if(!"".equals(paramMap.get("movePage")) && paramMap.get("movePage") != null && !"null".equals(paramMap.get("movePage"))){
+				paramMap.put("saveMode","U");
+			}
+			else{
+				paramMap.put("saveMode","I");
+				paramMap.put("movePage","");
 			}
 
 
+			model.addAttribute("mypCpaPassRegPin", paramMap.get("pin"));
+			model.addAttribute("mypCpaPassRegkoreanNm", cpaMemPassRealInfo.get("koreanNm"));
+			model.addAttribute("mypCpaPassRegBrthdy", cpaMemPassRealInfo.get("brthdy"));
+			model.addAttribute("mypCpaPassRegSaveMode", paramMap);
+
+			model.addAttribute("cpaPassRealInfo", cpaPassRealInfo);
+
+
 		}else {
-			System.out.println("pin========="+Pin);
-			model.addAttribute("id", Pin);
+			System.out.println("pin========="+paramMap.get("pin"));
+			model.addAttribute("id", paramMap.get("pin"));
 			model.addAttribute("url", "/kicpa/myp/mypCpaPassReg.do");
 			return "uat/uia/LoginUsr";
 
-		}*/
-
-		paramMap.put("pin",paramMap.get("pin"));
-
-		//합격자 정보(성명, 연락처) 가져오기(실제 테이블)
-		List<?> cpaPassRealInfo = myPageService.selectCpaPassInfoList(paramMap);
-		Map<String, Object> cpaMemPassRealInfo = new HashMap<>();
-		if(cpaPassRealInfo.size()>0){
-			cpaMemPassRealInfo.putAll((Map<String, Object>)cpaPassRealInfo.get(0));
 		}
-
-		if(!"".equals(paramMap.get("movePage")) && paramMap.get("movePage") != null && !"null".equals(paramMap.get("movePage"))){
-			paramMap.put("saveMode","U");
-		}
-		else{
-			paramMap.put("saveMode","I");
-			paramMap.put("movePage","");
-		}
-
-
-		model.addAttribute("mypCpaPassRegPin", paramMap.get("pin"));
-		model.addAttribute("mypCpaPassRegkoreanNm", cpaMemPassRealInfo.get("koreanNm"));
-		model.addAttribute("mypCpaPassRegBrthdy", cpaMemPassRealInfo.get("brthdy"));
-		model.addAttribute("mypCpaPassRegSaveMode", paramMap);
-
-		model.addAttribute("cpaPassRealInfo", cpaPassRealInfo);
 
 		return "kicpa/myp/mypCpaPassReg";
 	}

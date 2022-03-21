@@ -3,5 +3,9 @@
     "http://www.ibatis.com/dtd/sql-map-config-2.dtd">
 
 <sqlMapConfig>
-    <sqlMap resource="adminwork/sqlmap/kicpa/dues/KICPA_SQL_Dues.xml"/>    
+    <sqlMap resource="adminwork/sqlmap/kicpa/dues/KICPA_SQL_Dues.xml"/>
+    <sqlMap resource="adminwork/sqlmap/kicpa/myp/Myp_SQL_Oracle.xml"/>
+    <sqlMap resource="adminwork/sqlmap/kicpa/myp/MypPass_SQL_Oracle.xml"/>
+    <sqlMap resource="adminwork/sqlmap/kicpa/myp/MypMember_SQL_Oracle.xml"/>
+    <sqlMap resource="adminwork/sqlmap/kicpa/myp/MypTrain_SQL_Oracle.xml"/>
 </sqlMapConfig>

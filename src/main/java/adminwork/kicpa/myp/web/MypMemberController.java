@@ -1,9 +1,11 @@
 package adminwork.kicpa.myp.web;
 
 
+import adminwork.com.cmm.LoginVO;
 import adminwork.kicpa.myp.service.MyPageService;
 import adminwork.kicpa.myp.service.MypMemberService;
 import adminwork.kicpa.myp.service.MypPassService;
+import egovframework.rte.fdl.security.userdetails.util.EgovUserDetailsHelper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.util.Base64Utils;
@@ -66,15 +68,12 @@ public class MypMemberController {
 	@RequestMapping(value = "/mypCpaMemberReg.do")
 	public String mypCpaMemberReg(@RequestParam Map<String, Object> paramMap, ModelMap model, HttpServletRequest request, HttpServletResponse response)
 			throws Exception{
-		/*Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
 		System.out.println("isAuthenticated========="+isAuthenticated);
 
 		if (isAuthenticated) {
 			LoginVO user = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
-			System.out.println("========="+user.getId());
-
-			Map<String, Object> paramMap = new HashMap<>();
-			paramMap.put("pin",user.getId());
+			System.out.println("========="+user.getUniqId());
 
 			//합격자 정보(성명, 연락처) 가져오기(실제 테이블)
 			List<?> cpaPassRealInfo = myPageService.selectCpaPassInfoList(paramMap);
@@ -83,44 +82,26 @@ public class MypMemberController {
 				cpaMemPassRealInfo.putAll((Map<String, Object>)cpaPassRealInfo.get(0));
 			}
 
-			if("Y".equals(cpaMemPassRealInfo.get("regFlag"))){
-				//di 정보
-				List<?> diCheckList = myPageService.selectCpaPassDiCheckList(paramMap);
-
-
-				model.addAttribute("cpaPassRealInfo", cpaPassRealInfo);
-				model.addAttribute("diCheckList", diCheckList);
+			if(!"".equals(paramMap.get("movePage")) && paramMap.get("movePage") != null && !"null".equals(paramMap.get("movePage"))){
+				paramMap.put("saveMode","U");
 			}
+			else{
+				paramMap.put("saveMode","I");
+				paramMap.put("movePage","");
+			}
+
+			model.addAttribute("mypCpaMemberRegPin", paramMap.get("pin"));
+			model.addAttribute("cpaPassRealInfo", cpaPassRealInfo);
+			model.addAttribute("mypCpaMemberRegSaveMode", paramMap);
 
 
 		}else {
-			System.out.println("pin========="+Pin);
-			model.addAttribute("id", Pin);
+			System.out.println("pin========="+paramMap.get("pin"));
+			model.addAttribute("id", paramMap.get("pin"));
 			model.addAttribute("url", "/kicpa/myp/mypCpaMemberReg.do");
 			return "uat/uia/LoginUsr";
 
-		}*/
-
-		paramMap.put("pin",paramMap.get("pin"));
-
-		//합격자 정보(성명, 연락처) 가져오기(실제 테이블)
-		List<?> cpaPassRealInfo = myPageService.selectCpaPassInfoList(paramMap);
-		Map<String, Object> cpaMemPassRealInfo = new HashMap<>();
-		if(cpaPassRealInfo.size()>0){
-			cpaMemPassRealInfo.putAll((Map<String, Object>)cpaPassRealInfo.get(0));
 		}
-
-		if(!"".equals(paramMap.get("movePage")) && paramMap.get("movePage") != null && !"null".equals(paramMap.get("movePage"))){
-			paramMap.put("saveMode","U");
-		}
-		else{
-			paramMap.put("saveMode","I");
-			paramMap.put("movePage","");
-		}
-
-		model.addAttribute("mypCpaMemberRegPin", paramMap.get("pin"));
-		model.addAttribute("cpaPassRealInfo", cpaPassRealInfo);
-		model.addAttribute("mypCpaMemberRegSaveMode", paramMap);
 
 		return "kicpa/myp/mypCpaMemberReg";
 	}
@@ -128,49 +109,32 @@ public class MypMemberController {
 	@RequestMapping(value = "/mypCpaTrnngSmInfo.do")
 	public String mypCpaTrnngSmInfo(@RequestParam Map<String, Object> paramMap, ModelMap model, HttpServletRequest request, HttpServletResponse response)
 			throws Exception{
-		/*Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
 		System.out.println("isAuthenticated========="+isAuthenticated);
 
 		if (isAuthenticated) {
 			LoginVO user = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
-			System.out.println("========="+user.getId());
+			System.out.println("========="+user.getUniqId());
 
-			Map<String, Object> paramMap = new HashMap<>();
-			paramMap.put("pin",user.getId());
+			List<?> cpaMemberRegTrnngSmInfo = mypMemberService.selectCpaMemberRegistTrnngSmInfoList(paramMap);			//사이버연수
+			List<?> cpaMemberRegTrnngSmYearList = mypMemberService.selectCpaMemberRegistTrnngSmYearList(paramMap);			//사이버연수 시행년도
 
-			//합격자 정보(성명, 연락처) 가져오기(실제 테이블)
-			List<?> cpaPassRealInfo = myPageService.selectCpaPassInfoList(paramMap);
-			Map<String, Object> cpaMemPassRealInfo = new HashMap<>();
-			if(cpaPassRealInfo.size()>0){
-				cpaMemPassRealInfo.putAll((Map<String, Object>)cpaPassRealInfo.get(0));
-			}
+			model.addAttribute("cpaMemberRegTrnngSmInfo", cpaMemberRegTrnngSmInfo);
+			model.addAttribute("cpaMemberRegTrnngSmInfoSize", cpaMemberRegTrnngSmInfo.size());
+			model.addAttribute("cpaMemberRegTrnngSmYearList", cpaMemberRegTrnngSmYearList);
 
-			if("Y".equals(cpaMemPassRealInfo.get("regFlag"))){
-				//di 정보
-				List<?> diCheckList = myPageService.selectCpaPassDiCheckList(paramMap);
-
-
-				model.addAttribute("cpaPassRealInfo", cpaPassRealInfo);
-				model.addAttribute("diCheckList", diCheckList);
-			}
+			model.addAttribute("mypCpaTrnngSmInfoPin", paramMap.get("pin"));
 
 
 		}else {
-			System.out.println("pin========="+Pin);
-			model.addAttribute("id", Pin);
+			System.out.println("pin========="+paramMap.get("pin"));
+			model.addAttribute("id", paramMap.get("pin"));
 			model.addAttribute("url", "/kicpa/myp/mypCpaTrnngSmInfo.do");
 			return "uat/uia/LoginUsr";
 
-		}*/
+		}
 
-		List<?> cpaMemberRegTrnngSmInfo = mypMemberService.selectCpaMemberRegistTrnngSmInfoList(paramMap);			//사이버연수
-		List<?> cpaMemberRegTrnngSmYearList = mypMemberService.selectCpaMemberRegistTrnngSmYearList(paramMap);			//사이버연수 시행년도
 
-		model.addAttribute("cpaMemberRegTrnngSmInfo", cpaMemberRegTrnngSmInfo);
-		model.addAttribute("cpaMemberRegTrnngSmInfoSize", cpaMemberRegTrnngSmInfo.size());
-		model.addAttribute("cpaMemberRegTrnngSmYearList", cpaMemberRegTrnngSmYearList);
-
-		model.addAttribute("mypCpaTrnngSmInfoPin", paramMap.get("pin"));
 
 		return "kicpa/myp/mypCpaTrnngSmInfo";
 	}

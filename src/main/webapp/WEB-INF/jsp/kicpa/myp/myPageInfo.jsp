@@ -48,7 +48,7 @@
 		<section class="content">
 			<!-- 프로필영역 -->
 			<div class="profile-box">
-				<button class="photo-box" type="button">
+				<button class="photo-box" type="button" onClick="javascript:myPageInfo.myPage_memberInfoUpdateBtn('mypCpaTrainReg_pictInfo','T', ${myPageInfoPin});">
 					<!-- <img src="../images/thumb-profile.png" alt="프로필사진" /> -->
 				</button>
 			</div>

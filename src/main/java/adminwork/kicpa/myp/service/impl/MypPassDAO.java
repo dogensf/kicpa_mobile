@@ -1,6 +1,7 @@
 package adminwork.kicpa.myp.service.impl;
 
 
+import adminwork.com.cmm.service.impl.EgovComAbstractDAO2;
 import egovframework.rte.psl.dataaccess.EgovAbstractDAO;
 import org.springframework.stereotype.Repository;
 
@@ -8,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 @Repository("MypPassDAO")
-public class MypPassDAO extends EgovAbstractDAO{
+public class MypPassDAO extends EgovComAbstractDAO2 {
 
 
     public void mypCpaPassRegisterPassInfoSave(Map<String, Object> map) throws Exception {

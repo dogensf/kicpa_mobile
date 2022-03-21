@@ -68,15 +68,15 @@ public class MyPageController {
 	@RequestMapping(value = "/myPage.do")
 	public String myPage(String Pin, ModelMap model, HttpServletRequest request, HttpServletResponse response)
 			throws Exception{
-		/*Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
 		System.out.println("isAuthenticated========="+isAuthenticated);
 
 		if (isAuthenticated) {
 			LoginVO user = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
-			System.out.println("========="+user.getId());
+			System.out.println("========="+user.getUniqId());
 
 			Map<String, Object> paramMap = new HashMap<>();
-			paramMap.put("pin",user.getId());
+			paramMap.put("pin",user.getUniqId());
 
 			//합격자 정보(성명, 연락처) 가져오기(실제 테이블)
 			List<?> cpaPassRealInfo = myPageService.selectCpaPassInfoList(paramMap);
@@ -132,7 +132,7 @@ public class MyPageController {
 				}
 			}
 
-			model.addAttribute("myPagePin", user.getId());
+			model.addAttribute("myPagePin", user.getUniqId());
 			model.addAttribute("cpaPassRealInfo", cpaPassRealInfo);
 
 
@@ -142,9 +142,9 @@ public class MyPageController {
 			model.addAttribute("url", "/kicpa/myp/myPage.do");
 			return "uat/uia/LoginUsr";
 
-		}*/
+		}
 
-		Map<String, Object> paramMap = new HashMap<>();
+		/*Map<String, Object> paramMap = new HashMap<>();
 		paramMap.put("pin",Pin);
 
 		//합격자 정보(성명, 연락처) 가져오기(실제 테이블)
@@ -205,7 +205,7 @@ public class MyPageController {
 		}
 
 		model.addAttribute("myPagePin", Pin);
-		model.addAttribute("cpaPassRealInfo", cpaPassRealInfo);
+		model.addAttribute("cpaPassRealInfo", cpaPassRealInfo);*/
 
 		return "kicpa/myp/myPage";
 	}
@@ -213,15 +213,12 @@ public class MyPageController {
 	@RequestMapping(value = "/myPageInfo.do")
 	public String myPageInfo(@RequestParam Map<String, Object> paramMap, ModelMap model, HttpServletRequest request, HttpServletResponse response)
 			throws Exception{
-		/*Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
 		System.out.println("isAuthenticated========="+isAuthenticated);
 
 		if (isAuthenticated) {
 			LoginVO user = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
-			System.out.println("========="+user.getId());
-
-			Map<String, Object> paramMap = new HashMap<>();
-			paramMap.put("pin",user.getId());
+			System.out.println("========="+user.getUniqId());
 
 			//합격자 정보(성명, 연락처) 가져오기(실제 테이블)
 			List<?> cpaPassRealInfo = myPageService.selectCpaPassInfoList(paramMap);
@@ -230,71 +227,53 @@ public class MyPageController {
 				cpaMemPassRealInfo.putAll((Map<String, Object>)cpaPassRealInfo.get(0));
 			}
 
+			//회원기본정보 입력 완료했을 경우
 			if("Y".equals(cpaMemPassRealInfo.get("regFlag"))){
+
+				//회원 사진 정보(실제테이블)
+				List<?> cpaPhotoRealInfoList = myPageService.selectCpaMberPhotoInfoList(paramMap);
+
+				//사진정보
+				Map<String, Object> cpaMemPictInfo = new HashMap<>();
+				if(cpaPhotoRealInfoList.size()>0){
+					cpaMemPictInfo.putAll((Map<String, Object>)cpaPhotoRealInfoList.get(0));
+					byte imageContent[] = blobToBytes((Blob) cpaMemPictInfo.get("photo"));
+
+					String memPict = "";
+
+					if(imageContent.length > 0 && imageContent != null){ //데이터가 들어 있는 경우
+						//바이트를 base64인코딩 실시
+						String base64Encode = byteToBase64(imageContent);
+						base64Encode = "data:image/jpg;base64," + base64Encode;
+						memPict = base64Encode;
+					}
+					else {
+						memPict = "";
+					}
+					model.addAttribute("memPict", memPict);
+				}
+
+				//수습정보 확인(실제 테이블)
+				List<?> cpaTrainInfoList = myPageService.selectCpaTrainRegistInfoList(paramMap);
+				model.addAttribute("cpaTrainInfoList", cpaTrainInfoList);
+
+
 				//di 정보
 				List<?> diCheckList = myPageService.selectCpaPassDiCheckList(paramMap);
-
-
-				model.addAttribute("cpaPassRealInfo", cpaPassRealInfo);
 				model.addAttribute("diCheckList", diCheckList);
 			}
 
+			model.addAttribute("myPageInfoPin", paramMap.get("pin"));
+			model.addAttribute("cpaPassRealInfo", cpaPassRealInfo);
+
 
 		}else {
-			System.out.println("pin========="+Pin);
-			model.addAttribute("id", Pin);
+			System.out.println("pin========="+paramMap.get("pin"));
+			model.addAttribute("id", paramMap.get("pin"));
 			model.addAttribute("url", "/kicpa/myp/myPageInfo.do");
 			return "uat/uia/LoginUsr";
 
-		}*/
-
-		paramMap.put("pin", paramMap.get("pin"));
-
-		//합격자 정보(성명, 연락처) 가져오기(실제 테이블)
-		List<?> cpaPassRealInfo = myPageService.selectCpaPassInfoList(paramMap);
-		Map<String, Object> cpaMemPassRealInfo = new HashMap<>();
-		if(cpaPassRealInfo.size()>0){
-			cpaMemPassRealInfo.putAll((Map<String, Object>)cpaPassRealInfo.get(0));
 		}
-
-		//회원기본정보 입력 완료했을 경우
-		if("Y".equals(cpaMemPassRealInfo.get("regFlag"))){
-
-			//회원 사진 정보(실제테이블)
-			List<?> cpaPhotoRealInfoList = myPageService.selectCpaMberPhotoInfoList(paramMap);
-
-			//사진정보
-			Map<String, Object> cpaMemPictInfo = new HashMap<>();
-			if(cpaPhotoRealInfoList.size()>0){
-				cpaMemPictInfo.putAll((Map<String, Object>)cpaPhotoRealInfoList.get(0));
-				byte imageContent[] = blobToBytes((Blob) cpaMemPictInfo.get("photo"));
-
-				String memPict = "";
-
-				if(imageContent.length > 0 && imageContent != null){ //데이터가 들어 있는 경우
-					//바이트를 base64인코딩 실시
-					String base64Encode = byteToBase64(imageContent);
-					base64Encode = "data:image/jpg;base64," + base64Encode;
-					memPict = base64Encode;
-				}
-				else {
-					memPict = "";
-				}
-				model.addAttribute("memPict", memPict);
-			}
-
-			//수습정보 확인(실제 테이블)
-			List<?> cpaTrainInfoList = myPageService.selectCpaTrainRegistInfoList(paramMap);
-			model.addAttribute("cpaTrainInfoList", cpaTrainInfoList);
-
-
-			//di 정보
-			List<?> diCheckList = myPageService.selectCpaPassDiCheckList(paramMap);
-			model.addAttribute("diCheckList", diCheckList);
-		}
-
-		model.addAttribute("myPageInfoPin", paramMap.get("pin"));
-		model.addAttribute("cpaPassRealInfo", cpaPassRealInfo);
 
 		return "kicpa/myp/myPageInfo";
 	}
