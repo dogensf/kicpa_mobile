@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@ taglib prefix='c' uri='http://java.sun.com/jsp/jstl/core' %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ page import ="adminwork.com.cmm.LoginVO" %>
 <script>
 function fncLocation(){
 	//location.href="/kicpa/main/main.do";
@@ -18,25 +19,56 @@ function fncLocation(){
 
 </script>
 <section class="head-sub">
-    <button class="btn-back" type="button" onclick="fncLocation();">
+   <!--  <button class="btn-back" type="button" onclick="fncLocation();">
         <span>이전</span>
-    </button>
+    </button> -->
     <h3>회계 · 감사 Alert</h3>
+    <section class="head-main">
+    <%
+	        LoginVO loginVO = (LoginVO)session.getAttribute("LoginVO");
+	        if(loginVO == null){
+	        %>
+	        <button class="btn-login" onclick="location.href='<c:url value='/uat/uia/LoginUsr.do'/>';" type="button">
+	     	 로그인
+	    	</button>
+		  	<%
+	        }else{
+		  	%>
+		  	<button class="btn-login" onclick="location.href='<c:url value='/uat/uia/actionLogout.do'/>';" type="button">
+	     	 로그아웃
+	    	</button>
+	            <%-- <c:set var="loginName" value="<%= loginVO.getName()%>"/>
+	            <ul>
+		  	    <li><a href="#LINK" onclick="alert('개인정보 확인 등의 링크 제공'); return false;">
+	            <c:out value="${loginName}"/> 님</a></li>
+	            <li><a href="<c:url value='/uat/uia/actionLogout.do'/>">
+	            <img src="<c:url value='/images/leftmenu/logout.jpg' />" alt="로그아웃" /></a></li>
+	            <li>최근접속:2011-10-12 13:24</li>
+	            </ul> --%>
+		  	<%
+		  	}
+	        %>
+
+          <button class="btn-menu" type="button" onClick="javascript:window.bridge.showCategory();">
+            카테고리
+          </button>
+</section>
 </section>
 <section class="content">
+
     <ul class="list-wrap">
         <li>
           <h4>감시인증기준</h4>
-          <button class="m-link" type="button" onclick="javascript:location.href='/kicpa/accIstAlert/accIstBoardList.do'">
+          <button class="m-link" type="button" onclick="javascript:location.href='/kicpa/accIstAlert/accIstBoardList.do';">
             <span>회계감사기준</span>
           </button>
-          <button class="m-link" type="button" onclick="javascript:location.href='/kicpa/accIstAlert/inspectTaskBoardList.do'">
+          <button class="m-link" type="button" onclick="javascript:location.href='/kicpa/accIstAlert/inspectTaskBoardList.do';">
             <span>검토업무기준</span>
           </button>
-          <button class="m-link" type="button" onclick="javascript:location.href='/kicpa/accIstAlert/authTaskBoardList.do'">
+          <button class="m-link" type="button" onclick="javascript:location.href='/kicpa/accIstAlert/authTaskBoardList.do';">
             <span>인증업무기준</span>
           </button>
-          <button class="m-link" type="button" onclick="javascript:location.href='/kicpa/accIstAlert/relationTaskBoardList.do'">
+          <button class="m-link" type="button" onclick="javascript:location.href='/kicpa/accIstAlert/relationTaskBoardList.do';">
             <span>관련업무 수행기준</span>
           </button>
           <button class="m-link" type="button" onclick="javascript:location.href='/kicpa/accIstAlert/accManagementBoardList.do'">
