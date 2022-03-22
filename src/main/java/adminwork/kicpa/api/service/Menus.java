@@ -70,6 +70,14 @@ public class Menus {
 	}
 
 
+	public String getProgrmStrePath() {
+		return progrmStrePath;
+	}
+	public void setProgrmStrePath(String progrmStrePath) {
+		this.progrmStrePath = progrmStrePath;
+	}
+
+
 	/**
 	 * 메뉴명
 	 */
@@ -101,6 +109,8 @@ public class Menus {
 
 	
 	private String chkURL;
+	
+	private String progrmStrePath;
 	
 	
 	/**

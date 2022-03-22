@@ -160,7 +160,7 @@ function downloadURI(uri, name){
         	
        	 $("#ndts").html("납부일 : "+ datePlusMinus(prettyDate, - $(this).attr('month'), 'm') +' ~ ' +  prettyDate);
        	 
-       	document.frm.action = "<c:url value='/kicpa/dues/selectDuesResult.do'/>";
+       	document.frm.action = "<c:url value='/kicpa/dues/selectDuesList.do?path=result'/>";
         document.frm.submit();  
         });
         
@@ -249,7 +249,8 @@ function downloadURI(uri, name){
                   <a class="tab-link" href="<c:url value='/kicpa/dues/selectDuesList.do'/>">
                       <span>회비조회 및 납부</span>
                   </a>
-                  <a class="tab-link active" href="<c:url value='/kicpa/dues/selectDuesResult.do'/>">
+                  <a class="tab-link" href="<c:url value='/kicpa/dues/selectDuesList.do?path=result'/>">
+                  <%-- <a class="tab-link active" href="<c:url value='/kicpa/dues/selectDuesResult.do'/>"> --%>
                       <span>납부결과 및 조회</span>
                   </a>
                   <!-- <a class="tab-link" href="#tabMain2">

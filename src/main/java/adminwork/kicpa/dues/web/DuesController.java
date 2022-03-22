@@ -99,8 +99,11 @@ public class DuesController {
 	}
 
 	@RequestMapping(value = "/kicpa/dues/selectDuesList.do")
-	public String selectDuesList(String Auth, DuesVO vo,ModelMap model, HttpServletRequest request,HttpServletResponse response,HttpSession session)
-	  throws Exception{		
+	public String selectDuesList(String path,String Auth, DuesVO vo,ModelMap model, HttpServletRequest request,HttpServletResponse response,HttpSession session)
+	  throws Exception{	
+		if("result".equals(path)){
+			return "forward:/kicpa/dues/selectDuesResult.do";
+		}
 		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
 		System.out.println("Auth========="+Auth);
 		if(Auth != null) {

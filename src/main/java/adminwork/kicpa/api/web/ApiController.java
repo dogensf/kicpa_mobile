@@ -130,6 +130,8 @@ public class ApiController {
 							String url = "";
 							if(dm2.getChkURL().contains("http")){
 								url = "javascript:window.bridge.newWebView('kicpa','"+dm2.getChkURL()+"','')";
+							}else if(dm2.getProgrmStrePath().equals("open")) {
+								url = "javascript:window.open('"+dm2.getChkURL()+"')";
 							}else {
 								url = "location.href='"+dm2.getChkURL()+"'";
 							}
@@ -142,6 +144,8 @@ public class ApiController {
 						String url = "";
 						if(dm.getChkURL().contains("http")){
 							url = "javascript:window.bridge.newWebView('kicpa','"+dm.getChkURL()+"','')";
+						}else if(dm.getProgrmStrePath().equals("open")) {
+							url = "javascript:window.open('"+dm.getChkURL()+"')";
 						}else {
 							url = "location.href='"+dm.getChkURL()+"'";
 						}

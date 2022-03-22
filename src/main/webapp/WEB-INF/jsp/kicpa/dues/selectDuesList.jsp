@@ -271,7 +271,8 @@
                   <a class="tab-link active" href="<c:url value='/kicpa/dues/selectDuesList.do'/>">
                       <span>회비조회 및 납부</span>
                   </a>
-                  <a class="tab-link" href="<c:url value='/kicpa/dues/selectDuesResult.do'/>">
+                  <a class="tab-link" href="<c:url value='/kicpa/dues/selectDuesList.do?path=result'/>">
+                  <%-- <a class="tab-link" href="<c:url value='/kicpa/dues/selectDuesResult.do'/>"> --%>
                       <span>납부결과 및 조회</span>
                   </a>
                   <!-- <a class="tab-link" href="#tabMain2">
