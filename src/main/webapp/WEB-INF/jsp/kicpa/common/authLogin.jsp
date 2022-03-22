@@ -5,8 +5,8 @@
 
 function fncLocation(){
 	//location.href="/kicpa/main/main.do";
-	<c:if test="${title eq '납부결과 조회'}">
-		location.href="javascript:windows.history.back();";
+	<c:if test="${title eq '회비납부/결과조회'}">
+		location.href="/kicpa/main/main.do";
 	</c:if>
 	/* <c:choose>
 	<c:when test="${views eq 'home'}">
