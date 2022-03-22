@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="Faq">
+
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+    <typeAlias  alias="faq" type="adminwork.kicpa.faq.service.Faq"/>
+    <typeAlias  alias="faqVO" type="adminwork.kicpa.faq.service.FaqVO"/>
+	<typeAlias  alias="comDefaultVO" type="adminwork.com.cmm.ComDefaultVO"/>
+			
+	<select id="FaqDAO.selectFaqList" parameterClass="faqVO" resultClass="faq">
+		<![CDATA[
+		SELECT * FROM ( SELECT rownum rn, TB.* FROM (
+			SELECT
+				a.faq_id,
+				a.faq_sj,
+				a.faq_cn,
+				a.faq_cate,
+				a.faq_job,
+				a.faq_part,
+				a.faq_manager,
+				a.atch_file_id,
+				a.reg_id,
+				NVL(a.RDCNT,0) AS rdcnt,				
+				TO_CHAR(a.reg_dt, 'YYYY-MM-DD') as reg_dt				
+			FROM
+				CS_FAQ a			 
+			WHERE
+				DEL_YN = 'Y'
+		]]>
+			<isNotEmpty property="faq_cate">
+				AND a.FAQ_CATE = #faq_cate#
+			</isNotEmpty>
+			
+			
+			<isNotEmpty property="faq_job">
+				AND a.FAQ_JOB = #faq_job#
+			</isNotEmpty>
+			<isNotEmpty property="searchCnd">
+				<isEqual prepend="AND" property="searchCnd" compareValue="0">				
+					<![CDATA[	a.faq_sj||' '||a.faq_manager||' '||a.faq_part LIKE '%' || #searchWrd# || '%' 		]]>
+				</isEqual>
+				<isEqual prepend="AND" property="searchCnd" compareValue="1">
+					<![CDATA[	a.faq_sj LIKE '%' || #searchWrd# || '%' 		]]>
+				</isEqual>
+				<isEqual prepend="AND" property="searchCnd" compareValue="2">
+					<![CDATA[	a.faq_manager LIKE '%' || #searchWrd# || '%' 		]]>
+				</isEqual>	
+				<isEqual prepend="AND" property="searchCnd" compareValue="3">
+					<![CDATA[	a.faq_part LIKE '%' || #searchWrd# || '%' 		]]>
+				</isEqual>				
+			</isNotEmpty>			
+		<![CDATA[			
+			ORDER BY a.reg_dt DESC, faq_id ASC
+			) TB ) WHERE rn BETWEEN #firstIndex# + 1 AND #firstIndex# + #recordCountPerPage#
+		]]>				
+	</select>	
+	
+	<select id="FaqDAO.selectFaqListCnt" parameterClass="faqVO" resultClass="java.lang.Integer">
+		<![CDATA[
+		
+			SELECT
+				COUNT(a.faq_id)				
+			FROM
+				CS_FAQ a			 
+			WHERE
+				DEL_YN = 'Y'
+		]]>
+			<isNotEmpty property="faq_cate">
+				AND a.FAQ_CATE = #faq_cate#
+			</isNotEmpty>
+			
+			
+			<isNotEmpty property="faq_job">
+				AND a.FAQ_JOB = #faq_job#
+			</isNotEmpty>
+			<isNotEmpty property="searchCnd">
+				<isEqual prepend="AND" property="searchCnd" compareValue="0">				
+					<![CDATA[	a.faq_sj||' '||a.faq_manager||' '||a.faq_part LIKE '%' || #searchWrd# || '%' 		]]>
+				</isEqual>
+				<isEqual prepend="AND" property="searchCnd" compareValue="1">
+					<![CDATA[	a.faq_sj LIKE '%' || #searchWrd# || '%' 		]]>
+				</isEqual>
+				<isEqual prepend="AND" property="searchCnd" compareValue="2">
+					<![CDATA[	a.faq_manager LIKE '%' || #searchWrd# || '%' 		]]>
+				</isEqual>	
+				<isEqual prepend="AND" property="searchCnd" compareValue="3">
+					<![CDATA[	a.faq_part LIKE '%' || #searchWrd# || '%' 		]]>
+				</isEqual>				
+			</isNotEmpty>
+		<![CDATA[			
+			ORDER BY a.reg_dt DESC
+		]]>				
+	</select>
+	
+	<select id="FaqDAO.selectFaq" parameterClass="faqVO" resultClass="faq" >
+		<![CDATA[
+		SELECT *
+		FROM (
+			SELECT
+				  a.faq_id,
+				  a.faq_sj,
+				  a.faq_cn,
+				  a.faq_cate,
+				  a.faq_job,
+				  a.faq_part,
+				  a.faq_manager,
+				  a.atch_file_id,
+				  a.del_yn,
+				  a.reg_id,
+				  a.reg_dt,
+				  nvl(a.rdcnt,0) as rdcnt,
+   			      LEAD(a.faq_id, 1) OVER (ORDER BY a.reg_dt DESC) AS next_id,
+   			      LAG(a.faq_id, 1) OVER (ORDER BY a.reg_dt DESC) AS pre_id
+			FROM
+				CS_FAQ a						
+			WHERE				
+				a.DEL_YN = 'Y'
+		)A
+		WHERE 
+		     A.FAQ_ID = #faq_id#			 		
+				
+		]]>				
+	</select> 
+	
+	<update id="FaqDAO.updateRdcnt" parameterClass="faqVO">
+ 		<![CDATA[
+			UPDATE CS_FAQ 
+			SET RDCNT = nvl(RDCNT,0) + 1
+			WHERE  FAQ_ID = #faq_id#
+ 		]]>
+ 	</update>
+	
+	
+	
+	
+	
+	
+	
+	
+ 
+
+</sqlMap>

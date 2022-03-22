@@ -13,9 +13,9 @@ var aa =  [
 			{"name":"설문조사", "img":"icon_consulting", "url":"location.href='https://m.naver.com'"},
 			{"name":"구인정보", "img":"icon_survey", "url":"https://m.naver.com"},
 			{"name":"알림마당", "img":"icon_notice", "url":"https://m.naver.com"},
-			{"name":"공인회계사 소개", "img":"icon_intro2", "url":"https://m.naver.com"},			
+			{"name":"공인회계사 소개", "img":"icon_intro_2", "url":"https://m.naver.com"},			
 			{"name":"회비관리", "img":"icon_tax", "url":"https://m.naver.com"},
-			{"name":"마이페이지", "img":"icon_mypage", "url":"https://m.naver.com"},
+			{"name":"마이페이지", "img":"icon_blog", "url":"https://m.naver.com"},
 			{"name":"설문조사", "img":"icon_consulting", "url":"https://m.naver.com"},
 			{"name":"출판도서구매", "img":"icon_books_1", "url":"https://m.naver.com"}
 		] ;

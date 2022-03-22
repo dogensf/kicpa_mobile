@@ -3,6 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <script src="/js/kicpa/board/board.js"></script>
 <script src="/js/kicpa/memberEvent/memberEvent.js"></script>
+<%@ page import ="adminwork.com.cmm.LoginVO" %>
 <script>
 $(document).ready(function(){
 
@@ -28,12 +29,32 @@ function fncLocation(){
 	<input type="hidden" name="boardId" id="boardId" value="mstate">
 	<input type="hidden" name="loginYn" id="loginYn" value="Y">
 
-	<section class="head-sub">
+	<!-- <section class="head-sub">
 	    <button class="btn-back" type="button" onclick="fncLocation();">
 	        <span>이전</span>
 	    </button>
 	    <h3>회원경조사</h3>
-	</section>
+	</section> -->
+	<section class="head-main">
+          <h1>회원경조사</h1>
+          <%
+	        LoginVO loginVO = (LoginVO)session.getAttribute("LoginVO");
+	        if(loginVO == null){
+	        %>
+	        <button class="btn-login" onclick="location.href='<c:url value='/uat/uia/LoginUsr.do'/>';" type="button">
+	     	 로그인
+	    	</button>
+		  	<%
+	        }else{
+		  	%>
+		  	<button class="btn-login" onclick="location.href='<c:url value='/uat/uia/actionLogout.do'/>';" type="button">
+	     	 로그아웃
+	    	</button>
+		  	<%
+		  	}
+	        %>
+          <button class="btn-menu" type="button" onClick="javascript:window.bridge.showCategory();">카테고리</button>
+        </section>
 	<section class="content">
 
 		<div id="tabMain1" class="tab-main-content show">

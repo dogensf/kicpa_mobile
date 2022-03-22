@@ -1,28 +1,30 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
-<%@ taglib prefix='c' uri='http://java.sun.com/jsp/jstl/core' %>
+<%@ taglib prefix="c" uri='http://java.sun.com/jsp/jstl/core' %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <script>
 
 function fncLocation(){
 	//location.href="/kicpa/main/main.do";
-	//location.href="javascript:windows.history.back();";
-	<c:choose>
+	<c:if test="${title eq '납부결과 조회'}">
+		location.href="javascript:windows.history.back();";
+	</c:if>
+	/* <c:choose>
 	<c:when test="${views eq 'home'}">
 		location.href="javascript:windows.history.back();";
 	</c:when>
 	<c:otherwise>
 		location.href="/kicpa/main/main.do";
 	</c:otherwise>
-	</c:choose>
+	</c:choose> */
 }
 
 </script>
 
 
 <section class="head-sub">
-<!-- 	 <button class="btn-back" type="button" onclick="fncLocation();">
+ 	 <button class="btn-back" type="button" onclick="fncLocation();">
         <span>이전</span>
-    </button> -->
+    </button> 
     <h3>${title}</h3>
 </section>
 <section class="content">
