@@ -20,9 +20,9 @@ function fncLocation(){
 
 
 <section class="head-sub">
-	 <button class="btn-back" type="button" onclick="fncLocation();">
+<!-- 	 <button class="btn-back" type="button" onclick="fncLocation();">
         <span>이전</span>
-    </button>
+    </button> -->
     <h3>${title}</h3>
 </section>
 <section class="content">
