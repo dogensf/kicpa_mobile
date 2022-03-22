@@ -4,12 +4,12 @@ import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
+import adminwork.com.cmm.service.impl.EgovComAbstractDAO2;
 import adminwork.kicpa.qna.service.Qna;
 import adminwork.kicpa.qna.service.QnaVO;
-import egovframework.rte.psl.dataaccess.EgovAbstractDAO;
 
 @Repository("QnaDAO")
-public class QnaDAO extends EgovAbstractDAO{
+public class QnaDAO extends EgovComAbstractDAO2{
 
 	public void insertQna(QnaVO vo) throws Exception {
     	update("QnaDAO.insertQna", vo);
