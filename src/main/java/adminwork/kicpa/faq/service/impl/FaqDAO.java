@@ -4,12 +4,12 @@ import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
+import adminwork.com.cmm.service.impl.EgovComAbstractDAO2;
 import adminwork.kicpa.faq.service.Faq;
 import adminwork.kicpa.faq.service.FaqVO;
-import egovframework.rte.psl.dataaccess.EgovAbstractDAO;
 
 @Repository("FaqDAO")
-public class FaqDAO extends EgovAbstractDAO{
+public class FaqDAO extends EgovComAbstractDAO2{
 
 	
 	/**
