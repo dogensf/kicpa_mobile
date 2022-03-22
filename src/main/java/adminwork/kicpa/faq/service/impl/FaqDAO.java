@@ -1,17 +1,19 @@
 package adminwork.kicpa.faq.service.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Repository;
 
 import adminwork.com.cmm.service.impl.EgovComAbstractDAO2;
 import adminwork.kicpa.faq.service.Faq;
 import adminwork.kicpa.faq.service.FaqVO;
+import egovframework.rte.psl.dataaccess.util.EgovMap;
 
 @Repository("FaqDAO")
 public class FaqDAO extends EgovComAbstractDAO2{
 
-	
+
 	/**
      * 조건에 맞는 게시물 목록을 조회 한다.
      *
@@ -20,8 +22,8 @@ public class FaqDAO extends EgovComAbstractDAO2{
      * @throws Exception
      */
     @SuppressWarnings("unchecked")
-    public List<Faq> selectFaqList(FaqVO vo) throws Exception {
-		return (List<Faq>) list("FaqDAO.selectFaqList", vo);
+    public List<EgovMap> selectFaqList(Map<String,Object> map) throws Exception {
+		return (List<EgovMap>) list("FaqDAO.selectFaqList", map);
     }
 
     /**
@@ -31,10 +33,10 @@ public class FaqDAO extends EgovComAbstractDAO2{
      * @return
      * @throws Exception
      */
-    public int selectFaqListCnt(FaqVO vo) throws Exception {
-		return (Integer)select("FaqDAO.selectFaqListCnt", vo);
+    public int selectFaqListCnt(Map<String,Object> map) throws Exception {
+		return (Integer)select("FaqDAO.selectFaqListCnt", map);
     }
-    
+
     /**
      * 게시물 한 건에 대하여 상세 내용을 조회 한다.
      *
@@ -42,13 +44,17 @@ public class FaqDAO extends EgovComAbstractDAO2{
      * @return
      * @throws Exception
      */
-    public Faq selectFaq(FaqVO vo) throws Exception {
-		return (Faq)select("FaqDAO.selectFaq", vo);
+    public EgovMap selectFaq(Map<String,Object> map) throws Exception {
+		return (EgovMap)select("FaqDAO.selectFaq", map);
     }
 
-    
-    public void updateRdcnt(FaqVO vo) throws Exception {
-    	update("FaqDAO.updateRdcnt", vo);
+    public List<EgovMap> selectCsCodeGroupList() throws Exception {
+    	return (List<EgovMap>) list("FaqDAO.selectCsCodeGroupList");
+    }
+
+
+    public void updateRdcnt(Map<String,Object> map) throws Exception {
+    	update("FaqDAO.updateRdcnt", map);
     }
 
 

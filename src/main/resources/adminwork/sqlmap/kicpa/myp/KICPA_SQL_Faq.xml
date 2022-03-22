@@ -5,13 +5,30 @@
 
 	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
 
+	<resultMap id="egovMapDetail" class="egovMap">
+		<result property="faqId" column="FAQ_ID" />
+		<result property="faqSj" column="FAQ_SJ" />
+		<result property="faqCate" column="FAQ_CATE" />
+		<result property="faqJob" column="FAQ_JOB" />
+		<result property="faqPart" column="FAQ_PART" />
+		<result property="faqManager" column="FAQ_MANAGER" />
+		<result property="atchFileId" column="ATCH_FILE_ID" />
+		<result property="delYn" column="DEL_YN" />
+		<result property="regId" column="REG_ID" />
+		<result property="regDt" column="REG_DT" />
+		<result property="rdcnt" column="RDCNT" />
+		<result property="regId" column="REG_ID" />
+		<result property="nextId" column="NEXT_ID" />
+		<result property="faqCn" column="FAQ_CN" jdbcType="CLOB"  javaType="java.lang.String" />
+	</resultMap>
+
+
 	<select id="FaqDAO.selectFaqList" parameterClass="hashmap" resultClass="egovMap">
 		<![CDATA[
 		SELECT * FROM ( SELECT rownum rn, TB.* FROM (
 			SELECT
 				a.faq_id,
 				a.faq_sj,
-				a.faq_cn,
 				a.faq_cate,
 				a.faq_job,
 				a.faq_part,
@@ -30,26 +47,17 @@
 			</isNotEmpty>
 
 
-			<isNotEmpty property="faqJob">
-				AND a.FAQ_JOB = #faqJob#
+			<isNotEmpty property="searchType1">
+				AND a.FAQ_JOB = #searchType1#
 			</isNotEmpty>
-			<isNotEmpty property="searchCnd">
-				<isEqual prepend="AND" property="searchCnd" compareValue="0">
-					<![CDATA[	a.faq_sj||' '||a.faq_manager||' '||a.faq_part LIKE '%' || #searchWrd# || '%' 		]]>
-				</isEqual>
-				<isEqual prepend="AND" property="searchCnd" compareValue="1">
-					<![CDATA[	a.faq_sj LIKE '%' || #searchWrd# || '%' 		]]>
-				</isEqual>
-				<isEqual prepend="AND" property="searchCnd" compareValue="2">
-					<![CDATA[	a.faq_manager LIKE '%' || #searchWrd# || '%' 		]]>
-				</isEqual>
-				<isEqual prepend="AND" property="searchCnd" compareValue="3">
-					<![CDATA[	a.faq_part LIKE '%' || #searchWrd# || '%' 		]]>
-				</isEqual>
-			</isNotEmpty>
+			<isNotNull property="searchKeyword">
+				<isNotEmpty property="searchKeyword">
+					<![CDATA[ AND	a.faq_sj LIKE '%' || #searchKeyword# || '%' 		]]>
+				</isNotEmpty>
+			</isNotNull>
 		<![CDATA[
 			ORDER BY a.reg_dt DESC, faq_id ASC
-			) TB ) WHERE rn BETWEEN #firstIndex# + 1 AND #firstIndex# + #recordCountPerPage#
+			) TB ) WHERE rn BETWEEN #pageIndex# AND (#pageIndex#-1) + #pageSize#
 		]]>
 	</select>
 
@@ -68,36 +76,27 @@
 			</isNotEmpty>
 
 
-			<isNotEmpty property="faqJob">
-				AND a.FAQ_JOB = #faq_job#
+			<isNotEmpty property="searchType1">
+				AND a.FAQ_JOB = #searchType1#
 			</isNotEmpty>
-			<isNotEmpty property="searchCnd">
-				<isEqual prepend="AND" property="searchCnd" compareValue="0">
-					<![CDATA[	a.faq_sj||' '||a.faq_manager||' '||a.faq_part LIKE '%' || #searchWrd# || '%' 		]]>
-				</isEqual>
-				<isEqual prepend="AND" property="searchCnd" compareValue="1">
-					<![CDATA[	a.faq_sj LIKE '%' || #searchWrd# || '%' 		]]>
-				</isEqual>
-				<isEqual prepend="AND" property="searchCnd" compareValue="2">
-					<![CDATA[	a.faq_manager LIKE '%' || #searchWrd# || '%' 		]]>
-				</isEqual>
-				<isEqual prepend="AND" property="searchCnd" compareValue="3">
-					<![CDATA[	a.faq_part LIKE '%' || #searchWrd# || '%' 		]]>
-				</isEqual>
-			</isNotEmpty>
-		<![CDATA[
+			<isNotNull property="searchKeyword">
+				<isNotEmpty property="searchKeyword">
+					<![CDATA[ AND	a.faq_sj LIKE '%' || #searchKeyword# || '%' 		]]>
+				</isNotEmpty>
+			</isNotNull>
+	<![CDATA[
 			ORDER BY a.reg_dt DESC
 		]]>
 	</select>
 
-	<select id="FaqDAO.selectFaq" parameterClass="hashmap" resultClass="egovMap" >
+	<select id="FaqDAO.selectFaq" parameterClass="hashmap" resultMap="egovMapDetail">
 		<![CDATA[
 		SELECT *
 		FROM (
 			SELECT
 				  a.faq_id,
 				  a.faq_sj,
-				  a.faq_cn,
+				  replace(a.faq_cn,chr(10),'<br/>') faq_cn,
 				  a.faq_cate,
 				  a.faq_job,
 				  a.faq_part,
@@ -120,13 +119,23 @@
 		]]>
 	</select>
 
-	<update id="FaqDAO.updateRdcnt" parameterClass=""hashmap"">
+	<update id="FaqDAO.updateRdcnt" parameterClass="hashmap">
  		<![CDATA[
 			UPDATE CS_FAQ
 			SET RDCNT = nvl(RDCNT,0) + 1
 			WHERE  FAQ_ID = #faqId#
  		]]>
  	</update>
+
+ 	<select id="FaqDAO.selectCsCodeGroupList"  resultClass="egovMap" >
+ 		SELECT level2 CODE,level2 CODE_NAME
+		FROM
+			CS_CCODE
+		GROUP BY level2
+		ORDER BY level2
+
+
+ 	</select>
 
 
 

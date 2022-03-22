@@ -24,6 +24,7 @@ board.boardListInit = function(){
 		$("#boardForm input[name='searchKeyword']").removeClass("value");
 		$("#boardForm input[name='searchKeyword']").val("");
 		$("#boardSearchForm input[name='searchKeyword']").val("");
+		$(".board-list ul").html("");
 		board.boardBoardListAjax();
 	});
 

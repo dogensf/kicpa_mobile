@@ -2,10 +2,22 @@
 <%@ taglib prefix='c' uri='http://java.sun.com/jsp/jstl/core' %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <script src="/js/kicpa/board/board.js"></script>
-<script src="/js/kicpa/faq/faq.js"></script>
+<script src="/js/kicpa/qna/qna.js"></script>
 <script>
 $(document).ready(function(){
-	faq.listInit();
+
+
+	if(${isLogin}){
+
+		$(".btn-write").show();
+
+		$(".btn-write").on("click",function(){
+			window.open("/kicpa/qna/qnaForm.do", "boardForm")
+		});
+
+	}
+
+	qna.listInit();
 });
 
 function fncLocation(){
@@ -18,13 +30,12 @@ function fncLocation(){
 	<input type="hidden" name="pageIndex" id="pageIndex" value="1">
 	<input type="hidden" name="loginYn" id="loginYn" value="Y">
 	<input type="hidden" name="searchKeyword" value="">
-	<input type="hidden" name="faqCate" value="">
 
 	<section class="head-sub">
 	    <button class="btn-back" type="button" onclick="fncLocation();">
 	        <span>이전</span>
 	    </button>
-	    <h3>FAQ</h3>
+	    <h3>QNA</h3>
 	</section>
 	<section class="content">
 		<div id="tabMain1" class="tab-main-content show">
@@ -33,21 +44,6 @@ function fncLocation(){
 		        <button class="btn-del" type="button"><span>삭제</span></button>
 		    </div>
 
-		    <div class="tab-sub">
-		        <ul>
-		   	  		<li class="active"><a href="javascript:void(0);" onclick="faq.fn_select_List_cate(this,'');">전체</a></li>
-		          	<li><a href="javascript:void(0);" onclick="faq.fn_select_List_cate(this,'공인회계사');">공인회계사</a></li>
-		          	<li><a href="javascript:void(0);" onclick="faq.fn_select_List_cate(this,'감사인');">감사인</a></li>
-		          	<li><a href="javascript:void(0);" onclick="faq.fn_select_List_cate(this,'세무사(세무대리)');">세무사(세무대리)</a></li>
-		          	<li><a href="javascript:void(0);" onclick="faq.fn_select_List_cate(this,'수습공인회계사');">수습공인회계사</a></li>
-		          	<li><a href="javascript:void(0);" onclick="faq.fn_select_List_cate(this,'회비');">회비</a></li>
-		          	<li><a href="javascript:void(0);" onclick="faq.fn_select_List_cate(this,'연수');">연수</a></li>
-		          	<li><a href="javascript:void(0);" onclick="faq.fn_select_List_cate(this,'수임신고');">수임신고</a></li>
-		          	<%-- <li><a href="javascript:fn_select_List_cate('8. 제증명');" <c:if test="${searchVO.faq_cate == '8. 제증명'}">class="active"</c:if>>제증명</a></li> --%>
-		          	<li><a href="javascript:void(0);" onclick="faq.fn_select_List_cate(this,'출판물');">출판물</a></li>
-		          	<li><a href="javascript:void(0);" onclick="faq.fn_select_List_cate(this,'기타');">기타</a></li>
-		        </ul>
-		    </div>
 
 		    <div id="tabSub1" class="tab-sub-content show">
 		        <div class="board-top">
