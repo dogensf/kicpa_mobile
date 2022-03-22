@@ -13,7 +13,7 @@ myPageInfo.myPageInfoInit = function(){
 //화면상단 닫기버튼
 myPageInfo.myPageInfo_backMove = function() {
 
-	location.href="/kicpa/myp/myPage.do?Pin="+$('#myPageInfo_pin').val();
+	location.href="/kicpa/myp/myPage.do";
 
 }
 
