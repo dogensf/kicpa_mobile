@@ -322,10 +322,15 @@
                   <div class="dues-list">
                     <div class="title-box">
                       <h3>납부내역 조회</h3>
-                      <button type="button" class="btn-full" onclick="javascript:location.href='<c:url value='/kicpa/dues/selectDuesResult.do'/>'">전체보기</button>
+                      <button type="button" class="btn-full" onclick="javascript:location.href='<c:url value='/kicpa/dues/selectDuesResultPop.do'/>'">전체보기</button>
                     </div>
 
                     <ul>
+                    <c:if test="${empty result}">
+                    	<li>
+                    		<span class="day">납부내역이 존재하지 않습니다.</span>
+                    	</li>
+                    </c:if>
                     <c:forEach var="rt" items="${result}" varStatus="status" end="2">
                     	<li>
 	                        <span class="day">${rt.pay_de}</span>
@@ -341,10 +346,20 @@
 
                   <div class="board-list">
                     <div class="title-box">
-                      <h3>미납회의 조회</h3>
+                      <h3>미납회비 조회</h3>
                     </div>
 
                     <ul class="between-list line">
+                    	<c:if test="${empty detail}">
+	                    	<li>
+	                    		<div class="detail">
+	                            <p class="total">
+	                              <b>&nbsp;&nbsp;미납회비가 없습니다.</b>
+	                            </p>
+	                            </div>
+	                    		
+	                    	</li>
+	                    </c:if>
                     	<c:forEach var="drt" items="${detail}" varStatus="status">
 	                        <li>
 	                          <div class="inp-check">
@@ -389,7 +404,7 @@
                   </div>
 
                   <div class="btn-bottom">
-                    <button class="btn-primary" id="paymentBtn" type="button">0 원 결제</button>
+                    <button class="btn-primary" id="paymentBtn" type="button" <c:if test="${empty detail}">disabled</c:if>>0 원 결제</button>
                   </div>
 				</div>
                 </div>

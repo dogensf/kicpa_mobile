@@ -1643,59 +1643,69 @@
 		<![CDATA[
 		SELECT *
 		FROM (
-		select  ydm.pin AS EPAY_NO,
-		       
-		       to_char(to_date(ydd.PRCS_DE,'yyyymmdd'),'yyyy-mm-dd') AS PAY_DE,
-		       decode(ydm.DUES_FLAG,'Y','연회비','D','연회비(추가회비)') AS RQEST_NM,
-		       sum(prcs_amt) AS DUDT_IN_AMT,
-		       '은행,지로 납부' AS paytype
-		from kipadm.year_dues_master ydm,
-		     kipadm.year_dues_detail ydd
-		where ydm.pin = ydd.pin
-		  and ydm.accnut_year = ydd.accnut_year
-		  and ydm.dues_flag   = ydd.dues_flag
-		  and ydm.pin = #cust_inqr_no#
-		  AND prcs_flag = '56050020'
-		  AND ydm.DUES_FLAG <> 'A'		   
-		  ]]>
-			<isNotEmpty property="searchBgnDe">				
-				<![CDATA[	AND to_char(to_date(ydd.PRCS_DE,'yyyymmdd'),'yyyymmdd') BETWEEN REPLACE(#searchBgnDe#,'-','') AND REPLACE(#searchEndDe#,'-','')		]]>												
-			</isNotEmpty>			
-		<![CDATA[
-		GROUP BY ydm.pin,
-		         ydm.ACCNUT_YEAR,
-		         to_char(to_date(ydd.PRCS_DE,'yyyymmdd'),'yyyy-mm-dd'),
-		         decode(ydm.DUES_FLAG,'Y','연회비','D','연회비(추가회비)')
-		
-		UNION
-		select adm.pin AS EPAY_NO,		      
-		       to_char(to_date(admd.OCCRRNC_DE,'yyyymmdd'),'yyyy-mm-dd') AS PAY_DE,
-		       decode(adm.DUES_FLAG,'E','입회비','Y','부조회비','D','부조회비(추가회비)') AS RQEST_NM,
-		       sum(admd.pay_amt) AS DUDT_IN_AMT ,
-		       '은행,지로 납부' AS paytype
-		from kipadm.aid_dues_master adm,
-		     kipadm.aid_dues_detail admd
-		where adm.pin = admd.pin
-		  and adm.accnut_year = admd.accnut_year
-		  and adm.dues_flag   = admd.dues_flag
-		  and adm.pin = #cust_inqr_no#
-		  AND accnut_flag = '56050020'
-		  AND adm.DUES_FLAG IN ('Y','D')
-		  ]]>
-			<isNotEmpty property="searchBgnDe">				
-				<![CDATA[ AND to_char(to_date(admd.OCCRRNC_DE,'yyyymmdd'),'yyyymmdd') BETWEEN REPLACE(#searchBgnDe#,'-','') AND REPLACE(#searchEndDe#,'-','')	]]>												
-			</isNotEmpty>			
-		<![CDATA[
-		  
-		GROUP BY adm.pin,
-		         adm.ACCNUT_YEAR,
-		         to_char(to_date(admd.OCCRRNC_DE,'yyyymmdd'),'yyyy-mm-dd'),
-		         decode(adm.DUES_FLAG,'E','입회비','Y','부조회비','D','부조회비(추가회비)')
-		
+	
+			SELECT *
+			FROM (
+			select  ydm.pin AS EPAY_NO,
+			       
+			       to_char(to_date(ydd.PRCS_DE,'yyyymmdd'),'yyyy-mm-dd') AS PAY_DE,
+			       decode(ydm.DUES_FLAG,'Y','연회비','D','연회비(추가회비)') AS RQEST_NM,
+			       sum(prcs_amt) AS DUDT_IN_AMT,
+			       '은행,지로 납부' AS paytype
+			from kipadm.year_dues_master ydm,
+			     kipadm.year_dues_detail ydd
+			where ydm.pin = ydd.pin
+			  and ydm.accnut_year = ydd.accnut_year
+			  and ydm.dues_flag   = ydd.dues_flag
+			  and ydm.pin = #cust_inqr_no#
+			  AND prcs_flag = '56050020'
+			  AND ydm.DUES_FLAG <> 'A'		   
+			  ]]>
+				<isNotEmpty property="searchBgnDe">				
+					<![CDATA[	AND to_char(to_date(ydd.PRCS_DE,'yyyymmdd'),'yyyymmdd') BETWEEN REPLACE(#searchBgnDe#,'-','') AND REPLACE(#searchEndDe#,'-','')		]]>												
+				</isNotEmpty>			
+			<![CDATA[
+			GROUP BY ydm.pin,
+			         ydm.ACCNUT_YEAR,
+			         to_char(to_date(ydd.PRCS_DE,'yyyymmdd'),'yyyy-mm-dd'),
+			         decode(ydm.DUES_FLAG,'Y','연회비','D','연회비(추가회비)')
+			
+			UNION
+			select adm.pin AS EPAY_NO,		      
+			       to_char(to_date(admd.OCCRRNC_DE,'yyyymmdd'),'yyyy-mm-dd') AS PAY_DE,
+			       decode(adm.DUES_FLAG,'E','입회비','Y','부조회비','D','부조회비(추가회비)') AS RQEST_NM,
+			       sum(admd.pay_amt) AS DUDT_IN_AMT ,
+			       '은행,지로 납부' AS paytype
+			from kipadm.aid_dues_master adm,
+			     kipadm.aid_dues_detail admd
+			where adm.pin = admd.pin
+			  and adm.accnut_year = admd.accnut_year
+			  and adm.dues_flag   = admd.dues_flag
+			  and adm.pin = #cust_inqr_no#
+			  AND accnut_flag = '56050020'
+			  AND adm.DUES_FLAG IN ('Y','D')
+			  ]]>
+				<isNotEmpty property="searchBgnDe">				
+					<![CDATA[ AND to_char(to_date(admd.OCCRRNC_DE,'yyyymmdd'),'yyyymmdd') BETWEEN REPLACE(#searchBgnDe#,'-','') AND REPLACE(#searchEndDe#,'-','')	]]>												
+				</isNotEmpty>			
+			<![CDATA[
+			  
+			GROUP BY adm.pin,
+			         adm.ACCNUT_YEAR,
+			         to_char(to_date(admd.OCCRRNC_DE,'yyyymmdd'),'yyyy-mm-dd'),
+			         decode(adm.DUES_FLAG,'E','입회비','Y','부조회비','D','부조회비(추가회비)')
+			
+				) q
+			WHERE 1=1			
+			ORDER BY q.pay_de desc
+			]]>
 			) q
-		WHERE 1=1
-		ORDER BY q.pay_de desc			
-		]]>
+			WHERE 1=1
+			
+		<isEqual prepend="AND" property="searchCnd" compareValue="Main">			
+				<![CDATA[ ROWNUM < 5 ]]>												
+			</isEqual>
+		
 	</select>
 	
 	<select id="DuesDAO.selectDuesResultList" parameterClass="duesVO" resultClass="dues">

@@ -122,6 +122,7 @@ public class DuesController {
 			System.out.println("giroPin========="+user.getUniqId());
 			vo.setCust_inqr_no(user.getUniqId());
 			vo.setName(user.getName());
+			vo.setSearchCnd("Main");
 			boolean success = true;
 			// 합산지로 있는지 체크해서 삭제  TEMP --> PAY_YN = 'N' 취소 처리
 			List<Dues> tempList = duesService.selectTempDuesList(vo);
@@ -476,7 +477,7 @@ public class DuesController {
 		if (isAuthenticated) {
 			//model.addAttribute("cmmCodeList", cmmUseService.getCmmCodeDetailAll());
 		}else {
-			model.addAttribute("title", "회비납부/결과조회");
+			model.addAttribute("title", "납부결과 및 조회");
 			return "kicpa/common/authLogin";
 		}
 		LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
@@ -494,6 +495,32 @@ public class DuesController {
 		model.addAttribute("user", user);
 		
 		return "kicpa/dues/selectDuesResult";
+	}
+	
+	@RequestMapping(value = "/kicpa/dues/selectDuesResultPop.do")
+	public String selectDuesResultPop(@ModelAttribute("searchVO") DuesVO vo,ModelMap model, HttpServletRequest request)
+	  throws Exception{
+		
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+
+		if (isAuthenticated) {
+			//model.addAttribute("cmmCodeList", cmmUseService.getCmmCodeDetailAll());
+		}else {
+			model.addAttribute("title", "납부결과 및 조회");
+			return "kicpa/common/authLogin";
+		}
+		LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+
+		vo.setCust_inqr_no(user.getUniqId());		
+		Dues info = duesService.selectDuesResultInfo(vo);
+		List<Dues> list = duesService.selectDuesResultListAll(vo);
+		//List<Dues> list = duesService.selectDuesResultList(vo);
+		model.addAttribute("info",info);
+		model.addAttribute("list",list);
+		model.addAttribute("searchVO", vo);
+		model.addAttribute("user", user);
+		
+		return "kicpa/dues/selectDuesResultPop";
 	}
 	
 	/**
