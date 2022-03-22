@@ -59,7 +59,7 @@
 			<%
 				}
 			%>
-			<button class="btn-menu" type="button">카테고리</button>
+			<button class="btn-menu" type="button" onClick="javascript:window.bridge.showCategory();">카테고리</button>
 		</section>
 
 		<section class="content">
@@ -87,7 +87,7 @@
 				<a class="tab-link active myPageActiveMove" id="myPage_cpaInfoTabActive" href="javascript:void(0);" onclick="myPage.myPage_tabMove('myPage_cpaInfoTab')">
 					<span>공인회계사</span>
 				</a>
-				<%--<a class="tab-link" href="#tabMain2">
+				<%--<a class="tab-link myPageActiveMove" id="myPage_cpaTrainInfoTabActive" href="javascript:void(0);" onclick="myPage.myPage_tabMove('myPage_cpaTrainInfoTab')">
 					<span>수습회계사</span>
 				</a>--%>
 				<a class="tab-link myPageActiveMove" id="myPage_taxAcutInfoTabActive" href="javascript:void(0);" onclick="myPage.myPage_tabMove('myPage_taxAcutInfoTab')">
@@ -180,6 +180,86 @@
 			</div><!-- //탭1 -->
 
 			<!-- 탭2 -->
+			<%--<c:if test="${trainFlag ne 'H'}">
+				<div id="myPage_cpaTrainInfoTab" class="tab-main-content myPageTabMove">
+					<div class="mypage-wrap">
+
+						<!-- 기본실무 -->
+						<c:if test="${myPageRegFlag eq 'N'}">
+							<div class="application-status">
+								<div class="guide-ment">
+									<p>합격자 기본정보를 등록하셔야<br />서비스를 이용하실 수 있습니다.</p>
+								</div>
+
+								<div class="btn-area">
+									<button class="btn-primary" type="button" id="myPage_cpaPassRegist">합격자 기본정보 등록하기</button>
+								</div>
+							</div>
+						</c:if>
+
+						<c:if test="${myPageRegFlag ne 'N' && trainFlag eq 'N'}">
+							<div class="application-status">
+								<div class="guide-ment">
+									<p>기본실무를 등록하세요.</p>
+								</div>
+
+								<div class="btn-area">
+									<button class="btn-primary" type="button">기본실무 등록하기</button>
+								</div>
+							</div>
+						</c:if>
+
+						<c:if test="${myPageRegFlag ne 'N' && trainFlag eq 'Y'}">
+
+						</c:if>
+
+						<c:if test="${myPageRegFlag ne 'N' && trainFlag eq 'F'}">
+
+						</c:if>
+
+						<c:if test="${myPageRegFlag ne 'N' && trainFlag eq 'E'}">
+
+						</c:if>
+
+
+						<!-- 외감실무 -->
+						<c:if test="${trainFlag eq 'E' && audTrainFlag eq 'N'}">
+
+						</c:if>
+
+						<c:if test="${trainFlag eq 'E' && audTrainFlag eq 'Y'}">
+
+						</c:if>
+
+						<c:if test="${trainFlag eq 'E' && audTrainFlag eq 'F'}">
+
+						</c:if>
+
+						<c:if test="${trainFlag eq 'D' && audTrainFlag eq 'E'}">
+
+						</c:if>
+
+						<!-- 마이페이지 메뉴 리스트 -->
+						<ul class="my-menu-list">
+							<li>
+								<a class="new" href="#">문의접수</a>
+							</li>
+							<li>
+								<a class="new" href="#">FAQ</a>
+							</li>
+							<li>
+								<a href="#">알림</a>
+							</li>
+							<li>
+								<a href="#">설정</a>
+							</li>
+						</ul>
+
+					</div>
+				</div><!-- //탭2 -->
+			</c:if>--%>
+
+			<!-- 탭3 -->
 			<div id="myPage_taxAcutInfoTab" class="tab-main-content myPageTabMove">
 				<div class="mypage-wrap">
 
@@ -276,9 +356,13 @@
 					</ul>
 
 				</div>
-			</div><!-- //탭2 -->
+			</div><!-- //탭3 -->
 
 			<input type="hidden" id="myPage_myPagePin" value="${myPagePin}">
+			<input type="hidden" id="myPage_myPageRegFlag" value="${myPageRegFlag}"/>
+			<input type="hidden" id="myPage_mypTrainFlag" value="${trainFlag}">
+			<input type="hidden" id="myPage_mypAudTrainFlag" value="${audTrainFlag}">
+			<input type="hidden" id="myPage_mypCpaMemFlag" value="${cpaMemFlag}">
 		</section>
 
 	</div>
