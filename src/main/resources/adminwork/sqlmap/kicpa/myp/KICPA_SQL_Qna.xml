@@ -4,23 +4,39 @@
 <sqlMap namespace="Qna">
 
 	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
-    <typeAlias  alias="qna" type="adminwork.kicpa.qna.service.Qna"/>
-    <typeAlias  alias="qnaVO" type="adminwork.kicpa.qna.service.QnaVO"/>
-	<typeAlias  alias="comDefaultVO" type="adminwork.com.cmm.ComDefaultVO"/>
-		
-		
-		
-	<insert id="QnaDAO.insertQna" parameterClass="qnaVO" >
+
+	<resultMap id="egovMapDetail" class="egovMap">
+		<result property="qnaId" column="QNA_ID" />
+		<result property="category" column="CATEGORY" />
+		<result property="job" column="JOB" />
+		<result property="regEmail" column="REG_EMAIL" />
+		<result property="regDt" column="REG_DT" />
+		<result property="depart" column="DEPART" />
+		<result property="manager" column="MANAGER" />
+		<result property="managerEmail" column="MANAGER_EMAIL" />
+		<result property="qnaSj" column="QNA_SJ" />
+		<result property="atchFileId" column="ATCH_FILE_ID" />
+		<result property="answerDt" column="ANSWER_DT" />
+		<result property="answerId" column="ANSWER_ID" />
+		<result property="answerTy" column="ANSWER_TY" />
+		<result property="delYn" column="DEL_YN" />
+		<result property="nextId" column="NEXT_ID" />
+		<result property="preId" column="PRE_ID" />
+		<result property="qnaCn" column="QNA_CN" jdbcType="CLOB"  javaType="java.lang.String" />
+		<result property="answerCn" column="ANSWER_CN" jdbcType="CLOB"  javaType="java.lang.String" />
+	</resultMap>
+
+	<insert id="QnaDAO.insertQna" parameterClass="hashmap" >
 		<![CDATA[
 			INSERT INTO CS_QNA
 			(qna_id,pin,category,job,reg_email,reg_dt,depart,manager,manager_email,qna_sj,qna_cn,atch_file_id,status,del_yn)
 			VALUES
-			( #qna_id#,#pin#,#category#,#job#,#reg_email#,SYSDATE,#depart#,#manager#,#manager_email#,#qna_sj#,#qna_cn#,#atch_file_id#,'접수','N')			
+			( #qnaId#,#pin#,#category#,#job#,#regEmail#,SYSDATE,#depart#,#manager#,#managerEmail#,#qnaSj#,#qnaCn#,#atchFileId#,'접수','N')
 		]]>
-	</insert>	
-	
-	
-	<select id="QnaDAO.selectQnaList" parameterClass="qnaVO" resultClass="qna">
+	</insert>
+
+
+	<select id="QnaDAO.selectQnaList" parameterClass="hashmap" resultClass="egovMap">
 		<![CDATA[
 		SELECT * FROM ( SELECT rownum rn, TB.* FROM (
 			SELECT
@@ -34,86 +50,72 @@
 				a.manager,
 				a.manager_email,
 				a.qna_sj,
-				a.qna_cn,
 				a.atch_file_id,
 				a.status,
 				a.answer_ty,
-				a.answer_cn,
 				TO_CHAR(a.answer_dt, 'YYYY-MM-DD') as answer_dt,
 				a.answer_id,
 				a.del_yn
-							
+
 			FROM
-				CS_QNA a			 
+				CS_QNA a
 			WHERE
 				a.DEL_YN = 'N'
-			AND a.PIN = #pin#	
 		]]>
-			<isNotEmpty property="category">
-				AND a.category = #category#
+<!-- 			AND a.PIN = #pin# -->
+			<isNotEmpty property="searchType1">
+				AND a.category = #searchType1#
 			</isNotEmpty>
-			<isNotEmpty property="job">
-				AND a.job = #job#
+			<isNotEmpty property="searchType2">
+				AND a.job = #searchType2#
 			</isNotEmpty>
-			<isNotEmpty property="status">
-				AND a.status = #status#
+			<isNotEmpty property="searchType3">
+				AND a.status = #searchType3#
 			</isNotEmpty>
-			<isNotEmpty property="searchCnd">
-				<isEqual prepend="AND" property="searchCnd" compareValue="0">
-					<![CDATA[	a.qna_sj LIKE '%' || #searchWrd# || '%' 		]]>
-				</isEqual>
-				<isEqual prepend="AND" property="searchCnd" compareValue="1">
-					<![CDATA[	a.manager LIKE '%' || #searchWrd# || '%' 		]]>
-				</isEqual>	
-				<isEqual prepend="AND" property="searchCnd" compareValue="2">
-					<![CDATA[	b.depart LIKE '%' || #searchWrd# || '%' 		]]>
-				</isEqual>		
-			</isNotEmpty>		
-		<![CDATA[			
-			ORDER BY a.reg_dt DESC
-			) TB ) WHERE rn BETWEEN #firstIndex# + 1 AND #firstIndex# + #recordCountPerPage#
-		]]>				
-	</select>	
-	
-	<select id="QnaDAO.selectQnaListCnt" parameterClass="qnaVO" resultClass="java.lang.Integer">
+			<isNotNull property="searchKeyword">
+				<isNotEmpty property="searchKeyword">
+					<![CDATA[ and 	a.qna_sj LIKE '%' || #searchKeyword# || '%' 		]]>
+				</isNotEmpty>
+			</isNotNull>
 		<![CDATA[
-		
+			ORDER BY a.reg_dt DESC
+			) TB ) WHERE rn  BETWEEN #pageIndex# AND (#pageIndex#-1) + #pageSize#
+		]]>
+	</select>
+
+	<select id="QnaDAO.selectQnaListCnt" parameterClass="hashmap" resultClass="java.lang.Integer">
+		<![CDATA[
+
 			SELECT
-				COUNT(a.qna_ID)				
+				COUNT(a.qna_ID)
 			FROM
-				CS_QNA a			 
+				CS_QNA a
 			WHERE
 				DEL_YN = 'N'
-			AND a.PIN = #pin#
 		]]>
-			<isNotEmpty property="category">
-				AND a.category = #category#
-			</isNotEmpty>		
-			<isNotEmpty property="job">
-				AND a.job = #job#
+<!-- 			AND a.PIN = #pin# -->
+			<isNotEmpty property="searchType1">
+				AND a.category = #searchType1#
 			</isNotEmpty>
-			<isNotEmpty property="status">
-				AND a.status = #status#
+			<isNotEmpty property="searchType2">
+				AND a.job = #searchType2#
 			</isNotEmpty>
-			<isNotEmpty property="searchCnd">
-				<isEqual prepend="AND" property="searchCnd" compareValue="0">
-					<![CDATA[	a.qna_sj LIKE '%' || #searchWrd# || '%' 		]]>
-				</isEqual>
-				<isEqual prepend="AND" property="searchCnd" compareValue="1">
-					<![CDATA[	a.manager LIKE '%' || #searchWrd# || '%' 		]]>
-				</isEqual>	
-				<isEqual prepend="AND" property="searchCnd" compareValue="2">
-					<![CDATA[	b.depart LIKE '%' || #searchWrd# || '%' 		]]>
-				</isEqual>			
+			<isNotEmpty property="searchType3">
+				AND a.status = #searchType3#
 			</isNotEmpty>
-		<![CDATA[			
+			<isNotNull property="searchKeyword">
+				<isNotEmpty property="searchKeyword">
+					<![CDATA[ AND 	a.qna_sj LIKE '%' || #searchKeyword# || '%' 		]]>
+				</isNotEmpty>
+			</isNotNull>
+		<![CDATA[
 			ORDER BY a.reg_dt DESC
-		]]>				
+		]]>
 	</select>
-	
 
-	
-	<select id="QnaDAO.selectQna" parameterClass="qnaVO" resultClass="qna" >
+
+
+	<select id="QnaDAO.selectQna" parameterClass="hashmap" resultMap="egovMapDetail">
 		<![CDATA[
 		SELECT *
 		FROM (
@@ -131,7 +133,11 @@
 					a.qna_cn,
 					a.atch_file_id,
 					a.status,
-					a.answer_ty,
+					case when ANSWER_TY = 1 THEN '온라인 대응'
+						  when ANSWER_TY = 2 THEN '유선 대응'
+						  when ANSWER_TY = 3 THEN '원격지원'
+				 	ELSE ''
+				 	END answer_ty,
 					a.answer_cn,
 					TO_CHAR(a.answer_dt, 'YYYY-MM-DD') as answer_dt,
 					a.answer_id,
@@ -139,22 +145,38 @@
    			        LEAD(a.qna_id, 1) OVER (ORDER BY a.reg_dt DESC) AS next_id,
    			        LAG(a.qna_id, 1) OVER (ORDER BY a.reg_dt DESC) AS pre_id
 			FROM
-				CS_QNA a						
-			WHERE				
+				CS_QNA a
+			WHERE
 				a.DEL_YN = 'N'
 		)A
-		WHERE 
-		     a.Qna_ID = #qna_id#		
-		 AND a.PIN    = #pin#	 		
-				
-		]]>				
-	</select> 
-	
-	
-	
-	
-	
-	
- 
+		WHERE a.Qna_ID = #qnaId#
+
+		]]>
+<!-- 		 AND a.PIN    = #pin# -->
+	</select>
+
+ 	<select id="QnaDAO.selectCsCodeGroup2List" parameterClass="hashmap" resultClass="egovMap" >
+ 		SELECT level2 CODE,level2 CODE_NAME
+		FROM CS_CCODE
+		WHERE LEVEL1 = #searchType1#
+		GROUP BY level2
+		ORDER BY level2
+ 	</select>
+
+ 	<select id="QnaDAO.selectCsCodeGroup1List" resultClass="egovMap" >
+ 		SELECT  level1 CODE,level1 CODE_NAME
+		FROM CS_CCODE
+		GROUP BY level1
+		ORDER BY level1
+
+ 	</select>
+
+
+
+
+
+
+
+
 
 </sqlMap>

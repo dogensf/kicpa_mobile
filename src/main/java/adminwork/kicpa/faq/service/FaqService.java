@@ -1,17 +1,19 @@
 package adminwork.kicpa.faq.service;
 
+import java.util.List;
 import java.util.Map;
 
+import egovframework.rte.psl.dataaccess.util.EgovMap;
+
 public interface FaqService {
-	
-	public Map<String, Object> selectFaqLists(FaqVO vo)throws Exception;
-	
-	public Faq selectFaq(FaqVO vo)throws Exception;
-	
-	public void updateRdcnt(FaqVO vo) throws Exception;
-	
-	
-	
-	
+
+	public void selectFaqLists(Map<String,Object> map)throws Exception;
+
+	public EgovMap selectFaq(Map<String,Object> map)throws Exception;
+
+	public void updateRdcnt(Map<String,Object> map) throws Exception;
+
+	public List<EgovMap> selectCsCodeGroupList() throws Exception;
+
 
 }

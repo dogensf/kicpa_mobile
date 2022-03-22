@@ -1,18 +1,18 @@
 package adminwork.kicpa.qna.service.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Repository;
 
 import adminwork.com.cmm.service.impl.EgovComAbstractDAO2;
-import adminwork.kicpa.qna.service.Qna;
-import adminwork.kicpa.qna.service.QnaVO;
+import egovframework.rte.psl.dataaccess.util.EgovMap;
 
 @Repository("QnaDAO")
 public class QnaDAO extends EgovComAbstractDAO2{
 
-	public void insertQna(QnaVO vo) throws Exception {
-    	update("QnaDAO.insertQna", vo);
+	public void insertQna(Map<String,Object> map) throws Exception {
+    	update("QnaDAO.insertQna", map);
     }
 
 /**
@@ -23,8 +23,8 @@ public class QnaDAO extends EgovComAbstractDAO2{
      * @throws Exception
      */
     @SuppressWarnings("unchecked")
-    public List<Qna> selectQnaList(QnaVO vo) throws Exception {
-		return (List<Qna>) list("QnaDAO.selectQnaList", vo);
+    public List<EgovMap> selectQnaList(Map<String,Object> map) throws Exception {
+		return (List<EgovMap>) list("QnaDAO.selectQnaList", map);
     }
 
     /**
@@ -34,12 +34,10 @@ public class QnaDAO extends EgovComAbstractDAO2{
      * @return
      * @throws Exception
      */
-    public int selectQnaListCnt(QnaVO vo) throws Exception {
-		return (Integer)select("QnaDAO.selectQnaListCnt", vo);
+    public int selectQnaListCnt(Map<String,Object> map) throws Exception {
+		return (Integer)select("QnaDAO.selectQnaListCnt", map);
     }
 
-    
-   
 
     /**
      * 게시물 한 건에 대하여 상세 내용을 조회 한다.
@@ -48,8 +46,14 @@ public class QnaDAO extends EgovComAbstractDAO2{
      * @return
      * @throws Exception
      */
-    public Qna selectQna(QnaVO vo) throws Exception {
-		return (Qna)select("QnaDAO.selectQna", vo);
+    public EgovMap selectQna(Map<String,Object> map) throws Exception {
+		return (EgovMap)select("QnaDAO.selectQna", map);
     }
-	
+    public List<EgovMap> selectCsCodeGroup2List(Map<String,Object> map) throws Exception {
+    	return (List<EgovMap>) list("QnaDAO.selectCsCodeGroup2List", map);
+    }
+    public List<EgovMap> selectCsCodeGroup1List() throws Exception {
+    	return (List<EgovMap>) list("QnaDAO.selectCsCodeGroup1List");
+    }
+
 }

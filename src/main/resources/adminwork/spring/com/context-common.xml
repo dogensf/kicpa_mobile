@@ -15,9 +15,9 @@
     <bean id="egovMessageSource" class="adminwork.com.cmm.EgovMessageSource">
         <property name="reloadableResourceBundleMessageSource">
             <ref bean="messageSource" />
-        </property> 
+        </property>
     </bean>
-    
+
     <!-- 프로퍼티 파일 위치 설정 -->
     <bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
         <property name="basenames">
@@ -31,7 +31,7 @@
             <value>60</value>
         </property>
     </bean>
-    
+
     <!-- Exception 발생시 후처리용 별도작업을 위해 실행환경의 LeveaTrace를 활용하도록 설정 -->
     <bean id="leaveaTrace" class="egovframework.rte.fdl.cmmn.trace.LeaveaTrace">
         <property name="traceHandlerServices">
@@ -39,7 +39,7 @@
                 <ref bean="traceHandlerService" />
             </list>
         </property>
-    </bean> 
+    </bean>
     <!-- Exception 발생시 후처리용 별도작업을 위해 실행환경의 DefaultTrace Handle Manager 를 활용하도록 설정 -->
     <bean id="traceHandlerService" class="egovframework.rte.fdl.cmmn.trace.manager.DefaultTraceHandleManager">
         <property name="reqExpMatcher">
@@ -56,29 +56,29 @@
             </list>
         </property>
     </bean>
-    
+
     <!-- Exception 발생시 후처리용 별도작업을 위해 실행환경의  AntPathMatcher 를 활용하도록 설정 -->
     <bean id="antPathMater" class="org.springframework.util.AntPathMatcher" />
     <!-- Exception 발생시 후처리용 별도작업을 위해 실행환경의  DefaultTraceHandler 를 활용하도록 설정 adminwork.rte.fdl.cmmn.trace.handler.DefaultTraceHandler -->
     <bean id="defaultTraceHandler" class="adminwork.com.cmm.EgovComTraceHandler" />
-        
+
     <!-- For Pagination Tag 설정-->
     <bean id="imageRenderer" class="adminwork.com.cmm.ImagePaginationRenderer"/>
     <bean id="paginationManager" class="egovframework.rte.ptl.mvc.tags.ui.pagination.DefaultPaginationManager">
         <property name="rendererType">
             <map>
-                <entry key="image" value-ref="imageRenderer"/> 
+                <entry key="image" value-ref="imageRenderer"/>
             </map>
         </property>
     </bean>
-    
+
     <!-- MULTIPART RESOLVERS -->
-    <!-- regular spring resolver -->    
+    <!-- regular spring resolver -->
     <bean id="spring.RegularCommonsMultipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
         <property name="maxUploadSize" value="100000000" />
         <property name="maxInMemorySize" value="100000000" />
     </bean>
-    <!-- custom multi file resolver -->    
+    <!-- custom multi file resolver -->
     <bean id="local.MultiCommonsMultipartResolver" class="adminwork.com.cmm.web.EgovMultipartResolver">
         <property name="maxUploadSize" value="100000000" />
         <property name="maxInMemorySize" value="100000000" />
@@ -86,5 +86,5 @@
     <!-- choose one from above and alias it to the name Spring expects -->
     <!-- alias name="local.MultiCommonsMultipartResolver" alias="multipartResolver" /-->
     <alias name="spring.RegularCommonsMultipartResolver" alias="multipartResolver" />
-        
+
 </beans>

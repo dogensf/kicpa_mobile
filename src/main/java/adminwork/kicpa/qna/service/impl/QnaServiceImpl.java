@@ -8,11 +8,10 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
-import adminwork.kicpa.qna.service.Qna;
 import adminwork.kicpa.qna.service.QnaService;
-import adminwork.kicpa.qna.service.QnaVO;
 import egovframework.rte.fdl.cmmn.EgovAbstractServiceImpl;
 import egovframework.rte.fdl.idgnr.EgovIdGnrService;
+import egovframework.rte.psl.dataaccess.util.EgovMap;
 
 
 @Service("QnaService")
@@ -20,32 +19,38 @@ public class QnaServiceImpl extends EgovAbstractServiceImpl implements QnaServic
 
 	@Resource(name="QnaDAO")
 	private QnaDAO qnaDAO;
-	
+
     @Resource(name = "QnaManageIdGnrService")
     private EgovIdGnrService idgenService;
 
-	
-	public void insertQna(QnaVO vo) throws Exception {
+
+	public void insertQna(Map<String,Object> map) throws Exception {
 		String qaid = idgenService.getNextStringId();
-		vo.setQna_id(qaid);
-		qnaDAO.insertQna(vo);
+		map.put("qnaId",qaid);
+		qnaDAO.insertQna(map);
 	}
 
-	public Map<String, Object> selectQnaLists(QnaVO vo)throws Exception{
-		Map<String, Object> map = new HashMap<String, Object>();
+	public void selectQnaLists(Map<String,Object> map)throws Exception{
 
-		List<Qna> result = qnaDAO.selectQnaList(vo);
-		int cnt = qnaDAO.selectQnaListCnt(vo);
+		List<EgovMap> result = qnaDAO.selectQnaList(map);
+		int cnt = qnaDAO.selectQnaListCnt(map);
 		map.put("resultList", result);
 		map.put("resultCnt", Integer.toString(cnt));
-		
-		return map;
+
 	}
-	
-	
-	
-	
-	public Qna selectQna(QnaVO vo)throws Exception{		
-		return qnaDAO.selectQna(vo);		
+
+
+	public EgovMap selectQna(Map<String,Object> map)throws Exception{
+		return qnaDAO.selectQna(map);
+	}
+
+	@Override
+	public List<EgovMap> selectCsCodeGroup2List(Map<String, Object> map) throws Exception {
+		return qnaDAO.selectCsCodeGroup2List(map);
+	}
+
+	@Override
+	public List<EgovMap> selectCsCodeGroup1List() throws Exception {
+		return qnaDAO.selectCsCodeGroup1List();
 	}
 }
