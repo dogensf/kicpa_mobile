@@ -3157,12 +3157,12 @@ body.stop {
   background-size: 5.8rem;
 }
 
-.bookmark-wrap .swiper-slide button.icon_intro1::before {
+.bookmark-wrap .swiper-slide button.icon_intro_1::before {
   background-image: url("/images/icon_intro1.svg");
   background-size: 5.8rem;
 }
 
-.bookmark-wrap .swiper-slide button.icon_intro2::before {
+.bookmark-wrap .swiper-slide button.icon_intro_2::before {
   background-image: url("/images/icon_intro2.svg");
   background-size: 5.8rem;
 }
