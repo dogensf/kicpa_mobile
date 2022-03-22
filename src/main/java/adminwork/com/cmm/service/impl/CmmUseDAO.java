@@ -19,7 +19,7 @@ import adminwork.com.cmm.service.CmmnDetailCode;
  *
  */
 @Repository("cmmUseDAO")
-public class CmmUseDAO extends EgovComAbstractDAO {
+public class CmmUseDAO extends EgovComAbstractDAO2 {
 
 	
 	
