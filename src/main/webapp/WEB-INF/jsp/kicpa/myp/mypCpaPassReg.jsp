@@ -189,19 +189,19 @@
 
 								<div class="inp-box">
 									<label class="label" for="mypCpaPassReg_officeInfoTelNo1">직장 전화번호</label>
-									<div class="phone">
-										<input type="text" id="mypCpaPassReg_officeInfoTelNo1" name="ofcTelNo1" maxlength="4" placeholder="XXX" title="직장 전화번호 첫째자리"/>
-										<input type="text" id="mypCpaPassReg_officeInfoTelNo2" name="ofcTelNo2" maxlength="4" placeholder="XXXX" title="직장 전화번호 중간자리"/>
-										<input type="text" id="mypCpaPassReg_officeInfoTelNo3" name="ofcTelNo3" maxlength="4" placeholder="XXXX" title="직장 전화번호 끝자리"/>
+									<div class="phone" style="display: flex;">
+										<input type="text" style="width: 100%;" id="mypCpaPassReg_officeInfoTelNo1" name="ofcTelNo1" maxlength="4" placeholder="XXX" title="직장 전화번호 첫째자리"/>
+										<input type="text" style="width: 100%;" id="mypCpaPassReg_officeInfoTelNo2" name="ofcTelNo2" maxlength="4" placeholder="XXXX" title="직장 전화번호 중간자리"/>
+										<input type="text" style="width: 100%;" id="mypCpaPassReg_officeInfoTelNo3" name="ofcTelNo3" maxlength="4" placeholder="XXXX" title="직장 전화번호 끝자리"/>
 									</div>
 								</div>
 
 								<div class="inp-box">
 									<label class="label" for="mypCpaPassReg_officeInfoFax1">FAX</label>
-									<div class="phone">
-										<input type="text" id="mypCpaPassReg_officeInfoFax1" name="ofcFaxNo1" maxlength="4" placeholder="XXX" title="FAX 첫째자리"/>
-										<input type="text" id="mypCpaPassReg_officeInfoFax2" name="ofcFaxNo2" maxlength="4" placeholder="XXXX" title="FAX 중간자리"/>
-										<input type="text" id="mypCpaPassReg_officeInfoFax3" name="ofcFaxNo3" maxlength="4" placeholder="XXXX" title="FAX 끝자리"/>
+									<div class="phone" style="display: flex;">
+										<input type="text" style="width: 100%;" id="mypCpaPassReg_officeInfoFax1" name="ofcFaxNo1" maxlength="4" placeholder="XXX" title="FAX 첫째자리"/>
+										<input type="text" style="width: 100%;" id="mypCpaPassReg_officeInfoFax2" name="ofcFaxNo2" maxlength="4" placeholder="XXXX" title="FAX 중간자리"/>
+										<input type="text" style="width: 100%;" id="mypCpaPassReg_officeInfoFax3" name="ofcFaxNo3" maxlength="4" placeholder="XXXX" title="FAX 끝자리"/>
 									</div>
 								</div>
 
