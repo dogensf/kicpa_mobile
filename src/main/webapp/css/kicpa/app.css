@@ -2596,7 +2596,7 @@ input[type="file"] + label::after {
 }
 
 .phone input {
-  width: auto;
+  /* width: auto; */
   text-align: center;
 }
 
