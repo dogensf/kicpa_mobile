@@ -7,6 +7,22 @@ myPageInfo.getContextPath = function() {
 
 myPageInfo.myPageInfoInit = function(){
 
+
+	//사진 수정
+	$("#myPage_cpaPictInfo").on("click",function(e) {
+		if($('#myPageInfo_cpaTrainInfoListCnt').val() > 0 && $('#myPageInfo_cpaTrainInfoListCnt').val() != "" && $('#myPageInfo_cpaTrainInfoListCnt').val() != null
+		|| ($('#myPageInfo_cpaMemberInfoListCnt').val() > 0 && $('#myPageInfo_cpaMemberInfoListCnt').val() != "" && $('#myPageInfo_cpaMemberInfoListCnt').val() != null)){
+			myPageInfo.myPage_memberInfoUpdateBtn('mypCpaTrainReg_pictInfo','T', $('#myPageInfo_pin').val());
+		}
+	});
+
+	//정보공개설정 수정
+	$("#myPage_cpaNmstOthbcInfo").on("click",function(e) {
+		if($('#myPageInfo_cpaMemberInfoListCnt').val() > 0 && $('#myPageInfo_cpaMemberInfoListCnt').val() != "" && $('#myPageInfo_cpaMemberInfoListCnt').val() != null){
+			myPageInfo.myPage_memberInfoUpdateBtn('mypCpaMemberReg_nmstOthbcInfo','C', $('#myPageInfo_pin').val());
+		}
+	});
+
 	$("input:checkbox[id='myPage_cpaConfirmPass']").prop("checked", false);
 }
 

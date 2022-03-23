@@ -48,7 +48,7 @@
 		<section class="content">
 			<!-- 프로필영역 -->
 			<div class="profile-box">
-				<button class="photo-box" type="button" onClick="javascript:myPageInfo.myPage_memberInfoUpdateBtn('mypCpaTrainReg_pictInfo','T', ${myPageInfoPin});">
+				<button class="photo-box" type="button" id="myPage_cpaPictInfo">
 					<!-- <img src="../images/thumb-profile.png" alt="프로필사진" /> -->
 				</button>
 			</div>
@@ -72,7 +72,7 @@
 						<span>학력사항</span>
 						<span style="float: right; margin-right: 26px; font-size: 1.3rem; letter-spacing: normal;">EDIT</span>
 					</button>
-					<button class="m-link" type="button" onClick="javascript:myPageInfo.myPage_memberInfoUpdateBtn('mypCpaMemberReg_nmstOthbcInfo','C', ${myPageInfoPin});" style="border-bottom: 1px solid #E5E5E7;">
+					<button class="m-link" type="button" id="myPage_cpaNmstOthbcInfo" style="border-bottom: 1px solid #E5E5E7;">
 						<span>정보공개설정</span>
 						<span style="float: right; margin-right: 26px; font-size: 1.3rem; letter-spacing: normal;">EDIT</span>
 					</button>
@@ -95,6 +95,8 @@
 			</div><!-- //탭1 -->
 			<input type="hidden" id="myPageInfo_pin" value="${myPageInfoPin}"/>
 			<input type="hidden" id="myPageInfo_myPageInfoDi" value="${diCheckList[0].immDi}"/>
+			<input type="hidden" id="myPageInfo_cpaTrainInfoListCnt" value="${cpaTrainInfoListCnt}"/>
+			<input type="hidden" id="myPageInfo_cpaMemberInfoListCnt" value="${cpaMemberInfoListCnt}"/>
 
 		</section>
 	</div>

@@ -400,7 +400,11 @@ public class MyPageController {
 
 				//수습정보 확인(실제 테이블)
 				List<?> cpaTrainInfoList = myPageService.selectCpaTrainRegistInfoList(paramMap);
-				model.addAttribute("cpaTrainInfoList", cpaTrainInfoList);
+				model.addAttribute("cpaTrainInfoListCnt", cpaTrainInfoList.size());
+
+				//회원정보 조회(실제테이블)
+				List<?> cpaMemberInfoList = myPageService.selectCpaMemberRegistInfoList(paramMap);
+				model.addAttribute("cpaMemberInfoListCnt", cpaMemberInfoList.size());
 
 
 				//di 정보
