@@ -93,10 +93,7 @@ public class MypPassController {
 
 
 			model.addAttribute("mypCpaPassRegPin", paramMap.get("pin"));
-			model.addAttribute("mypCpaPassRegkoreanNm", cpaMemPassRealInfo.get("koreanNm"));
-			model.addAttribute("mypCpaPassRegBrthdy", cpaMemPassRealInfo.get("brthdy"));
 			model.addAttribute("mypCpaPassRegSaveMode", paramMap);
-
 			model.addAttribute("cpaPassRealInfo", cpaPassRealInfo);
 
 
@@ -171,6 +168,36 @@ public class MypPassController {
 				modelAndView.addObject("cpaPassRegAcdmcrRealInfoSize", cpaPassRegAcdmcrRealInfo.size());
 			}
 
+
+			modelAndView.addObject("message", "");
+			modelAndView.addObject("code", "200");
+		}catch (Exception e) {
+			modelAndView.addObject("message", "저장에 실패했습니다.");
+			modelAndView.addObject("code", "400");
+		}
+
+		return modelAndView;
+	}
+
+	//약관동의 저장
+	@RequestMapping(value="/mypCpaPassRegAgreeSave.do")
+	public ModelAndView mypCpaPassRegAgreeSave(@RequestParam Map<String, Object> paramMap) throws Exception{
+
+		//LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("jsonView");
+
+		try {
+
+			if(!"Y".equals(paramMap.get("agreeInfo1Yn")) || !"Y".equals(paramMap.get("agreeInfo2Yn"))){
+				modelAndView.addObject("message", "개인정보 수집 및 이용, 개인정보 처리 위탁 동의에 대한 안내 모두 동의해주세요");
+				return modelAndView;
+			}
+
+			paramMap.put("userId", paramMap.get("pin"));
+			paramMap.put("brthdy", paramMap.get("brthdy").toString().replaceAll("-",""));
+			mypPassService.mypCpaPassRegisterAgreeSave(paramMap);
 
 			modelAndView.addObject("message", "");
 			modelAndView.addObject("code", "200");
@@ -522,6 +549,99 @@ public class MypPassController {
 			modelAndView.addObject("message", "저장에 실패했습니다.");
 			modelAndView.addObject("code", "400");
 		}
+
+		return modelAndView;
+	}
+
+	//검토 및 제출 데이터 조회
+	@RequestMapping(value="/selectMypCpaPassRegReviewInfo.do")
+	public ModelAndView selectMypCpaPassRegReviewInfo(@RequestParam Map<String, Object> paramMap) throws Exception{
+
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("jsonView");
+
+		List<?> cpaRegReviewInfoList = new ArrayList<HashMap>();
+		List<?> cpaRegReviewAcdmcrInfoList = new ArrayList<HashMap>();
+
+		cpaRegReviewInfoList = mypPassService.selectCpaPassRegistReviewInfoList(paramMap);					//기본정보
+		cpaRegReviewAcdmcrInfoList = mypPassService.selectCpaPassRegistReviewAcdmcrInfoList(paramMap);		//학력사항
+
+		modelAndView.addObject("cpaRegReviewInfoList", cpaRegReviewInfoList);
+		modelAndView.addObject("cpaRegReviewInfoListSize", cpaRegReviewInfoList.size());
+		modelAndView.addObject("cpaRegReviewAcdmcrInfoList", cpaRegReviewAcdmcrInfoList);
+		modelAndView.addObject("cpaRegReviewAcdmcrInfoListSize", cpaRegReviewAcdmcrInfoList.size());
+
+		return modelAndView;
+	}
+
+	//제출 (실제테이블 저장)
+	@RequestMapping(value="/mypCpaPassRegSubmit.do")
+	public ModelAndView mypCpaPassRegSubmit(@RequestParam Map<String, Object> paramMap,ModelMap model, HttpServletRequest request) throws Exception{
+
+		//LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("jsonView");
+
+		//오늘날짜
+		SimpleDateFormat today = new SimpleDateFormat("yyyyMMdd");
+		Calendar c1 = Calendar.getInstance();
+		String registDe = today.format(c1.getTime());
+
+		List<?> cpaRegReviewInfoList = new ArrayList<HashMap>();
+
+		cpaRegReviewInfoList = mypPassService.selectCpaPassRegistReviewInfoList(paramMap);					//기본정보
+
+		Map<String, Object> cpaRegReviewInfoSave = new HashMap<>();
+		cpaRegReviewInfoSave.putAll((Map<String, Object>)cpaRegReviewInfoList.get(0));
+
+		cpaRegReviewInfoSave.put("regFlag","Y");
+		cpaRegReviewInfoSave.put("userId", paramMap.get("pin"));
+
+		//합격자기본정보 & 연락처 저장
+		mypPassService.cpaPassRegistPassInfoSave(cpaRegReviewInfoSave);
+
+		//자택주소저장
+		cpaRegReviewInfoSave.put("adrCl", "HOUSE");
+		cpaRegReviewInfoSave.put("adrTrgCl", "PERSONAL");
+		cpaRegReviewInfoSave.put("registDe", registDe);
+		cpaRegReviewInfoSave.put("registCl", "U");
+		mypPassService.cpaPassRegistAdressInfoSave(cpaRegReviewInfoSave);
+
+		//직장주소저장
+		if(!"".equals(cpaRegReviewInfoSave.get("ofcZipCd")) && cpaRegReviewInfoSave.get("ofcZipCd") != null) {
+			cpaRegReviewInfoSave.put("adrCl", "OFICE");
+			mypPassService.cpaPassRegistAdressInfoSave(cpaRegReviewInfoSave);
+		}
+
+		//직장정보저장
+		if((!"".equals(cpaRegReviewInfoSave.get("ofcTelNo")) && cpaRegReviewInfoSave.get("ofcTelNo") != null) ||
+				!"".equals(cpaRegReviewInfoSave.get("ofcFaxNo")) && cpaRegReviewInfoSave.get("ofcFaxNo") != null ||
+				!"".equals(cpaRegReviewInfoSave.get("oficeNm")) && cpaRegReviewInfoSave.get("oficeNm") != null ||
+				!"".equals(cpaRegReviewInfoSave.get("rspOfc")) && cpaRegReviewInfoSave.get("rspOfc") != null ||
+				!"".equals(cpaRegReviewInfoSave.get("sectionNm")) && cpaRegReviewInfoSave.get("sectionNm") != null ||
+				!"".equals(cpaRegReviewInfoSave.get("deptNm")) && cpaRegReviewInfoSave.get("deptNm") != null) {
+			cpaRegReviewInfoSave.put("ofcCl", "PERSONAL");
+			mypPassService.cpaPassRegistOficeInfoSave(cpaRegReviewInfoSave);
+		}
+
+		//학력사항저장
+		List<?> cpaRegReviewAcdmcrInfoList = new ArrayList<HashMap>();
+		cpaRegReviewAcdmcrInfoList = mypPassService.selectCpaPassRegistReviewAcdmcrInfoList(paramMap);
+
+		Map<String, Object> cpaRegReviewAcdmcrInfoSave = new HashMap<>();
+		cpaRegReviewAcdmcrInfoSave.put("acdmcrSn", "");
+		cpaRegReviewAcdmcrInfoSave.put("userId", paramMap.get("pin"));
+		cpaRegReviewAcdmcrInfoSave.put("deleteYn", "N");
+		for(int i=0; i<cpaRegReviewAcdmcrInfoList.size(); i++){
+			cpaRegReviewAcdmcrInfoSave.putAll((Map<String, Object>)cpaRegReviewAcdmcrInfoList.get(i));
+			mypPassService.cpaPassRegistAcdmcrInfoSave(cpaRegReviewAcdmcrInfoSave);
+		}
+
+		//제출 flag 저장
+		paramMap.put("regFlag","Y");
+		paramMap.put("userId", paramMap.get("pin"));
+		mypPassService.mypCpaPassRegisterRegFlagSave(paramMap);
 
 		return modelAndView;
 	}

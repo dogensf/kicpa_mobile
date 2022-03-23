@@ -17,6 +17,11 @@ public class MypPassServiceImpl extends EgovAbstractServiceImpl implements MypPa
 	private MypPassDAO mypPassDAO;
 
 	@Override
+	public void mypCpaPassRegisterAgreeSave(Map<String, Object> map) throws Exception {
+		mypPassDAO.mypCpaPassRegisterAgreeSave(map);
+	}
+
+	@Override
 	public void mypCpaPassRegisterPassInfoSave(Map<String, Object> map) throws Exception {
 		mypPassDAO.mypCpaPassRegisterPassInfoSave(map);
 	}
@@ -39,6 +44,52 @@ public class MypPassServiceImpl extends EgovAbstractServiceImpl implements MypPa
 	@Override
 	public void mypCpaPassRegisterAcdmcrInfoSave(Map<String, Object> map) throws Exception {
 		mypPassDAO.mypCpaPassRegisterAcdmcrInfoSave(map);
+	}
+
+	@Override
+	public List<?> selectCpaPassRegistReviewInfoList(Map<String, Object> map) throws Exception {
+		return mypPassDAO.selectCpaPassRegistReviewInfoList(map);
+	}
+
+	@Override
+	public List<?> selectCpaPassRegistReviewAcdmcrInfoList(Map<String, Object> map) throws Exception {
+		return mypPassDAO.selectCpaPassRegistReviewAcdmcrInfoList(map);
+	}
+
+	@Override
+	public void mypCpaPassRegisterRegFlagSave(Map<String, Object> map) throws Exception {
+		mypPassDAO.mypCpaPassRegisterRegFlagSave(map);
+	}
+
+
+	@Override
+	public List<?> selectMypCpaPsexamInfo(Map<String, Object> map) throws Exception {
+		return mypPassDAO.selectMypCpaPsexamInfo(map);
+	}
+
+	@Override
+	public void cpaPassRegistPassInfoSave(Map<String, Object> map) throws Exception {
+		mypPassDAO.cpaPassRegistPassInfoSave(map);
+	}
+
+	@Override
+	public void cpaPassRegistAdressInfoSave(Map<String, Object> map) throws Exception {
+		mypPassDAO.cpaPassRegistAdressInfoSave(map);
+	}
+
+	@Override
+	public void cpaPassRegistOficeInfoSave(Map<String, Object> map) throws Exception {
+		mypPassDAO.cpaPassRegistOficeInfoSave(map);
+	}
+
+	@Override
+	public void cpaPassRegistRsumInfoSave(Map<String, Object> map) throws Exception {
+		mypPassDAO.cpaPassRegistRsumInfoSave(map);
+	}
+
+	@Override
+	public void cpaPassRegistAcdmcrInfoSave(Map<String, Object> map) throws Exception {
+		mypPassDAO.cpaPassRegistAcdmcrInfoSave(map);
 	}
 
 

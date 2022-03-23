@@ -12,6 +12,10 @@ import java.util.Map;
 public class MypPassDAO extends EgovComAbstractDAO2 {
 
 
+    public void mypCpaPassRegisterAgreeSave(Map<String, Object> map) throws Exception {
+        insert("MypPassDAO.mypCpaPassRegisterAgreeSave", map);
+    }
+
     public void mypCpaPassRegisterPassInfoSave(Map<String, Object> map) throws Exception {
         update("MypPassDAO.mypCpaPassRegisterPassInfoSave", (Object) map);
     }
@@ -30,6 +34,44 @@ public class MypPassDAO extends EgovComAbstractDAO2 {
 
     public void mypCpaPassRegisterAcdmcrInfoSave(Map<String, Object> map) throws Exception {
         insert("MypPassDAO.mypCpaPassRegisterAcdmcrInfoSave", (Object) map);
+    }
+
+    public List<?> selectCpaPassRegistReviewInfoList(Map<String, Object> map) throws Exception {
+        return (List<?>) list("MypPassDAO.selectCpaPassRegistReviewInfoList", (Object) map);
+    }
+
+    public List<?> selectCpaPassRegistReviewAcdmcrInfoList(Map<String, Object> map) throws Exception {
+        return (List<?>) list("MypPassDAO.selectCpaPassRegistReviewAcdmcrInfoList", (Object) map);
+    }
+
+    public void mypCpaPassRegisterRegFlagSave(Map<String, Object> map) throws Exception {
+        update("MypPassDAO.mypCpaPassRegisterRegFlagSave", (Object) map);
+    }
+
+
+
+    public List<?> selectMypCpaPsexamInfo(Map<String, Object> map) throws Exception {
+        return (List<?>) list("MypPassDAO.selectMypCpaPsexamInfo", (Object) map);
+    }
+
+    public void cpaPassRegistPassInfoSave(Map<String, Object> map) throws Exception {
+        insert("MypPassDAO.cpaPassRegistPassInfoSave", (Object) map);
+    }
+
+    public void cpaPassRegistAdressInfoSave(Map<String, Object> map) throws Exception {
+        insert("MypPassDAO.cpaPassRegistAdressInfoSave", (Object) map);
+    }
+
+    public void cpaPassRegistOficeInfoSave(Map<String, Object> map) throws Exception {
+        insert("MypPassDAO.cpaPassRegistOficeInfoSave", (Object) map);
+    }
+
+    public void cpaPassRegistRsumInfoSave(Map<String, Object> map) throws Exception {
+        insert("MypPassDAO.cpaPassRegistRsumInfoSave", (Object) map);
+    }
+
+    public void cpaPassRegistAcdmcrInfoSave(Map<String, Object> map) throws Exception {
+        insert("MypPassDAO.cpaPassRegistAcdmcrInfoSave", (Object) map);
     }
 
 

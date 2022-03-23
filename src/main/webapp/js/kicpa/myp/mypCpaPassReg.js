@@ -9,7 +9,14 @@ mypPassReg.getContextPath = function() {
 
 mypPassReg.mypPassRegInit = function(){
 
-
+	if($("#mypCpaPassReg_agreement").is(":checked") && $("#mypCpaPassReg_agreement2").is(":checked")) // 단일 체크해제시 전체체크 해제
+	{
+		$("input:checkbox[id='mypCpaPassReg_allAgree']").prop("checked", true);
+		$("#mypCpaPassReg_agreeSaveBtn").prop("disabled", false);
+	}else {
+		$("input:checkbox[id='mypCpaPassReg_allAgree']").prop("checked", false);
+		$("#mypCpaPassReg_agreeSaveBtn").prop("disabled", true);
+	}
 
 	//수정모드
 	if($('#mypCpaPassReg_saveMode').val() == "U"){
@@ -31,15 +38,25 @@ mypPassReg.mypPassRegInit = function(){
 	}
 	//처음 등록 모드
 	else{
-		/*mypPassReg.mypPassReg_tabMove('mypCpaPassReg_agree');
+		mypPassReg.mypPassReg_tabMove('mypCpaPassReg_agreeInfo');
 		$('.mypCpaPassReg_titleNm').text('등록');
 		$('.mypCpaPassReg_backBtn').hide();
 		$('.mypCpaPassReg_preBtn').show();
 		$('.mypCpaPassReg_titleYn').show();
-		$('.mypCpaPassReg_nextBtn a').text("다음");*/
+		$('.mypCpaPassReg_nextBtn').text("다음");
 	}
 
+	$('#mypCpaPassReg_ofcInfoReg').hide();
 
+	//약관동의 저장(다음버튼)
+	$("#mypCpaPassReg_agreeSaveBtn").on("click",function(e) {
+		var formData = $('#mypCpaPassReg_agreeForm').serializeObject();
+		formData.pin = $('#mypCpaPassReg_pin').val();
+		formData.saveMode = $('#mypCpaPassReg_saveMode').val();
+		var url = mypPassReg.getContextPath()+"/myp/mypCpaPassRegAgreeSave.do";
+
+		mypPassReg.mypCpaPassReg_passInfoSave(formData, url, "mypCpaPassReg_nameInfo");
+	});
 
 	//합격자기본정보 저장(다음버튼)
 	$("#mypCpaPassReg_nameInfoSaveBtn").on("click",function(e) {
@@ -95,6 +112,14 @@ mypPassReg.mypPassRegInit = function(){
 
 	});
 
+	//검토 및 제출 저장(제출버튼)
+	$("#mypCpaPassReg_submitBtn").on("click",function(e) {
+		$('#mypCpaPassReg_saveData').val("mypCpaPassReg_reviewInfo");
+
+		mypPassReg.mypCpaPassReg_infoSave();
+
+	});
+
 	//합격자 정보 저장
 	mypPassReg.mypCpaPassReg_passInfoSave = function(formData, url, flag) {
 
@@ -117,8 +142,35 @@ mypPassReg.mypPassRegInit = function(){
 				}
 			}
 		});
-
 	}
+
+	//약관동의 모두 동의클릭
+	$('#mypCpaPassReg_allAgree').on('click',function(e) {
+		var chk = $(this).is(":checked");
+
+		if(chk){
+			$("input:checkbox[id='mypCpaPassReg_agreement']").prop("checked", true);
+			$("input:checkbox[id='mypCpaPassReg_agreement2']").prop("checked", true);
+			$("#mypCpaPassReg_agreeSaveBtn").prop("disabled", false);
+		}else {
+			$("input:checkbox[id='mypCpaPassReg_agreement']").prop("checked", false);
+			$("input:checkbox[id='mypCpaPassReg_agreement2']").prop("checked", false);
+			$("#mypCpaPassReg_agreeSaveBtn").prop("disabled", true);
+		}
+	});
+
+	// 체크필터 체인징
+	$(".mypCpaPassReg_check").on('click',function(e) {
+
+		if($("#mypCpaPassReg_agreement").is(":checked") && $("#mypCpaPassReg_agreement2").is(":checked")) // 단일 체크해제시 전체체크 해제
+		{
+			$("input:checkbox[id='mypCpaPassReg_allAgree']").prop("checked", true);
+			$("#mypCpaPassReg_agreeSaveBtn").prop("disabled", false);
+		}else {
+			$("input:checkbox[id='mypCpaPassReg_allAgree']").prop("checked", false);
+			$("#mypCpaPassReg_agreeSaveBtn").prop("disabled", true);
+		}
+	});
 
 	//직장정보 등록 체크 클릭
 	$("#mypCpaPassReg_ofcRegYn").on("click",function(e) {
@@ -207,6 +259,46 @@ mypPassReg.mypPassRegInit = function(){
 		mypPassReg.mypCpaPassReg_infoSave();
 
 	});
+
+	//제출팝업 제출취소버튼 클릭
+	$("#mypCpaPassReg_saveRegPopCanclBtn").on("click",function(e) {
+		$('#mypCpaPassReg_body').removeClass('stop');
+		$('#mypCpaPassReg_saveRegPop').removeClass('show');
+	});
+
+	//제출팝업 제출버튼 클릭
+	$("#mypCpaPassReg_saveRegPopBtn").on("click",function(e) {
+		var formData = {};
+		formData.pin = $('#mypCpaPassReg_pin').val();
+
+		$.ajax({
+			url : mypPassReg.getContextPath()+"/myp/mypCpaPassRegSubmit.do",
+			type : "POST",
+			data : formData,
+			success : function(data) {
+
+				$('#mypCpaPassReg_saveRegPop').removeClass('show');
+				$('#mypCpaPassReg_trainMovePop').addClass('show');
+
+			}
+		});
+
+	});
+
+	//수습등록이동 팝업 마이페이지버튼 클릭
+	$("#mypCpaPassReg_trainMovePopCanclBtn").on("click",function(e) {
+		$('#mypCpaPassReg_body').removeClass('stop');
+		$('#mypCpaPassReg_trainMovePop').removeClass('show');
+
+		location.href="/kicpa/myp/myPage.do?Pin="+$('#mypCpaPassReg_pin').val();
+	});
+
+	//수습등록이동 팝업 등록신청 시작버튼 클릭
+	$("#mypCpaPassReg_trainMovePopBtn").on("click",function(e) {
+
+
+
+	});
 }
 
 //저장팝업 예버튼 클릭
@@ -279,6 +371,12 @@ mypPassReg.mypCpaPassReg_infoSave = function(){
 		var url = mypPassReg.getContextPath()+"/myp/mypCpaPassRegAcdmcrInfoSave.do";
 		mypPassReg.mypCpaPassReg_passInfoSave(data, url, "mypCpaPassReg_reviewInfo");
 	}
+	else if(saveData == "mypCpaPassReg_reviewInfo"){
+
+		$('#mypCpaPassReg_body').addClass('stop');
+		$('#mypCpaPassReg_saveRegPop').addClass('show');
+
+	}
 
 }
 
@@ -306,7 +404,13 @@ mypPassReg.mypCpaPassReg_acdmcrInfoRemove = function(rowNum){
 //화면상단 닫기버튼
 mypPassReg.mypPassReg_backMove = function() {
 
-	location.href="/kicpa/myp/myPageInfo.do?pin="+$('#mypCpaPassReg_pin').val();
+	if($('#mypCpaPassReg_saveMode').val() == "U"){
+		location.href="/kicpa/myp/myPageInfo.do?pin="+$('#mypCpaPassReg_pin').val();
+	}
+	else{
+		location.href="/kicpa/myp/myPage.do?Pin="+$('#mypCpaPassReg_pin').val();
+	}
+
 
 }
 
@@ -317,6 +421,23 @@ mypPassReg.mypPassReg_tabMove = function(flag) {
 	$('.myPageInfoTabMove').hide();
 	$('#'+flag).show();
 
+
+	if(flag == "mypCpaPassReg_reviewInfo"){                     //검토 및 제출
+		var reviewInfo_param = {};
+		reviewInfo_param.pin = $('#mypCpaPassReg_pin').val();
+
+		$.ajax({
+			dataType:"json",
+			url: mypPassReg.getContextPath()+"/myp/selectMypCpaPassRegReviewInfo.do",
+			data:reviewInfo_param,
+			success: function (data) {
+				mypPassReg.selectMypCpaPassRegReviewInfo_success(data);
+			},
+			error: function (status, e) {
+				alert("데이터 요청에 실패하였습니다.\r status : " + status);
+			}
+		});
+	}
 }
 
 //수정할 데이터 조회(수정모드)
@@ -461,6 +582,66 @@ mypPassReg.mypCpaPassReg_updateInfoList_success = function(data){
 		}
 
 	}
+}
+
+//검토 및 제출 데이터 조회
+mypPassReg.selectMypCpaPassRegReviewInfo_success = function(result){
+
+	$('#mypPassReviewInfo_korNm').text(result.cpaRegReviewInfoList[0].koreanNm);
+	$('#mypPassReviewInfo_chcNm').text(result.cpaRegReviewInfoList[0].chcrtNm);
+	$('#mypPassReviewInfo_engNm').text(result.cpaRegReviewInfoList[0].engNm);
+	$('#mypPassReviewInfo_husZipCd').text(result.cpaRegReviewInfoList[0].husZipCd);
+	$('#mypPassReviewInfo_husAdres').text(result.cpaRegReviewInfoList[0].husAdres);
+	$('#mypPassReviewInfo_husAdresDetail').text(result.cpaRegReviewInfoList[0].husAdresDetail);
+	$('#mypPassReviewInfo_postSndngYn').text(result.cpaRegReviewInfoList[0].postSndngNm);
+	$('#mypPassReviewInfo_ofcZipCd').text(result.cpaRegReviewInfoList[0].ofcZipCd);
+	$('#mypPassReviewInfo_ofcAdres').text(result.cpaRegReviewInfoList[0].ofcAdres);
+	$('#mypPassReviewInfo_ofcAdresDetail').text(result.cpaRegReviewInfoList[0].ofcAdresDetail);
+	$('#mypPassReviewInfo_ofcTelNo').text(result.cpaRegReviewInfoList[0].ofcTelNo);
+	$('#mypPassReviewInfo_ofcFaxNo').text(result.cpaRegReviewInfoList[0].ofcFaxNo);
+	$('#mypPassReviewInfo_oficeNm').text(result.cpaRegReviewInfoList[0].oficeNm);
+	$('#mypPassReviewInfo_rspOfc').text(result.cpaRegReviewInfoList[0].rspOfc);
+	$('#mypPassReviewInfo_sectionNm').text(result.cpaRegReviewInfoList[0].sectionNm);
+	$('#mypPassReviewInfo_deptNm').text(result.cpaRegReviewInfoList[0].deptNm);
+	$('#mypPassReviewInfo_moblPhonNo').text(result.cpaRegReviewInfoList[0].moblPhonNo);
+	$('#mypPassReviewInfo_husTelNo').text(result.cpaRegReviewInfoList[0].husTelNo);
+	$('#mypPassReviewInfo_mainEmail').text(result.cpaRegReviewInfoList[0].mainEmail);
+	$('#mypPassReviewInfo_subEmail').text(result.cpaRegReviewInfoList[0].subEmail);
+	$('#mypPassReviewInfo_emailSndngYn').text(result.cpaRegReviewInfoList[0].emailSndngNm);
+	$('#mypPassReviewInfo_smsSndngYn').text(result.cpaRegReviewInfoList[0].smsSndngNm);
+
+	//학력사항
+	var addAcdmcr="";
+	var reviewInfoAcdmcrAddCnt =1;
+	if(result.cpaRegReviewAcdmcrInfoListSize>0){
+		for(var i=0; i<result.cpaRegReviewAcdmcrInfoListSize; i++){
+
+			if(i<=1){
+				$("#mypPassReviewInfo_schulCl"+i).text(result.cpaRegReviewAcdmcrInfoList[i].schulClNm);
+				$("#mypPassReviewInfo_degree"+i).text(result.cpaRegReviewAcdmcrInfoList[i].degreeNm);
+				$("#mypPassReviewInfo_schulNm"+i).text(result.cpaRegReviewAcdmcrInfoList[i].schulNm);
+				$("#mypPassReviewInfo_grdtnYear"+i).text(result.cpaRegReviewAcdmcrInfoList[i].grdtnYear);
+				if(i==1){
+					$("#mypPassReviewInfo_major"+i).text(result.cpaRegReviewAcdmcrInfoList[i].major);
+				}
+			}
+			else{
+
+				addAcdmcr+= "<div class='title-gray'>추가 "+reviewInfoAcdmcrAddCnt+"</div>"
+					+"<ul class='view-space-list'>"
+					+"<li><span>학력</span><p>"+result.cpaRegReviewAcdmcrInfoList[i].schulClNm+"</p></li>"
+					+"<li><span>학위</span><p>"+result.cpaRegReviewAcdmcrInfoList[i].degreeNm+"</p></li>"
+					+"<li><span>학교명</span><p>"+result.cpaRegReviewAcdmcrInfoList[i].schulNm+"</p></li>"
+					+"<li><span>졸업년도</span><p>"+result.cpaRegReviewAcdmcrInfoList[i].grdtnYear+"</p></li>"
+					+"<li><span>전공</span><p>"+result.cpaRegReviewAcdmcrInfoList[i].major+"</p></li>"
+					+"</ul>";
+
+				reviewInfoAcdmcrAddCnt++;
+			}
+		}
+		$('#mypCpaPassReg_reviewInfoAcdmcrAdd').append(addAcdmcr);
+	}
+
 }
 
 //우편번호, 주소 클릭
