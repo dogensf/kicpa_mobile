@@ -10,7 +10,7 @@ myPage.myPageInit = function(){
 
 
 	//합격자 등록 정보 없을경우
-	if($('#myPage_myPageRegFlag').val() == "N"){
+	if($('#myPage_myPageRegFlag').val() == "N" || $('#myPage_mypCpaMemFlag').val() != "E"){
 		myPage.myPage_tabMove('myPage_cpaTrainInfoTab');
 	}
 	else{
