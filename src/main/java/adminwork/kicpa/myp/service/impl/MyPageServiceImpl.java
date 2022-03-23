@@ -46,6 +46,16 @@ public class MyPageServiceImpl extends EgovAbstractServiceImpl implements MyPage
 	}
 
 	@Override
+	public List<?> selectCpaTrainApntcBrfInfoList(Map<String, Object> map) throws Exception {
+		return myPageDAO.selectCpaTrainApntcBrfInfoList(map);
+	}
+
+	@Override
+	public List<?> selectCpaTrainTrnngResultInfoList(Map<String, Object> map) throws Exception {
+		return myPageDAO.selectCpaTrainTrnngResultInfoList(map);
+	}
+
+	@Override
 	public List<?> selectCpaMemberRegistInfoList(Map<String, Object> map) throws Exception {
 		return myPageDAO.selectCpaMemberRegistInfoList(map);
 	}
@@ -53,6 +63,22 @@ public class MyPageServiceImpl extends EgovAbstractServiceImpl implements MyPage
 	@Override
 	public List<?> selectCpaTaxAcutInfoList(Map<String, Object> map) throws Exception {
 		return myPageDAO.selectCpaTaxAcutInfoList(map);
+	}
+
+
+	@Override
+	public List<?> selectCpaTrainRegistReviewInfoList(Map<String, Object> map) throws Exception {
+		return myPageDAO.selectCpaTrainRegistReviewInfoList(map);
+	}
+
+	@Override
+	public List<?> selectCpaAudTrainRegistReviewInfoList(Map<String, Object> map) throws Exception {
+		return myPageDAO.selectCpaAudTrainRegistReviewInfoList(map);
+	}
+
+	@Override
+	public List<?> selectCpaMemberRegistReviewInfoList(Map<String, Object> map) throws Exception {
+		return myPageDAO.selectCpaMemberRegistReviewInfoList(map);
 	}
 
 	@Override

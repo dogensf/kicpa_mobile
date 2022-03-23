@@ -23,11 +23,27 @@ public interface MyPageService {
     //수습이력정보 (실제 테이블)
     public List<?> selectCpaTrainRegistInfoList(Map<String, Object> map) throws Exception;
 
+    //수습 상황보고서 (실제 테이블)
+    public List<?> selectCpaTrainApntcBrfInfoList(Map<String, Object> map) throws Exception;
+
+    //수습 연수결과 (실제 테이블)
+    public List<?> selectCpaTrainTrnngResultInfoList(Map<String, Object> map) throws Exception;
+
     //회원정보 (실제 테이블)
     public List<?> selectCpaMemberRegistInfoList(Map<String, Object> map) throws Exception;
 
     //세무사 세무대리 정보 (실제 테이블)
     public List<?> selectCpaTaxAcutInfoList(Map<String, Object> map) throws Exception;
+
+
+    //기본실무수습정보 (임시테이블)
+    public List<?> selectCpaTrainRegistReviewInfoList(Map<String, Object> map) throws Exception;
+
+    //외감실무수습정보 (임시테이블)
+    public List<?> selectCpaAudTrainRegistReviewInfoList(Map<String, Object> map) throws Exception;
+
+    //회원정보 (임시테이블)
+    public List<?> selectCpaMemberRegistReviewInfoList(Map<String, Object> map) throws Exception;
 
     //DI 값 확인
     public List<?> selectCpaPassDiCheckList(Map<String, Object> map) throws Exception;

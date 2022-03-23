@@ -21,9 +21,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.BufferedInputStream;
 import java.sql.Blob;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 
 @Controller
@@ -78,6 +77,14 @@ public class MyPageController {
 			Map<String, Object> paramMap = new HashMap<>();
 			paramMap.put("pin",user.getUniqId());
 
+			String regFlag ="N";			//합격자 등록여부
+
+			String trainFlag ="N";		//수습 화면 구분	N- 등록안내화면, Y-승인 진행 화면, F-반려화면, E-수습정보화면, D-수습정보 안보이게, H-수습공인회계사 정보 숨김(외감포함)
+			String audTrainFlag ="N";	//외감 화면 구분	N- 등록안내화면, Y-승인 진행 화면, F-반려화면, E-외감정보화면,
+			String cpaMemFlag ="N";		//회원 화면 구분	N- 등록안내화면, Y-승인 진행 화면, F-반려화면, E-회원정보화면
+
+			String cpaAidFlag="N";		//등록회비 납부여부
+
 			//합격자 정보(성명, 연락처) 가져오기(실제 테이블)
 			List<?> cpaPassRealInfo = myPageService.selectCpaPassInfoList(paramMap);
 			Map<String, Object> cpaMemPassRealInfo = new HashMap<>();
@@ -86,6 +93,7 @@ public class MyPageController {
 			}
 
 			if("Y".equals(cpaMemPassRealInfo.get("regFlag"))){
+				regFlag ="Y";
 				//회원 사진 정보(실제테이블)
 				List<?> cpaPhotoRealInfoList = myPageService.selectCpaMberPhotoInfoList(paramMap);
 
@@ -110,6 +118,161 @@ public class MyPageController {
 				}
 
 
+				//수습정보 확인(실제 테이블)
+				List<?> cpaTrainRegReal = myPageService.selectCpaTrainRegistInfoList(paramMap);
+				Map<String, Object> cpaTrainRegRealInfo = new HashMap<>();
+
+				//수습정보 가져오기(임시테이블)
+				List<?> cpaTrainReg = myPageService.selectCpaTrainRegistReviewInfoList(paramMap);
+				Map<String, Object> cpaTrainRegInfo = new HashMap<>();
+				if(cpaTrainReg.size()>0){
+					cpaTrainRegInfo.putAll((Map<String, Object>)cpaTrainReg.get(0));
+				}
+				else{
+					cpaTrainRegInfo.put("regFlag","N");
+				}
+
+				//수습 정보가 있을 경우(수습 등록 완료)
+				if(cpaTrainRegReal.size()>0) {
+					cpaTrainRegRealInfo.putAll((Map<String, Object>)cpaTrainRegReal.get(0));
+
+					//실제 등록취소후 새로 수습정보 입력했을 경우(승인진행 보여주기)
+					if("A1010040".equals(cpaTrainRegRealInfo.get("apntcCl"))){
+						if("Y".equals(cpaTrainRegInfo.get("regFlag"))){
+							trainFlag="Y";
+						}
+						else if("F".equals(cpaTrainRegInfo.get("regFlag"))){
+							trainFlag="F";
+						}
+					}
+
+					//기본실무 진행률 계산
+					Calendar cal = Calendar.getInstance();
+					cal.setTime( new Date(System.currentTimeMillis()));
+					String today = new SimpleDateFormat("yyyy-MM-dd").format( cal.getTime()); // 오늘날짜
+
+					SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+					Date appRegistEndDate = new Date();
+
+					Date appRegistDate = new Date(dateFormat.parse(cpaTrainRegRealInfo.get("appRegistDe").toString()).getTime());
+					if(!"".equals(cpaTrainRegRealInfo.get("appRegistEndDe")) && cpaTrainRegRealInfo.get("appRegistEndDe") != null){
+						appRegistEndDate = new Date(dateFormat.parse(cpaTrainRegRealInfo.get("appRegistEndDe").toString()).getTime());
+					}
+					else{
+						appRegistEndDate = new Date(dateFormat.parse(cpaTrainRegRealInfo.get("appEndDe").toString()).getTime());
+					}
+					Date todayDate = new Date(dateFormat.parse(today).getTime());
+
+					long totalCount = appRegistEndDate.getTime() - appRegistDate.getTime();
+					long passCount = todayDate.getTime() - appRegistDate.getTime();
+					long leftCount = appRegistEndDate.getTime() - todayDate.getTime();
+
+					int totalDays = (int) (totalCount / ( 24*60*60*1000));				//총기간
+					int passDays = (int) (passCount / ( 24*60*60*1000));				//지나간 일수
+					int leftDays = (int) (leftCount / ( 24*60*60*1000));				//남은 일수
+
+					int appProgressDays = (int)((double) passDays / (double) totalDays * 100.0);		//수습 기본실무 진행률
+
+					if(appProgressDays >=100){
+						appProgressDays = 100;
+					}
+					if(appProgressDays < 0){
+						appProgressDays = 0;
+					}
+
+					//상황보고서 정보 조회(실제 테이블)
+					paramMap.put("appCpaNo",cpaTrainRegRealInfo.get("appCpaNo"));
+					List<?> cpaApntcBrfRealInfo = myPageService.selectCpaTrainApntcBrfInfoList(paramMap);
+					//연수결과 조회(실제 테이블)
+					List<?> cpaTrnngResultRealInfo = myPageService.selectCpaTrainTrnngResultInfoList(paramMap);
+
+					//기본실무 종료했을 경우 남은 일수 0
+					if(!"".equals(cpaTrainRegRealInfo.get("appEndDe")) && cpaTrainRegRealInfo.get("appEndDe") != null){
+						leftDays = 0;
+					}
+
+					model.addAttribute("cpaTrainRegReal", cpaTrainRegReal);
+					model.addAttribute("cpaApntcBrfRealInfo", cpaApntcBrfRealInfo);
+					model.addAttribute("cpaApntcBrfRealInfoSize", cpaApntcBrfRealInfo.size());
+					model.addAttribute("cpaTrnngResultRealInfo", cpaTrnngResultRealInfo);
+					model.addAttribute("cpaTrnngResultRealInfoSize", cpaTrnngResultRealInfo.size());
+					model.addAttribute("appProgressDays", appProgressDays);
+					model.addAttribute("leftDays", leftDays);
+					trainFlag="E";
+
+					//외감 정보가 있을경우
+					if(!"".equals(cpaTrainRegRealInfo.get("audRegistDe")) && cpaTrainRegRealInfo.get("audRegistDe") != null){
+						trainFlag ="D";
+						audTrainFlag="E";
+
+						//외감실무 진행률 계산
+						Date audRegistDate = new Date(dateFormat.parse(cpaTrainRegRealInfo.get("audRegistDe").toString()).getTime());
+						Date audRegistEndDate = new Date();
+						if(!"".equals(cpaTrainRegRealInfo.get("audRegistEndDe")) && cpaTrainRegRealInfo.get("audRegistEndDe") != null){
+							audRegistEndDate = new Date(dateFormat.parse(cpaTrainRegRealInfo.get("audRegistEndDe").toString()).getTime());
+						}
+						else{
+							audRegistEndDate = new Date(dateFormat.parse(cpaTrainRegRealInfo.get("audEndDe").toString()).getTime());
+						}
+
+						totalCount = audRegistEndDate.getTime() - audRegistDate.getTime();
+						passCount = todayDate.getTime() - audRegistDate.getTime();
+
+						totalDays = (int) (totalCount / ( 24*60*60*1000));				//총기간
+						passDays = (int) (passCount / ( 24*60*60*1000));				//지나간 일수
+
+						int audProgressDays = (int)((double) passDays / (double) totalDays * 100.0);		//외감 실무 진행률
+
+						if(audProgressDays >=100){
+							audProgressDays = 100;
+						}
+						if(audProgressDays < 0){
+							audProgressDays = 0;
+						}
+
+						if(!"".equals(cpaTrainRegRealInfo.get("audEndDe")) && cpaTrainRegRealInfo.get("audEndDe") != null){
+							audProgressDays = 100;
+						}
+
+						model.addAttribute("audProgressDays", audProgressDays);
+					}
+					else{
+						//외감 정보조회(임시테이블)
+						List<?> cpaAudTrainReg = myPageService.selectCpaAudTrainRegistReviewInfoList(paramMap);
+						Map<String, Object> cpaAudTrainRegInfo = new HashMap<>();
+						if(cpaAudTrainReg.size()>0){
+							cpaAudTrainRegInfo.putAll((Map<String, Object>)cpaAudTrainReg.get(0));
+						}
+						else{
+							cpaAudTrainRegInfo.put("regFlag","N");
+							audTrainFlag="N";
+						}
+
+
+						model.addAttribute("cpaAudTrainRegInfo", cpaAudTrainRegInfo);
+
+						//외감 regFlag에 따라 화면 정보 보여주기
+						if("Y".equals(cpaAudTrainRegInfo.get("regFlag"))){
+							audTrainFlag="Y";
+						}
+						else if("F".equals(cpaAudTrainRegInfo.get("regFlag"))){
+							audTrainFlag="F";
+						}
+					}
+				}
+				//수습 정보가 없을경우 (수습 미등록)
+				else{
+
+					if("Y".equals(cpaTrainRegInfo.get("regFlag"))){
+						trainFlag="Y";
+					}
+					else if("F".equals(cpaTrainRegInfo.get("regFlag"))){
+						trainFlag="F";
+					}
+					model.addAttribute("cpaTrainRegInfo", cpaTrainRegInfo);
+				}
+
 
 				//회원정보 조회(실제테이블)
 				List<?> cpaMemberRegReal = myPageService.selectCpaMemberRegistInfoList(paramMap);
@@ -117,8 +280,44 @@ public class MyPageController {
 
 				//회원정보 있을경우
 				if(cpaMemberRegReal.size()>0){
+					cpaMemFlag = "E";
 					cpaMemberRegRealInfo.putAll((Map<String, Object>)cpaMemberRegReal.get(0));
 					model.addAttribute("cpaMemberRegReal", cpaMemberRegReal);
+
+					if(cpaTrainRegReal.size() < 1 || cpaTrainRegReal == null) {
+						trainFlag = "H";
+					}
+				}
+				else{
+					//회원 정보조회(임시테이블)
+					List<?> cpaMemberReg = new ArrayList<HashMap>();
+					cpaMemberReg = myPageService.selectCpaMemberRegistReviewInfoList(paramMap);		//회원 임시테이블정보
+					Map<String, Object> cpaMemberRegInfo = new HashMap<>();
+
+					if(cpaMemberReg.size()>0){
+						cpaMemberRegInfo.putAll((Map<String, Object>)cpaMemberReg.get(0));
+
+						if(!"".equals(cpaMemberRegInfo.get("sbscrbYn")) && cpaMemberRegInfo.get("sbscrbYn") != null){
+							cpaAidFlag = cpaMemberRegInfo.get("sbscrbYn").toString();
+						}
+					}
+					else{
+						cpaMemberRegInfo.put("regFlag","N");
+						cpaMemFlag="N";
+					}
+
+
+					model.addAttribute("cpaMemberRegInfo", cpaMemberRegInfo);
+
+					//회원 regFlag에 따라 화면 정보 보여주기 (수습정보가 있을경우)
+					if("Y".equals(cpaMemberRegInfo.get("regFlag")) && cpaTrainRegReal != null && cpaTrainRegReal.size() > 0){
+						cpaMemFlag="Y";
+
+
+					}
+					else if("F".equals(cpaMemberRegInfo.get("regFlag"))){
+						cpaMemFlag="F";
+					}
 				}
 
 				//세무사 세무대리 정보
@@ -132,6 +331,14 @@ public class MyPageController {
 				}
 			}
 
+
+			model.addAttribute("myPageRegFlag", regFlag);
+			model.addAttribute("trainFlag", trainFlag);
+			model.addAttribute("audTrainFlag", audTrainFlag);
+			model.addAttribute("cpaMemFlag", cpaMemFlag);
+			model.addAttribute("cpaAidFlag", cpaAidFlag);
+
+
 			model.addAttribute("myPagePin", user.getUniqId());
 			model.addAttribute("cpaPassRealInfo", cpaPassRealInfo);
 
@@ -144,69 +351,6 @@ public class MyPageController {
 			return "kicpa/common/authLogin";
 
 		}
-
-		/*Map<String, Object> paramMap = new HashMap<>();
-		paramMap.put("pin",Pin);
-
-		//합격자 정보(성명, 연락처) 가져오기(실제 테이블)
-		List<?> cpaPassRealInfo = myPageService.selectCpaPassInfoList(paramMap);
-		Map<String, Object> cpaMemPassRealInfo = new HashMap<>();
-		if(cpaPassRealInfo.size()>0){
-			cpaMemPassRealInfo.putAll((Map<String, Object>)cpaPassRealInfo.get(0));
-		}
-
-		//회원기본정보 입력 완료했을 경우
-		if("Y".equals(cpaMemPassRealInfo.get("regFlag"))){
-
-			//회원 사진 정보(실제테이블)
-			List<?> cpaPhotoRealInfoList = myPageService.selectCpaMberPhotoInfoList(paramMap);
-
-			//사진정보
-			Map<String, Object> cpaMemPictInfo = new HashMap<>();
-			if(cpaPhotoRealInfoList.size()>0){
-				cpaMemPictInfo.putAll((Map<String, Object>)cpaPhotoRealInfoList.get(0));
-				byte imageContent[] = blobToBytes((Blob) cpaMemPictInfo.get("photo"));
-
-				String memPict = "";
-
-				if(imageContent.length > 0 && imageContent != null){ //데이터가 들어 있는 경우
-					//바이트를 base64인코딩 실시
-					String base64Encode = byteToBase64(imageContent);
-					base64Encode = "data:image/jpg;base64," + base64Encode;
-					memPict = base64Encode;
-				}
-				else {
-					memPict = "";
-				}
-				model.addAttribute("memPict", memPict);
-			}
-
-
-
-			//회원정보 조회(실제테이블)
-			List<?> cpaMemberRegReal = myPageService.selectCpaMemberRegistInfoList(paramMap);
-			Map<String, Object> cpaMemberRegRealInfo = new HashMap<>();
-
-			//회원정보 있을경우
-			if(cpaMemberRegReal.size()>0){
-				cpaMemberRegRealInfo.putAll((Map<String, Object>)cpaMemberRegReal.get(0));
-				model.addAttribute("cpaMemberRegReal", cpaMemberRegReal);
-			}
-
-			//세무사 세무대리 정보
-			List<?> cpaTaxAcutInfoList = myPageService.selectCpaTaxAcutInfoList(paramMap);
-			Map<String, Object> cpaTaxAcutInfo = new HashMap<>();
-
-			//세무사 세무대리 정보 있을경우
-			if(cpaTaxAcutInfoList.size()>0){
-				cpaTaxAcutInfo.putAll((Map<String, Object>)cpaTaxAcutInfoList.get(0));
-				model.addAttribute("cpaTaxAcutInfoList", cpaTaxAcutInfoList);
-			}
-
-		}
-
-		model.addAttribute("myPagePin", Pin);
-		model.addAttribute("cpaPassRealInfo", cpaPassRealInfo);*/
 
 		return "kicpa/myp/myPage";
 	}

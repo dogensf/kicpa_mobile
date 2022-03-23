@@ -35,12 +35,33 @@ public class MyPageDAO extends EgovComAbstractDAO2 {
         return (List<?>) list("MyPageDAO.selectCpaTrainRegistInfoList", (Object) map);
     }
 
+    public List<?> selectCpaTrainApntcBrfInfoList(Map<String, Object> map) throws Exception {
+        return (List<?>) list("MyPageDAO.selectCpaTrainApntcBrfInfoList", (Object) map);
+    }
+
+    public List<?> selectCpaTrainTrnngResultInfoList(Map<String, Object> map) throws Exception {
+        return (List<?>) list("MyPageDAO.selectCpaTrainTrnngResultInfoList", (Object) map);
+    }
+
     public List<?> selectCpaMemberRegistInfoList(Map<String, Object> map) throws Exception {
         return (List<?>) list("MyPageDAO.selectCpaMemberRegistInfoList", (Object) map);
     }
 
     public List<?> selectCpaTaxAcutInfoList(Map<String, Object> map) throws Exception {
         return (List<?>) list("MyPageDAO.selectCpaTaxAcutInfoList", (Object) map);
+    }
+
+
+    public List<?> selectCpaTrainRegistReviewInfoList(Map<String, Object> map) throws Exception {
+        return (List<?>) list("MyPageDAO.selectCpaTrainRegistReviewInfoList", (Object) map);
+    }
+
+    public List<?> selectCpaAudTrainRegistReviewInfoList(Map<String, Object> map) throws Exception {
+        return (List<?>) list("MyPageDAO.selectCpaAudTrainRegistReviewInfoList", (Object) map);
+    }
+
+    public List<?> selectCpaMemberRegistReviewInfoList(Map<String, Object> map) throws Exception {
+        return (List<?>) list("MyPageDAO.selectCpaMemberRegistReviewInfoList", (Object) map);
     }
 
     public List<?> selectCpaPassDiCheckList(Map<String, Object> map) throws Exception {
