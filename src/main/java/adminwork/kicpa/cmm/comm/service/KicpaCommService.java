@@ -9,4 +9,6 @@ public interface  KicpaCommService {
 
 
 	public List<EgovMap> selectCodebaseList(Map<String,Object> map) throws Exception;
+
+	public void selectImmnum(Map<String,Object> map) throws Exception;
 }
