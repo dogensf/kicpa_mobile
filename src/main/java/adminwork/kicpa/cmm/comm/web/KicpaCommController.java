@@ -24,6 +24,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import adminwork.com.cmm.StringUtil;
 import adminwork.kicpa.cmm.board.service.CommonBoardService;
+import adminwork.kicpa.cmm.comm.service.KicpaCommService;
 import adminwork.kicpa.job.service.JobAdvertisementService;
 import egovframework.rte.psl.dataaccess.util.EgovMap;
 
@@ -32,6 +33,8 @@ import egovframework.rte.psl.dataaccess.util.EgovMap;
 @RequestMapping(value="/kicpa/common")
 public class KicpaCommController {
 
+	@Resource(name = "kicpaCommService")
+	private KicpaCommService kicpaCommService;
 
 	@RequestMapping(value="/getCheckplusEncData.do")
     public ModelAndView getCheckplusEncData(@RequestBody Map<String,Object> map, HttpServletRequest request) throws Exception{
@@ -123,6 +126,7 @@ public class KicpaCommController {
     public void getCheckplusSuccess(HttpServletRequest request,HttpServletResponse response) throws Exception{
 
     	try{
+    		Map<String,Object> map = new HashMap<String,Object>();
 
     		response.setCharacterEncoding("UTF-8");
     		response.setContentType("text/html; charset=UTF-8");
@@ -162,7 +166,7 @@ public class KicpaCommController {
 	            // 데이타를 추출합니다.
 	            java.util.HashMap mapresult = niceCheck.fnParse(sPlainData);
 
-//	            sRequestNumber  = (String)mapresult.get("REQ_SEQ");
+	            sRequestNumber  = (String)mapresult.get("REQ_SEQ");
 //	            sResponseNumber = (String)mapresult.get("RES_SEQ");
 //	            sAuthType		= (String)mapresult.get("AUTH_TYPE");
 //	            sName			= (String)mapresult.get("NAME");
@@ -178,12 +182,23 @@ public class KicpaCommController {
 
 	            session.setAttribute("mapresult" , mapresult);
 
+
 	            String session_sRequestNumber = (String)session.getAttribute("REQ_SEQ");
+	            System.out.println("mapresult : " + mapresult);
+	            System.out.println("sRequestNumber : " + sRequestNumber + " : " + session_sRequestNumber ) ;
 	            if(!sRequestNumber.equals(session_sRequestNumber))
 	            {
 	                sMessage = "세션값 불일치 오류입니다.";
 	                sResponseNumber = "";
 	                sAuthType = "";
+	            }else {
+	            	map.put("immCi", mapresult.get("CI"));
+	            	map.put("immDi", mapresult.get("DI"));
+	            	map.put("immJupin", mapresult.get("BIRTHDATE"));
+	            	map.put("immJupinSep", "4");
+
+	            	kicpaCommService.selectImmnum(map);
+	            	map.get("immnum");
 	            }
 	        }
 	        else if( iReturn == -1)
