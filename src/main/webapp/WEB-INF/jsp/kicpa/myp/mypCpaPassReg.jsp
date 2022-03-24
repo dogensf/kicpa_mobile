@@ -173,7 +173,7 @@
 
 		<!-- 이전페이지로 이동 -->
 		<div class="btn-page-bottom">
-			<button class="btn-text-back mypCpaPassReg_preBtn" onclick="mypPassReg.mypPassReg_tabMove('mypCpaPassReg_nameInfo')" type="button">이전페이지로 이동</button>
+			<button class="btn-text-back mypCpaPassReg_preBtn" onclick="mypPassReg.mypPassReg_tabMove('mypCpaPassReg_agreeInfo')" type="button">이전페이지로 이동</button>
 		</div>
 
 		<!-- 페이지 하단 버튼 -->
@@ -250,9 +250,9 @@
 					<div class="add-box">
 						<div class="title">
 							<span style="font-size: 1.7rem; font-weight: 600;">직장정보</span>
-							<div class="b-area">
+							<%--<div class="b-area">
 								<button type="button" class="btn-round-sm" style="width: 9.5rem;">직장정보삭제</button>
-							</div>
+							</div>--%>
 						</div>
 
 						<div class="form">
@@ -263,17 +263,17 @@
 
 							<div id="mypCpaPassReg_ofcInfoReg">
 								<div class="inp-box">
-									<label class="label essen" for="mypCpaPassReg_houseInfoZipCd">직장 우편번호</label>
+									<label class="label essen" for="mypCpaPassReg_officeInfoZipCd">직장 우편번호</label>
 									<input type="text" id="mypCpaPassReg_officeInfoZipCd" onclick="mypPassReg.mypAdresGoPopup('O');" name="ofcZipCd" placeholder="직장 우편번호를 입력하세요."/>
 								</div>
 
 								<div class="inp-box">
-									<label class="label essen" for="mypCpaPassReg_houseInfoAdres">직장 주소</label>
+									<label class="label essen" for="mypCpaPassReg_officeInfoAdres">직장 주소</label>
 									<input type="text" id="mypCpaPassReg_officeInfoAdres" onclick="mypPassReg.mypAdresGoPopup('O');" name="ofcAdres" placeholder="직장 주소를 입력하세요."/>
 								</div>
 
 								<div class="inp-box">
-									<label class="label essen" for="mypCpaPassReg_houseInfoAdresDt">직장 상세주소</label>
+									<label class="label essen" for="mypCpaPassReg_officeInfoAdresDt">직장 상세주소</label>
 									<input type="text" id="mypCpaPassReg_officeInfoAdresDt" name="ofcAdresDetail" placeholder="직장 상세주소를 입력하세요."/>
 									<input type="hidden" name="ofcLegalCd" id="mypCpaPassReg_officeInfoLegalCd"/>
 								</div>

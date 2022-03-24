@@ -312,8 +312,8 @@ public class MypPassController {
 				paramMap.put("ofcAdres", "");					//직장주소
 				paramMap.put("ofcAdresDetail", ""); 			//직장상세주소
 				paramMap.put("ofcLegalCd", ""); 				//직장법정동코드
-				paramMap.put("ofcTelNo1", "");					//직장전화번호
-				paramMap.put("ofcFaxNo1", "");					//팩스번호
+				paramMap.put("ofcTelNo", "");					//직장전화번호
+				paramMap.put("ofcFaxNo", "");					//팩스번호
 				paramMap.put("oficeNm", ""); 					//직장명
 				paramMap.put("rspOfc", "");						//직책
 				paramMap.put("sectionNm", "");					//부서(국/실)
@@ -343,20 +343,11 @@ public class MypPassController {
 				mypPassService.mypCpaPassRegisterAdressInfoUpdate(paramMap);
 
 				//직장주소저장(실제테이블)
-				if("Y".equals(paramMap.get("ofcRegYn"))) {
-					paramMap.put("adrCl", "OFICE");
-					mypPassService.mypCpaPassRegisterAdressInfoUpdate(paramMap);
-				}
+				paramMap.put("adrCl", "OFICE");
+				mypPassService.mypCpaPassRegisterAdressInfoUpdate(paramMap);
 
 				//직장정보저장(실제테이블)
-				if((!"".equals(paramMap.get("ofcTelNo")) && paramMap.get("ofcTelNo") != null) ||
-						(!"".equals(paramMap.get("ofcFaxNo")) && paramMap.get("ofcFaxNo") != null) ||
-						(!"".equals(paramMap.get("oficeNm")) && paramMap.get("oficeNm") != null) ||
-						(!"".equals(paramMap.get("rspOfc")) && paramMap.get("rspOfc") != null) ||
-						(!"".equals(paramMap.get("sectionNm")) && paramMap.get("sectionNm") != null) ||
-						(!"".equals(paramMap.get("deptNm")) && paramMap.get("deptNm") != null)) {
-					mypPassService.mypCpaPassRegisterOficeInfoUpdate(paramMap);
-				}
+				mypPassService.mypCpaPassRegisterOficeInfoUpdate(paramMap);
 
 				//우편물수령지 저장
 				mypPassService.mypCpaPassRegisterPostSndngYnUpdate(paramMap);

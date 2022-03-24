@@ -180,9 +180,17 @@ mypPassReg.mypPassRegInit = function(){
 			$('.mypCpaPassReg_postOfficeHidden').show();
 			$('input:radio[name="postSndngYn"][value="O"]').prop('checked', true);
 		}else{
-			$('#mypCpaPassReg_ofcInfoReg').slideUp(1000);
-			$('.mypCpaPassReg_postOfficeHidden').hide();
-			$('input:radio[name="postSndngYn"][value="H"]').prop('checked', true);
+
+			if(!confirm("체크 해제시 기존 직장정보가 삭제됩니다. 체크 해제하시겠습니까?")){
+				$("input:checkbox[id='mypCpaPassReg_ofcRegYn']").prop("checked", true);
+			}
+			else{
+				$('#mypCpaPassReg_ofcInfoReg').slideUp(1000);
+				$('.mypCpaPassReg_postOfficeHidden').hide();
+				$('input:radio[name="postSndngYn"][value="H"]').prop('checked', true);
+				mypPassReg.mypCpaPassReg_officeInfoInit();
+			}
+
 		}
 
 	});
@@ -380,7 +388,7 @@ mypPassReg.mypCpaPassReg_infoSave = function(){
 
 }
 
-//학력삭제(추가된 내용)
+//학력삭제(추가학력)
 mypPassReg.mypCpaPassReg_acdmcrInfoRemove = function(rowNum){
 
 	//수정모드일 경우 저장되어있는 학력 정보 hidden에 담기
@@ -398,6 +406,26 @@ mypPassReg.mypCpaPassReg_acdmcrInfoRemove = function(rowNum){
 	var divId= "acdmcrInfoAddDiv"+rowNum;
 
 	$("#"+divId).remove();
+
+}
+
+//직장정보 초기화
+mypPassReg.mypCpaPassReg_officeInfoInit = function(){
+
+	$('#mypCpaPassReg_officeInfoZipCd').val('');		//직장우편번호
+	$('#mypCpaPassReg_officeInfoAdres').val('');		//직장주소
+	$('#mypCpaPassReg_officeInfoAdresDt').val('');		//직장상세주소
+	$('#mypCpaPassReg_officeInfoLegalCd').val('');		//직장법정동코드
+	$('#mypCpaPassReg_officeInfoTelNo1').val('');		//직장전화번호1
+	$('#mypCpaPassReg_officeInfoTelNo2').val('');		//직장전화번호2
+	$('#mypCpaPassReg_officeInfoTelNo3').val('');		//직장전화번호3
+	$('#mypCpaPassReg_officeInfoFax1').val('');			//FAX1
+	$('#mypCpaPassReg_officeInfoFax2').val('');			//FAX2
+	$('#mypCpaPassReg_officeInfoFax3').val('');			//FAX3
+	$('#mypCpaPassReg_officeInfoOficeNm').val('');		//직장명
+	$('#mypCpaPassReg_officeInfoRspOfc').val('');		//직책
+	$('#mypCpaPassReg_officeInfoSectionNm').val('');	//부서(국/실)
+	$('#mypCpaPassReg_officeInfoDeptNm').val('');		//하위부서(과)
 
 }
 
@@ -479,31 +507,35 @@ mypPassReg.mypCpaPassReg_updateInfoList_success = function(data){
 			$('.mypCpaPassReg_postOfficeHidden').show();
 			$('#mypCpaPassReg_ofcInfoReg').show();
 
-			$('#mypCpaPassReg_officeInfoZipCd').val(data.cpaPassRegOfcAeresRealInfo[0].zipCd);                                //직장우편번호
-			$('#mypCpaPassReg_officeInfoAdres').val(data.cpaPassRegOfcAeresRealInfo[0].rdAdres);                                //직장주소
-			$('#mypCpaPassReg_officeInfoAdresDt').val(data.cpaPassRegOfcAeresRealInfo[0].rdAdresDetail);                        //직장상세주소
-			$('#mypCpaPassReg_officeInfoLegalCd').val(data.cpaPassRegOfcAeresRealInfo[0].legalCd);                              //직장법정동코드
-
-			if(data.cpaPassRegOfcRealInfo[0].ofcTelNo != "" && data.cpaPassRegOfcRealInfo[0].ofcTelNo != null){
-				var ofcTelNo = data.cpaPassRegOfcRealInfo[0].ofcTelNo.split("-");
-				$('#mypCpaPassReg_officeInfoTelNo1').val(ofcTelNo[0]);                               //직장전화번호
-				$('#mypCpaPassReg_officeInfoTelNo2').val(ofcTelNo[1]);
-				$('#mypCpaPassReg_officeInfoTelNo3').val(ofcTelNo[2]);
-			}
-			if(data.cpaPassRegOfcRealInfo[0].ofcFaxNo != "" && data.cpaPassRegOfcRealInfo[0].ofcFaxNo != null){
-				var ofcFaxNo = data.cpaPassRegOfcRealInfo[0].ofcFaxNo.split("-");
-				$('#mypCpaPassReg_officeInfoFax1').val(ofcFaxNo[0]);                                 //팩스번호
-				$('#mypCpaPassReg_officeInfoFax2').val(ofcFaxNo[1]);
-				$('#mypCpaPassReg_officeInfoFax3').val(ofcFaxNo[2]);
+			if(data.cpaPassRegOfcAeresRealInfoSize >0){
+				$('#mypCpaPassReg_officeInfoZipCd').val(data.cpaPassRegOfcAeresRealInfo[0].zipCd);                                //직장우편번호
+				$('#mypCpaPassReg_officeInfoAdres').val(data.cpaPassRegOfcAeresRealInfo[0].rdAdres);                                //직장주소
+				$('#mypCpaPassReg_officeInfoAdresDt').val(data.cpaPassRegOfcAeresRealInfo[0].rdAdresDetail);                        //직장상세주소
+				$('#mypCpaPassReg_officeInfoLegalCd').val(data.cpaPassRegOfcAeresRealInfo[0].legalCd);                              //직장법정동코드
 			}
 
-			$('#mypCpaPassReg_officeInfoOficeNm').val(data.cpaPassRegOfcRealInfo[0].oficeNm);                              //직장명
-			$('#mypCpaPassReg_officeInfoRspOfc').val(data.cpaPassRegOfcRealInfo[0].rspOfc);                               //직책
-			$('#mypCpaPassReg_officeInfoSectionNm').val(data.cpaPassRegOfcRealInfo[0].sectionNm);                            //부서(국/실)
-			$('#mypCpaPassReg_officeInfoDeptNm').val(data.cpaPassRegOfcRealInfo[0].deptNm);                               //하위부서
+			if(data.cpaPassRegOfcRealInfoSize >0) {
+				if (data.cpaPassRegOfcRealInfo[0].ofcTelNo != "" && data.cpaPassRegOfcRealInfo[0].ofcTelNo != null) {
+					var ofcTelNo = data.cpaPassRegOfcRealInfo[0].ofcTelNo.split("-");
+					$('#mypCpaPassReg_officeInfoTelNo1').val(ofcTelNo[0]);                               //직장전화번호
+					$('#mypCpaPassReg_officeInfoTelNo2').val(ofcTelNo[1]);
+					$('#mypCpaPassReg_officeInfoTelNo3').val(ofcTelNo[2]);
+				}
+				if (data.cpaPassRegOfcRealInfo[0].ofcFaxNo != "" && data.cpaPassRegOfcRealInfo[0].ofcFaxNo != null) {
+					var ofcFaxNo = data.cpaPassRegOfcRealInfo[0].ofcFaxNo.split("-");
+					$('#mypCpaPassReg_officeInfoFax1').val(ofcFaxNo[0]);                                 //팩스번호
+					$('#mypCpaPassReg_officeInfoFax2').val(ofcFaxNo[1]);
+					$('#mypCpaPassReg_officeInfoFax3').val(ofcFaxNo[2]);
+				}
+
+				$('#mypCpaPassReg_officeInfoOficeNm').val(data.cpaPassRegOfcRealInfo[0].oficeNm);                              //직장명
+				$('#mypCpaPassReg_officeInfoRspOfc').val(data.cpaPassRegOfcRealInfo[0].rspOfc);                               //직책
+				$('#mypCpaPassReg_officeInfoSectionNm').val(data.cpaPassRegOfcRealInfo[0].sectionNm);                            //부서(국/실)
+				$('#mypCpaPassReg_officeInfoDeptNm').val(data.cpaPassRegOfcRealInfo[0].deptNm);                               //하위부서
 
 
-			//$('#mypCpaPassReg_officeInfoYn').val("Y");                                                     //기존 직장정보 삭제 시 삭제 정보 저장
+				//$('#mypCpaPassReg_officeInfoYn').val("Y");                                                     //기존 직장정보 삭제 시 삭제 정보 저장
+			}
 		}else{
 			$("input:checkbox[name='ofcRegYn']").attr('checked', false);      //직장정보 등록 체크
 			$('.mypCpaPassReg_postOfficeHidden').hide();

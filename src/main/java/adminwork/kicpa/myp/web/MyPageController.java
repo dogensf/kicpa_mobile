@@ -77,7 +77,7 @@ public class MyPageController {
 			Map<String, Object> paramMap = new HashMap<>();
 			paramMap.put("pin",user.getUniqId());
 
-			String regFlag ="N";			//합격자 등록여부
+			String myPageRegFlag ="N";			//합격자 등록여부
 
 			String trainFlag ="N";		//수습 화면 구분	N- 등록안내화면, Y-승인 진행 화면, F-반려화면, E-수습정보화면, D-수습정보 안보이게, H-수습공인회계사 정보 숨김(외감포함)
 			String audTrainFlag ="N";	//외감 화면 구분	N- 등록안내화면, Y-승인 진행 화면, F-반려화면, E-외감정보화면,
@@ -93,7 +93,7 @@ public class MyPageController {
 			}
 
 			if("Y".equals(cpaMemPassRealInfo.get("regFlag"))){
-				regFlag ="Y";
+				myPageRegFlag ="Y";
 				//회원 사진 정보(실제테이블)
 				List<?> cpaPhotoRealInfoList = myPageService.selectCpaMberPhotoInfoList(paramMap);
 
@@ -332,7 +332,7 @@ public class MyPageController {
 			}
 
 
-			model.addAttribute("myPageRegFlag", regFlag);
+			model.addAttribute("myPageRegFlag", myPageRegFlag);
 			model.addAttribute("trainFlag", trainFlag);
 			model.addAttribute("audTrainFlag", audTrainFlag);
 			model.addAttribute("cpaMemFlag", cpaMemFlag);
