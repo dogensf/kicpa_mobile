@@ -26,4 +26,31 @@
 
 	</select>
 
+	<select id="KicpaCommDAO.selectImmnumCnt" parameterClass="HashMap" resultClass="int">
+		SELECT COUNT(*) FROM KICPASEC.SDB_INT_MB_MASTER WHERE IMM_DI = #immDi#
+	</select>
+
+	<insert id="KicpaCommDAO.insertImmnum" parameterClass="HashMap">
+		INSERT INTO KICPASEC.SDB_INT_MB_MASTER
+				(
+					IMM_VNUM,
+				    IMM_JUPIN,
+				    IMM_DI,
+				    IMM_JUPIN_SEP,
+				    IMM_CI
+				)
+				VALUES
+				(
+					(SELECT GET_VJUMIN() FROM DUAL),
+					(SELECT dbsec.sdb_crypto.encryptex(#immJupin#,'KICPASEC','INT_MB_MASTER','IMM_JUPIN','SELECT') FROM dual),
+					#immDi#,
+					#immJupinSep#,
+					#immCi#
+				)
+	</insert>
+
+	<select id="KicpaCommDAO.selectImmnum" parameterClass="HashMap" resultClass="string">
+		SELECT IMM_VNUM FROM KICPASEC.SDB_INT_MB_MASTER WHERE IMM_DI = #immDi#
+	</select>
+
 </sqlMap>

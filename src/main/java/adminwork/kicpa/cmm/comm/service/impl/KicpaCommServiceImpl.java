@@ -24,6 +24,24 @@ public class KicpaCommServiceImpl extends EgovAbstractServiceImpl implements Kic
 		return kicpaCommDAO.selectCodebaseList(map);
 	}
 
+	@Override
+	public void selectImmnum(Map<String, Object> map) throws Exception {
+		try {
+			int cnt = kicpaCommDAO.selectImmnumCnt(map);
+
+			if(cnt == 0) {
+				kicpaCommDAO.insertImmnum(map);
+			}
+
+			String immnum = kicpaCommDAO.selectImmnum(map);
+			map.put("immnum", immnum);
+
+		}catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+	}
+
 
 
 
