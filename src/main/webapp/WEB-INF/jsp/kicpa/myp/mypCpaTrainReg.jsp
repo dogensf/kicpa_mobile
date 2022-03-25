@@ -103,10 +103,36 @@
 	</div>
 </div>
 
+
+<!-- 하단 레이어 팝업(수습정보 저장) / 활성화시 show -->
+<div class="layer-popup-wrap" id="mypCpaTrainReg_savePop">
+	<div class="layer-container">
+		<div class="title-box">
+			<h2>제출</h2>
+		</div>
+
+		<div class="layer-content" style="text-align: center;">
+			<div class="gray-box">
+				해당 내용으로 제출 하시겠습니까?
+			</div>
+		</div>
+
+		<div class="layer-bottom" style="text-align: center;">
+
+			<button class="btn-text-blue" type="button" id="mypCpaTrainReg_savePopCanclBtn">제출취소</button>
+
+			<div class="btn-bottom">
+				<button class="btn-round fill" type="button" id="mypCpaTrainReg_savePopBtn">제출</button>
+			</div>
+		</div>
+	</div>
+</div>
+
 <input type="hidden" name="pin" id="mypCpaTrainReg_pin" value="${mypCpaTrainRegPin}"/>
 <input type="hidden" name="apntcSn" id="mypCpaTrainReg_apntcSn"/>
 <input type="hidden" id="mypCpaTrainReg_saveMode" value="${mypCpaTrainRegSaveMode.saveMode}"/>
 <input type="hidden" id="mypCpaTrainReg_movePage" value="${mypCpaTrainRegSaveMode.movePage}"/>
 <input type="hidden" id="mypCpaTrainReg_regFlag" value="${mypCpaTrainRegSaveMode.regFlag}"/>
+<input type="hidden" id="mypCpaTrainReg_saveData"/>
 </body>
 </html>

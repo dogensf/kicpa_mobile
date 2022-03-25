@@ -43,38 +43,15 @@ mypCpaTrainReg.mypCpaTrainRegInit = function(){
 	//사진 저장(다음버튼)
 	$("#mypCpaTrainReg_pictInfoSaveBtn").on("click",function(e) {
 
-		var form = $('#mypCpaTrainReg_pictInfoForm')[0];
-		var formData = new FormData(form);
-		formData.append("pin", $('#mypCpaTrainReg_pin').val());
-		formData.append("apntcSn", $('#mypCpaTrainReg_apntcSn').val());
-		formData.append("saveMode", $('#mypCpaTrainReg_saveMode').val());
-		formData.append("regFlag", $('#mypCpaTrainReg_regFlag').val());
+		$('#mypCpaTrainReg_saveData').val("mypCpaTrainReg_pictInfo");
 
-		$.ajax({
-			cache : false,
-			url : mypCpaTrainReg.getContextPath()+"/myp/mypCpaTrainRegPictInfoSave.do",
-			type : 'POST',
-			enctype: 'multipart/form-data',
-			data : formData,
-			processData: false,
-			contentType: false,
-			success : function(data) {
-				if(data.message != "" && data.message != null){
-					alert(data.message);
-				}
-				else{
-					if($('#mypCpaTrainReg_saveMode').val() == "U"){
-						location.replace(mypCpaTrainReg.getContextPath()+'/myp/myPageInfo.do?pin='+$('#mypCpaTrainReg_pin').val());
-					}
-					else{
-						mypCpaTrainReg.mypCpaTrainReg_tabMove('mypCpaTrainReg_grdtSatausInfo');
-					}
-				}
-			}, // success
-			error : function(xhr, status) {
-				alert(xhr + " : " + status);
-			}
-		}); // $.ajax */
+		if($('#mypCpaTrainReg_saveMode').val() == "U"){
+			$('#mypCpaTrainReg_body').addClass('stop');
+			$('#mypCpaTrainReg_savePop').addClass('show');
+		}
+		else{
+			mypCpaTrainReg.mypCpaTrainReg_infoSave();
+		}
 
 	});
 
@@ -82,6 +59,19 @@ mypCpaTrainReg.mypCpaTrainRegInit = function(){
 	//사진선택
 	$('#mypCpaTrainReg_file_selection').on("change", function (e){
 		mypCpaTrainReg.fn_cpaTrainRegistImgSelection(e);
+	});
+
+	//저장팝업 제출취소버튼 클릭
+	$("#mypCpaTrainReg_savePopCanclBtn").on("click",function(e) {
+		$('#mypCpaTrainReg_body').removeClass('stop');
+		$('#mypCpaTrainReg_savePop').removeClass('show');
+	});
+
+	//저장팝업 제출버튼 클릭
+	$("#mypCpaTrainReg_savePopBtn").on("click",function(e) {
+
+		mypCpaTrainReg.mypCpaTrainReg_infoSave();
+
 	});
 	
 }
@@ -130,4 +120,46 @@ mypCpaTrainReg.fn_cpaTrainRegistImgSelection = function (e){
 
 		reader.readAsDataURL(f);
 	});
+}
+
+//저장팝업 예버튼 클릭
+mypCpaTrainReg.mypCpaTrainReg_infoSave = function(){
+
+	var saveData = $('#mypCpaTrainReg_saveData').val();
+
+	if(saveData == "mypCpaTrainReg_pictInfo"){
+		var form = $('#mypCpaTrainReg_pictInfoForm')[0];
+		var formData = new FormData(form);
+		formData.append("pin", $('#mypCpaTrainReg_pin').val());
+		formData.append("apntcSn", $('#mypCpaTrainReg_apntcSn').val());
+		formData.append("saveMode", $('#mypCpaTrainReg_saveMode').val());
+		formData.append("regFlag", $('#mypCpaTrainReg_regFlag').val());
+
+		$.ajax({
+			cache : false,
+			url : mypCpaTrainReg.getContextPath()+"/myp/mypCpaTrainRegPictInfoSave.do",
+			type : 'POST',
+			enctype: 'multipart/form-data',
+			data : formData,
+			processData: false,
+			contentType: false,
+			success : function(data) {
+				if(data.message != "" && data.message != null){
+					alert(data.message);
+				}
+				else{
+					if($('#mypCpaTrainReg_saveMode').val() == "U"){
+						location.replace(mypCpaTrainReg.getContextPath()+'/myp/myPageInfo.do?pin='+$('#mypCpaTrainReg_pin').val());
+					}
+					else{
+						mypCpaTrainReg.mypCpaTrainReg_tabMove('mypCpaTrainReg_grdtSatausInfo');
+					}
+				}
+			}, // success
+			error : function(xhr, status) {
+				alert(xhr + " : " + status);
+			}
+		}); // $.ajax */
+	}
+
 }
