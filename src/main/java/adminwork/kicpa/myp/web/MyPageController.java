@@ -181,22 +181,13 @@ public class MyPageController {
 						appProgressDays = 0;
 					}
 
-					//상황보고서 정보 조회(실제 테이블)
 					paramMap.put("appCpaNo",cpaTrainRegRealInfo.get("appCpaNo"));
-					List<?> cpaApntcBrfRealInfo = myPageService.selectCpaTrainApntcBrfInfoList(paramMap);
-					//연수결과 조회(실제 테이블)
-					List<?> cpaTrnngResultRealInfo = myPageService.selectCpaTrainTrnngResultInfoList(paramMap);
-
 					//기본실무 종료했을 경우 남은 일수 0
 					if(!"".equals(cpaTrainRegRealInfo.get("appEndDe")) && cpaTrainRegRealInfo.get("appEndDe") != null){
 						leftDays = 0;
 					}
 
 					model.addAttribute("cpaTrainRegReal", cpaTrainRegReal);
-					model.addAttribute("cpaApntcBrfRealInfo", cpaApntcBrfRealInfo);
-					model.addAttribute("cpaApntcBrfRealInfoSize", cpaApntcBrfRealInfo.size());
-					model.addAttribute("cpaTrnngResultRealInfo", cpaTrnngResultRealInfo);
-					model.addAttribute("cpaTrnngResultRealInfoSize", cpaTrnngResultRealInfo.size());
 					model.addAttribute("appProgressDays", appProgressDays);
 					model.addAttribute("leftDays", leftDays);
 					trainFlag="E";

@@ -74,8 +74,6 @@ public class MypTrainController {
 			LoginVO user = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
 			System.out.println("========="+user.getUniqId());
 
-			paramMap.put("pin",paramMap.get("pin"));
-
 			//합격자 정보(성명, 연락처) 가져오기(실제 테이블)
 			List<?> cpaTrainRealRegInfo = myPageService.selectCpaPassInfoList(paramMap);
 			Map<String, Object> cpaMemTrainRealRegInfo = new HashMap<>();
@@ -106,6 +104,46 @@ public class MypTrainController {
 		}
 
 		return "kicpa/myp/mypCpaTrainReg";
+	}
+
+	@RequestMapping(value = "/mypCpaTrainInfoMove.do")
+	public String mypCpaTrainInfoMove(@RequestParam Map<String, Object> paramMap, ModelMap model, HttpServletRequest request, HttpServletResponse response)
+			throws Exception{
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		System.out.println("isAuthenticated========="+isAuthenticated);
+
+		if (isAuthenticated) {
+			LoginVO user = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
+			System.out.println("========="+user.getUniqId());
+
+			//수습정보 조회
+			List<?> cpaTrainRegReal = myPageService.selectCpaTrainRegistInfoList(paramMap);
+			Map<String, Object> cpaTrainRegRealInfo = new HashMap<>();
+			cpaTrainRegRealInfo.putAll((Map<String, Object>)cpaTrainRegReal.get(0));
+
+			//상황보고서 정보 조회(실제 테이블)
+			paramMap.put("appCpaNo",cpaTrainRegRealInfo.get("appCpaNo"));
+			List<?> cpaApntcBrfRealInfo = myPageService.selectCpaTrainApntcBrfInfoList(paramMap);
+			//연수결과 조회(실제 테이블)
+			List<?> cpaTrnngResultRealInfo = myPageService.selectCpaTrainTrnngResultInfoList(paramMap);
+
+
+			model.addAttribute("mypCpaTrainInfoPin", paramMap.get("pin"));
+			model.addAttribute("cpaApntcBrfRealInfo", cpaApntcBrfRealInfo);
+			model.addAttribute("cpaApntcBrfRealInfoSize", cpaApntcBrfRealInfo.size());
+			model.addAttribute("cpaTrnngResultRealInfo", cpaTrnngResultRealInfo);
+			model.addAttribute("cpaTrnngResultRealInfoSize", cpaTrnngResultRealInfo.size());
+			model.addAttribute("mypCpaTrainInfoMoveFlag", paramMap.get("moveFlag"));
+
+		}else {
+			System.out.println("pin========="+paramMap.get("pin"));
+			model.addAttribute("id", paramMap.get("pin"));
+			model.addAttribute("url", "/kicpa/myp/mypCpaTrainInfoMove.do");
+			return "uat/uia/LoginUsr";
+
+		}
+
+		return "kicpa/myp/mypCpaTrainInfo";
 	}
 
 
