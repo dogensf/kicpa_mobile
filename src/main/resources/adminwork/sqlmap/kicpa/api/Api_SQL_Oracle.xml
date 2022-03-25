@@ -90,6 +90,7 @@
 			FROM  LETTNMENUINFO B 
 			WHERE  B.Menu_NO > 0 
 			AND    B.UPPER_MENU_NO = 0
+			AND    NVL(B.DEL_YN,'N') = 'N'
 			ORDER BY MENU_ORDR
 		]]> 
 	</select>
@@ -105,8 +106,10 @@
 				 , B.RELATE_IMAGE_PATH AS "relateImagePath"
 				 , B.RELATE_IMAGE_NM   AS "relateImageNm"
 				 , (SELECT C.URL FROM LETTNPROGRMLIST C WHERE B.PROGRM_FILE_NM = C.PROGRM_FILE_NM) AS "chkURL"	
-			FROM    LETTNMENUINFO B			
-			ORDER BY B.MENU_NO,B.MENU_ORDR
+			FROM    LETTNMENUINFO B
+			WHERE 1=1			
+			AND  NVL(B.DEL_YN,'N') = 'N'
+			ORDER BY B.MENU_ORDR,B.MENU_NO
 		]]> 
 	</select>
 	

@@ -16,6 +16,9 @@ function fncLocation(){
 	
 }
 
+function fncLocation(){
+	$('#appExit').addClass("show");
+}
 
 </script>
 <!-- <section class="head-sub">

@@ -28,6 +28,11 @@
 	$(document).ready(function(){
 		myPage.myPageInit();
 	});
+	
+	function fncLocation(){
+		$('#appExit').addClass("show");
+	}
+
 </script>
 <body>
 <div class="wrap">

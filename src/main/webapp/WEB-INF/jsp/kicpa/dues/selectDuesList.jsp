@@ -230,13 +230,17 @@
         function giroReport(){
             $('.kicpa-modal').show();
         }
+    	function fncLocation(){
+    		//location.href='<c:url value='/kicpa/main/main.do'/>';
+    		$('#appExit').addClass("show");
+    	}
     </script>
 </head>
 <body>
     <div class="wrap">
       <div class="container">
         <section class="head-main">
-          <h1>회비관리</h1>
+          <h1>회비납부/조회</h1>
           <%
 	        LoginVO loginVO = (LoginVO)session.getAttribute("LoginVO");
 	        if(loginVO == null){
@@ -269,11 +273,11 @@
 		       </form>
               <div class="tab-main">
                   <a class="tab-link active" href="<c:url value='/kicpa/dues/selectDuesList.do'/>">
-                      <span>회비조회 및 납부</span>
+                      <span>회비납부/조회</span>
                   </a>
                   <a class="tab-link" href="<c:url value='/kicpa/dues/selectDuesList.do?path=result'/>">
                   <%-- <a class="tab-link" href="<c:url value='/kicpa/dues/selectDuesResult.do'/>"> --%>
-                      <span>납부결과 및 조회</span>
+                      <span>납부결과 조회</span>
                   </a>
                   <!-- <a class="tab-link" href="#tabMain2">
                       <span>환급신청 및 조회</span>

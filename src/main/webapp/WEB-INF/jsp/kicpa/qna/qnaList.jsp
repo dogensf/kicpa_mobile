@@ -35,7 +35,7 @@ function fncLocation(){
 	    <button class="btn-back" type="button" onclick="fncLocation();">
 	        <span>이전</span>
 	    </button>
-	    <h3>QNA</h3>
+	    <h3>문의 접수</h3>
 	</section>
 	<section class="content">
 		<div id="tabMain1" class="tab-main-content show">
