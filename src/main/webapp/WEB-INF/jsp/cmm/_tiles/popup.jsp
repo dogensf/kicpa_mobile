@@ -67,19 +67,12 @@
 </div>
 
    <!-- 하단 레이어 팝업 / 활성화시 show -->
-<div class="layer-popup-wrap" id="nLoginBookCartPopup">
+<div class="layer-popup-wrap" id="nonLoginBookCartPopup">
     <div class="layer-container">
         <div class="title-box">
-            <h2>수습공인회계사 등록신청</h2>
+            <h2>구매하기</h2>
         </div>
 
-        <div class="layer-content">
-            <div class="gray-box">
-                   입금대기는 수강신청이 되지 않은 상태입니다.<br />
-                   수강료를 입금하시면 수강신청이 완료됩니다.<br />
-                <span>국민은행 011-25-0016-100</span>
-            </div>
-        </div>
 
         <div class="layer-bottom">
 
@@ -87,7 +80,7 @@
 
             <div class="layer-bottom">
                 <div class="btn-bottom">
-                    <button class="btn-round" type="button">회계법인</button>
+                    <button class="btn-round btn-send" type="button">회계법인</button>
                     <button class="btn-round fill btn-close" type="button">종료</button>
                 </div>
             </div>

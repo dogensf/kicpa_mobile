@@ -66,6 +66,11 @@ public class SntBookController {
 
 		return "kicpa/sntBook/sntBookCategory";
 	}
+	@RequestMapping(value = "/companySearch.do")
+	public String companySearch(@RequestParam Map<String,Object> map,HttpServletRequest request,HttpServletResponse response,ModelMap model) throws Exception{
+
+		return "kicpa/sntBook/companySearch";
+	}
 
 	@RequestMapping(value = "/bookFormatList.do")
 	public String bookFormatList(@RequestParam Map<String,Object> map,HttpServletRequest request,HttpServletResponse response,ModelMap model) throws Exception{
@@ -88,6 +93,12 @@ public class SntBookController {
 	public String taxBookList(@RequestParam Map<String,Object> map,HttpServletRequest request,HttpServletResponse response,ModelMap model) throws Exception{
 
 		return "kicpa/sntBook/taxBookList";
+	}
+	@RequestMapping(value = "/cartOrderCoperation.do")
+	public String cartOrderCoperation(@RequestParam Map<String,Object> map,HttpServletRequest request,HttpServletResponse response,ModelMap model) throws Exception{
+		EgovMap bookDetail = sntBookService.selectBookDetail(map);
+		model.addAttribute("bookDetail", bookDetail);
+		return "kicpa/sntBook/cartOrderCoperation";
 	}
 
 	@RequestMapping(value = "/specialLectureList.do")
@@ -201,9 +212,11 @@ public class SntBookController {
 
 		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
 		HttpSession session = request.getSession();
-		HashMap mapresult =  (HashMap) session.getAttribute("mapresult");
 		List<EgovMap> orderList=   (List<EgovMap>) session.getAttribute("orderList");
-		if(isAuthenticated || (mapresult != null && !mapresult.isEmpty())) {
+
+
+		if(isAuthenticated || "Y".equals(map.get("gamYn"))) {
+
 			if(orderList != null && !orderList.isEmpty()) {
 
 				long totalPay = 0;
@@ -212,7 +225,7 @@ public class SntBookController {
 						LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
 						model.addAttribute("loginVO", user);
 					}
-					totalPay += (Long)m.get("saleAmt");
+					totalPay += Long.parseLong(StringUtil.isNullToString(m.get("saleAmt"),"0"));
 				}
 
 
@@ -294,13 +307,19 @@ public class SntBookController {
 
 		try{
 			modelAndView.setViewName("jsonView");
-			List<EgovMap> list = sntBookService.selectBookFormatList(map);
 
-			int totalCnt = sntBookService.selectBookFormatListCnt(map);
-			 list.forEach(x -> StringUtil.checkMapReplaceHtml(x));
-			modelAndView.addObject("bookFormatList", list);
-			modelAndView.addObject("totalCnt", totalCnt);
+			Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    		if(!"Y".equals(map.get("loginYn")) || isAuthenticated) {
+				List<EgovMap> list = sntBookService.selectBookFormatList(map);
 
+				int totalCnt = sntBookService.selectBookFormatListCnt(map);
+				 list.forEach(x -> StringUtil.checkMapReplaceHtml(x));
+				modelAndView.addObject("bookFormatList", list);
+				modelAndView.addObject("totalCnt", totalCnt);
+				modelAndView.addObject("isLogin", true);
+    		}else {
+    			modelAndView.addObject("isLogin", false);
+    		}
 		}catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -430,6 +449,24 @@ public class SntBookController {
 
 		return modelAndView;
 	}
+	@RequestMapping(value="/getCorporationList.do")
+	public ModelAndView getCorporationList(@RequestBody Map<String,Object> map, HttpServletRequest request) throws Exception{
+		ModelAndView modelAndView = new ModelAndView();
+
+		try{
+			modelAndView.setViewName("jsonView");
+
+			List<EgovMap> list = sntBookService.selectCorporationList(map);
+
+			list.forEach(x -> StringUtil.checkMapReplaceHtml(x));
+			modelAndView.addObject("list", list);
+
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return modelAndView;
+	}
 
 	@RequestMapping(value="/insertCart.do")
 	public ModelAndView insertCart(@RequestBody Map<String,Object> map, HttpServletRequest request) throws Exception{
@@ -482,19 +519,19 @@ public class SntBookController {
 
 				}else {
 					//배송란
-					EgovMap tempMap = new EgovMap();
-					tempMap.put("ibmBookCode", "999999");
-					tempMap.put("ibmNum", "999999");
-					tempMap.put("ibmBookName", "배송료");
-					tempMap.put("ibmDeliverySep", (Object) null);
-					tempMap.put("downDate", (Object) null);
-					tempMap.put("bookDiv", "9");
-					tempMap.put("CNT", "1");
-					tempMap.put("ibmPrice1", "5000");
-					tempMap.put("ibmPrice2", "5000");
-					tempMap.put("amt", "5000");
-					tempMap.put("saleAmt", "5000");
-					list.add(tempMap);
+//					EgovMap tempMap = new EgovMap();
+//					tempMap.put("ibmBookCode", "999999");
+//					tempMap.put("ibmNum", "999999");
+//					tempMap.put("ibmBookName", "배송료");
+//					tempMap.put("ibmDeliverySep", (Object) null);
+//					tempMap.put("downDate", (Object) null);
+//					tempMap.put("bookDiv", "9");
+//					tempMap.put("CNT", "1");
+//					tempMap.put("ibmPrice1", "5000");
+//					tempMap.put("ibmPrice2", "5000");
+//					tempMap.put("amt", "5000");
+//					tempMap.put("saleAmt", "5000");
+//					list.add(tempMap);
 					session.setAttribute("cartList", list);
 
 				}
@@ -509,6 +546,61 @@ public class SntBookController {
 //
 //			list.forEach(x -> StringUtil.checkMapReplaceHtml(x));
 //			modelAndView.addObject("list", list);
+
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return modelAndView;
+	}
+
+	@RequestMapping(value="/getOrderCorporation.do")
+	public ModelAndView getOrderCorporation(@RequestBody Map<String,Object> map, HttpServletRequest request) throws Exception{
+		ModelAndView modelAndView = new ModelAndView();
+
+		try{
+
+			modelAndView.setViewName("jsonView");
+
+			HttpSession session = request.getSession();
+//			EgovMap userInfo =  (EgovMap) session.getAttribute("loginSession");
+//			HashMap mapresult =  (HashMap) session.getAttribute("mapresult");
+
+			if(map.get("ibmBookCode") instanceof String ) {
+				List list = new ArrayList<String>();
+				list.add((String)map.get("ibmBookCode"));
+				map.put("ibmBookCode",list);
+			}
+
+			List<EgovMap> list = sntBookService.selectCartInputBookList(map);
+
+//			List<EgovMap> cartList = (List<EgovMap>) session.getAttribute("cartList");
+
+
+			for(EgovMap y : list ) {
+				y.put("ibmPrice", StringUtil.isNullToString(y.get("ibmPrice2"),"0"));
+				y.put("saleAmt",(Long.parseLong(StringUtil.isNullToString(y.get("ibmPrice2"),"0").replaceAll(",", "") ) * Integer.parseInt(StringUtil.isNullToString(map.get("cnt")))));
+			}
+
+
+			//배송란
+//			EgovMap tempMap = new EgovMap();
+//			tempMap.put("ibmBookCode", "999999");
+//			tempMap.put("ibmNum", "999999");
+//			tempMap.put("ibmBookName", "배송료");
+//			tempMap.put("ibmDeliverySep", (Object) null);
+//			tempMap.put("downDate", (Object) null);
+//			tempMap.put("bookDiv", "9");
+//			tempMap.put("CNT", "1");
+//			tempMap.put("ibmPrice1", "5000");
+//			tempMap.put("ibmPrice2", "5000");
+//			tempMap.put("amt", "5000");
+//			tempMap.put("saleAmt", "5000");
+//			list.add(tempMap);
+			session.setAttribute("cartList", list);
+			session.setAttribute("orderList", list);
+
+
 
 		}catch (Exception e) {
 			e.printStackTrace();
@@ -556,7 +648,7 @@ public class SntBookController {
 					cartList.remove(temp);
 				}
 
-				if(cartList.size() == 1) {
+				if(cartList.size() == 0) {
 					session.removeAttribute("cartList");
 				}
 
@@ -703,14 +795,6 @@ public class SntBookController {
 		return modelAndView;
 	}
 
-
-
-
-
-
-
-
-
 	@RequestMapping(value="/orderReponse.do")
 	public void orderReponse(@RequestParam Map<String,Object> map, HttpServletRequest request,HttpServletResponse response) throws Exception{
 		ModelAndView modelAndView = new ModelAndView();
@@ -731,12 +815,14 @@ public class SntBookController {
 				if(isAuthenticated) {
 					LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
 					map.put("userId", user.getId());
+					map.put("userName", user.getName());
 					map.put("rvName", user.getName());
 //				map.put("rvAddress", StringUtil.isNullToString(user.getAima_add1(),"") + " " + StringUtil.isNullToString(user.getAima_add2()) );
 					map.put("pslId",user.getUniqId());
 
 				}else {
 					map.put("userId", "Guest");
+					map.put("pslId", map.get("gamId"));
 				}
 
 				inicisMap =HttpUtil.inicisRequest(StringUtil.isNullToString(map.get("P_REQ_URL")), StringUtil.isNullToString(map.get("P_TID")), propertyService.getString("inicisMid"));

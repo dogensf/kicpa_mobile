@@ -169,5 +169,10 @@ public class SntBookServiceImpl extends EgovAbstractServiceImpl implements SntBo
 
 	}
 
+	@Override
+	public List<EgovMap> selectCorporationList(Map<String, Object> map) throws Exception {
+		return sntBookDAO.selectCorporationList(map);
+	}
+
 
 }

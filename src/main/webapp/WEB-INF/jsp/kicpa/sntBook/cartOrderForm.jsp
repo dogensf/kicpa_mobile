@@ -42,11 +42,25 @@ function pay0(){
 	<section class="content">
 
 		<div class="step-box">
-		    <span>장바구니/구매</span>
+			<c:choose>
+       			<c:when test="${param.gamYn eq 'Y' }">
+       				<span>회계법인으로 구매</span>
+       			</c:when>
+       			<c:otherwise>
+				    <span>장바구니/구매</span>
+       			</c:otherwise>
+     		</c:choose>
 	        <h4>개인정보 수집 및 이용,등록</h4>
 	      	<br/>
 	        <div class="step-by">
-	            <b>1</b> / <em>1</em>
+	        	<c:choose>
+		        	<c:when test="${param.gamYn eq 'Y' }">
+			            <b>2</b> / <em>2</em>
+	    	    	</c:when>
+	    	    	<c:otherwise>
+			            <b>1</b> / <em>1</em>
+	    	    	</c:otherwise>
+	        	</c:choose>
 	        </div>
 	    </div>
 
@@ -77,28 +91,44 @@ function pay0(){
 					<span>개인정보</span>
 		        </div>
 		        <div class="form">
-			   		<div class="inp-box">
-				        <label class="label essen" for="uid">아이디</label>
-				        <input type="text" id="uid" name="uid" placeholder="" disabled="disabled" value="${loginVO.id }" />
-				    </div>
-			       	<div class="inp-box">
-				        <label class="label essen" for="recName">이름</label>
-				        <input type="text" id="recName" name="recName" placeholder="성명을 입력하세요." value="${loginVO.name }" />
-				    </div>
-			     	<div class="inp-box">
-				        <label class="label essen" for="rvZip">우편번호</label>
-				        <input type="text" id="rvZip" name="rvZip" placeholder="우편번호를 압력하세요." readonly="readonly" onclick="sntBook.daumPostcode('cart');" maxlength="6" />
-				    </div>
-		         	<div class="inp-box">
-				        <label class="label essen" for="rvAdd1">주소</label>
-				        <input type="text" id="rvAdd1" name="rvAdd1" readonly="readonly" onclick="sntBook.daumPostcode('cart');" placeholder="Ex) 서울특별시 서대문구 충정로7길 12" />
-				    </div>
 
-			    	<div class="inp-box">
-				        <label class="label essen" for="rvAdd3">상세주소</label>
-				        <input type="text" id="rvAdd3" name="rvAdd3" placeholder="Ex) 한국공인회계사회 1층" />
-				    </div>
+		        	<c:if test="${param.gamYn eq 'N' }">
+				   		<div class="inp-box">
+					        <label class="label essen" for="uid">아이디</label>
+					        <input type="text" id="uid" name="uid" placeholder="" disabled="disabled" value="${loginVO.id }" />
+					    </div>
+		        	</c:if>
 
+					<c:choose>
+						<c:when test="${param.gamYn eq 'N' }">
+					       	<div class="inp-box">
+						        <label class="label essen" for="rvName">이름</label>
+						        <input type="text" id="rvName" name="rvName" placeholder="성명을 입력하세요." readonly="readonly" value="${loginVO.name }" />
+						    </div>
+						</c:when>
+						<c:otherwise>
+							<div class="inp-box">
+						        <label class="label essen" for="userName">이름</label>
+						        <input type="text" id="userName" name="userName" placeholder="성명을 입력하세요." value="" />
+						    </div>
+						</c:otherwise>
+					</c:choose>
+
+				    <c:if test="${param.gamYn eq 'N' }">
+				     	<div class="inp-box">
+					        <label class="label essen" for="rvZip">우편번호</label>
+					        <input type="text" id="rvZip" name="rvZip" placeholder="우편번호를 압력하세요." readonly="readonly" onclick="sntBook.daumPostcode('cart');" maxlength="6" />
+					    </div>
+			         	<div class="inp-box">
+					        <label class="label essen" for="rvAdd1">주소</label>
+					        <input type="text" id="rvAdd1" name="rvAdd1" readonly="readonly" onclick="sntBook.daumPostcode('cart');" placeholder="Ex) 서울특별시 서대문구 충정로7길 12" />
+					    </div>
+
+				    	<div class="inp-box">
+					        <label class="label essen" for="rvAdd3">상세주소</label>
+					        <input type="text" id="rvAdd3" name="rvAdd3" placeholder="Ex) 한국공인회계사회 1층" />
+					    </div>
+					</c:if>
 		    	    <div class="inp-box">
 				        <label class="label essen" for="etc">전화번호</label>
 				        <div class="phone">
@@ -121,12 +151,53 @@ function pay0(){
 				        <input type="text" id="email" name="email" placeholder="이메일을 입력하세요." ${loginVO.email } />
 				    </div>
 
-			    	<div class="inp-box">
-				        <label class="label essen" for="rvCpyName">회사명</label>
-				        <input type="text" id="rvCpyName" name="rvCpyName" placeholder="회사명을 입력하세요." />
-				    </div>
+				  	<c:if test="${param.gamYn eq 'N' }">
+				    	<div class="inp-box">
+					        <label class="label essen" for="rvCpyName">회사명</label>
+					        <input type="text" id="rvCpyName" name="rvCpyName" placeholder="회사명을 입력하세요." />
+					    </div>
+				    </c:if>
 				</div>
 			</div>
+
+			<c:if test="${param.gamYn eq 'Y' }">
+				<div class="add-box">
+					<div class="title">
+						<span>회계법인 신청</span>
+			        </div>
+			        <div class="form">
+				   		<div class="inp-box">
+					        <label class="label essen" for="uid">회계법인선택</label>
+					        <button type="button" id="searchCompanyBtn"class="btn-round-sm">선택</button>
+					    </div>
+
+					</div>
+				</div>
+				<div class="add-box">
+					<div class="title">
+						<span>받는곳</span>
+			        </div>
+			        <div class="form">
+				   		<div class="inp-box">
+					        <label class="label essen" for="rvName">받는분 성함</label>
+					        <input type="text" id="rvName" name="rvName" placeholder="성명을 입력하세요." value="" />
+					    </div>
+
+					    <div class="inp-box">
+					        <label class="label essen" for="rvCpyName">회사명</label>
+					        <input type="text" id="rvCpyName" name="rvCpyName" placeholder="회사명을 입력하세요." />
+					    </div>
+						<div class="inp-box">
+					        <label class="label essen" for="rvZip">우편번호</label>
+					        <input type="text" id="rvZip" name="rvZip" placeholder="우편번호를 압력하세요." readonly="readonly" onclick="sntBook.daumPostcode('cart');" maxlength="6" />
+					    </div>
+			         	<div class="inp-box">
+					        <label class="label essen" for="rvAdd1">주소</label>
+					        <input type="text" id="rvAdd1" name="rvAdd1" readonly="readonly" onclick="sntBook.daumPostcode('cart');" placeholder="Ex) 서울특별시 서대문구 충정로7길 12" />
+					    </div>
+					</div>
+				</div>
+	       	</c:if>
 
 	       <!-- 섹션2 -->
 	       	<div class="add-box">
