@@ -84,7 +84,7 @@
 
 			<!-- 탭 -->
 			<div class="tab-main">
-				<a class="tab-link active myPageActiveMove" id="myPage_cpaInfoTabActive" href="javascript:void(0);" onclick="myPage.myPage_tabMove('myPage_cpaInfoTab')">
+				<a class="tab-link myPageActiveMove" id="myPage_cpaInfoTabActive" href="javascript:void(0);" onclick="myPage.myPage_tabMove('myPage_cpaInfoTab')">
 					<span>공인회계사</span>
 				</a>
 				<c:if test="${trainFlag ne 'H'}">
@@ -93,7 +93,7 @@
 					</a>
 				</c:if>
 				<a class="tab-link myPageActiveMove" id="myPage_taxAcutInfoTabActive" href="javascript:void(0);" onclick="myPage.myPage_tabMove('myPage_taxAcutInfoTab')">
-					<span>세무사 세무대리</span>
+					<span>세무사 (세무대리)</span>
 				</a>
 			</div>
 
@@ -285,7 +285,7 @@
 								</div>
 
 								<div class="btn-area">
-									<button class="btn-primary" type="button">기본실무 등록하기</button>
+									<button class="btn-primary" type="button" id="mypPage_mypCpaTrainRegPageMove">기본실무 등록하기</button>
 								</div>
 							</div>
 						</c:if>
@@ -376,8 +376,8 @@
 								<!-- 버튼 -->
 								<div class="btn-multiArea">
 									<div>
-										<button class="btn-round" type="button">상황보고서</button>
-										<button class="btn-round" type="button">연수결과</button>
+										<button class="btn-round mypage_trainInfoMove" type="button" value="apntcBrf">상황보고서</button>
+										<button class="btn-round mypage_trainInfoMove" type="button" value="trnngResult">연수결과</button>
 									</div>
 
 									<!-- 기본실무수습 종료예정일 15일전부터 외감 신청 가능 -->
@@ -493,8 +493,8 @@
 								<!-- 버튼 -->
 								<div class="btn-multiArea">
 									<div>
-										<button class="btn-round" type="button">상황보고서</button>
-										<button class="btn-round" type="button">연수결과</button>
+										<button class="btn-round mypage_trainInfoMove" type="button" value="apntcBrf">상황보고서</button>
+										<button class="btn-round mypage_trainInfoMove" type="button" value="trnngResult">연수결과</button>
 									</div>
 								</div>
 							</div>
@@ -594,7 +594,7 @@
 								<p>등록정보가 없습니다.</p>
 
 								<em>세무사 개업신청을 원하시면<br />
-									통합플랫폼 PC 화면에서 세무사 세무대리<br />
+									통합플랫폼 PC 화면에서 세무사(세무대리)<br />
 									개업신청서를 작성하세요.</em>
 							</div>
 						</div>

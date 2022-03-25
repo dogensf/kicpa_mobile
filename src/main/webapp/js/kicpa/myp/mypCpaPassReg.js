@@ -304,7 +304,7 @@ mypPassReg.mypPassRegInit = function(){
 	//수습등록이동 팝업 등록신청 시작버튼 클릭
 	$("#mypCpaPassReg_trainMovePopBtn").on("click",function(e) {
 
-
+		location.replace(mypPassReg.getContextPath()+'/myp/mypCpaTrainReg.do?pin='+$('#mypCpaPassReg_pin').val());
 
 	});
 }
