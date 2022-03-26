@@ -15,6 +15,7 @@ function fncLocation(){
 <form id="boardForm" name="boardForm">
 	<input type="hidden" name="pageIndex" id="pageIndex" value="1">
 	<input type="hidden" name="ibmNum" id="ibmNum" value="174,175,176,177,178,179,180,181,182,183,184">
+	<input type="hidden" name="bookDiv" id="bookDiv" value="2">
 	<section class="head-sub">
 	 	<button class="btn-back" type="button" onclick="fncLocation();">
 	        <span>이전</span>
@@ -40,7 +41,7 @@ function fncLocation(){
 		  </div><!-- tabSub1 -->
 		</div><!-- tabMain1 -->
 		<div class="sticky-bottom">
-	        <button class="btn-sticky" type="button" id="goCartBtn">선택 구매하기</button>
+	        <button class="btn-sticky" type="button" id="goCartBtn" onclick="sntBook.cartValidation();">선택 구매하기</button>
 	    </div>
 	</section>
 </form>

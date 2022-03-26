@@ -14,12 +14,10 @@ sntBook.kifrsBookInit = function(){
 	var param = $("#boardForm").serializeObject();
 	fn_ajax_call("/kicpa/sntBook/getBookList.do",param,sntBook.getKifrsBookListSuccess,sntBook.boardListError);
 
-	sntBook.cartValidation();
 }
 sntBook.taxBookInit = function(){
 	var param = $("#boardForm").serializeObject();
 	fn_ajax_call("/kicpa/sntBook/getBookList.do",param,sntBook.geTaxBookListSuccess,sntBook.boardListError);
-	sntBook.cartValidation();
 }
 
 sntBook.bookFormatInit = function(){
@@ -116,12 +114,17 @@ sntBook.cartInit = function(){
 			$.each($("#cartForm input[name='ibmBookCode']:checked"),function(i,o){
 				var price = Number($(this).closest("li").find(".product i").text().replace(/,|[원]/gi,""));
 				var cnt = Number($(this).closest("li").find(".quantity-num em").text());
-				console.log(price);
-				console.log(cnt);
 				totalPrice += price*cnt;
 			});
+
+			$.each($("#cartForm input[name='ibmBookCode']:checked"),function(i,o){
+				if($(this).closest("li").hasClass("book_div_6") ){
+					totalPrice+= 5000;
+					return false;
+				}
+			});
+
 			//배송비추가
-			totalPrice+= 5000;
 			totalPrice = String(totalPrice).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 
 			$("#totalBtn").text("합계금액 " +totalPrice+"원");
@@ -227,9 +230,12 @@ sntBook.updateCartSuccess = function(data){
 	var gbn = data.gbn;
 	var ibmBookCode = data.ibmBookCode;
 	var cnt = data.cnt;
+	var deliveryFlag =data.deliveryFlag;
 	if(gbn == 'DELETE'){
-		if($(".basket-list li").length <= 2){
-			$(".basket-list li").remove();
+		if(deliveryFlag){
+			$(".delivery-zone").remove();
+			$("input[name='ibmBookCode'][value='"+ibmBookCode+"']").closest("li").remove();
+			$("#cartForm input[name='ibmBookCode']").change();
 		}else{
 			$("input[name='ibmBookCode'][value='"+ibmBookCode+"']").closest("li").remove();
 			$("#cartForm input[name='ibmBookCode']").change();
@@ -481,7 +487,7 @@ sntBook.getBooFormatkListSuccess = function(data){
 			$.each(list,function(i,o){
 				txt+='<li> \n';
 				txt+='	<a href="javascript:board.openDetailPop(\'/kicpa/sntBook/bookFormatDetail.do?fileId='+o.fileId+'\');"> \n';
-				txt+='		<input type="checkbox" name="ibmBookCode" id="ibmBookCode'+i+'" value="'+o.ibmBookCode+'"/>\n';
+				txt+='		<input type="checkbox" name="ibmBookCode" id="ibmBookCode'+i+'" value="'+o.fileId+'"/>\n';
 				txt+='		<label for="ibmBookCode'+i+'">선택</label>\n';
 				txt+=' 		<div class="title-zone"> \n';
 				txt+=' 			<p>'+o.fileTitle+'</p> \n';
@@ -742,15 +748,14 @@ sntBook.getOfflineEduCheckSuccess = function(data){
 }
 
 sntBook.cartValidation = function(){
-	$("#goCartBtn").on("click",function(){
+//	$("#goCartBtn").on("click",function(){
 		if($("#boardForm input[name='ibmBookCode']:checked").length <= 0){
 			alert("하나이상 선택하셔야 합니다.")
 			return false;
 		}
-
 		sntBook.insertCart();
 
-	});
+//	});
 }
 
 
@@ -786,7 +791,7 @@ sntBook.orderCartFrom = function(){
 
 sntBook.orderCartFormSuccess = function(data){
 	var result = data.result;
-
+	alert(result);
 	if(result == '0000'){
 		location.href="kicpa/sntBook/cartOrderForm.do?gamYn=N";
 	}else if(result == '0001'){

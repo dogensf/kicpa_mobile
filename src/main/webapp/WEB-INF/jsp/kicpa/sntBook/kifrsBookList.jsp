@@ -40,7 +40,7 @@ function fncLocation(){
 		  </div><!-- tabSub1 -->
 		</div><!-- tabMain1 -->
 		<div class="sticky-bottom">
-	        <button class="btn-sticky" type="button" id="goCartBtn">선택 구매하기</button>
+	        <button class="btn-sticky" type="button" id="goCartBtn" onclick="sntBook.cartValidation();">선택 구매하기</button>
 	    </div>
 	</section>
 </form>

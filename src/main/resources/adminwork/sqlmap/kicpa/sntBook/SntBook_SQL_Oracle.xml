@@ -729,6 +729,24 @@
 	</select>
 
 
+	<select id="SntBookDAO.selectBookFormatOrderList" parameterClass="Hashmap" resultClass="egovMap">
+		SELECT FILE_ID as IBM_NUM,
+			   FILE_ID as IBM_BOOK_CODE,
+			   FILE_TITLE as IBM_BOOK_NAME,
+			   DOWN_PRICE as IBM_PRICE1,
+			   ORG_PRICE as IBM_PRICE2,
+			   TO_CHAR( (SELECT SYSDATE + DOWN_DAY FROM DUAL),'YYYY-MM-DD HH24:MI:SS') as DOWN_DATE,
+			   '6' BOOK_DIV,
+			    1 CNT
+		  FROM AUDIT_DOWN
+		WHERE FILE_ID IN
+		<iterate  property="ibmBookCode" open="(" close=")" conjunction=",">
+	       	#ibmBookCode[]#
+	    </iterate>
+
+	</select>
+
+
 
 
 

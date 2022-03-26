@@ -14,6 +14,8 @@ function fncLocation(){
 </script>
 <form id="boardForm" name="boardForm">
 	<input type="hidden" name="loginYn" id="loginYn" value="Y">
+	<input type="hidden" name="bookDiv" id="bookDiv" value="6">
+
 
 	<section class="head-sub">
 	 	 <button class="btn-back" type="button" onclick="fncLocation();">
@@ -51,7 +53,7 @@ function fncLocation(){
 		  </div><!-- tabSub1 -->
 		</div><!-- tabMain1 -->
 		<div class="sticky-bottom">
-	        <button class="btn-sticky" type="button" id="goCartBtn">선택 구매하기</button>
+	        <button class="btn-sticky" type="button" id="goCartBtn" onclick="sntBook.cartValidation();">선택 구매하기</button>
 	    </div>
 		<jsp:include page="/include/includeLoign.jsp"/>
 	</section>

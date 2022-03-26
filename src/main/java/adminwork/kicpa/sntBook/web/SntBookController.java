@@ -13,6 +13,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -477,9 +478,8 @@ public class SntBookController {
 			modelAndView.setViewName("jsonView");
 
 			HttpSession session = request.getSession();
-
+			EgovMap deliveryMap	 = null;
 			Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
-
 			if(isAuthenticated) {
 
 //			EgovMap userInfo =  (EgovMap) session.getAttribute("loginSession");
@@ -491,7 +491,28 @@ public class SntBookController {
 					map.put("ibmBookCode",list);
 				}
 
-				List<EgovMap> list = sntBookService.selectCartInputBookList(map);
+				List<EgovMap> list = null ;
+
+				if("6".equals(map.get("bookDiv"))) {
+					list = sntBookService.selectBookFormatOrderList(map);
+
+					//배송란
+					deliveryMap = new EgovMap();
+					deliveryMap.put("ibmBookCode", "999999");
+					deliveryMap.put("ibmNum", "999999");
+					deliveryMap.put("ibmBookName", "배송료");
+					deliveryMap.put("ibmDeliverySep", (Object) null);
+					deliveryMap.put("downDate", (Object) null);
+					deliveryMap.put("bookDiv", "9");
+					deliveryMap.put("CNT", "1");
+					deliveryMap.put("ibmPrice1", "5000");
+					deliveryMap.put("ibmPrice2", "5000");
+					deliveryMap.put("amt", "5000");
+					deliveryMap.put("saleAmt", "5000");
+
+				}else {
+					list = sntBookService.selectCartInputBookList(map);
+				}
 
 				List<EgovMap> cartList = (List<EgovMap>) session.getAttribute("cartList");
 
@@ -508,33 +529,40 @@ public class SntBookController {
 								tempMap = y;
 							}
 						}
+
+
+						//장바구니에 배송비가 있다면 셋팅된 데이터를 초기화
+						if("999999".equals(x.get("ibmBookCode"))) {
+							deliveryMap = null;
+						}
+
 						if(flag) {
 							list.remove(tempMap);
 						}
 					}
-					if(list != null && !list.isEmpty()) {
-						cartList.addAll(list);
-						session.setAttribute("cartList", cartList);
+
+					//배송비 정보가 있다면 add
+					if(deliveryMap != null && !deliveryMap.isEmpty()) {
+						list.add(deliveryMap);
 					}
 
+					cartList.addAll(list);
+					session.setAttribute("cartList", cartList);
 				}else {
-					//배송란
-//					EgovMap tempMap = new EgovMap();
-//					tempMap.put("ibmBookCode", "999999");
-//					tempMap.put("ibmNum", "999999");
-//					tempMap.put("ibmBookName", "배송료");
-//					tempMap.put("ibmDeliverySep", (Object) null);
-//					tempMap.put("downDate", (Object) null);
-//					tempMap.put("bookDiv", "9");
-//					tempMap.put("CNT", "1");
-//					tempMap.put("ibmPrice1", "5000");
-//					tempMap.put("ibmPrice2", "5000");
-//					tempMap.put("amt", "5000");
-//					tempMap.put("saleAmt", "5000");
-//					list.add(tempMap);
-					session.setAttribute("cartList", list);
+					if(deliveryMap != null && !deliveryMap.isEmpty()) {
+						list.add(deliveryMap);
+					}
 
+					session.setAttribute("cartList", list);
 				}
+
+
+
+
+
+
+
+
 
 				modelAndView.addObject("isLogin", true);
 			}else {
@@ -638,6 +666,7 @@ public class SntBookController {
 							break;
 						}else if("DELETE".equals(map.get("gbn"))) {
 							temp = m;
+							System.out.println(m);
 							break;
 						}
 					}
@@ -646,6 +675,16 @@ public class SntBookController {
 
 				if("DELETE".equals(map.get("gbn")) && temp != null ) {
 					cartList.remove(temp);
+				}
+
+				Optional<EgovMap> bookDivSixMap = cartList.stream().filter(x -> "6".equals(x.get("bookDiv")) ).findFirst();
+				Optional<EgovMap> deliveryMap = cartList.stream().filter(x -> "999999".equals(x.get("ibmBookCode")) ).findFirst();
+				//배송비 붙는 상품이 없고 장바구니에 배송비가 있다면 배송비를 삭제
+				if(!bookDivSixMap.isPresent() && deliveryMap.isPresent()) {
+					modelAndView.addObject("deliveryFlag",true);
+					cartList.remove(deliveryMap.get());
+				}else {
+					modelAndView.addObject("deliveryFlag",false);
 				}
 
 				if(cartList.size() == 0) {
@@ -719,7 +758,7 @@ public class SntBookController {
 					List<EgovMap> orderList = new ArrayList<EgovMap>();
 					for(EgovMap y : cartList ) {
 						String ibmBookCode = StringUtil.isNullToString(y.get("ibmBookCode"));
-						if(StringUtil.isNullToString(map.get("ibmBookCode")).indexOf(ibmBookCode) > -1 || "999999".equals(ibmBookCode)) {
+						if(StringUtil.isNullToString(map.get("ibmBookCode")).indexOf(ibmBookCode) > -1) {
 
 							if(isAuthenticated) {
 								y.put("ibmPrice", StringUtil.isNullToString(y.get("ibmPrice1"),"0"));
@@ -730,12 +769,25 @@ public class SntBookController {
 								y.put("saleAmt",(Long.parseLong(StringUtil.isNullToString(y.get("ibmPrice2"),"0").replaceAll(",", "") ) * Integer.parseInt(StringUtil.isNullToString(y.get("cnt")))));
 							}
 
+							Optional<EgovMap> bookDivSixMap = cartList.stream().filter(x -> "6".equals(x.get("bookDiv")) ).findFirst();
+							Optional<EgovMap> deliveryMap = cartList.stream().filter(x -> "999999".equals(x.get("ibmBookCode")) ).findFirst();
+//							if() {
+//
+//							}
+
 							orderList.add(y);
 						}
 					}
 
+					Optional<EgovMap> bookDivSixMap = orderList.stream().filter(x -> "6".equals(x.get("bookDiv")) ).findFirst();
+					Optional<EgovMap> deliveryMap = cartList.stream().filter(x -> "999999".equals(x.get("ibmBookCode")) ).findFirst();
 
-					if(orderList.size() <= 1) {
+
+					if(bookDivSixMap.isPresent()) {
+						orderList.add(deliveryMap.get());
+					}
+
+					if(orderList.size() == 0) {
 						modelAndView.addObject("result", "0003");
 					}else {
 						modelAndView.addObject("result", "0000");
@@ -771,7 +823,7 @@ public class SntBookController {
 			if(orderList != null && !orderList.isEmpty()) {
 				long totalPay = 0;
 				for(EgovMap m : orderList) {
-					totalPay += (Long)m.get("saleAmt");
+					totalPay += Long.parseLong(StringUtil.isNullToString(m.get("saleAmt")));
 				}
 
 				System.out.println(map);
