@@ -260,44 +260,45 @@ function pay0(){
 				<div class="form">
 		       		<div class="inp-box">
 				        <label class="label essen" for="mtrcCompanyId">등록번호</label>
-				        <input type="text" id="mtrcCompanyId" name="mtrcCompanyId" placeholder="회사명을 입력하세요." />
+				        <input type="text" id="mtrcCompanyId" name="mtrcCompanyId" placeholder="등록번호를 입력하세요" />
 				    </div>
 		       		<div class="inp-box">
 				        <label class="label essen" for="cpyMtrcCompanyName">법인명(단체명)</label>
-				        <input type="text" id="cpyMtrcCompanyName" name="cpyMtrcCompanyName" placeholder="회사명을 입력하세요." />
+				        <input type="text" id="cpyMtrcCompanyName" name="cpyMtrcCompanyName" placeholder="법인명(단체명)을 입력하세요." />
 				    </div>
 		       		<div class="inp-box">
 				        <label class="label essen" for="cpyMtrcRepreName">대표자</label>
-				        <input type="text" id="cpyMtrcRepreName" name="cpyMtrcRepreName" placeholder="회사명을 입력하세요." />
+				        <input type="text" id="cpyMtrcRepreName" name="cpyMtrcRepreName" placeholder="대표자를 입력하세요." />
 				    </div>
-		       		<div class="inp-box">
-				        <label class="label essen" for="cpyOffZip">우편번호</label>
-				        <input type="text" id="cpyOffZip" name="cpyOffZip" readonly="readonly" onclick="sntBook.daumPostcode('company');"  placeholder="회사명을 입력하세요." />
-				    </div>
+<!-- 		       		<div class="inp-box"> -->
+<!-- 				        <label class="label essen" for="cpyOffZip">우편번호</label> -->
+<!-- 				        <input type="text" id="cpyOffZip" name="cpyOffZip" readonly="readonly" onclick="sntBook.daumPostcode('company');"  placeholder="회사명을 입력하세요." /> -->
+<!-- 				    </div> -->
 		       		<div class="inp-box">
 				        <label class="label essen" for="cpyOffAddr">주소</label>
-				        <input type="text" id="cpyOffAddr" name="cpyOffAddr" readonly="readonly" onclick="sntBook.daumPostcode('company');"  placeholder="회사명을 입력하세요." />
+<!-- 				        <input type="text" id="cpyOffAddr" name="cpyOffAddr" readonly="readonly" onclick="sntBook.daumPostcode('company');"  placeholder="회사명을 입력하세요." /> -->
+				        <input type="text" id="cpyOffAddr" name="cpyOffAddr"  placeholder="주소를입력하세요." />
 				    </div>
 		       		<div class="inp-box">
 				        <label class="label essen" for="cpyOffAddr1">상세주소</label>
-				        <input type="text" id="cpyOffAddr1" name="cpyOffAddr1" placeholder="회사명을 입력하세요." />
+				        <input type="text" id="cpyOffAddr1" name="cpyOffAddr1" placeholder="상세주소를 입력하세요." />
 				    </div>
 		       		<div class="inp-box">
 				        <label class="label essen" for="cpyMtrcType1">업태1</label>
-				        <input type="text" id="cpyMtrcType1" name="cpyMtrcType1" placeholder="회사명을 입력하세요." />
+				        <input type="text" id="cpyMtrcType1" name="cpyMtrcType1" placeholder="업태을 입력하세요." />
 				    </div>
-		       		<div class="inp-box">
-				        <label class="label essen" for="cpyMtrcType2">업태2</label>
-				        <input type="text" id="cpyMtrcType2" name="cpyMtrcType2" placeholder="회사명을 입력하세요." />
-				    </div>
+<!-- 		       		<div class="inp-box"> -->
+<!-- 				        <label class="label essen" for="cpyMtrcType2">업태2</label> -->
+<!-- 				        <input type="text" id="cpyMtrcType2" name="cpyMtrcType2" placeholder="회사명을 입력하세요." /> -->
+<!-- 				    </div> -->
 		       		<div class="inp-box">
 				        <label class="label essen" for="cpyMtrcItem1">종목1</label>
-				        <input type="text" id="cpyMtrcItem1" name="cpyMtrcItem1" placeholder="회사명을 입력하세요." />
+				        <input type="text" id="cpyMtrcItem1" name="cpyMtrcItem1" placeholder="종목명을 입력하세요." />
 				    </div>
-		       		<div class="inp-box">
-				        <label class="label essen" for="cpyMtrcItem2">종목2</label>
-				        <input type="text" id="cpyMtrcItem2" name="cpyMtrcItem2" placeholder="회사명을 입력하세요." />
-				    </div>
+<!-- 		       		<div class="inp-box"> -->
+<!-- 				        <label class="label essen" for="cpyMtrcItem2">종목2</label> -->
+<!-- 				        <input type="text" id="cpyMtrcItem2" name="cpyMtrcItem2" placeholder="회사명을 입력하세요." /> -->
+<!-- 				    </div> -->
 				</div>
 			</div>
 

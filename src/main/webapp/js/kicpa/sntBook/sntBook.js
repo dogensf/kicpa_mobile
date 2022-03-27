@@ -219,7 +219,34 @@ sntBook.orderFormInit = function(){
 	});
 
 
+	$("#mtrcCompanyId").on("blur",function(){
+		if($.trim($(this).val()).length > 8   ){
+			sntBook.getTaxDetail();
+		}
+
+	});
+
+
 }
+
+sntBook.getTaxDetail = function(mtrcCompanyId){
+	var param = {"mtrcCompanyId" : $("#mtrcCompanyId").val() }
+	fn_ajax_call("/kicpa/sntBook/getTaxDetail.do",param,sntBook.getTaxDetailSuccess,sntBook.boardListError);
+}
+
+sntBook.getTaxDetailSuccess = function(data){
+	var taxDetail = data.taxDetail;
+
+	if(taxDetail != null){
+		$("#cpyMtrcCompanyName").val(taxDetail.buyNmCorp);
+		$("#cpyMtrcRepreName").val(taxDetail.buyNmCeo);
+		$("#cpyOffAddr").val(taxDetail.buyAddr1);
+		$("#cpyOffAddr1").val(taxDetail.buyAddr2);
+		$("#cpyMtrcType1").val(taxDetail.buyBizStatus);
+		$("#cpyMtrcItem1").val(taxDetail.buyBizType);
+	}
+},
+
 
 sntBook.updateCart = function(gbn,ibmBookCode){
 	var param = {"gbn" : gbn ,"ibmBookCode" : ibmBookCode}

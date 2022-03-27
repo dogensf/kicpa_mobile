@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="SntBookKipadmDAO">
+
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+
+	<parameterMap class="HashMap" id="slipInfo">
+		<parameter property="v_slip_num"	jdbcType="VARCHAR" 	javaType="java.lang.String"  mode="IN"/>
+		<parameter property="v_slip_date"	jdbcType="DATE" 	javaType="java.lang.String"  mode="IN"/>
+		<parameter property="v_emp_id"		jdbcType="VARCHAR" 	javaType="java.lang.String"  mode="IN"/>
+		<parameter property="v_drcr"		jdbcType="VARCHAR" 	javaType="java.lang.String"  mode="IN"/>
+		<parameter property="v_acc_code"	jdbcType="VARCHAR" 	javaType="java.lang.String"  mode="IN"/>
+		<parameter property="v_amt"			jdbcType="DECIMAL" 	javaType="java.lang.Integer" mode="IN"/>
+		<parameter property="v_summary"		jdbcType="VARCHAR" 	javaType="java.lang.String"  mode="IN"/>
+		<parameter property="v_account_sep"	jdbcType="VARCHAR" 	javaType="java.lang.String"  mode="IN"/>
+		<parameter property="v_cd_partner"	jdbcType="VARCHAR" 	javaType="java.lang.String"  mode="IN"/>
+		<parameter property="v_nm_partner"	jdbcType="VARCHAR" 	javaType="java.lang.String"  mode="IN"/>
+		<parameter property="v_pay_date"	jdbcType="DATE" 	javaType="java.lang.String"  mode="IN"/>
+		<parameter property="v_cd_mngd1"	jdbcType="VARCHAR" 	javaType="java.lang.String"  mode="IN"/>
+		<parameter property="v_nm_mngd1"	jdbcType="VARCHAR" 	javaType="java.lang.String"  mode="IN"/>
+		<parameter property="v_cd_mngd2"	jdbcType="VARCHAR" 	javaType="java.lang.String"  mode="IN"/>
+		<parameter property="v_nm_mngd2"	jdbcType="VARCHAR" 	javaType="java.lang.String"  mode="IN"/>
+		<parameter property="v_cd_mngd3"	jdbcType="VARCHAR" 	javaType="java.lang.String"  mode="IN"/>
+		<parameter property="v_nm_mngd3"	jdbcType="VARCHAR" 	javaType="java.lang.String"  mode="IN"/>
+		<parameter property="v_cd_mngd4"	jdbcType="VARCHAR" 	javaType="java.lang.String"  mode="IN"/>
+		<parameter property="v_nm_mngd4"	jdbcType="VARCHAR" 	javaType="java.lang.String"  mode="IN"/>
+		<parameter property="v_cd_mngd5"	jdbcType="VARCHAR" 	javaType="java.lang.String"  mode="IN"/>
+		<parameter property="v_nm_mngd5"	jdbcType="VARCHAR" 	javaType="java.lang.String"  mode="IN"/>
+		<parameter property="v_cd_mngd6"	jdbcType="VARCHAR" 	javaType="java.lang.String"  mode="IN"/>
+		<parameter property="v_nm_mngd6"	jdbcType="VARCHAR" 	javaType="java.lang.String"  mode="IN"/>
+		<parameter property="v_cd_mngd7"	jdbcType="VARCHAR" 	javaType="java.lang.String"  mode="IN"/>
+		<parameter property="v_nm_mngd7"	jdbcType="VARCHAR" 	javaType="java.lang.String"  mode="IN"/>
+		<parameter property="v_cd_mngd8"	jdbcType="VARCHAR" 	javaType="java.lang.String"  mode="IN"/>
+		<parameter property="v_nm_mngd8"	jdbcType="VARCHAR" 	javaType="java.lang.String"  mode="IN"/>
+		<parameter property="r_slip_num"  	jdbcType="VARCHAR" 	javaType="java.lang.String"  mode="INOUT"/>
+		<parameter property="v_result"  	jdbcType="DECIMAL" 	javaType="java.lang.Integer" mode="INOUT"/>
+	</parameterMap>
+
+	<parameterMap class="HashMap" id="sbmNum2">
+		<parameter property="bookCode" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="sbamNewCode"  jdbcType="VARCHAR" javaType="java.lang.String" mode="OUT"/>
+	</parameterMap>
+
+	<parameterMap class="HashMap" id="sbmNum">
+		<parameter property="bookCode" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="sbmAccCode1"  jdbcType="VARCHAR" javaType="java.lang.String" mode="OUT"/>
+	</parameterMap>
+
+
+	<select id="SntBookKipadmDAO.selectTaxbillSeq"  parameterClass="Hashmap" resultClass="string">
+		SELECT LTRIM(TO_CHAR(SENDBILL.TB_TAX_SEQ.NEXTVAL,'0000000000')) BILLSEQ FROM DUAL
+	</select>
+
+	<insert id="SntBookKipadmDAO.insertTaxBill" parameterClass="Hashmap" >
+		INSERT INTO SENDBILL.TB_TAX (NO, YMD_WRITE,
+            FG_PC, FG_IO, FG_VAT, FG_BILL, YN_CSMT,     YN_TURN,
+            SELL_NO_BIZ, SELL_NM_CORP, SELL_NM_CEO,
+            SELL_ADDR1, SELL_ADDR2, SELL_BIZ_STATUS, SELL_BIZ_TYPE,
+            SELL_DAM_NM, SELL_DAM_EMAIL, SELL_REG_ID,
+            SELL_DAM_MOBIL1, SELL_DAM_MOBIL2, SELL_DAM_MOBIL3,
+            SELL_DAM_DEPT, SELL_DAM_TEL1, SELL_DAM_TEL2, SELL_DAM_TEL3,
+            SELL_DAM2_NM, SELL_DAM2_EMAIL,
+            SELL_DAM2_MOBIL1, SELL_DAM2_MOBIL2, SELL_DAM2_MOBIL3,
+            SELL_DAM2_DEPT, SELL_DAM2_TEL1, SELL_DAM2_TEL2, SELL_DAM2_TEL3,
+            BUY_NO_BIZ, BUY_NM_CORP, BUY_NM_CEO,
+            BUY_DAM_NM, BUY_DAM_EMAIL, BUY_REG_ID,
+            BUY_DAM_MOBIL1, BUY_DAM_MOBIL2, BUY_DAM_MOBIL3, BUY_ADDR1, BUY_ADDR2,
+            BUY_DAM_DEPT, BUY_DAM_TEL1, BUY_DAM_TEL2, BUY_DAM_TEL3,
+            BUY_DAM2_NM, BUY_DAM2_EMAIL,
+            BUY_DAM2_MOBIL1, BUY_DAM2_MOBIL2, BUY_DAM2_MOBIL3,
+            BUY_DAM2_DEPT, BUY_DAM2_TEL1, BUY_DAM2_TEL2, BUY_DAM2_TEL3,
+            AM, AM_VAT, DC_RMK, AMT_CASH, AMT_CHECK, AMT_NOTE, AMT_AR, AMT,
+            CMP_USE_TXT, CMP_TAX_ST, BUY_BIZ_STATUS, BUY_BIZ_TYPE, YN_ISS)
+   		values (#billseqNum#, to_char(sysdate,'yyyymmdd'),
+            '1','1', '3', '2', 'N',  'Y',
+            '1028202601', '한국공인회계사회', '김영식',
+            '서울 서대문구 충정로7길12', '', '제조업,서비스', '일반서적출판 등',
+            '최경수', 'webhelper@kicpa.or.kr', '',
+            '', '', '',
+            '지식관리센터', '02', '3149',  '0223',
+            '', '',
+            '', '', '',
+            '', '', '',  '',
+            #mtrcCompanyId#, #cpyMtrcCompanyName#, #cpyMtrcRepreName#,
+            #buyername#, #email#, '',
+            #hpNo1#
+            #hpNo2#
+            #hpNo3#
+<!--             REPLACE(REGEXP_REPLACE(#v_rtelno#, '(.{3})(.+)(.{4})', '\1'),'-',''), -->
+<!--             REPLACE(REGEXP_REPLACE(#v_rtelno#, '(.{3})(.+)(.{4})', '\2'),'-',''), -->
+<!--             REGEXP_REPLACE(#v_rtelno#, '(.{3})(.+)(.{4})', '\3'), -->
+            #cpyOffAddr#, #cpyOffAddr1#,
+            #rvCpyName#, '', '', '',
+            '', '',
+            '', '', '',
+            #hpNo#, '', '', '',
+            #payTotalAmt#, 0,  '홈페이지 결제', #payTotalAmt#, '0', '0', '0', #payTotalAmt#,
+            '','0', #cpyMtrcType1#, #cpyMtrcItem1#,'0')
+
+	</insert>
+
+	<insert id="SntBookKipadmDAO.insertTaxBillItem" parameterClass="Hashmap" >
+		INSERT
+	  	INTO SENDBILL.TB_TAX_LINE
+	       (
+	           NO,
+	           NO_LINE,
+	           NO_ITEM,
+	           MM_WRITE,
+	           DD_WRITE,
+	           NM_ITEM,
+	           ITEM_STD,
+	           QTY,
+	           UM,
+               AM,
+               AM_VAT,
+               DC_RMK,
+               AMT
+	       )
+	       VALUES
+	       (
+	           #billseqNum#,
+	           (SELECT NVL(MAX(NO_LINE),0)+1 FROM WHERE SENDBILL.TB_TAX_LINE NO = #billseqNum# ),
+	           LTRIM(TO_CHAR((SELECT NVL(MAX(NO_LINE),0)+1 FROM WHERE SENDBILL.TB_TAX_LINE NO = #billseqNum# ),'00000000')),
+	           TO_CHAR(SYSDATE,'MM'),
+	           TO_CHAR(SYSDATE,'DD'),
+<!-- 	           substr(#v_dt#,6,2), -->
+<!-- 	           substr(#v_dt#,9,2), -->
+	           #bookName#,
+	           '',
+	           #bookCnt#,
+	           #bookAmt#,
+	           #saleAmt#,
+	           0,
+	           '',
+	           #saleAmt#
+	       )
+
+	</insert>
+
+	<procedure id="SntBookKipadmDAO.procErpSlipInsertProc" parameterMap="slipInfo" resultClass="egovMap" >
+		call erp_slip_insert_proc(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+	</procedure>
+
+	<procedure id="SntBookKipadmDAO.webSbmnum2Proc" parameterMap="sbmNum2">
+		call web_sbmnum2_proc(?,?)
+	</procedure>
+	<procedure id="SntBookKipadmDAO.webSbmnumProc" parameterMap="sbmNum">
+		call web_sbmnum_proc(?,?)
+	</procedure>
+
+	<parameterMap class="HashMap" id="orderEachMap">
+		<parameter property="ordNo" 		jdbcType="VARCHAR" 	javaType="java.lang.String" 	mode="IN"/>
+		<parameter property="vResult"  	jdbcType="INTEGER" 	javaType="java.lang.Integer" 	mode="OUT"/>
+	</parameterMap>
+
+	<procedure id="SntBookKipadmDAO.intOrdBookEachProc" parameterMap="orderEachMap">
+		call intladm.int_ord_book_each_proc(?,?)
+	</procedure>
+
+	<select id="SntBookKipadmDAO.selectTaxDetail" parameterClass="hashmap" resultClass="egovMap" >
+		SELECt *
+		FROM (
+			SELECT    BUY_NO_BIZ, BUY_NM_CORP, BUY_NM_CEO,
+		            BUY_DAM_NM, BUY_DAM_EMAIL, BUY_REG_ID,
+		            BUY_DAM_MOBIL1, BUY_DAM_MOBIL2, BUY_DAM_MOBIL3, BUY_ADDR1, BUY_ADDR2,
+		            BUY_DAM_DEPT, BUY_DAM_TEL1, BUY_DAM_TEL2, BUY_DAM_TEL3,
+		            BUY_DAM2_NM, BUY_DAM2_EMAIL,
+		            BUY_DAM2_MOBIL1, BUY_DAM2_MOBIL2, BUY_DAM2_MOBIL3,
+		            BUY_DAM2_DEPT, BUY_DAM2_TEL1, BUY_DAM2_TEL2, BUY_DAM2_TEL3,
+		            BUY_BIZ_STATUS, BUY_BIZ_TYPE
+			FROM SENDBILL.TB_TAX
+			where BUY_NO_BIZ  = #mtrcCompanyId#
+			ORDER BY YMD_WRITE DESC
+		) A
+	   WHERE ROWNUM = 1
+
+	</select>
+
+
+</sqlMap>

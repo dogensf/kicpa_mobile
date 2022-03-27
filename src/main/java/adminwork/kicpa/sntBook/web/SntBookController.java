@@ -469,6 +469,24 @@ public class SntBookController {
 		return modelAndView;
 	}
 
+	@RequestMapping(value="/getTaxDetail.do")
+	public ModelAndView getTaxDetail(@RequestBody Map<String,Object> map, HttpServletRequest request) throws Exception{
+		ModelAndView modelAndView = new ModelAndView();
+
+		try{
+			modelAndView.setViewName("jsonView");
+
+			EgovMap taxDetail = sntBookService.selectTaxDetail(map);
+
+			modelAndView.addObject("taxDetail", taxDetail);
+
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return modelAndView;
+	}
+
 	@RequestMapping(value="/insertCart.do")
 	public ModelAndView insertCart(@RequestBody Map<String,Object> map, HttpServletRequest request) throws Exception{
 		ModelAndView modelAndView = new ModelAndView();

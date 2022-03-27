@@ -43,5 +43,7 @@ public interface  SntBookService {
 
 	public List<EgovMap> selectBookFormatOrderList(Map<String,Object> map) throws Exception;
 
+	public EgovMap selectTaxDetail(Map<String,Object> map) throws Exception;
+
 
 }
