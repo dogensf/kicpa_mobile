@@ -50,11 +50,6 @@
 		<parameter property="resultCode" jdbcType="VARCHAR" javaType="java.lang.String" mode="OUT"/>
 	</parameterMap>
 
-
-
-
-
-
 	<select id="SntBookDAO.selectBookList" parameterClass="Hashmap" resultClass="egovMap">
 		SELECT A.IBM_BOOK_CODE
 			,A.IBM_NUM
@@ -587,7 +582,7 @@
 		       (
 		           #ordNo#,
 		           #userId#,
-		           #recName#,
+		           #userName#,
 		           #pslId#,
 		           #postNo#,
 		           #address#,
@@ -711,6 +706,45 @@
 
 	</insert>
 
+	<select id="SntBookDAO.selectCorporationList" parameterClass="Hashmap" resultClass="egovMap">
+		SELECT A.ACI_GAM_ID,
+	       A.ACI_OFF_KNAME,
+	       A.ACI_NUMBER,
+	       A.ACI_PRESIDENT,
+	       A.ACI_ZIP,
+	       A.ACI_ADD,
+	       A.ACI_TEL1,
+	       A.ACI_TEL2,
+	       A.ACI_FAX,
+	       A.ACI_HOMEPAGE,
+	       A.ACI_TAX_CODE2,
+	       A.ACI_OFF_ENAME,
+	       A.ACI_EHOMEPAGE
+		FROM ACC_CORP_INFO A
+		WHERE 1=1
+		<isNotEmpty property="searchKeyword" prepend="AND">
+			A.ACI_OFF_KNAME LIKE '%'||#searchKeyword#||'%'
+		</isNotEmpty>
+
+	</select>
+
+
+	<select id="SntBookDAO.selectBookFormatOrderList" parameterClass="Hashmap" resultClass="egovMap">
+		SELECT FILE_ID as IBM_NUM,
+			   FILE_ID as IBM_BOOK_CODE,
+			   FILE_TITLE as IBM_BOOK_NAME,
+			   DOWN_PRICE as IBM_PRICE1,
+			   ORG_PRICE as IBM_PRICE2,
+			   TO_CHAR( (SELECT SYSDATE + DOWN_DAY FROM DUAL),'YYYY-MM-DD HH24:MI:SS') as DOWN_DATE,
+			   '6' BOOK_DIV,
+			    1 CNT
+		  FROM AUDIT_DOWN
+		WHERE FILE_ID IN
+		<iterate  property="ibmBookCode" open="(" close=")" conjunction=",">
+	       	#ibmBookCode[]#
+	    </iterate>
+
+	</select>
 
 
 

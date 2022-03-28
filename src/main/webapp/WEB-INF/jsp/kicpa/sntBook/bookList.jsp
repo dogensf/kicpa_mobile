@@ -14,6 +14,8 @@ function fncLocation(){
 </script>
 <form id="boardForm" name="boardForm">
 	<input type="hidden" name="pageIndex" id="pageIndex" value="1">
+	<input type="hidden" name="type" id="type" value="bookList">
+	<input type="hidden" name="bookDiv" id="bookDiv" value="2">
 </form>
 <section class="head-sub">
   	<button class="btn-back" type="button" onclick="fncLocation();">

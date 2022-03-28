@@ -37,7 +37,7 @@ function fncLocation(){
 	        		<c:forEach items="${cartList }" var="cartItem" varStatus="index">
 	        			<c:choose>
 		        			<c:when test="${cartItem.ibmBookCode ne '999999'}">
-					            <li>
+					            <li class="book_div_${cartItem.bookDiv}">
 					                <div class="btn-zone">
 					                    <div class="inp-check">
 					                        <input type="checkbox" name="ibmBookCode" id="ibmBookCode${index.index}" value="${cartItem.ibmBookCode}" />
@@ -63,14 +63,16 @@ function fncLocation(){
 				            </c:otherwise>
 	        			</c:choose>
 	        		</c:forEach>
-	            	 <li>
-		                <div class="prd-zone">
-		                    <div class="product">
-		                        <p class="name"><c:out value="${deliveryPrice.ibmBookName}"/></p>
-		                        <span><i><c:out value="${deliveryPrice.ibmPrice1}"/>원</i></span>
-		                    </div>
-		                </div>
-	            	</li>
+	        		<c:if test="${deliveryPrice ne null }">
+		            	<li class="delivery-zone">
+			                <div class="prd-zone">
+			                    <div class="product">
+			                        <p class="name"><c:out value="${deliveryPrice.ibmBookName}"/></p>
+			                        <span><i><c:out value="${deliveryPrice.ibmPrice1}"/>원</i></span>
+			                    </div>
+			                </div>
+		            	</li>
+	        		</c:if>
 	            </c:if>
 	        </ul>
 	    </div>

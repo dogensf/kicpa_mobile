@@ -2,6 +2,10 @@ var sntBook = {};
 //var flag = true;
 //function fn_ajax_call(href, param, sfn, efn) {
 
+
+
+
+
 sntBook.bookInit = function(){
 	var param = $("#boardForm").serializeObject();
 	fn_ajax_call("/kicpa/sntBook/getBookList.do",param,sntBook.getBookListSuccess,sntBook.boardListError);
@@ -10,12 +14,10 @@ sntBook.kifrsBookInit = function(){
 	var param = $("#boardForm").serializeObject();
 	fn_ajax_call("/kicpa/sntBook/getBookList.do",param,sntBook.getKifrsBookListSuccess,sntBook.boardListError);
 
-	sntBook.cartValidation();
 }
 sntBook.taxBookInit = function(){
 	var param = $("#boardForm").serializeObject();
 	fn_ajax_call("/kicpa/sntBook/getBookList.do",param,sntBook.geTaxBookListSuccess,sntBook.boardListError);
-	sntBook.cartValidation();
 }
 
 sntBook.bookFormatInit = function(){
@@ -24,6 +26,44 @@ sntBook.bookFormatInit = function(){
 }
 sntBook.offlineEduInit = function(){
 	sntBook.offlineEduListAjax();
+}
+
+sntBook.corporationListInit = function(){
+	$(".search-box .search").on("click",function(){
+		fn_portal_pop("searchPop")
+		$("#boardSearchForm input[name='searchKeyword']").attr("placeholder","법인명");
+	});
+
+
+	$("#searchPop .btn-send").on("click",function(){
+		$("#searchPop .btn-close").click();
+		$("#boardForm input[name='searchKeyword']").val($("#boardSearchForm input[name='searchKeyword']").val());
+		sntBook.getCorporationList();
+	});
+
+}
+
+sntBook.cartOrderCoperationInit = function(){
+	$("#cnt").on("input",function(){
+		$(this).val( $(this).val().replace(/[^0-9]/g, ""));
+	});
+
+	$("#cnt").on("blur",function(){
+		var price = Number($("#price").val().replace(/,/gi,""));
+
+		$("#totPrice").val(String(price*Number($("#cnt").val())).replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+//		$(this).val( $(this).val().replace(/[^0-9]/g, ""));
+	});
+
+	$("#orderBtn").on("click",function(){
+		if(Number($("#cnt").val()) == 0){
+			alert("수량은 0개 이상이어야 합니다.");
+			return false;
+		}
+
+		sntBook.getOrderCorporation();
+	});
+
 }
 
 
@@ -74,12 +114,17 @@ sntBook.cartInit = function(){
 			$.each($("#cartForm input[name='ibmBookCode']:checked"),function(i,o){
 				var price = Number($(this).closest("li").find(".product i").text().replace(/,|[원]/gi,""));
 				var cnt = Number($(this).closest("li").find(".quantity-num em").text());
-				console.log(price);
-				console.log(cnt);
 				totalPrice += price*cnt;
 			});
+
+			$.each($("#cartForm input[name='ibmBookCode']:checked"),function(i,o){
+				if($(this).closest("li").hasClass("book_div_6") ){
+					totalPrice+= 5000;
+					return false;
+				}
+			});
+
 			//배송비추가
-			totalPrice+= 5000;
 			totalPrice = String(totalPrice).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 
 			$("#totalBtn").text("합계금액 " +totalPrice+"원");
@@ -137,6 +182,9 @@ sntBook.bookDetailInit = function(){
 
 sntBook.orderFormInit = function(){
 
+	$("#searchCompanyBtn").on("click",function(){
+		window.open("/kicpa/sntBook/companySearch.do","companySearchPop");
+	});
 
 	$("#mobileweb input[name='payCode']").on("change",function(){
 
@@ -171,7 +219,34 @@ sntBook.orderFormInit = function(){
 	});
 
 
+	$("#mtrcCompanyId").on("blur",function(){
+		if($.trim($(this).val()).length > 8   ){
+			sntBook.getTaxDetail();
+		}
+
+	});
+
+
 }
+
+sntBook.getTaxDetail = function(mtrcCompanyId){
+	var param = {"mtrcCompanyId" : $("#mtrcCompanyId").val() }
+	fn_ajax_call("/kicpa/sntBook/getTaxDetail.do",param,sntBook.getTaxDetailSuccess,sntBook.boardListError);
+}
+
+sntBook.getTaxDetailSuccess = function(data){
+	var taxDetail = data.taxDetail;
+
+	if(taxDetail != null){
+		$("#cpyMtrcCompanyName").val(taxDetail.buyNmCorp);
+		$("#cpyMtrcRepreName").val(taxDetail.buyNmCeo);
+		$("#cpyOffAddr").val(taxDetail.buyAddr1);
+		$("#cpyOffAddr1").val(taxDetail.buyAddr2);
+		$("#cpyMtrcType1").val(taxDetail.buyBizStatus);
+		$("#cpyMtrcItem1").val(taxDetail.buyBizType);
+	}
+},
+
 
 sntBook.updateCart = function(gbn,ibmBookCode){
 	var param = {"gbn" : gbn ,"ibmBookCode" : ibmBookCode}
@@ -182,9 +257,12 @@ sntBook.updateCartSuccess = function(data){
 	var gbn = data.gbn;
 	var ibmBookCode = data.ibmBookCode;
 	var cnt = data.cnt;
+	var deliveryFlag =data.deliveryFlag;
 	if(gbn == 'DELETE'){
-		if($(".basket-list li").length <= 2){
-			$(".basket-list li").remove();
+		if(deliveryFlag){
+			$(".delivery-zone").remove();
+			$("input[name='ibmBookCode'][value='"+ibmBookCode+"']").closest("li").remove();
+			$("#cartForm input[name='ibmBookCode']").change();
 		}else{
 			$("input[name='ibmBookCode'][value='"+ibmBookCode+"']").closest("li").remove();
 			$("#cartForm input[name='ibmBookCode']").change();
@@ -227,7 +305,21 @@ sntBook.insertCartSuccess = function(data){
 		});
 
 	}else{
-		sntBook.getCheckplusEncData();
+
+		if($("#type").val() == 'bookList'){
+			fn_portal_pop("nonLoginBookCartPopup")
+
+			$("#nonLoginBookCartPopup .btn-send").off().on("click",function(){
+				location.href="kicpa/sntBook/cartOrderCoperation.do?ibmBookCode="+$("#boardForm input[name='ibmBookCode']").val();
+	//			sntBook.getOrderCorporation();
+	//			location.href='/kicpa/sntBook/cartList.do';
+			});
+
+		}else{
+			alert("회원만 구매가 가능합니다.");
+		}
+
+//		sntBook.getCheckplusEncData();
 	}
 //	alert("완료 팝업창 뜰차례");
 }
@@ -410,46 +502,58 @@ sntBook.geTaxBookListSuccess = function(data){
 sntBook.getBooFormatkListSuccess = function(data){
 	var list = data.bookFormatList;
 	var totalCnt = data.totalCnt;
+	var isLogin = data.isLogin;
 	var txt = "";
-	if(list != null && list.length > 0){
-		$("#totalCnt").text(totalCnt+"건")
-		$.each(list,function(i,o){
-			txt+='<li> \n';
-			txt+='	<a href="javascript:board.openDetailPop(\'/kicpa/sntBook/bookFormatDetail.do?fileId='+o.fileId+'\');"> \n';
-			txt+=' 		<div class="title-zone"> \n';
-			txt+=' 			<p>'+o.fileTitle+'</p> \n';
-			txt+=' 	      	<div class="other"> \n';
-			if(o.fileName != null && o.fileName != ''){
-				txt+=' 	        	<span class="state">다운로드</span> \n';
-			}else{
-				txt+=' 	        	<span class="ico-arrow"></span> \n';
-			}
+	if(isLogin){
+		$(".login-guide").hide();
+		$("#tabMain1").show();
+		if(list != null && list.length > 0){
+			$(".login-guide").hide();
+			$("#tabMain1").show();
+			$("#totalCnt").text(totalCnt+"건")
+			$.each(list,function(i,o){
+				txt+='<li> \n';
+				txt+='	<a href="javascript:board.openDetailPop(\'/kicpa/sntBook/bookFormatDetail.do?fileId='+o.fileId+'\');"> \n';
+				txt+='		<input type="checkbox" name="ibmBookCode" id="ibmBookCode'+i+'" value="'+o.fileId+'"/>\n';
+				txt+='		<label for="ibmBookCode'+i+'">선택</label>\n';
+				txt+=' 		<div class="title-zone"> \n';
+				txt+=' 			<p>'+o.fileTitle+'</p> \n';
+				txt+=' 	      	<div class="other"> \n';
+				if(o.fileName != null && o.fileName != ''){
+					txt+=' 	        	<span class="state">다운로드</span> \n';
+				}else{
+					txt+=' 	        	<span class="ico-arrow"></span> \n';
+				}
 
-			txt+=' 	        </div> \n';
-			txt+=' 	    </div> \n';
-			txt+='      <div class="info-zone"> \n';
-			if(o.fileName != null && o.fileName != ''){
-				txt+='            <span>다운로드용</span> \n';
-			}else{
-				txt+='            <span>서면신청용</span> \n';
-			}
+				txt+=' 	        </div> \n';
+				txt+=' 	    </div> \n';
+				txt+='      <div class="info-zone"> \n';
+				if(o.fileName != null && o.fileName != ''){
+					txt+='            <span>다운로드용</span> \n';
+				}else{
+					txt+='            <span>서면신청용</span> \n';
+				}
 
-			if(o.fileName != null && o.fileName != ''){
-				txt+='            <span>'+o.downPrice+'원</span> \n';
-			}else{
-				txt+='            <span>'+o.orgPrice+'원</span> \n';
-			}
+				if(o.fileName != null && o.fileName != ''){
+					txt+='            <span>'+o.downPrice+'원</span> \n';
+				}else{
+					txt+='            <span>'+o.orgPrice+'원</span> \n';
+				}
 
-			if(o.fileName != null && o.fileName != ''){
-				txt+='            <span>단위/이용가능일 '+o.downDay+'원</span> \n';
-			}else{
-				txt+='            <span>단위/이용가능일  '+o.unit+'</span> \n';
-			}
-			txt+='        </div> \n';
-			txt+='	</a> \n';
-			txt+='</li> \n';
-		});
-		$(".board-list ul").append(txt);
+				if(o.fileName != null && o.fileName != ''){
+					txt+='            <span>단위/이용가능일 '+o.downDay+'원</span> \n';
+				}else{
+					txt+='            <span>단위/이용가능일  '+o.unit+'</span> \n';
+				}
+				txt+='        </div> \n';
+				txt+='	</a> \n';
+				txt+='</li> \n';
+			});
+			$(".board-list ul").append(txt);
+		}
+	}else{
+		$(".login-guide").show();
+		$("#tabMain1").hide();
 	}
 
 //	if(totalCnt < Number($("#pageIndex").val())){
@@ -671,41 +775,40 @@ sntBook.getOfflineEduCheckSuccess = function(data){
 }
 
 sntBook.cartValidation = function(){
-	$("#goCartBtn").on("click",function(){
+//	$("#goCartBtn").on("click",function(){
 		if($("#boardForm input[name='ibmBookCode']:checked").length <= 0){
 			alert("하나이상 선택하셔야 합니다.")
 			return false;
 		}
-
 		sntBook.insertCart();
 
-	});
+//	});
 }
 
 
-sntBook.getCheckplusEncData = function(){
-	var param = {};
-	fn_ajax_call("/kicpa/common/getCheckplusEncData.do",param,sntBook.getCheckplusEncDataSuccess,sntBook.boardListError);
-}
+//sntBook.getCheckplusEncData = function(){
+//	var param = {};
+//	fn_ajax_call("/kicpa/common/getCheckplusEncData.do",param,sntBook.getCheckplusEncDataSuccess,sntBook.boardListError);
+//}
 
-sntBook.getCheckplusEncDataSuccess = function(data){
-	var sMessage = data.sMessage;
-	var sEncData = data.sEncData;
-
-
-	$("#checkPlusForm input[name='EncodeData']").val(sEncData);
-
-	fn_portal_pop("checkplusPopup")
-
-	$("#checkplusPopup .btn-send").off().on("click",function(){
-		window.open('', 'popupChk', 'width=500, height=550, top=100, left=100, fullscreen=no, menubar=no, status=no, toolbar=no, titlebar=yes, location=no, scrollbar=no');
-		$("#checkPlusForm").attr({"action":"https://nice.checkplus.co.kr/CheckPlusSafeModel/checkplus.cb","target" : "popupChk"});
-		$("#checkPlusForm").submit();
-	});
-
-
-
-}
+//sntBook.getCheckplusEncDataSuccess = function(data){
+//	var sMessage = data.sMessage;
+//	var sEncData = data.sEncData;
+//
+//
+//	$("#checkPlusForm input[name='EncodeData']").val(sEncData);
+//
+//	fn_portal_pop("checkplusPopup")
+//
+//	$("#checkplusPopup .btn-send").off().on("click",function(){
+//		window.open('', 'popupChk', 'width=500, height=550, top=100, left=100, fullscreen=no, menubar=no, status=no, toolbar=no, titlebar=yes, location=no, scrollbar=no');
+//		$("#checkPlusForm").attr({"action":"https://nice.checkplus.co.kr/CheckPlusSafeModel/checkplus.cb","target" : "popupChk"});
+//		$("#checkPlusForm").submit();
+//	});
+//
+//
+//
+//}
 
 
 sntBook.orderCartFrom = function(){
@@ -715,7 +818,7 @@ sntBook.orderCartFrom = function(){
 
 sntBook.orderCartFormSuccess = function(data){
 	var result = data.result;
-
+	alert(result);
 	if(result == '0000'){
 		location.href="kicpa/sntBook/cartOrderForm.do?gamYn=N";
 	}else if(result == '0001'){
@@ -735,39 +838,87 @@ sntBook.orderFormValidation = function(){
 		return false;
 	}
 
-	if($.trim($("#recName").val()) == ''){
-		alert("이름를 입력해주세요.");
-		return false;
-	}
-	if($.trim($("#rvZip").val()) == ''){
-		alert("우편번호를 입력해주세요.");
-		return false;
-	}
-	if($.trim($("#rvAdd1").val()) == ''){
-		alert("주소를 입력해주세요.");
-		return false;
-	}
-	if($.trim($("#rvAdd3").val()) == ''){
-		alert("상세주소를 입력해주세요.");
-		return false;
-	}
-	if($.trim($("#telNo1").val()) == '' || $.trim($("#telNo2").val()) == '' || $.trim($("#telNo3").val()) == ''){
-		alert("전화번호를 입력해주세요.");
-		return false;
-	}
-	if($.trim($("#hpNo1").val()) == '' || $.trim($("#hpNo2").val()) == '' || $.trim($("#hpNo3").val()) == ''){
-		alert("핸드폰 번호를 입력해주세요.");
-		return false;
-	}
-	if($.trim($("#email").val()) == ''){
-		alert("이메일을 입력해주세요.");
-		return false;
-	}
-	if($.trim($("#rvCpyName").val()) == ''){
-		alert("회사명을 입력해주세요.");
-		return false;
-	}
 
+	if($("#mobileweb input[name='gamYn']").val() == 'Y'){
+		if($.trim($("#userName").val()) == ''){
+			alert("이름를 입력해주세요.");
+			return false;
+		}
+
+		if($.trim($("#email").val()) == ''){
+			alert("이메일을 입력해주세요.");
+			return false;
+		}
+
+		if($.trim($("#telNo1").val()) == '' || $.trim($("#telNo2").val()) == '' || $.trim($("#telNo3").val()) == ''){
+			alert("전화번호를 입력해주세요.");
+			return false;
+		}
+		if($.trim($("#hpNo1").val()) == '' || $.trim($("#hpNo2").val()) == '' || $.trim($("#hpNo3").val()) == ''){
+			alert("핸드폰 번호를 입력해주세요.");
+			return false;
+		}
+
+
+		if($.trim($("#rvName").val()) == ''){
+			alert("받는분 성함를 입력해주세요.");
+			return false;
+		}
+
+		if($.trim($("#rvCpyName").val()) == ''){
+			alert("회사명을 입력해주세요.");
+			return false;
+		}
+
+		if($.trim($("#rvZip").val()) == ''){
+			alert("우편번호를 입력해주세요.");
+			return false;
+		}
+		if($.trim($("#rvAdd1").val()) == ''){
+			alert("주소를 입력해주세요.");
+			return false;
+		}
+
+
+
+
+
+	}else{
+
+		if($.trim($("#rvName").val()) == ''){
+			alert("이름를 입력해주세요.");
+			return false;
+		}
+		if($.trim($("#rvZip").val()) == ''){
+			alert("우편번호를 입력해주세요.");
+			return false;
+		}
+		if($.trim($("#rvAdd1").val()) == ''){
+			alert("주소를 입력해주세요.");
+			return false;
+		}
+		if($.trim($("#rvAdd3").val()) == ''){
+			alert("상세주소를 입력해주세요.");
+			return false;
+		}
+		if($.trim($("#telNo1").val()) == '' || $.trim($("#telNo2").val()) == '' || $.trim($("#telNo3").val()) == ''){
+			alert("전화번호를 입력해주세요.");
+			return false;
+		}
+		if($.trim($("#hpNo1").val()) == '' || $.trim($("#hpNo2").val()) == '' || $.trim($("#hpNo3").val()) == ''){
+			alert("핸드폰 번호를 입력해주세요.");
+			return false;
+		}
+		if($.trim($("#email").val()) == ''){
+			alert("이메일을 입력해주세요.");
+			return false;
+		}
+		if($.trim($("#rvCpyName").val()) == ''){
+			alert("회사명을 입력해주세요.");
+			return false;
+		}
+
+	}
 
 	sntBook.orderFormCheck();
 }
@@ -791,6 +942,57 @@ sntBook.orderFormCheckSuccess = function(data){
 		alert("결제금액과 결제내용이 일치하지 않아 결제가 정상적으로 되지 않고 있습니다.")
 	}
 }
+
+sntBook.getOrderCorporation = function(){
+	var param =$("#orderForm").serializeObject();
+	fn_ajax_call("/kicpa/sntBook/getOrderCorporation.do",param,sntBook.getOrderCorporationSuccess,sntBook.boardListError);
+
+}
+
+sntBook.getOrderCorporationSuccess = function(data){
+	location.href="kicpa/sntBook/cartOrderForm.do?gamYn=Y";
+},
+
+sntBook.getCorporationList = function(){
+	var param =$("#boardForm").serializeObject();
+	fn_ajax_call("/kicpa/sntBook/getCorporationList.do",param,sntBook.getCorporationListSuccess,sntBook.boardListError);
+}
+
+sntBook.getCorporationListSuccess = function(data){
+	var list = data.list;
+	$(".board-list ul .addRow").remove();
+	if(list != null && list.length > 0 ){
+		$.each(list,function(i,o){
+
+			var rowData = $(".board-list ul .firstRow").clone();
+			rowData.removeClass("firstRow");
+			rowData.addClass("addRow");
+			rowData.find(".title-zone p").html('['+ o.aciGamId+ '] '+o.aciOffKname);
+			rowData.find(".info-zone span").html(o.aciAdd);
+			rowData.show();
+
+			rowData.off().on("click",function(){
+				$(opener.document).find("#mobileweb input[name='gamId']").val(o.aciGamId.substring(1,8));
+				$(opener.document).find("#mobileweb input[name='rvCpyName']").val(o.aciOffKname);
+				$(opener.document).find("#mobileweb input[name='rvZip']").val(o.aciZip);
+				$(opener.document).find("#mobileweb input[name='rvAdd1']").val(o.aciAdd);
+
+				window.close();
+			});
+			$(".board-list ul").append(rowData);
+//			txt+='<li> \n';
+//			txt+=' 	<div class="title-zone"> \n';
+//			txt+=' 		<p>['+ o.aciGamId+ '] '+o.aciOffKname+'</p> \n';
+//			txt+=' 	   </div> \n';
+//			txt+='     <div class="info-zone"> \n';
+//			txt+='     	<span>'+o.aciAdd+'</span> \n';
+//			txt+='  </div> \n';
+//			txt+='</li> \n';
+		});
+	}
+
+}
+
 
 sntBook.daumPostcode = function(page){
     new daum.Postcode({
