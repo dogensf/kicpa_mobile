@@ -68,4 +68,13 @@ public class MySetController {
 
 		return "kicpa/myp/setInfo";
 	}
+	
+	
+	@RequestMapping(value = "/faqQnaCategory.do")
+	public String faqQnaInfo(@RequestParam Map<String,Object> map,HttpServletRequest request,HttpServletResponse response,ModelMap model) throws Exception{
+
+		return "kicpa/myp/faqQnaCategory";
+	}
+	
+	
 }

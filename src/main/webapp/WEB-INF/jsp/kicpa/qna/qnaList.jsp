@@ -21,7 +21,8 @@ $(document).ready(function(){
 });
 
 function fncLocation(){
-	location.href="/kicpa/main/main.do";
+	//location.href="/kicpa/main/main.do";
+	location.href="/kicpa/myp/faqQnaCategory.do";
 }
 
 </script>
