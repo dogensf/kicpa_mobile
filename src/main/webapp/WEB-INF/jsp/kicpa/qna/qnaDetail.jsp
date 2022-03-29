@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@ taglib prefix='c' uri='http://java.sun.com/jsp/jstl/core' %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<% pageContext.setAttribute("newLineChar", "\n"); %>
 <script>
 $(document).ready(function(){
 
@@ -13,12 +14,16 @@ $(document).ready(function(){
 	});
 
 });
+
+function fncLocation(){
+	window.close();
+}
 </script>
 <form id="boardForm" name="boardForm" onsubmit="return false;">
 
 
 	<section class="head-sub line">
-	       <button class="btn-back" type="button">
+	       <button class="btn-back" type="button" onclick="fncLocation();">
 	           <span>이전</span>
 	       </button>
 	       <h3>문의처리 결과</h3>
@@ -96,7 +101,8 @@ $(document).ready(function(){
 		            <div class="cont-line">
 		                <h5>내용</h5>
 		                <div class="textline">
-							${result.answerCn}
+							
+							<c:out value="${fn:replace(result.answerCn, newLineChar, '<br/>')}" escapeXml="false" />
 		                </div>
 		            </div>
 

@@ -24,7 +24,7 @@ function fncLocation(){
 	  	<button class="btn-back" type="button" onclick="fncLocation();">
 	        <span>이전</span>
 	    </button>
-	    <h3>공인회계사 소개</h3>
+	    <h3>공인회계사회 소개</h3>
 	</section>
 	<section class="content">
 

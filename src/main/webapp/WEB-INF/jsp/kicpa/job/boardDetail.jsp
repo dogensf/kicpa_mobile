@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@ taglib prefix='c' uri='http://java.sun.com/jsp/jstl/core' %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<% pageContext.setAttribute("newLineChar", "\n"); %>
 <script src="/js/kicpa/job/job.js"></script>
 <script>
 $(document).ready(function(){
@@ -152,10 +153,12 @@ function fncLocation(){
             	</c:choose>
             </div>
 
+
+
             <div class="cont-line">
                 <h5>내용</h5>
                 <div class="textline">
-					${boardDetail.ijContent }
+					<c:out value="${fn:replace(boardDetail.ijContent, newLineChar, '<br/>')}" escapeXml="false" />
                 </div>
             </div>
 
