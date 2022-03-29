@@ -57,6 +57,8 @@ public class LoginVO implements Serializable{
 	
 	private String author;
 	
+	private String userTy;
+	
 
 	private String aima_emp_id;
 	private String aima_dept_pcode;
@@ -573,6 +575,12 @@ public class LoginVO implements Serializable{
 	}
 	public void setStatus(String status) {
 		this.status = status;
+	}
+	public String getUserTy() {
+		return userTy;
+	}
+	public void setUserTy(String userTy) {
+		this.userTy = userTy;
 	}
 	
 	

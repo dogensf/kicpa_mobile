@@ -62,6 +62,7 @@ public class SessionMapping extends EgovUsersByUsernameMapping  {
         /*String strUserEmail = rs.getString("user_email");*/
        // String strOrgnztId  = rs.getString("orgnzt_id");
         String strUniqId    = rs.getString("esntl_id");
+        String userTy    = rs.getString("user_ty");
         
         //String strOrgnztNm    = rs.getString("orgnzt_nm");
 
@@ -117,6 +118,7 @@ public class SessionMapping extends EgovUsersByUsernameMapping  {
         //loginVO.setUserSe(strUserSe);
         loginVO.setId(strUserId);
         loginVO.setUniqId(strUniqId);
+        loginVO.setUserTy(userTy);
         //loginVO.setOrgnztId(strOrgnztId);
        
         //loginVO.setOrgnztNm(strOrgnztNm);
