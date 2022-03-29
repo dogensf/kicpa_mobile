@@ -188,7 +188,12 @@ sntBook.orderFormInit = function(){
 
 	$("#mobileweb input[name='payCode']").on("change",function(){
 
-		if($("#mobileweb input[name='payCode']:checked").val() == '2'){
+//		if($("#mobileweb input[name='payCode']:checked").val() == '2'){
+//			$(".tax").show();
+//		}else{
+//			$(".tax, .company").hide();
+//		}
+		if($("#mobileweb input[name='payCode']:checked").val() == '1'){
 			$(".tax").show();
 		}else{
 			$(".tax, .company").hide();
@@ -760,10 +765,14 @@ sntBook.insertSpecialLectureSuccess = function(data){
 sntBook.getOfflineEduCheckSuccess = function(data){
 	var isEnable =data.isEnable;
 	var isLogin =data.isLogin;
+	var isCpy =data.isCpy;
 	if(isLogin){
 		if(isEnable){
-
-			location.href="/kicpa/sntBook/offlineEduForm.do?idNum=" + $("#idNum").val();
+			if(!isCpy){
+				alert("등록 된 공인회계사만 수강 가능합니다.");
+			}else{
+				location.href="/kicpa/sntBook/offlineEduForm.do?idNum=" + $("#idNum").val();
+			}
 		}else{
 			alert("수강신청인원이 초과되었습니다. 관리자에게 문의하세요.");
 		}
@@ -818,7 +827,6 @@ sntBook.orderCartFrom = function(){
 
 sntBook.orderCartFormSuccess = function(data){
 	var result = data.result;
-	alert(result);
 	if(result == '0000'){
 		location.href="kicpa/sntBook/cartOrderForm.do?gamYn=N";
 	}else if(result == '0001'){
@@ -881,8 +889,6 @@ sntBook.orderFormValidation = function(){
 
 
 
-
-
 	}else{
 
 		if($.trim($("#rvName").val()) == ''){
@@ -923,7 +929,43 @@ sntBook.orderFormValidation = function(){
 	sntBook.orderFormCheck();
 }
 
+sntBook.orderFormValidation2 = function(){
 
+	if(!$("#terms02").prop("checked")){
+		alert("약관동의를 선택해주세요.");
+		return false;
+	}
+	if($.trim($("#rvCpyName").val()) == ''){
+		alert("회사명을 입력해주세요.");
+		return false;
+	}
+
+	if($.trim($("#rvName").val()) == ''){
+		alert("이름를 입력해주세요.");
+		return false;
+	}
+	if($.trim($("#telNo1").val()) == '' || $.trim($("#telNo2").val()) == '' || $.trim($("#telNo3").val()) == ''){
+		alert("전화번호를 입력해주세요.");
+		return false;
+	}
+	if($.trim($("#hpNo1").val()) == '' || $.trim($("#hpNo2").val()) == '' || $.trim($("#hpNo3").val()) == ''){
+		alert("핸드폰 번호를 입력해주세요.");
+		return false;
+	}
+	if($.trim($("#email").val()) == ''){
+		alert("이메일을 입력해주세요.");
+		return false;
+	}
+
+
+	sntBook.orderOfflineEduFormCheck();
+}
+
+
+sntBook.orderOfflineEduFormCheck = function(){
+	var param =$("#mobileweb").serializeObject();
+	fn_ajax_call("/kicpa/sntBook/orderOfflineEduFormCheck.do",param,sntBook.orderFormCheckSuccess,sntBook.boardListError);
+}
 sntBook.orderFormCheck = function(){
 	var param =$("#mobileweb").serializeObject();
 	fn_ajax_call("/kicpa/sntBook/orderFormCheck.do",param,sntBook.orderFormCheckSuccess,sntBook.boardListError);
@@ -1031,6 +1073,12 @@ sntBook.daumPostcode = function(page){
             }
         }
     }).open();
+}
+
+sntBook.fileDownload = function(){
+
+	$("#boardForm").attr("action","/kicpa/sntBook/offlineEduFileDownload.do").submit();
+
 }
 
 sntBook.boardListError = function(data,status, error){

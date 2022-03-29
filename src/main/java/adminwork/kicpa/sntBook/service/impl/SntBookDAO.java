@@ -81,6 +81,10 @@ public class SntBookDAO extends EgovAbstractDAO{
 		return (List<EgovMap>) list("SntBookDAO.selectBookFormatOrderList",map);
 	}
 
+	public EgovMap selectOfflineEduFileDetail(Map<String,Object> map) throws Exception {
+		return (EgovMap) select("SntBookDAO.selectOfflineEduFileDetail",map);
+	}
+
 	public int insertOrder(Map<String,Object> map) throws Exception {
 		return update("SntBookDAO.insertOrder",map);
 	}

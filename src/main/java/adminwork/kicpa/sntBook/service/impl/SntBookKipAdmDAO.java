@@ -24,6 +24,9 @@ public class SntBookKipAdmDAO extends EgovComAbstractDAO2{
 	public void webSbmnum2Proc(Map<String,Object> map) throws Exception {
 		update("SntBookKipadmDAO.webSbmnum2Proc",map);
 	}
+	public void eapQueryMain07Proc(Map<String,Object> map) throws Exception {
+		select("SntBookKipadmDAO.eapQueryMain07Proc",map);
+	}
 	public void intOrdBookEachProc(Map<String,Object> map) throws Exception {
 		update("SntBookKipadmDAO.intOrdBookEachProc",map);
 	}

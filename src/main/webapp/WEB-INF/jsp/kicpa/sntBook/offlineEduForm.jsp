@@ -21,7 +21,7 @@ function pay0(){
 }
 </script>
 <form name="mobileweb" id="mobileweb" method="post" accept-charset="euc-kr">
-	<input type="hidden" name="P_NEXT_URL" value="http://localhost:8080/kicpa/sntBook/orderReponse.do">
+	<input type="hidden" name="P_NEXT_URL" value="http://localhost:8080/kicpa/sntBook/orderOfflineEduReponse.do">
 	<input type="hidden" name="P_MID" value="${mid }"> <!-- 에스크로테스트 : iniescrow0, 모바일빌링(정기과금)은 별도연동필요 -->
 	<input type="hidden" name="P_OID" value="">
 	<input type="hidden" name="P_CHARSET" value="utf8">
@@ -29,9 +29,12 @@ function pay0(){
 	<input type="hidden" name="P_AMT" value="${totalPay }">
 	<input type="hidden" name="P_UNAME" value="${loginVO.name }">
 	<input type="hidden" name="P_INI_PAYMENT" value="CARD">
-	<input type="hidden" name="gamYn" value="${param.gamYn }">
+	<input type="hidden" name="gamYn" value="N">
 	<input type="hidden" name="gamId" value="">
 	<input type="hidden" name="emailYn" value="0">
+	<input type="hidden" name="bookDiv" value="5">
+	<input type="hidden" name="bookCnt" value="1">
+	<input type="hidden" name="idNum" id="idNum" value="${param.idNum }">
 	<section class="head-pop">
 		<h3>수강신청</h3>
 		<button class="btn-close" type="button" onclick="fncLocation();">
@@ -75,7 +78,7 @@ function pay0(){
 		        <div class="form">
 			       	<div class="inp-box">
 				        <label class="label essen" for="recName">성명</label>
-				        <input type="text" id="recName" name="recName" placeholder="성명을 입력하세요." value="${loginVO.name }" />
+				        <input type="text" id="rvName" name="rvName" placeholder="성명을 입력하세요." value="${loginVO.name }" />
 				    </div>
 			    	<div class="inp-box">
 				        <label class="label essen" for="rvCpyName">회사명</label>
@@ -220,7 +223,7 @@ function pay0(){
 
 	<!-- 페이지하단 버튼 -->
 	<div class="sticky-bottom">
-	    <button class="btn-sticky" onclick="sntBook.orderFormValidation();"type="button">등록</button>
+	    <button class="btn-sticky" onclick="sntBook.orderFormValidation2();"type="button">등록</button>
 	</div>
 
 </form>
