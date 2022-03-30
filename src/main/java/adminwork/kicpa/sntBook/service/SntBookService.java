@@ -3,6 +3,8 @@ package adminwork.kicpa.sntBook.service;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import egovframework.rte.psl.dataaccess.util.EgovMap;
 
 public interface  SntBookService {
@@ -37,13 +39,19 @@ public interface  SntBookService {
 
 	public void procedureEduAppAndModify(Map<String,Object> map) throws Exception;
 
-	public void insertOrder(Map<String,Object> map) throws Exception;
+	public void insertOrder(Map<String,Object> map,HttpServletRequest request) throws Exception;
+	public void insertOrderEdu(Map<String,Object> map,HttpServletRequest request) throws Exception;
 
 	public List<EgovMap> selectCorporationList(Map<String,Object> map) throws Exception;
 
 	public List<EgovMap> selectBookFormatOrderList(Map<String,Object> map) throws Exception;
 
 	public EgovMap selectTaxDetail(Map<String,Object> map) throws Exception;
+
+	public EgovMap selectOfflineEduFileDetail(Map<String,Object> map) throws Exception;
+
+	public void eapQueryMain07Proc(Map<String,Object> map) throws Exception;
+
 
 
 }

@@ -746,6 +746,18 @@
 
 	</select>
 
+	<select id="SntBookDAO.selectOfflineEduFileDetail" parameterClass="Hashmap" resultClass="egovMap">
+		SELECT A.FILE_ID,
+		       A.FILE_NM,
+		       A.FILE_SIZE,
+		       A.FILE_TYPE,
+		       A.FILE_PATH
+		  FROM COMM_FILE A
+		  JOIN ACC_EDU_FILE B
+		    ON A.FILE_ID = B.FILE_ID
+		 WHERE B.ID_NUM = #idNum#
+	</select>
+
 
 
 

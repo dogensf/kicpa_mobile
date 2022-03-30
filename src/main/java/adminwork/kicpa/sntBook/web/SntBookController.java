@@ -2,6 +2,7 @@ package adminwork.kicpa.sntBook.web;
 
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.math.BigInteger;
@@ -38,10 +39,12 @@ import com.ibm.icu.text.SimpleDateFormat;
 import adminwork.com.cmm.HttpUtil;
 import adminwork.com.cmm.LoginVO;
 import adminwork.com.cmm.StringUtil;
+import adminwork.com.cmm.service.FileMngUtil;
 import adminwork.kicpa.cmm.comm.service.KicpaCommService;
 import adminwork.kicpa.cmm.comm.web.KicpaCommController;
 import adminwork.kicpa.job.service.JobAdvertisementService;
 import adminwork.kicpa.sntBook.service.SntBookService;
+import adminwork.let.utl.fcc.service.DateUtil;
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.fdl.security.userdetails.util.EgovUserDetailsHelper;
 import egovframework.rte.psl.dataaccess.util.EgovMap;
@@ -60,6 +63,10 @@ public class SntBookController {
 
 	@Resource(name = "propertiesService")
 	protected EgovPropertyService propertyService;
+
+	@Resource(name = "FileMngUtil")
+	private FileMngUtil fileUtil;
+
 
 
 	@RequestMapping(value = "/sntBookCategory.do")
@@ -86,7 +93,6 @@ public class SntBookController {
 
 	@RequestMapping(value = "/kifrsBookList.do")
 	public String kifrsBookList(@RequestParam Map<String,Object> map,HttpServletRequest request,HttpServletResponse response,ModelMap model) throws Exception{
-
 		return "kicpa/sntBook/kifrsBookList";
 	}
 
@@ -199,14 +205,19 @@ public class SntBookController {
 	@RequestMapping(value = "/offlineEduDetail.do")
 	public String offlineEduDetail(@RequestParam Map<String,Object> map,HttpServletRequest request,HttpServletResponse response,ModelMap model) throws Exception{
 
-		try {
-			EgovMap detail = sntBookService.selectOfflineEduDetail(map);
-			model.addAttribute("detail", detail);
-		}catch (Exception e) {
-			e.printStackTrace();
-		}
+			Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+			if(isAuthenticated) {
+				EgovMap detail = sntBookService.selectOfflineEduDetail(map);
+				LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+				model.addAttribute("loginVO", user);
+				model.addAttribute("detail", detail);
+				return "kicpa/sntBook/offlineEduDetail";
+			}else {
+				return "kicpa/common/authLogin";
+			}
 
-		return "kicpa/sntBook/offlineEduDetail";
+
+
 	}
 	@RequestMapping(value = "/cartOrderForm.do")
 	public String cartOrderForm(@RequestParam Map<String,Object> map,HttpServletRequest request,HttpServletResponse response,ModelMap model) throws Exception{
@@ -248,17 +259,18 @@ public class SntBookController {
 	public String offlineEduForm(@RequestParam Map<String,Object> map,HttpServletRequest request,HttpServletResponse response,ModelMap model) throws Exception{
 
 		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
-		HttpSession session = request.getSession();
-		HashMap mapresult =  (HashMap) session.getAttribute("mapresult");
-		if(isAuthenticated || (mapresult != null && !mapresult.isEmpty())) {
-
+		if(isAuthenticated) {
+			LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
 			EgovMap detail = sntBookService.selectOfflineEduDetail(map);
 			if(detail != null) {
 				model.addAttribute("totalPay", StringUtil.isNullToString(detail.get("eduMny")).replace(",", "") );
 				model.addAttribute("detail", detail);
 				model.addAttribute("mid",propertyService.getString("inicisMid"));
+				model.addAttribute("loginVO", user);
+				return "kicpa/sntBook/offlineEduForm";
+			}else {
+				return "kicpa/sntBook/offlineEduList";
 			}
-			return "kicpa/sntBook/offlineEduForm";
 		}else {
 			return "kicpa/common/authLogin";
 		}
@@ -405,7 +417,18 @@ public class SntBookController {
 			if(isAuthenticated) {
 				EgovMap detail = sntBookService.selectOfflineEduDetail(map);
 				if(detail != null) {
+					LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+					map.put("pslId", user.getUniqId()) ;
+					sntBookService.eapQueryMain07Proc(map);
+
+
 					if(Integer.parseInt(StringUtil.isNullToString(detail.get("billCount")))  < Integer.parseInt(StringUtil.isNullToString(detail.get("eduCount"))) ) {
+						if(!"cks6451".equals(user.getId()) && !"1".equals(map.get("v_result")) && "3".equals(user.getUserTy())  ) {
+							modelAndView.addObject("isCpy", false);
+						}else {
+							modelAndView.addObject("isCpy", true);
+						}
+
 						modelAndView.addObject("isEnable", true);
 					}else {
 						modelAndView.addObject("isEnable", false);
@@ -573,13 +596,6 @@ public class SntBookController {
 
 					session.setAttribute("cartList", list);
 				}
-
-
-
-
-
-
-
 
 
 				modelAndView.addObject("isLogin", true);
@@ -837,7 +853,6 @@ public class SntBookController {
 			HttpSession session = request.getSession();
 //			List<EgovMap> cartList = (List<EgovMap>) session.getAttribute("cartList");
 			List<EgovMap> orderList=   (List<EgovMap>) session.getAttribute("orderList");
-			Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
 			if(orderList != null && !orderList.isEmpty()) {
 				long totalPay = 0;
 				for(EgovMap m : orderList) {
@@ -845,6 +860,39 @@ public class SntBookController {
 				}
 
 				System.out.println(map);
+				if(totalPay != Long.parseLong( StringUtil.isNullToString(map.get("P_AMT")))) {
+					modelAndView.addObject("result", "0002");
+				}else {
+					modelAndView.addObject("result", "0000");
+					modelAndView.addObject("oid",  propertyService.getString("inicisMid")+"_"+System.currentTimeMillis());
+					session.setAttribute("orderFrom", map);
+				}
+
+			}else {
+				modelAndView.addObject("result", "0001");
+			}
+
+
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return modelAndView;
+	}
+
+	@RequestMapping(value="/orderOfflineEduFormCheck.do")
+	public ModelAndView orderOfflineEduFormCheck(@RequestBody Map<String,Object> map, HttpServletRequest request) throws Exception{
+		ModelAndView modelAndView = new ModelAndView();
+
+		try{
+
+			modelAndView.setViewName("jsonView");
+			HttpSession session = request.getSession();
+//			List<EgovMap> cartList = (List<EgovMap>) session.getAttribute("cartList");
+			EgovMap detail = sntBookService.selectOfflineEduDetail(map);
+			if(detail != null && !detail.isEmpty()) {
+				long totalPay = Long.parseLong(StringUtil.isNullToString(detail.get("eduMny")).replace(",", ""));
+
 				if(totalPay != Long.parseLong( StringUtil.isNullToString(map.get("P_AMT")))) {
 					modelAndView.addObject("result", "0002");
 				}else {
@@ -919,8 +967,8 @@ public class SntBookController {
 					map.put("hpNo", StringUtil.isNullToString(map.get("hpNo1"))+"-"+StringUtil.isNullToString(map.get("hpNo2"))+"-" +StringUtil.isNullToString(map.get("hpNo3")));
 				}
 
-
-				sntBookService.insertOrder(map);
+				map.put("inicisMap", inicisMap);
+				sntBookService.insertOrder(map,request);
 
 				response.setCharacterEncoding("UTF-8");
 	    		response.setContentType("text/html; charset=UTF-8");
@@ -984,16 +1032,118 @@ public class SntBookController {
 				modelAndView.addObject("msg", map.get("P_RMESG1"));
 			}
 		}catch (Exception e) {
-			if(inicisMap != null) {
 
-			//거래 취소요청
-				HttpUtil.inicisCancel("https://iniapi.inicis.com/api/v1/refund", request.getRemoteAddr(),inicisMap);
-			}
 			e.printStackTrace();
 		}
 
 	}
 
+
+//
+	@RequestMapping(value = "/offlineEduFileDownload.do")
+	public void fileDownload(@RequestParam Map<String,Object> map,HttpServletRequest request,HttpServletResponse response) throws Exception{
+		try {
+			EgovMap fileDetail =  sntBookService.selectOfflineEduFileDetail(map);
+			String path = propertyService.getString("Globals.fileStorePath")+File.separator+ "upload"+File.separator+fileDetail.get("filePath")+File.separator +fileDetail.get("fileNm");
+			fileUtil.downFile(response,  path, String.valueOf(fileDetail.get("fileNm")));
+
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
+
+
+	@RequestMapping(value="/orderOfflineEduReponse.do")
+	public void orderOfflineEduReponse(@RequestParam Map<String,Object> map, HttpServletRequest request,HttpServletResponse response) throws Exception{
+		ModelAndView modelAndView = new ModelAndView();
+
+		Map<String,String> inicisMap = null;
+		try{
+			HttpSession session = request.getSession();
+
+			if("00".equals(map.get("P_STATUS"))) {
+
+				Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+				if(isAuthenticated) {
+					LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+					map.put("userId", user.getId());
+					map.put("userName", user.getName());
+					map.put("rvName", user.getName());
+//				map.put("rvAddress", StringUtil.isNullToString(user.getAima_add1(),"") + " " + StringUtil.isNullToString(user.getAima_add2()) );
+					map.put("pslId",user.getUniqId());
+
+				}else {
+					map.put("userId", "Guest");
+					map.put("pslId", map.get("gamId"));
+				}
+
+				inicisMap =HttpUtil.inicisRequest(StringUtil.isNullToString(map.get("P_REQ_URL")), StringUtil.isNullToString(map.get("P_TID")), propertyService.getString("inicisMid"));
+
+
+				if("BANK".equals(inicisMap.get("P_TYPE"))) {
+					map.put("recBank", inicisMap.get("P_FN_CD1"));
+				}
+				map.put("pgSno", inicisMap.get("P_TID"));
+				map.put("pgCdAprvno", inicisMap.get("P_AUTH_NO"));
+				map.put("pgPayDate", inicisMap.get("P_AUTH_DT"));
+				map.put("payTotalAmt",inicisMap.get("P_AMT"));
+				map.put("ip",request.getRemoteAddr());
+
+
+//				orderMap.put("v_bill_yn", "0");
+
+				if(!"".equals(StringUtil.isNullToString(map.get("telNo1"))) && !"".equals(StringUtil.isNullToString(map.get("telNo2"))) && !"".equals(StringUtil.isNullToString(map.get("telNo3"))) ) {
+					map.put("telNo", StringUtil.isNullToString(map.get("telNo1"))+"-"+StringUtil.isNullToString(map.get("telNo2"))+"-" +StringUtil.isNullToString(map.get("telNo3")));
+				}
+
+				if(!"".equals(StringUtil.isNullToString(map.get("hpNo1"))) && !"".equals(StringUtil.isNullToString(map.get("hpNo2"))) && !"".equals(StringUtil.isNullToString(map.get("hpNo3"))) ) {
+					map.put("hpNo", StringUtil.isNullToString(map.get("hpNo1"))+"-"+StringUtil.isNullToString(map.get("hpNo2"))+"-" +StringUtil.isNullToString(map.get("hpNo3")));
+				}
+
+				map.put("inicisMap", inicisMap);
+				sntBookService.insertOrderEdu(map, request);
+
+				response.setCharacterEncoding("UTF-8");
+	    		response.setContentType("text/html; charset=UTF-8");
+		        PrintWriter printWriter = response.getWriter();
+
+		        String script= "<script>";
+		        script += "alert('수강신청 되었습니다.');";
+		        script += "location.href='/kicpa/sntBook/offlineEduList.do'";
+
+//		        script += "opener.location.reload();";
+//		        script += "window.close();";
+		        script += "</script>";
+
+		        printWriter.println(script);
+
+
+
+
+			}else {
+
+				response.setCharacterEncoding("UTF-8");
+	    		response.setContentType("text/html; charset=UTF-8");
+		        PrintWriter printWriter = response.getWriter();
+
+		        String script= "<script>";
+		        script += "alert('수강신청에 실패하였습니다.\n' "+map.get("P_RMESG1")+");";
+		        script += "location.href='/kicpa/sntBook/offlineEduList.do'";
+
+//		        script += "opener.location.reload();";
+//		        script += "window.close();";
+		        script += "</script>";
+
+		        printWriter.println(script);
+				modelAndView.addObject("msg", map.get("P_RMESG1"));
+			}
+		}catch (Exception e) {
+
+			e.printStackTrace();
+		}
+
+	}
 
 
 
