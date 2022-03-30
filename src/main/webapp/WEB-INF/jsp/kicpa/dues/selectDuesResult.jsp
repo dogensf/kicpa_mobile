@@ -249,7 +249,7 @@ function downloadURI(uri, name){
           <section class="content">
               <div class="tab-main">
                   <a class="tab-link" href="<c:url value='/kicpa/dues/selectDuesList.do'/>">
-                      <span>회비납부/조회</span>
+                      <span>회비조회및납부</span>
                   </a>
                   <a class="tab-link active" href="<c:url value='/kicpa/dues/selectDuesList.do?path=result'/>">
                   <%-- <a class="tab-link active" href="<c:url value='/kicpa/dues/selectDuesResult.do'/>"> --%>
