@@ -85,7 +85,7 @@ function fncLocation(){
 		                <div class="cont">
 		                    <div class="file-box">
 		                        <p class="file-name">${detail.filename}</p>
-		                        <button class="btn-round-sm" type="button">내려받기</button>
+		                        <button class="btn-round-sm" onclick="sntBook.fileDownload();" type="button">내려받기</button>
 		                    </div>
 		                </div>
 	               	</c:when>

@@ -6,9 +6,11 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Service;
 
+import adminwork.com.cmm.HttpUtil;
 import adminwork.com.cmm.StringUtil;
 import adminwork.kicpa.job.service.JobAdvertisementService;
 import adminwork.kicpa.sntBook.service.SntBookService;
@@ -142,25 +144,25 @@ public class SntBookServiceImpl extends EgovAbstractServiceImpl implements SntBo
 	}
 
 	@Override
-	public void insertOrder(Map<String, Object> map) throws Exception {
+	public void insertOrder(Map<String, Object> map,HttpServletRequest request) throws Exception {
+
+		Map<String,String> inicisMap  = (Map<String, String>) map.get("inicisMap");
 		try {
 			List<EgovMap> orderList = (List<EgovMap>) map.get("orderList");
-
-
 
 			if(orderList != null && !orderList.isEmpty()) {
 
 
-				if("2".equals(map.get("payCode")) && StringUtil.isNullToString(map.get("mtrcCompanyId")).length() > 8  ) {
+				if("1".equals(map.get("payCode")) && StringUtil.isNullToString(map.get("mtrcCompanyId")).length() > 8  ) {
 					String billseqNum = sntBookKipAdmDAO.selectTaxbillSeq(map);
 					map.put("billseqNum", billseqNum);
 					sntBookKipAdmDAO.insertTaxBill(map);
 				}
-				map.put("ordNo", System.currentTimeMillis());
+				map.put("ordNo",  String.valueOf(System.currentTimeMillis()));
 				sntBookDAO.insertOrder(map);
 
 				String rowId = "";
-				String sysDate = StringUtil.isNullToString(DateUtil.getCurrentDate("yyyy-MM-dd"));
+				String sysDate = StringUtil.isNullToString(DateUtil.getCurrentDateTime("yyyy-MM-dd"));
 				String sep = "1";
 				String sepCode = "11118010";
 				String amt = StringUtil.isNullToString((String) map.get("payTotalAmt"));
@@ -171,8 +173,10 @@ public class SntBookServiceImpl extends EgovAbstractServiceImpl implements SntBo
 				String mngCd1 = "4000001";
 				String mngNm1 = "이니시스";
 				setSlipMap(map, rowId, sysDate, sep, sepCode, amt, etc, compCd, compNm, mngCd1, mngNm1, StringUtil.isNullToString(map.get("pslId")));
-				EgovMap result = sntBookKipAdmDAO.procErpSlipInsertProc(map);
-				if(result != null && "1".equals(result.get("vResult"))) {
+				sntBookKipAdmDAO.procErpSlipInsertProc(map);
+				if("1".equals(StringUtil.isNullToString(map.get("v_result")))) {
+					rowId = (String) map.get("r_slip_num");
+					map.put("vResult" , null);
 					for(EgovMap egovMap : orderList ) {
 						String bookDiv = StringUtil.isNullToString(egovMap.get("bookDiv"));
 						String acgs_acc_code1,sbam_new_code = "";
@@ -188,7 +192,7 @@ public class SntBookServiceImpl extends EgovAbstractServiceImpl implements SntBo
 						map.put("certiCode" , null);
 						map.put("certiName" , null);
 						sntBookDAO.insertOrderItem(map);
-						if("2".equals(map.get("payCode")) && StringUtil.isNullToString(map.get("mtrcCompanyId")).length() > 8  ) {
+						if("1".equals(map.get("payCode")) && StringUtil.isNullToString(map.get("mtrcCompanyId")).length() > 8  ) {
 							sntBookKipAdmDAO.insertTaxBillItem(map);
 						}
 
@@ -232,7 +236,7 @@ public class SntBookServiceImpl extends EgovAbstractServiceImpl implements SntBo
 						}
 
 						sep = "2";
-						sysDate = StringUtil.isNullToString(DateUtil.getCurrentDate("yyyy-MM-dd"));
+						sysDate = StringUtil.isNullToString(DateUtil.getCurrentDateTime("yyyy-MM-dd"));
 						amt = StringUtil.isNullToString(map.get("saleAmt"));
 						etc = book_name + "[" + StringUtil.isNullToString((String) map.get("userName")) + " "
 								+ StringUtil.isNullToString((String) map.get("userId")) + "]";
@@ -241,10 +245,11 @@ public class SntBookServiceImpl extends EgovAbstractServiceImpl implements SntBo
 						mngCd1 = "";
 						mngNm1 = "";
 						this.setSlipMap(map, rowId, sysDate, sep, sbam_new_code, amt, etc, compCd, compNm, mngCd1,
-								mngNm1, StringUtil.isNullToString(map.get("pslId")));
-						result = sntBookKipAdmDAO.procErpSlipInsertProc(map);
-
-						if(result != null && !"1".equals(result.get("vResult"))) {
+								mngNm1, "");
+						sntBookKipAdmDAO.procErpSlipInsertProc(map);
+						System.out.println(sbam_new_code);
+						System.out.println(StringUtil.isNullToString(map.get("v_result")));
+						if(!"1".equals(StringUtil.isNullToString(map.get("v_result")))) {
 							throw new Exception("전표 데이터(대변) 생성 중 오류");
 
 						}
@@ -257,6 +262,8 @@ public class SntBookServiceImpl extends EgovAbstractServiceImpl implements SntBo
 			}
 		}catch (Exception e) {
 			e.printStackTrace();
+			//거래 취소요청
+			HttpUtil.inicisCancel("https://iniapi.inicis.com/api/v1/refund", request.getRemoteAddr(),inicisMap);
 			throw e;
 		}
 
@@ -309,6 +316,129 @@ public class SntBookServiceImpl extends EgovAbstractServiceImpl implements SntBo
 		slipMap.put("v_nm_mngd8", "");
 		slipMap.put("r_slip_num", "");
 		slipMap.put("v_result", 0);
+	}
+
+	@Override
+	public EgovMap selectOfflineEduFileDetail(Map<String, Object> map) throws Exception {
+		return sntBookDAO.selectOfflineEduFileDetail(map);
+	}
+
+	@Override
+	public void eapQueryMain07Proc(Map<String, Object> map) throws Exception {
+		sntBookKipAdmDAO.eapQueryMain07Proc(map);
+	}
+
+	@Override
+	public void insertOrderEdu(Map<String, Object> map, HttpServletRequest request) throws Exception {
+		// Map<String,String> inicisMap  = (Map<String, String>) map.get("inicisMap");
+
+		Map<String,String> inicisMap  = (Map<String, String>) map.get("inicisMap");
+
+		try {
+			EgovMap detail =  sntBookDAO.selectOfflineEduDetail(map);
+			if(detail != null && !detail.isEmpty()) {
+
+
+				if("1".equals(map.get("payCode")) && StringUtil.isNullToString(map.get("mtrcCompanyId")).length() > 8  ) {
+					String billseqNum = sntBookKipAdmDAO.selectTaxbillSeq(map);
+					map.put("billseqNum", billseqNum);
+					sntBookKipAdmDAO.insertTaxBill(map);
+				}
+				map.put("ordNo",  String.valueOf(System.currentTimeMillis()));
+				sntBookDAO.insertOrder(map);
+
+				String rowId = "";
+				String sysDate = StringUtil.isNullToString(DateUtil.getCurrentDateTime("yyyy-MM-dd"));
+				String sep = "1";
+				String sepCode = "11118010";
+				String amt = StringUtil.isNullToString((String) map.get("payTotalAmt"));
+				String etc = "이니시스PG 미수금[" + StringUtil.isNullToString((String) map.get("userName")) + " "
+						+ StringUtil.isNullToString((String) map.get("userId")) + "]";
+				String compCd = "4000001";
+				String compNm = "이니시스";
+				String mngCd1 = "4000001";
+				String mngNm1 = "이니시스";
+				setSlipMap(map, rowId, sysDate, sep, sepCode, amt, etc, compCd, compNm, mngCd1, mngNm1, StringUtil.isNullToString(map.get("pslId")));
+				sntBookKipAdmDAO.procErpSlipInsertProc(map);
+				if("1".equals(StringUtil.isNullToString(map.get("v_result")))) {
+					rowId = (String) map.get("r_slip_num");
+					map.put("vResult" , null);
+					String bookDiv = StringUtil.isNullToString(map.get("bookDiv"));
+					String acgs_acc_code1,sbam_new_code = "";
+					map.put("bookDiv" , map.get("bookDiv"));
+					map.put("bookCode" , detail.get("eduCode"));
+					map.put("bookName" , detail.get("wtitle"));
+					map.put("bookCnt" , map.get("bookCnt"));
+					map.put("bookAmt" ,  StringUtil.isNullToString((String) map.get("payTotalAmt")));
+					map.put("saleAmt" , StringUtil.isNullToString((String) map.get("payTotalAmt")));
+					map.put("bgnDate" , map.get("bgnDate"));
+					map.put("endDate" , map.get("endDate"));
+					map.put("downDate" , map.get("downDate"));
+					map.put("certiCode" , null);
+					map.put("certiName" , null);
+					sntBookDAO.insertOrderItem(map);
+					if("1".equals(map.get("payCode")) && StringUtil.isNullToString(map.get("mtrcCompanyId")).length() > 8  ) {
+						sntBookKipAdmDAO.insertTaxBillItem(map);
+					}
+
+					if ("1".equals(bookDiv)) {
+						acgs_acc_code1 = "41001110";
+					} else if ("3".equals(bookDiv)) {
+						acgs_acc_code1 = "41001301";
+						sbam_new_code = "41306000";
+					} else if ("4".equals(bookDiv)) {
+						acgs_acc_code1 = "41004200";
+						sbam_new_code = "41201040";
+					} else if ("5".equals(bookDiv)) {
+						acgs_acc_code1 = "41004200";
+						sbam_new_code = "41201040";
+					} else if ("6".equals(bookDiv)) {
+						acgs_acc_code1 = "41001420";
+						sbam_new_code = "41307030";
+					} else if ("7".equals(bookDiv)) {
+						acgs_acc_code1 = "41001430";
+						sbam_new_code = "41307010";
+					} else if ("8".equals(bookDiv)) {
+						acgs_acc_code1 = "41004500";
+						sbam_new_code = "41201070";
+					} else if ("9".equals(bookDiv)) {
+						acgs_acc_code1 = "41001230";
+						sbam_new_code = "41305230";
+					}
+
+					sep = "2";
+					sysDate = StringUtil.isNullToString(DateUtil.getCurrentDateTime("yyyy-MM-dd"));
+					amt = StringUtil.isNullToString((String) map.get("payTotalAmt"));
+					etc =  detail.get("wtitle")+ "[" + StringUtil.isNullToString((String) map.get("userName")) + " "
+							+ StringUtil.isNullToString((String) map.get("userId")) + "]";
+					compCd = "";
+					compNm = "";
+					mngCd1 = "";
+					mngNm1 = "";
+
+					this.setSlipMap(map, rowId, sysDate, sep, sbam_new_code, amt, etc, compCd, compNm, mngCd1,
+							mngNm1, "");
+					sntBookKipAdmDAO.procErpSlipInsertProc(map);
+					System.out.println(sbam_new_code);
+					System.out.println(StringUtil.isNullToString(map.get("v_result")));
+					if(!"1".equals(StringUtil.isNullToString(map.get("v_result")))) {
+						throw new Exception("전표 데이터(대변) 생성 중 오류");
+
+					}
+
+				}
+
+				sntBookKipAdmDAO.intOrdBookEachProc(map);
+
+			}
+		}catch (Exception e) {
+			e.printStackTrace();
+			//거래 취소요청
+			HttpUtil.inicisCancel("https://iniapi.inicis.com/api/v1/refund", request.getRemoteAddr(),inicisMap);
+			throw e;
+		}
+
+
 	}
 
 

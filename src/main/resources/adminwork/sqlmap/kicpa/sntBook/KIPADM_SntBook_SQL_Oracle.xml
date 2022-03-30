@@ -84,9 +84,9 @@
             '', '', '',  '',
             #mtrcCompanyId#, #cpyMtrcCompanyName#, #cpyMtrcRepreName#,
             #buyername#, #email#, '',
-            #hpNo1#
-            #hpNo2#
-            #hpNo3#
+            #hpNo1#,
+            #hpNo2#,
+            #hpNo3#,
 <!--             REPLACE(REGEXP_REPLACE(#v_rtelno#, '(.{3})(.+)(.{4})', '\1'),'-',''), -->
 <!--             REPLACE(REGEXP_REPLACE(#v_rtelno#, '(.{3})(.+)(.{4})', '\2'),'-',''), -->
 <!--             REGEXP_REPLACE(#v_rtelno#, '(.{3})(.+)(.{4})', '\3'), -->
@@ -121,8 +121,8 @@
 	       VALUES
 	       (
 	           #billseqNum#,
-	           (SELECT NVL(MAX(NO_LINE),0)+1 FROM WHERE SENDBILL.TB_TAX_LINE NO = #billseqNum# ),
-	           LTRIM(TO_CHAR((SELECT NVL(MAX(NO_LINE),0)+1 FROM WHERE SENDBILL.TB_TAX_LINE NO = #billseqNum# ),'00000000')),
+	           (SELECT NVL(MAX(NO_LINE),0)+1 FROM SENDBILL.TB_TAX_LINE WHERE NO = #billseqNum# ),
+	           LTRIM(TO_CHAR((SELECT NVL(MAX(NO_LINE),0)+1 FROM SENDBILL.TB_TAX_LINE WHERE NO = #billseqNum# ),'00000000')),
 	           TO_CHAR(SYSDATE,'MM'),
 	           TO_CHAR(SYSDATE,'DD'),
 <!-- 	           substr(#v_dt#,6,2), -->
@@ -156,7 +156,7 @@
 	</parameterMap>
 
 	<procedure id="SntBookKipadmDAO.intOrdBookEachProc" parameterMap="orderEachMap">
-		call intladm.int_ord_book_each_proc(?,?)
+		call int_ord_book_each_proc(?,?)
 	</procedure>
 
 	<select id="SntBookKipadmDAO.selectTaxDetail" parameterClass="hashmap" resultClass="egovMap" >
@@ -177,6 +177,15 @@
 	   WHERE ROWNUM = 1
 
 	</select>
+
+	<parameterMap class="java.util.Map" id="cpaType">
+		<parameter property="pslId" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="v_result"  jdbcType="DECIMAL" javaType="long" mode="OUT"/>
+	</parameterMap>
+	<procedure id="SntBookKipadmDAO.eapQueryMain07Proc" parameterMap="cpaType">
+		call eap_query_main_07_proc(?,?)
+	</procedure>
+
 
 
 </sqlMap>

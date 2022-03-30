@@ -370,7 +370,7 @@ public class DateUtil {
 
 		return "28";
 	}
-	
+
 
 
 	/**
@@ -420,7 +420,7 @@ public class DateUtil {
 
 		return strDate;
 	}
-	
+
 	/**
 	 * 현재(한국기준) 날짜정보를 얻는다.                     <BR>
 	 * 표기법은 yyyy-mm-dd                                  <BR>
@@ -445,6 +445,17 @@ public class DateUtil {
 		Date today = new Date();
 		Locale currentLocale = new Locale("KOREAN", "KOREA");
 		String pattern = "yyyyMMddHHmmss"; //hhmmss로 시간,분,초만 뽑기도 가능
+		SimpleDateFormat formatter = new SimpleDateFormat(pattern,
+				currentLocale);
+		return formatter.format(today);
+	}
+	public static String getCurrentDateTime(String dateType) {
+		Date today = new Date();
+		Locale currentLocale = new Locale("KOREAN", "KOREA");
+		String pattern = "yyyyMMddHHmmss"; //hhmmss로 시간,분,초만 뽑기도 가능
+		if(dateType != null && !"".equals(dateType)) {
+			pattern = dateType;
+		}
 		SimpleDateFormat formatter = new SimpleDateFormat(pattern,
 				currentLocale);
 		return formatter.format(today);

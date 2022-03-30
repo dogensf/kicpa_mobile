@@ -143,7 +143,7 @@ public class HttpUtil {
     public static Map<String,String> inicisCancel(String reqUrl , String ip, Map<String,String> inicisMap ) throws Exception{
 
     	HttpURLConnection conn = null;
-
+    	System.out.println("==================취소=======================" + inicisMap);
     	Map<String, String> map = null;
     	try {
     		MessageDigest md = MessageDigest.getInstance("SHA-512");
@@ -178,6 +178,8 @@ public class HttpUtil {
 
     		conn.getOutputStream().write(param.toString().getBytes("EUC-KR"));
 
+
+    		System.out.println(conn.getResponseCode());
     		BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
 
     		String inputLine = "";
