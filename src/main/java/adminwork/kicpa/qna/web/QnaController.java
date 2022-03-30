@@ -8,12 +8,9 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import adminwork.com.cmm.LoginVO;
@@ -21,12 +18,10 @@ import adminwork.com.cmm.StringUtil;
 import adminwork.com.cmm.service.CmmUseService;
 import adminwork.com.cmm.service.FileMngService;
 import adminwork.com.cmm.service.FileMngUtil;
-import adminwork.com.cmm.service.FileVO;
 import adminwork.kicpa.qna.service.QnaService;
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.fdl.security.userdetails.util.EgovUserDetailsHelper;
 import egovframework.rte.psl.dataaccess.util.EgovMap;
-import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 
 @Controller
 public class QnaController {
@@ -229,6 +224,7 @@ public class QnaController {
     		if(isAuthenticated) {
 				LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
 				map.put("userId", user.getId());
+				map.put("pin", user.getUniqId());
 		        map.put("pageIndex", Integer.parseInt(StringUtil.isNullToString(map.get("pageIndex"), "1")));
 		        map.put("pageSize", 10);
 		        qnaService.selectQnaLists(map);

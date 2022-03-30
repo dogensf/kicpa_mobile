@@ -21,7 +21,7 @@ myPage.myPageInit = function(){
 	//자세히보기 클릭
 	$('#myPage_detailInfoBtn').on('click',function(e) {
 		if($('#myPage_myPageRegFlag').val() != 'N'){
-			location.href=myPage.getContextPath()+'/myp/myPageInfo.do?pin='+$('#myPage_myPagePin').val();
+			location.href='/kicpa/myp/myPageInfo.do?pin='+$('#myPage_myPagePin').val();
 		}
 	});
 
