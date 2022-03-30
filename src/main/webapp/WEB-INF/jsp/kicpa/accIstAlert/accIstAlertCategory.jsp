@@ -122,14 +122,14 @@ function fncLocation(){
           <button class="m-link" type="button" onclick="javascript:location.href='/kicpa/accIstAlert/ifrsBoardList.do'">
             <span>IFRS 실무사례</span>
           </button>
-          <button class="m-link" type="button" onclick="javascript:location.href='/kicpa/accIstAlert/contributeBoardList.do'">
+          <!-- <button class="m-link" type="button" onclick="javascript:location.href='/kicpa/accIstAlert/contributeBoardList.do'">
             <span>회계기준원 기고문</span>
-          </button>
+          </button> -->
         </li>
         <li>
-          <h4>eBOOK</h4>
+          <h4>E-book</h4>
           <button class="m-link" type="button" onclick="javascript:window.bridge.newWebView('kicpa_','https://www.kicpa-ebook.com','');">
-            <span>회계편람 e-book</span>
+            <span>회계편람 E-book</span>
           </button>
           <button class="m-link" type="button" onclick="javascript:window.bridge.newWebView('kicpa_','https://www.school-audit.com','');">
             <span>사립학교 감사실무 편람</span>
