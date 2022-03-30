@@ -23,7 +23,7 @@
 	<link rel="stylesheet" href="//code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" />
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
 	<script src="//code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>
-	<script src="/js/kicpa/myp/myPage.js?var=1"></script>
+	<script src="/js/kicpa/myp/myPage.js"></script>
 <script>
 	$(document).ready(function(){
 		myPage.myPageInit();
@@ -34,7 +34,7 @@
 	}
 
 </script>
-<body>
+<body id="myPage_body">
 <div class="wrap">
 	<div class="container">
 		<!-- 헤더 -->
@@ -138,7 +138,7 @@
 
 						<div class="application-status">
 							<div class="guide-ment">
-								<em>공인회계사 신청일 ${cpaMemberRegInfo.frstRegistDt}</em>
+								<em>공인회계사 신청일 ${cpaMemberRegInfo.opetrDe}</em>
 
 								<p>등록하신 내용을 검토중입니다.</p>
 
@@ -299,14 +299,14 @@
 						<c:if test="${myPageRegFlag ne 'N' && trainFlag eq 'Y' && audTrainFlag eq 'N'}">
 							<div class="application-status">
 								<div class="guide-ment">
-									<em>수습회계사 기본실무 신청일 ${cpaTrainRegInfo.frstRegistDt}</em>
+									<em>수습회계사 기본실무 신청일 ${cpaTrainRegInfo.opetrDe}</em>
 
 									<p>등록하신 내용을 검토중입니다.</p>
 
 								</div>
 
 								<div class="btn-area">
-									<button class="btn-round" type="button">기본실무 등록조회</button>
+									<button class="btn-round" type="button" onClick="location.href='${pageContext.request.contextPath}/kicpa/myp/mypCpaTrainReg.do?movePage=mypCpaTrainReg_reviewInfo&pin=${myPagePin}'">기본실무 등록조회</button>
 								</div>
 
 							</div>
@@ -323,8 +323,8 @@
 								</div>
 
 								<div class="btn-area">
-									<button class="btn-round" type="button">반려사유 조회</button>
-									<button class="btn-round fill" type="button">재신청하기</button>
+									<button class="btn-round" type="button" onclick="myPage.myPage_rejectRsnClick('${cpaTrainRegInfo.rejectRsn}')">반려사유 조회</button>
+									<button class="btn-round fill" type="button" onClick="location.href='${pageContext.request.contextPath}/kicpa/myp/mypCpaTrainReg.do?pin=${myPagePin}'">재신청하기</button>
 								</div>
 							</div>
 						</c:if>
@@ -400,7 +400,7 @@
 						<c:if test="${trainFlag eq 'E' && audTrainFlag eq 'Y'}">
 							<div class="application-status">
 								<div class="guide-ment">
-									<em>수습회계사 외감실무 신청일 ${cpaAudTrainRegInfo.frstRegistDt}</em>
+									<em>수습회계사 외감실무 신청일 ${cpaAudTrainRegInfo.opetrDe}</em>
 
 									<p>등록하신 내용을 검토중입니다.</p>
 
@@ -631,6 +631,28 @@
 			<input type="hidden" id="myPage_mypCpaMemFlag" value="${cpaMemFlag}">
 		</section>
 
+	</div>
+</div>
+
+
+<!-- 하단 레이어 팝업(반려사유 조회) / 활성화시 show -->
+<div class="layer-popup-wrap" id="myPagePop_rejectRsn">
+	<div class="layer-container">
+		<div class="title-box">
+			<h2>반려사유 조회</h2>
+		</div>
+
+		<div class="layer-content" style="text-align: center;">
+			<div class="gray-box" id="myPagePop_rejectRsnText">
+
+			</div>
+		</div>
+
+		<div class="layer-bottom" style="text-align: center;">
+			<div class="btn-bottom">
+				<button class="btn-round fill" type="button" id="myPagePop_rejectRsnBtn">확인</button>
+			</div>
+		</div>
 	</div>
 </div>
 </body>
