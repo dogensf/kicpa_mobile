@@ -118,11 +118,20 @@ public class ApiController {
 		List<Menus> menu = apiService.selectMainMenuLeft(vos);
 		
 		JSONObject cate = new JSONObject();
+		JSONObject cateIOS = new JSONObject();
+		JSONObject lv = new JSONObject();
 		JSONObject lv1 = new JSONObject();
 		JSONObject lv2 = new JSONObject();
+		JSONArray alv1 = new JSONArray();
+		JSONArray alv2 = new JSONArray();
+		
+		JSONArray aIos = new JSONArray();
+		
 		for(Menus hm : hmenu) {
+			alv1 = new JSONArray();
 			lv1 = new JSONObject();
 			for(Menus dm : menu) {
+				alv2 = new JSONArray();
 				lv2 = new JSONObject();
 				if(hm.getMenuNo() == dm.getUpperMenuId()) {
 					for(Menus dm2: menu) {
@@ -136,10 +145,17 @@ public class ApiController {
 								url = "location.href='"+dm2.getChkURL()+"'";
 							}
 							lv2.put(dm2.getMenuNm(), url);
+							lv.put(dm2.getMenuNm(), url);
+							alv2.add(lv);
+							lv = new JSONObject();
 						}
 					}
 					if(!lv2.isEmpty()) {
 						lv1.put(dm.getMenuNm(), lv2);
+						lv.put(dm.getMenuNm(), alv2);
+						alv1.add(lv);
+						lv = new JSONObject();
+						
 					}else {
 						String url = "";
 						if(dm.getChkURL().contains("http")){
@@ -150,13 +166,24 @@ public class ApiController {
 							url = "location.href='"+dm.getChkURL()+"'";
 						}
 						lv1.put(dm.getMenuNm(), url);
+						lv.put(dm.getMenuNm(), url);
+						alv1.add(lv);
+						lv = new JSONObject();
 					}
 										
 				}
 			}
 			cate.put(hm.getMenuNm(),lv1);
+			cateIOS.put(hm.getMenuNm(),alv1);			
+			aIos.add(cateIOS);
+			cateIOS = new JSONObject();
 		}
+		
+		
 		model.addAttribute("categoryList", cate);
+		
+		
+		model.addAttribute("categoryListIOS", aIos);
 		
 		
 		return "jsonView";
