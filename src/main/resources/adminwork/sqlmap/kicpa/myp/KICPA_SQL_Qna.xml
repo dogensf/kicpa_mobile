@@ -93,7 +93,7 @@
 			WHERE
 				DEL_YN = 'N'
 		]]>
-<!-- 			AND a.PIN = #pin# -->
+ 			AND a.PIN = #pin# 
 			<isNotEmpty property="searchType1">
 				AND a.category = #searchType1#
 			</isNotEmpty>

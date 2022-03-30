@@ -159,8 +159,8 @@
 
     <bean name="qnaManageStrategy"
         class="egovframework.rte.fdl.idgnr.impl.strategy.EgovIdGnrStrategyImpl">
-        <property name="prefix" value="QA_" />
-        <property name="cipers" value="17" />
+        <property name="prefix" value="MQA_" />
+        <property name="cipers" value="16" />
         <property name="fillChar" value="0" />
     </bean>     
     <!-- Qna... END-->    

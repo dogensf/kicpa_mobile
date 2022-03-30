@@ -613,11 +613,11 @@
 						<li>
 							<a href="/kicpa/faq/faqList.do">FAQ</a>
 						</li>
-						<li>
+						<!-- <li>
 							<a href="#">알림</a>
-						</li>
+						</li> -->
 						<li>
-							<a href="/kicpa/myp/setInfo.do">설정</a>
+							<a href="javascript:window.open('/kicpa/myp/setInfo.do');">설정</a>
 						</li>
 					</ul>
 
