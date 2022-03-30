@@ -8,8 +8,8 @@ $(document).ready(function(){
 });
 
 function fncLocation(){
-	//window.close();
-	 if ( !!window.opener) { window.close();}
+	window.close();
+	// if ( !!window.opener) { window.close();}
 }
 </script>
 <form id="boardForm" name="boardForm">
