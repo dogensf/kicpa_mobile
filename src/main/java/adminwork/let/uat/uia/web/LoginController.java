@@ -246,7 +246,7 @@ public class LoginController {
 			return "forward:/uat/uia/actionMain.do"; // 성공 시 페이지.. (redirect 불가)
 		} else {
 
-			model.addAttribute("message", egovMessageSource.getMessage("fail.common.login"));
+			model.addAttribute("message", "로그인에 실패했습니다.\n ID와 PASSWORD를 다시 체크 하시기 바랍니다.");
 			return "uat/uia/LoginUsr";
 		}
 	}

@@ -30,10 +30,10 @@
 		function actionLogin() {
 		
 		    if (document.loginForm.id.value =="") {
-		        alert("아이디를 입력하세요");
+		        alert("사용자 ID를 입력하시기 바랍니다.");
 		        return false;
 		    } else if (document.loginForm.password.value =="") {
-		        alert("비밀번호를 입력하세요");
+		        alert("비밀번호를 입력하시기 바랍니다.");
 		        return false;
 		    } else {
 		        document.loginForm.action="<c:url value='/uat/uia/actionSecurityLogin.do'/>";
@@ -166,8 +166,8 @@
                                     <input type="password" id="password" name="password" placeholder="비밀번호" />
                                 </div>
                                 <div class="inp-box">
-                                    <input type="checkbox" checked name="bk-item" id="ch02" />
-                                    <label for="ch02">로그인 상태 유지</label>
+                                    <input type="checkbox" checked name="bk-item" id="checkId" name="checkId" />
+                                    <label for="checkId">로그인 상태 유지</label>
                                 </div>
                             </div>
                             <div class="btn-area">
