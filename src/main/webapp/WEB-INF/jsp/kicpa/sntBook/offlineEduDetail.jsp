@@ -13,6 +13,7 @@ function fncLocation(){
 </script>
 <form id="boardForm" name="boardForm">
 	<input type="hidden" name="idNum" id="idNum" value="${param.idNum }">
+	<input type="hidden" name="eduCode" id="eduCode" value="${detail.eduCode }">
 </form>
 
 <section class="head-sub line">

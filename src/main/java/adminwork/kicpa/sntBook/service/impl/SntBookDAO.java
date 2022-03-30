@@ -91,4 +91,18 @@ public class SntBookDAO extends EgovAbstractDAO{
 	public int insertOrderItem(Map<String,Object> map) throws Exception {
 		return update("SntBookDAO.insertOrderItem",map);
 	}
+
+	public int selectMemberChcekCnt(Map<String,Object> map) throws Exception {
+		return (int) select("SntBookDAO.selectMemberChcekCnt",map);
+	}
+	public int selectEduAppCheck(Map<String,Object> map) throws Exception {
+		return (int) select("SntBookDAO.selectEduAppCheck",map);
+	}
+	public String selectCheckApplyYn(Map<String,Object> map) throws Exception {
+		return (String) select("SntBookDAO.selectCheckApplyYn",map);
+	}
+	public String selectChecCpaInfo(Map<String,Object> map) throws Exception {
+		return (String) select("SntBookDAO.selectChecCpaInfo",map);
+	}
+
 }

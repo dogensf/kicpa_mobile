@@ -52,6 +52,15 @@ public interface  SntBookService {
 
 	public void eapQueryMain07Proc(Map<String,Object> map) throws Exception;
 
+	public int selectMemberChcekCnt(Map<String,Object> map) throws Exception;
+
+	public String selectCheckApplyYn(Map<String,Object> map) throws Exception;
+
+	public String selectChecCpaInfo(Map<String,Object> map) throws Exception;
+
+	public int selectEduAppCheck(Map<String,Object> map) throws Exception;
+
+
 
 
 }

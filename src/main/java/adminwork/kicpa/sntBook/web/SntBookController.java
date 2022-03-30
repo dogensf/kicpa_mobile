@@ -419,8 +419,16 @@ public class SntBookController {
 				if(detail != null) {
 					LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
 					map.put("pslId", user.getUniqId()) ;
-					sntBookService.eapQueryMain07Proc(map);
 
+					sntBookService.eapQueryMain07Proc(map);
+					int totalCnt =  sntBookService.selectMemberChcekCnt(map);
+					String applyYn = sntBookService.selectCheckApplyYn(map);
+					String iciGamNum = sntBookService.selectChecCpaInfo(map);
+					int appCnt = sntBookService.selectEduAppCheck(map);
+					modelAndView.addObject("totalCnt", totalCnt);
+					modelAndView.addObject("applyYn", applyYn);
+					modelAndView.addObject("iciGamNum", iciGamNum);
+					modelAndView.addObject("appCnt", appCnt);
 
 					if(Integer.parseInt(StringUtil.isNullToString(detail.get("billCount")))  < Integer.parseInt(StringUtil.isNullToString(detail.get("eduCount"))) ) {
 						if(!"cks6451".equals(user.getId()) && !"1".equals(map.get("v_result")) && "3".equals(user.getUserTy())  ) {
@@ -924,112 +932,130 @@ public class SntBookController {
 			Map<String, Object> orderFrom = (Map<String, Object>) session.getAttribute("orderFrom");
 			List<EgovMap> orderList=   (List<EgovMap>) session.getAttribute("orderList");
 
-			//세션에 있는 form정보를 병합
-			orderFrom.forEach((key,value)-> map.merge(key, value, (v1,v2)->v2));
-
-			if("00".equals(map.get("P_STATUS"))) {
-
-				Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
-				if(isAuthenticated) {
-					LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
-					map.put("userId", user.getId());
-					map.put("userName", user.getName());
-					map.put("rvName", user.getName());
-//				map.put("rvAddress", StringUtil.isNullToString(user.getAima_add1(),"") + " " + StringUtil.isNullToString(user.getAima_add2()) );
-					map.put("pslId",user.getUniqId());
-
-				}else {
-					map.put("userId", "Guest");
-					map.put("pslId", map.get("gamId"));
-				}
-
-				inicisMap =HttpUtil.inicisRequest(StringUtil.isNullToString(map.get("P_REQ_URL")), StringUtil.isNullToString(map.get("P_TID")), propertyService.getString("inicisMid"));
-
-				map.put("orderList", orderList);
-
-				if("BANK".equals(inicisMap.get("P_TYPE"))) {
-					map.put("recBank", inicisMap.get("P_FN_CD1"));
-				}
-				map.put("pgSno", inicisMap.get("P_TID"));
-				map.put("pgCdAprvno", inicisMap.get("P_AUTH_NO"));
-				map.put("pgPayDate", inicisMap.get("P_AUTH_DT"));
-				map.put("payTotalAmt",inicisMap.get("P_AMT"));
-				map.put("ip",request.getRemoteAddr());
+			if(orderFrom != null) {
 
 
-//				orderMap.put("v_bill_yn", "0");
+				//세션에 있는 form정보를 병합
+				orderFrom.forEach((key,value)-> map.merge(key, value, (v1,v2)->v2));
 
-				if(!"".equals(StringUtil.isNullToString(map.get("telNo1"))) && !"".equals(StringUtil.isNullToString(map.get("telNo2"))) && !"".equals(StringUtil.isNullToString(map.get("telNo3"))) ) {
-					map.put("telNo", StringUtil.isNullToString(map.get("telNo1"))+"-"+StringUtil.isNullToString(map.get("telNo2"))+"-" +StringUtil.isNullToString(map.get("telNo3")));
-				}
+				if("00".equals(map.get("P_STATUS"))) {
 
-				if(!"".equals(StringUtil.isNullToString(map.get("hpNo1"))) && !"".equals(StringUtil.isNullToString(map.get("hpNo2"))) && !"".equals(StringUtil.isNullToString(map.get("hpNo3"))) ) {
-					map.put("hpNo", StringUtil.isNullToString(map.get("hpNo1"))+"-"+StringUtil.isNullToString(map.get("hpNo2"))+"-" +StringUtil.isNullToString(map.get("hpNo3")));
-				}
+					Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+					if(isAuthenticated) {
+						LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+						map.put("userId", user.getId());
+						map.put("userName", user.getName());
+						map.put("rvName", user.getName());
+	//				map.put("rvAddress", StringUtil.isNullToString(user.getAima_add1(),"") + " " + StringUtil.isNullToString(user.getAima_add2()) );
+						map.put("pslId",user.getUniqId());
 
-				map.put("inicisMap", inicisMap);
-				sntBookService.insertOrder(map,request);
+					}else {
+						map.put("userId", "Guest");
+						map.put("pslId", map.get("gamId"));
+					}
 
-				response.setCharacterEncoding("UTF-8");
-	    		response.setContentType("text/html; charset=UTF-8");
-		        PrintWriter printWriter = response.getWriter();
+					inicisMap =HttpUtil.inicisRequest(StringUtil.isNullToString(map.get("P_REQ_URL")), StringUtil.isNullToString(map.get("P_TID")), propertyService.getString("inicisMid"));
 
-		        String script= "<script>";
-		        script += "alert('구매완료되었습니다.');";
-		        script += "location.href='/kicpa/sntBook/bookBuyHistoryList.do'";
+					map.put("orderList", orderList);
 
-//		        script += "opener.location.reload();";
-//		        script += "window.close();";
-		        script += "</script>";
+					if("BANK".equals(inicisMap.get("P_TYPE"))) {
+						map.put("recBank", inicisMap.get("P_FN_CD1"));
+					}
+					map.put("pgSno", inicisMap.get("P_TID"));
+					map.put("pgCdAprvno", inicisMap.get("P_AUTH_NO"));
+					map.put("pgPayDate", inicisMap.get("P_AUTH_DT"));
+					map.put("payTotalAmt",inicisMap.get("P_AMT"));
+					map.put("ip",request.getRemoteAddr());
 
-		        printWriter.println(script);
 
-		        //구매폼 , 구매목록 세션에서 삭제
-		        session.removeAttribute("orderFrom");
-		        session.removeAttribute("orderList");
+	//				orderMap.put("v_bill_yn", "0");
 
-		        List<EgovMap> cartList = (List<EgovMap>) session.getAttribute("cartList");
-		        // 장바구니 삭제
-		        for(EgovMap y : orderList ) {
-					boolean flag = false;
-					EgovMap tempMap = null;
-						for(EgovMap x : cartList ) {
-						//같은상품이 존재하면 수량을 하나 올리고 조회내역에서 삭제
-						if(x.get("ibmBookCode").equals(y.get("ibmBookCode")) && !"999999".equals(y.get("ibmBookCode"))) {
-							flag = true;
-							tempMap = x;
+					if(!"".equals(StringUtil.isNullToString(map.get("telNo1"))) && !"".equals(StringUtil.isNullToString(map.get("telNo2"))) && !"".equals(StringUtil.isNullToString(map.get("telNo3"))) ) {
+						map.put("telNo", StringUtil.isNullToString(map.get("telNo1"))+"-"+StringUtil.isNullToString(map.get("telNo2"))+"-" +StringUtil.isNullToString(map.get("telNo3")));
+					}
+
+					if(!"".equals(StringUtil.isNullToString(map.get("hpNo1"))) && !"".equals(StringUtil.isNullToString(map.get("hpNo2"))) && !"".equals(StringUtil.isNullToString(map.get("hpNo3"))) ) {
+						map.put("hpNo", StringUtil.isNullToString(map.get("hpNo1"))+"-"+StringUtil.isNullToString(map.get("hpNo2"))+"-" +StringUtil.isNullToString(map.get("hpNo3")));
+					}
+
+					map.put("inicisMap", inicisMap);
+					sntBookService.insertOrder(map,request);
+
+					response.setCharacterEncoding("UTF-8");
+		    		response.setContentType("text/html; charset=UTF-8");
+			        PrintWriter printWriter = response.getWriter();
+
+			        String script= "<script>";
+			        script += "alert('구매완료되었습니다.');";
+			        script += "location.href='/kicpa/sntBook/bookBuyHistoryList.do'";
+
+	//		        script += "opener.location.reload();";
+	//		        script += "window.close();";
+			        script += "</script>";
+
+			        printWriter.println(script);
+
+			        //구매폼 , 구매목록 세션에서 삭제
+			        session.removeAttribute("orderFrom");
+			        session.removeAttribute("orderList");
+
+			        List<EgovMap> cartList = (List<EgovMap>) session.getAttribute("cartList");
+			        // 장바구니 삭제
+			        for(EgovMap y : orderList ) {
+						boolean flag = false;
+						EgovMap tempMap = null;
+							for(EgovMap x : cartList ) {
+							//같은상품이 존재하면 수량을 하나 올리고 조회내역에서 삭제
+							if(x.get("ibmBookCode").equals(y.get("ibmBookCode")) && !"999999".equals(y.get("ibmBookCode"))) {
+								flag = true;
+								tempMap = x;
+							}
+						}
+						if(flag) {
+							cartList.remove(tempMap);
 						}
 					}
-					if(flag) {
-						cartList.remove(tempMap);
+					if(cartList.size() == 1) {
+						session.removeAttribute("cartList");
+					}else {
+						session.setAttribute("cartList", cartList);
 					}
-				}
-				if(cartList.size() == 1) {
-					session.removeAttribute("cartList");
+
+
+
+
+
 				}else {
-					session.setAttribute("cartList", cartList);
+
+					response.setCharacterEncoding("UTF-8");
+		    		response.setContentType("text/html; charset=UTF-8");
+			        PrintWriter printWriter = response.getWriter();
+
+			        String script= "<script>";
+			        script += "alert('구매에 실패하였습니다.\n' "+map.get("P_RMESG1")+");";
+			        script += "location.href='/kicpa/sntBook/bookBuyHistoryList.do'";
+
+	//		        script += "opener.location.reload();";
+	//		        script += "window.close();";
+			        script += "</script>";
+
+			        printWriter.println(script);
+					modelAndView.addObject("msg", map.get("P_RMESG1"));
 				}
-
-
-
-
-
 			}else {
-
 				response.setCharacterEncoding("UTF-8");
 	    		response.setContentType("text/html; charset=UTF-8");
 		        PrintWriter printWriter = response.getWriter();
 
 		        String script= "<script>";
-		        script += "alert('구매에 실패하였습니다.\n' "+map.get("P_RMESG1")+");";
-		        script += "location.href='/kicpa/sntBook/bookBuyHistoryList.do'";
+		        script += "alert('로그인을 해주세요.');";
+		        script += "location.href='/uat/uia/LoginUsr.do'";
 
 //		        script += "opener.location.reload();";
 //		        script += "window.close();";
 		        script += "</script>";
 
 		        printWriter.println(script);
-				modelAndView.addObject("msg", map.get("P_RMESG1"));
 			}
 		}catch (Exception e) {
 
@@ -1061,82 +1087,104 @@ public class SntBookController {
 		Map<String,String> inicisMap = null;
 		try{
 			HttpSession session = request.getSession();
+			Map<String, Object> orderFrom = (Map<String, Object>) session.getAttribute("orderFrom");
 
-			if("00".equals(map.get("P_STATUS"))) {
+			if(orderFrom != null) {
 
-				Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
-				if(isAuthenticated) {
-					LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
-					map.put("userId", user.getId());
-					map.put("userName", user.getName());
-					map.put("rvName", user.getName());
-//				map.put("rvAddress", StringUtil.isNullToString(user.getAima_add1(),"") + " " + StringUtil.isNullToString(user.getAima_add2()) );
-					map.put("pslId",user.getUniqId());
+				//세션에 있는 form정보를 병합
+				orderFrom.forEach((key,value)-> map.merge(key, value, (v1,v2)->v2));
+
+
+				if("00".equals(map.get("P_STATUS"))) {
+
+					Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+					if(isAuthenticated) {
+						LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+						map.put("userId", user.getId());
+						map.put("userName", user.getName());
+						map.put("rvName", user.getName());
+	//				map.put("rvAddress", StringUtil.isNullToString(user.getAima_add1(),"") + " " + StringUtil.isNullToString(user.getAima_add2()) );
+						map.put("pslId",user.getUniqId());
+
+					}else {
+						map.put("userId", "Guest");
+						map.put("pslId", map.get("gamId"));
+					}
+
+					inicisMap =HttpUtil.inicisRequest(StringUtil.isNullToString(map.get("P_REQ_URL")), StringUtil.isNullToString(map.get("P_TID")), propertyService.getString("inicisMid"));
+
+
+					if("BANK".equals(inicisMap.get("P_TYPE"))) {
+						map.put("recBank", inicisMap.get("P_FN_CD1"));
+					}
+					map.put("pgSno", inicisMap.get("P_TID"));
+					map.put("pgCdAprvno", inicisMap.get("P_AUTH_NO"));
+					map.put("pgPayDate", inicisMap.get("P_AUTH_DT"));
+					map.put("payTotalAmt",inicisMap.get("P_AMT"));
+					map.put("ip",request.getRemoteAddr());
+
+
+	//				orderMap.put("v_bill_yn", "0");
+
+					if(!"".equals(StringUtil.isNullToString(map.get("telNo1"))) && !"".equals(StringUtil.isNullToString(map.get("telNo2"))) && !"".equals(StringUtil.isNullToString(map.get("telNo3"))) ) {
+						map.put("telNo", StringUtil.isNullToString(map.get("telNo1"))+"-"+StringUtil.isNullToString(map.get("telNo2"))+"-" +StringUtil.isNullToString(map.get("telNo3")));
+					}
+
+					if(!"".equals(StringUtil.isNullToString(map.get("hpNo1"))) && !"".equals(StringUtil.isNullToString(map.get("hpNo2"))) && !"".equals(StringUtil.isNullToString(map.get("hpNo3"))) ) {
+						map.put("hpNo", StringUtil.isNullToString(map.get("hpNo1"))+"-"+StringUtil.isNullToString(map.get("hpNo2"))+"-" +StringUtil.isNullToString(map.get("hpNo3")));
+					}
+
+					map.put("inicisMap", inicisMap);
+					sntBookService.insertOrderEdu(map, request);
+
+					response.setCharacterEncoding("UTF-8");
+		    		response.setContentType("text/html; charset=UTF-8");
+			        PrintWriter printWriter = response.getWriter();
+
+			        String script= "<script>";
+			        script += "alert('수강신청 되었습니다.');";
+			        script += "location.href='/kicpa/sntBook/offlineEduList.do?accEduUse=2'";
+
+	//		        script += "opener.location.reload();";
+	//		        script += "window.close();";
+			        script += "</script>";
+
+			        printWriter.println(script);
+
+
+
 
 				}else {
-					map.put("userId", "Guest");
-					map.put("pslId", map.get("gamId"));
+
+					response.setCharacterEncoding("UTF-8");
+		    		response.setContentType("text/html; charset=UTF-8");
+			        PrintWriter printWriter = response.getWriter();
+
+			        String script= "<script>";
+			        script += "alert('수강신청에 실패하였습니다.\n' "+map.get("P_RMESG1")+");";
+			        script += "location.href='/kicpa/sntBook/offlineEduList.do'";
+
+	//		        script += "opener.location.reload();";
+	//		        script += "window.close();";
+			        script += "</script>";
+
+			        printWriter.println(script);
+					modelAndView.addObject("msg", map.get("P_RMESG1"));
 				}
-
-				inicisMap =HttpUtil.inicisRequest(StringUtil.isNullToString(map.get("P_REQ_URL")), StringUtil.isNullToString(map.get("P_TID")), propertyService.getString("inicisMid"));
-
-
-				if("BANK".equals(inicisMap.get("P_TYPE"))) {
-					map.put("recBank", inicisMap.get("P_FN_CD1"));
-				}
-				map.put("pgSno", inicisMap.get("P_TID"));
-				map.put("pgCdAprvno", inicisMap.get("P_AUTH_NO"));
-				map.put("pgPayDate", inicisMap.get("P_AUTH_DT"));
-				map.put("payTotalAmt",inicisMap.get("P_AMT"));
-				map.put("ip",request.getRemoteAddr());
-
-
-//				orderMap.put("v_bill_yn", "0");
-
-				if(!"".equals(StringUtil.isNullToString(map.get("telNo1"))) && !"".equals(StringUtil.isNullToString(map.get("telNo2"))) && !"".equals(StringUtil.isNullToString(map.get("telNo3"))) ) {
-					map.put("telNo", StringUtil.isNullToString(map.get("telNo1"))+"-"+StringUtil.isNullToString(map.get("telNo2"))+"-" +StringUtil.isNullToString(map.get("telNo3")));
-				}
-
-				if(!"".equals(StringUtil.isNullToString(map.get("hpNo1"))) && !"".equals(StringUtil.isNullToString(map.get("hpNo2"))) && !"".equals(StringUtil.isNullToString(map.get("hpNo3"))) ) {
-					map.put("hpNo", StringUtil.isNullToString(map.get("hpNo1"))+"-"+StringUtil.isNullToString(map.get("hpNo2"))+"-" +StringUtil.isNullToString(map.get("hpNo3")));
-				}
-
-				map.put("inicisMap", inicisMap);
-				sntBookService.insertOrderEdu(map, request);
-
-				response.setCharacterEncoding("UTF-8");
-	    		response.setContentType("text/html; charset=UTF-8");
-		        PrintWriter printWriter = response.getWriter();
-
-		        String script= "<script>";
-		        script += "alert('수강신청 되었습니다.');";
-		        script += "location.href='/kicpa/sntBook/offlineEduList.do'";
-
-//		        script += "opener.location.reload();";
-//		        script += "window.close();";
-		        script += "</script>";
-
-		        printWriter.println(script);
-
-
-
-
 			}else {
-
 				response.setCharacterEncoding("UTF-8");
 	    		response.setContentType("text/html; charset=UTF-8");
 		        PrintWriter printWriter = response.getWriter();
 
 		        String script= "<script>";
-		        script += "alert('수강신청에 실패하였습니다.\n' "+map.get("P_RMESG1")+");";
-		        script += "location.href='/kicpa/sntBook/offlineEduList.do'";
+		        script += "alert('로그인을 해주세요.');";
+		        script += "location.href='/uat/uia/LoginUsr.do'";
 
 //		        script += "opener.location.reload();";
 //		        script += "window.close();";
 		        script += "</script>";
 
 		        printWriter.println(script);
-				modelAndView.addObject("msg", map.get("P_RMESG1"));
 			}
 		}catch (Exception e) {
 
