@@ -18,6 +18,21 @@ public class MypTrainServiceImpl extends EgovAbstractServiceImpl implements MypT
 
 
 	@Override
+	public String selectMypCpaTrainRegisterRegFlagInfo(Map<String, Object> map) throws Exception {
+		return mypTrainDAO.selectMypCpaTrainRegisterRegFlagInfo(map);
+	}
+
+	@Override
+	public List<?> selectCpaTrainRegistMemPictInfo(Map<String, Object> map) throws Exception {
+		return mypTrainDAO.selectCpaTrainRegistMemPictInfo(map);
+	}
+
+	@Override
+	public Long mypCpaTrainRegisterAgreeSave(Map<String, Object> map) throws Exception {
+		return mypTrainDAO.mypCpaTrainRegisterAgreeSave(map);
+	}
+
+	@Override
 	public void mypCpaTrainRegisterPictInfoSave(Map<String, Object> map) throws Exception {
 		mypTrainDAO.mypCpaTrainRegisterPictInfoSave(map);
 	}
@@ -28,6 +43,36 @@ public class MypTrainServiceImpl extends EgovAbstractServiceImpl implements MypT
 	}
 
 	@Override
+	public void mypCpaTrainRegisterGrdtSatausInfoSave(Map<String, Object> map) throws Exception {
+		mypTrainDAO.mypCpaTrainRegisterGrdtSatausInfoSave(map);
+	}
+
+	@Override
+	public void mypCpaTrainRegisterApntcCpaHistInfoSave(Map<String, Object> map) throws Exception {
+		mypTrainDAO.mypCpaTrainRegisterApntcCpaHistInfoSave(map);
+	}
+
+	@Override
+	public void mypCpaTrainRegisterAtchFileIdSave(Map<String, Object> map) throws Exception {
+		mypTrainDAO.mypCpaTrainRegisterAtchFileIdSave(map);
+	}
+
+	@Override
+	public void mypCpaTrainRegisterFlagFAtchFileSave(Map<String, Object> map) throws Exception {
+		mypTrainDAO.mypCpaTrainRegisterFlagFAtchFileSave(map);
+	}
+
+	@Override
+	public void mypCpaTrainRegisterRegFlagSave(Map<String, Object> map) throws Exception {
+		mypTrainDAO.mypCpaTrainRegisterRegFlagSave(map);
+	}
+
+	@Override
+	public int selectApntcCpaHistGuideCpaCehck(Map<String, Object> map) throws Exception {
+		return mypTrainDAO.selectApntcCpaHistGuideCpaCehck(map);
+	}
+
+	@Override
 	public void updateCpaPassMemPict(Map<String, Object> map) throws Exception {
 		mypTrainDAO.updateCpaPassMemPict(map);
 	}
@@ -35,5 +80,10 @@ public class MypTrainServiceImpl extends EgovAbstractServiceImpl implements MypT
 	@Override
 	public void insertCpaPassMemPict(Map<String, Object> map) throws Exception {
 		mypTrainDAO.insertCpaPassMemPict(map);
+	}
+
+	@Override
+	public List<?> selectCpaPassRegistMberPhotoInfo(Map<String, Object> map) throws Exception {
+		return mypTrainDAO.selectCpaPassRegistMberPhotoInfo(map);
 	}
 }

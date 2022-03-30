@@ -41,6 +41,12 @@ myPage.myPageInit = function(){
 
 		location.replace(myPage.getContextPath()+'/myp/mypCpaTrainInfoMove.do?pin='+$('#myPage_myPagePin').val()+"&moveFlag="+moveFlag);
 	});
+
+	//반려사유 조회 팝업 확인 버튼
+	$('#myPagePop_rejectRsnBtn').on('click',function(e) {
+		$('#myPage_body').removeClass('stop');
+		$('#myPagePop_rejectRsn').removeClass('show');
+	});
 }
 
 
@@ -56,5 +62,12 @@ myPage.myPage_tabMove = function(flag) {
 	$('.myPageActiveMove').removeClass('active');
 	$('#'+flag+'Active').addClass('active');
 
+}
+
+//반려사유 조회
+myPage.myPage_rejectRsnClick = function (rejectRsn){
+	$('#myPagePop_rejectRsnText').text(rejectRsn);
+	$('#myPage_body').addClass('stop');
+	$('#myPagePop_rejectRsn').addClass('show');
 }
 
