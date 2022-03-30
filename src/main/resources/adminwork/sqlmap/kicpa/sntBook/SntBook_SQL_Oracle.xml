@@ -349,7 +349,6 @@
 	     WHERE INT_ORDER.PSL_ID = #pslId#
 	           AND INT_ORDER_ITEM.BOOK_DIV = 5
 	    ORDER BY INT_ORDER.ORD_DATE DESC, INT_ORDER_ITEM.ORD_SEQ ASC
-
 	</select>
 
 	<select id="SntBookDAO.selectCartInputBookList" parameterClass="Hashmap" resultClass="egovMap">
@@ -758,6 +757,33 @@
 		 WHERE B.ID_NUM = #idNum#
 	</select>
 
+	<select id="SntBookDAO.selectMemberChcekCnt" parameterClass="Hashmap" resultClass="int">
+	    SELECT COUNT(*) as TOTAL_CNT
+		  FROM CPA_GOVERN_REG
+		 WHERE CGR_PSL_ID = #pslId#
+		 AND CGR_SEP IN ('1','2')
+	</select>
+
+	<select id="SntBookDAO.selectCheckApplyYn" parameterClass="Hashmap" resultClass="string">
+	    SELECT IEC_APPLY_YN as APPLY_YN
+		  FROM INT_EDU_CASE
+		 WHERE IEC_PSL_ID = #pslId#
+	   	AND IEC_EDU_CODE = #eduCode#
+	</select>
+
+	<select id="SntBookDAO.selectChecCpaInfo" parameterClass="Hashmap" resultClass="string">
+	    SELECT ICI_GAM_NUM FROM INT_CPA_INFO WHERE ICI_PSL_ID = #pslId#
+	</select>
+
+	<select id="SntBookDAO.selectEduAppCheck" parameterClass="Hashmap" resultClass="int">
+		  SELECT COUNT(*) as TOTAL_CNT
+		  FROM INT_ORDER A
+		  JOIN INT_ORDER_ITEM B
+		    ON A.ORD_NO = B.ORD_NO
+		 WHERE A.PSL_ID = #pslId#
+		   AND B.BOOK_CODE = #eduCode#
+		   AND A.CAN_DATE IS NULL
+	</select>
 
 
 

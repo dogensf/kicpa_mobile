@@ -201,8 +201,8 @@ public class SntBookServiceImpl extends EgovAbstractServiceImpl implements SntBo
 						if("2".equals(bookDiv)) {
 							sntBookKipAdmDAO.webSbmnumProc(map);
 							sntBookKipAdmDAO.webSbmnum2Proc(map);
-							acgs_acc_code1 = StringUtil.isNullToString(map.get("sbamNewCode"));
 							sbam_new_code = StringUtil.isNullToString(map.get("sbmAccCode1"));
+//							sbam_new_code = StringUtil.isNullToString(map.get("sbmAccCode1"));
 						}else {
 							if ("1".equals(bookDiv)) {
 								acgs_acc_code1 = "41001110";
@@ -439,6 +439,26 @@ public class SntBookServiceImpl extends EgovAbstractServiceImpl implements SntBo
 		}
 
 
+	}
+
+	@Override
+	public int selectMemberChcekCnt(Map<String, Object> map) throws Exception {
+		return sntBookDAO.selectMemberChcekCnt(map);
+	}
+
+	@Override
+	public String selectCheckApplyYn(Map<String, Object> map) throws Exception {
+		return sntBookDAO.selectCheckApplyYn(map);
+	}
+
+	@Override
+	public String selectChecCpaInfo(Map<String, Object> map) throws Exception {
+		return sntBookDAO.selectChecCpaInfo(map);
+	}
+
+	@Override
+	public int selectEduAppCheck(Map<String, Object> map) throws Exception {
+		return sntBookDAO.selectEduAppCheck(map);
 	}
 
 

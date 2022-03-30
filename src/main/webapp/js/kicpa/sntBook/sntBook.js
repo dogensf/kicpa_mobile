@@ -25,7 +25,16 @@ sntBook.bookFormatInit = function(){
 	fn_ajax_call("/kicpa/sntBook/getBookFormatList.do",param,sntBook.getBooFormatkListSuccess,sntBook.boardListError);
 }
 sntBook.offlineEduInit = function(){
-	sntBook.offlineEduListAjax();
+
+
+	if($("#accEduUse").val() == 2){
+		$(".tab-sub").hide();
+		sntBook.offlineEduListAppAjax();
+	}else{
+		$(".tab-sub").show();
+		sntBook.offlineEduListAjax();
+	}
+
 }
 
 sntBook.corporationListInit = function(){
@@ -193,7 +202,7 @@ sntBook.orderFormInit = function(){
 //		}else{
 //			$(".tax, .company").hide();
 //		}
-		if($("#mobileweb input[name='payCode']:checked").val() == '1'){
+		if($("#mobileweb input[name='payCode']:checked").val() == '2'){
 			$(".tax").show();
 		}else{
 			$(".tax, .company").hide();
@@ -203,7 +212,7 @@ sntBook.orderFormInit = function(){
 
 	$("#mobileweb input[name='cpyId']").on("change",function(){
 
-		if($("#mobileweb input[name='cpyId']:checked").val() == '1'){
+		if($("#mobileweb input[name='cpyId']:checked").val() == '2'){
 			$(".company").show();
 		}else{
 			$(".company").hide();
@@ -766,7 +775,45 @@ sntBook.getOfflineEduCheckSuccess = function(data){
 	var isEnable =data.isEnable;
 	var isLogin =data.isLogin;
 	var isCpy =data.isCpy;
+	var totalCnt = data.totalCnt;
+	var applyYn = data.applyYn;
+	var iciGamNum = data.iciGamNum;
+	var idNum = $("#idNum").val();
+	var eduCode = $("#eduCode").val();
+	var appCnt =data.appCnt;
 	if(isLogin){
+
+		if("753" == idNum || "752" == idNum ||  "567" == idNum || "568" == idNum || "688" == idNum || "689" == idNum){
+			iciGamNum = iciGamNum.substring(0,1);
+			if(iciGamNum == '0'){
+				alert('기본 과정 : 검사교육 최초 수강희망자\n\n보수과정 : 과년도 (2011~2018) 기본·보수과정 이수자\n\n※ 2018년 또는 2019년 기본·보수 교육과정 이수자는 2019회계연도「국가재무제표 결산검사 업무보조 용역」입찰시 국가회계 교육과정이수자로 인정함\n\n검사교육 수강여부가 명확치 않을경우 문의 (02-3149-0325, 담당 : 김재준 책임)하시기 바랍니다.');
+			}
+		}
+
+		if("806" == idNum || "802" == idNum || "769" == idNum || "770" == idNum||  "694" == idNum || "695" == idNum||"572" == idNum || "573" == idNum){
+			if(totalCnt <= 0){
+				alert('기본교육 이수자만 신청가능합니다.');
+				return false;
+			}
+		}
+
+		if( "2018001" == eduCode ||  "2017017" == eduCode || "2016018" == eduCode || "2016001" == eduCode ||    "2015002" == eduCode ||   "2014063" == eduCode || "2014064" == eduCode || "2015022" == eduCode ){
+			if(applyYn != 'Y'){
+				alert('인가교육대상자가 아닙니다.\n\n본 인가교육의 신청자격과 관련, 「고용보험 및 산업재해보상보험의 보험료징수등에 관한 법률」 제33조제1항 및 동법시행령 제 44조(보험사무대행기관) 참조바랍니다.');
+				return false;
+			}
+		}
+
+		if(appCnt > 0 ){
+			alert('이미 수강신청하였습니다.');
+			return false;
+		}
+
+
+
+
+
+
 		if(isEnable){
 			if(!isCpy){
 				alert("등록 된 공인회계사만 수강 가능합니다.");

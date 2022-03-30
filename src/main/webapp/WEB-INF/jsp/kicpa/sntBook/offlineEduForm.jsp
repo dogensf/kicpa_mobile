@@ -182,10 +182,6 @@ function pay0(){
 				        <input type="text" id="cpyMtrcRepreName" name="cpyMtrcRepreName" placeholder="회사명을 입력하세요." />
 				    </div>
 		       		<div class="inp-box">
-				        <label class="label essen" for="cpyOffZip">우편번호</label>
-				        <input type="text" id="cpyOffZip" name="cpyOffZip" readonly="readonly" onclick="sntBook.daumPostcode('company');" placeholder="회사명을 입력하세요." />
-				    </div>
-		       		<div class="inp-box">
 				        <label class="label essen" for="cpyOffAddr">주소</label>
 				        <input type="text" id="cpyOffAddr" name="cpyOffAddr" readonly="readonly" onclick="sntBook.daumPostcode('company');" placeholder="회사명을 입력하세요." />
 				    </div>
@@ -198,16 +194,8 @@ function pay0(){
 				        <input type="text" id="cpyMtrcType1" name="cpyMtrcType1" placeholder="회사명을 입력하세요." />
 				    </div>
 		       		<div class="inp-box">
-				        <label class="label essen" for="cpyMtrcType2">업태2</label>
-				        <input type="text" id="cpyMtrcType2" name="cpyMtrcType2" placeholder="회사명을 입력하세요." />
-				    </div>
-		       		<div class="inp-box">
 				        <label class="label essen" for="cpyMtrcItem1">종목1</label>
 				        <input type="text" id="cpyMtrcItem1" name="cpyMtrcItem1" placeholder="회사명을 입력하세요." />
-				    </div>
-		       		<div class="inp-box">
-				        <label class="label essen" for="cpyMtrcItem2">종목2</label>
-				        <input type="text" id="cpyMtrcItem2" name="cpyMtrcItem2" placeholder="회사명을 입력하세요." />
 				    </div>
 				</div>
 			</div>
