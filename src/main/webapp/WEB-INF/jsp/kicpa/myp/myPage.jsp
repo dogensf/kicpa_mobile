@@ -388,7 +388,7 @@
 									<!-- 기본실무수습 종료예정일 15일전부터 외감 신청 가능 -->
 									<c:if test="${leftDays <= 15}">
 										<div>
-											<button class="btn-round fill" type="button">외감신청</button>
+											<button class="btn-round fill mypPage_mypAudTrainRegMove" type="button">외감신청</button>
 										</div>
 									</c:if>
 								</div>
@@ -407,7 +407,7 @@
 								</div>
 
 								<div class="btn-area">
-									<button class="btn-round" type="button">외감실무 등록조회</button>
+									<button class="btn-round" type="button" onClick="location.href='${pageContext.request.contextPath}/kicpa/myp/mypCpaAudTrainReg.do?movePage=mypCpaAudTrainReg_reviewInfo&pin=${myPagePin}'">외감실무 등록조회</button>
 								</div>
 
 							</div>
@@ -424,8 +424,8 @@
 								</div>
 
 								<div class="btn-area">
-									<button class="btn-round" type="button">반려사유 조회</button>
-									<button class="btn-round fill" type="button">재신청하기</button>
+									<button class="btn-round" type="button" onclick="myPage.myPage_rejectRsnClick('${cpaAudTrainRegInfo.rejectRsn}')">반려사유 조회</button>
+									<button class="btn-round fill" type="button" onClick="location.href='${pageContext.request.contextPath}/kicpa/myp/mypCpaAudTrainReg.do?pin=${myPagePin}'">재신청하기</button>
 								</div>
 							</div>
 						</c:if>

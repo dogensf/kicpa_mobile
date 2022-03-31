@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="MypMypAudTrain_SQL_OracleTrain">
+
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+
+
+
+	<select id="MypAudTrainDAO.selectMypCpaAudTrainRegisterRegFlagInfo" parameterClass="HashMap" resultClass="String">
+
+		<![CDATA[
+            SELECT
+					aacm.APNTC_SN
+			FROM APNTC_AUD_CPA_MYP aacm
+			WHERE aacm.APNTC_SN = (SELECT MAX(APNTC_SN) FROM APNTC_AUD_CPA_MYP WHERE PIN = #pin# AND REG_FLAG='N')
+		]]>
+	</select>
+
+	<insert id="MypAudTrainDAO.mypCpaAudTrainRegisterAgreeSave" parameterClass="HashMap">
+
+		<selectKey keyProperty="mypApntcSn" resultClass="int">
+			SELECT KIPADM.APNTC_AUD_CPA_MYP_SEQ.NEXTVAL FROM dual
+		</selectKey>
+
+		<![CDATA[
+
+			MERGE INTO APNTC_AUD_CPA_MYP
+                USING DUAL
+                ON (PIN = #pin# AND APNTC_SN = #apntcSn#)
+                WHEN MATCHED THEN
+                          UPDATE SET
+                          AGREE_INFO1_YN = #agreeInfoYn1#, AGREE_INFO2_YN = #agreeInfoYn2#, AGREE_INFO3_YN = #agreeInfoYn3#, KOREAN_NM = #koreanNm#, BRTHDY = #brthdy#,
+                          LAST_UPDT_ID = #userId#, LAST_UPDT_DT = SYSTIMESTAMP
+
+                WHEN NOT MATCHED THEN
+                          INSERT (APNTC_SN, PIN, AGREE_INFO1_YN, AGREE_INFO2_YN, AGREE_INFO3_YN, KOREAN_NM, BRTHDY,
+                          		FRST_REGIST_ID, FRST_REGIST_DT, LAST_UPDT_ID, LAST_UPDT_DT)
+
+                          VALUES (#mypApntcSn#, #pin#, #agreeInfoYn1#, #agreeInfoYn2#, #agreeInfoYn3#, #koreanNm#, #brthdy#,
+		        				#userId#, SYSTIMESTAMP, #userId#, SYSTIMESTAMP)
+
+		]]>
+	</insert>
+
+	<update id="MypAudTrainDAO.mypCpaAudTrainRegisterApntcCpaHistInfoSave" parameterClass="HashMap">
+		<![CDATA[
+
+			UPDATE APNTC_AUD_CPA_MYP
+            SET
+				AUD_REGIST_DE = #audRegistDe#,
+				GUIDE_CPA_NM = #guideCpaNm#,
+				GUIDE_CPA_NO = #guideCpaNo#,
+				APP_INSTT_NM = #appInsttNm#,
+				APP_INSTT_CD = #appInsttCd#,
+				APP_INSTT_ETC = #appInsttEtc#,
+				APNTC_CL = #apntcCl#,
+               	LAST_UPDT_ID = #userId#,
+               	LAST_UPDT_DT = SYSTIMESTAMP
+
+            WHERE PIN = #pin#
+              AND APNTC_SN = #apntcSn#
+		]]>
+
+	</update>
+
+	<update id="MypAudTrainDAO.mypCpaAudTrainRegisterAtchFileIdSave" parameterClass="HashMap">
+		<![CDATA[
+
+			UPDATE APNTC_AUD_CPA_MYP
+            SET
+				EMPL_CRTI_FILE_ID = #emplCrtiFileId#,
+				RSUM_FILE = #rsumFileId#,
+				RSUM_FILE_NM = #rsumFileNm#,
+				EVENTN = #eventn#,
+				ATCH_FILE_ID = #atchFileId#,
+				LAST_UPDT_ID = #userId#,
+				LAST_UPDT_DT = SYSTIMESTAMP
+
+            WHERE PIN = #pin#
+              AND APNTC_SN = #apntcSn#
+		]]>
+
+	</update>
+
+	<update id="MypAudTrainDAO.mypCpaAudTrainRegisterFlagFAtchFileSave" parameterClass="HashMap">
+		<![CDATA[
+
+			UPDATE APNTC_AUD_CPA_MYP
+            SET
+				EMPL_CRTI_FILE_ID = #emplCrtiFileId#,
+				RSUM_FILE = (SELECT RSUM_FILE FROM APNTC_AUD_CPA_MYP WHERE PIN = #pin# AND REG_FLAG ='F' AND APNTC_SN = (SELECT MAX(APNTC_SN) FROM APNTC_AUD_CPA_MYP WHERE PIN = #pin# AND REG_FLAG ='F')),
+				RSUM_FILE_NM = (SELECT RSUM_FILE_NM FROM APNTC_AUD_CPA_MYP WHERE PIN = #pin# AND REG_FLAG ='F' AND APNTC_SN = (SELECT MAX(APNTC_SN) FROM APNTC_AUD_CPA_MYP WHERE PIN = #pin# AND REG_FLAG ='F')),
+				EVENTN = (SELECT EVENTN FROM APNTC_AUD_CPA_MYP WHERE PIN = #pin# AND REG_FLAG ='F' AND APNTC_SN = (SELECT MAX(APNTC_SN) FROM APNTC_AUD_CPA_MYP WHERE PIN = #pin# AND REG_FLAG ='F')),
+				ATCH_FILE_ID = #atchFileId#,
+				LAST_UPDT_ID = #userId#,
+				LAST_UPDT_DT = SYSTIMESTAMP
+
+            WHERE PIN = #pin#
+              AND APNTC_SN = #apntcSn#
+		]]>
+
+	</update>
+
+	<update id="MypAudTrainDAO.mypCpaAudTrainRegisterRegFlagSave" parameterClass="HashMap">
+		<![CDATA[
+
+			UPDATE APNTC_AUD_CPA_MYP
+            SET
+       			REG_FLAG = #regFlag#,
+       			OPETR_DE = #opetrDe#,
+               	LAST_UPDT_ID = #userId#,
+               	LAST_UPDT_DT = SYSTIMESTAMP
+
+            WHERE PIN = #pin#
+              AND APNTC_SN = #apntcSn#
+		]]>
+
+	</update>
+
+</sqlMap>

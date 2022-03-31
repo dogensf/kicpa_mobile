@@ -35,6 +35,11 @@ myPage.myPageInit = function(){
 		location.replace(myPage.getContextPath()+'/myp/mypCpaTrainReg.do?pin='+$('#myPage_myPagePin').val());
 	});
 
+	//외감 신청 클릭
+	$('.mypPage_mypAudTrainRegMove').on('click',function(e) {
+		location.replace(myPage.getContextPath()+'/myp/mypCpaAudTrainReg.do?pin='+$('#myPage_myPagePin').val());
+	});
+
 	//수습회계사 정보 화면 이동
 	$('.mypage_trainInfoMove').on('click',function(e) {
 		var moveFlag = $(this).attr('value');

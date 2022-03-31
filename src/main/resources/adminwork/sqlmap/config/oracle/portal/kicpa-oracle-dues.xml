@@ -12,4 +12,5 @@
     <sqlMap resource="adminwork/sqlmap/kicpa/myp/MypPass_SQL_Oracle.xml"/>
     <sqlMap resource="adminwork/sqlmap/kicpa/myp/MypMember_SQL_Oracle.xml"/>
     <sqlMap resource="adminwork/sqlmap/kicpa/myp/MypTrain_SQL_Oracle.xml"/>
+    <sqlMap resource="adminwork/sqlmap/kicpa/myp/MypAudTrain_SQL_Oracle.xml"/>
 </sqlMapConfig>
