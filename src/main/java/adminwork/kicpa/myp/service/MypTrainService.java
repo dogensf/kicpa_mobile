@@ -1,9 +1,14 @@
 package adminwork.kicpa.myp.service;
 
+import egovframework.rte.psl.dataaccess.util.EgovMap;
+
 import java.util.List;
 import java.util.Map;
 
 public interface MypTrainService {
+
+    //실무수습기관 검색(팝업)
+    public List<EgovMap> selectAuditPopupSearchList(Map<String, Object> map) throws Exception;
 
     //실무수습 승인 안된 정보 조회(임시 테이블)
     public String selectMypCpaTrainRegisterRegFlagInfo(Map<String, Object> map) throws Exception;

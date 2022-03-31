@@ -5,6 +5,26 @@ mypCpaTrainReg.getContextPath = function() {
 	return location.href.substring( hostIndex, location.href.indexOf('/', hostIndex + 1) );
 }
 
+mypCpaTrainReg.auditListInit = function(){
+	$(".search-box .search").on("click",function(){
+		fn_portal_pop("searchPop")
+		$("#auditSearchForm input[name='searchKeyword']").attr("placeholder","실무수습기관명을 입력하세요.");
+	});
+
+
+	$("#searchPop .btn-send").on("click",function(){
+		$("#searchPop .btn-close").click();
+		$("#auditSearchForm input[name='searchKeyword']").val($("#boardSearchForm input[name='searchKeyword']").val());
+		mypCpaTrainReg.getAuditList();
+	});
+
+}
+
+mypCpaTrainReg.getAuditList = function(){
+	var param =$("#auditSearchForm").serializeObject();
+	fn_ajax_call("/kicpa/myp/getAuditList.do",param,fnAuditListSuccess,mypCpaTrainReg.auditListError);
+}
+
 mypCpaTrainReg.mypCpaTrainRegInit = function(){
 
 	//수정모드(검토 및 제출 화면)
@@ -153,6 +173,11 @@ mypCpaTrainReg.mypCpaTrainRegInit = function(){
 		mypCpaTrainReg.mypCpaTrainReg_grdtSatausChange();
 	});
 
+	//실무수습기관 검색
+	$('#mypCpaTrainReg_apntcCpaHistInfoAppInsttNm').on("click", function (e){
+		window.open("/kicpa/myp/auditSearch.do","auditSearchPop");
+	});
+
 	//첨부파일 파일 변경
 	$('.mypCpaTrainReg_fileChange').on('click',function(e) {
 		var fileId = $(this).attr('id');
@@ -185,51 +210,10 @@ mypCpaTrainReg.mypCpaTrainRegInit = function(){
 	});
 
 
-	//추가 첨부파일 삭제(삭제버튼 클릭시 해당 div 삭제)
-	mypCpaTrainReg.mypCpaTrainReg_atchFileInfoRemove = function (atchFileId){
-
-		if(atchFileId == "regFlagFDelHide1"){
-			$(".regFlagFDelHide1").hide();
-			$('#mypCpaTrainReg_atchFileInfoAtchFileId1').prop('type',"file");
-			$("#mypCpaTrainReg_atchFileInfoAtchFileId1Set").val("");
-		}
-		else if(atchFileId == "regFlagFDelHide2"){
-			$(".regFlagFDelHide2").hide();
-			$('#mypCpaTrainReg_atchFileInfoAtchFileId2').prop('type',"file");
-			$("#mypCpaTrainReg_atchFileInfoAtchFileId2Set").val("");
-		}
-		else if(atchFileId == "regFlagFDelHide3"){
-			$(".regFlagFDelHide3").hide();
-			$('#mypCpaTrainReg_atchFileInfoAtchFileId3').prop('type',"file");
-			$("#mypCpaTrainReg_atchFileInfoAtchFileId3Set").val("");
-		}
-		else if(atchFileId == "regFlagFDelHide4"){
-			$(".regFlagFDelHide4").hide();
-			$('#mypCpaTrainReg_atchFileInfoAtchFileId4').prop('type',"file");
-			$("#mypCpaTrainReg_atchFileInfoAtchFileId4Set").val("");
-		}
-		else if(atchFileId == "regFlagFPassCrtiDelHide"){
-			$(".regFlagFPassCrtiDelHide").hide();
-			$('#mypCpaTrainReg_atchFileInfoPassCrtiFileId').prop('type',"file");
-			$("#mypCpaTrainReg_atchFileInfoPassCrtiFileIdSet").val("");
-		}
-		else if(atchFileId == "regFlagFEmplCrtiDelHide"){
-			$(".regFlagFEmplCrtiDelHide").hide();
-			$('#mypCpaTrainReg_atchFileInfoEmplCrtiFileId').prop('type',"file");
-			$("#mypCpaTrainReg_atchFileInfoEmplCrtiFileIdSet").val("");
-		}
-		else if(atchFileId == "regFlagFRsumFileDelHide"){
-			$(".regFlagFRsumFileDelHide").hide();
-			$('#mypCpaTrainReg_atchFileInfoRsumFileId').prop('type',"file");
-			$("#mypCpaTrainReg_atchFileInfoEventnSet").val("");
-		}
-
-	}
-
 	//수습공인회계사 등록신청서 클릭
 	$("#mypCpaTrainReg_trainRegForm").on("click",function(e) {
 		var pin = $('#mypCpaTrainReg_pin').val();
-		window.open("http://localhost:8080/kicpacs/kicpa/myp/mypCpaTrainRegForm.do?pin="+pin, "pop", "scrollbars=yes, resizable=yes");
+		window.open("http://kip.kicpa.or.kr/kicpacs/kicpa/myp/mypCpaTrainRegForm.do?pin="+pin, "pop", "scrollbars=yes, resizable=yes");
 
 	});
 
@@ -507,8 +491,8 @@ mypCpaTrainReg.selectMypCpaTrainRegReviewInfo_success = function (result){
 	$('#mypCpaTrainRegReviewInfo_grdtDe').text(result.cpaTrainRegReviewInfoList[0].grdtDe);
 	$('#mypCpaTrainRegReviewInfo_vacationDe').text(vacationDe);
 	$('#mypCpaTrainRegReviewInfo_appRegistDe').text(result.cpaTrainRegReviewInfoList[0].appRegistDe);
-	$('#mypCpaTrainRegReviewInfo_guideCpa').text(result.cpaTrainRegReviewInfoList[0].guideCpaNm + "    "+result.cpaTrainRegReviewInfoList[0].guideCpaNo);
-	$('#mypCpaTrainRegReviewInfo_appInstt').text(result.cpaTrainRegReviewInfoList[0].appInsttNm+ "    "+result.cpaTrainRegReviewInfoList[0].appInsttCd);
+	$('#mypCpaTrainRegReviewInfo_guideCpa').text(result.cpaTrainRegReviewInfoList[0].guideCpaNm);
+	$('#mypCpaTrainRegReviewInfo_appInstt').text(result.cpaTrainRegReviewInfoList[0].appInsttNm);
 	$('#mypCpaTrainRegReviewInfo_appInsttEtc').text(result.cpaTrainRegReviewInfoList[0].appInsttEtc);
 	$('#mypCpaTrainRegReviewInfo_atchFileId1').text(result.cpaTrainRegReviewInfoList[0].atchFileId1Nm);
 	$('#mypCpaTrainRegReviewInfo_passCrtiFileId').text(result.cpaTrainRegReviewInfoList[0].passCrtiFileIdNm);
@@ -581,23 +565,7 @@ mypCpaTrainReg.mypCpaTrainReg_regFlagFList_success = function(data){
 	$('#mypCpaTrainReg_grdtSatausInfoStartDe').val(data.cpaTrainRegReviewInfoList[0].vacationStrDe);               //방학기간(시작일)
 	$('#mypCpaTrainReg_grdtSatausInfoEndDe').val(data.cpaTrainRegReviewInfoList[0].vacationEndDe);                 //방학기간(종료일)
 
-	if($('#mypCpaTrainReg_grdtSatausInfoGrdtSataus').val()=="00000020"){
-		$('.mypCpaTrainReg_grdtSatausInfoTrigger').show();
-		$('.mypCpaTrainReg_atchFileInfoAtchFileAdd1').show();
-		$('#mypCpaTrainReg_atchFileId1FlagYn').val("Y");
-		$("#mypCpaTrainReg_atchFileInfoAtchFileId1Set").val('');
-		$("#mypCpaTrainReg_atchFileInfoAtchFileId2Set").val('');
-		$("#mypCpaTrainReg_atchFileInfoAtchFileId3Set").val('');
-		$("#mypCpaTrainReg_atchFileInfoAtchFileId4Set").val('');
-	}
-	else{
-		$('.mypCpaTrainReg_grdtSatausInfoTrigger').hide();
-		$('#mypCpaTrainReg_grdtSatausInfoGrdtDe').val('');
-		$('#mypCpaTrainReg_grdtSatausInfoStartDe').val('');
-		$('#mypCpaTrainReg_grdtSatausInfoEndDe').val('');
-		$('.mypCpaTrainReg_atchFileInfoAtchFileAdd1').hide();
-		$('#mypCpaTrainReg_atchFileId1FlagYn').val("N");
-	}
+	mypCpaTrainReg.mypCpaTrainReg_grdtSatausChange();
 
 	//이력정보
 	$('#mypCpaTrainReg_apntcCpaHistInfoAppRegistDe').val(data.cpaTrainRegReviewInfoList[0].appRegistDe);             //실무수습기관 입사일자
@@ -607,23 +575,15 @@ mypCpaTrainReg.mypCpaTrainReg_regFlagFList_success = function(data){
 	$('#mypCpaTrainReg_apntcCpaHistInfoAppInsttCd').val(data.cpaTrainRegReviewInfoList[0].appInsttCd);              //실무수습기관코드
 	$('#mypCpaTrainReg_apntcCpaHistInfoAudGrpCl').val(data.cpaTrainRegReviewInfoList[0].stausCl);                   //개업구분
 
-	/*if(data.cpaTrainRegReviewInfoList[0].appInsttEtcYn == "Y"){
-        $('#mypCpaTrainReg_apntcCpaHistInfoAppInsttEtcYn').prop("checked",true);    //기타 실무수습기관 여부
-    }
-    if($("input:checkbox[name=appInsttEtcYn]").is(":checked")){
-        $('#mypCpaTrainReg_apntcCpaHistInfoAppInsttEtc').val('');
-        $('#mypCpaTrainReg_apntcCpaHistInfoAppInsttEtc').prop('disabled', false);
-    }else{
-        $('#mypCpaTrainReg_apntcCpaHistInfoAppInsttEtc').prop('disabled', true);
-    }*/
+
 	if($('#mypCpaTrainReg_apntcCpaHistInfoAudGrpCl').val() != "A3019999"){
 		$('#mypCpaTrainReg_apntcCpaHistInfoAppInsttEtc').val('');
 		$('#mypCpaTrainReg_apntcCpaHistInfoAppInsttEtc').prop('disabled', true);
-		$('.mypCpaTrainReg_apntcCpaHistInfoYn').hide();
+		$('.mypTrainAppInsttEtcYn').hide();
 	}
 	else{
 		$('#mypCpaTrainReg_apntcCpaHistInfoAppInsttEtc').prop('disabled', false);
-		$('.mypCpaTrainReg_apntcCpaHistInfoYn').show();
+		$('.mypTrainAppInsttEtcYn').show();
 	}
 
 
@@ -679,5 +639,57 @@ mypCpaTrainReg.mypCpaTrainReg_regFlagFList_success = function(data){
 		$("#mypCpaTrainReg_atchFileInfoRsumFileId").val(data.cpaTrainRegReviewInfoList[0].rsumFileNm);
 		$("#mypCpaTrainReg_atchFileInfoEventnSet").val(data.cpaTrainRegReviewInfoList[0].eventn);
 	}
+}
 
+//추가 첨부파일 삭제(삭제버튼 클릭시 해당 div 삭제)
+mypCpaTrainReg.mypCpaTrainReg_atchFileInfoRemove = function (atchFileId){
+
+	if(atchFileId == "regFlagFDelHide1"){
+		$(".regFlagFDelHide1").hide();
+		$('#mypCpaTrainReg_atchFileInfoAtchFileId1').prop('type',"file");
+		$("#mypCpaTrainReg_atchFileInfoAtchFileId1Set").val("");
+		$("label[for='mypCpaTrainReg_atchFileInfoAtchFileId1']").text("파일을 등록해 주세요");
+	}
+	else if(atchFileId == "regFlagFDelHide2"){
+		$(".regFlagFDelHide2").hide();
+		$('#mypCpaTrainReg_atchFileInfoAtchFileId2').prop('type',"file");
+		$("#mypCpaTrainReg_atchFileInfoAtchFileId2Set").val("");
+		$("label[for='mypCpaTrainReg_atchFileInfoAtchFileId2']").text("파일을 등록해 주세요");
+	}
+	else if(atchFileId == "regFlagFDelHide3"){
+		$(".regFlagFDelHide3").hide();
+		$('#mypCpaTrainReg_atchFileInfoAtchFileId3').prop('type',"file");
+		$("#mypCpaTrainReg_atchFileInfoAtchFileId3Set").val("");
+		$("label[for='mypCpaTrainReg_atchFileInfoAtchFileId3']").text("파일을 등록해 주세요");
+	}
+	else if(atchFileId == "regFlagFDelHide4"){
+		$(".regFlagFDelHide4").hide();
+		$('#mypCpaTrainReg_atchFileInfoAtchFileId4').prop('type',"file");
+		$("#mypCpaTrainReg_atchFileInfoAtchFileId4Set").val("");
+		$("label[for='mypCpaTrainReg_atchFileInfoAtchFileId4']").text("파일을 등록해 주세요");
+	}
+	else if(atchFileId == "regFlagFPassCrtiDelHide"){
+		$(".regFlagFPassCrtiDelHide").hide();
+		$('#mypCpaTrainReg_atchFileInfoPassCrtiFileId').prop('type',"file");
+		$("#mypCpaTrainReg_atchFileInfoPassCrtiFileIdSet").val("");
+		$("label[for='mypCpaTrainReg_atchFileInfoPassCrtiFileId']").text("파일을 등록해 주세요");
+	}
+	else if(atchFileId == "regFlagFEmplCrtiDelHide"){
+		$(".regFlagFEmplCrtiDelHide").hide();
+		$('#mypCpaTrainReg_atchFileInfoEmplCrtiFileId').prop('type',"file");
+		$("#mypCpaTrainReg_atchFileInfoEmplCrtiFileIdSet").val("");
+		$("label[for='mypCpaTrainReg_atchFileInfoEmplCrtiFileId']").text("파일을 등록해 주세요");
+	}
+	else if(atchFileId == "regFlagFRsumFileDelHide"){
+		$(".regFlagFRsumFileDelHide").hide();
+		$('#mypCpaTrainReg_atchFileInfoRsumFileId').prop('type',"file");
+		$("#mypCpaTrainReg_atchFileInfoEventnSet").val("");
+		$("label[for='mypCpaTrainReg_atchFileInfoRsumFileId']").text("파일을 등록해 주세요");
+	}
+}
+
+
+mypCpaTrainReg.auditListError = function(data,status, error){
+//	flag = true;
+	alert("조회실패");
 }

@@ -5,6 +5,46 @@
 
 	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
 
+	<select id="MypTrainDAO.selectAuditPopupSearchList" parameterClass="HashMap" resultClass="EgovMap">
+
+		<![CDATA[
+            SELECT /*+ INDEX( ai PK_AUDIT_INFO_I01 ) */
+					ai.AUDIT_CD
+				,   ai.KOR_AUD_NM
+				,   ai.AUD_GRP_CL
+				,   ai.STATUS_CL
+				,   (SELECT cc.CD_NM FROM CMMN_CODE cc WHERE cc.CD=ai.STATUS_CL AND cc.GRP_CD = 'GA3040') AS STATUS_CL_NM
+			FROM AUDIT_INFO ai
+			WHERE ai.DEL_YN = 'N'
+			AND ai.STATUS_CL = 'A3040010'
+			AND ai.AUD_GRP_CL <> 'A3019999'
+		]]>
+		<isNotEmpty property="searchKeyword">
+			<![CDATA[
+        		AND ai.KOR_AUD_NM || ai.AUDIT_CD LIKE CONCAT(concat('%' , #searchKeyword#) , '%')
+          ]]>
+		</isNotEmpty>
+		<![CDATA[
+			UNION
+
+			SELECT
+					ai.AUDIT_CD
+				,   ai.KOR_AUD_NM
+				,   ai.AUD_GRP_CL
+				,   ai.STATUS_CL
+				,   (SELECT cc.CD_NM FROM CMMN_CODE cc WHERE cc.CD=ai.STATUS_CL AND cc.GRP_CD = 'GA3040') AS STATUS_CL_NM
+			FROM AUDIT_INFO ai
+			WHERE ai.DEL_YN = 'N'
+			AND ai.AUD_GRP_CL = 'A3019999'
+
+		]]>
+		<isNotEmpty property="searchKeyword">
+			<![CDATA[
+        		AND ai.KOR_AUD_NM || ai.AUDIT_CD LIKE CONCAT(concat('%' , #searchKeyword#) , '%')
+          ]]>
+		</isNotEmpty>
+	</select>
+
 	<select id="MypTrainDAO.selectMypCpaTrainRegisterRegFlagInfo" parameterClass="HashMap" resultClass="String">
 
 		<![CDATA[

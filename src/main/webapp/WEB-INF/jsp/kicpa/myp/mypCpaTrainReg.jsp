@@ -330,12 +330,13 @@
 					<div class="inp-box">
 						<label class="label essen" for="mypCpaTrainReg_apntcCpaHistInfoAppInsttNm">실무수습기관</label>
 						<div class="phone" style="display: flex;">
-							<input type="text" style="width: 100%;" id="mypCpaTrainReg_apntcCpaHistInfoAppInsttNm" name="appInsttNm" placeholder="실무수습기관 등록" title="실무수습기관 등록"/>
-							<input type="text" style="width: 100%;" id="mypCpaTrainReg_apntcCpaHistInfoAppInsttCd" name="appInsttCd" placeholder="실무수습기관 번호등록" title="실무수습기관 번호등록"/>
+							<input type="text" style="width: 100%;" id="mypCpaTrainReg_apntcCpaHistInfoAppInsttNm" name="appInsttNm" placeholder="실무수습기관 등록" title="실무수습기관 등록" readonly/>
+							<input type="text" style="width: 100%;" id="mypCpaTrainReg_apntcCpaHistInfoAppInsttCd" name="appInsttCd" placeholder="실무수습기관 번호등록" title="실무수습기관 번호등록" readonly/>
+							<input type="hidden" name="audGrpCl" id="mypCpaTrainReg_apntcCpaHistInfoAudGrpCl"/>
 						</div>
 					</div>
 
-					<div class="inp-box mypCpaTrainReg_apntcCpaHistInfoYn" style="display: none;">
+					<div class="inp-box mypTrainAppInsttEtcYn" style="display: none;">
 						<label class="label essen" for="mypCpaTrainReg_apntcCpaHistInfoAppInsttEtc">실제 실무수습기관명</label>
 						<input type="text" id="mypCpaTrainReg_apntcCpaHistInfoAppInsttEtc" name="appInsttEtc" placeholder="실제 실무수습기관명(회사명)을 등록하세요."/>
 					</div>
@@ -585,7 +586,7 @@
 		<!--페이지하단 버튼 -->
 		<div class="sticky-bottom">
 			<button class="btn-sticky mypCpaTrain_submitBtn" type="button" id="mypCpaTrainReg_reviewInfoSaveBtn">제출</button>
-			<button class="btn-sticky mypCpaTrain_mypBtn" type="button" onClick="location.href='${pageContext.request.contextPath}/kicpa/myp/myPage.do?Pin=${myPagePin}'">확인</button>
+			<button class="btn-sticky mypCpaTrain_mypBtn" type="button" onClick="location.href='${pageContext.request.contextPath}/kicpa/myp/myPage.do?Pin=${mypCpaTrainRegPin}'">확인</button>
 		</div>
 
 		<!-- 사이드 버튼 -->

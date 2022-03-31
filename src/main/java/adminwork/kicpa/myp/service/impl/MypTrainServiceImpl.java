@@ -4,6 +4,7 @@ package adminwork.kicpa.myp.service.impl;
 import adminwork.kicpa.myp.service.MypMemberService;
 import adminwork.kicpa.myp.service.MypTrainService;
 import egovframework.rte.fdl.cmmn.EgovAbstractServiceImpl;
+import egovframework.rte.psl.dataaccess.util.EgovMap;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -16,6 +17,11 @@ public class MypTrainServiceImpl extends EgovAbstractServiceImpl implements MypT
 	@Resource(name="MypTrainDAO")
 	private MypTrainDAO mypTrainDAO;
 
+
+	@Override
+	public List<EgovMap> selectAuditPopupSearchList(Map<String, Object> map) throws Exception {
+		return mypTrainDAO.selectAuditPopupSearchList(map);
+	}
 
 	@Override
 	public String selectMypCpaTrainRegisterRegFlagInfo(Map<String, Object> map) throws Exception {

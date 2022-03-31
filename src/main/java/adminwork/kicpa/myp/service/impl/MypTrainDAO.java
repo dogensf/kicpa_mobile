@@ -3,6 +3,7 @@ package adminwork.kicpa.myp.service.impl;
 
 import adminwork.com.cmm.service.impl.EgovComAbstractDAO2;
 import egovframework.rte.psl.dataaccess.EgovAbstractDAO;
+import egovframework.rte.psl.dataaccess.util.EgovMap;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -11,6 +12,10 @@ import java.util.Map;
 @Repository("MypTrainDAO")
 public class MypTrainDAO extends EgovComAbstractDAO2 {
 
+
+    public List<EgovMap> selectAuditPopupSearchList(Map<String, Object> map) throws Exception {
+        return (List<EgovMap>) list("MypTrainDAO.selectAuditPopupSearchList", (Object) map);
+    }
 
     public String selectMypCpaTrainRegisterRegFlagInfo(Map<String, Object> map) throws Exception {
         return (String) select("MypTrainDAO.selectMypCpaTrainRegisterRegFlagInfo", (Object) map);

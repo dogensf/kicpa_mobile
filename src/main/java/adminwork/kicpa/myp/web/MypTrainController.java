@@ -2,6 +2,7 @@ package adminwork.kicpa.myp.web;
 
 
 import adminwork.com.cmm.LoginVO;
+import adminwork.com.cmm.StringUtil;
 import adminwork.com.cmm.service.FileMngService;
 import adminwork.com.cmm.service.FileMngService2;
 import adminwork.com.cmm.service.FileMngUtil;
@@ -11,10 +12,12 @@ import adminwork.kicpa.myp.service.MypMemberService;
 import adminwork.kicpa.myp.service.MypPassService;
 import adminwork.kicpa.myp.service.MypTrainService;
 import egovframework.rte.fdl.security.userdetails.util.EgovUserDetailsHelper;
+import egovframework.rte.psl.dataaccess.util.EgovMap;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.util.Base64Utils;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
@@ -204,6 +207,32 @@ public class MypTrainController {
 		}
 
 		return "kicpa/myp/mypCpaTrainInfo";
+	}
+
+	//실무수습기관 검색팝업
+	@RequestMapping(value = "/auditSearch.do")
+	public String companySearch(@RequestParam Map<String,Object> map,HttpServletRequest request,HttpServletResponse response,ModelMap model) throws Exception{
+
+		return "kicpa/myp/auditSearch";
+	}
+
+	@RequestMapping(value="/getAuditList.do")
+	public ModelAndView getCorporationList(@RequestBody Map<String,Object> map, HttpServletRequest request) throws Exception{
+		ModelAndView modelAndView = new ModelAndView();
+
+		try{
+			modelAndView.setViewName("jsonView");
+
+			List<EgovMap> list = mypTrainService.selectAuditPopupSearchList(map);
+
+			list.forEach(x -> StringUtil.checkMapReplaceHtml(x));
+			modelAndView.addObject("list", list);
+
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return modelAndView;
 	}
 
 	//약관동의 저장
