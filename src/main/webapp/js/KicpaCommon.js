@@ -42,10 +42,10 @@ function fn_ajax_call(href, param, sfn, efn) {
 		async: false,
 		timeout: 10000,
 		beforeSend: function() {
-			$('body').prepend('<div id="PG_OVERLAY" onclick="fn_PG_OVERLAY_remove();"></div>');
+			//$('body').prepend('<div id="PG_OVERLAY" onclick="fn_PG_OVERLAY_remove();"></div>');
 		},
 		complete: function() {
-			$('#PG_OVERLAY').remove();
+			//$('#PG_OVERLAY').remove();
 		},
 		success: function(result) {
 			if (sfn !== undefined || typeof sfn !== 'undefined') sfn(result);
