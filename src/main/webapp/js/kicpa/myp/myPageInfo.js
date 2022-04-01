@@ -36,30 +36,35 @@ myPageInfo.myPageInfo_backMove = function() {
 //개인, 회원정보 수정 버튼 클릭(본인인증 진행)
 myPageInfo.myPage_memberInfoUpdateBtn = function (movePage, moveFlag, pin){      //moveFlag - 'M':기본정보, 'T':수습정보, 'C':회원정보
 
-	var canclCl = $('#myPage_myPageCanclCl').val();
+	if(isBrowserCheck() =="Safari" || isBrowserCheck() =="IOS_APP" || isBrowserCheck() =="iPhone"){
+		alert('준비중 입니다.');
+	}else{
+		var canclCl = $('#myPage_myPageCanclCl').val();
 
-	if(moveFlag == "C" && canclCl != null && canclCl != ""){       //등록취소 상태일경우 수정 불가
-		alert("수정할 수 없습니다.");
-		return ;
-	}
-
-	pin = $('#myPageInfo_pin').val();
-
-
-	if($("#myPage_cpaConfirmPass").is(":checked") || sessionStorage.getItem("인증여부") == "Y"){        //본인인증 패스
-		if(moveFlag =="M"){
-			location.replace(myPageInfo.getContextPath()+'/myp/mypCpaPassReg.do?movePage='+movePage+'&pin='+pin);
+		if(moveFlag == "C" && canclCl != null && canclCl != ""){       //등록취소 상태일경우 수정 불가
+			alert("수정할 수 없습니다.");
+			return ;
 		}
-		else if(moveFlag =="C"){
-			location.replace(myPageInfo.getContextPath()+'/myp/mypCpaMemberReg.do?movePage='+movePage+'&pin='+pin);
+
+		pin = $('#myPageInfo_pin').val();
+
+
+		if($("#myPage_cpaConfirmPass").is(":checked") || sessionStorage.getItem("인증여부") == "Y"  ){        //본인인증 패스
+			if(moveFlag =="M"){
+				location.replace(myPageInfo.getContextPath()+'/myp/mypCpaPassReg.do?movePage='+movePage+'&pin='+pin);
+			}
+			else if(moveFlag =="C"){
+				location.replace(myPageInfo.getContextPath()+'/myp/mypCpaMemberReg.do?movePage='+movePage+'&pin='+pin);
+			}
+			else if(moveFlag =="T"){
+				location.replace(myPageInfo.getContextPath()+'/myp/mypCpaTrainReg.do?movePage='+movePage+'&pin='+pin);
+			}
 		}
-		else if(moveFlag =="T"){
-			location.replace(myPageInfo.getContextPath()+'/myp/mypCpaTrainReg.do?movePage='+movePage+'&pin='+pin);
+		else{
+			myPageInfo.getMyPageCheckplusEncData(movePage, moveFlag, pin);
 		}
 	}
-	else{
-		myPageInfo.getMyPageCheckplusEncData(movePage, moveFlag, pin);
-	}
+	
 }
 
 //본인인증
