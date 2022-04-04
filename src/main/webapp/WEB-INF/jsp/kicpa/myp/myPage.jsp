@@ -144,20 +144,14 @@
 
 							</div>
 
-							<!-- 등록회비 납부 완료 -->
-							<c:if test="${cpaAidFlag eq 'Y'}">
-								<div class="btn-area">
-									<button class="btn-round" type="button">공인회계사 등록조회</button>
-								</div>
-							</c:if>
 
-							<!-- 등록회비 미납 -->
-							<c:if test="${cpaAidFlag ne 'Y'}">
-								<div class="btn-area">
-									<button class="btn-round" type="button">공인회계사 등록조회</button>
+							<div class="btn-area">
+								<button class="btn-round" type="button" onClick="location.href='${pageContext.request.contextPath}/kicpa/myp/mypCpaMemberReg.do?movePage=mypCpaMemberReg_reviewInfo&pin=${myPagePin}'">공인회계사 등록조회</button>
+								<!-- 등록회비 미납 -->
+								<c:if test="${cpaAidFlag ne 'Y'}">
 									<button class="btn-round fill" type="button">등록회비 납부</button>
-								</div>
-							</c:if>
+								</c:if>
+							</div>
 						</div>
 
 					</c:if>
@@ -174,8 +168,8 @@
 							</div>
 
 							<div class="btn-area">
-								<button class="btn-round" type="button">반려사유 조회</button>
-								<button class="btn-round fill" type="button">재신청하기</button>
+								<button class="btn-round" type="button" onclick="myPage.myPage_rejectRsnClick('${cpaMemberRegInfo.rejectRsn}')">반려사유 조회</button>
+								<button class="btn-round fill" type="button" onClick="location.href='${pageContext.request.contextPath}/kicpa/myp/mypCpaMemberReg.do?pin=${myPagePin}'">재신청하기</button>
 							</div>
 						</div>
 

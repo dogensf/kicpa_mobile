@@ -211,13 +211,13 @@ public class MypTrainController {
 
 	//실무수습기관 검색팝업
 	@RequestMapping(value = "/auditSearch.do")
-	public String companySearch(@RequestParam Map<String,Object> map,HttpServletRequest request,HttpServletResponse response,ModelMap model) throws Exception{
+	public String auditSearch(@RequestParam Map<String,Object> map,HttpServletRequest request,HttpServletResponse response,ModelMap model) throws Exception{
 
 		return "kicpa/myp/auditSearch";
 	}
 
 	@RequestMapping(value="/getAuditList.do")
-	public ModelAndView getCorporationList(@RequestBody Map<String,Object> map, HttpServletRequest request) throws Exception{
+	public ModelAndView getAuditList(@RequestBody Map<String,Object> map, HttpServletRequest request) throws Exception{
 		ModelAndView modelAndView = new ModelAndView();
 
 		try{

@@ -33,7 +33,7 @@
 <div class="wrap">
 
 	<!-- 약관동의 -->
-	<div class="container myPageMemInfoTabMove" id="mypCpaTrainReg_agreeInfo">
+	<div class="container myPageTrainInfoTabMove" id="mypCpaTrainReg_agreeInfo">
 		<section class="head-pop">
 			<h3>등록</h3>
 			<button class="btn-close" type="button" onclick="mypCpaTrainReg.mypCpaTrainReg_backMove();">
@@ -136,7 +136,7 @@
 	</div>
 
 	<!-- 사진등록 -->
-	<div class="container myPageMemInfoTabMove" id="mypCpaTrainReg_pictInfo">
+	<div class="container myPageTrainInfoTabMove" id="mypCpaTrainReg_pictInfo">
 		<section class="head-pop">
 			<h3 class="mypCpaTrainReg_titleNm">등록</h3>
 			<button class="btn-close" type="button" onclick="mypCpaTrainReg.mypCpaTrainReg_backMove();">
@@ -207,7 +207,7 @@
 	</div>
 
 	<!-- 수습공인회계사 등록 재학여부 -->
-	<div class="container myPageMemInfoTabMove" id="mypCpaTrainReg_grdtSatausInfo">
+	<div class="container myPageTrainInfoTabMove" id="mypCpaTrainReg_grdtSatausInfo">
 		<section class="head-pop">
 			<h3>등록</h3>
 			<button class="btn-close" type="button" onclick="mypCpaTrainReg.mypCpaTrainReg_backMove();">
@@ -292,7 +292,7 @@
 	</div>
 
 	<!-- 이력정보 -->
-	<div class="container myPageMemInfoTabMove" id="mypCpaTrainReg_apntcCpaHistInfo">
+	<div class="container myPageTrainInfoTabMove" id="mypCpaTrainReg_apntcCpaHistInfo">
 		<section class="head-pop">
 			<h3>등록</h3>
 			<button class="btn-close" type="button" onclick="mypCpaTrainReg.mypCpaTrainReg_backMove();">
@@ -362,7 +362,7 @@
 	</div>
 
 	<!-- 첨부파일(첨부서류) -->
-	<div class="container myPageMemInfoTabMove" id="mypCpaTrainReg_atchFileInfo">
+	<div class="container myPageTrainInfoTabMove" id="mypCpaTrainReg_atchFileInfo">
 		<section class="head-pop">
 			<h3>등록</h3>
 			<button class="btn-close" type="button" onclick="mypCpaTrainReg.mypCpaTrainReg_backMove();">
@@ -461,7 +461,7 @@
 	</div>
 
 	<!-- 검토 및 제출 -->
-	<div class="container myPageMemInfoTabMove" id="mypCpaTrainReg_reviewInfo">
+	<div class="container myPageTrainInfoTabMove" id="mypCpaTrainReg_reviewInfo">
 		<section class="head-pop">
 			<h3>등록</h3>
 			<button class="btn-close" type="button" onclick="mypCpaTrainReg.mypCpaTrainReg_backMove();">

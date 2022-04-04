@@ -261,7 +261,7 @@ mypCpaTrainReg.mypCpaTrainReg_backMove = function() {
 mypCpaTrainReg.mypCpaTrainReg_tabMove = function(flag) {
 
 	//입력화면 show/hide
-	$('.myPageMemInfoTabMove').hide();
+	$('.myPageTrainInfoTabMove').hide();
 	$('#'+flag).show();
 
 	if(flag == "mypCpaTrainReg_reviewInfo"){                     //검토 및 제출

@@ -236,7 +236,7 @@ mypPassReg.mypPassRegInit = function(){
 
 			+"<div class='inp-box'>"
 			+"<label class='label essen' for='mypCpaPassReg_acdmcrInfoAddGrdtnYear"+acdmcrInfoAddCount+"'>졸업년도</label>"
-			+"<input type='text' id='mypCpaPassReg_acdmcrInfoAddGrdtnYear"+acdmcrInfoAddCount+"' name='grdtnYear' maxlength='4' placeholder='졸업년도를 선택하세요.' required />"
+			+"<input type='text' id='mypCpaPassReg_acdmcrInfoAddGrdtnYear"+acdmcrInfoAddCount+"' name='grdtnYear' maxlength='4' oninput='this.value=this.value.replace(/[^0-9]/g,"+''+");' placeholder='졸업년도를 선택하세요.' required />"
 			+"</div>"
 
 			+"<div class='inp-box'>"

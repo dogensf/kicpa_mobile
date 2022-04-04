@@ -5,6 +5,172 @@
 
 	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
 
+	<select id="MypMemberDAO.selectCpaCanclInfoList" parameterClass="HashMap" resultClass="EgovMap">
+
+		<![CDATA[
+            SELECT
+                	c.CPA_SN
+                ,	c.PIN
+                ,	c.CPA_ID
+                ,	c.CANCL_CL
+
+            FROM CPA c
+            WHERE c.CPA_SN = (SELECT MAX(CPA_SN) FROM CPA WHERE PIN = #pin#)
+         ]]>
+
+	</select>
+
+	<select id="MypMemberDAO.selectMypCpaMemberRegisterRegFlagInfo" parameterClass="HashMap" resultClass="String">
+
+		<![CDATA[
+            SELECT
+					cm.CPA_SN
+			FROM CPA_MYP cm
+			WHERE cm.CPA_SN = (SELECT MAX(CPA_SN) FROM CPA_MYP WHERE PIN = #pin# AND REG_FLAG='N')
+
+		]]>
+	</select>
+
+	<select id="MypMemberDAO.selectMypCpaMemberRegisterSbscrbMypSnInfo" parameterClass="HashMap" resultClass="String">
+
+		<![CDATA[
+            SELECT
+					cm.SBSCRB_MYP_SN
+			FROM CPA_MYP cm
+			WHERE cm.CPA_SN = (SELECT MAX(CPA_SN) FROM CPA_MYP WHERE PIN = #pin# AND REG_FLAG='F')
+
+		]]>
+	</select>
+
+	<select id="MypMemberDAO.selectCpaAuditPopupSearchList" parameterClass="HashMap" resultClass="EgovMap">
+
+		<![CDATA[
+            SELECT
+					ao.AUDIT_ID
+				,   ai.KOR_AUD_NM AS KOR_AUD_NM
+				,   occ.CD_NM AS STATUS_CL_NM
+				,   ao.AUDIT_CD
+				,   ao.AUDIT_CL
+				,   ao.REGIST_DE
+				,   ao.LAST_UPDT_DE
+				,   ao.STATUS_CL
+				,   ao.DSRGNZ_DE
+				,   ao.OPETR_DE
+				,   ao.AUDIT_EMAIL
+				,   ao.TAX_AGENCY_NO
+				,   ao.TAX_GRP_CL
+				,   ao.TAX_GRP_NO
+				,   ao.BIZR_NO
+				,   ai.BCNC_CD AS BCNC_CD
+				,   trim(trim(adr.RD_ADRES)||' '||trim(adr.RD_ADRES_DETAIL)) AS ADRES
+				,   aoc.CD_NM
+				,   icc.CD_NM
+			FROM KIPADM.AUDIT_OFFICE ao,
+				 KIPADM.AUDIT_INFO   ai,
+				 (SELECT * FROM KIPADM.CMMN_CODE WHERE GRP_CD = 'GA3070') occ,
+				 (SELECT * FROM KIPADM.CMMN_CODE WHERE GRP_CD = 'GA3040') icc,
+				 (SELECT * FROM KIPADM.CMMN_CODE WHERE GRP_CD = 'GA3050') aoc,
+				 (SELECT * FROM KIPADM.ADRES_INFO WHERE ADR_CL = 'OFICE' AND ADR_TRG_CL = 'AUDOFICE') ADR
+			WHERE ao.AUDIT_CD = ai.AUDIT_CD
+			  AND ao.STATUS_CL = occ.CD
+			  AND ai.STATUS_CL = icc.CD
+			  AND ao.AUDIT_CL  = aoc.CD(+)
+			  AND ao.AUDIT_ID  = ADR_TRG_ID(+)
+
+			  AND ai.AUD_GRP_CL <> 'A3019999'
+
+			  AND ao.STATUS_CL ='A3070010'
+			  AND ai.STATUS_CL ='A3040010'
+
+			  AND ao.DEL_YN = 'N'
+			  AND ai.DEL_YN = 'N'
+		]]>
+		<isNotEmpty property="searchKeyword">
+			<![CDATA[
+        		AND ai.KOR_AUD_NM LIKE CONCAT(concat('%' , #searchKeyword#) , '%')
+          ]]>
+		</isNotEmpty>
+	</select>
+
+	<insert id="MypMemberDAO.mypCpaMemberRegisterAgreeInfoSave" parameterClass="HashMap">
+
+		<selectKey keyProperty="mypCpaSn" resultClass="int">
+			SELECT KIPADM.CPA_MYP_SEQ.NEXTVAL FROM dual
+		</selectKey>
+
+		<![CDATA[
+
+			MERGE INTO CPA_MYP
+                USING DUAL
+                ON (PIN = #pin# AND CPA_SN = #cpaSn#)
+                WHEN MATCHED THEN
+                          UPDATE SET
+                          AGREE_INFO1_YN = #agreeInfoYn1#, AGREE_INFO2_YN = #agreeInfoYn2#, KOREAN_NM = #koreanNm#, BRTHDY = #brthdy#,
+                          LAST_UPDT_ID = #userId#, LAST_UPDT_DT = SYSTIMESTAMP
+
+                WHEN NOT MATCHED THEN
+                          INSERT (CPA_SN, PIN, AGREE_INFO1_YN, AGREE_INFO2_YN, KOREAN_NM, BRTHDY,
+        ]]>
+		<isNotEmpty property="sbscrbMypSn">
+			<![CDATA[
+									SBSCRB_MYP_SN, SBSCRB_YN,
+								]]>
+		</isNotEmpty>
+		<![CDATA[
+                          		FRST_REGIST_ID, FRST_REGIST_DT, LAST_UPDT_ID, LAST_UPDT_DT)
+
+                          VALUES (#mypCpaSn#, #pin#, #agreeInfoYn1#, #agreeInfoYn2#, #koreanNm#, #brthdy#,
+        ]]>
+		<isNotEmpty property="sbscrbMypSn">
+			<![CDATA[
+									#sbscrbMypSn#, #sbscrbYn#,
+								]]>
+		</isNotEmpty>
+		<![CDATA[
+		        				#userId#, SYSTIMESTAMP, #userId#, SYSTIMESTAMP)
+
+		]]>
+	</insert>
+
+	<update id="MypMemberDAO.mypCpaMemberRegisterAidMberInfoSave" parameterClass="HashMap">
+
+		<![CDATA[
+
+			UPDATE CPA_MYP
+            SET
+                AID_MBER_FLAG = #aidMberFlag#
+            ,   BIZR_NO = #bizrNo#
+            ,   LAST_UPDT_ID = #userId#
+            ,   LAST_UPDT_DT = SYSTIMESTAMP
+
+            WHERE PIN = #pin#
+              AND CPA_SN = #cpaSn#
+
+		]]>
+	</update>
+
+	<update id="MypMemberDAO.mypCpaMemberRegisterCpaCareerInfoSave" parameterClass="HashMap">
+		<![CDATA[
+
+			UPDATE CPA_MYP
+            SET
+				REGIST_DE = #registDe#,
+				LAST_REGIST_DE = #registDe#,
+				MBER_FLAG = #mberFlag#,
+				AUDIT_NM = #auditNm#,
+				AUDIT_ID = #auditId#,
+				AUDIT_OFCPS = #auditOfcps#,
+				CLOSED_CL = #closedCl#,
+				CLOSED_CL_NM = #closedClNm#,
+               	LAST_UPDT_ID = #userId#,
+               	LAST_UPDT_DT = SYSTIMESTAMP
+
+            WHERE PIN = #pin#
+              AND CPA_SN = #cpaSn#
+		]]>
+
+	</update>
+
 	<insert id="MypMemberDAO.mypCpaMemberRegisterNmstOthbcInfoSave" parameterClass="HashMap">
 
 		<![CDATA[
@@ -25,6 +191,46 @@
                                 #userId# , SYSTIMESTAMP , #userId# , SYSTIMESTAMP)
         ]]>
 	</insert>
+
+	<update id="MypMemberDAO.mypCpaMemberRegisterAtchFileIdSave" parameterClass="HashMap">
+		<![CDATA[
+
+			UPDATE CPA_MYP
+            SET
+				PASS_CRTI_FILE_ID = #passCrtiFileId#,
+				RSUM_FILE = #rsumFileId#,
+				RSUM_FILE_NM = #rsumFileNm#,
+				EVENTN = #eventn#,
+				APNTC_END_FILE_ID = #apntcEndFileId#,
+				ATCH_FILE_ID = #atchFileId#,
+				LAST_UPDT_ID = #userId#,
+				LAST_UPDT_DT = SYSTIMESTAMP
+
+            WHERE PIN = #pin#
+              AND CPA_SN = #cpaSn#
+		]]>
+
+	</update>
+
+	<update id="MypMemberDAO.mypCpaMemberRegisterFlagFAtchFileSave" parameterClass="HashMap">
+		<![CDATA[
+
+			UPDATE CPA_MYP
+            SET
+				PASS_CRTI_FILE_ID = #passCrtiFileId#,
+				RSUM_FILE = (SELECT RSUM_FILE FROM CPA_MYP WHERE PIN = #pin# AND REG_FLAG ='F' AND CPA_SN = (SELECT MAX(CPA_SN) FROM CPA_MYP WHERE PIN = #pin# AND REG_FLAG ='F')),
+				RSUM_FILE_NM = (SELECT RSUM_FILE_NM FROM CPA_MYP WHERE PIN = #pin# AND REG_FLAG ='F' AND CPA_SN = (SELECT MAX(CPA_SN) FROM CPA_MYP WHERE PIN = #pin# AND REG_FLAG ='F')),
+				EVENTN = (SELECT EVENTN FROM CPA_MYP WHERE PIN = #pin# AND REG_FLAG ='F' AND CPA_SN = (SELECT MAX(CPA_SN) FROM CPA_MYP WHERE PIN = #pin# AND REG_FLAG ='F')),
+				APNTC_END_FILE_ID = #apntcEndFileId#,
+				ATCH_FILE_ID = #atchFileId#,
+				LAST_UPDT_ID = #userId#,
+				LAST_UPDT_DT = SYSTIMESTAMP
+
+            WHERE PIN = #pin#
+              AND CPA_SN = #cpaSn#
+		]]>
+
+	</update>
 
 	<select id="MypMemberDAO.selectCpaMemberRegistTrnngSmInfoList" parameterClass="HashMap" resultClass="EgovMap">
 
@@ -118,4 +324,134 @@
 		]]>
 
 	</insert>
+
+	<select id="MypMemberDAO.selectCpaMemberRegistSbscrbMasterInfoList" parameterClass="HashMap" resultClass="EgovMap">
+
+		<![CDATA[
+            SELECT
+            		sm.SBSCRB_SN
+            	,	sm.PIN
+            	,	sm.GNRL_ENTRNC_AMT
+            	,	sm.GNRL_YY_AMT
+				,	sm.CMIT_ENTRNC_AMT
+				,	sm.ASSTN_ENTRNC_AMT
+            	,	sm.ASSTN_YY_AMT
+            	,   to_number(sm.GNRL_ENTRNC_AMT)+to_number(sm.GNRL_YY_AMT)+to_number(sm.CMIT_ENTRNC_AMT)+to_number(sm.ASSTN_ENTRNC_AMT)+to_number(sm.ASSTN_YY_AMT) AS TOT_AMT
+
+            FROM SBSCRB_MASTER sm
+            WHERE sm.SBSCRB_SN = (SELECT MAX(SBSCRB_SN) FROM SBSCRB_MASTER WHERE PIN = #pin# AND PAY_STATUS IN ('I', 'W'))
+        ]]>
+
+	</select>
+
+	<update id="MypMemberDAO.cpaMemberRegistSbscrbMasterFlagSave" parameterClass="HashMap">
+		<![CDATA[
+
+			UPDATE CPA_MYP
+            SET
+                SBSCRB_MYP_SN = #sbscrbSn#
+            ,   SBSCRB_YN = #sbscrbYn#
+            ,   LAST_UPDT_ID = #userId#
+            ,   LAST_UPDT_DT = SYSTIMESTAMP
+
+            WHERE CPA_SN =#cpaSn#
+              AND PIN = #pin#
+		]]>
+
+	</update>
+
+	<select id="MypMemberDAO.selectCpaMemberRegistNmstOthbcInfoList" parameterClass="HashMap" resultClass="EgovMap">
+
+		<![CDATA[
+            SELECT
+            		PIN
+            	,	OFC_ADRES_YN
+				,	OFC_NAME_YN
+				,	OFC_TEL_YN
+				,	OFC_FAX_YN
+				,	EMAIL_YN
+				,	PHOTO_YN
+				,	CASE WHEN OFC_ADRES_YN = 'Y' THEN '공개' ELSE '비공개' END AS OFC_ADRES_YN_NM
+				,	CASE WHEN OFC_NAME_YN = 'Y' THEN '공개' ELSE '비공개' END AS OFC_NAME_YN_NM
+				,	CASE WHEN OFC_TEL_YN = 'Y' THEN '공개' ELSE '비공개' END AS OFC_TEL_YN_NM
+				,	CASE WHEN OFC_FAX_YN = 'Y' THEN '공개' ELSE '비공개' END AS OFC_FAX_YN_NM
+				,	CASE WHEN EMAIL_YN = 'Y' THEN '공개' ELSE '비공개' END AS EMAIL_YN_NM
+				,	CASE WHEN PHOTO_YN = 'Y' THEN '공개' ELSE '비공개' END AS PHOTO_YN_NM
+
+            FROM CPA_NMST_OTHBC_MYP
+            WHERE PIN = #pin#
+         ]]>
+
+	</select>
+
+	<select id="MypMemberDAO.selectCpaMemberRegAidDuesInfoList" parameterClass="HashMap" resultClass="EgovMap">
+
+		<![CDATA[
+            SELECT
+            		sm.SBSCRB_SN
+            	,	sm.PIN
+            	,	sm.GNRL_ENTRNC_AMT
+            	,	sm.GNRL_YY_AMT
+				,	sm.CMIT_ENTRNC_AMT
+				,	sm.ASSTN_ENTRNC_AMT
+            	,	sm.ASSTN_YY_AMT
+            	,   to_number(sm.GNRL_ENTRNC_AMT)+to_number(sm.GNRL_YY_AMT)+to_number(sm.CMIT_ENTRNC_AMT)+to_number(sm.ASSTN_ENTRNC_AMT)+to_number(sm.ASSTN_YY_AMT) AS TOT_AMT
+
+            FROM SBSCRB_MASTER sm
+            WHERE sm.SBSCRB_SN = #sbscrbMypSn#
+              AND sm.PIN = #pin#
+         ]]>
+
+	</select>
+
+	<select id="MypMemberDAO.selectCpaMemberSbscrbMasterInfoList" parameterClass="HashMap" resultClass="EgovMap">
+
+		<![CDATA[
+
+            SELECT
+            		sm.SBSCRB_SN
+            	,	sm.PIN
+            	,	sm.GNRL_ENTRNC_AMT
+            	,	sm.GNRL_YY_AMT
+				,	sm.CMIT_ENTRNC_AMT
+				,	sm.ASSTN_ENTRNC_AMT
+            	,	sm.ASSTN_YY_AMT
+            	,   to_number(sm.GNRL_ENTRNC_AMT)+to_number(sm.GNRL_YY_AMT)+to_number(sm.CMIT_ENTRNC_AMT)+to_number(sm.ASSTN_ENTRNC_AMT)+to_number(sm.ASSTN_YY_AMT) AS TOT_AMT
+            	,   sm.ACCNUT_DE
+
+            FROM SBSCRB_MASTER sm
+            WHERE sm.SBSCRB_SN = (SELECT MAX(SBSCRB_SN) FROM SBSCRB_MASTER WHERE PIN = #pin# AND PAY_STATUS IN ('I', 'W'))
+              AND sm.PAY_DE BETWEEN TRUNC(ADD_MONTHS(sysdate,-2)+1) - TO_CHAR(sysdate,'DD') AND TRUNC(LAST_DAY(sysdate)) +0.99999421
+
+        ]]>
+	</select>
+
+	<update id="MypMemberDAO.mypCpaMemberRegisterRegFlagSave" parameterClass="HashMap">
+		<![CDATA[
+
+			UPDATE CPA_MYP
+            SET
+       			REG_FLAG = #regFlag#,
+       			OPETR_DE = #opetrDe#,
+
+       	]]>
+
+		<isNotEmpty property="sbscrbMypSn">
+			<![CDATA[
+					SBSCRB_MYP_SN = #sbscrbMypSn#,
+					SBSCRB_YN = #sbscrbYn#,
+			]]>
+		</isNotEmpty>
+
+		<![CDATA[
+
+               	LAST_UPDT_ID = #userId#,
+               	LAST_UPDT_DT = SYSTIMESTAMP
+
+            WHERE PIN = #pin#
+              AND CPA_SN = #cpaSn#
+		]]>
+
+	</update>
+
 </sqlMap>

@@ -30,6 +30,11 @@ myPage.myPageInit = function(){
 		location.replace(myPage.getContextPath()+'/myp/mypCpaPassReg.do?pin='+$('#myPage_myPagePin').val());
 	});
 
+	//공인회계사 등록하기 클릭
+	$('#myPage_cpaMemberRegist').on('click',function(e) {
+		location.replace(myPage.getContextPath()+'/myp/mypCpaMemberReg.do?pin='+$('#myPage_myPagePin').val());
+	});
+
 	//기본실무 등록하기 클릭
 	$('#mypPage_mypCpaTrainRegPageMove').on('click',function(e) {
 		location.replace(myPage.getContextPath()+'/myp/mypCpaTrainReg.do?pin='+$('#myPage_myPagePin').val());

@@ -493,7 +493,7 @@
 
 							<div class="inp-box">
 								<label class="label essen" for="mypCpaPassReg_acdmcrInfoGrdtnYear">졸업년도</label>
-								<input type="text" id="mypCpaPassReg_acdmcrInfoGrdtnYear" name="grdtnYear" maxlength="4" placeholder="졸업년도를 선택하세요." required />
+								<input type="text" id="mypCpaPassReg_acdmcrInfoGrdtnYear" name="grdtnYear" maxlength="4" oninput="this.value=this.value.replace(/[^0-9]/g,'');" placeholder="졸업년도를 선택하세요." required />
 							</div>
 
 							<div class="inp-box" style="display: none;">
@@ -538,7 +538,7 @@
 
 							<div class="inp-box">
 								<label class="label essen" for="mypCpaPassReg_acdmcrInfoGrdtnYear2">졸업년도</label>
-								<input type="text" id="mypCpaPassReg_acdmcrInfoGrdtnYear2" name="grdtnYear" maxlength="4" placeholder="졸업년도를 선택하세요." required />
+								<input type="text" id="mypCpaPassReg_acdmcrInfoGrdtnYear2" name="grdtnYear" maxlength="4" oninput="this.value=this.value.replace(/[^0-9]/g,'');" placeholder="졸업년도를 선택하세요." required />
 							</div>
 
 							<div class="inp-box">
