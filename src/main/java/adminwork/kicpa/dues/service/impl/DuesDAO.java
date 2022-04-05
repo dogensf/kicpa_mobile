@@ -65,6 +65,10 @@ public class DuesDAO extends EgovComAbstractDAO2{
         return update("DuesDAO.updateGiroNtic" , vo);
     }
     
+    public int updateGiroMasterCallback(DuesVO vo) throws Exception {
+        return update("DuesDAO.updateGiroMasterCallback" , vo);
+    }
+    
     public int updateGiroNticSubCallback(DuesVO vo) throws Exception {
         return update("DuesDAO.updateGiroNticSubCallback" , vo);
     }
@@ -199,7 +203,8 @@ public class DuesDAO extends EgovComAbstractDAO2{
             		Dues vo = new Dues();
             		vo.setGiro_cd(cd);
             		vo.setSup_giro_cd(giroCd);
-            		update("DuesDAO.updateGiroMasterSup",vo);
+            		//2022-04-03 합산 지로시 MASTER sup_giro_cd 를 결제휴 callback 에서 처리하도록 함.
+            		//update("DuesDAO.updateGiroMasterSup",vo);
             	}
             }
             

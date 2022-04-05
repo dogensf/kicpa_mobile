@@ -122,6 +122,19 @@
            AND GIRO_CD = #giro_cd#
     </update>
     
+    <update id="DuesDAO.updateGiroMasterCallback" parameterClass="duesVO">
+        <![CDATA[
+        UPDATE GIRO_MASTER
+        SET SUP_GIRO_CD = (SELECT MAX(GIRO_CD) FROM GIRO_NTIC WHERE ORG_TRAN_ID = #org_tran_id#)              
+        WHERE GIRO_CD IN (
+			    SELECT REGEXP_SUBSTR(a.langList, '[^,]+', 1, LEVEL) AS split_result
+			   FROM (SELECT SUB_GIRO_CD AS langList
+			           FROM GIRO_NTIC WHERE ORG_TRAN_ID = #org_tran_id# ) a
+			CONNECT BY LEVEL <= LENGTH(REGEXP_REPLACE(a.langList, '[^,]+','')) + 1
+			    )   
+			]]>			       
+    </update>
+        
     <update id="DuesDAO.updateGiroNticSubCallback" parameterClass="duesVO">
         <![CDATA[
         UPDATE GIRO_NTIC
@@ -240,7 +253,8 @@
 	<select id="DuesDAO.selectGiroCode" parameterClass="duesVO" resultClass="dues">
 		<![CDATA[		 		
 			SELECT 
-					GM.GIRO_CD					
+					GM.GIRO_CD
+					,NVL(GN.SUB_GIRO_CD,'') as sub_giro_cd						
 			FROM	GIRO_NTIC GN
 			INNER JOIN  
 					GIRO_MASTER GM

@@ -95,6 +95,202 @@
 						<string>Apple Development</string>
 					</dict>
 					<key>name</key>
+					<string>FBLPromises.framework</string>
+					<key>team</key>
+					<dict>
+						<key>id</key>
+						<string>6367RT73QM</string>
+						<key>name</key>
+						<string>The Korean Institute of Certified Public Accountants</string>
+					</dict>
+					<key>versionNumber</key>
+					<string>2.0.0</string>
+				</dict>
+				<dict>
+					<key>architectures</key>
+					<array>
+						<string>arm64</string>
+					</array>
+					<key>buildNumber</key>
+					<string>1</string>
+					<key>certificate</key>
+					<dict>
+						<key>SHA1</key>
+						<string>BC06599AD6CE42627BC50111AB594C323DADF08E</string>
+						<key>dateExpires</key>
+						<string>2023/03/26</string>
+						<key>type</key>
+						<string>Apple Development</string>
+					</dict>
+					<key>name</key>
+					<string>FirebaseCore.framework</string>
+					<key>team</key>
+					<dict>
+						<key>id</key>
+						<string>6367RT73QM</string>
+						<key>name</key>
+						<string>The Korean Institute of Certified Public Accountants</string>
+					</dict>
+					<key>versionNumber</key>
+					<string>8.14.0</string>
+				</dict>
+				<dict>
+					<key>architectures</key>
+					<array>
+						<string>arm64</string>
+					</array>
+					<key>buildNumber</key>
+					<string>1</string>
+					<key>certificate</key>
+					<dict>
+						<key>SHA1</key>
+						<string>BC06599AD6CE42627BC50111AB594C323DADF08E</string>
+						<key>dateExpires</key>
+						<string>2023/03/26</string>
+						<key>type</key>
+						<string>Apple Development</string>
+					</dict>
+					<key>name</key>
+					<string>FirebaseCoreDiagnostics.framework</string>
+					<key>team</key>
+					<dict>
+						<key>id</key>
+						<string>6367RT73QM</string>
+						<key>name</key>
+						<string>The Korean Institute of Certified Public Accountants</string>
+					</dict>
+					<key>versionNumber</key>
+					<string>8.14.0</string>
+				</dict>
+				<dict>
+					<key>architectures</key>
+					<array>
+						<string>arm64</string>
+					</array>
+					<key>buildNumber</key>
+					<string>1</string>
+					<key>certificate</key>
+					<dict>
+						<key>SHA1</key>
+						<string>BC06599AD6CE42627BC50111AB594C323DADF08E</string>
+						<key>dateExpires</key>
+						<string>2023/03/26</string>
+						<key>type</key>
+						<string>Apple Development</string>
+					</dict>
+					<key>name</key>
+					<string>FirebaseInstallations.framework</string>
+					<key>team</key>
+					<dict>
+						<key>id</key>
+						<string>6367RT73QM</string>
+						<key>name</key>
+						<string>The Korean Institute of Certified Public Accountants</string>
+					</dict>
+					<key>versionNumber</key>
+					<string>8.14.0</string>
+				</dict>
+				<dict>
+					<key>architectures</key>
+					<array>
+						<string>arm64</string>
+					</array>
+					<key>buildNumber</key>
+					<string>1</string>
+					<key>certificate</key>
+					<dict>
+						<key>SHA1</key>
+						<string>BC06599AD6CE42627BC50111AB594C323DADF08E</string>
+						<key>dateExpires</key>
+						<string>2023/03/26</string>
+						<key>type</key>
+						<string>Apple Development</string>
+					</dict>
+					<key>name</key>
+					<string>FirebaseMessaging.framework</string>
+					<key>team</key>
+					<dict>
+						<key>id</key>
+						<string>6367RT73QM</string>
+						<key>name</key>
+						<string>The Korean Institute of Certified Public Accountants</string>
+					</dict>
+					<key>versionNumber</key>
+					<string>8.14.0</string>
+				</dict>
+				<dict>
+					<key>architectures</key>
+					<array>
+						<string>arm64</string>
+					</array>
+					<key>buildNumber</key>
+					<string>1</string>
+					<key>certificate</key>
+					<dict>
+						<key>SHA1</key>
+						<string>BC06599AD6CE42627BC50111AB594C323DADF08E</string>
+						<key>dateExpires</key>
+						<string>2023/03/26</string>
+						<key>type</key>
+						<string>Apple Development</string>
+					</dict>
+					<key>name</key>
+					<string>GoogleDataTransport.framework</string>
+					<key>team</key>
+					<dict>
+						<key>id</key>
+						<string>6367RT73QM</string>
+						<key>name</key>
+						<string>The Korean Institute of Certified Public Accountants</string>
+					</dict>
+					<key>versionNumber</key>
+					<string>9.1.2</string>
+				</dict>
+				<dict>
+					<key>architectures</key>
+					<array>
+						<string>arm64</string>
+					</array>
+					<key>buildNumber</key>
+					<string>1</string>
+					<key>certificate</key>
+					<dict>
+						<key>SHA1</key>
+						<string>BC06599AD6CE42627BC50111AB594C323DADF08E</string>
+						<key>dateExpires</key>
+						<string>2023/03/26</string>
+						<key>type</key>
+						<string>Apple Development</string>
+					</dict>
+					<key>name</key>
+					<string>GoogleUtilities.framework</string>
+					<key>team</key>
+					<dict>
+						<key>id</key>
+						<string>6367RT73QM</string>
+						<key>name</key>
+						<string>The Korean Institute of Certified Public Accountants</string>
+					</dict>
+					<key>versionNumber</key>
+					<string>7.7.0</string>
+				</dict>
+				<dict>
+					<key>architectures</key>
+					<array>
+						<string>arm64</string>
+					</array>
+					<key>buildNumber</key>
+					<string>1</string>
+					<key>certificate</key>
+					<dict>
+						<key>SHA1</key>
+						<string>BC06599AD6CE42627BC50111AB594C323DADF08E</string>
+						<key>dateExpires</key>
+						<string>2023/03/26</string>
+						<key>type</key>
+						<string>Apple Development</string>
+					</dict>
+					<key>name</key>
 					<string>Lottie.framework</string>
 					<key>team</key>
 					<dict>
@@ -302,11 +498,41 @@
 					<key>versionNumber</key>
 					<string>5.0.1</string>
 				</dict>
+				<dict>
+					<key>architectures</key>
+					<array>
+						<string>arm64</string>
+					</array>
+					<key>buildNumber</key>
+					<string>1</string>
+					<key>certificate</key>
+					<dict>
+						<key>SHA1</key>
+						<string>BC06599AD6CE42627BC50111AB594C323DADF08E</string>
+						<key>dateExpires</key>
+						<string>2023/03/26</string>
+						<key>type</key>
+						<string>Apple Development</string>
+					</dict>
+					<key>name</key>
+					<string>nanopb.framework</string>
+					<key>team</key>
+					<dict>
+						<key>id</key>
+						<string>6367RT73QM</string>
+						<key>name</key>
+						<string>The Korean Institute of Certified Public Accountants</string>
+					</dict>
+					<key>versionNumber</key>
+					<string>2.30908.0</string>
+				</dict>
 			</array>
 			<key>entitlements</key>
 			<dict>
 				<key>application-identifier</key>
 				<string>6367RT73QM.kr.or.kicpa.app</string>
+				<key>aps-environment</key>
+				<string>development</string>
 				<key>com.apple.developer.team-identifier</key>
 				<string>6367RT73QM</string>
 				<key>get-task-allow</key>
@@ -317,9 +543,9 @@
 			<key>profile</key>
 			<dict>
 				<key>UUID</key>
-				<string>c36c7a85-db33-4565-abd3-300525c554a2</string>
+				<string>22fe15c8-9272-462b-8e74-eace363faf74</string>
 				<key>dateExpires</key>
-				<string>2023/03/30</string>
+				<string>2023/04/04</string>
 				<key>name</key>
 				<string>iOS Team Provisioning Profile: kr.or.kicpa.app</string>
 			</dict>

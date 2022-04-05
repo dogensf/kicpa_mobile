@@ -11,9 +11,9 @@
 		<key>appURL</key>
 		<string>https://mkip.kicpa.or.kr/kicpa.ipa</string>
 		<key>displayImageURL</key>
-		<string>https://mkip.kicpa.or.kr/kicpa.57.png</string>
+		<string>https://mkip.kicpa.or.kr/kicpa.png</string>
 		<key>fullSizeImageURL</key>
-		<string>https://mkip.kicpa.or.kr/kicpa.512.png</string>
+		<string>https://mkip.kicpa.or.kr/kicpa.png</string>
 	</dict>
 	<key>method</key>
 	<string>development</string>
