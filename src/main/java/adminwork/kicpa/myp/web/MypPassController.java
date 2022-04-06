@@ -318,6 +318,9 @@ public class MypPassController {
 				paramMap.put("rspOfc", "");						//직책
 				paramMap.put("sectionNm", "");					//부서(국/실)
 				paramMap.put("deptNm", ""); 					//하위부서(과)
+
+				paramMap.put("ofcTelNo1", "");
+				paramMap.put("ofcFaxNo1", "");
 			}
 
 			//오늘날짜
@@ -344,10 +347,18 @@ public class MypPassController {
 
 				//직장주소저장(실제테이블)
 				paramMap.put("adrCl", "OFICE");
-				mypPassService.mypCpaPassRegisterAdressInfoUpdate(paramMap);
+				paramMap.put("trgCl", "PERSONAL");
+				List<?> cpaPassOfcAeresRealInfo = myPageService.selectCpaPassRegistAeresInfoList(paramMap);
+
+				if("Y".equals(paramMap.get("ofcRegYn")) || (cpaPassOfcAeresRealInfo.size() >0 && cpaPassOfcAeresRealInfo != null)){
+					mypPassService.mypCpaPassRegisterAdressInfoUpdate(paramMap);
+				}
 
 				//직장정보저장(실제테이블)
-				mypPassService.mypCpaPassRegisterOficeInfoUpdate(paramMap);
+				List<?> cpaPassOfcRealInfo = myPageService.selectCpaPassRegistOfcInfoList(paramMap);
+				if("Y".equals(paramMap.get("ofcRegYn")) || (cpaPassOfcRealInfo.size() >0 && cpaPassOfcRealInfo != null)){
+					mypPassService.mypCpaPassRegisterOficeInfoUpdate(paramMap);
+				}
 
 				//우편물수령지 저장
 				mypPassService.mypCpaPassRegisterPostSndngYnUpdate(paramMap);

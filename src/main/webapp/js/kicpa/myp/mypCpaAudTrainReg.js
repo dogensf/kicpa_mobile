@@ -347,7 +347,7 @@ mypCpaAudTrainReg.mypCpaAudTrainReg_regFlagFList_success = function(data){
 		$('.mypTrainAppInsttEtcYn').show();
 	}
 
-	$('#mypCpaAudTrainReg_appInsttEtc').val(data.cpaTrainRegReviewInfoList[0].appInsttEtc);             //기타 실무수습기관
+	$('#mypCpaAudTrainReg_appInsttEtc').val(data.cpaAudTrainRegReviewInfoList[0].appInsttEtc);             //기타 실무수습기관
 
 	//첨부파일
 	if(data.cpaAudTrainRegReviewInfoList[0].emplCrtiFileId != "" && data.cpaAudTrainRegReviewInfoList[0].emplCrtiFileId != null){          //재직증명서
@@ -362,7 +362,7 @@ mypCpaAudTrainReg.mypCpaAudTrainReg_regFlagFList_success = function(data){
 		$(".regFlagFRsumDelHide").show();
 		$('#mypCpaAudTrainReg_rsumFileId').prop('type',"text");
 		$("#mypCpaAudTrainReg_rsumFileId").val(data.cpaAudTrainRegReviewInfoList[0].rsumFileNm);
-		$("#mypCpaAudTrainReg_rsumFileIdSet").val(data.cpaAudTrainRegReviewInfoList[0].eventn);
+		$("#mypCpaAudTrainReg_rsumFileEventnSet").val(data.cpaAudTrainRegReviewInfoList[0].eventn);
 	}
 	if(data.cpaAudTrainRegReviewInfoList[0].atchFileId != "" && data.cpaAudTrainRegReviewInfoList[0].atchFileId != null){          //기타
 		$("label[for='mypCpaAudTrainReg_atchFileId']").text("");
