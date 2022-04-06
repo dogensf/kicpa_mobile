@@ -6,23 +6,25 @@ import adminwork.com.cmm.StringUtil;
 import adminwork.com.cmm.service.FileMngService2;
 import adminwork.com.cmm.service.FileMngUtil;
 import adminwork.com.cmm.service.FileVO;
-import adminwork.kicpa.dues.service.DuesService;
-import adminwork.kicpa.dues.service.NewDues;
+import adminwork.kicpa.dues.service.*;
 import adminwork.kicpa.myp.service.MyPageService;
 import adminwork.kicpa.myp.service.MypMemberService;
 import adminwork.kicpa.myp.service.MypPassService;
+import adminwork.let.utl.fcc.service.DateUtil;
 import egovframework.rte.fdl.security.userdetails.util.EgovUserDetailsHelper;
 import egovframework.rte.psl.dataaccess.util.EgovMap;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.util.Base64Utils;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -48,6 +50,9 @@ public class MypMemberController {
 
 	@Resource(name = "DuesService")
 	private DuesService duesService;
+
+	@Resource(name = "DuesApiService")
+	private  DeusApiService duesApiService;
 
 	@Resource(name = "FileMngUtil")
 	private FileMngUtil fileUtil;
@@ -652,6 +657,140 @@ public class MypMemberController {
 		modelAndView.addObject("cpaMemberAidDuesInfoList", cpaMemberAidDuesInfoList);
 		modelAndView.addObject("cpaMemberAidDuesInfoListSize", cpaMemberAidDuesInfoList.size());
 
+		return modelAndView;
+	}
+
+	//등록 회비 납부하기
+	@RequestMapping(value="/createNewYearDeus.do")
+	public ModelAndView createNewYearDeus(@RequestBody List<NewDues> list,HttpServletRequest request) throws Exception{
+		LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("jsonView");
+
+		try {
+			//지로 생성
+			boolean success = true;
+			Dues giroInfo = new Dues();
+			String giroCd = "";
+
+			DuesVO vo = new DuesVO();
+			vo.setEpay_no(user.getGiroPin());
+			vo.setCust_inqr_no(user.getId());
+			vo.setCstmr_cd(user.getId());
+			vo.setCstmr_nm(user.getName());
+
+			//입회비 지로 정보 등록후 결제처리
+			List<Dues> infoList = new ArrayList<Dues>();
+			vo.setPay_yymm_seq(DateUtil.getToday().substring(0,6));
+			//String etcTypeCode = duesService.selectEtcTypeCode(vo);
+			long totAmt = 0;
+			for(NewDues amt : list) {
+				totAmt +=(amt.getGnrlYyAmt()+amt.getGnrlEntrncAmt()+amt.getAsstnYyAmt() +amt.getAsstnEntrncAmt()+ amt.getCmitEntrncAmt());
+			}
+			System.out.println("-----------totAmt ="+totAmt);
+
+			vo.setDudt_in_amt(totAmt);
+
+			List<GiroNtic> giroNtics = new ArrayList<>();
+			GiroRegVO giroRegVO = new GiroRegVO();
+			giroRegVO.setRqestDe(DateUtil.getToday());
+			giroRegVO.setEtcTypeCode("11");
+			giroRegVO.setEmpPin(user.getId());
+			giroRegVO.setEtcInfoTtl("입회비");
+			giroRegVO.setEtcInfoCnte("입회비");
+			List<GiroVO> giroList = new ArrayList<GiroVO>();
+			GiroVO giro = new GiroVO();
+			giro.setSubGiroCd("");
+
+			giro.setCustInqrNo(user.getId());
+			giro.setNticDe(DateUtil.getToday());
+			giro.setNticAmt(vo.getDudt_in_amt());
+
+			//회원 정보에서 가져올데이터
+			giro.setCstmrFlag("35210020");
+			giro.setCstmrCd(vo.getCstmr_cd());
+			giro.setCstmrNm(vo.getCstmr_nm());
+			//
+
+			giro.setRqestCd("35230110");
+			giro.setRqestDe(DateUtil.getToday());
+			giro.setProcessFlag("0");
+			giro.setSuccesAmt(0L);
+			giro.setFrstRegistId(vo.getCust_inqr_no());
+			giro.setLastUpdtId(vo.getCust_inqr_no());
+			giro.setEpayNo(vo.getEpay_no());
+			giro.setNotiDlDt(DateUtil.getToday());
+			giroList.add(giro);
+
+			//입회비 / 지로 통합 생성
+			Dues rt = duesService.saveNewDuesPays(list, giroRegVO, giroNtics, giroList);
+			modelAndView.addObject("rt", rt);
+			//납부 생성
+			//List<NewDues> rtnList = duesService.saveNewDuesPays(list);
+
+			//지로생성이 실패 했다면 생성한 지로 삭제 처리
+			if(!success) {
+				//duesService.deleteTempDues(vo);
+				modelAndView.addObject("message", "(-1)결제시 오류가 발생했습니다. 잠시후 다시 시도해 주시기 바랍니다.");
+				modelAndView.addObject("rtnUrl", "redirect:/kicpa/dues/selectDuesList.do");
+
+			}
+		}catch(Exception e) {
+
+			e.printStackTrace();
+		}
+
+		modelAndView.addObject("message", "정상적으로 처리 되었습니다.");
+
+		return modelAndView;
+	}
+
+	//등록 회비 납부후 콜백
+	@RequestMapping(value = "/kicpa/myp/selectYearDeusPaymentResult.do")
+	public ModelAndView selectPaymentResult(@ModelAttribute("searchVO") DuesVO vo, ModelMap model, HttpServletRequest request, RedirectAttributes rttr)
+			throws Exception{
+		LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("jsonView");
+		/*Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+
+		if (isAuthenticated) {
+			//model.addAttribute("cmmCodeList", cmmUseService.getCmmCodeDetailAll());
+		}else {
+			return "redirect:/uat/uia/LoginUsr.do";
+		}*/
+		vo.setCust_inqr_no(user.getId());
+		boolean success = true;
+		Dues giroInfo = new Dues();
+		success = duesApiService.giroPayments(vo);
+
+		//납부 완료시 알림톡 발송
+		if(success){
+
+			Map<String, Object> sendSmsInfo = new HashMap<>();
+
+			sendSmsInfo.put("msgCl", "N0021013");      //둥록회비납부 완료 알림톡
+			sendSmsInfo.put("pin", user.getId());
+			sendSmsInfo.put("userId", user.getId());
+			sendSmsInfo.put("orgTranId", vo.getOrg_tran_id());
+			List<?> sendSmsInfoList = mypMemberService.selectMemSendMessageInfoList(sendSmsInfo);      //알림톡 내용
+			sendSmsInfo.putAll((Map<String, Object>)sendSmsInfoList.get(0));
+
+			String contents = sendSmsInfo.get("msgBody").toString();
+
+			contents = contents.replaceAll("\\{회원명}", sendSmsInfo.get("destName").toString());
+			contents = contents.replaceAll("\\{납부일자}", sendSmsInfo.get("payDe").toString());
+			contents = contents.replaceAll("\\{납부금액}", sendSmsInfo.get("dudtInAmt").toString());
+
+			sendSmsInfo.put("msgBody", contents);
+			sendSmsInfo.put("nationCode", "82");   //국가코드
+			sendSmsInfo.put("userId", user.getId());
+
+			mypMemberService.cpaMemMessageSend(sendSmsInfo);      //알림톡 전송
+		}
+
+		//return "redirect:/kicpa/dues/selectDuesList.do";
 		return modelAndView;
 	}
 

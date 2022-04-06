@@ -460,7 +460,7 @@
 	<div class="container myPageMemInfoTabMove" id="mypCpaMemberReg_aidDuesInfo">
 		<section class="head-pop">
 			<h3>등록</h3>
-			<button class="btn-close" type="button" onclick="mypMemberReg.mypMemberReg_backMove();">
+			<button class="btn-close" type="button" onClick="location.href='${pageContext.request.contextPath}/kicpa/myp/myPage.do?Pin=${mypCpaMemberRegPin}'">
 				<span>닫기</span>
 			</button>
 		</section>
@@ -507,7 +507,7 @@
 				</ul>
 
 				<div class="pay-guide mypCpaMember_aidDuesN" style="display: none;">
-					<button type="button" class="btn-round" style="width: 100%;">
+					<button type="button" class="btn-round" id="mypCpaMember_setDuesCreate" style="width: 100%;">
                         납부하기
                     </button>
 					<p>
@@ -532,12 +532,13 @@
 
 		<!-- 이전페이지로 이동 -->
 		<div class="btn-page-bottom">
-			<button class="btn-text-back" onclick="mypMemberReg.mypMemberReg_tabMove('mypCpaMemberReg_atchFileInfo')" type="button">이전페이지로 이동</button>
+			<button class="btn-text-back mypCpaMember_preBtn" onclick="mypMemberReg.mypMemberReg_tabMove('mypCpaMemberReg_atchFileInfo')" type="button">이전페이지로 이동</button>
 		</div>
 
 		<!-- 페이지하단 버튼 -->
 		<div class="sticky-bottom">
-			<button class="btn-sticky" type="button" id="mypCpaMemberReg_aidDuesInfoSaveBtn">다음</button>
+			<button class="btn-sticky mypCpaMember_nextBtn" type="button" id="mypCpaMemberReg_aidDuesInfoSaveBtn">다음</button>
+			<button class="btn-sticky mypCpaMember_mypBtn" type="button" onClick="location.href='${pageContext.request.contextPath}/kicpa/myp/myPage.do?Pin=${mypCpaMemberRegPin}'">확인</button>
 		</div>
 
 		<!-- 사이드 버튼 -->
@@ -550,7 +551,7 @@
 	<div class="container myPageMemInfoTabMove" id="mypCpaMemberReg_reviewInfo">
 		<section class="head-pop">
 			<h3>등록</h3>
-			<button class="btn-close" type="button" onclick="mypMemberReg.mypMemberReg_backMove();">
+			<button class="btn-close" type="button" onclick="location.href='${pageContext.request.contextPath}/kicpa/myp/myPage.do?Pin=${mypCpaMemberRegPin}'">
 				<span>닫기</span>
 			</button>
 		</section>

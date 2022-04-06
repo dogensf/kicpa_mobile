@@ -37,16 +37,15 @@ mypMemberReg.mypMemberRegInit = function(){
 		}
 		else{
 			if($('#mypCpaMemberReg_movePage').val() == "mypCpaMemberReg_aidDuesInfo"){
-
+				$('.mypCpaMember_nextBtn').hide();
 			}
 			else{
-
+				$('.mypCpaMember_submitBtn').show();
+				$('.mypCpaMember_mypBtn').hide();
+				$('.mypCpaMember_backBtn').show();
+				$('.mypCpaMember_nextBtn').show();
+				$('.mypCpaMember_nextBtn').text("수정/저장");
 			}
-			$('.mypCpaMember_submitBtn').show();
-			$('.mypCpaMember_mypBtn').hide();
-			$('.mypCpaMember_backBtn').show();
-			$('.mypCpaMember_nextBtn').text("수정/저장");
-
 			//저장된(수정할) 데이터 조회
 			mypMemberReg.mypCpaMember_updateInfoList();
 		}
@@ -208,6 +207,11 @@ mypMemberReg.mypMemberRegInit = function(){
 
 	});
 
+	//등록 회비 납부 결제(납부하기버튼)
+	$("#mypCpaMember_setDuesCreate").on("click",function(e) {
+		mypMemberReg.mypCpaMemberReg_setDuesCreate();
+	});
+
 	//공인회계사 등록신청서 클릭
 	$("#mypCpaMember_cpaRegForm").on("click",function(e) {
 		var pin = $('#mypCpaTrainReg_pin').val();
@@ -260,6 +264,78 @@ mypMemberReg.mypMemberRegInit = function(){
 
 		mypMemberReg.mypCpaMemberReg_infoSave();
 
+	});
+}
+
+//납부하기 버튼 클릭
+mypMemberReg.mypCpaMemberReg_setDuesCreate = function() {
+
+	if (confirm('등록 회비를 납부 하시겠습니까?')) {
+
+		$.ajax({
+			url: mypMemberReg.getContextPath()+"/myp/createNewYearDeus.do",
+			type: 'POST',
+			data: JSON.stringify(formDuesData) ,
+			contentType: 'application/json',
+			cache: false,
+			processData: false,
+			dataType: 'json',
+			async: false,
+			timeout: 10000,
+			beforeSend: function() {
+
+			},
+			complete: function() {
+
+			},
+			success: function(result) {
+
+				if(result.rt.linkUrl != ''){
+					//납부 URL 발생시 결제 진행팝업
+					var popupName = "등록 회비 납부";
+					var options = 'status=no, height=700, width=700, left='+ popupX + ', top='+ popupY + ', screenX='+ popupX + ', screenY= '+ popupY;
+
+					openDialog(result.rt.linkUrl, popupName, options, function(win) {
+						mypMemberReg.mypCpaMemberReg_diglogCloseCallback(result.rt.org_tran_id);
+					});
+				}else{
+					alert("결제 URL 생성 오류!");
+				}
+			},
+			error: function(xhr, status, error) {
+				alert("오류 발생!");
+			},
+			fail: function() {
+			}
+		});
+	}
+}
+
+//결제 후 콜백
+mypMemberReg.mypCpaMemberReg_diglogCloseCallback = function(org_tran_id) {
+
+	var form = new FormData();
+	form.append("org_tran_id", org_tran_id);
+
+	$.ajax({
+		url: mypMemberReg.getContextPath()+"/myp/selectYearDeusPaymentResult.do",
+		type: 'post',
+		data: form,
+		cache: false,
+		contentType: false,
+		processData: false,
+		dataType: 'json',
+		async: false,
+		timeout: 10000,
+		success: function(result) {
+			mypMemberReg.mypCpaMemberReg_aidDuesInfoEnd();
+		},
+		error: function(xhr, status, error) {
+
+		},
+		fail: function() {
+
+		}
 	});
 }
 
@@ -519,6 +595,16 @@ mypMemberReg.mypCpaMember_regFlagFList_success = function(data){
 		$('#mypCpaMemberReg_agreement2').prop("checked",true);
 	}
 
+	//약관동의 체크
+	if($("#mypCpaMemberReg_agreement1").is(":checked") && $("#mypCpaMemberReg_agreement2").is(":checked")) // 단일 체크해제시 전체체크 해제
+	{
+		$("input:checkbox[id='mypCpaMemberReg_allAgree']").prop("checked", true);
+		$("#mypCpaMemberReg_agreeInfoSaveBtn").prop("disabled", false);
+	}else {
+		$("input:checkbox[id='mypCpaMemberReg_allAgree']").prop("checked", false);
+		$("#mypCpaMemberReg_agreeInfoSaveBtn").prop("disabled", true);
+	}
+
 	//부조회원구분 & 사업자등록번호
 	var number = data.cpaMemberRegReviewInfoList[0].bizrNo;
 	var bizrNo = "";
@@ -541,6 +627,8 @@ mypMemberReg.mypCpaMember_regFlagFList_success = function(data){
 	$('#mypCpaMember_auditId').val(data.cpaMemberRegReviewInfoList[0].auditId);                 //감사예정감사인코드
 	$('#mypCpaMember_auditAdres').val(data.cpaMemberRegReviewInfoList[0].adres);                 //감사인주소
 	$('#mypCpaMember_auditOfcps').val(data.cpaMemberRegReviewInfoList[0].auditOfcps);           //감사인구성구분
+	$('#mypCpaMember_closedClNm').val(data.cpaMemberRegReviewInfoList[0].closedClNm);           //회원(휴업)분류명
+	$('#mypCpaMember_closedCl').val(data.cpaMemberRegReviewInfoList[0].closedCl);           	//회원(휴업)분류코드
 
 	mypMemberReg.mypCpaMemberReg_mberFlagChange();
 

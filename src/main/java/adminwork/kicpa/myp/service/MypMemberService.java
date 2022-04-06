@@ -66,4 +66,10 @@ public interface MypMemberService {
 
     //제출flag 저장(임시 테이블)
     public void mypCpaMemberRegisterRegFlagSave(Map<String, Object> map) throws Exception;
+
+    //알림톡 정보
+    public List<?> selectMemSendMessageInfoList(Map<String, Object> map) throws Exception;
+
+    //알림톡 발송
+    public void cpaMemMessageSend(Map<String, Object> map) throws Exception;
 }

@@ -454,4 +454,72 @@
 
 	</update>
 
+	<select id="MypMemberDAO.selectMemSendMessageInfoList" parameterClass="HashMap" resultClass="EgovMap">
+
+		<![CDATA[
+            SELECT
+                    mt.TMPLAT_SN
+                ,   mt.MSG_CL
+                ,   mt.MSG_TYPE
+                ,   mt.SEND_PHONE
+                ,   mt.SEND_NAME
+                ,   mt.MSG_BODY
+                ,   mt.TEMPLATE_CODE
+                ,   mt.TIMEOUT
+                ,   mt.RE_TYPE
+                ,   mt.RE_BODY
+                ,   mt.USE_YN
+                ,   (SELECT case when LENGTH(KOREAN_NM) > 2 then substr(KOREAN_NM,1,1) || lpad('*',length(KOREAN_NM)-2,'*') || substr(KOREAN_NM, length(KOREAN_NM), 1) else SUBSTR(KOREAN_NM, 1, 1) || LPAD('*', 1, '*') end FROM MBER_INDVDLINFO WHERE PIN = #pin#) AS DEST_NAME
+                ,   (SELECT MOBL_PHON_NO FROM MBER_INDVDLINFO WHERE PIN = #pin#) AS DEST_PHONE
+                ,   (SELECT cc.OPTN1 FROM CMMN_CODE cc WHERE cc.GRP_CD = 'GN0021'AND cc.USE_YN = 'Y' AND cc.CD = mt.MSG_CL) AS BIZ_CLS
+        		,   (SELECT TO_CHAR(TO_DATE(PAY_DE,'YYYYMMDD'), 'YYYY"년 "MM"월 "DD"일"') FROM GIRO_NTIC WHERE ORG_TRAN_ID = #orgTranId#) AS PAY_DE
+        		,   (SELECT REGEXP_REPLACE(REVERSE(REGEXP_REPLACE( REVERSE(TO_CHAR(DUDT_IN_AMT)), '([0-9]{3})','\1,')), '^,','') FROM GIRO_NTIC WHERE ORG_TRAN_ID = #orgTranId#) AS DUDT_IN_AMT
+
+            FROM MESSAGE_TMPLAT mt
+
+            WHERE mt.MSG_CL = #msgCl#
+              AND mt.USE_YN = 'Y'
+        ]]>
+
+	</select>
+
+	<insert id="MypMemberDAO.cpaMemMessageSend" parameterClass="HashMap">
+		<![CDATA[
+
+			INSERT INTO sendbill.biz_msg (
+                    MSG_TYPE
+                ,   CMID
+                ,   REQUEST_TIME
+                ,   SEND_TIME
+                ,   DEST_PHONE
+                ,   SEND_PHONE
+                ,   MSG_BODY
+                ,   TEMPLATE_CODE
+                ,   TIMEOUT
+                ,   RE_TYPE
+                ,   RE_BODY
+                ,   SENDER_KEY
+                ,   NATION_CODE
+                ,   KICPA_USR
+            )
+            VALUES (
+                    #msgType#
+                ,   (SELECT NVL(#bizCls#,'COMMON')||'_'|| (SELECT LPAD(NVL(MAX(TO_NUMBER(REGEXP_REPLACE(CMID, '[^0-9]'))),0) +1,10,0) FROM sendbill.biz_msg) FROM DUAL)
+                ,   SYSDATE
+                ,   SYSDATE
+                ,   #destPhone#
+                ,   #sendPhone#
+                ,   #msgBody#
+                ,   #templateCode#
+                ,   #timeout#
+                ,   #reType#
+                ,   #reBody#
+                ,   '97bbacdec7a6e43bfc7969c34194a85dbc867cdf'
+                ,   #nationCode#
+                ,   #userId#
+            )
+		]]>
+
+	</insert>
+
 </sqlMap>

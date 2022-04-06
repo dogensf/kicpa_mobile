@@ -116,4 +116,14 @@ public class MypMemberServiceImpl extends EgovAbstractServiceImpl implements Myp
 	public void mypCpaMemberRegisterRegFlagSave(Map<String, Object> map) throws Exception {
 		mypMemberDAO.mypCpaMemberRegisterRegFlagSave(map);
 	}
+
+	@Override
+	public List<?> selectMemSendMessageInfoList(Map<String, Object> map) throws Exception {
+		return mypMemberDAO.selectMemSendMessageInfoList(map);
+	}
+
+	@Override
+	public void cpaMemMessageSend(Map<String, Object> map) throws Exception {
+		mypMemberDAO.cpaMemMessageSend(map);
+	}
 }
