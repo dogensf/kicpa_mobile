@@ -16,7 +16,7 @@
 <!--begin::Footer-->
 <section class="link-url">
 	<a href="javascript:window.bridge.newWebView('kicpa1','https://cyber.kicpa.or.kr/sso/main.php','')">회계연수원</a>
- 	<a href="javascript:window.bridge.newWebView('kicpa2','https://blog.naver.com/kicpaline','')" >KICPA블로그</a>
+ 	<a href="javascript:window.bridge.newWebView('kicpa2','https://blog.naver.com/kicpaline','')" >KICPA 블로그</a>
 	<a href="javascript:window.bridge.newWebView('kicpa3','https://blog.naver.com/kicpa1','')" >조세지원센터</a>
 	<a href="javascript:window.bridge.newWebView('kicpa4','https://www.youtube.com/channel/UCCXEbJkEOo2DrPNxYjTdIVQ','')">KICPA Youtube</a>
 	<a href="javascript:window.bridge.newWebView('kicpa5','mail.kicpa.or.kr','')" >회원용 email</a>
