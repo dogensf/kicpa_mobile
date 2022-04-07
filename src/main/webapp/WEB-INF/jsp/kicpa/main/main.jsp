@@ -222,7 +222,7 @@ function applyFavorite(menus) {
 	</div>
 
 <!-- KICPA 구인정보 게시판 -->
-	<div class="title-box">
+	<%-- <div class="title-box">
 		<h3>KICPA 구인정보</h3>
 		<button type="button" onclick="location.href='/kicpa/job/boardList.do?ijJobSep=1'" class="btn-detail">상세보기</button>
 	</div>
@@ -269,5 +269,5 @@ function applyFavorite(menus) {
 				</ul>
 			</div>
 		</div>
-	</div>
+	</div> --%>
 </section>
