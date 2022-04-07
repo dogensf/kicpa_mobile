@@ -3,7 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ page import ="adminwork.com.cmm.LoginVO" %>
 <script>
-function fncLocation(){
+/* function fncLocation(){
 	//location.href="/kicpa/main/main.do";
 <c:choose>
 	<c:when test="${views eq 'home'}">
@@ -14,20 +14,21 @@ function fncLocation(){
 	</c:otherwise>
 </c:choose>
 	
-}
+} */
 
 function fncLocation(){
-	$('#appExit').addClass("show");
+	//$('#appExit').addClass("show");
+	location.href="/kicpa/main/main.do";
 }
 
 </script>
-<!-- <section class="head-sub">
+ <section class="head-sub">
     <button class="btn-back" type="button" onclick="fncLocation();">
         <span>이전</span>
     </button>
     <h3>회계 · 감사 Alert</h3>
-</section> -->
-<section class="head-main">
+</section>
+<%-- <section class="head-main">
           <h1>회계 · 감사 Alert</h1>
           <%
 	        LoginVO loginVO = (LoginVO)session.getAttribute("LoginVO");
@@ -42,14 +43,14 @@ function fncLocation(){
 		  	<button class="btn-login" onclick="location.href='<c:url value='/uat/uia/actionLogout.do'/>';" type="button">
 	     	 로그아웃
 	    	</button>
-	            <%-- <c:set var="loginName" value="<%= loginVO.getName()%>"/>
+	            <c:set var="loginName" value="<%= loginVO.getName()%>"/>
 	            <ul>
 		  	    <li><a href="#LINK" onclick="alert('개인정보 확인 등의 링크 제공'); return false;">
 	            <c:out value="${loginName}"/> 님</a></li>
 	            <li><a href="<c:url value='/uat/uia/actionLogout.do'/>">
 	            <img src="<c:url value='/images/leftmenu/logout.jpg' />" alt="로그아웃" /></a></li>
 	            <li>최근접속:2011-10-12 13:24</li>
-	            </ul> --%>
+	            </ul>
 		  	<%
 		  	}
 	        %>
@@ -57,7 +58,7 @@ function fncLocation(){
           <button class="btn-menu" type="button" onClick="javascript:window.bridge.showCategory();">
             카테고리
           </button>
-</section>
+</section> --%>
 <section class="content">
 
     <ul class="list-wrap">

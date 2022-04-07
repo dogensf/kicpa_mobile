@@ -59,7 +59,7 @@ function fncLocation(){
                            </div>
 
                            <div class="togl-box">
-                               <button class="btn-board-togl active" type="button">3. 17 (목)</button>
+                               <button class="btn-board-togl active" onClick="javascript:$(this).toggleClass('active');" type="button">3. 17 (목)</button>
                                
                                <div class="cont">
                                    <div>
@@ -96,7 +96,7 @@ function fncLocation(){
                                            </thead>
                                            <tbody>
                                                <tr>
-                                                   <td>10월말 결산법인 분기보고서 제출</td>
+                                                   <td>2월말 경산법인 감사계약 수임신고 (감사위원회 의무설치)</td>
                                                    <td>증권선물위 전자신고</td>
                                                </tr>
                                            </tbody>
@@ -112,7 +112,7 @@ function fncLocation(){
                            </div>
 
                            <div class="togl-box">
-                               <button class="btn-board-togl" type="button">3. 17 (목)</button>
+                               <button class="btn-board-togl " onClick="javascript:$(this).toggleClass('active');" type="button">3. 3 (목)</button>
                                
                                <div class="cont">
                                    <div>
@@ -129,13 +129,39 @@ function fncLocation(){
                                            </thead>
                                            <tbody>
                                                <tr>
-                                                   <td>10월말 결산법인 분기보고서 제출</td>
-                                                   <td>증권선물위 전자신고</td>
+                                                   <td>법인세 분납 (성실신고법인, 연결법빈 - 일반기업)</td>
+                                                   <td>9월말 결산법인</td>
                                                </tr>
                                            </tbody>
                                        </table>
                                    </div>
                                </div>
+                               
+                               <button class="btn-board-togl " onClick="javascript:$(this).toggleClass('active');" type="button">3. 10 (목)</button>
+                               
+                               <div class="cont">
+                                   <div>
+                                       <table class="table-col blue">
+                                           <colgroup>
+                                               <col width="50%" />
+                                               <col width="50%" />
+                                           </colgroup>
+                                           <thead>
+                                               <tr>
+                                                   <th>항목</th>
+                                                   <th>비고</th>
+                                               </tr>
+                                           </thead>
+                                           <tbody>
+                                               <tr>
+                                                   <td>증권거래세 신고납부(전자등록기관, 한국예탁결제원 및 금융투자업자)</td>
+                                                   <td>9월말 결산법인</td>
+                                               </tr>
+                                           </tbody>
+                                       </table>
+                                   </div>
+                               </div>
+                               
                            </div>
                        </li>
                        <li <c:if test="${!empty type && type ne '03' }">style="display:none"</c:if> id="li03">
@@ -144,7 +170,7 @@ function fncLocation(){
                            </div>
 
                            <div class="togl-box">
-                               <button class="btn-board-togl" type="button">3. 17 (목)</button>
+                               <button class="btn-board-togl active" onClick="javascript:$(this).toggleClass('active');" type="button">3. 25 (금)</button>
                                
                                <div class="cont">
                                    <div>
@@ -161,13 +187,39 @@ function fncLocation(){
                                            </thead>
                                            <tbody>
                                                <tr>
-                                                   <td>10월말 결산법인 분기보고서 제출</td>
-                                                   <td>증권선물위 전자신고</td>
+                                                   <td>등록갱신대상자 갱신신청서 제출 (공인회계사)</td>
+                                                   <td>2017년 4월 중 등록(갱신)한공인회계사</td>
                                                </tr>
                                            </tbody>
                                        </table>
                                    </div>
                                </div>
+                               
+                               <button class="btn-board-togl "  onClick="javascript:$(this).toggleClass('active');"type="button">3. 28 (금)</button>
+                               
+                               <div class="cont">
+                                   <div>
+                                       <table class="table-col blue">
+                                           <colgroup>
+                                               <col width="50%" />
+                                               <col width="50%" />
+                                           </colgroup>
+                                           <thead>
+                                               <tr>
+                                                   <th>항목</th>
+                                                   <th>비고</th>
+                                               </tr>
+                                           </thead>
+                                           <tbody>
+                                               <tr>
+                                                   <td>등록갱신대상자 갱신신청서 제출 (세무사/세무대리업무 등록자)</td>
+                                                   <td>2017년 5월 중 등록(갱신)한세무사/세무대리업무 등록자</td>
+                                               </tr>
+                                           </tbody>
+                                       </table>
+                                   </div>
+                               </div>
+                               
                            </div>
                        </li>
                    </ul>
