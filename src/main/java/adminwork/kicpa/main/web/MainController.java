@@ -40,7 +40,7 @@ public class MainController {
 
 
 	@RequestMapping(value = "/main.do")
-	public String boardList(@RequestParam Map<String,Object> map,HttpServletRequest request,HttpServletResponse response,ModelMap model) throws Exception{
+	public String main(@RequestParam Map<String,Object> map,HttpServletRequest request,HttpServletResponse response,ModelMap model) throws Exception{
 		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
 		List<EgovMap> boardList = null;
 		int totalCnt;
@@ -216,5 +216,16 @@ public class MainController {
 	    }
 
 
+		@RequestMapping(value = "/scheduleDetail.do")
+		public String scheduleDetail(@RequestParam("type") String type,@RequestParam("month") String month, HttpServletRequest request,HttpServletResponse response,ModelMap model) throws Exception{
+			
+
+
+			model.addAttribute("type", type);
+			model.addAttribute("month", month);
+			
+
+			return "kicpa/mainDetail/scheduleDetail";
+		}
 		
 }

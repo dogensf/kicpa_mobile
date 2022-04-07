@@ -78,6 +78,8 @@ function applyFavorite(menus) {
 </script>
 
 <section class="bookmark-wrap">
+
+	
 	<div class="title-box">
 		<h2>My 즐겨찾기</h2>
 		<div class="r-area">
@@ -134,6 +136,29 @@ function applyFavorite(menus) {
 </section>
 
 <section class="content">
+	
+	<div class="title-box">
+          <h3>회계감사·세무·업무 캘린더</h3>
+          <div class="current-month">3월</div>
+    </div>
+
+    <div class="cont">
+          <ul class="todo-list">
+            <li>
+              <span>회계감사</span>
+              <em><a href="/kicpa/main/scheduleDetail.do?type=01&month=03">07</a></em>
+            </li>
+            <li>
+              <span>세무</span>
+              <em><a href="/kicpa/main/scheduleDetail.do?type=02&month=03">07</a></em>
+            </li>
+            <li>
+              <span>업무</span>
+              <em><a href="/kicpa/main/scheduleDetail.do?type=03&month=03">07</a></em>
+            </li>
+          </ul>
+    </div>
+	
 	<form id="boardForm" name="boardForm">
 		<input type="hidden" name="boardId" id="boardId">
 		<input type="hidden" name="ijJobSep">
