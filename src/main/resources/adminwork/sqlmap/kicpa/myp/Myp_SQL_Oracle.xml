@@ -83,7 +83,7 @@
             FROM MBER_ACDMCR
             WHERE PIN = #pin#
               AND DELETE_YN = 'N'
-            ORDER BY ACDMCR_SN ASC
+            ORDER BY (SELECT cc.CD_NM FROM CMMN_CODE cc WHERE cc.GRP_CD ='GA2230' AND cc.CD = SCHUL_CL) ASC, GRDTN_YEAR ASC
 
          ]]>
 
