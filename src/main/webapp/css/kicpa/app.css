@@ -3083,10 +3083,14 @@ body.stop {
 .container.main .board-list {
   margin-top: 2rem;
 }
-
+/* 
 .bookmark-wrap {
   background-color: #003976;
+} */
+.bookmark-wrap {
+  background-color: #981815;
 }
+
 
 .bookmark-wrap * {
   color: #fff;
