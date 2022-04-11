@@ -14,6 +14,7 @@ function fncLocation(){
 </script>
 <form id="cartForm" name="cartForm" onsubmit="return false;">
 	<input type="hidden" name="loginYn" id="loginYn" value="Y">
+	<input type="hidden" name="returnUrl" id="returnUrl" value="">
 </form>
 <section class="head-sub">
   	<button class="btn-back" type="button" onclick="fncLocation();">

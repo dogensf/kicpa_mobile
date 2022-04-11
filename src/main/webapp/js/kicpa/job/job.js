@@ -3,8 +3,6 @@ var flag = true;
 //function fn_ajax_call(href, param, sfn, efn) {
 job.init = function(){
 
-	job.getSearchTypeList();
-
 	$(".search-box .search").on("click",function(){
 		fn_portal_pop("searchPop")
 	});
@@ -69,6 +67,7 @@ job.init = function(){
 	if($("#boardId").val() != 'jobInfoKicpa'){
 		var param = $("#boardForm").serializeObject();
 		fn_ajax_call("/kicpa/job/getBoardList.do",param,job.boardListSuccess,job.boardListError);
+		job.getSearchTypeList();
 	}else{
 		board.boardBoardListAjax();
 	}
@@ -104,10 +103,10 @@ job.getSearchTypeListSuccess = function(data){
 	var empCodeList = data.empCodeList;
 	$("#boardForm input[name^='searchType']").remove();
 	$("#searchPop .add-row").remove();
-	board.searchTypeHtml(distCodeList,"근무지역","searchType1");
-	board.searchTypeHtml(empCodeList,"고용형태","searchType2")
+	board.searchTypeHtml(distCodeList,"근무지역","searchType1",false);
+	board.searchTypeHtml(empCodeList,"고용형태","searchType2",true)
 	if(hireCodeList != null && hireCodeList.length > 0){
-		board.searchTypeHtml(hireCodeList,"채용구분","searchType3");
+		board.searchTypeHtml(hireCodeList,"채용구분","searchType3",true);
 	}
 
 }

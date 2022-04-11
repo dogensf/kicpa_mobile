@@ -58,6 +58,7 @@ public class CounselCenterController {
 		if(isAuthenticated) {
 			return "kicpa/counselCenter/declarationBoardList";
 		}else {
+			model.addAttribute("returnUrl", "/kicpa/counselCenter/declarationBoardList.do");
 			return "kicpa/common/authLogin";
 		}
 	}
@@ -81,6 +82,7 @@ public class CounselCenterController {
 
 			return "kicpa/counselCenter/counselBoardList";
 		}else {
+			model.addAttribute("returnUrl", "/kicpa/counselCenter/counselBoardList.do");
 			return "kicpa/common/authLogin";
 		}
 
@@ -93,6 +95,7 @@ public class CounselCenterController {
 			model.addAttribute("gubun", "nonAnonymous");
 			return "kicpa/counselCenter/declarationStep1";
 		}else {
+			model.addAttribute("returnUrl", "/kicpa/counselCenter/declarationStep1.do");
 			return "kicpa/common/authLogin";
 		}
 
@@ -104,6 +107,7 @@ public class CounselCenterController {
 			model.addAttribute("gubun", "nonAnonymous");
 			return "kicpa/counselCenter/declarationStep2";
 		}else {
+			model.addAttribute("returnUrl", "/kicpa/counselCenter/declarationStep1.do");
 			return "kicpa/common/authLogin";
 		}
 
@@ -127,6 +131,7 @@ public class CounselCenterController {
 		if(isAuthenticated) {
 			return "kicpa/counselCenter/kifrsBoardList";
 		}else {
+			model.addAttribute("returnUrl", "/kicpa/counselCenter/kifrsBoardList.do");
 			return "kicpa/common/authLogin";
 		}
 
@@ -141,6 +146,7 @@ public class CounselCenterController {
 		if(isAuthenticated) {
 			return "kicpa/counselCenter/nonExtBoardList";
 		}else {
+			model.addAttribute("returnUrl", "/kicpa/counselCenter/nonExtBoardList.do");
 			return "kicpa/common/authLogin";
 		}
 
@@ -155,6 +161,7 @@ public class CounselCenterController {
 		if(isAuthenticated) {
 			return "kicpa/counselCenter/smpBoardList";
 		}else {
+			model.addAttribute("returnUrl", "/kicpa/counselCenter/smpBoardList.do");
 			return "kicpa/common/authLogin";
 		}
 
@@ -171,6 +178,7 @@ public class CounselCenterController {
 		if(isAuthenticated) {
 			return "kicpa/counselCenter/suggestBoardList";
 		}else {
+			model.addAttribute("returnUrl", "/kicpa/counselCenter/suggestBoardList.do");
 			return "kicpa/common/authLogin";
 		}
 
@@ -185,6 +193,18 @@ public class CounselCenterController {
 			model.addAttribute("loginVO", user);
 			return "kicpa/counselCenter/boardForm";
 		}else {
+			if("kifrs".equals(StringUtil.isNullToString(map.get("boardId")))) {
+				model.addAttribute("returnUrl", "/kicpa/counselCenter/kifrsBoardList.do");
+			}else if("nonextaudit01".equals(StringUtil.isNullToString(map.get("boardId")))) {
+				model.addAttribute("returnUrl", "/kicpa/counselCenter/nonExtBoardList.do");
+			}else if("smpadt".equals(StringUtil.isNullToString(map.get("boardId")))) {
+				model.addAttribute("returnUrl", "/kicpa/counselCenter/smpBoardList.do");
+			}else if("sugt01".equals(StringUtil.isNullToString(map.get("boardId")))) {
+				model.addAttribute("returnUrl", "/kicpa/counselCenter/suggestBoardList.do");
+			}else {
+				model.addAttribute("returnUrl", "/kicpa/main/main.do");
+			}
+
 			return "kicpa/common/authLogin";
 		}
 
@@ -200,6 +220,7 @@ public class CounselCenterController {
 			model.addAttribute("loginVO", user);
 			return "kicpa/counselCenter/counselBoardForm";
 		}else {
+			model.addAttribute("returnUrl", "/kicpa/counselCenter/counselBoardList.do");
 			return "kicpa/common/authLogin";
 		}
 
@@ -269,6 +290,7 @@ public class CounselCenterController {
 				modelAndView.addObject("pageIndex", map.get("pageIndex"));
 				modelAndView.addObject("isLogin", true);
     		}else {
+    			modelAndView.addObject("returnUrl", "/kicpa/counselCenter/declarationBoardList.do");
     			modelAndView.addObject("isLogin", false);
     		}
     	}catch (Exception e) {
@@ -299,6 +321,7 @@ public class CounselCenterController {
 				modelAndView.addObject("isLogin", true);
     		}else {
     			modelAndView.addObject("isLogin", false);
+    			modelAndView.addObject("returnUrl", "/kicpa/counselCenter/counselBoardList.do");
     		}
 
 		}catch (Exception e) {
@@ -488,12 +511,12 @@ public class CounselCenterController {
 		}
 
 	}
-	
-	
-	
+
+
+
 	@RequestMapping(value = "/rewardInfo.do")
 	public String setInfo(@RequestParam Map<String,Object> map,HttpServletRequest request,HttpServletResponse response,ModelMap model) throws Exception{
-		
+
 
 		return "kicpa/counselCenter/rewardInfo";
 	}

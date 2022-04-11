@@ -46,6 +46,7 @@ public class MemberEventController {
 		if(isAuthenticated) {
 			return "kicpa/memberEvent/boardList";
 		}else {
+			model.addAttribute("returnUrl", "/kicpa/memberEvent/boardList.do");
 			return "kicpa/common/authLogin";
 		}
 
@@ -58,6 +59,7 @@ public class MemberEventController {
 			model.addAttribute("loginVO", user);
 			return "kicpa/memberEvent/regMemberEvent";
 		}else {
+			model.addAttribute("returnUrl", "/kicpa/memberEvent/boardList.do");
 			return "kicpa/common/authLogin";
 		}
 

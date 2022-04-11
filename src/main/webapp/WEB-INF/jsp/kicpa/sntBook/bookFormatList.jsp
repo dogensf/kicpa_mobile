@@ -15,6 +15,7 @@ function fncLocation(){
 <form id="boardForm" name="boardForm">
 	<input type="hidden" name="loginYn" id="loginYn" value="Y">
 	<input type="hidden" name="bookDiv" id="bookDiv" value="6">
+	<input type="hidden" name="returnUrl" id="returnUrl" value="">
 
 
 	<section class="head-sub">

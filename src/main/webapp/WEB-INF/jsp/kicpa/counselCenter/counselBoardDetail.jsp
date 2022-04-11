@@ -8,13 +8,17 @@ $(document).ready(function(){
 
 
 });
+
+function fncLocation(){
+	window.close();
+}
 </script>
 <form id="boardForm" name="boardForm" onsubmit="return false;">
 	<input type="hidden" name="bltnNo" value="${param.bltnNo }">
 
 
 	<section class="head-sub line">
-	       <button class="btn-back" type="button">
+	       <button class="btn-back" type="button" onclick="fncLocation();">
 	           <span>이전</span>
 	       </button>
 	       <h3>내용</h3>

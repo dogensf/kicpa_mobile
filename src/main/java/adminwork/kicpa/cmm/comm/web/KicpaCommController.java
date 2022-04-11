@@ -121,6 +121,28 @@ public class KicpaCommController {
         return modelAndView;
     }
 
+	@RequestMapping(value="/setLocation.do")
+	public ModelAndView setLocation(@RequestBody Map<String,Object> map, HttpServletRequest request) throws Exception{
+		ModelAndView modelAndView = new ModelAndView();
+
+		try{
+
+			HttpSession session = request.getSession();
+
+			modelAndView.setViewName("jsonView");
+
+			if(!"".equals(StringUtil.isNullToString(map.get("returnUrl"))) ) {
+				session.setAttribute("returnUrl", map.get("returnUrl"));
+			}
+
+
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return modelAndView;
+	}
+
 
 	@RequestMapping(value="/getCheckplusSuccess.do")
     public void getCheckplusSuccess(HttpServletRequest request,HttpServletResponse response) throws Exception{

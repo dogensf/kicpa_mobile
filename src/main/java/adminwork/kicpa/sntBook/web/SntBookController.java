@@ -118,6 +118,7 @@ public class SntBookController {
 		if(isAuthenticated) {
 			return "kicpa/sntBook/specialLectureList";
 		}else {
+			model.addAttribute("returnUrl", "/kicpa/sntBook/specialLectureList.do?gbn="+StringUtil.isNullToString(map.get("gbn"), "LISTPAGE2"));
 			return "kicpa/common/authLogin";
 		}
 
@@ -132,6 +133,7 @@ public class SntBookController {
 		if(isAuthenticated) {
 			return "kicpa/sntBook/offlineEduList";
 		}else {
+			model.addAttribute("returnUrl", "/kicpa/sntBook/offlineEduList.do?accEduUse="+StringUtil.isNullToString(map.get("accEduUse"), "1"));
 			return "kicpa/common/authLogin";
 		}
 
@@ -163,6 +165,7 @@ public class SntBookController {
 		if(isAuthenticated) {
 			return "kicpa/sntBook/cartList";
 		}else {
+			model.addAttribute("returnUrl", "/kicpa/sntBook/cartList.do");
 			return "kicpa/common/authLogin";
 		}
 
@@ -183,6 +186,7 @@ public class SntBookController {
 			model.addAttribute("buyHistoryList", list);
 			return "kicpa/sntBook/bookBuyHistoryList";
 		}else {
+			model.addAttribute("returnUrl", "/kicpa/sntBook/bookBuyHistoryList.do");
 			return "kicpa/common/authLogin";
 		}
 
@@ -213,6 +217,7 @@ public class SntBookController {
 				model.addAttribute("detail", detail);
 				return "kicpa/sntBook/offlineEduDetail";
 			}else {
+				model.addAttribute("returnUrl", "/kicpa/sntBook/offlineEduDetail.do?idNum="+map.get("idNum"));
 				return "kicpa/common/authLogin";
 			}
 
@@ -248,6 +253,7 @@ public class SntBookController {
 				return "kicpa/main/main";
 			}
 		}else {
+			model.addAttribute("returnUrl", "/kicpa/sntBook/cartList.do");
 			return "kicpa/common/authLogin";
 		}
 
@@ -272,6 +278,7 @@ public class SntBookController {
 				return "kicpa/sntBook/offlineEduList";
 			}
 		}else {
+			model.addAttribute("returnUrl", "/kicpa/sntBook/offlineEduList.do");
 			return "kicpa/common/authLogin";
 		}
 
@@ -331,6 +338,7 @@ public class SntBookController {
 				modelAndView.addObject("totalCnt", totalCnt);
 				modelAndView.addObject("isLogin", true);
     		}else {
+    			modelAndView.addObject("returnUrl", "/kicpa/sntBook/bookFormatList.do");
     			modelAndView.addObject("isLogin", false);
     		}
 		}catch (Exception e) {
@@ -370,6 +378,7 @@ public class SntBookController {
 				modelAndView.addObject("gbn", map.get("gbn"));
 				modelAndView.addObject("isLogin", true);
 			}else {
+				modelAndView.addObject("returnUrl", "/kicpa/sntBook/specialLectureList.do?gbn="+StringUtil.isNullToString(map.get("gbn"), "LISTPAGE2"));
 				modelAndView.addObject("gbn", map.get("gbn"));
 				modelAndView.addObject("isLogin", false);
 			}
@@ -398,6 +407,7 @@ public class SntBookController {
 				modelAndView.addObject("list", list);
 				modelAndView.addObject("isLogin", true);
 			}else {
+				modelAndView.addObject("returnUrl", "/kicpa/sntBook/offlineEduList.do");
 				modelAndView.addObject("isLogin", false);
 			}
 		}catch (Exception e) {

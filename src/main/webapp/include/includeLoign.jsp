@@ -3,12 +3,19 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
 
+<script>
+function locationLogin(){
+	var param = {"returnUrl" : $("#returnUrl").val() }
+	fn_ajax_call("/kicpa/common/setLocation.do",param,function(){location.href="/uat/uia/LoginUsr.do";}, function(){location.href="/uat/uia/LoginUsr.do";});
+}
+
+</script>
 
 <div class="login-guide" style="display: none;">
 	<div class="ment">로그인이 필요한 서비스입니다.</div>
-
 	<div class="btn-area">
-		<button class="btn-primary" type="button" onclick="javascript:location.href='/uat/uia/LoginUsr.do';">로그인</button>
+<!-- 		<button class="btn-primary" type="button" onclick="javascript:location.href='/uat/uia/LoginUsr.do';">로그인</button> -->
+		<button class="btn-primary" type="button" onclick="locationLogin();">로그인</button>
 	</div>
 
 	<p>

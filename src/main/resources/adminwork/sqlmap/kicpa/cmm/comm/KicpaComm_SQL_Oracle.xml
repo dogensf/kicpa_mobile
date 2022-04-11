@@ -22,7 +22,7 @@
 				</isEmpty>
 			</isNull>
 		</isEqual>
-		ORDER BY CODE_TAG1 ASC
+		ORDER BY CASE WHEN CODE_ID = 'DIST_CLS' AND CODE = 18 THEN 0 ELSE 1 END,  CODE_TAG1 ASC
 
 	</select>
 

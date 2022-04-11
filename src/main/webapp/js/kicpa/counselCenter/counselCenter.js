@@ -33,6 +33,7 @@ counselCenter.counselInit = function(){
 		counselCenter.counselBoardAjax();
 	});
 
+	counselCenter.counselBoardAjax();
 
 }
 
@@ -151,6 +152,7 @@ counselCenter.getBoardListSuccess = function(data){
 	var list = data.boardList;
 	var totalCnt = data.totalCnt;
 	var isLogin = data.isLogin;
+	var returnUrl = data.returnUrl;
 	var txt = "";
 	if(isLogin){
 		$(".login-guide").hide();
@@ -197,6 +199,7 @@ counselCenter.getBoardListSuccess = function(data){
 			});
 		}
 	}else{
+		$("#returnUrl").val(returnUrl);
 		$(".login-guide").show();
 		$("#tabMain1").hide();
 	}
@@ -210,6 +213,7 @@ counselCenter.getCounselBoardListSuccess = function(data){
 	var list = data.boardList;
 	var totalCnt = data.totalCnt;
 	var isLogin = data.isLogin;
+	var returnUrl = data.returnUrl;
 	var txt = "";
 	if(isLogin){
 		$(".login-guide").hide();
@@ -259,6 +263,7 @@ counselCenter.getCounselBoardListSuccess = function(data){
 			});
 		}
 	}else{
+		$("#returnUrl").val(returnUrl);
 		$(".login-guide").show();
 		$("#tabMain1").hide();
 	}

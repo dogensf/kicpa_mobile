@@ -170,7 +170,7 @@ public class QnaController {
 		}else {
 //			System.out.println("pin========="+Pin);
 //			model.addAttribute("id", Pin);
-//			model.addAttribute("url", "/kicpa/qna/qnaResult.do");
+			model.addAttribute("returnUrl", "/kicpa/qna/qnaList.do");
 			return "redirect:/uat/uia/LoginUsr.do";
 		}
 
@@ -188,7 +188,7 @@ public class QnaController {
 		}else {
 //			System.out.println("pin========="+Pin);
 //			model.addAttribute("id", Pin);
-//			model.addAttribute("url", "/kicpa/qna/qnaResult.do");
+			model.addAttribute("returnUrl", "/kicpa/qna/qnaList.do");
 			return "redirect:/uat/uia/LoginUsr.do";
 		}
 
@@ -236,6 +236,7 @@ public class QnaController {
 				modelAndView.addObject("pageIndex", map.get("pageIndex"));
 				modelAndView.addObject("isLogin", true);
     		}else {
+    			modelAndView.addObject("returnUrl", "/kicpa/qna/qnaList.do");
     			modelAndView.addObject("isLogin", false);
     		}
     	}catch (Exception e) {

@@ -87,6 +87,7 @@ public class CommonBoardController {
     			if(isAuthenticated) {
     				LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
     				map.put("userId", user.getId());
+    				modelAndView.addObject("userId", user.getId());
     			}
 
 	    		List<EgovMap> boardList = null;
@@ -137,6 +138,11 @@ public class CommonBoardController {
 
     		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
     		if(!"Y".equals(map.get("loginYn")) || isAuthenticated) {
+
+    			if(isAuthenticated) {
+    				LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+    				modelAndView.addObject("userId", user.getId());
+    			}
 
 	    		List<EgovMap> boardList = null;
 	    		int totalCnt;

@@ -21,6 +21,7 @@ function fncLocation(){
 	<input type="hidden" name="ijJobSep" id="ijJobSep" value="${param.ijJobSep}">
 	<input type="hidden" name="loginYn" id="loginYn" value="Y">
 	<input type="hidden" name="searchKeyword" value="">
+	<input type="hidden" name="returnUrl" id="returnUrl" value="">
 
 	<section class="head-sub">
 	    <button class="btn-back" type="button" onclick="fncLocation();">

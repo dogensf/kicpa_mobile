@@ -205,6 +205,7 @@ sntBook.orderFormInit = function(){
 		if($("#mobileweb input[name='payCode']:checked").val() == '2'){
 			$(".tax").show();
 		}else{
+			$("#cpyId2").prop("checked",true);
 			$(".tax, .company").hide();
 		}
 
@@ -212,7 +213,7 @@ sntBook.orderFormInit = function(){
 
 	$("#mobileweb input[name='cpyId']").on("change",function(){
 
-		if($("#mobileweb input[name='cpyId']:checked").val() == '2'){
+		if($("#mobileweb input[name='cpyId']:checked").val() == '1'){
 			$(".company").show();
 		}else{
 			$(".company").hide();
@@ -517,6 +518,7 @@ sntBook.getBooFormatkListSuccess = function(data){
 	var list = data.bookFormatList;
 	var totalCnt = data.totalCnt;
 	var isLogin = data.isLogin;
+	var returnUrl = data.returnUrl;
 	var txt = "";
 	if(isLogin){
 		$(".login-guide").hide();
@@ -566,6 +568,7 @@ sntBook.getBooFormatkListSuccess = function(data){
 			$(".board-list ul").append(txt);
 		}
 	}else{
+		$("#returnUrl").val(returnUrl);
 		$(".login-guide").show();
 		$("#tabMain1").hide();
 	}
@@ -597,6 +600,7 @@ sntBook.getSpecialLectureListSuccess = function(data){
 	var isLogin = data.isLogin;
 	var txt = "";
 	var totalCost = 0;
+	var returnUrl = data.returnUrl;
 
 	if(isLogin){
 		$(".login-guide").hide();
@@ -666,6 +670,7 @@ sntBook.getSpecialLectureListSuccess = function(data){
 
 
 	}else{
+		$("#returnUrl").val(returnUrl);
 		$(".login-guide").show();
 		$("#tabMain1").hide();
 		$(".sticky-bottom").hide();
@@ -676,6 +681,7 @@ sntBook.getSpecialLectureListSuccess = function(data){
 sntBook.getOfflineEduListSuccess = function(data){
 	var list = data.list;
 	var isLogin = data.isLogin;
+	var returnUrl = data.returnUrl;
 	var txt = "";
 	if(isLogin){
 		$(".login-guide").hide();
@@ -704,6 +710,7 @@ sntBook.getOfflineEduListSuccess = function(data){
 			$("#totalCnt").text(0+"건");
 		}
 	}else{
+		$("#returnUrl").val(returnUrl);
 		$(".login-guide").show();
 		$("#tabMain1,.tab-main").hide();
 	}
@@ -1023,7 +1030,7 @@ sntBook.orderFormCheckSuccess = function(data){
 	var oid = data.oid;
 	if(result == '0000'){
 		$("#mobileweb input[name='P_OID']").val(oid);
-		$("#mobileweb input[name='P_AMT']").val(1000);
+//		$("#mobileweb input[name='P_AMT']").val(1000);
 		$("#mobileweb").attr("action","https://mobile.inicis.com/smart/payment/").submit();
 	}else if(result == '0001'){
 		alert("주문데이터가 존재하지 않습니다.")

@@ -67,7 +67,7 @@ faq.getFaqSearchType = function (){
 
 faq.getFaqSearchTypeSuccess = function(data){
 	var ccode =data.ccode;
-	board.searchTypeHtml(ccode,"해당업무","searchType1");
+	board.searchTypeHtml(ccode,"해당업무","searchType1",true);
 }
 
 faq.fn_select_List_cate = function(obj,faqCate){

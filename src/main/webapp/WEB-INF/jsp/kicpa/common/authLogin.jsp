@@ -3,10 +3,16 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <script>
 
+
+function locationLogin(){
+	var param = {"returnUrl" : $("#returnUrl").val() }
+	fn_ajax_call("/kicpa/common/setLocation.do",param,function(){location.href="/uat/uia/LoginUsr.do";}, function(){location.href="/uat/uia/LoginUsr.do";});
+}
+
 function fncLocation(){
 	//location.href="/kicpa/main/main.do";
 /* 	<c:if test="${title eq '납부결과 및 조회'}">
-		
+
 	</c:if> */
 	location.href="/kicpa/main/main.do";
 	/* <c:choose>
@@ -21,11 +27,15 @@ function fncLocation(){
 
 </script>
 
+<form id="loginForm" name="">
+	<input type="hidden" id="returnUrl" name="returnUrl" value="${returnUrl }">
+</form>
+
 
 <section class="head-sub">
  	 <button class="btn-back" type="button" onclick="fncLocation();">
         <span>이전</span>
-    </button> 
+    </button>
     <h3>${title}</h3>
 </section>
 <section class="content">
@@ -33,7 +43,7 @@ function fncLocation(){
 	<div class="ment">로그인이 필요한 서비스입니다.</div>
 
 	<div class="btn-area">
-		<button class="btn-primary" type="button" onclick="javascript:location.href='/uat/uia/LoginUsr.do';">로그인</button>
+		<button class="btn-primary" type="button" onclick="locationLogin();">로그인</button>
 	</div>
 
 	<p>

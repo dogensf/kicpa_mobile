@@ -25,10 +25,10 @@
 
 
 
-		<script type="text/javascript">		
-	
+		<script type="text/javascript">
+
 		function actionLogin() {
-		
+
 		    if (document.loginForm.id.value =="") {
 		        alert("사용자 ID를 입력하시기 바랍니다.");
 		        return false;
@@ -42,13 +42,13 @@
 		        document.loginForm.submit();
 		    }
 		}
-		
-		
-		
+
+
+
 		function setCookie (name, value, expires) {
 		    document.cookie = name + "=" + escape (value) + "; path=/; expires=" + expires.toGMTString();
 		}
-		
+
 		function getCookie(Name) {
 		    var search = Name + "="
 		    if (document.cookie.length > 0) { // 쿠키가 설정되어 있다면
@@ -65,7 +65,7 @@
 		    }
 		    return "";
 		}
-		
+
 		function saveid(form) {
 		    var expdate = new Date();
 		    // 기본적으로 30일동안 기억하게 함. 일수를 조절하려면 * 30에서 숫자를 조절하면 됨
@@ -75,11 +75,11 @@
 		        expdate.setTime(expdate.getTime() - 1); // 쿠키 삭제조건
 		    setCookie("saveid", form.id.value, expdate);
 		}
-		
+
 		function getid(form) {
 		    form.checkId.checked = ((form.id.value = getCookie("saveid")) != "");
 		}
-		
+
 		function fnInit() {
 		    var message = document.loginForm.message.value;
 		    if (message != "") {
@@ -185,7 +185,7 @@
                       <span>
                         서울특별시 서대문구 충정로7길 12 (충정로 2가) 한국공인회계사회
                       </span>
-                      <span>TEL : 02-3149-0100</span> 
+                      <span>TEL : 02-3149-0100</span>
                       <span class="between-line">
                         <a href="#">개인정보처리방침</a>
                         <a href="#">이용약관</a>

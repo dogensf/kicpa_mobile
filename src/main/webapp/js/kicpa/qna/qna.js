@@ -88,8 +88,8 @@ qna.getQnaSearchTypeForm2 = function (){
 
 qna.getQnaSearchType1Success = function(data){
 	var ccode =data.ccode;
-	board.searchTypeHtml(ccode,"카테고리","searchType1");
-	board.searchTypeHtml({},"해당업무","searchType2");
+	board.searchTypeHtml(ccode,"카테고리","searchType1",true);
+	board.searchTypeHtml({},"해당업무","searchType2",true);
 	var list = new Array();
 
 	var status = {"code" : "등록","codeName" : "등록"};
@@ -100,7 +100,7 @@ qna.getQnaSearchType1Success = function(data){
 	list.push(status)
 
 
-	board.searchTypeHtml(list,"민원처리상태","searchType3");
+	board.searchTypeHtml(list,"민원처리상태","searchType3",true);
 }
 qna.getQnaSearchType2Success = function(data){
 	var ccode =data.ccode;

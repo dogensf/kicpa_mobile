@@ -115,7 +115,7 @@ public class FaqController {
 		}else {
 			System.out.println("pin========="+Pin);
 			model.addAttribute("id", Pin);
-			model.addAttribute("url", "/kicpa/faq/faqList.do");
+			model.addAttribute("returnUrl", "/kicpa/faq/faqList.do");
 			return "redirect:/uat/uia/LoginUsr.do";
 
 		}
@@ -136,6 +136,7 @@ public class FaqController {
 			EgovMap result = faqService.selectFaq(map);
 			model.addAttribute("result", result);
 		}else {
+			model.addAttribute("returnUrl", "/kicpa/faq/faqList.do");
 			return "redirect:/uat/uia/LoginUsr.do";
 		}
 
@@ -165,6 +166,7 @@ public class FaqController {
 				modelAndView.addObject("pageIndex", map.get("pageIndex"));
 				modelAndView.addObject("isLogin", true);
     		}else {
+    			modelAndView.addObject("returnUrl", "/kicpa/faq/faqList.do");
     			modelAndView.addObject("isLogin", false);
     		}
     	}catch (Exception e) {

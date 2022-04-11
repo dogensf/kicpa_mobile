@@ -203,6 +203,7 @@
 	       r1.EXT_STR7,
 	       r1.EXT_STR8,
 	       r1.EXT_STR9,
+	       r1.user_id,
 	       (SELECT COUNT(*) FROM BLTN_FILE WHERE R1.board_id = board_id AND R1.bltn_no = bltn_no) FILE_CNT
 		from   (SELECT rownum rnum,
 		               m1.board_id,
@@ -225,7 +226,8 @@
 				       m1.EXT_STR6,
 				       m1.EXT_STR7,
 				       m1.EXT_STR8,
-				       m1.EXT_STR9
+				       m1.EXT_STR9,
+				       m1.user_id
 		        FROM   (SELECT t1.board_id,
 		                       t1.bltn_no,
 		                       UPPER(t1.del_flag) del_flag,
@@ -246,7 +248,8 @@
 						       t6.EXT_STR6,
 						       t6.EXT_STR7,
 						       t6.EXT_STR8,
-						       t6.EXT_STR9
+						       t6.EXT_STR9,
+						       t1.user_id
 		                FROM   bulletin t1
 		                	LEFT JOIN BLTN_EXTN T6
 					    	    ON t6.board_id=t1.board_id
@@ -503,6 +506,7 @@
 		       r1.EXT_STR7,
 		       r1.EXT_STR8,
 		       r1.EXT_STR9,
+		       r1.user_id,
 		       (SELECT COUNT(*) FROM BLTN_CAFE_FILE WHERE R1.board_id = board_id AND R1.bltn_no = bltn_no) FILE_CNT
 		from   (SELECT rownum rnum,
 		               m1.board_id,
@@ -525,7 +529,8 @@
 				       m1.EXT_STR6,
 				       m1.EXT_STR7,
 				       m1.EXT_STR8,
-				       m1.EXT_STR9
+				       m1.EXT_STR9,
+				       m1.user_id
 		        FROM   (SELECT t1.board_id,
 		                       t1.bltn_no,
 		                       UPPER(t1.del_flag) del_flag,
@@ -546,7 +551,8 @@
 						       t6.EXT_STR6,
 						       t6.EXT_STR7,
 						       t6.EXT_STR8,
-						       t6.EXT_STR9
+						       t6.EXT_STR9,
+						       t1.user_id
 		                FROM   bltn_cafe t1
 	                	    LEFT JOIN BLTN_EXTN T6
 						        ON t6.board_id=t1.board_id

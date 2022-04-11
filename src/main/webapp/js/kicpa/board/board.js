@@ -43,6 +43,8 @@ board.detailInit = function(){
 
 
 board.boardBoardListAjax = function(){
+	$("#returnUrl").val($(location).attr('pathname')+"?boardId="+$("#boardId").val());
+
 	if($("#boardId").val().indexOf("/") <= -1){
 		var param = $("#boardForm").serializeObject();
 		fn_ajax_call("/kicpa/commonBoard/getCommonBoardList.do",param,board.commonBoardListSuccess,board.boardListError);
@@ -58,6 +60,8 @@ board.commonBoardListSuccess = function(data){
 	var boardMaster = data.boardMaster
 	var totalCnt = data.totalCnt;
 	var isLogin = data.isLogin;
+	var returnUrl = data.returnUrl;
+	var userId = data.userId;
 	var txt = "";
 
 	if(isLogin){
@@ -74,8 +78,13 @@ board.commonBoardListSuccess = function(data){
 				}
 
 				if(o.delFlag == 'N'){
-
-					txt+='	<a href="javascript:board.openDetailPop(\'/kicpa/commonBoard/boardDetail.do?boardId='+o.boardId+'&bltnNo='+o.bltnNo+'\');"> \n';
+					console.log(o.userId)
+					console.log(userId)
+					if(o.bltnIcon  == 'D' && o.userId != userId){
+						txt+='	<a href="javascript:void(0);"> \n';
+					}else{
+						txt+='	<a href="javascript:board.openDetailPop(\'/kicpa/commonBoard/boardDetail.do?boardId='+o.boardId+'&bltnNo='+o.bltnNo+'\');"> \n';
+					}
 					txt+=' 		<div class="title-zone"> \n';
 
 
@@ -148,6 +157,7 @@ board.commonBoardListSuccess = function(data){
 		}
 
 	}else{
+
 		$(".login-guide").show();
 		$("#tabMain1").hide();
 	}
@@ -223,9 +233,11 @@ board.commonBoardArrListSuccess = function(data){
 	flag = true;
 }
 
-board.searchTypeHtml = function(list,title,id){
+board.searchTypeHtml = function(list,title,id,firstOption){
 	var txt= "";
 	var rowData = $("#searchPop .first-row").clone();
+
+
 	rowData.removeClass("first-row");
 	rowData.addClass("add-row");
 	rowData.find(".label").text(title);
@@ -233,13 +245,21 @@ board.searchTypeHtml = function(list,title,id){
 	rowData.find("select").attr({"id":id , "name" : id});
 	$("#boardForm").append('<input type="hidden" name="'+id+'"/> ')
 
+
+
+
 	if(list != null && list.length > 0){
 		$.each(list,function(i,o){
 			txt += '<option value="'+o.code+'">'+o.codeName+'</option>\n';
 		})
 	}
 
-	rowData.find("select").append(txt);
+	if(firstOption){
+		rowData.find("select").append(txt);
+	}else{
+		rowData.find("select").html(txt);
+	}
+
 
 	rowData.find("select").off().on("change",function(){
 		$("#boardForm input[name='"+id+"']").val($(this).val());
