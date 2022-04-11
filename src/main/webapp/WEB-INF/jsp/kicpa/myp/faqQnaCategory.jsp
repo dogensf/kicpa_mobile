@@ -39,14 +39,7 @@ function fncLocation(){
 		  	<button class="btn-login" onclick="location.href='<c:url value='/uat/uia/actionLogout.do'/>';" type="button">
 	     	 로그아웃
 	    	</button>
-	            <c:set var="loginName" value="<%= loginVO.getName()%>"/>
-	            <ul>
-		  	    <li><a href="#LINK" onclick="alert('개인정보 확인 등의 링크 제공'); return false;">
-	            <c:out value="${loginName}"/> 님</a></li>
-	            <li><a href="<c:url value='/uat/uia/actionLogout.do'/>">
-	            <img src="<c:url value='/images/leftmenu/logout.jpg' />" alt="로그아웃" /></a></li>
-	            <li>최근접속:2011-10-12 13:24</li>
-	            </ul>
+	            
 		  	<%
 		  	}
 	        %>

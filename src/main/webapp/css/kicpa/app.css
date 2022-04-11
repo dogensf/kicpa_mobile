@@ -552,7 +552,7 @@ ol.blt li::before {
 
 .login-wrap {
   padding: 21rem 1.6rem 2rem;
-  background: url(../images/logo-login.png) no-repeat 50% 5rem;
+  background: url(../../images/logo-login.png) no-repeat 50% 5rem;
   background-size: 18.6rem 6rem;
 }
 
@@ -1180,7 +1180,7 @@ button:focus {
   width: 5.4rem;
   height: 5.4rem;
   border-radius: 50%;
-  background: url(../images/icon-pen.png) no-repeat 50% #003976;
+  background: url(../../images/icon-pen.png) no-repeat 50% #003976;
   background-size: 2.4rem;
 }
 
@@ -1507,8 +1507,8 @@ button:focus {
   height: 2rem;
   border-radius: 50%;
   overflow: hidden;
-  background: url("data:image/svg+xml;charset=utf8,%3Csvg width='24' height='24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='12' cy='12' r='10' stroke='%23222'/%3E%3Cpath d='m7 12 3.75 4L17 8' stroke='%23666'/%3E%3C/svg%3E") no-repeat 50%;
-  background-size: 2.4rem;
+  /* background: url("data:image/svg+xml;charset=utf8,%3Csvg width='24' height='24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='12' cy='12' r='10' stroke='%23222'/%3E%3Cpath d='m7 12 3.75 4L17 8' stroke='%23666'/%3E%3C/svg%3E") no-repeat 50%;
+  background-size: 2.4rem; */
 }
 
 .board-list ul.sale li a .state-gray {
@@ -2137,7 +2137,7 @@ input[type=button].search:focus {
   bottom: 1px;
   height: 3.4rem;
   width: 3.4rem;
-  background: url(../images/delete-circle.png) no-repeat 100% 50% #fff;
+  background: url(../../images/delete-circle.png) no-repeat 100% 50% #fff;
   background-size: 2.2rem;
 }
 
@@ -4029,7 +4029,7 @@ ul.list-wrap.main button:last-child {
 .add-box .add-num .btn-delete {
   width: 2.2rem;
   height: 2.2rem;
-  background: url(../images/delete-circle.png) no-repeat 50%;
+  background: url(../../images/delete-circle.png) no-repeat 50%;
   background-size: 2.4rem;
 }
 
