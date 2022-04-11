@@ -7,17 +7,15 @@
 
 
 var aa =  [
-			{"name":"회원경조사", "img":"icon_obituary", "url":"location.href='https://m.naver.com'"},
+			{"name":"회원경조사", "img":"icon_obituary", "url":"location.href='/kicpa/memberEvent/boardList.do'"},
 			{"name":"회비관리", "img":"icon_tax", "url":"location.href='/kicpa/dues/selectDuesList.do'"},
-			{"name":"마이페이지", "img":"icon_mypage", "url":"location.href='/kicpa/myp/myPage.do'"},
-			{"name":"설문조사", "img":"icon_consulting", "url":"location.href='https://m.naver.com'"},
-			{"name":"구인정보", "img":"icon_survey", "url":"https://m.naver.com"},
-			{"name":"알림마당", "img":"icon_notice", "url":"https://m.naver.com"},
-			{"name":"공인회계사 소개", "img":"icon_intro_2", "url":"https://m.naver.com"},			
-			{"name":"회비관리", "img":"icon_tax", "url":"https://m.naver.com"},
-			{"name":"마이페이지", "img":"icon_blog", "url":"https://m.naver.com"},
-			{"name":"설문조사", "img":"icon_consulting", "url":"https://m.naver.com"},
-			{"name":"출판도서구매", "img":"icon_books_1", "url":"https://m.naver.com"}
+			{"name":"마이페이지", "img":"icon_mypage", "url":"location.href='/kicpa/myp/myPage.do'"},			
+			{"name":"구인정보", "img":"icon_survey", "url":"/kicpa/job/boardList.do?ijJobSep=1"},
+			{"name":"알림마당", "img":"icon_notice", "url":"/kicpa/notice/boardList.do?boardId=noti"},
+			{"name":"공인회계사 소개", "img":"icon_intro_2", "url":"/kicpa/introduction/boardList.do"},			
+			{"name":"회비관리", "img":"icon_tax", "url":"/kicpa/dues/selectDuesList.do"},
+			{"name":"마이페이지", "img":"icon_blog", "url":"/kicpa/myp/myPage.do"}
+			
 		] ;
 
 $(document).ready(function(){
@@ -74,6 +72,10 @@ function applyFavorite(menus) {
 	  $('#mfm21').html(menu21);
 	  $('#mfm22').html(menu22);
 
+}
+
+function calDetail(type){
+	location.href="<c:url value='/kicpa/main/scheduleDetail.do?type='/>"+type+"&month="+$('#selectCaldt option:selected').val() ;
 }
 </script>
 
@@ -139,22 +141,38 @@ function applyFavorite(menus) {
 	
 	<div class="title-box">
           <h3>회계감사·세무·업무 캘린더</h3>
-          <div class="current-month">3월</div>
+          <div class="current-month">
+            <select id="selectCaldt" onChange="main.calChange(this);">
+            	<option value="01" <c:if test="${nowMM eq '01' }">selected</c:if> >1월</option>
+              	<option value="02" <c:if test="${nowMM eq '02' }">selected</c:if> >2월</option>
+              	<option value="03" <c:if test="${nowMM eq '03' }">selected</c:if> >3월</option>
+              	<option value="04" <c:if test="${nowMM eq '04' }">selected</c:if> >4월</option>
+              	<option value="05" <c:if test="${nowMM eq '05' }">selected</c:if> >5월</option>
+              	<option value="06" <c:if test="${nowMM eq '06' }">selected</c:if> >6월</option>
+              	<option value="07" <c:if test="${nowMM eq '07' }">selected</c:if> >7월</option>
+              	<option value="08" <c:if test="${nowMM eq '08' }">selected</c:if> >8월</option>
+              	<option value="09" <c:if test="${nowMM eq '09' }">selected</c:if> >9월</option>
+              	<option value="10" <c:if test="${nowMM eq '10' }">selected</c:if> >10월</option>
+              	<option value="11" <c:if test="${nowMM eq '11' }">selected</c:if> >11월</option>
+              	<option value="12" <c:if test="${nowMM eq '12' }">selected</c:if> >12월</option>
+              	
+            </select>
+          </div>
     </div>
 
     <div class="cont">
           <ul class="todo-list">
             <li>
               <span>회계감사</span>
-              <em><a href="/kicpa/main/scheduleDetail.do?type=01&month=03">07</a></em>
+              <em><a id="cal01" href="javascript:calDetail('회계감사');">${sumCal.cnt01 } 건</a></em>
             </li>
             <li>
               <span>세무</span>
-              <em><a href="/kicpa/main/scheduleDetail.do?type=02&month=03">07</a></em>
+              <em><a id="cal02" href="javascript:calDetail('세무');">${sumCal.cnt02 } 건</a></em>
             </li>
             <li>
               <span>업무</span>
-              <em><a href="/kicpa/main/scheduleDetail.do?type=03&month=03">07</a></em>
+              <em><a id="cal03" href="javascript:calDetail('업무');">${sumCal.cnt03 } 건</a></em>
             </li>
           </ul>
     </div>

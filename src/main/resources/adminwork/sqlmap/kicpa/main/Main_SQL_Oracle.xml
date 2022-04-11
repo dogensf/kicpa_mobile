@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="Main">
+
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="scalendar" type="adminwork.kicpa.main.service.Scalendar"/>
+	
+	<select id="mainDAO.selectCalCnt" parameterClass="scalendar" resultClass="scalendar">
+		<![CDATA[ 
+            SELECT
+			      	SUM(DECODE(SCH_TY,'01',1,'회계감사',1,0)) as cnt01
+			      	,SUM(DECODE(SCH_TY,'02',1,'세무',1,0)) as cnt02
+			      	,SUM(DECODE(SCH_TY,'03',1,'업무',1,0)) as cnt03
+			FROM  SCHEDULE_CALENDAR
+			WHERE  SCH_DT like to_char(sysdate,'yyyy')||#ymd#||'%'
+			GROUP BY SCH_TY
+		]]> 
+	</select>
+
+ 	<select id="mainDAO.selectCalList" parameterClass="scalendar" resultClass="scalendar">
+		<![CDATA[ 
+            SELECT
+			      	SCH_DT AS schDt
+					,DT_LABEL AS dtLabel
+					,SCH_TY AS schTy
+					,SUBJECT AS subject
+					,CONTENTS AS contents
+			FROM  SCHEDULE_CALENDAR
+			WHERE  SCH_DT like to_char(sysdate,'yyyy')||#ymd#||'%'
+			]]>
+			 <isNotEmpty property="schTy">
+	             AND SCH_TY = #schTy#
+	         </isNotEmpty>  
+			order by SCH_TY DESC,SCH_DT
+		 
+	</select>
+	
+	
+</sqlMap>                            

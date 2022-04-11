@@ -138,7 +138,7 @@ function downloadURI(uri, name){
         $("#datepicker2").datepicker('setDate', new Date());
         </c:if> */
         
-        $('.btn-round-m').click(function(){
+        $('.months').click(function(){
         	$('.btn-round-m').each(function(){
         		$(this).removeClass('active');
         	});
@@ -158,10 +158,16 @@ function downloadURI(uri, name){
        	    var prettyDate = myDate.getFullYear() +'-'+ month+'-'  + day  ;
        	    $("#searchEndDe").val(prettyDate);
         	
-       	 $("#ndts").html("납부일 : "+ datePlusMinus(prettyDate, - $(this).attr('month'), 'm') +' ~ ' +  prettyDate);
+       	 //$("#ndts").html("납부일 : "+ datePlusMinus(prettyDate, - $(this).attr('month'), 'm') +' ~ ' +  prettyDate);
        	 
        	document.frm.action = "<c:url value='/kicpa/dues/selectDuesList.do?path=result'/>";
         document.frm.submit();  
+        });
+        
+        
+        $('.sbtn').click(function(){        	
+	       	document.frm.action = "<c:url value='/kicpa/dues/selectDuesList.do?path=result'/>";
+	        document.frm.submit();  
         });
         
         
@@ -265,18 +271,26 @@ function downloadURI(uri, name){
                 <div class="dues-wrap">
                 	<form name="frm" action ="<c:url value='/kicpa/dues/selectDuesResult.do'/>" method="post">
 		                  <div class="inp-box">
-		                    <label class="label" for="input" id="ndts">납부일 : ${searchVO.searchBgnDe} ~ ${searchVO.searchEndDe}</label>
-		                    <!-- <input type="date" id="input_" value="1" name="input" data-placeholder="선택하세요." required readonly/> -->
-		                    <input type="hidden" name="searchBgnDe" id="searchBgnDe" value="${searchVO.searchBgnDe}">
-		                    <input type="hidden" name="searchEndDe" id="searchEndDe" value="${searchVO.searchEndDe}" >
+		                    <%-- <label class="label" for="input" id="ndts">납부일 : ${searchVO.searchBgnDe} ~ ${searchVO.searchEndDe}</label> --%>
+		                    <label class="label" for="input" id="ndts">시작일 </label>
+		                    <input type="date" id="searchBgnDe" name="searchBgnDe" value="${searchVO.searchBgnDe}" data-placeholder="선택하세요." required/>
+		                    <label class="label" for="input" id="ndts" style="padding-top:5px;">종료일</label>
+		                    <input type="date" id="searchEndDe" name="searchEndDe" value="${searchVO.searchEndDe}" data-placeholder="선택하세요." required/>
+		                    <%-- <label class="label" for="input" id="ndts">종료일 : ${searchVO.searchBgnDe} ~ ${searchVO.searchEndDe}</label>
+		                    <input type="date" id="input_" value="1" name="input" data-placeholder="선택하세요." required readonly/> --%>
+		                   <%--  <input type="hidden" name="searchBgnDe" id="searchBgnDe" value="${searchVO.searchBgnDe}">
+		                    <input type="hidden" name="searchEndDe" id="searchEndDe" value="${searchVO.searchEndDe}" > --%>
 		                    <input type="hidden" name="month" id="month" value="${searchVO.month}" >
 		                    
 		                  </div>
 		                  <div class="period-set" style="width:100%">
-		                    <button class="btn-round-m <c:if test="${searchVO.month eq '1'}">active</c:if>" type="button"  month="1">1개월</button>
-		                    <button class="btn-round-m <c:if test="${searchVO.month eq '3'}">active</c:if>" type="button"  month="3">3개월</button>
-		                    <button class="btn-round-m <c:if test="${searchVO.month eq '6'}">active</c:if>" type="button"  month="6">6개월</button>
-		                    <button class="btn-round-m <c:if test="${searchVO.month eq '12'}">active</c:if>" type="button"  month="12">12개월</button>
+		                    <button class="btn-round-m months <c:if test="${searchVO.month eq '1'}">active</c:if>" type="button"  month="1">1개월</button>
+		                    <button class="btn-round-m months <c:if test="${searchVO.month eq '3'}">active</c:if>" type="button"  month="3">3개월</button>
+		                    <button class="btn-round-m months <c:if test="${searchVO.month eq '6'}">active</c:if>" type="button"  month="6">6개월</button>
+		                    <button class="btn-round-m months <c:if test="${searchVO.month eq '12'}">active</c:if>" type="button"  month="12">12개월</button>
+		                  </div>
+		                  <div class="period-set" style="width:100%">
+		                    <button class="btn-round-m sbtn" type="button">조회 하기</button>		                    
 		                  </div>
   					</form>
                   <div class="board-top">

@@ -225,8 +225,29 @@ main.boardListError = function(data,status, error){
 	alert("조회실패");
 }
 
+main.calChange = function(obj){
+
+	var yyyymm = $('#selectCaldt option:selected').val();
+	var param = { "yyyymm": yyyymm};
+
+	fn_ajax_call("/kicpa/main/getCalendarInfo.do",param,main.calChangeSuccess,main.boardListError);
+}
+
+main.calChangeSuccess = function(data){
+
+	if(data.sumCal == null || data.sumCal == ''){
+		$("#cal01").text('0 건');
+		$("#cal02").text('0 건');
+		$("#cal03").text('0 건');
+	}else{
+		$("#cal01").text(data.sumCal.cnt01 + ' 건');
+		$("#cal02").text(data.sumCal.cnt02 + ' 건');
+		$("#cal03").text(data.sumCal.cnt03 + ' 건');
+	}
+	
 
 
+}
 
 
 

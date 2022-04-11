@@ -1,6 +1,8 @@
 package adminwork.kicpa.main.web;
 
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -19,6 +21,8 @@ import adminwork.com.cmm.LoginVO;
 import adminwork.com.cmm.StringUtil;
 import adminwork.kicpa.cmm.board.service.CommonBoardService;
 import adminwork.kicpa.job.service.JobAdvertisementService;
+import adminwork.kicpa.main.service.MainService;
+import adminwork.kicpa.main.service.Scalendar;
 import adminwork.kicpa.notice.service.NoticeService;
 import egovframework.rte.fdl.security.userdetails.util.EgovUserDetailsHelper;
 import egovframework.rte.psl.dataaccess.util.EgovMap;
@@ -29,6 +33,9 @@ import egovframework.rte.psl.dataaccess.util.EgovMap;
 @RequestMapping(value="/kicpa/main")
 public class MainController {
 
+	@Resource(name = "mainService")
+	private MainService mainService;
+	
 	@Resource(name = "commonBoardService")
 	private CommonBoardService commonBoardService;
 
@@ -73,6 +80,23 @@ public class MainController {
 		model.addAttribute("boardMaster", boardMaster);
 		model.addAttribute("isLogin", isAuthenticated);
 
+		
+		SimpleDateFormat sdf1 = new SimpleDateFormat("MM");		
+		Date now = new Date(); 
+		String nowMM = sdf1.format(now);
+		Scalendar vo = new Scalendar();
+		vo.setYmd(nowMM);
+		Scalendar cals = mainService.selectCalCnt(vo);
+		if(cals == null) {
+			cals = new Scalendar();
+			cals.setCnt01(0);
+			cals.setCnt02(0);
+			cals.setCnt03(0);
+		}
+		model.addAttribute("sumCal",cals);
+		model.addAttribute("nowMM",nowMM);
+		
+		System.out.println("________" + nowMM);
 		return "kicpa/main/main";
 	}
 
@@ -220,12 +244,36 @@ public class MainController {
 		public String scheduleDetail(@RequestParam("type") String type,@RequestParam("month") String month, HttpServletRequest request,HttpServletResponse response,ModelMap model) throws Exception{
 			
 
-
+			Scalendar vo = new Scalendar();
+			vo.setSchTy(type);
+			vo.setYmd(month);
+			
+			
+			model.addAttribute("list",mainService.selectCalList(vo));
 			model.addAttribute("type", type);
-			model.addAttribute("month", month);
+			model.addAttribute("nowMM", month);
 			
 
 			return "kicpa/mainDetail/scheduleDetail";
 		}
+		
+		@RequestMapping(value="/getCalendarInfo.do")
+	    public ModelAndView getCalendarInfo(@RequestBody Map<String,Object> map, HttpServletRequest request) throws Exception{
+			ModelAndView modelAndView = new ModelAndView();
+
+	    	try{
+		        modelAndView.setViewName("jsonView");
+		        Scalendar vo = new Scalendar();
+				vo.setYmd(String.valueOf(map.get("yyyymm")));
+				
+				
+				modelAndView.addObject("sumCal",mainService.selectCalCnt(vo));
+				
+	    	}catch (Exception e) {
+	    		e.printStackTrace();
+			}
+
+	        return modelAndView;
+	    }
 		
 }

@@ -24,6 +24,7 @@ import com.saltware.enpass.client.EnpassClient;
 
 import adminwork.com.cmm.EgovMessageSource;
 import adminwork.com.cmm.LoginVO;
+import adminwork.com.cmm.StringUtil;
 import adminwork.let.uat.uap.service.EgovLoginPolicyService;
 import adminwork.let.uat.uia.service.LoginService;
 import adminwork.let.utl.sim.service.ClntInfo;
@@ -80,6 +81,12 @@ public class LoginController {
 	 */
 	@RequestMapping(value = "/uat/uia/LoginUsr.do")
 	public String loginUsrVie(HttpServletRequest request, HttpServletResponse response, ModelMap model) throws Exception {
+		HttpSession session = request.getSession();
+		if(!"".equals(StringUtil.isNullToString(request.getParameter("returnUrl"))) ) {
+			session.setAttribute("returnUrl", request.getParameter("returnUrl"));
+		}
+		
+		
 		return "uat/uia/LoginUsr";
 	}
 	
@@ -353,7 +360,11 @@ public class LoginController {
 		session.setAttribute("status", rt.getStatus());//휴페업 및 법인명
 		
 		
-		
+		if(session.getAttribute("returnUrl") != null  && session.getAttribute("returnUrl") != "") {
+			String rtUrl = session.getAttribute("returnUrl").toString();
+			session.removeAttribute("returnUrl");
+			return "redirect:" + rtUrl;
+		}
 		
 		
 		return "redirect:/kicpa/main/main.do";

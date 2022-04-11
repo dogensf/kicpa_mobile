@@ -3006,15 +3006,19 @@ body.stop {
   background-size: 100%;
 }
 
+.container.main .current-month select {
+  all: unset;
+}
+
 .container.main .cont {
-  padding-top: 2rem;
-  padding-bottom: 2rem;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
   background-color: #fff;
   -webkit-box-shadow: 4px 4px 32px rgba(123, 145, 177, 0.2);
           box-shadow: 4px 4px 32px rgba(123, 145, 177, 0.2);
   border-radius: 1.2rem;
   margin-top: 1rem;
-  margin-bottom: 3rem;
+  margin-bottom: 2rem;
 }
 
 .container.main .todo-list {
