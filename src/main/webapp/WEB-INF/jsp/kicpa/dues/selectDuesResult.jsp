@@ -289,8 +289,8 @@ function downloadURI(uri, name){
 		                    <button class="btn-round-m months <c:if test="${searchVO.month eq '6'}">active</c:if>" type="button"  month="6">6개월</button>
 		                    <button class="btn-round-m months <c:if test="${searchVO.month eq '12'}">active</c:if>" type="button"  month="12">12개월</button>
 		                  </div>
-		                  <div class="period-set" style="width:100%">
-		                    <button class="btn-round-m sbtn" type="button">조회 하기</button>		                    
+		                  <div class="period-set" style="width:100%;">
+		                    <button class="btn-round-m sbtn" style="background-color: #0070C0; color:#ffff" type="button">조회 하기</button>		                    
 		                  </div>
   					</form>
                   <div class="board-top">

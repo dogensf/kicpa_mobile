@@ -435,7 +435,7 @@ sntBook.getKifrsBookListSuccess = function(data){
 		$("#totalCnt").text(totalCnt+"건")
 		$.each(list,function(i,o){
 			txt+='<li> \n';
-			txt+='	<a href="/kicpa/sntBook/bookDetail.do?ibmBookCode='+o.ibmBookCode+'&type=kifrsBookList"> \n';
+			txt+='	<a style=\"padding-left:0rem;\" href="/kicpa/sntBook/bookDetail.do?ibmBookCode='+o.ibmBookCode+'&type=kifrsBookList"> \n';
 //			txt+='		<div class="btn-zone">\n';
 //			txt+='			<div class="inp-check">\n';
 			if(o.ibmNum != '52'){
@@ -690,7 +690,7 @@ sntBook.getOfflineEduListSuccess = function(data){
 			$("#totalCnt").text(list.length+"건");
 			$.each(list,function(i,o){
 				txt+='<li> \n';
-				txt+='	<a href="javascript:board.openDetailPop(\'/kicpa/sntBook/offlineEduDetail.do?idNum='+o.idNum+'\');"> \n';
+				txt+='	<a  href="javascript:board.openDetailPop(\'/kicpa/sntBook/offlineEduDetail.do?idNum='+o.idNum+'\');"> \n';
 				txt+=' 		<div class="title-zone"> \n';
 				txt+=' 			<p>'+o.wtitle+'</p> \n';
 				txt+=' 	      	<div class="other"> \n';

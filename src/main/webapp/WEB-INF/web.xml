@@ -77,7 +77,7 @@
     </login-config>
 
     <session-config>
-        <session-timeout>600</session-timeout>
+        <session-timeout>60000</session-timeout>
     </session-config>
 
     <error-page>

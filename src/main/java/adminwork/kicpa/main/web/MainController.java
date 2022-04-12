@@ -9,6 +9,7 @@ import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -48,6 +49,15 @@ public class MainController {
 
 	@RequestMapping(value = "/main.do")
 	public String main(@RequestParam Map<String,Object> map,HttpServletRequest request,HttpServletResponse response,ModelMap model) throws Exception{
+		
+		HttpSession session = request.getSession();
+		
+		if(session.getAttribute("returnUrl") != null  && session.getAttribute("returnUrl") != "") {
+			String rtUrl = session.getAttribute("returnUrl").toString();
+			session.removeAttribute("returnUrl");
+			return "redirect:" + rtUrl;
+		}
+		
 		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
 		List<EgovMap> boardList = null;
 		int totalCnt;

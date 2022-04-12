@@ -222,8 +222,8 @@ counselCenter.getCounselBoardListSuccess = function(data){
 		if(list != null && list.length > 0){
 			$("#totalCnt").text(totalCnt+"건")
 			$.each(list,function(i,o){
-				txt+='<li> \n';
-				txt+='	<a href="javascript:board.openDetailPop(\'/kicpa/counselCenter/counselBoardDetail.do?bltnNo='+o.bltnNo+'\');"> \n';
+				txt+='<li > \n';
+				txt+='	<a  href="javascript:board.openDetailPop(\'/kicpa/counselCenter/counselBoardDetail.do?bltnNo='+o.bltnNo+'\');"> \n';
 				txt+=' 		<div class="title-zone"> \n';
 				txt+=' 			<p>'+o.bltnSubj+'[' +o.bltnMemoCnt+']</p> \n';
 				txt+=' 	      	<div class="other"> \n';

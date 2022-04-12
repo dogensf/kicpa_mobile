@@ -163,16 +163,22 @@ function calDetail(type){
     <div class="cont">
           <ul class="todo-list">
             <li>
-              <span>회계감사</span>
-              <em><a id="cal01" href="javascript:calDetail('회계감사');">${sumCal.cnt01 } 건</a></em>
+              <a id="cal01" href="javascript:calDetail('회계감사');">
+              	<span style="padding-right:10px;">회계감사</span>
+              <em>${sumCal.cnt01 } 건</em>
+              </a>
             </li>
             <li>
-              <span>세무</span>
-              <em><a id="cal02" href="javascript:calDetail('세무');">${sumCal.cnt02 } 건</a></em>
+            	<a id="cal02" href="javascript:calDetail('세무');">
+              		<span style="padding-right:30px;">세무</span>
+              		<em>${sumCal.cnt02 } 건</em>
+              	</a>	
             </li>
             <li>
-              <span>업무</span>
-              <em><a id="cal03" href="javascript:calDetail('업무');">${sumCal.cnt03 } 건</a></em>
+            	<a id="cal03" href="javascript:calDetail('업무');">
+	              <span style="padding-right:30px;">업무</span>
+	              <em>${sumCal.cnt03 } 건</em>
+	            </a>  
             </li>
           </ul>
     </div>

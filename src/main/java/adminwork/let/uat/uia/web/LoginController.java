@@ -82,11 +82,12 @@ public class LoginController {
 	@RequestMapping(value = "/uat/uia/LoginUsr.do")
 	public String loginUsrVie(HttpServletRequest request, HttpServletResponse response, ModelMap model) throws Exception {
 		HttpSession session = request.getSession();
+		System.out.println("=========="+request.getParameter("returnUrl"));
 		if(!"".equals(StringUtil.isNullToString(request.getParameter("returnUrl"))) ) {
 			session.setAttribute("returnUrl", request.getParameter("returnUrl"));
 		}
 		
-		
+		System.out.println("1=========="+session.getAttribute("returnUrl"));
 		return "uat/uia/LoginUsr";
 	}
 	
@@ -344,8 +345,8 @@ public class LoginController {
 	 * @exception Exception
 	 */
 	@RequestMapping(value = "/uat/uia/actionMain.do")
-	public String actionMain(HttpServletResponse response, HttpServletRequest request, ModelMap model,HttpSession session) throws Exception {
-				
+	public String actionMain(HttpServletResponse response, HttpServletRequest request, ModelMap model) throws Exception {
+		HttpSession session = request.getSession();
 		// 1. Spring Security 사용자권한 처리
 		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
 		if (!isAuthenticated) {

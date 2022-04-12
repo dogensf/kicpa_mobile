@@ -28,7 +28,7 @@ function fncLocation(){
 		        <div class="board-top">
 		            <div class="total-num">
 		                <span>결과</span>
-		                <span class="find" id="totalCnt">24건</span>
+		                <span class="find" id="totalCnt"> - 건</span>
 		            </div>
 		        </div>
 

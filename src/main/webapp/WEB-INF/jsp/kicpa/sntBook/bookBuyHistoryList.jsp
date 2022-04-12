@@ -41,38 +41,47 @@ function fncLocation(){
 
 		<div class="board-list">
         	<ul>
-        		<c:if test="${buyHistoryList ne null and fn:length(buyHistoryList) > 0 }">
-        			<c:forEach items="${buyHistoryList}" var="item" varStatus="index">
-						<li>
-							<a href="/kicpa/sntBook/bookBuyHistoryDetail.do?ordNo=${item.ordNo}" target="_blank">
-						 		<div class="title-zone">
-						 			<p><c:out value="${item.bookName }"/> </p>
-
-									<c:choose>
-							 			<c:when test="${item.canDate ne null and item.canDate ne '' }">
-								 	      	<div class="other">
-								 	        	<span class="state">취소</span>
-								 	        </div>
-							 	        </c:when>
-							 			<c:when test="${item.payCode eq '1' }">
-								 	      	<div class="other">
-								 	        	<span class="state">신용카드</span>
-								 	        </div>
-							 	        </c:when>
-							 	        <c:otherwise>
-								 	      	<div class="other">
-								 	        	<span class="state">이체</span>
-								 	        </div>
-							 	        </c:otherwise>
-									</c:choose>
-						 	    </div>
-						     	<div class="info-zone">
-						            <span><c:out value="${item.ordDate }"/></span>
-						        </div>
-					        </a>
-						</li>
-        			</c:forEach>
-				</c:if>
+        		<c:choose>
+        			<c:when test="${buyHistoryList ne null and fn:length(buyHistoryList) > 0 }">
+        				<c:forEach items="${buyHistoryList}" var="item" varStatus="index">
+								<li>
+									<a href="/kicpa/sntBook/bookBuyHistoryDetail.do?ordNo=${item.ordNo}" target="_blank">
+								 		<div class="title-zone">
+								 			<p><c:out value="${item.bookName }"/> </p>
+		
+											<c:choose>
+									 			<c:when test="${item.canDate ne null and item.canDate ne '' }">
+										 	      	<div class="other">
+										 	        	<span class="state">취소</span>
+										 	        </div>
+									 	        </c:when>
+									 			<c:when test="${item.payCode eq '1' }">
+										 	      	<div class="other">
+										 	        	<span class="state">신용카드</span>
+										 	        </div>
+									 	        </c:when>
+									 	        <c:otherwise>
+										 	      	<div class="other">
+										 	        	<span class="state">이체</span>
+										 	        </div>
+									 	        </c:otherwise>
+											</c:choose>
+								 	    </div>
+								     	<div class="info-zone">
+								            <span><c:out value="${item.ordDate }"/></span>
+								        </div>
+							        </a>
+								</li>
+		        			</c:forEach>
+        			</c:when>
+        			<c:otherwise>
+        				<li>
+        					구매내역이 없습니다.
+        					
+        				</li>
+        			</c:otherwise>
+        		</c:choose>
+        		
        	   </ul>
       	</div>
     </div>

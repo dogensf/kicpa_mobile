@@ -32,9 +32,9 @@ function fncLocation(){
         </div>
 	    <div id="tabMain1" class="tab-main-content show">
 	        <ul class="basket-list">
-	        	<c:if test="${cartList ne null and fn:length(cartList) > 0 }">
-
-	        		<c:forEach items="${cartList }" var="cartItem" varStatus="index">
+	        	<c:choose>
+	        		<c:when test="${cartList ne null and fn:length(cartList) > 0 }">
+	        			<c:forEach items="${cartList }" var="cartItem" varStatus="index">
 	        			<c:choose>
 		        			<c:when test="${cartItem.ibmBookCode ne '999999'}">
 					            <li class="book_div_${cartItem.bookDiv}">
@@ -61,19 +61,30 @@ function fncLocation(){
 				            <c:otherwise>
 				            	<c:set var="deliveryPrice" value="${cartItem }" />
 				            </c:otherwise>
-	        			</c:choose>
-	        		</c:forEach>
-	        		<c:if test="${deliveryPrice ne null }">
-		            	<li class="delivery-zone">
+		        			</c:choose>
+		        		</c:forEach>
+		        		<c:if test="${deliveryPrice ne null }">
+			            	<li class="delivery-zone">
+				                <div class="prd-zone">
+				                    <div class="product">
+				                        <p class="name"><c:out value="${deliveryPrice.ibmBookName}"/></p>
+				                        <span><i><c:out value="${deliveryPrice.ibmPrice1}"/>원</i></span>
+				                    </div>
+				                </div>
+			            	</li>
+		        		</c:if>	
+	        		</c:when>
+	        		<c:otherwise>
+	        		<li class="delivery-zone">
 			                <div class="prd-zone">
 			                    <div class="product">
-			                        <p class="name"><c:out value="${deliveryPrice.ibmBookName}"/></p>
-			                        <span><i><c:out value="${deliveryPrice.ibmPrice1}"/>원</i></span>
+			                        <p class="name">장바구니에 담긴 상품이 없습니다.</p>
 			                    </div>
 			                </div>
 		            	</li>
-	        		</c:if>
-	            </c:if>
+	        		</c:otherwise>
+	        	</c:choose>
+	        	
 	        </ul>
 	    </div>
 		<jsp:include page="/include/includeLoign.jsp"/>

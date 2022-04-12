@@ -1,13 +1,8 @@
 package adminwork.kicpa.cmm.comm.web;
 
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -16,17 +11,12 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import adminwork.com.cmm.StringUtil;
-import adminwork.kicpa.cmm.board.service.CommonBoardService;
 import adminwork.kicpa.cmm.comm.service.KicpaCommService;
-import adminwork.kicpa.job.service.JobAdvertisementService;
-import egovframework.rte.psl.dataaccess.util.EgovMap;
 
 
 @Controller
@@ -130,6 +120,8 @@ public class KicpaCommController {
 			HttpSession session = request.getSession();
 
 			modelAndView.setViewName("jsonView");
+			
+			System.out.println("--------"+map.get("returnUrl"));
 
 			if(!"".equals(StringUtil.isNullToString(map.get("returnUrl"))) ) {
 				session.setAttribute("returnUrl", map.get("returnUrl"));
