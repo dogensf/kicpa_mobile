@@ -354,10 +354,17 @@ public class LoginController {
 		}
 		LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
 		LoginVO rt = loginService.kicpaInfo(user);
-		
-		session.setAttribute("cpaId", rt.getCpa_id());//회계사 번호		
-		session.setAttribute("auditNm", rt.getAudit_nm()); //법인명
-		session.setAttribute("status", rt.getStatus());//휴페업 및 법인명
+
+		if(rt == null){
+			session.setAttribute("cpaId", "");//회계사 번호
+			session.setAttribute("auditNm", ""); //법인명
+			session.setAttribute("status", "");//휴페업 및 법인명
+		}
+		else{
+			session.setAttribute("cpaId", rt.getCpa_id());//회계사 번호
+			session.setAttribute("auditNm", rt.getAudit_nm()); //법인명
+			session.setAttribute("status", rt.getStatus());//휴페업 및 법인명
+		}
 		
 		
 		if(session.getAttribute("returnUrl") != null  && session.getAttribute("returnUrl") != "") {

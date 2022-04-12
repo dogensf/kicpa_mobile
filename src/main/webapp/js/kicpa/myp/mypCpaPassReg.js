@@ -200,54 +200,54 @@ mypPassReg.mypPassRegInit = function(){
 
 		var result="";
 
-		result+= "<div class='add-box' id='acdmcrInfoAddDiv"+acdmcrInfoAddCount+"'>"
-			+"<div class='title add-num'>"
-			+"<span style='font-size: 1.7rem; font-weight: 600;'>학력추가</span>"
-			+"<button class='btn-delete' type='button' onclick='mypPassReg.mypCpaPassReg_acdmcrInfoRemove("+acdmcrInfoAddCount+")'></button>"
-			+"</div>"
+		result+= 	"<div class='add-box' id='acdmcrInfoAddDiv"+acdmcrInfoAddCount+"'>"
+						+"<div class='title add-num'>"
+							+"<span style='font-size: 1.7rem; font-weight: 600;'>학력추가</span>"
+							+"<button class='btn-delete' type='button' onclick='mypPassReg.mypCpaPassReg_acdmcrInfoRemove("+acdmcrInfoAddCount+")'></button>"
+						+"</div>"
 
-			+"<div class='form'>"
-			+"<div class='inp-box'>"
-			+"<label class='label essen' for='mypCpaPassReg_acdmcrInfoAddSchulCl"+acdmcrInfoAddCount+"'>학력</label>"
-			+"<select class='select' name='schulCl' id='mypCpaPassReg_acdmcrInfoAddSchulCl"+acdmcrInfoAddCount+"'>"
-			+"<option selected value=''>선택하세요</option>"
-			+"<option value='A2230010'>고등학교</option>"
-			+"<option value='A2230030'>대학교</option>"
-			+"<option value='A2230040'>대학원</option>"
-			+"</select>"
-			+"</div>"
+						+"<div class='form'>"
+							+"<div class='inp-box'>"
+								+"<label class='label essen' for='mypCpaPassReg_acdmcrInfoAddSchulCl"+acdmcrInfoAddCount+"'>학력</label>"
+									+"<select class='select' name='schulCl' id='mypCpaPassReg_acdmcrInfoAddSchulCl"+acdmcrInfoAddCount+"'>"
+									+"<option selected value=''>선택하세요</option>"
+									+"<option value='A2230010'>고등학교</option>"
+									+"<option value='A2230030'>대학교</option>"
+									+"<option value='A2230040'>대학원</option>"
+								+"</select>"
+							+"</div>"
 
-			+"<div class='inp-box'>"
-			+"<label class='label essen' for='mypCpaPassReg_acdmcrInfoAddDegree"+acdmcrInfoAddCount+"'>학위</label>"
-			+"<select class='select' name='degree' id='mypCpaPassReg_acdmcrInfoAddDegree"+acdmcrInfoAddCount+"'>"
-			+"<option selected value=''>선택하세요</option>"
-			+"<option value='A9030010'>졸업</option>"
-			+"<option value='A9030020'>학사</option>"
-			+"<option value='A9030030'>석사</option>"
-			+"<option value='A9030040'>박사</option>"
-			+"<option value='A9030050'>수료</option>"
-			+"</select>"
-			+"</div>"
+							+"<div class='inp-box'>"
+								+"<label class='label essen' for='mypCpaPassReg_acdmcrInfoAddDegree"+acdmcrInfoAddCount+"'>학위</label>"
+								+"<select class='select' name='degree' id='mypCpaPassReg_acdmcrInfoAddDegree"+acdmcrInfoAddCount+"'>"
+									+"<option selected value=''>선택하세요</option>"
+									+"<option value='A9030010'>졸업</option>"
+									+"<option value='A9030020'>학사</option>"
+									+"<option value='A9030030'>석사</option>"
+									+"<option value='A9030040'>박사</option>"
+									+"<option value='A9030050'>수료</option>"
+								+"</select>"
+							+"</div>"
 
-			+"<div class='inp-box'>"
-			+"<label class='label essen' for='mypCpaPassReg_acdmcrInfoAddSchulNm"+acdmcrInfoAddCount+"'>학교명</label>"
-			+"<input type='text' id='mypCpaPassReg_acdmcrInfoAddSchulNm"+acdmcrInfoAddCount+"' name='schulNm' placeholder='전체명으로 입력하세요. 예) 서울고등학교'/>"
-			+"</div>"
+							+"<div class='inp-box'>"
+								+"<label class='label essen' for='mypCpaPassReg_acdmcrInfoAddSchulNm"+acdmcrInfoAddCount+"'>학교명</label>"
+								+"<input type='text' id='mypCpaPassReg_acdmcrInfoAddSchulNm"+acdmcrInfoAddCount+"' name='schulNm' placeholder='전체명으로 입력하세요. 예) 서울고등학교'/>"
+							+"</div>"
 
-			+"<div class='inp-box'>"
-			+"<label class='label essen' for='mypCpaPassReg_acdmcrInfoAddGrdtnYear"+acdmcrInfoAddCount+"'>졸업년도</label>"
-			+"<input type='text' id='mypCpaPassReg_acdmcrInfoAddGrdtnYear"+acdmcrInfoAddCount+"' name='grdtnYear' maxlength='4' oninput="+"this.value=this.value.replace(/[^0-9]/g,"+"''"+");"+" placeholder='졸업년도를 선택하세요.' required />"
-			+"</div>"
+							+"<div class='inp-box'>"
+								+"<label class='label essen' for='mypCpaPassReg_acdmcrInfoAddGrdtnYear"+acdmcrInfoAddCount+"'>졸업년도</label>"
+								+"<input type='text' id='mypCpaPassReg_acdmcrInfoAddGrdtnYear"+acdmcrInfoAddCount+"' name='grdtnYear' maxlength='4' oninput="+"this.value=this.value.replace(/[^0-9]/g,"+"''"+");"+" placeholder='졸업년도를 선택하세요.' required />"
+							+"</div>"
 
-			+"<div class='inp-box'>"
-			+"<label class='label essen' for='mypCpaPassReg_acdmcrInfoAddMajor"+acdmcrInfoAddCount+"'>전공</label>"
-			+"<input type='text' id='mypCpaPassReg_acdmcrInfoAddMajor"+acdmcrInfoAddCount+"' name='major' placeholder='전공을 입력하세요. 예) 경영학부 회계전공'/>"
-			+"</div>"
+							+"<div class='inp-box'>"
+								+"<label class='label essen' for='mypCpaPassReg_acdmcrInfoAddMajor"+acdmcrInfoAddCount+"'>전공</label>"
+								+"<input type='text' id='mypCpaPassReg_acdmcrInfoAddMajor"+acdmcrInfoAddCount+"' name='major' placeholder='전공을 입력하세요. 예) 경영학부 회계전공'/>"
+							+"</div>"
 
-			+"<input type='hidden' name='acdmcrSn' id='mypCpaPassReg_acdmcrInfoAddAcdmcrSn"+acdmcrInfoAddCount+"'/>"
+							+"<input type='hidden' name='acdmcrSn' id='mypCpaPassReg_acdmcrInfoAddAcdmcrSn"+acdmcrInfoAddCount+"'/>"
 
-			+"</div>"
-			+"</div>"
+						+"</div>"
+					+"</div>";
 
 		acdmcrInfoAddCount++;
 
@@ -438,7 +438,6 @@ mypPassReg.mypPassReg_backMove = function() {
 	else{
 		location.href="/kicpa/myp/myPage.do?Pin="+$('#mypCpaPassReg_pin').val();
 	}
-
 
 }
 

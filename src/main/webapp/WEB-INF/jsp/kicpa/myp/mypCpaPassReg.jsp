@@ -79,11 +79,11 @@
 					<div class="inp-box">
 						<div class="inp-check">
 							<input class="mypCpaPassReg_check" type="checkbox" name="agreeInfo1Yn" id="mypCpaPassReg_agreement" value="Y"/>
-							<label for="mypCpaPassReg_agreement">개인정보 처리 위탁 동의 (필수)</label>
+							<label for="mypCpaPassReg_agreement">개인정보 수집 및 이용동의 (필수)</label>
 						</div>
 
 						<div class="terms_box">
-							한국공인회계사회는 공인회계사의 지도·감독에 관한 사무를 수행하기 위하여 공인회계사  및 수습공인회계사에 대한 개인정보를 아래와 같이 수집하고 있으며, 제공받은 개인정보는  공인회계사 및 수습공인회계사의 사이버교육 제공 등 다양한 서비스제공과 기타 통신연락 수단으로 이용됩니다.
+							한국공인회계사회는 공인회계사의 지도·감독에 관한 사무를 수행하기 위하여 공인회계사  및 수습공인회계사에 대한 개인정보를 아래와 같이 수집하고 있으며, 제공받은 개인정보는  공인회계사 및 수습공인회계사의 사이버교육 제공 등 다양한 서비스제공과 기타 통신연락 수단으로 이용됩니다.<br>
 							- 수집 및 이용항목 : 성명, 주민등록번호, 소속, 주소, 전자메일, 전화번호, 휴대폰번호
 						</div>
 					</div>
@@ -92,7 +92,7 @@
 					<div class="inp-box">
 						<div class="inp-check">
 							<input class="mypCpaPassReg_check" type="checkbox" name="agreeInfo2Yn" id="mypCpaPassReg_agreement2" value="Y"/>
-							<label for="mypCpaPassReg_agreement2">개인정보 수집 및 이용동의 (필수)</label>
+							<label for="mypCpaPassReg_agreement2">개인정보 처리 위탁 동의 (필수)</label>
 						</div>
 
 						<div class="terms_box">
@@ -325,13 +325,13 @@
 		</section>
 
 		<!-- 개인정보화면 이동(수정모드) -->
-		<div class="btn-page-bottom">
-			<button class="btn-text-blue mypCpaPassReg_backBtn" onclick="mypPassReg.mypPassReg_backMove();" type="button">취소</button>
+		<div class="btn-page-bottom mypCpaPassReg_backBtn">
+			<button class="btn-text-blue" onclick="mypPassReg.mypPassReg_backMove();" type="button">취소</button>
 		</div>
 
 		<!-- 이전페이지로 이동 -->
-		<div class="btn-page-bottom">
-			<button class="btn-text-back mypCpaPassReg_preBtn" onclick="mypPassReg.mypPassReg_tabMove('mypCpaPassReg_nameInfo')" type="button">이전페이지로 이동</button>
+		<div class="btn-page-bottom mypCpaPassReg_preBtn">
+			<button class="btn-text-back" onclick="mypPassReg.mypPassReg_tabMove('mypCpaPassReg_nameInfo')" type="button">이전페이지로 이동</button>
 		</div>
 
 		<!-- 페이지 하단 버튼 -->

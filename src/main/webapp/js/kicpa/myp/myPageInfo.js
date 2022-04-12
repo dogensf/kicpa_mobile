@@ -14,6 +14,9 @@ myPageInfo.myPageInfoInit = function(){
 		|| ($('#myPageInfo_cpaMemberInfoListCnt').val() > 0 && $('#myPageInfo_cpaMemberInfoListCnt').val() != "" && $('#myPageInfo_cpaMemberInfoListCnt').val() != null)){
 			myPageInfo.myPage_memberInfoUpdateBtn('mypCpaTrainReg_pictInfo','T', $('#myPageInfo_pin').val());
 		}
+		else{
+			alert("수습회계사 기본실무 승인 완료시 사용가능합니다.");
+		}
 	});
 
 	//정보공개설정 수정
@@ -21,9 +24,12 @@ myPageInfo.myPageInfoInit = function(){
 		if($('#myPageInfo_cpaMemberInfoListCnt').val() > 0 && $('#myPageInfo_cpaMemberInfoListCnt').val() != "" && $('#myPageInfo_cpaMemberInfoListCnt').val() != null){
 			myPageInfo.myPage_memberInfoUpdateBtn('mypCpaMemberReg_nmstOthbcInfo','C', $('#myPageInfo_pin').val());
 		}
+		else{
+			alert("공인회계사 승인 완료시 사용가능합니다.");
+		}
 	});
 
-	$("input:checkbox[id='myPage_cpaConfirmPass']").prop("checked", false);
+	$("input:checkbox[id='myPage_cpaConfirmPass']").prop("checked", true);
 }
 
 //화면상단 닫기버튼
