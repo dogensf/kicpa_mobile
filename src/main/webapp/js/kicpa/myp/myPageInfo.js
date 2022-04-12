@@ -29,7 +29,7 @@ myPageInfo.myPageInfoInit = function(){
 		}
 	});
 
-	$("input:checkbox[id='myPage_cpaConfirmPass']").prop("checked", true);
+	$("input:checkbox[id='myPage_cpaConfirmPass']").prop("checked", false);
 }
 
 //화면상단 닫기버튼
