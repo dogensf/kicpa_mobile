@@ -50,6 +50,13 @@ public class CounselCenterController {
 	protected EgovPropertyService propertyService;
 
 
+	
+	@RequestMapping(value = "/counselCenterCategory.do")
+	public String counselCenterCategory(@RequestParam Map<String,Object> map,HttpServletRequest request,HttpServletResponse response,ModelMap model) throws Exception{
+
+		return "kicpa/counselCenter/counselCenterCategory";
+	}
+	
 	@RequestMapping(value = "/declarationBoardList.do")
 	public String declarationBoardList(@RequestParam Map<String,Object> map,HttpServletRequest request,HttpServletResponse response,ModelMap model) throws Exception{
 		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
