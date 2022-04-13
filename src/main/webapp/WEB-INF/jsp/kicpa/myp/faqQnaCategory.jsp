@@ -3,6 +3,11 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ page import ="adminwork.com.cmm.LoginVO" %>
 <script>
+    $(document).ready(function(){
+        window.bridge.displayBottom(true);
+    });
+
+
 function fncLocation(){
 /* 	//location.href="/kicpa/main/main.do";
 <c:choose>
