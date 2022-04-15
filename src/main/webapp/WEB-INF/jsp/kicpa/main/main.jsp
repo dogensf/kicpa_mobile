@@ -6,6 +6,8 @@
 <script>
 
 
+
+
 var aa =  [
 			{"name":"회원경조사", "img":"icon_obituary", "url":"location.href='/kicpa/memberEvent/boardList.do'"},
 			{"name":"회비관리", "img":"icon_tax", "url":"location.href='/kicpa/dues/selectDuesList.do'"},
@@ -19,6 +21,7 @@ var aa =  [
 		] ;
 
 $(document).ready(function(){
+	window.bridge.displayBottom(true);
 	/* var ua = navigator.userAgent.toLowerCase();	
 	if(ua.indexOf("iamaboy") > -1) {
 		window.bridge.reqFavorite();
@@ -163,21 +166,21 @@ function calDetail(type){
     <div class="cont">
           <ul class="todo-list">
             <li>
-              <a id="cal01" href="javascript:calDetail('회계감사');">
+              <a  href="javascript:calDetail('회계감사');">
               	<span style="padding-right:10px;">회계감사</span>
-              <em>${sumCal.cnt01 } 건</em>
+              <em id="cal01">${sumCal.cnt01 } 건</em>
               </a>
             </li>
             <li>
-            	<a id="cal02" href="javascript:calDetail('세무');">
+            	<a  href="javascript:calDetail('세무');">
               		<span style="padding-right:30px;">세무</span>
-              		<em>${sumCal.cnt02 } 건</em>
+              		<em id="cal02">${sumCal.cnt02 } 건</em>
               	</a>	
             </li>
             <li>
-            	<a id="cal03" href="javascript:calDetail('업무');">
+            	<a  href="javascript:calDetail('업무');">
 	              <span style="padding-right:30px;">업무</span>
-	              <em>${sumCal.cnt03 } 건</em>
+	              <em id="cal03">${sumCal.cnt03 } 건</em>
 	            </a>  
             </li>
           </ul>

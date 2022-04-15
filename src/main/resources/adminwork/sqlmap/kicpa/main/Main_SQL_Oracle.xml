@@ -14,7 +14,7 @@
 			      	,SUM(DECODE(SCH_TY,'03',1,'업무',1,0)) as cnt03
 			FROM  SCHEDULE_CALENDAR
 			WHERE  SCH_DT like to_char(sysdate,'yyyy')||#ymd#||'%'
-			GROUP BY SCH_TY
+
 		]]> 
 	</select>
 
@@ -32,7 +32,7 @@
 			 <isNotEmpty property="schTy">
 	             AND SCH_TY = #schTy#
 	         </isNotEmpty>  
-			order by SCH_TY DESC,SCH_DT
+			order by CNT, SCH_TY DESC,SCH_DT
 		 
 	</select>
 	

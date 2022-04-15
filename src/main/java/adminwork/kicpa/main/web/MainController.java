@@ -52,11 +52,11 @@ public class MainController {
 		
 		HttpSession session = request.getSession();
 		
-		if(session.getAttribute("returnUrl") != null  && session.getAttribute("returnUrl") != "") {
+		/*if(session.getAttribute("returnUrl") != null  && session.getAttribute("returnUrl") != "") {
 			String rtUrl = session.getAttribute("returnUrl").toString();
 			session.removeAttribute("returnUrl");
 			return "redirect:" + rtUrl;
-		}
+		}*/
 		
 		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
 		List<EgovMap> boardList = null;

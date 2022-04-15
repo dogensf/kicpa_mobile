@@ -10,19 +10,8 @@ function locationLogin(){
 }
 
 function fncLocation(){
-	//location.href="/kicpa/main/main.do";
-/* 	<c:if test="${title eq '납부결과 및 조회'}">
-
-	</c:if> */
 	location.href="/kicpa/main/main.do";
-	/* <c:choose>
-	<c:when test="${views eq 'home'}">
-		location.href="javascript:windows.history.back();";
-	</c:when>
-	<c:otherwise>
-		location.href="/kicpa/main/main.do";
-	</c:otherwise>
-	</c:choose> */
+	//location.href="javascript:history.back()";
 }
 
 </script>

@@ -71,7 +71,7 @@ function fncLocation(){
                            <div class="togl-box">
                            		<c:forEach items="${list }" var="rt" varStatus="index">
                            	   		<c:if test="${rt.schTy eq '회계감사'  }">
-                           	   				<button class="btn-board-togl " onClick="javascript:$(this).toggleClass('active');" type="button">${rt.dtLabel}</button>                               
+                           	   				<button class="btn-board-togl active" onClick="javascript:$(this).toggleClass('active');" type="button">${rt.dtLabel}</button>
 			                               <div class="cont">
 			                                   <div>
 			                                       <table class="table-col blue">
@@ -154,7 +154,7 @@ function fncLocation(){
                            <div class="togl-box">
                            	   <c:forEach items="${list }" var="rt" varStatus="index">
                            	   		<c:if test="${rt.schTy eq '세무'  }">
-                           	   				<button class="btn-board-togl " onClick="javascript:$(this).toggleClass('active');" type="button">${rt.dtLabel}</button>                               
+                           	   				<button class="btn-board-togl active" onClick="javascript:$(this).toggleClass('active');" type="button">${rt.dtLabel}</button>
 			                               <div class="cont">
 			                                   <div>
 			                                       <table class="table-col blue">
@@ -216,7 +216,7 @@ function fncLocation(){
                            <div class="togl-box">
                            		<c:forEach items="${list }" var="rt" varStatus="index">
                            	   		<c:if test="${rt.schTy eq '업무'  }">
-                           	   				<button class="btn-board-togl " onClick="javascript:$(this).toggleClass('active');" type="button">${rt.dtLabel}</button>                               
+                           	   				<button class="btn-board-togl active" onClick="javascript:$(this).toggleClass('active');" type="button">${rt.dtLabel}</button>
 			                               <div class="cont">
 			                                   <div>
 			                                       <table class="table-col blue">
