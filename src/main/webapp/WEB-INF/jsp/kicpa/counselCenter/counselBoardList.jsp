@@ -16,6 +16,20 @@ $(document).ready(function(){
 
 		});
 	}
+
+	$("button.btn-round-sm").on("click",function(){
+		var text = {}
+
+		text.gray = "";
+		text.gray += "본 회원전문세무상담은 회원만을 위한 세무지식 공유의 장으로 정확한 상담을 위해 질문 시 사실관계, 관련 법조문, 참고예규 및 질문자의 의견(갑설, 을설)을 명확하게 기술해주시기 바라며, 너무 포괄적인 질문, 정확한 계산을 요하는 질문, 사실판단과 해결방안을 요구하는 질문, ";
+		text.gray += "세무분야가 아닌 질문 등은 답변이 불가능하오니 이점 양해해주시기 바랍니다.<br/><br/>";
+		text.gray += "본 게시판의 설치목적에 위배되는 게시물은 운영자가 임의로 삭제합니다.";
+
+		fn_portal_pop("informationPopup",text)
+
+	})
+
+
 	counselCenter.counselInit();
 });
 
@@ -72,6 +86,7 @@ function fncLocation(){
 		                <span>결과</span>
 		                <span class="find" id="totalCnt">24건</span>
 		            </div>
+		            <button class="btn-round-sm" type="button">안내 </button>
 		        </div>
 
 		        <!-- 게시판 목록 -->

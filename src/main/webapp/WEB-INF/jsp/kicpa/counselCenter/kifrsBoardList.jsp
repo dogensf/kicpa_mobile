@@ -17,6 +17,23 @@ $(document).ready(function(){
 
 		});
 	}
+
+
+	$("button.btn-round-sm").on("click",function(){
+
+		if($("#boardId").val() == 'kifrs'){
+
+			var text = {}
+
+			text.gray = "";
+			text.gray += "IFRS실무적용과 관련한 다양한 사례는 'IFRS 실무사례(월간공인회계사 기고문)'를 참고하시기 바랍니다.<br/><br/>";
+			text.gray += '<div  style="text-align: center;"><a style="text-decoration:underline;" href="/kicpa/accIstAlert/ifrsBoardList.do">IFRS 실무사례</a></div>';
+			fn_portal_pop("informationPopup",text)
+		}
+
+	})
+
+
 	board.boardListInit();
 });
 
@@ -63,6 +80,7 @@ function fncLocation(){
 		                <span>결과</span>
 		                <span class="find" id="totalCnt">24건</span>
 		            </div>
+		            <button class="btn-round-sm" type="button">안내 </button>
 		        </div>
 
 		        <!-- 게시판 목록 -->
