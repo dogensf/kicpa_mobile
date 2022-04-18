@@ -33,6 +33,12 @@ counselCenter.counselInit = function(){
 		counselCenter.counselBoardAjax();
 	});
 
+	if($("#boardId").val() == 'kifrs'){
+		$(".btn-round-sm").show();
+	}else{
+		$(".btn-round-sm").hide();
+	}
+
 	counselCenter.counselBoardAjax();
 
 }
@@ -137,6 +143,13 @@ counselCenter.kifrsTab = function(obj,boardId){
 		$(".btn-write").show();
 	}else{
 		$(".btn-write").hide();
+	}
+
+
+	if(boardId == 'kifrs'){
+		$(".btn-round-sm").show();
+	}else{
+		$(".btn-round-sm").hide();
 	}
 
 	$("#boardForm input[name='searchKeyword']").val("");
