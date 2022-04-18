@@ -7,6 +7,7 @@
 $(document).ready(function(){
 // 	board.boardListInit();
 	notice.boardListInit();
+
 });
 
 function fncLocation(){

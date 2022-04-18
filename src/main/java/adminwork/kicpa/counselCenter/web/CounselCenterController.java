@@ -50,13 +50,13 @@ public class CounselCenterController {
 	protected EgovPropertyService propertyService;
 
 
-	
+
 	@RequestMapping(value = "/counselCenterCategory.do")
 	public String counselCenterCategory(@RequestParam Map<String,Object> map,HttpServletRequest request,HttpServletResponse response,ModelMap model) throws Exception{
 
 		return "kicpa/counselCenter/counselCenterCategory";
 	}
-	
+
 	@RequestMapping(value = "/declarationBoardList.do")
 	public String declarationBoardList(@RequestParam Map<String,Object> map,HttpServletRequest request,HttpServletResponse response,ModelMap model) throws Exception{
 		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
@@ -527,6 +527,30 @@ public class CounselCenterController {
 
 		return "kicpa/counselCenter/rewardInfo";
 	}
+
+	@RequestMapping(value="/updateMemberCounselBoardDelete.do")
+	public ModelAndView updateMemberCounselBoardDelete(@RequestBody Map<String,Object> map, HttpServletRequest request) throws Exception{
+		ModelAndView modelAndView = new ModelAndView();
+
+		try{
+			modelAndView.setViewName("jsonView");
+			Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+
+			if(isAuthenticated) {
+				LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+				map.put("userId", user.getId());
+
+				counselCenterService.updateMemberCounselBoardDelete(map);
+			}
+
+
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return modelAndView;
+	}
+
 
 
 

@@ -6,6 +6,10 @@ counselCenter.declarationInit = function(){
 	counselCenter.getDeclarationBoardListAjax();
 }
 
+counselCenter.counselBoardDetailInit = function(){
+
+}
+
 
 counselCenter.counselInit = function(){
 
@@ -564,6 +568,19 @@ counselCenter.daumPostcode = function(){
     }).open();
 }
 
+counselCenter.counselBoardDelete = function(){
+	var param = $("#boardForm").serializeObject();
+	fn_ajax_call("/kicpa/counselCenter/updateMemberCounselBoardDelete.do",param,counselCenter.counselBoardDeleteSuccess,counselCenter.boardInsertError);
+}
+
+counselCenter.counselBoardDeleteSuccess = function(data){
+	alert("삭제되었습니다.");
+	$(opener.document).find("#pageIndex").val(1);
+	$(opener.document).find(".board-list ul").html("");
+	opener.counselCenter.counselBoardAjax();
+	window.close();
+}
+
 counselCenter.boardListError = function(data,status, error){
 	flag = true;
 	alert("조회실패");
@@ -571,6 +588,8 @@ counselCenter.boardListError = function(data,status, error){
 counselCenter.boardInsertError = function(data,status, error){
 	alert("등록실패");
 }
+
+
 
 
 

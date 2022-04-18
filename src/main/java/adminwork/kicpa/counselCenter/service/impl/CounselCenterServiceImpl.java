@@ -158,5 +158,15 @@ public class CounselCenterServiceImpl extends EgovAbstractServiceImpl implements
 		return counselCenterDAO.selectDeclarationBoardFile(map);
 	}
 
+	@Override
+	public void updateMemberCounselBoardDelete(Map<String, Object> map) throws Exception {
+		try {
+			counselCenterDAO.updateMemberCounselBoardDelete(map);
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
+
 
 }

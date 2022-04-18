@@ -46,4 +46,6 @@ public interface  CommonBoardService {
 	public int updateCommonBoardFileDownCnt(Map<String, Object> map) throws Exception;
 
 	public int updateCommonCafeBoardFileDownCnt(Map<String, Object> map) throws Exception;
+
+	public void updateCommonBoardDelete(Map<String, Object> map) throws Exception ;
 }

@@ -125,6 +125,13 @@ public class CommonBoardDAO extends EgovAbstractDAO{
 		return update("KicpaCommBoardDAO.updateCommonCafeBoardFileDownCnt",map);
 	}
 
+	public int updateCommonBoardDelete(Map<String, Object> map) throws Exception {
+		return update("KicpaCommBoardDAO.updateCommonBoardDelete",map);
+	}
+	public int updateCommonCafeBoardDelete(Map<String, Object> map) throws Exception {
+		return update("KicpaCommBoardDAO.updateCommonCafeBoardDelete",map);
+	}
+
 
 }
 

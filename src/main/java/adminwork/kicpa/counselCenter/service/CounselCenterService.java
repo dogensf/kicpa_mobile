@@ -118,4 +118,6 @@ public interface  CounselCenterService {
 	 */
 	public EgovMap selectDeclarationBoardFile(Map<String,Object> map) throws Exception;
 
+	public void updateMemberCounselBoardDelete(Map<String,Object> map) throws Exception;
+
 }

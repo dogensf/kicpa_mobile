@@ -82,8 +82,13 @@ public class SntBookController {
 
 	@RequestMapping(value = "/bookFormatList.do")
 	public String bookFormatList(@RequestParam Map<String,Object> map,HttpServletRequest request,HttpServletResponse response,ModelMap model) throws Exception{
-
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		model.addAttribute("isLogin", isAuthenticated);
+		if(!isAuthenticated) {
+			model.addAttribute("returnUrl", "/kicpa/sntBook/bookFormatList.do");
+		}
 		return "kicpa/sntBook/bookFormatList";
+
 	}
 	@RequestMapping(value = "/bookList.do")
 	public String bookList(@RequestParam Map<String,Object> map,HttpServletRequest request,HttpServletResponse response,ModelMap model) throws Exception{

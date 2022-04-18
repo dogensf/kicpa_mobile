@@ -287,6 +287,22 @@ board.openDetailPop = function(url,popId){
 
 }
 
+
+board.boardDelete = function(){
+	var param = $("#boardForm").serializeObject();
+	fn_ajax_call("/kicpa/commonBoard/updateCommonBoardDelete.do",param,board.updateCommonBoardDeleteSuccess,board.boardListError);
+}
+
+board.updateCommonBoardDeleteSuccess = function(data){
+	alert("삭제되었습니다.");
+
+	$(opener.document).find("#pageIndex").val(1);
+	$(opener.document).find(".board-list ul").html("");
+	opener.board.boardBoardListAjax();
+	window.close();
+
+}
+
 board.boardListError = function(data,status, error){
 	flag = true;
 	alert("조회실패");

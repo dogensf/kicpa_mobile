@@ -14,6 +14,7 @@
 <!--begin::Body-->
 <script type="text/javascript">
 
+
 function onBackKey(){
 	if( typeof fncLocation == 'function' ) {
 		fncLocation();
@@ -35,16 +36,16 @@ function onBackKey(){
 	         <div class="title-box">
 	             <h2>종료 하시겠습니까?</h2>
 	         </div>
-	
+
 	        <!--  <div class="layer-content">
-	             <div class="gray-box">               
+	             <div class="gray-box">
 	             </div>
 	         </div> -->
-	
+
 	         <div class="layer-bottom">
-	
+
 	             <em class="text-gray"></em>
-	
+
 	             <div class="layer-bottom">
 	                 <div class="btn-bottom">
 	                     <button class="btn-round" type="button" onClick="javascript:$('#appExit').removeClass('show');">취소</button>

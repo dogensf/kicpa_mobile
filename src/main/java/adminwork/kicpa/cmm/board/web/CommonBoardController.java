@@ -226,6 +226,29 @@ public class CommonBoardController {
     }
 
 
+	@RequestMapping(value="/updateCommonBoardDelete.do")
+	public ModelAndView updateCommonBoardDelete(@RequestBody Map<String,Object> map, HttpServletRequest request) throws Exception{
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("jsonView");
+		try{
+			Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+
+			if(isAuthenticated) {
+				LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+				map.put("userId", user.getId());
+
+				commonBoardService.updateCommonBoardDelete(map);
+			}
+
+
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return modelAndView;
+	}
+
+
 
 
 	@RequestMapping(value="/boardFileDownload.do")
@@ -267,7 +290,5 @@ public class CommonBoardController {
 		}
 
 	}
-
-
 
 }

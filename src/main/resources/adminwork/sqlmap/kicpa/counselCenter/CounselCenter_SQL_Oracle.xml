@@ -8,6 +8,7 @@
 		<result property="bltnNo" column="BLTN_NO" />
 		<result property="bltnLev" column="BLTN_LEV" />
 		<result property="cateId" column="CATE_ID" />
+		<result property="userId" column="USER_ID" />
 		<result property="userNick" column="USER_NICK" />
 		<result property="userEmail" column="USER_EMAIL" />
 		<result property="userTelNo" column="USER_TEL_NO" />
@@ -427,6 +428,12 @@
 				)
 	</insert>
 
+	<update id="CounselCenterDAO.updateMemberCounselBoardDelete" parameterClass="Hashmap">
+		UPDATE TAX_CONST_BLTN
+		SET DEL_FLAG = '1'
+		WHERE BLTN_NO	= #bltnNo#
+		AND USER_ID = #userId#
+	</update>
 
 
 

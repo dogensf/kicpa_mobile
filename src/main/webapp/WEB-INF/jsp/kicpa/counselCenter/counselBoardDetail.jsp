@@ -5,7 +5,7 @@
 <script>
 $(document).ready(function(){
 
-
+	counselCenter.counselBoardDetailInit();
 
 });
 
@@ -15,7 +15,7 @@ function fncLocation(){
 </script>
 <form id="boardForm" name="boardForm" onsubmit="return false;">
 	<input type="hidden" name="bltnNo" value="${param.bltnNo }">
-
+	<input type="hidden" name="boardId" value="${boardDetail.boardId }">
 
 	<section class="head-sub line">
 	       <button class="btn-back" type="button" onclick="fncLocation();">
@@ -129,5 +129,10 @@ function fncLocation(){
 		        </div>
 		    </div>
 	    </c:if>
+		<c:if test="${boardDetail.userId eq loginVO.id and boardDetail.replyDetail eq null }">
+		    <div class="btn-bottom">
+	            <button class="btn-round" type="button" onclick="counselCenter.counselBoardDelete();">삭제</button>
+	        </div>
+		</c:if>
 	</section>
 </form>

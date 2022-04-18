@@ -53,9 +53,11 @@ function fncLocation(){
 		      </div>
 		  </div><!-- tabSub1 -->
 		</div><!-- tabMain1 -->
-		<div class="sticky-bottom">
-	        <button class="btn-sticky" type="button" id="goCartBtn" onclick="sntBook.cartValidation();">선택 구매하기</button>
-	    </div>
+		<c:if test="${isLogin eq true }">
+			<div class="sticky-bottom">
+		        <button class="btn-sticky" type="button" id="goCartBtn" onclick="sntBook.cartValidation();">선택 구매하기</button>
+		    </div>
+		</c:if>
 		<jsp:include page="/include/includeLoign.jsp"/>
 	</section>
 </form>

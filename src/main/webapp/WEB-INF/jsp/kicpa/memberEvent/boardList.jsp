@@ -79,6 +79,6 @@ function fncLocation(){
 		      </div>
 		  </div><!-- tabSub1 -->
 		</div><!-- tabMain1 -->
+		<jsp:include page="/include/includeLoign.jsp"/>
 	</section>
-	<jsp:include page="/include/includeLoign.jsp"/>
 </form>

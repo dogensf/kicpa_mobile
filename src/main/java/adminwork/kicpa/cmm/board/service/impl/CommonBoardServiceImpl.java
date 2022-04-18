@@ -212,6 +212,24 @@ public class CommonBoardServiceImpl extends EgovAbstractServiceImpl implements C
 		return commonBoardDAO.updateCommonCafeBoardFileDownCnt(map);
 	}
 
+	@Override
+	public void updateCommonBoardDelete(Map<String, Object> map) throws Exception {
+		try {
+			Map<String,Object> boardMaster = commonBoardDAO.selectBoardMaster(map);
+
+	        if("Y".equals(boardMaster.get("owntblYn")) && "CAFE".equals(boardMaster.get("owntblFix"))) {
+
+	        	commonBoardDAO.updateCommonCafeBoardDelete(map);
+	        }else {
+	        	commonBoardDAO.updateCommonBoardDelete(map);
+	        }
+
+		}catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+	}
+
 
 
 

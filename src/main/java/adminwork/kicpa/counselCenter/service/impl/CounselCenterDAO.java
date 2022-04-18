@@ -157,6 +157,9 @@ public class CounselCenterDAO extends EgovAbstractDAO{
 	public int insertDeclarationBoardFile(Map<String,Object> map) throws Exception {
 		return update("CounselCenterDAO.insertDeclarationBoardFile",map);
 	}
+	public int updateMemberCounselBoardDelete(Map<String,Object> map) throws Exception {
+		return update("CounselCenterDAO.updateMemberCounselBoardDelete",map);
+	}
 
 	/**
 	 * 파일다운로드 정보 조회

@@ -1397,6 +1397,25 @@
 		AND FILE_SEQ = #fileSeq#
 	</update>
 
+	<update id="KicpaCommBoardDAO.updateCommonBoardDelete" parameterClass="HashMap">
+		UPDATE BULLETIN
+		SET DEL_FLAG = 'Y'
+			, UPD_DATIM = SYSDATE
+		WHERE BOARD_ID = #boardId#
+		AND BLTN_NO = #bltnNo#
+		AND USER_ID = #userId#
+	</update>
+
+	<update id="KicpaCommBoardDAO.updateCommonCafeBoardDelete" parameterClass="HashMap">
+		UPDATE BLTN_CAFE
+		SET DEL_FLAG = 'Y'
+			, UPD_DATIM = SYSDATE
+		WHERE BOARD_ID = #boardId#
+		AND BLTN_NO = #bltnNo#
+		AND USER_ID = #userId#
+	</update>
+
+
 
 
 </sqlMap>

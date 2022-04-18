@@ -31,7 +31,7 @@ function fncLocation(){
                  <div class="inp-box">
                      <label class="label essen">카테고리</label>
                       <select class="" id="category" name="category">
-                     	<option value="">전체</option>
+                     	<option value="">선택하세요</option>
                      	<c:forEach items="${ccode }" var="code" varStatus="index">
 	                     	<option value="${code.code }">${code.codeName }</option>
                      	</c:forEach>
@@ -40,7 +40,7 @@ function fncLocation(){
                  <div class="inp-box">
                      <label class="label essen">해당업무</label>
                    	 <select class="" id="searchType2" name="job">
-                     	<option value="">전체</option>
+                     	<option value="">선택하세요</option>
                      </select>
                  </div>
 
