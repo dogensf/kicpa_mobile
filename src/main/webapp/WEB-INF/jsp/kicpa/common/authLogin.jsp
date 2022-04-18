@@ -3,6 +3,11 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <script>
 
+$(document).ready(function(){
+	window.bridge.displayBottom(true);
+
+});
+
 
 function locationLogin(){
 	var param = {"returnUrl" : $("#returnUrl").val() }
