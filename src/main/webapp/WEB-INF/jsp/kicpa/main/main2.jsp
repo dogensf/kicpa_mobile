@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8" session="true"%>
+<%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@ taglib prefix='c' uri='http://java.sun.com/jsp/jstl/core' %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <script src="/js/kicpa/board/board.js"></script>
@@ -6,7 +6,8 @@
 <script>
 
 
-
+document.location.href='/kicpa/main/main.do';  
+window.bridge.userDataSave('JSESSIONID', '<%=session.getId() %>');
 
 var aa =  [
 			{"name":"회원경조사", "img":"icon_obituary", "url":"location.href='/kicpa/memberEvent/boardList.do'"},
@@ -21,11 +22,9 @@ var aa =  [
 		] ;
 
 $(document).ready(function(){
-	window.bridge.displayBottom(true);	
-	window.bridge.userDataSave('JSESSIONID', '<%=session.getId() %>');
+	window.bridge.displayBottom(true);
 	
-	
-	
+	 
 	if (window['bridge'] )  {
 		window.bridge.reqFavorite(); 
 	} else { 
@@ -33,22 +32,7 @@ $(document).ready(function(){
 	}
 });
 
-function getCookie(Name) {
-    var search = Name + "="
-    if (document.cookie.length > 0) { // 쿠키가 설정되어 있다면
-        offset = document.cookie.indexOf(search)
-        if (offset != -1) { // 쿠키가 존재하면
-            offset += search.length
-            // set index of beginning of value
-            end = document.cookie.indexOf(";", offset)
-            // 쿠키 값의 마지막 위치 인덱스 번호 설정
-            if (end == -1)
-                end = document.cookie.length
-            return unescape(document.cookie.substring(offset, end))
-        }
-    }
-    return "";
-}
+
 
 function applyFavorite(menus) {
 	
@@ -104,9 +88,6 @@ function calDetail(type){
 		    </button>
 		</div>
 	</div>
-	
-	
-	
 	<!-- 즐겨찾기 메뉴 -->
 	<div class="swiper mySwiper">
   		<div class="swiper-wrapper">

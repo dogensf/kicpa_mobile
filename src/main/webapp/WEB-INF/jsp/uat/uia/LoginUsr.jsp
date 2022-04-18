@@ -1,4 +1,3 @@
-
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="ui" uri="http://egovframework.gov/ctl/ui"%>
@@ -22,11 +21,21 @@
         <meta property="og:url" content="">
         <meta name="format-detection" content="telephone=no">
         <link rel="stylesheet" href="<c:url value='/css/kicpa/app.css'/>">
-
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+	<script src="/js/jquery-ui.min.js"></script>
 
 
 		<script type="text/javascript">
 
+		$(document).ready(function(){
+			<%-- window.bridge.userDataSave('JSESSIONID', '<%=session.getId() %>'); --%>
+			fnInit();
+			
+		});
+
+		
+		
+		
 		function actionLogin() {
 
 		    if (document.loginForm.id.value =="") {
@@ -102,52 +111,7 @@
 	<!--begin::Body-->
 	<body>
 		<!--begin::Main-->
-		<%-- <div class="login-wrap">
-			<div class="d-flex justify-content-center align-items-center flex-column vw-100 vh-100">
-				<div>
-					<div class="login-top pb-5">
-						<div class="logo-wrap border-bottom-sm mb-5">
-							<img src="assets/images/main-logo.png">
-						</div>
-						<p class="pl-7">The KOREAN INSTITUTE OF<br>CERTIFIED PUBLIC ACCOUNTANTS</p>
-					</div>
-					<div class="login-body pt-20">
-						<form:form id="loginForm" name="loginForm" method="post">
-							<div class="form-group position-relative">
-								<input type="text" class="pl-4 form-control rounded-pill h-40px" id="id" name="id" value=""  maxlength="15">
-								<label class="position-absolute">아이디</label>
-							</div>
-							<div class="form-group position-relative mt-16">
-								<input type="password" class="form-control rounded-pill h-40px"  maxlength="25" title="비밀번호를 입력하세요." id="password" name="password"  value=""
-									   onkeydown="javascript:if (event.keyCode == 13) { actionLogin(); }">
-								<label class="position-absolute">비밀번호</label>
-							</div>
-							<div class="form-group">
-								<label class="checkbox checkbox-circle checkbox-outline justify-content-center">
-									<input type="checkbox"  id="checkId" name="checkId">
-									<span class="mr-3 ml-10"></span>
-									아이디 저장하기
-								</label>
-							</div>
-							<div class="form-group">
-								<button class="btn btn-blue h-50px w-100 rounded-pill" onclick="javascript:actionLogin()">로그인</button>
-							</div>
-							<div class="login-info p-5">
-								<p>1. 이 페이지는 KICPA mobile 페이지입니다.</p>
-								<p>2. 각 권한에 따른 인증된 관리자만 접속이 가능합니다.</p>
-								<p class="m-0">3. 관리 작업을 마치신 후 반드시 로그아웃 하시기 바랍니다.</p>
-							</div>
-							<input type="hidden" name="message" value="${message}" />
-							<input type="hidden" name="userSe"  value="USR"/>
-							<input name="j_username" type="hidden"/>
-						</form:form>
-					</div>
-				</div>
-			</div>
-		</div> --%>
-
-
- 		<div class="wrap">
+	 		<div class="wrap">
             <div class="container">
                 <section class="head-sub">
                     <button class="btn-back" type="button" onClick="javascript:fncLocation();">

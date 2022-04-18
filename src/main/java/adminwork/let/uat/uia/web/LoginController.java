@@ -368,11 +368,11 @@ public class LoginController {
 		}
 		
 		
-		if(session.getAttribute("returnUrl") != null  && session.getAttribute("returnUrl") != "") {
+		/*if(session.getAttribute("returnUrl") != null  && session.getAttribute("returnUrl") != "") {
 			String rtUrl = session.getAttribute("returnUrl").toString();
 			session.removeAttribute("returnUrl");
 			return "redirect:" + rtUrl;
-		}
+		}*/
 		
 		
 		return "redirect:/kicpa/main/main.do";
