@@ -72,6 +72,26 @@ function downloadURI(uri, name){
     }); */
 
     $(function() {
+    	$('.btn-round-m').each(function(idx){
+    		if(idx == 0){
+    			$(this).addClass('active');	
+    		}    		
+    	});
+    	
+    	var myDate = new Date();        	
+    	var month = (("00"+(myDate.getMonth() + 1)).slice(-2));
+    	var day   = (("00"+ myDate.getDate()).slice(-2));
+   	    var prettyDate = myDate.getFullYear() +'-'+ month+'-'  + day  ;
+   	 
+   	    $("#searchBgnDe").val(datePlusMinus(prettyDate, - 1, 'm'));
+    	$("#month").val(1);
+    	
+    	var myDate = new Date();
+   	    var month = (("00"+(myDate.getMonth() + 1)).slice(-2));
+   	    var day   = (("00"+ myDate.getDate()).slice(-2));
+   	    var prettyDate = myDate.getFullYear() +'-'+ month+'-'  + day  ;
+   	    $("#searchEndDe").val(prettyDate);
+    	
     	 /*    $("#datepicker1").datepicker({
             onSelect:function(dateText, inst) {
                 console.log(dateText);
