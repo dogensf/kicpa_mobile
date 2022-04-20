@@ -14,6 +14,24 @@
 <!--begin::Body-->
 <script type="text/javascript">
 
+/* $(document).ready(function() {
+
+setInterval("f_loginChcked();", 3000); 
+
+});
+
+function f_loginChcked(){ // 이 함수는 3초마다 실행됩니다.
+
+	<c:if test="${empty sessionScope.LoginVO}">
+		$('.btn-login').attr("onclick","javascript:location.href='<c:url value='/uat/uia/LoginUsr.do'/>'");
+		$('.btn-login').html("로그인");
+		alert("12")
+	</c:if>
+
+} */
+
+
+
 function onBackKey(){
 	//window.bridge.stopApp();
 	/* if (!!window.opener) {

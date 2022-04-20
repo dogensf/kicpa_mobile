@@ -24,7 +24,6 @@ import com.saltware.enpass.client.EnpassClient;
 
 import adminwork.com.cmm.EgovMessageSource;
 import adminwork.com.cmm.LoginVO;
-import adminwork.com.cmm.StringUtil;
 import adminwork.let.uat.uap.service.EgovLoginPolicyService;
 import adminwork.let.uat.uia.service.LoginService;
 import adminwork.let.utl.sim.service.ClntInfo;
@@ -81,13 +80,13 @@ public class LoginController {
 	 */
 	@RequestMapping(value = "/uat/uia/LoginUsr.do")
 	public String loginUsrVie(HttpServletRequest request, HttpServletResponse response, ModelMap model) throws Exception {
-		HttpSession session = request.getSession();
+		/*HttpSession session = request.getSession();
 		System.out.println("=========="+request.getParameter("returnUrl"));
 		if(!"".equals(StringUtil.isNullToString(request.getParameter("returnUrl"))) ) {
 			session.setAttribute("returnUrl", request.getParameter("returnUrl"));
-		}
+		}*/
 		
-		System.out.println("1=========="+session.getAttribute("returnUrl"));
+		//System.out.println("1=========="+session.getAttribute("returnUrl"));
 		return "uat/uia/LoginUsr";
 	}
 	

@@ -22,14 +22,14 @@ var aa =  [
 
 $(document).ready(function(){
 	window.bridge.displayBottom(true);	
-	window.bridge.userDataSave('JSESSIONID', '<%=session.getId() %>');
+	<%-- window.bridge.userDataSave('JSESSIONID', '<%=session.getId() %>'); --%>
 	
 	
 	
 	if (window['bridge'] )  {
 		window.bridge.reqFavorite(); 
 	} else { 
-		applyFavorite(aa); 
+		//applyFavorite(aa); 
 	}
 });
 
@@ -69,7 +69,8 @@ function applyFavorite(menus) {
 			}else{
 				menu11 +="<button class=\""+data.img+"\" type=\"button\" onclick=\"javascript:"+data.url+"\">"+data.name+"</button>";
 			}			
-		}else{			
+		}else{	
+			$('#ss2').show();
 			if(idx%2 == 1){
 				menu22 +="<button class=\""+data.img+"\" type=\"button\" onclick=\"javascript:"+data.url+"\">"+data.name+"</button>";	
 			}else{
@@ -112,39 +113,37 @@ function calDetail(type){
   		<div class="swiper-wrapper">
 	    	<div class="swiper-slide">
 	      		<div id="mfm11">
-			        <button class="tax" type="button"  onclick="javascript:location.href='<c:url value='/kicpa/dues/selectDuesList.do'/>';">
-			         	 회비관리
+			        <button class="icon_dues" type="button"  onclick="javascript:location.href='<c:url value='/kicpa/dues/selectDuesList.do'/>';">
+			         	 회비납부/조회
 			        </button>
-			        <button class="icon_obituary" type="button" onclick="javascript:location.href='<c:url value='/kicpa/taxNews/boardList.do'/>';">
-			          	상담센터
+			        <button class="icon_consulting" type="button" onclick="javascript:location.href='<c:url value='/kicpa/myp/faqQnaCategory.do'/>';">
+			          	회원상담
 			        </button>
-			        <button class="icon_inquiry" type="button" onclick="javascript:location.href='<c:url value='/kicpa/job/boardList.do'/>';">
+			        <button class="icon_job" type="button" onclick="javascript:location.href='<c:url value='/kicpa/job/boardList.do'/>';">
 			        	 구인정보
 			        </button>
-			        <button class="icon_accounting" type="button" onclick="javascript:location.href='<c:url value='/kicpa/memberEvent/boardList.do'/>';">
+			        <button class="icon_obituary" type="button" onclick="javascript:location.href='<c:url value='/kicpa/memberEvent/boardList.do'/>';">
 			       		   회원경조사
 			        </button>
 	     		</div>
 	      		<div id="mfm12">
-			        <button class="translation" type="button">
+			        <button class="icon_training" type="button"  onclick="javascript:location.href='<c:url value='https://cyber.kicpa.or.kr/sso/main.php'/>';">
 			    	      회계연수원
 			        </button>
-			        <button class="alret" type="button">
+			        <button class="icon_accounting" type="button"  onclick="javascript:location.href='<c:url value='/kicpa/accIstAlert/accIstAlertCategory.do'/>';">
 			     	     회계∙감사 Alert
 			        </button>
-			        <button class="news" type="button" onclick="javascript:location.href='<c:url value='/kicpa/taxNews/boardList.do'/>';">
+			        <button class="icon_tax" type="button" onclick="javascript:location.href='<c:url value='/kicpa/taxNews/boardList.do?boardId=taxinfo02'/>';">
 			   		       세무속보
 			        </button>
-			        <button class="book" type="button">
-			      	    도서구매∙<br />집합연수 신청
+			        <button class="icon_atc" type="button" onclick="javascript:location.href='<c:url value='/kicpa/counselCenter/counselCenterCategory.do'/>';">
+			      	    회계∙세무<br />삼담센터
 			        </button>
 	     	 	</div>
 	    	</div>
-		    <div class="swiper-slide">
+		    <div class="swiper-slide" id="ss2" style="display:none;">
 				<div id="mfm21">
-		        	<button class="add" type="button">
-		       			   추가
-		       		</button>
+		        	
 		      	</div>
 		      	<div id="mfm22">		        	
 		      	</div>

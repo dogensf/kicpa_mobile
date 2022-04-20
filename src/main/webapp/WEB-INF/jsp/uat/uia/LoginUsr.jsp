@@ -100,8 +100,8 @@
 
 		}
         function fncLocation(){
-            //location.href="/kicpa/main/main.do";
-            location.href="javascript:history.back(-1);";
+            location.href="/kicpa/main/main.do";
+            //location.href="javascript:history.back(-1);";
         }
 
 		//-->
