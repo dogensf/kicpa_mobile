@@ -1,5 +1,6 @@
 package adminwork.kicpa.api.web;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -54,6 +55,20 @@ public class ApiController {
 		VersVO ver = apiService.selectVer(vo);
 		model.addAttribute("ver", ver);
 		
+		//backgroundColor
+		List bg = new ArrayList();		 
+		bg.add("981815");
+		bg.add("DD1D50");
+		bg.add("F64B56");
+		bg.add("DC6900");
+		bg.add("EB8C00");
+		bg.add("92D050");
+		bg.add("17B1B2");
+		bg.add("53559F");
+		bg.add("7030A0");
+		bg.add("003976");
+
+		model.addAttribute("bgcolorList", bg);
 		//홈버튼 생성
 		List<BottomsVO> bottom = apiService.selectBottomList(vo);
 		for(int i=0; i < bottom.size(); i++) {

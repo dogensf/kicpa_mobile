@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -47,6 +48,10 @@ public class MemberEventController {
 			return "kicpa/memberEvent/boardList";
 		}else {
 			model.addAttribute("returnUrl", "/kicpa/memberEvent/boardList.do");
+			Cookie cookie = new Cookie("returnUrl", "/kicpa/memberEvent/boardList.do");
+			cookie.setPath("/");
+			cookie.setMaxAge(60*5);
+			response.addCookie(cookie);
 			return "kicpa/common/authLogin";
 		}
 

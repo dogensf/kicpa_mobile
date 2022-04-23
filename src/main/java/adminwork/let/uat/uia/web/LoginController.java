@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Properties;
 
 import javax.annotation.Resource;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 import javax.servlet.http.HttpServletResponse;
@@ -164,9 +165,6 @@ public class LoginController {
 	@RequestMapping(value = "/uat/uia/actionSecurityLogin.do")
 	public String actionSecurityLogin(@ModelAttribute("loginVO") LoginVO loginVO, HttpServletResponse response, HttpServletRequest request, ModelMap model) throws Exception {
 
-		//request.getSession().setAttribute("LoginVO", null);
-		//request.getSession().setAttribute("returnUrl", null);
-		
 		// 접속IP
 		String userIp = ClntInfo.getClntIP(request);
 		
@@ -176,48 +174,22 @@ public class LoginController {
 		kicpaVO.setAima_psl_id(loginVO.getId());*/
 		
 		LoginVO resultVO = new LoginVO();
-		//resultVO.setId(loginVO.getId());
-		//resultVO.setUniqId(loginVO.getId());
-		//resultVO.setUserSe("USR");
-		//resultVO.setAuthor("ROLE_USER_MEMBER");
-		/*if(kicpaVO != null && kicpaVO.getAima_psl_id() != null && !kicpaVO.getAima_psl_id().equals("")) {
-			loginVO.setId(kicpaVO.getAima_psl_id());
-			// 1. 일반 로그인 처리
-			resultVO = loginService.actionLogin(loginVO);
-		}else {
-			if("admin".equals(loginVO.getId())) {
-				// 1-1. 관리자 로그인 처리
-				resultVO = loginService.actionLogin(loginVO);
-			}
-		}*/
-
-		/*boolean loginPolicyYn = true;
-
-		LoginPolicyVO loginPolicyVO = new LoginPolicyVO();
-		loginPolicyVO.setEmplyrId(resultVO.getId());
-		loginPolicyVO = egovLoginPolicyService.selectLoginPolicy(loginPolicyVO);
-
-		if (loginPolicyVO == null) {
-			loginPolicyYn = true;
-		} else {
-			if (loginPolicyVO.getLmttAt().equals("Y")) {
-				if (!userIp.equals(loginPolicyVO.getIpInfo())) {
-					loginPolicyYn = false;
-				}
-			}
-		}*/
+	
 		resultVO = loginService.actionLogin(loginVO);
-		//resultVO = loginService.kicpaLogin(loginVO);
-		
-		/*System.out.println("========loginVO.getId :: "+loginVO.getId());
-		if (resultVO == null || resultVO.getId() == null) {
-			loginService.setUserInfo(loginVO);
-			resultVO = loginService.actionLogin(loginVO);
-		}*/
+	
 		
 		//if (resultVO != null && resultVO.getId() != null && !resultVO.getId().equals("") && loginPolicyYn) {
 		if (resultVO != null && resultVO.getId() != null && !resultVO.getId().equals("")) {
-		
+			
+			if("Y".equals(loginVO.getCheckId())) {
+				
+				
+				Cookie cookie = new Cookie("loginIng", loginVO.getToken()+loginVO.getId());
+				cookie.setPath("/");
+				cookie.setMaxAge(60*60*24*30);
+				response.addCookie(cookie);
+			}
+			
 			/*if(("").equals(resultVO.getAuthor()) || null == resultVO.getAuthor()) {
 				loginService.setUserAuthorCode(resultVO);
 			}*/
@@ -255,6 +227,67 @@ public class LoginController {
 
 			model.addAttribute("message", "로그인에 실패했습니다.\n ID와 PASSWORD를 다시 체크 하시기 바랍니다.");
 			return "uat/uia/LoginUsr";
+		}
+	}
+	
+	
+	
+	/**
+	 * 일반(스프링 시큐리티) 로그인을 처리한다
+	 * @param vo - 아이디, 비밀번호가 담긴 LoginVO
+	 * @param request - 세션처리를 위한 HttpServletRequest
+	 * @return result - 로그인결과(세션정보)
+	 * @exception Exception
+	 */
+	@RequestMapping(value = "/uat/uia/actionSecurityLoginMain.do")
+	public String actionSecurityLoginMain(@ModelAttribute("loginVO") LoginVO loginVO, HttpServletResponse response, HttpServletRequest request, ModelMap model) throws Exception {
+		Cookie[] cookies = request.getCookies();
+		for(Cookie c : cookies) {
+		  if("loginIng".equals(c.getName())){
+			  if("" != c.getValue() && null != c.getValue()) {				  
+				  loginVO.setId(c.getValue());
+				  System.out.println("2.loginIng::::::: "+ c.getValue());
+			  }
+		  }		  
+		}
+		
+		LoginVO resultVO = new LoginVO();
+		
+		resultVO = loginService.actionLoginMain(loginVO);
+	
+		
+		//if (resultVO != null && resultVO.getId() != null && !resultVO.getId().equals("") && loginPolicyYn) {
+		if (resultVO != null && resultVO.getId() != null && !resultVO.getId().equals("")) {
+			
+			// 2. spring security 연동
+			request.getSession().setAttribute("LoginVO", resultVO);
+
+			UsernamePasswordAuthenticationFilter springSecurity = null;
+
+			ApplicationContext act = WebApplicationContextUtils.getRequiredWebApplicationContext(request.getSession().getServletContext());
+						
+			Map<String, UsernamePasswordAuthenticationFilter> beans = act.getBeansOfType(UsernamePasswordAuthenticationFilter.class);
+			
+			if (beans.size() > 0) {
+				
+				springSecurity = (UsernamePasswordAuthenticationFilter) beans.values().toArray()[0];
+				springSecurity.setUsernameParameter("egov_security_username");
+				springSecurity.setPasswordParameter("egov_security_password");
+				springSecurity.setRequiresAuthenticationRequestMatcher(new AntPathRequestMatcher(request.getServletContext().getContextPath() +"/egov_security_login", "POST"));
+				
+			} else {
+				throw new IllegalStateException("No AuthenticationProcessingFilter");
+			}
+			System.out.println("resultVO.getUserSe()=="+resultVO.getUserSe());
+			System.out.println("resultVO.getId()=="+resultVO.getId());
+			System.out.println("resultVO.getUniqId()=="+resultVO.getUniqId());
+						
+			springSecurity.doFilter(new RequestWrapperForSecurity(request, resultVO.getId(), resultVO.getUniqId()), response, null);
+			
+			
+			return "forward:/uat/uia/actionMain.do"; // 성공 시 페이지.. (redirect 불가)
+		} else {			
+			return "redirect:/kicpa/main/main2.do";
 		}
 	}
 
@@ -366,6 +399,18 @@ public class LoginController {
 			session.setAttribute("status", rt.getStatus());//휴페업 및 법인명
 		}
 		
+		Cookie[] cookies = request.getCookies();
+		for(Cookie c : cookies) {
+		  if("returnUrl".equals(c.getName())){
+			  if("" != c.getValue() && null != c.getValue()) {
+				  String rtUrl = c.getValue();
+				  Cookie cookie = new Cookie("returnUrl", "");				
+					cookie.setMaxAge(0);
+					response.addCookie(cookie);
+				  return "redirect:" + rtUrl;
+			  }		
+		  }
+		}
 		
 		/*if(session.getAttribute("returnUrl") != null  && session.getAttribute("returnUrl") != "") {
 			String rtUrl = session.getAttribute("returnUrl").toString();
@@ -373,21 +418,11 @@ public class LoginController {
 			return "redirect:" + rtUrl;
 		}*/
 		
-		
-		return "redirect:/kicpa/main/main.do";
-		
-		
+		return "uat/uia/movePage";
+		//return "redirect:/kicpa/main/main.do";
 		
 		
-		// 2. 메인 페이지 이동
-		/*LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
-		if(user.getId().endsWith("admin")) {
-			return "forward:/cmm/main/mainPage.do";
-		}else {
-			return "forward:/kicpa/main.do";
-		}*/
-		
-		//return "forward:/cmm/main/mainPage.do";
+
 	}
 
 	/**
@@ -396,10 +431,43 @@ public class LoginController {
 	 * @exception Exception
 	 */
 	@RequestMapping(value = "/uat/uia/actionLogout.do")
-	public String actionLogout(HttpServletRequest request, ModelMap model) throws Exception {
+	public String actionLogout(HttpServletResponse response,HttpServletRequest request, ModelMap model) throws Exception {
 		request.getSession().setAttribute("LoginVO", null);
-		request.getSession().setAttribute("returnUrl", null);
+		
+		Cookie cookie = new Cookie("loginIng", "");		
+		cookie.setPath("/");
+		cookie.setMaxAge(0);
+		response.addCookie(cookie);	
+		
+		Cookie cookie2 = new Cookie("returnUrl", "");		
+		cookie2.setPath("/");
+		cookie2.setMaxAge(0);
+		response.addCookie(cookie2);	
+			
 		return "redirect:/egov_security_logout";
+	}
+	
+	/**
+	 * 로그인 후 메인화면으로 들어간다
+	 * @param
+	 * @return 로그인 페이지
+	 * @exception Exception
+	 */
+	@RequestMapping(value = "/uat/uia/actionMain2.do")
+	public String actionMain2(HttpServletResponse response, HttpServletRequest request, ModelMap model) throws Exception {
+	
+		Cookie cookie = new Cookie("loginIng", "");
+		cookie.setPath("/");
+		cookie.setMaxAge(0);
+		response.addCookie(cookie);	
+		
+		Cookie cookie2 = new Cookie("returnUrl", "");		
+		cookie2.setPath("/");
+		cookie2.setMaxAge(0);
+		response.addCookie(cookie2);
+		
+		return "redirect:/kicpa/main/main.do";
+		
 	}
 }
 

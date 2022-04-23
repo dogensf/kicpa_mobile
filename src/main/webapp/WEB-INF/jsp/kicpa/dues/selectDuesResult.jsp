@@ -72,6 +72,10 @@ function downloadURI(uri, name){
     }); */
 
     $(function() {
+    	
+    	window.bridge.displayBottom(true);	
+    	
+    	
     	<c:if test="${searchVO.searchBgnDe eq '' || searchVO.searchEndDe eq ''}"> 
 	    	$('.btn-round-m').each(function(idx){
 	    		if(idx == 0){
@@ -277,7 +281,7 @@ function downloadURI(uri, name){
 		  	<%
 	        }else{
 		  	%>
-		  	<button class="btn-login" onclick="location.href='<c:url value='/uat/uia/actionLogout.do'/>';" type="button">
+		  	<button class="btn-login" onclick="javascript:logOut();" type="button">
 	     	 로그아웃
 	    	</button>	            
 		  	<%

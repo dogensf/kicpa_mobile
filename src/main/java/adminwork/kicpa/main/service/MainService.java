@@ -8,5 +8,6 @@ public interface  MainService {
 	
 	public List<Scalendar> selectCalList(Scalendar vo)throws Exception;
 	
+	public void setFcmToken(Main vo)throws Exception;
 
 }

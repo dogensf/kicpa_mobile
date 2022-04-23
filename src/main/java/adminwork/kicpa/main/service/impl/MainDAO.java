@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
+import adminwork.kicpa.main.service.Main;
 import adminwork.kicpa.main.service.Scalendar;
 import egovframework.rte.psl.dataaccess.EgovAbstractDAO;
 
@@ -19,5 +20,9 @@ public class MainDAO extends EgovAbstractDAO{
 	@SuppressWarnings("unchecked")
 	public List<Scalendar> selectCalList(Scalendar vo)throws Exception{
 		return (List<Scalendar>) list("mainDAO.selectCalList", vo);
+	}
+	
+	public void setFcmToken(Main vo) throws Exception{
+		 update("mainDAO.setFcmToken",vo);
 	}
 }

@@ -13,7 +13,7 @@ $(document).ready(function(){
 		window.open("/kicpa/memberEvent/regMemberEvent.do?boardId="+$("#boardForm input[name='boardId']").val() , "boardForm")
 	});
 
-
+	window.bridge.displayBottom(true);
 	board.boardListInit();
 // 	memberEvent.init();
 });
@@ -48,7 +48,7 @@ function fncLocation(){
 		  	<%
 	        }else{
 		  	%>
-		  	<button class="btn-login" onclick="location.href='<c:url value='/uat/uia/actionLogout.do'/>';" type="button">
+		  	<button class="btn-login" onclick="javascript:logOut();" type="button">
 	     	 로그아웃
 	    	</button>
 		  	<%

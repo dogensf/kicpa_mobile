@@ -46,6 +46,16 @@ public class LoginDAO extends EgovAbstractDAO {
     	return (LoginVO)select("loginDAO.actionLogin", vo);
     }
     
+    /**
+	 * 일반 로그인을 처리한다
+	 * @param vo LoginVO
+	 * @return LoginVO
+	 * @exception Exception
+	 */
+    public LoginVO actionLoginMain(LoginVO vo) throws Exception {
+    	return (LoginVO)select("loginDAO.actionLoginMain", vo);
+    }
+    
 
 
     

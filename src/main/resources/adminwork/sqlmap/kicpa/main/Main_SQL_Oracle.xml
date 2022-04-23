@@ -5,6 +5,7 @@
 
 	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
 	<typeAlias  alias="scalendar" type="adminwork.kicpa.main.service.Scalendar"/>
+	<typeAlias  alias="main" type="adminwork.kicpa.main.service.Main"/>
 	
 	<select id="mainDAO.selectCalCnt" parameterClass="scalendar" resultClass="scalendar">
 		<![CDATA[ 
@@ -18,7 +19,7 @@
 		]]> 
 	</select>
 
- 	<select id="mainDAO.selectCalList" parameterClass="scalendar" resultClass="scalendar">
+ 	<select id="mainDAO.selectCalList" parameterClass="scalendar">
 		<![CDATA[ 
             SELECT
 			      	SCH_DT AS schDt
@@ -36,5 +37,32 @@
 		 
 	</select>
 	
+	
+	 	<update id="mainDAO.setFcmToken" parameterClass="main">
+		<![CDATA[ 
+            MERGE INTO LETTAPPTOKEN at 
+			USING DUAL 
+			    ON ( at.TOKEN = #token# )
+			WHEN MATCHED THEN 
+			    UPDATE SET       
+			         UPDT = SYSDATE
+			         ]]>
+			         <isNotEmpty property="userid">
+			        ,USERID = #userid#
+			        </isNotEmpty>	
+			<![CDATA[ 
+			WHEN NOT MATCHED THEN 
+			    INSERT ( 
+			      TOKEN
+			      , USERID
+			      , REGDT			      
+			    ) values (
+			      #token#
+			      , #userid#			      
+			      , SYSDATE
+			    )
+			]]>
+		 
+	</update>
 	
 </sqlMap>                            

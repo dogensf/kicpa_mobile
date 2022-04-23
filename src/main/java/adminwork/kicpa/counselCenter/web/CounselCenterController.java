@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -66,6 +67,10 @@ public class CounselCenterController {
 			return "kicpa/counselCenter/declarationBoardList";
 		}else {
 			model.addAttribute("returnUrl", "/kicpa/counselCenter/declarationBoardList.do");
+			Cookie cookie = new Cookie("returnUrl", "/kicpa/counselCenter/declarationBoardList.do");
+			cookie.setPath("/");
+			cookie.setMaxAge(60*60);
+			response.addCookie(cookie);
 			return "kicpa/common/authLogin";
 		}
 	}
@@ -90,6 +95,10 @@ public class CounselCenterController {
 			return "kicpa/counselCenter/counselBoardList";
 		}else {
 			model.addAttribute("returnUrl", "/kicpa/counselCenter/counselBoardList.do");
+			Cookie cookie = new Cookie("returnUrl", "/kicpa/counselCenter/counselBoardList.do");
+			cookie.setPath("/");
+			cookie.setMaxAge(60*60);
+			response.addCookie(cookie);
 			return "kicpa/common/authLogin";
 		}
 
@@ -103,6 +112,10 @@ public class CounselCenterController {
 			return "kicpa/counselCenter/declarationStep1";
 		}else {
 			model.addAttribute("returnUrl", "/kicpa/counselCenter/declarationStep1.do");
+			Cookie cookie = new Cookie("returnUrl", "/kicpa/counselCenter/declarationStep1.do");
+			cookie.setPath("/");
+			cookie.setMaxAge(60*60);
+			response.addCookie(cookie);
 			return "kicpa/common/authLogin";
 		}
 
@@ -115,6 +128,10 @@ public class CounselCenterController {
 			return "kicpa/counselCenter/declarationStep2";
 		}else {
 			model.addAttribute("returnUrl", "/kicpa/counselCenter/declarationStep1.do");
+			Cookie cookie = new Cookie("returnUrl", "/kicpa/counselCenter/declarationStep1.do");
+			cookie.setPath("/");
+			cookie.setMaxAge(60*60);
+			response.addCookie(cookie);
 			return "kicpa/common/authLogin";
 		}
 
@@ -139,6 +156,10 @@ public class CounselCenterController {
 			return "kicpa/counselCenter/kifrsBoardList";
 		}else {
 			model.addAttribute("returnUrl", "/kicpa/counselCenter/kifrsBoardList.do");
+			Cookie cookie = new Cookie("returnUrl", "/kicpa/counselCenter/kifrsBoardList.do");
+			cookie.setPath("/");
+			cookie.setMaxAge(60*60);
+			response.addCookie(cookie);
 			return "kicpa/common/authLogin";
 		}
 
@@ -154,6 +175,10 @@ public class CounselCenterController {
 			return "kicpa/counselCenter/nonExtBoardList";
 		}else {
 			model.addAttribute("returnUrl", "/kicpa/counselCenter/nonExtBoardList.do");
+			Cookie cookie = new Cookie("returnUrl", "/kicpa/counselCenter/nonExtBoardList.do");
+			cookie.setPath("/");
+			cookie.setMaxAge(60*60);
+			response.addCookie(cookie);
 			return "kicpa/common/authLogin";
 		}
 
@@ -169,6 +194,10 @@ public class CounselCenterController {
 			return "kicpa/counselCenter/smpBoardList";
 		}else {
 			model.addAttribute("returnUrl", "/kicpa/counselCenter/smpBoardList.do");
+			Cookie cookie = new Cookie("returnUrl", "/kicpa/counselCenter/smpBoardList.do");
+			cookie.setPath("/");
+			cookie.setMaxAge(60*60);
+			response.addCookie(cookie);
 			return "kicpa/common/authLogin";
 		}
 
@@ -186,6 +215,10 @@ public class CounselCenterController {
 			return "kicpa/counselCenter/suggestBoardList";
 		}else {
 			model.addAttribute("returnUrl", "/kicpa/counselCenter/suggestBoardList.do");
+			Cookie cookie = new Cookie("returnUrl", "/kicpa/counselCenter/suggestBoardList.do");
+			cookie.setPath("/");
+			cookie.setMaxAge(60*60);
+			response.addCookie(cookie);
 			return "kicpa/common/authLogin";
 		}
 
@@ -202,14 +235,34 @@ public class CounselCenterController {
 		}else {
 			if("kifrs".equals(StringUtil.isNullToString(map.get("boardId")))) {
 				model.addAttribute("returnUrl", "/kicpa/counselCenter/kifrsBoardList.do");
+				Cookie cookie = new Cookie("returnUrl", "/kicpa/counselCenter/kifrsBoardList.do");
+				cookie.setPath("/");
+				cookie.setMaxAge(60*60);
+				response.addCookie(cookie);
 			}else if("nonextaudit01".equals(StringUtil.isNullToString(map.get("boardId")))) {
 				model.addAttribute("returnUrl", "/kicpa/counselCenter/nonExtBoardList.do");
+				Cookie cookie = new Cookie("returnUrl", "/kicpa/counselCenter/nonExtBoardList.do");
+				cookie.setPath("/");
+				cookie.setMaxAge(60*60);
+				response.addCookie(cookie);
 			}else if("smpadt".equals(StringUtil.isNullToString(map.get("boardId")))) {
 				model.addAttribute("returnUrl", "/kicpa/counselCenter/smpBoardList.do");
+				Cookie cookie = new Cookie("returnUrl", "/kicpa/counselCenter/smpBoardList.do");
+				cookie.setPath("/");
+				cookie.setMaxAge(60*60);
+				response.addCookie(cookie);
 			}else if("sugt01".equals(StringUtil.isNullToString(map.get("boardId")))) {
 				model.addAttribute("returnUrl", "/kicpa/counselCenter/suggestBoardList.do");
+				Cookie cookie = new Cookie("returnUrl", "/kicpa/counselCenter/suggestBoardList.do");
+				cookie.setPath("/");
+				cookie.setMaxAge(60*60);
+				response.addCookie(cookie);
 			}else {
 				model.addAttribute("returnUrl", "/kicpa/main/main.do");
+				Cookie cookie = new Cookie("returnUrl", "/kicpa/main/main.do");
+				cookie.setPath("/");
+				cookie.setMaxAge(60*60);
+				response.addCookie(cookie);
 			}
 
 			return "kicpa/common/authLogin";
@@ -228,6 +281,10 @@ public class CounselCenterController {
 			return "kicpa/counselCenter/counselBoardForm";
 		}else {
 			model.addAttribute("returnUrl", "/kicpa/counselCenter/counselBoardList.do");
+			Cookie cookie = new Cookie("returnUrl", "/kicpa/counselCenter/counselBoardList.do");
+			cookie.setPath("/");
+			cookie.setMaxAge(60*60);
+			response.addCookie(cookie);
 			return "kicpa/common/authLogin";
 		}
 
@@ -298,6 +355,7 @@ public class CounselCenterController {
 				modelAndView.addObject("isLogin", true);
     		}else {
     			modelAndView.addObject("returnUrl", "/kicpa/counselCenter/declarationBoardList.do");
+    			
     			modelAndView.addObject("isLogin", false);
     		}
     	}catch (Exception e) {

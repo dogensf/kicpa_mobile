@@ -2,6 +2,8 @@
 <%@ taglib prefix='c' uri='http://java.sun.com/jsp/jstl/core' %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ page import ="adminwork.com.cmm.LoginVO" %>
+<%@ page import ="javax.servlet.http.Cookie" %>
+<%@ page import ="javax.servlet.http.HttpServletResponse" %>
 <script>
     $(document).ready(function(){
         window.bridge.displayBottom(true);
@@ -32,6 +34,12 @@ function fncLocation(){
       <section class="head-main line">
         <h1>회원상담</h1>
         <%
+		    Cookie cookie = new Cookie("returnUrl", "/kicpa/myp/faqQnaCategory.do");
+			cookie.setPath("/");
+			cookie.setMaxAge(60*15);
+			response.addCookie(cookie);
+        
+        	
 	        LoginVO loginVO = (LoginVO)session.getAttribute("LoginVO");
 	        if(loginVO == null){
 	        %>
@@ -41,7 +49,7 @@ function fncLocation(){
 		  	<%
 	        }else{
 		  	%>
-		  	<button class="btn-login" onclick="location.href='<c:url value='/uat/uia/actionLogout.do'/>';" type="button">
+		  	<button class="btn-login" onclick="javascript:logOut();" type="button">
 	     	 로그아웃
 	    	</button>
 	            

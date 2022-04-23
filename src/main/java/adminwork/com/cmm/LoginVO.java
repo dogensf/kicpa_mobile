@@ -59,6 +59,8 @@ public class LoginVO implements Serializable{
 	
 	private String userTy;
 	
+	private String checkId;
+	
 
 	private String aima_emp_id;
 	private String aima_dept_pcode;
@@ -108,6 +110,8 @@ public class LoginVO implements Serializable{
 	private String meber_flag_nm;
 	private String audit_nm;
 	private String status;
+	
+	private String token;
 	
 	/**
 	 * id attribute 를 리턴한다.
@@ -582,6 +586,19 @@ public class LoginVO implements Serializable{
 	public void setUserTy(String userTy) {
 		this.userTy = userTy;
 	}
+	public String getCheckId() {
+		return checkId;
+	}
+	public void setCheckId(String checkId) {
+		this.checkId = checkId;
+	}
+	public String getToken() {
+		return token;
+	}
+	public void setToken(String token) {
+		this.token = token;
+	}
+	
 	
 	
 	

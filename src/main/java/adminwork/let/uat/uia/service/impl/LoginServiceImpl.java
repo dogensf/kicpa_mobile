@@ -100,6 +100,28 @@ public class LoginServiceImpl extends EgovAbstractServiceImpl implements
     	return loginVO;
     }
     
+    /**
+	 * 일반 로그인을 처리한다
+	 * @param vo LoginVO
+	 * @return LoginVO
+	 * @exception Exception
+	 */
+    @Override
+	public LoginVO actionLoginMain(LoginVO vo) throws Exception {
+
+    	// 1. 쿠키저장 정보로 로그인한다.    	
+    	LoginVO loginVO = loginDAO.actionLoginMain(vo);
+
+    	// 3. 결과를 리턴한다.
+    	if (loginVO != null && !loginVO.getId().equals("") && !loginVO.getPassword().equals("")) {
+    		return loginVO;
+    	} else {
+    		loginVO = new LoginVO();
+    	}
+
+    	return loginVO;
+    }
+    
     @Override
 	public LoginVO kicpaInfo(LoginVO vo) throws Exception {
 

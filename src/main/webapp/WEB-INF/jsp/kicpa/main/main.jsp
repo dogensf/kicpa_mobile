@@ -20,18 +20,26 @@ var aa =  [
 			
 		] ;
 
-$(document).ready(function(){
-	window.bridge.displayBottom(true);	
+$(document).ready(function(){	
+		
 	<%-- window.bridge.userDataSave('JSESSIONID', '<%=session.getId() %>'); --%>
 	
-	
+	//window.bridge.userDataGet('loginIng', 'window.alert');
 	
 	if (window['bridge'] )  {
-		window.bridge.reqFavorite(); 
+		window.bridge.reqFavorite();
+		window.bridge.displayBottom(true);
+		window.bridge.getFcmToken('function(d) {setFcmToken(d);}');
 	} else { 
 		//applyFavorite(aa); 
 	}
 });
+
+function setFcmToken(token){	
+	var param = { "token": token};
+	fn_ajax_call("/kicpa/main/setFcmToken.do",param,"","");
+	
+}
 
 function getCookie(Name) {
     var search = Name + "="

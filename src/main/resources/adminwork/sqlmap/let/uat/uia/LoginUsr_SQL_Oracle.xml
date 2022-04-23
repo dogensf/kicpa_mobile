@@ -136,6 +136,29 @@
 		</isEqual> -->
 	</select>
 	
+	<!-- token 로그인 -->
+	<select id="loginDAO.actionLoginMain" resultMap="login">
+		<![CDATA[
+		  select  
+		  		  IML_ID AS id,
+		  		  IML_KNAME AS name ,
+		  		  IML_PWD AS password, 
+		  		  '' AS ihidNum,
+		  		  '' AS email,
+		  		  'USR' AS userSe,
+		  		  DECODE(iml_member_sep,'1','회원','2','수습','3','임직원','기타') AS orgnztId,
+		  		  IML_PSL_ID AS uniqId,
+		  		  IML_ID AS empId
+	      from kicpasec.sdb_int_mb_login
+	      where IML_MEMBER_SEP in (1,2,3)
+	    	and IML_REG_YN ='1'
+			and iml_id  = (select USERID from LETTAPPTOKEN WHERE (TOKEN||USERID) = #id#	)		
+			
+			]]>
+		
+	</select>
+	
+	
 	<!-- 인증서 로그인 -->
 	<select id="loginDAO.actionCrtfctLogin" resultMap="login">
 		<![CDATA[

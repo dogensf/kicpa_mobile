@@ -50,7 +50,7 @@
 			<%
 			}else{
 			%>
-			<button class="btn-login" onclick="location.href='<c:url value='/uat/uia/actionLogout.do'/>';" type="button">
+			<button class="btn-login" onclick="javascript:logOut();" type="button">
 				로그아웃
 			</button>
 			<%-- <c:set var="loginName" value="<%= loginVO.getName()%>"/>

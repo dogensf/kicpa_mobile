@@ -3032,7 +3032,7 @@ body.stop {
       -ms-flex: 1;
           flex: 1;
   position: relative;
-  padding: 0 1.2rem;
+  padding: 0 1rem;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;

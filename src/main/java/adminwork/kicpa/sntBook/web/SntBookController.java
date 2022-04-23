@@ -1,50 +1,33 @@
 package adminwork.kicpa.sntBook.web;
 
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.math.BigInteger;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.security.MessageDigest;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
 import javax.annotation.Resource;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.apache.commons.lang3.ArrayUtils;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
-
-import com.ibm.icu.text.SimpleDateFormat;
 
 import adminwork.com.cmm.HttpUtil;
 import adminwork.com.cmm.LoginVO;
 import adminwork.com.cmm.StringUtil;
 import adminwork.com.cmm.service.FileMngUtil;
 import adminwork.kicpa.cmm.comm.service.KicpaCommService;
-import adminwork.kicpa.cmm.comm.web.KicpaCommController;
-import adminwork.kicpa.job.service.JobAdvertisementService;
 import adminwork.kicpa.sntBook.service.SntBookService;
-import adminwork.let.utl.fcc.service.DateUtil;
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.fdl.security.userdetails.util.EgovUserDetailsHelper;
 import egovframework.rte.psl.dataaccess.util.EgovMap;
@@ -124,6 +107,10 @@ public class SntBookController {
 			return "kicpa/sntBook/specialLectureList";
 		}else {
 			model.addAttribute("returnUrl", "/kicpa/sntBook/specialLectureList.do?gbn="+StringUtil.isNullToString(map.get("gbn"), "LISTPAGE2"));
+			Cookie cookie = new Cookie("returnUrl", "/kicpa/sntBook/specialLectureList.do?gbn="+StringUtil.isNullToString(map.get("gbn"), "LISTPAGE2"));
+			cookie.setPath("/");
+			cookie.setMaxAge(60*60);
+			response.addCookie(cookie);
 			return "kicpa/common/authLogin";
 		}
 
@@ -139,6 +126,10 @@ public class SntBookController {
 			return "kicpa/sntBook/offlineEduList";
 		}else {
 			model.addAttribute("returnUrl", "/kicpa/sntBook/offlineEduList.do?accEduUse="+StringUtil.isNullToString(map.get("accEduUse"), "1"));
+			Cookie cookie = new Cookie("returnUrl", "/kicpa/sntBook/offlineEduList.do?accEduUse="+StringUtil.isNullToString(map.get("accEduUse"), "1"));
+			cookie.setPath("/");
+			cookie.setMaxAge(60*60);
+			response.addCookie(cookie);
 			return "kicpa/common/authLogin";
 		}
 
@@ -171,6 +162,10 @@ public class SntBookController {
 			return "kicpa/sntBook/cartList";
 		}else {
 			model.addAttribute("returnUrl", "/kicpa/sntBook/cartList.do");
+			Cookie cookie = new Cookie("returnUrl", "/kicpa/sntBook/cartList.do");
+			cookie.setPath("/");
+			cookie.setMaxAge(60*60);
+			response.addCookie(cookie);
 			return "kicpa/common/authLogin";
 		}
 
@@ -192,6 +187,10 @@ public class SntBookController {
 			return "kicpa/sntBook/bookBuyHistoryList";
 		}else {
 			model.addAttribute("returnUrl", "/kicpa/sntBook/bookBuyHistoryList.do");
+			Cookie cookie = new Cookie("returnUrl","/kicpa/sntBook/bookBuyHistoryList.do");
+			cookie.setPath("/");
+			cookie.setMaxAge(60*60);
+			response.addCookie(cookie);
 			return "kicpa/common/authLogin";
 		}
 
@@ -223,6 +222,10 @@ public class SntBookController {
 				return "kicpa/sntBook/offlineEduDetail";
 			}else {
 				model.addAttribute("returnUrl", "/kicpa/sntBook/offlineEduDetail.do?idNum="+map.get("idNum"));
+				Cookie cookie = new Cookie("returnUrl", "/kicpa/sntBook/offlineEduDetail.do?idNum="+map.get("idNum"));
+				cookie.setPath("/");
+				cookie.setMaxAge(60*60);
+				response.addCookie(cookie);
 				return "kicpa/common/authLogin";
 			}
 
@@ -259,6 +262,10 @@ public class SntBookController {
 			}
 		}else {
 			model.addAttribute("returnUrl", "/kicpa/sntBook/cartList.do");
+			Cookie cookie = new Cookie("returnUrl", "/kicpa/sntBook/cartList.do");
+			cookie.setPath("/");
+			cookie.setMaxAge(60*60);
+			response.addCookie(cookie);
 			return "kicpa/common/authLogin";
 		}
 
@@ -284,6 +291,10 @@ public class SntBookController {
 			}
 		}else {
 			model.addAttribute("returnUrl", "/kicpa/sntBook/offlineEduList.do");
+			Cookie cookie = new Cookie("returnUrl", "/kicpa/sntBook/offlineEduList.do");
+			cookie.setPath("/");
+			cookie.setMaxAge(60*60);
+			response.addCookie(cookie);
 			return "kicpa/common/authLogin";
 		}
 

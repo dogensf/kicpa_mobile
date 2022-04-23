@@ -1,28 +1,31 @@
 package adminwork.kicpa.myp.web;
 
 
-import adminwork.com.cmm.LoginVO;
-import adminwork.kicpa.cmm.board.service.CommonBoardService;
-import adminwork.kicpa.cmm.comm.service.KicpaCommService;
-import adminwork.kicpa.dues.service.DuesVO;
-import adminwork.kicpa.myp.service.MyPageService;
-import adminwork.kicpa.taxNews.service.TaxNewsService;
-import egovframework.rte.fdl.security.userdetails.util.EgovUserDetailsHelper;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
-import org.springframework.util.Base64Utils;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.BufferedInputStream;
 import java.sql.Blob;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.annotation.Resource;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.util.Base64Utils;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import adminwork.com.cmm.LoginVO;
+import adminwork.kicpa.myp.service.MyPageService;
+import egovframework.rte.fdl.security.userdetails.util.EgovUserDetailsHelper;
 
 
 @Controller
@@ -339,6 +342,11 @@ public class MyPageController {
 			model.addAttribute("id", Pin);
 			model.addAttribute("url", "/kicpa/myp/myPage.do");
 			model.addAttribute("title", "마이페이지");
+			Cookie cookie = new Cookie("returnUrl", "/kicpa/myp/myPage.do");
+			cookie.setPath("/");
+			cookie.setMaxAge(60*5);
+			response.addCookie(cookie);
+			
 			return "kicpa/common/authLogin";
 
 		}
@@ -411,6 +419,12 @@ public class MyPageController {
 			System.out.println("pin========="+paramMap.get("pin"));
 			model.addAttribute("id", paramMap.get("pin"));
 			model.addAttribute("url", "/kicpa/myp/myPageInfo.do");
+			Cookie cookie = new Cookie("returnUrl", "/kicpa/myp/myPageInfo.do");
+			cookie.setPath("/");
+			cookie.setMaxAge(60*5);
+			response.addCookie(cookie);
+			
+			
 			return "uat/uia/LoginUsr";
 
 		}

@@ -48,11 +48,11 @@ function fn_ajax_call(href, param, sfn, efn) {
 			//$('#PG_OVERLAY').remove();
 		},
 		success: function(result) {
-			if (sfn !== undefined || typeof sfn !== 'undefined') sfn(result);
+			if (sfn !== undefined && typeof sfn !== 'undefined' && sfn !== '') sfn(result);
 		},
 		error: function(xhr, status, error) {
 			//if(xhr.status == 401) location.reload();
-			if (efn !== undefined || typeof efn !== 'undefined' ||  efn !== '') efn(xhr, status, error);
+			if (efn !== undefined && typeof efn !== 'undefined' &&  efn !== '') efn(xhr, status, error);
 		}
 	});
 };

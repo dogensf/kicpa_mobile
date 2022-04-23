@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -161,6 +162,10 @@ public class DuesController {
 		}else {
 			System.out.println("pin========="+Pin);
 			model.addAttribute("id", Pin);
+			Cookie cookie = new Cookie("returnUrl", "/kicpa/dues/selectDuesList.do");
+			cookie.setPath("/");
+			cookie.setMaxAge(60*15);
+			response.addCookie(cookie);
 			model.addAttribute("returnUrl", "/kicpa/dues/selectDuesList.do");
 			model.addAttribute("title", "회비납부/조회");
 			return "kicpa/common/authLogin";
@@ -283,7 +288,7 @@ public class DuesController {
 	}
 	
 	@RequestMapping(value = "/kicpa/dues/selectPaymentResult.do")
-	public String selectPaymentResult(@ModelAttribute("searchVO") DuesVO vo,ModelMap model, HttpServletRequest request, RedirectAttributes rttr)
+	public String selectPaymentResult(@ModelAttribute("searchVO") DuesVO vo,ModelMap model, HttpServletRequest request,HttpServletResponse response, RedirectAttributes rttr)
 	  throws Exception{
 		
 		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
@@ -292,6 +297,10 @@ public class DuesController {
 			//model.addAttribute("cmmCodeList", cmmUseService.getCmmCodeDetailAll());
 		}else {
 			model.addAttribute("title", "회비납부/결과조회");
+			Cookie cookie = new Cookie("returnUrl", "/kicpa/dues/selectPaymentResult.do");
+			cookie.setPath("/");
+			cookie.setMaxAge(60*5);
+			response.addCookie(cookie);
 			return "kicpa/common/authLogin";
 		}
 		LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
@@ -472,7 +481,7 @@ public class DuesController {
 	
 	
 	@RequestMapping(value = "/kicpa/dues/selectDuesResult.do")
-	public String selectDuesResult(@ModelAttribute("searchVO") DuesVO vo,ModelMap model, HttpServletRequest request)
+	public String selectDuesResult(@ModelAttribute("searchVO") DuesVO vo,ModelMap model, HttpServletResponse response, HttpServletRequest request)
 	  throws Exception{
 		
 		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
@@ -481,14 +490,18 @@ public class DuesController {
 			//model.addAttribute("cmmCodeList", cmmUseService.getCmmCodeDetailAll());
 		}else {
 			model.addAttribute("title", "납부결과 및 조회");
+			Cookie cookie = new Cookie("returnUrl", "/kicpa/dues/selectDuesResult.do");
+			cookie.setPath("/");
+			cookie.setMaxAge(60*5);
+			response.addCookie(cookie);
 			return "kicpa/common/authLogin";
 		}
 		LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
 		//날짜가 없을 경우 현재 날짜로 셋팅한다.
-		if(vo.getSearchBgnDe() == null || vo.getSearchBgnDe() == "") {
+		/*if(vo.getSearchBgnDe() == null || vo.getSearchBgnDe() == "") {
 			vo.setSearchBgnDe(DateUtil.getCurrentDateymd(""));
 			vo.setSearchEndDe(DateUtil.getCurrentDateymd(""));
-		}
+		}*/
 		vo.setCust_inqr_no(user.getUniqId());		
 		Dues info = duesService.selectDuesResultInfo(vo);
 		List<Dues> list = duesService.selectDuesResultList(vo);
@@ -501,7 +514,7 @@ public class DuesController {
 	}
 	
 	@RequestMapping(value = "/kicpa/dues/selectDuesResultPop.do")
-	public String selectDuesResultPop(@ModelAttribute("searchVO") DuesVO vo,ModelMap model, HttpServletRequest request)
+	public String selectDuesResultPop(@ModelAttribute("searchVO") DuesVO vo,ModelMap model, HttpServletResponse response, HttpServletRequest request)
 	  throws Exception{
 		
 		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
@@ -510,6 +523,10 @@ public class DuesController {
 			//model.addAttribute("cmmCodeList", cmmUseService.getCmmCodeDetailAll());
 		}else {
 			model.addAttribute("title", "납부결과 및 조회");
+			Cookie cookie = new Cookie("returnUrl", "/kicpa/dues/selectDuesResultPop.do");
+			cookie.setPath("/");
+			cookie.setMaxAge(60*15);
+			response.addCookie(cookie);
 			return "kicpa/common/authLogin";
 		}
 		LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();

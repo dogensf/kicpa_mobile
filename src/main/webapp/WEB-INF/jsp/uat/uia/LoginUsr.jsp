@@ -26,18 +26,19 @@
 
 
 		<script type="text/javascript">
-
+		var token="";
 		$(document).ready(function(){
+			$('#checkId').trigger('click');
 			<%-- window.bridge.userDataSave('JSESSIONID', '<%=session.getId() %>'); --%>
 			fnInit();
-			
+			window.bridge.getFcmToken('function(d) {setToken(d);window.token = d;}');
 		});
 
 		
 		
 		
 		function actionLogin() {
-
+			
 		    if (document.loginForm.id.value =="") {
 		        alert("사용자 ID를 입력하시기 바랍니다.");
 		        return false;
@@ -52,7 +53,10 @@
 		    }
 		}
 
-
+		function setToken(tokens){			
+			$('#token').val(tokens);
+			
+		}
 
 		function setCookie (name, value, expires) {
 		    document.cookie = name + "=" + escape (value) + "; path=/; expires=" + expires.toGMTString();
@@ -97,6 +101,7 @@
 			//$('#id').focus();
 
 		    getid(document.loginForm);
+		    $('#checkId').trigger('click');
 
 		}
         function fncLocation(){
@@ -133,7 +138,8 @@
                                     <input type="password" id="password" name="password" placeholder="비밀번호" />
                                 </div>
                                 <div class="inp-box">
-                                    <input type="checkbox" checked name="bk-item" id="checkId" name="checkId" />
+                                	<input type="hidden" id="token" name="token" value="" />
+                                    <input type="checkbox" checked  id="checkId" name="checkId" value="Y" />                                    
                                     <label for="checkId">로그인 상태 유지</label>
                                 </div>
                             </div>

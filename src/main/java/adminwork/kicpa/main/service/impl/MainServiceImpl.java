@@ -7,6 +7,7 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
+import adminwork.kicpa.main.service.Main;
 import adminwork.kicpa.main.service.MainService;
 import adminwork.kicpa.main.service.Scalendar;
 import egovframework.rte.fdl.cmmn.EgovAbstractServiceImpl;
@@ -24,5 +25,9 @@ public class MainServiceImpl extends EgovAbstractServiceImpl implements MainServ
 	
 	public List<Scalendar> selectCalList(Scalendar vo)throws Exception{
 		return mainDAO.selectCalList(vo);
+	}
+	
+	public void setFcmToken(Main vo)throws Exception{
+		mainDAO.setFcmToken(vo);
 	}
 }

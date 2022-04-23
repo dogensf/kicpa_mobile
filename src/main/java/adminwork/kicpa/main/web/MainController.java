@@ -7,9 +7,9 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -22,6 +22,7 @@ import adminwork.com.cmm.LoginVO;
 import adminwork.com.cmm.StringUtil;
 import adminwork.kicpa.cmm.board.service.CommonBoardService;
 import adminwork.kicpa.job.service.JobAdvertisementService;
+import adminwork.kicpa.main.service.Main;
 import adminwork.kicpa.main.service.MainService;
 import adminwork.kicpa.main.service.Scalendar;
 import adminwork.kicpa.notice.service.NoticeService;
@@ -50,15 +51,39 @@ public class MainController {
 	@RequestMapping(value = "/main.do")
 	public String main(@RequestParam Map<String,Object> map,HttpServletRequest request,HttpServletResponse response,ModelMap model) throws Exception{
 		
-		HttpSession session = request.getSession();
+		return "kicpa/main/mainChk";
+		/*Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
 		
-		/*if(session.getAttribute("returnUrl") != null  && session.getAttribute("returnUrl") != "") {
-			String rtUrl = session.getAttribute("returnUrl").toString();
-			session.removeAttribute("returnUrl");
-			return "redirect:" + rtUrl;
-		}*/
 		
-		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+			Cookie[] cookies = request.getCookies();		
+			if(cookies != null) {
+	
+					for(Cookie c : cookies) {
+						  if("loginIng".equals(c.getName())){
+							  if("" != c.getValue() && null != c.getValue()) {	
+								  System.out.println("0.loginIng::::::: "+ c.getValue());
+								  if (!isAuthenticated) {
+									  System.out.println("1.loginIng::::::: "+ c.getValue());
+									  for(Cookie c2 : cookies) {
+										  if("returnUrl".equals(c2.getName())){
+											  if("" != c2.getValue() && null != c2.getValue()) {
+												  Cookie cookie = new Cookie("returnUrl", "");		
+												  	cookie.setPath("/");												  
+													cookie.setMaxAge(0);
+													response.addCookie(cookie);				  
+											  }
+										  }		  
+										}
+									  
+									  return "redirect:/uat/uia/actionSecurityLoginMain.do";
+								  
+								  }
+						  }		  
+						}
+					}
+			}
+		
+		
 		List<EgovMap> boardList = null;
 		int totalCnt;
 
@@ -106,7 +131,149 @@ public class MainController {
 		model.addAttribute("sumCal",cals);
 		model.addAttribute("nowMM",nowMM);
 		
-		System.out.println("________" + nowMM);
+		
+		return "kicpa/main/main";*/
+	}
+	
+	@RequestMapping(value = "/main1.do")
+	public String main1(@RequestParam Map<String,Object> map,HttpServletRequest request,HttpServletResponse response,ModelMap model) throws Exception{
+		
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		
+		
+			Cookie[] cookies = request.getCookies();		
+			if(cookies != null) {
+	
+					for(Cookie c : cookies) {
+						  if("loginIng".equals(c.getName())){
+							  if("" != c.getValue() && null != c.getValue()) {	
+								  System.out.println("0.loginIng::::::: "+ c.getValue());
+								  if (!isAuthenticated) {
+									  System.out.println("1.loginIng::::::: "+ c.getValue());
+									  for(Cookie c2 : cookies) {
+										  if("returnUrl".equals(c2.getName())){
+											  if("" != c2.getValue() && null != c2.getValue()) {
+												  Cookie cookie = new Cookie("returnUrl", "");		
+												  	cookie.setPath("/");												  
+													cookie.setMaxAge(0);
+													response.addCookie(cookie);				  
+											  }
+										  }		  
+										}
+									  
+									  return "redirect:/uat/uia/actionSecurityLoginMain.do";
+								  
+								  }
+						  }		  
+						}
+					}
+			}
+		
+		
+		List<EgovMap> boardList = null;
+		int totalCnt;
+
+
+        map.put("pageIndex", StringUtil.isNullToString(map.get("pageIndex"), "1"));
+        map.put("pageSize", 3);
+
+        map.put("boardId", "noti");
+        Map<String,Object> boardMaster = commonBoardService.selectBoardMaster(map);
+
+        map.forEach((key,value)-> boardMaster.merge(key, value, (v1,v2)->v2));
+
+        if("Y".equals(boardMaster.get("owntblYn")) && "CAFE".equals(boardMaster.get("owntblFix"))) {
+        	boardList = commonBoardService.selectCommonCafeBoardList(boardMaster);
+        }else {
+        	boardList = commonBoardService.selectCommonBoardList(boardMaster);
+        }
+
+        List<EgovMap> jobBoardList = jobAdvertisementService.selectBoardList(map);
+
+        boardList.forEach(x -> StringUtil.checkMapReplaceHtml(x));
+        jobBoardList.forEach(x -> StringUtil.checkMapReplaceHtml(x));
+//        StringUtil.checkMapReplaceHtml(boardDetail);
+
+        model.addAttribute("jobBoardList", jobBoardList);
+
+
+		model.addAttribute("boardList", boardList);
+		model.addAttribute("boardMaster", boardMaster);
+		model.addAttribute("isLogin", isAuthenticated);
+
+		
+		SimpleDateFormat sdf1 = new SimpleDateFormat("MM");		
+		Date now = new Date(); 
+		String nowMM = sdf1.format(now);
+		Scalendar vo = new Scalendar();
+		vo.setYmd(nowMM);
+		Scalendar cals = mainService.selectCalCnt(vo);
+		if(cals == null) {
+			cals = new Scalendar();
+			cals.setCnt01(0);
+			cals.setCnt02(0);
+			cals.setCnt03(0);
+		}
+		model.addAttribute("sumCal",cals);
+		model.addAttribute("nowMM",nowMM);
+		
+		
+		return "kicpa/main/main";
+	}
+	
+	@RequestMapping(value = "/main2.do")
+	public String main2(@RequestParam Map<String,Object> map,HttpServletRequest request,HttpServletResponse response,ModelMap model) throws Exception{
+		
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		
+		List<EgovMap> boardList = null;
+		int totalCnt;
+
+
+        map.put("pageIndex", StringUtil.isNullToString(map.get("pageIndex"), "1"));
+        map.put("pageSize", 3);
+
+        map.put("boardId", "noti");
+        Map<String,Object> boardMaster = commonBoardService.selectBoardMaster(map);
+
+        map.forEach((key,value)-> boardMaster.merge(key, value, (v1,v2)->v2));
+
+        if("Y".equals(boardMaster.get("owntblYn")) && "CAFE".equals(boardMaster.get("owntblFix"))) {
+        	boardList = commonBoardService.selectCommonCafeBoardList(boardMaster);
+        }else {
+        	boardList = commonBoardService.selectCommonBoardList(boardMaster);
+        }
+
+        List<EgovMap> jobBoardList = jobAdvertisementService.selectBoardList(map);
+
+        boardList.forEach(x -> StringUtil.checkMapReplaceHtml(x));
+        jobBoardList.forEach(x -> StringUtil.checkMapReplaceHtml(x));
+//        StringUtil.checkMapReplaceHtml(boardDetail);
+
+        model.addAttribute("jobBoardList", jobBoardList);
+
+
+		model.addAttribute("boardList", boardList);
+		model.addAttribute("boardMaster", boardMaster);
+		model.addAttribute("isLogin", isAuthenticated);
+
+		
+		SimpleDateFormat sdf1 = new SimpleDateFormat("MM");		
+		Date now = new Date(); 
+		String nowMM = sdf1.format(now);
+		Scalendar vo = new Scalendar();
+		vo.setYmd(nowMM);
+		Scalendar cals = mainService.selectCalCnt(vo);
+		if(cals == null) {
+			cals = new Scalendar();
+			cals.setCnt01(0);
+			cals.setCnt02(0);
+			cals.setCnt03(0);
+		}
+		model.addAttribute("sumCal",cals);
+		model.addAttribute("nowMM",nowMM);
+		
+		
 		return "kicpa/main/main";
 	}
 
@@ -278,6 +445,39 @@ public class MainController {
 				
 				
 				modelAndView.addObject("sumCal",mainService.selectCalCnt(vo));
+				
+	    	}catch (Exception e) {
+	    		e.printStackTrace();
+			}
+
+	        return modelAndView;
+	    }
+		
+		
+		@RequestMapping(value = "/setFcmToken.do")
+	    public ModelAndView setFcmToken(@RequestBody Map<String,Object> map, HttpServletResponse response, HttpServletRequest request) throws Exception{
+			ModelAndView modelAndView = new ModelAndView();
+			
+	    	try{
+	    		
+	    		Cookie cookie = new Cookie("token", map.get("token").toString());
+				cookie.setPath("/");
+				cookie.setMaxAge(60*60*24*7);
+				response.addCookie(cookie);
+	    		
+		        modelAndView.setViewName("jsonView");
+		        Main vo = new Main();
+				vo.setToken(map.get("token").toString());
+					Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+	    			if(isAuthenticated) {
+	    				LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+	    				vo.setUserid(user.getId());
+	    			}else {
+		    			vo.setUserid(null);
+		    		}
+	    		mainService.setFcmToken(vo);
+	    		
+				
 				
 	    	}catch (Exception e) {
 	    		e.printStackTrace();

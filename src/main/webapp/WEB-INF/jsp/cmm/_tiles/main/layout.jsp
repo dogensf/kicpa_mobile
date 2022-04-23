@@ -52,6 +52,12 @@ function onBackKey(){
 	} */
 	$('#appExit').addClass("show");
 }
+
+function logOut(){
+	window.bridge.userDataRemove('loginIng');
+	location.href='<c:url value='/uat/uia/actionLogout.do'/>';
+	
+}
 </script>
 	<body>
         <div class="wrap">

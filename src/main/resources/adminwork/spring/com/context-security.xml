@@ -18,7 +18,7 @@
  	
     <egov-security:config id="securityConfig"
         loginUrl="/uat/uia/actionSecurityLogin.do"
-        logoutSuccessUrl="/uat/uia/actionMain.do"
+        logoutSuccessUrl="/uat/uia/actionMain2.do"
         loginFailureUrl="/uat/uia/actionSecurityLogin.do?login_error=1"
         accessDeniedUrl="/sec/ram/accessDenied.do"		
 		

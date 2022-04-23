@@ -79,6 +79,8 @@
         
 
         $(document).ready(function(e) {
+        	window.bridge.displayBottom(true);	
+        	
             $('#appLoadingIndicator2', parent.document).hide();
 
             $("#searchYYYY").change(function(){
@@ -251,7 +253,7 @@
 		  	<%
 	        }else{
 		  	%>
-		  	<button class="btn-login" onclick="location.href='<c:url value='/uat/uia/actionLogout.do'/>';" type="button">
+		  	<button class="btn-login" onclick="javascript:logOut();" type="button">
 	     	 로그아웃
 	    	</button>
 		  	<%
