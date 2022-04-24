@@ -168,66 +168,92 @@ public class LoginController {
 		// 접속IP
 		String userIp = ClntInfo.getClntIP(request);
 		
-		// 0. kicpa 로그인 처리
-		/*LoginVO kicpaVO = loginService.kicpaLogin(loginVO);
-		LoginVO kicpaVO = new LoginVO();
-		kicpaVO.setAima_psl_id(loginVO.getId());*/
-		
-		LoginVO resultVO = new LoginVO();
-	
-		resultVO = loginService.actionLogin(loginVO);
-	
-		
-		//if (resultVO != null && resultVO.getId() != null && !resultVO.getId().equals("") && loginPolicyYn) {
-		if (resultVO != null && resultVO.getId() != null && !resultVO.getId().equals("")) {
-			
-			if("Y".equals(loginVO.getCheckId())) {
-				
-				
-				Cookie cookie = new Cookie("loginIng", loginVO.getToken()+loginVO.getId());
-				cookie.setPath("/");
-				cookie.setMaxAge(60*60*24*30);
-				response.addCookie(cookie);
-			}
-			
-			/*if(("").equals(resultVO.getAuthor()) || null == resultVO.getAuthor()) {
-				loginService.setUserAuthorCode(resultVO);
-			}*/
-			// 2. spring security 연동
-			request.getSession().setAttribute("LoginVO", resultVO);
 
-			UsernamePasswordAuthenticationFilter springSecurity = null;
-
-			ApplicationContext act = WebApplicationContextUtils.getRequiredWebApplicationContext(request.getSession().getServletContext());
+			
+			
+			// 0. kicpa 로그인 처리
+						/*LoginVO kicpaVO = loginService.kicpaLogin(loginVO);
+						LoginVO kicpaVO = new LoginVO();
+						kicpaVO.setAima_psl_id(loginVO.getId());*/
+						boolean mainLogin = false;
+						LoginVO resultVO = new LoginVO();
+						Cookie[] cookies = request.getCookies();
+						if(null != cookies) {
+							for(Cookie c : cookies) {
+								  if("loginIng".equals(c.getName().toString())){
+									  if("" != c.getValue() && null != c.getValue()) {				  
+										  mainLogin = true;
+										  loginVO.setId(c.getValue().toString().replace("%3A", ":"));
+										  System.out.println("2---------------------.loginIng::::::: "+ c.getValue());
+									  }
+								  }		  
+								}
+						}
 						
-			Map<String, UsernamePasswordAuthenticationFilter> beans = act.getBeansOfType(UsernamePasswordAuthenticationFilter.class);
-			
-			if (beans.size() > 0) {
-				
-				springSecurity = (UsernamePasswordAuthenticationFilter) beans.values().toArray()[0];
-				springSecurity.setUsernameParameter("egov_security_username");
-				springSecurity.setPasswordParameter("egov_security_password");
-				springSecurity.setRequiresAuthenticationRequestMatcher(new AntPathRequestMatcher(request.getServletContext().getContextPath() +"/egov_security_login", "POST"));
-				
-			} else {
-				throw new IllegalStateException("No AuthenticationProcessingFilter");
-			}
-			System.out.println("resultVO.getUserSe()=="+resultVO.getUserSe());
-			System.out.println("resultVO.getId()=="+resultVO.getId());
-			System.out.println("resultVO.getUniqId()=="+resultVO.getUniqId());
+						if(mainLogin) {
+							resultVO = loginService.actionLoginMain(loginVO);
+						}else {
+							resultVO = loginService.actionLogin(loginVO);
+						}
 						
-			springSecurity.doFilter(new RequestWrapperForSecurity(request, resultVO.getId(), resultVO.getUniqId()), response, null);
-			System.out.println("loginVO.getUrl()=="+loginVO.getUrl());
-			/*if(loginVO.getUrl() != null && loginVO.getUrl() != "") {
-				request.getSession().setAttribute("returnUrl", loginVO.getUrl());
-				return "forward:/uat/uia/actionRedirect.do?url="+loginVO.getUrl(); // 성공 시 페이지.. (redirect 불가)
-			}*/
-			return "forward:/uat/uia/actionMain.do"; // 성공 시 페이지.. (redirect 불가)
-		} else {
+						
+						
+					
+						
+					
+						
+						//if (resultVO != null && resultVO.getId() != null && !resultVO.getId().equals("") && loginPolicyYn) {
+						if (resultVO != null && resultVO.getId() != null && !resultVO.getId().equals("")) {
+							
+							if("Y".equals(loginVO.getCheckId())) {
+								
+								
+								Cookie cookie = new Cookie("loginIng", loginVO.getToken()+loginVO.getId());
+								cookie.setPath("/");
+								cookie.setMaxAge(60*60*24*30);
+								response.addCookie(cookie);
+							}
+							
+							/*if(("").equals(resultVO.getAuthor()) || null == resultVO.getAuthor()) {
+								loginService.setUserAuthorCode(resultVO);
+							}*/
+							// 2. spring security 연동
+							request.getSession().setAttribute("LoginVO", resultVO);
 
-			model.addAttribute("message", "로그인에 실패했습니다.\n ID와 PASSWORD를 다시 체크 하시기 바랍니다.");
-			return "uat/uia/LoginUsr";
-		}
+							UsernamePasswordAuthenticationFilter springSecurity = null;
+
+							ApplicationContext act = WebApplicationContextUtils.getRequiredWebApplicationContext(request.getSession().getServletContext());
+										
+							Map<String, UsernamePasswordAuthenticationFilter> beans = act.getBeansOfType(UsernamePasswordAuthenticationFilter.class);
+							
+							if (beans.size() > 0) {
+								
+								springSecurity = (UsernamePasswordAuthenticationFilter) beans.values().toArray()[0];
+								springSecurity.setUsernameParameter("egov_security_username");
+								springSecurity.setPasswordParameter("egov_security_password");
+								springSecurity.setRequiresAuthenticationRequestMatcher(new AntPathRequestMatcher(request.getServletContext().getContextPath() +"/egov_security_login", "POST"));
+								
+							} else {
+								throw new IllegalStateException("No AuthenticationProcessingFilter");
+							}
+							System.out.println("resultVO.getUserSe()=="+resultVO.getUserSe());
+							System.out.println("resultVO.getId()=="+resultVO.getId());
+							System.out.println("resultVO.getUniqId()=="+resultVO.getUniqId());
+										
+							springSecurity.doFilter(new RequestWrapperForSecurity(request, resultVO.getId(), resultVO.getUniqId()), response, null);
+							System.out.println("loginVO.getUrl()=="+loginVO.getUrl());
+							/*if(loginVO.getUrl() != null && loginVO.getUrl() != "") {
+								request.getSession().setAttribute("returnUrl", loginVO.getUrl());
+								return "forward:/uat/uia/actionRedirect.do?url="+loginVO.getUrl(); // 성공 시 페이지.. (redirect 불가)
+							}*/
+							return "forward:/uat/uia/actionMain.do"; // 성공 시 페이지.. (redirect 불가)
+						} else {
+
+							model.addAttribute("message", "로그인에 실패했습니다.\n ID와 PASSWORD를 다시 체크 하시기 바랍니다.");
+							return "uat/uia/LoginUsr";
+						}
+		
+		
 	}
 	
 	
@@ -245,7 +271,7 @@ public class LoginController {
 		for(Cookie c : cookies) {
 		  if("loginIng".equals(c.getName())){
 			  if("" != c.getValue() && null != c.getValue()) {				  
-				  loginVO.setId(c.getValue());
+				  loginVO.setId(c.getValue().toString().replace("%3A", ":"));
 				  System.out.println("2.loginIng::::::: "+ c.getValue());
 			  }
 		  }		  
@@ -432,7 +458,7 @@ public class LoginController {
 		cookie2.setMaxAge(0);
 		response.addCookie(cookie2);
 		
-		return "redirect:/kicpa/main/main.do";
+		return "redirect:/kicpa/main/main2.do";
 		
 	}
 }

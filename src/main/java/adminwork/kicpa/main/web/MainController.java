@@ -145,23 +145,17 @@ public class MainController {
 			if(cookies != null) {
 	
 					for(Cookie c : cookies) {
-						  if("loginIng".equals(c.getName())){
+						  if("loginIng".equals(c.getName().toString())){
 							  if("" != c.getValue() && null != c.getValue()) {	
 								  System.out.println("0.loginIng::::::: "+ c.getValue());
 								  if (!isAuthenticated) {
 									  System.out.println("1.loginIng::::::: "+ c.getValue());
-									  for(Cookie c2 : cookies) {
-										  if("returnUrl".equals(c2.getName())){
-											  if("" != c2.getValue() && null != c2.getValue()) {
-												  Cookie cookie = new Cookie("returnUrl", "");		
-												  	cookie.setPath("/");												  
-													cookie.setMaxAge(0);
-													response.addCookie(cookie);				  
-											  }
-										  }		  
-										}
+									  Cookie cookie = new Cookie("returnUrl", "");		
+									  	cookie.setPath("/");												  
+										cookie.setMaxAge(0);
+										response.addCookie(cookie);	
 									  
-									  return "redirect:/uat/uia/actionSecurityLoginMain.do";
+									  return "/uat/uia/autoLogin";
 								  
 								  }
 						  }		  

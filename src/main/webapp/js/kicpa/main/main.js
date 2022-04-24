@@ -41,7 +41,7 @@ main.getNewsListSuccess = function(data){
 		$.each(list,function(i,o){
 			txt+='<li> \n';
 			if(o.knlUrl == null){
-				txt+='	<a href="javascript:window.open(\'/kicpa/commonBoard/boardDetail.do?boardId='+o.knlGubun+'&bltnNo='+o.knlId+'\');"> \n';
+				txt+='	<a href="javascript:window.open(\'/kicpa/commonBoard/boardDetailMain.do?boardId='+o.knlGubun+'&bltnNo='+o.knlId+'\');"> \n';
 			}else{
 				txt+='	<a href="'+o.knlUrl+'" target="_blank"> \n';
 			}
@@ -86,7 +86,7 @@ main.commonBoardListSuccess = function(data){
 	if(list != null && list.length > 0){
 		$.each(list,function(i,o){
 			txt+='<li> \n';
-			txt+='	<a href="javascript:board.openDetailPop(\'/kicpa/commonBoard/boardDetail.do?boardId='+o.boardId+'&bltnNo='+o.bltnNo+'\');"> \n';
+			txt+='	<a href="javascript:board.openDetailPop(\'/kicpa/commonBoard/boardDetailMain.do?boardId='+o.boardId+'&bltnNo='+o.bltnNo+'\');"> \n';
 			txt+=' 		<div class="title-zone"> \n';
 			txt+=' 			<p>'+o.bltnSubj+'</p> \n';
 
@@ -157,7 +157,7 @@ main.commonBoardArrListSuccess = function(data){
 				txt+='<li> \n';
 			}
 
-			txt+='	<a href="javascript:board.openDetailPop(\'/kicpa/commonBoard/boardDetail.do?boardId='+o.boardId+'&bltnNo='+o.bltnNo+'\');"> \n';
+			txt+='	<a href="javascript:board.openDetailPop(\'/kicpa/commonBoard/boardDetailMain.do?boardId='+o.boardId+'&bltnNo='+o.bltnNo+'\');"> \n';
 			txt+=' 		<div class="title-zone"> \n';
 			if(o.bltnIcon  == 'D'){
 				txt+=' 			<p class="lock">'+o.bltnSubj+'</p> \n';

@@ -15,6 +15,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 		<base href="../../">
 		<meta charset="utf-8" />
+		<meta http-equiv="Expires" content="0">
 		<meta http-equiv="Content-Language" content="ko" >
 		<title>KICPA</title>
 		<meta name="description" content="Page with empty content" />

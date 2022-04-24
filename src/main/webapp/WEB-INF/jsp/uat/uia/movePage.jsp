@@ -28,7 +28,9 @@ function getCookie1(Name) {
 $(document).ready(function(){
 	//alert(getCookie("loginIng"));
 	if("" != getCookie1("loginIng") && null != getCookie1("loginIng")){
-		window.bridge.userDataSave('loginIng', getCookie1("loginIng"));
+		if (window['bridge'] )  {
+			window.bridge.userDataSave('loginIng', getCookie1("loginIng"));
+		}
 	}
 	location.href="<c:url value='/kicpa/main/main.do'/>";
 });

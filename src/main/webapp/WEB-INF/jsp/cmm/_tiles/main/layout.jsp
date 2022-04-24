@@ -54,7 +54,11 @@ function onBackKey(){
 }
 
 function logOut(){
-	window.bridge.userDataRemove('loginIng');
+	if (window['bridge'] )  {
+		document.cookie = "loginIng=" + escape ('') + "; path=/; expires=0";
+		window.bridge.userDataSave('loginIng', '');
+		window.bridge.userDataRemove("loginIng");
+	}
 	location.href='<c:url value='/uat/uia/actionLogout.do'/>';
 	
 }

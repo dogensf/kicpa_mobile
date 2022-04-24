@@ -20,7 +20,6 @@ import adminwork.com.cmm.LoginVO;
 import adminwork.com.cmm.StringUtil;
 import adminwork.com.cmm.service.FileMngUtil;
 import adminwork.kicpa.cmm.board.service.CommonBoardService;
-import adminwork.kicpa.job.service.JobAdvertisementService;
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.fdl.security.userdetails.util.EgovUserDetailsHelper;
 import egovframework.rte.psl.dataaccess.util.EgovMap;
@@ -71,6 +70,39 @@ public class CommonBoardController {
 
 
 		return "kicpa/common/boardDetail";
+	}
+	
+	@RequestMapping(value = "/boardDetailMain.do")
+	public String boardDetailMain(@RequestParam Map<String,Object> map,HttpServletRequest request,HttpServletResponse response,ModelMap model) throws Exception{
+
+		EgovMap boardDetail = null;
+
+
+        Map<String,Object> boardMaster = commonBoardService.selectBoardMaster(map);
+
+        //param를 boardmaster맵으로 merge
+        map.forEach((key,value)-> boardMaster.merge(key, value, (v1,v2)->v2));
+
+        if("Y".equals(boardMaster.get("owntblYn")) && "CAFE".equals(boardMaster.get("owntblFix"))) {
+        	commonBoardService.updateCommonBoardReadCnt(boardMaster);
+        	boardDetail = commonBoardService.selectCommonCafeBoardDetail(boardMaster);
+        }else {
+        	commonBoardService.updateCommonCafeBoardReadCnt(boardMaster);
+        	boardDetail = commonBoardService.selectCommonBoardDetail(boardMaster);
+        }
+
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		if(isAuthenticated) {
+			LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+			model.addAttribute("loginVO", user);
+		}
+
+//        StringUtil.checkMapReplaceHtml(boardDetail);
+        model.addAttribute("boardDetail", boardDetail);
+        model.addAttribute("boardMaster", boardMaster);
+
+
+		return "kicpa/common/boardDetailMain";
 	}
 
 
