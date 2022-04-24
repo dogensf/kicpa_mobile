@@ -7,8 +7,9 @@
 
 
 document.location.href='/kicpa/main/main.do';  
-window.bridge.userDataSave('JSESSIONID', '<%=session.getId() %>');
-
+if (window['bridge'] )  {
+	window.bridge.userDataSave('JSESSIONID', '<%=session.getId() %>');
+}
 var aa =  [
 			{"name":"회원경조사", "img":"icon_obituary", "url":"location.href='/kicpa/memberEvent/boardList.do'"},
 			{"name":"회비관리", "img":"icon_tax", "url":"location.href='/kicpa/dues/selectDuesList.do'"},

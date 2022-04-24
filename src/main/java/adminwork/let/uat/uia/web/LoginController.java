@@ -334,41 +334,7 @@ public class LoginController {
 	}
 	
 	
-	/**
-	 * 로그인 후 메인화면으로 들어간다
-	 * @param
-	 * @return 로그인 페이지
-	 * @exception Exception
-	 */
-	@RequestMapping(value = "/uat/uia/actionRedirect.do")
-	public String actionRedirect(HttpServletResponse response, HttpServletRequest request, ModelMap model) throws Exception {
-				
-		// 1. Spring Security 사용자권한 처리
-		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
-		if (!isAuthenticated) {
-			model.addAttribute("message", egovMessageSource.getMessage("fail.common.login"));
-			return "uat/uia/LoginUsr";
-		}
-		String url = "";
-		System.out.println("request======="+request.getParameter("url"));
-		url = request.getParameter("url");
-		if(url != null && url != "") {
-			model.addAttribute("url", url);
-			return "forward:"+url;
-		}else {
-			return "uat/uia/LoginUsr";
-		}
-		
-		/*LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
-		
-		if(user.getId().endsWith("admin")) {
-			return "forward:/cmm/main/mainPage.do";
-		}else {
-			return "forward:/kicpa/main.do";
-		}*/
-		// 2. 메인 페이지 이동
-		//return "forward:/cmm/main/mainPage.do";
-	}
+	
 	
 	/**
 	 * 로그인 후 메인화면으로 들어간다

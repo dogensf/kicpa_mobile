@@ -6,13 +6,10 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <script type="text/javaScript">
-	
+if (window['bridge'] )  {
 	window.bridge.userDataGet('loginIng', 'setLoginIng');
 	
-	 
-
-	
-	
+}
 	function setCookie (name, value, expires) {
 	    document.cookie = name + "=" + escape (value) + "; path=/; expires=" + expires.toGMTString();
 	}

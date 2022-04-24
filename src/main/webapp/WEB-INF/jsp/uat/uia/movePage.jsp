@@ -9,7 +9,7 @@
 	<script src="/js/jquery-ui.min.js"></script>
 <script type="text/javaScript">
 
-function getCookie(Name) {
+function getCookie1(Name) {
     var search = Name + "="
     if (document.cookie.length > 0) { // 쿠키가 설정되어 있다면
         offset = document.cookie.indexOf(search)
@@ -27,8 +27,8 @@ function getCookie(Name) {
 }
 $(document).ready(function(){
 	//alert(getCookie("loginIng"));
-	if(getCookie("loginIng") != ""){
-		window.bridge.userDataSave('loginIng', getCookie("loginIng"));
+	if("" != getCookie1("loginIng") && null != getCookie1("loginIng")){
+		window.bridge.userDataSave('loginIng', getCookie1("loginIng"));
 	}
 	location.href="<c:url value='/kicpa/main/main.do'/>";
 });
