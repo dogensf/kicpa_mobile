@@ -23,12 +23,17 @@
 	}
 	
 	function setLoginIngs(tokens){
-		if(tokens != null && tokens !=""){
+		if(null != tokens  && "" != tokens){
 			//alert("brige--mainChk2--------"+tokens);	
-		}		 
-		 var expdate = new Date();
-		 expdate.setTime(expdate.getTime() + 1000 * 3600 * 24 * 30);
-		 setCookieChks("loginIng", tokens, expdate);
+			 var expdate = new Date();
+			 expdate.setTime(expdate.getTime() + 1000 * 3600 * 24 * 30);
+			 setCookieChks("loginIng", tokens, expdate);
+		}else{
+			
+			 
+			location.href="<c:url value='/kicpa/main/main1.do'/>";
+		}
+		
 	}
 	
 	

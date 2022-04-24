@@ -8,8 +8,16 @@ $(document).ready(function(){
 });
 
 function fncLocation(){
-	location.href="/kicpa/main/main.do";
-	// if ( !!window.opener) { window.close();}
+	//location.href="/kicpa/main/main2.do";
+	 
+		 if (window['bridge'] )  {
+		 	window.opener.bridge.displayBottom(true);
+		 }
+		 window.close();
+		 if (window['bridge'] )  {				
+				window.bridge.displayBottom(true);				
+		 } 
+	
 }
 </script>
 <form id="boardForm" name="boardForm">
