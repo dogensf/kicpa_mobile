@@ -181,7 +181,7 @@ function fncLocation(){
 
         </div>
     </div>
-	<c:if test="${boardDetail.userId eq loginVO.id and (param.boardId eq 'kifrs' or param.boardId eq 'kifrsReview' or param.boardId eq 'kifrsCase') }">
+	<c:if test="${boardDetail.userId eq loginVO.id and (param.boardId eq 'kifrs' or param.boardId eq 'kifrsReview' or param.boardId eq 'kifrsCase' or param.boardId eq 'mstate'  ) }">
 	    <div class="btn-bottom">
 	    	<button class="btn-round" type="button" onclick="board.boardDelete();">삭제</button>
 	    </div>
