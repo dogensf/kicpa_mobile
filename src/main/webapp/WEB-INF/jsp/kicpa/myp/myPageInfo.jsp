@@ -69,7 +69,7 @@
 
 	<div class="container">
 		<section class="head-sub">
-			<button class="btn-back" type="button" onclick="javascript:fncLocation;">
+			<button class="btn-back" type="button" onclick="javascript:fncLocation();">
 				<span>이전</span>
 			</button>
 			<h3>개인정보</h3>
