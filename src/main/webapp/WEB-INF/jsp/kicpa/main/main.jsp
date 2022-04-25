@@ -60,6 +60,7 @@ function applyFavorite(menus) {
 	//$('#ss2').show();
 	menus.forEach(function(data, idx){
 		if(idx < 8){
+			$('#ss2').hide();
 			if(idx%2 == 1){
 				menu12 +="<button class=\""+data.img+"\" type=\"button\" onclick=\"javascript:"+data.url+"\">"+data.name+"</button>";	
 			}else{
@@ -120,12 +121,7 @@ function bgColorChange(color){
 			        <button class="icon_consulting" type="button" onclick="javascript:location.href='<c:url value='/kicpa/myp/faqQnaCategory.do'/>';">
 			          	회원상담
 			        </button>
-			        <button class="icon_job" type="button" onclick="javascript:location.href='<c:url value='/kicpa/job/boardList.do'/>';">
-			        	 구인정보
-			        </button>
-			        <button class="icon_obituary" type="button" onclick="javascript:location.href='<c:url value='/kicpa/memberEvent/boardList.do'/>';">
-			       		   회원경조사
-			        </button>
+			       
 	     		</div>
 	      		<div id="mfm12">
 			        <button class="icon_training" type="button"  onclick="javascript:location.href='<c:url value='https://cyber.kicpa.or.kr/sso/main.php'/>';">
@@ -181,19 +177,19 @@ function bgColorChange(color){
           <ul class="todo-list">
             <li>
               <a  href="javascript:calDetail('01');">
-              	<span style="padding-right:10px;">회계감사</span>
+              	<span style="padding-right:11px;">회계감사</span>
               <em id="cal01">${sumCal.cnt01 } 건</em>
               </a>
             </li>
             <li>
             	<a  href="javascript:calDetail('02');">
-              		<span style="padding-right:30px;">세무</span>
+              		<span style="padding-right:22px;">세무</span>
               		<em id="cal02">${sumCal.cnt02 } 건</em>
               	</a>	
             </li>
             <li>
             	<a  href="javascript:calDetail('03');">
-	              <span style="padding-right:30px;">업무</span>
+	              <span style="padding-right:22px;">업무</span>
 	              <em id="cal03">${sumCal.cnt03 } 건</em>
 	            </a>  
             </li>
