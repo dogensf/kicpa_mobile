@@ -31,8 +31,12 @@ $(document).ready(function(){
 		window.bridge.displayBottom(true);
 		window.bridge.getFcmToken('function(d) {setFcmToken(d);}');
 	} else { 
-		//applyFavorite(aa); 
+		//applyFavorite(aa);
+		//$('#ss2').show();
+		//swiper.update();
 	}
+	
+	
 });
 
 function setFcmToken(token){	
@@ -53,6 +57,7 @@ function applyFavorite(menus) {
 	var menu12="";
 	var menu21="";
 	var menu22="";
+	//$('#ss2').show();
 	menus.forEach(function(data, idx){
 		if(idx < 8){
 			if(idx%2 == 1){
@@ -77,6 +82,7 @@ function applyFavorite(menus) {
 	  $('#mfm12').html(menu12);
 	  $('#mfm21').html(menu21);
 	  $('#mfm22').html(menu22);
+	  swiper.update();
 
 }
 
@@ -174,19 +180,19 @@ function bgColorChange(color){
     <div class="cont">
           <ul class="todo-list">
             <li>
-              <a  href="javascript:calDetail('회계감사');">
+              <a  href="javascript:calDetail('01');">
               	<span style="padding-right:10px;">회계감사</span>
               <em id="cal01">${sumCal.cnt01 } 건</em>
               </a>
             </li>
             <li>
-            	<a  href="javascript:calDetail('세무');">
+            	<a  href="javascript:calDetail('02');">
               		<span style="padding-right:30px;">세무</span>
               		<em id="cal02">${sumCal.cnt02 } 건</em>
               	</a>	
             </li>
             <li>
-            	<a  href="javascript:calDetail('업무');">
+            	<a  href="javascript:calDetail('03');">
 	              <span style="padding-right:30px;">업무</span>
 	              <em id="cal03">${sumCal.cnt03 } 건</em>
 	            </a>  

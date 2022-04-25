@@ -19,21 +19,27 @@
 		]]> 
 	</select>
 
- 	<select id="mainDAO.selectCalList" parameterClass="scalendar">
+ 	<select id="mainDAO.selectCalList" parameterClass="scalendar" resultClass="scalendar">
 		<![CDATA[ 
+		  SELECT a.* FROM 
+		  	(
             SELECT
 			      	SCH_DT AS schDt
 					,DT_LABEL AS dtLabel
 					,SCH_TY AS schTy
+					,SCH_TYNO AS schTyNo
 					,SUBJECT AS subject
 					,CONTENTS AS contents
+					,CNT as cnt
 			FROM  SCHEDULE_CALENDAR
 			WHERE  SCH_DT like to_char(sysdate,'yyyy')||#ymd#||'%'
+			) a
+			WHERE 1=1
 			]]>
 			 <isNotEmpty property="schTy">
-	             AND SCH_TY = #schTy#
+	             AND a.schTyNo  = #schTy#
 	         </isNotEmpty>  
-			order by CNT, SCH_TY DESC,SCH_DT
+			order by a.cnt, a.schTy DESC, a.schDt
 		 
 	</select>
 	

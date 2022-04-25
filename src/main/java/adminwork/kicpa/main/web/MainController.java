@@ -413,6 +413,14 @@ public class MainController {
 		@RequestMapping(value = "/scheduleDetail.do")
 		public String scheduleDetail(@RequestParam("type") String type,@RequestParam("month") String month, HttpServletRequest request,HttpServletResponse response,ModelMap model) throws Exception{
 			
+			String typeNm = "";
+			if( "01".equals(type)) {
+				typeNm = "회계감사";
+			}else if("02".equals(type)) {
+				typeNm = "세무";
+			}else if("03".equals(type)) {
+				typeNm = "업무";
+			}
 
 			Scalendar vo = new Scalendar();
 			vo.setSchTy(type);

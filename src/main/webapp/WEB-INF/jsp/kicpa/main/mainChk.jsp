@@ -7,15 +7,17 @@
 
 	<script type="text/javascript">
 	$(document).ready(function(){	
-		if (window['bridge'])  {			
-			window.bridge.userDataGet('loginIng', 'window.setLoginIngs');
-		}else{
-			 
-			location.href="<c:url value='/kicpa/main/main1.do'/>";
-		}
+		
 		
 		     
 	});
+	
+	if (window['bridge'])  {			
+		window.bridge.userDataGet('loginIng', 'window.setLoginIngs');
+	}else{
+		 
+		location.href="<c:url value='/kicpa/main/main1.do'/>";
+	}
 	
 	function setLoginIngs(tokens){
 		if(null != tokens  && "" != tokens){			

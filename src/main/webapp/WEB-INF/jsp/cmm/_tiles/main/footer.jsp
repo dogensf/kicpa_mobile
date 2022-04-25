@@ -19,7 +19,7 @@
  	<a href="javascript:window.bridge.newWebView('kicpa2','https://blog.naver.com/kicpaline','')" >KICPA블로그</a>
 	<a href="javascript:window.bridge.newWebView('kicpa3','https://blog.naver.com/kicpa1','')" >조세지원센터</a>
 	<a href="javascript:window.bridge.newWebView('kicpa4','https://www.youtube.com/channel/UCCXEbJkEOo2DrPNxYjTdIVQ','')">KICPA유튜브</a>
-	<a href="javascript:window.bridge.newWebView('kicpa5','mail.kicpa.or.kr','')" >회원용 email</a>
+	<a href="javascript:window.bridge.newWebView('kicpa5','https://mail.kicpa.or.kr','')" >회원용 email</a>
 	<a href="javascript:window.bridge.newWebView('kicpa6','https://www.kicpa.or.kr/portal/default/kicpa/main/kr_pc_guest','')" >PC버전 </a>
  </section>
 
