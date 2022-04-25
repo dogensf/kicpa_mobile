@@ -26,7 +26,7 @@ function fncLocation(){
 			<div class="container">
 				<!-- 헤더 -->
 				<section class="head-sub">
-                    <button class="btn-back" type="button"  onclick="fncLocation();">
+                    <button class="btn-back" type="button"  onclick="javascript:fncLocation();">
                         <span>이전</span>
                     </button>
                     <h3>설정</h3>

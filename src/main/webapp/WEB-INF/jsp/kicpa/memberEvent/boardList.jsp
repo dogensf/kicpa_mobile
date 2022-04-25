@@ -19,7 +19,9 @@ $(document).ready(function(){
 });
 
 function fncLocation(){
-	location.href="/kicpa/main/main.do";
+	//location.href="/kicpa/main/main.do";
+	$('#appExit').addClass("show");
+	
 }
 
 </script>

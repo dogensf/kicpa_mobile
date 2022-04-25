@@ -27,13 +27,16 @@
 	$(document).ready(function(){
 		mypCpaTrnngSmInfo.mypCpaTrnngSmInfoInit();
 	});
+	function fncLocation(){
+		mypCpaTrnngSmInfo.mypCpaTrnngSmInfo_backMove();
+	}
 </script>
 <body>
 <div class="wrap">
 	<div class="container">
 		<!-- 헤더 -->
 		<section class="head-sub" style="border: 0px;">
-			<button class="btn-back" type="button" onclick="mypCpaTrnngSmInfo.mypCpaTrnngSmInfo_backMove();">
+			<button class="btn-back" type="button" onclick="javascript:fncLocation();">
 				<span>이전</span>
 			</button>
 			<h3>연수 이수현황</h3>

@@ -55,6 +55,10 @@
 			return 'Internet Explorer '+rv; 
 		} 
 	}
+	
+	function fncLocation(){
+		myPageInfo.myPageInfo_backMove();
+	}
 </script>
 <body>
 <div class="wrap">
@@ -65,7 +69,7 @@
 
 	<div class="container">
 		<section class="head-sub">
-			<button class="btn-back" type="button" onclick="myPageInfo.myPageInfo_backMove();">
+			<button class="btn-back" type="button" onclick="javascript:fncLocation;">
 				<span>이전</span>
 			</button>
 			<h3>개인정보</h3>

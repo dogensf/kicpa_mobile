@@ -28,6 +28,9 @@
 	$(document).ready(function(){
 		mypMemberReg.mypMemberRegInit();
 	});
+	function fncLocation(){
+		mypMemberReg.mypMemberReg_backMove();
+	}
 </script>
 <body id="mypCpaMemberReg_body">
 <div class="wrap">
@@ -36,7 +39,7 @@
 	<div class="container myPageMemInfoTabMove" id="mypCpaMemberReg_agreeInfo">
 		<section class="head-pop">
 			<h3>등록</h3>
-			<button class="btn-close" type="button" onclick="mypMemberReg.mypMemberReg_backMove();">
+			<button class="btn-close" type="button" onclick="javascript:fncLocation();">
 				<span>닫기</span>
 			</button>
 		</section>

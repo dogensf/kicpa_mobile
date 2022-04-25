@@ -27,6 +27,10 @@
 	$(document).ready(function(){
 		mypCpaTrainInfo.mypCpaTrainInfoInit();
 	});
+	
+	function fncLocation(){
+		mypCpaTrainInfo.mypCpaTrainInfo_backMove();
+	}
 </script>
 <body>
 <div class="wrap">
@@ -34,7 +38,7 @@
 
 		<!-- 헤더 -->
 		<section class="head-sub">
-			<button class="btn-back" type="button" onclick="mypCpaTrainInfo.mypCpaTrainInfo_backMove();">
+			<button class="btn-back" type="button" onclick="javascript:fncLocation();">
 				<span>이전</span>
 			</button>
 			<h3>수습회계사 정보</h3>

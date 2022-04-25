@@ -28,6 +28,11 @@
 	$(document).ready(function(){
 		mypCpaTrainReg.mypCpaTrainRegInit();
 	});
+	
+	function fncLocation(){
+		mypCpaTrainReg.mypCpaTrainReg_backMove();
+	}
+	
 </script>
 <body id="mypCpaTrainReg_body">
 <div class="wrap">
@@ -36,7 +41,7 @@
 	<div class="container myPageTrainInfoTabMove" id="mypCpaTrainReg_agreeInfo">
 		<section class="head-pop">
 			<h3>등록</h3>
-			<button class="btn-close" type="button" onclick="mypCpaTrainReg.mypCpaTrainReg_backMove();">
+			<button class="btn-close" type="button" onclick="javascript:fncLocation();">
 				<span>닫기</span>
 			</button>
 		</section>

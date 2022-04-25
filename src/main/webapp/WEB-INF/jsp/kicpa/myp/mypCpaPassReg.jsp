@@ -28,6 +28,10 @@
 	$(document).ready(function(){
 		mypPassReg.mypPassRegInit();
 	});
+	
+	function fncLocation(){
+		mypPassReg.mypPassReg_backMove();
+	}
 </script>
 <body id="mypCpaPassReg_body">
 <div class="wrap">
@@ -36,7 +40,7 @@
 	<div class="container myPageInfoTabMove" id="mypCpaPassReg_agreeInfo">
 		<section class="head-pop">
 			<h3>등록</h3>
-			<button class="btn-close" type="button" onclick="mypPassReg.mypPassReg_backMove();">
+			<button class="btn-close" type="button" onclick="javascript:fncLocation();">
 				<span>닫기</span>
 			</button>
 		</section>
