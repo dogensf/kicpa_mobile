@@ -7,34 +7,34 @@
 
 	<script type="text/javascript">
 	$(document).ready(function(){	
-		if (window['bridge'])  {
-			//alert('brige--mainChk');
+		if (window['bridge'])  {			
 			window.bridge.userDataGet('loginIng', 'window.setLoginIngs');
 		}else{
+			 
 			location.href="<c:url value='/kicpa/main/main1.do'/>";
 		}
 		
 		     
 	});
 	
-	function setCookieChks(name, value, expires) {		
-	    document.cookie = name + "=" + escape (value) + "; path=/; expires=" + expires.toGMTString();	    
-	    location.href="<c:url value='/kicpa/main/main1.do'/>";
-	}
-	
 	function setLoginIngs(tokens){
-		if(null != tokens  && "" != tokens){
-			//alert("brige--mainChk2--------"+tokens);	
+		if(null != tokens  && "" != tokens){			
 			 var expdate = new Date();
 			 expdate.setTime(expdate.getTime() + 1000 * 3600 * 24 * 30);
 			 setCookieChks("loginIng", tokens, expdate);
 		}else{
 			
-			 
 			location.href="<c:url value='/kicpa/main/main1.do'/>";
 		}
 		
 	}
+	
+	function setCookieChks(name, value, expires) {		
+	    document.cookie = name + "=" + escape (value) + "; path=/; expires=" + expires.toGMTString();	    
+	    location.href="<c:url value='/kicpa/main/main1.do'/>";
+	}
+	
+	
 	
 	
 	

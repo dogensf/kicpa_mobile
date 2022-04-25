@@ -141,28 +141,27 @@ public class MainController {
 		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
 		
 		
-			Cookie[] cookies = request.getCookies();		
-			if(cookies != null) {
-	
-					for(Cookie c : cookies) {
-						  if("loginIng".equals(c.getName().toString())){
-							  if("" != c.getValue() && null != c.getValue()) {	
-								  System.out.println("0.loginIng::::::: "+ c.getValue());
-								  if (!isAuthenticated) {
-									  System.out.println("1.loginIng::::::: "+ c.getValue());
-									  Cookie cookie = new Cookie("returnUrl", "");		
-									  	cookie.setPath("/");												  
-										cookie.setMaxAge(0);
-										response.addCookie(cookie);	
-									  
-									  return "/uat/uia/autoLogin";
+		Cookie[] cookies = request.getCookies();		
+		if(cookies != null) {	
+				for(Cookie c : cookies) {
+					  if("loginIng".equals(c.getName().toString())){
+						  if("" != c.getValue() && null != c.getValue()) {	
+							  System.out.println("0.loginIng::::::: "+ c.getValue());
+							  if (!isAuthenticated) {
+								  System.out.println("1.loginIng::::::: "+ c.getValue());
+								  Cookie cookie = new Cookie("returnUrl", "");		
+								  	cookie.setPath("/");												  
+									cookie.setMaxAge(0);
+									response.addCookie(cookie);	
 								  
-								  }
-						  }		  
-						}
+								  return "/uat/uia/autoLogin";
+							  
+							  }
+					  }		  
 					}
-			}
-		
+				}
+		}
+	
 		
 		List<EgovMap> boardList = null;
 		int totalCnt;
