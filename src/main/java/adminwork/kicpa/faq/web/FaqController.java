@@ -4,11 +4,12 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -19,13 +20,10 @@ import adminwork.com.cmm.StringUtil;
 import adminwork.com.cmm.service.CmmUseService;
 import adminwork.com.cmm.service.FileMngService;
 import adminwork.com.cmm.service.FileMngUtil;
-import adminwork.kicpa.faq.service.Faq;
 import adminwork.kicpa.faq.service.FaqService;
-import adminwork.kicpa.faq.service.FaqVO;
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.fdl.security.userdetails.util.EgovUserDetailsHelper;
 import egovframework.rte.psl.dataaccess.util.EgovMap;
-import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 
 @Controller
 public class FaqController {
@@ -79,7 +77,7 @@ public class FaqController {
 	}
 
 	@RequestMapping(value = "/kicpa/faq/faqList.do")
-	public String faq(String Pin, @RequestParam Map<String,Object> map,ModelMap model, HttpServletRequest request)
+	public String faq(String Pin, @RequestParam Map<String,Object> map,ModelMap model, HttpServletRequest request, HttpServletResponse response)
 	  throws Exception{
 		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
 
@@ -116,6 +114,10 @@ public class FaqController {
 			System.out.println("pin========="+Pin);
 			model.addAttribute("id", Pin);
 			model.addAttribute("returnUrl", "/kicpa/faq/faqList.do");
+			Cookie cookie = new Cookie("returnUrl", "/kicpa/faq/faqList.do");
+			cookie.setPath("/");
+			cookie.setMaxAge(60*60);
+			response.addCookie(cookie);
 			return "redirect:/uat/uia/LoginUsr.do";
 
 		}
@@ -123,7 +125,7 @@ public class FaqController {
 	}
 
 	@RequestMapping(value = "/kicpa/faq/faqDetail.do")
-	public String faqDetail(@RequestParam Map<String,Object> map,ModelMap model, HttpServletRequest request)
+	public String faqDetail(@RequestParam Map<String,Object> map,ModelMap model, HttpServletRequest request, HttpServletResponse response)
 	  throws Exception{
 
 		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
@@ -137,6 +139,10 @@ public class FaqController {
 			model.addAttribute("result", result);
 		}else {
 			model.addAttribute("returnUrl", "/kicpa/faq/faqList.do");
+			Cookie cookie = new Cookie("returnUrl", "/kicpa/faq/faqList.do");
+			cookie.setPath("/");
+			cookie.setMaxAge(60*60);
+			response.addCookie(cookie);
 			return "redirect:/uat/uia/LoginUsr.do";
 		}
 
@@ -145,7 +151,7 @@ public class FaqController {
 	}
 
 	@RequestMapping(value="/kicpa/faq/getFaqList.do")
-    public ModelAndView getBoardList(@RequestBody Map<String,Object> map, HttpServletRequest request) throws Exception{
+    public ModelAndView getBoardList(@RequestBody Map<String,Object> map, HttpServletRequest request, HttpServletResponse response) throws Exception{
 		ModelAndView modelAndView = new ModelAndView();
 
     	try{
@@ -167,6 +173,10 @@ public class FaqController {
 				modelAndView.addObject("isLogin", true);
     		}else {
     			modelAndView.addObject("returnUrl", "/kicpa/faq/faqList.do");
+    			Cookie cookie = new Cookie("returnUrl", "/kicpa/faq/faqList.do");
+    			cookie.setPath("/");
+    			cookie.setMaxAge(60*60);
+    			response.addCookie(cookie);
     			modelAndView.addObject("isLogin", false);
     		}
     	}catch (Exception e) {

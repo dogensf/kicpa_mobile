@@ -5,17 +5,15 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import adminwork.com.cmm.LoginVO;
@@ -39,12 +37,21 @@ public class JobAdvertisementController {
 
 
 	@RequestMapping(value = "/boardList.do")
-	public String boardList(@RequestParam Map<String,Object> map,HttpServletRequest request,HttpServletResponse response,ModelMap model) throws Exception{
+	public String boardList(@RequestParam Map<String,Object> map,@RequestParam(name = "boardId",required=false) String boardId,HttpServletRequest request,HttpServletResponse response,ModelMap model) throws Exception{
 
 		map.put("codeId", "COMP_TYP");
 		List<EgovMap> codeList = kicpaCommService.selectCodebaseList(map);
 
 		model.addAttribute("codeList",codeList);
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		if(!isAuthenticated) {
+			if("jobInfoKicpa".equals(boardId)) {
+				Cookie cookie = new Cookie("returnUrl", "/kicpa/job/boardList.do?boardId=jobInfoKicpa");
+    			cookie.setPath("/");
+    			cookie.setMaxAge(60*60);
+    			response.addCookie(cookie);
+			}
+		}
 		return "kicpa/job/boardList";
 	}
 

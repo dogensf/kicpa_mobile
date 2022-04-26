@@ -21,7 +21,7 @@ function pay0(){
 }
 </script>
 <form name="mobileweb" id="mobileweb" method="post" accept-charset="euc-kr">
-	<input type="hidden" name="P_NEXT_URL" value="http://localhost:8080/kicpa/sntBook/orderOfflineEduReponse.do">
+	<input type="hidden" name="P_NEXT_URL" value="https://mkip.kicpa.or.kr/kicpa/sntBook/orderOfflineEduReponse.do">
 	<input type="hidden" name="P_MID" value="${mid }"> <!-- 에스크로테스트 : iniescrow0, 모바일빌링(정기과금)은 별도연동필요 -->
 	<input type="hidden" name="P_OID" value="">
 	<input type="hidden" name="P_CHARSET" value="utf8">

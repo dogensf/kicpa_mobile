@@ -69,6 +69,10 @@ public class SntBookController {
 		model.addAttribute("isLogin", isAuthenticated);
 		if(!isAuthenticated) {
 			model.addAttribute("returnUrl", "/kicpa/sntBook/bookFormatList.do");
+			Cookie cookie = new Cookie("returnUrl", "/kicpa/sntBook/bookFormatList.do");
+			cookie.setPath("/");
+			cookie.setMaxAge(60*60);
+			response.addCookie(cookie);
 		}
 		return "kicpa/sntBook/bookFormatList";
 
@@ -338,7 +342,7 @@ public class SntBookController {
     }
 
 	@RequestMapping(value="/getBookFormatList.do")
-	public ModelAndView getBookFormatList(@RequestBody Map<String,Object> map, HttpServletRequest request) throws Exception{
+	public ModelAndView getBookFormatList(@RequestBody Map<String,Object> map, HttpServletRequest request, HttpServletResponse response) throws Exception{
 		ModelAndView modelAndView = new ModelAndView();
 
 		try{
@@ -355,6 +359,10 @@ public class SntBookController {
 				modelAndView.addObject("isLogin", true);
     		}else {
     			modelAndView.addObject("returnUrl", "/kicpa/sntBook/bookFormatList.do");
+    			Cookie cookie = new Cookie("returnUrl", "/kicpa/sntBook/bookFormatList.do");
+    			cookie.setPath("/");
+    			cookie.setMaxAge(60*60);
+    			response.addCookie(cookie);
     			modelAndView.addObject("isLogin", false);
     		}
 		}catch (Exception e) {
@@ -365,7 +373,7 @@ public class SntBookController {
 	}
 
 	@RequestMapping(value="/getSpecialLectureList.do")
-	public ModelAndView getSpecialLectureList(@RequestBody Map<String,Object> map, HttpServletRequest request) throws Exception{
+	public ModelAndView getSpecialLectureList(@RequestBody Map<String,Object> map, HttpServletRequest request, HttpServletResponse response) throws Exception{
 		ModelAndView modelAndView = new ModelAndView();
 
 		try{
@@ -396,6 +404,10 @@ public class SntBookController {
 			}else {
 				modelAndView.addObject("returnUrl", "/kicpa/sntBook/specialLectureList.do?gbn="+StringUtil.isNullToString(map.get("gbn"), "LISTPAGE2"));
 				modelAndView.addObject("gbn", map.get("gbn"));
+				Cookie cookie = new Cookie("returnUrl", "/kicpa/sntBook/specialLectureList.do?gbn="+StringUtil.isNullToString(map.get("gbn"), "LISTPAGE2"));
+    			cookie.setPath("/");
+    			cookie.setMaxAge(60*60);
+    			response.addCookie(cookie);
 				modelAndView.addObject("isLogin", false);
 			}
 		}catch (Exception e) {
@@ -407,7 +419,7 @@ public class SntBookController {
 
 
 	@RequestMapping(value="/getOfflineEduList.do")
-	public ModelAndView getOfflineEduList(@RequestBody Map<String,Object> map, HttpServletRequest request) throws Exception{
+	public ModelAndView getOfflineEduList(@RequestBody Map<String,Object> map, HttpServletRequest request, HttpServletResponse response) throws Exception{
 		ModelAndView modelAndView = new ModelAndView();
 
 		try{
@@ -424,6 +436,10 @@ public class SntBookController {
 				modelAndView.addObject("isLogin", true);
 			}else {
 				modelAndView.addObject("returnUrl", "/kicpa/sntBook/offlineEduList.do");
+				Cookie cookie = new Cookie("returnUrl", "/kicpa/sntBook/offlineEduList.do");
+    			cookie.setPath("/");
+    			cookie.setMaxAge(60*60);
+    			response.addCookie(cookie);
 				modelAndView.addObject("isLogin", false);
 			}
 		}catch (Exception e) {
@@ -545,7 +561,7 @@ public class SntBookController {
 	}
 
 	@RequestMapping(value="/insertCart.do")
-	public ModelAndView insertCart(@RequestBody Map<String,Object> map, HttpServletRequest request) throws Exception{
+	public ModelAndView insertCart(@RequestBody Map<String,Object> map, HttpServletRequest request, HttpServletResponse response) throws Exception{
 		ModelAndView modelAndView = new ModelAndView();
 
 		try{
@@ -635,6 +651,10 @@ public class SntBookController {
 				modelAndView.addObject("isLogin", true);
 			}else {
 				modelAndView.addObject("isLogin", false);
+				Cookie cookie = new Cookie("returnUrl", "/kicpa/sntBook/insertCart.do");
+    			cookie.setPath("/");
+    			cookie.setMaxAge(60*60);
+    			response.addCookie(cookie);
 			}
 
 //			map.put("pslId", "5650320120323");

@@ -31,7 +31,13 @@
 			$('#checkId').trigger('click');
 			<%-- window.bridge.userDataSave('JSESSIONID', '<%=session.getId() %>'); --%>
 			fnInit();
-			window.bridge.getFcmToken('function(d) {setToken(d);window.token = d;}');
+			document.cookie = "loginIng=" + escape ('') + "; path=/; expires=0";
+			if (window['bridge'] )  {				
+				window.bridge.userDataSave('loginIng', '');
+				window.bridge.userDataRemove('loginIng');
+				window.bridge.getFcmToken('function(d) {setToken(d);window.token = d;}');
+				
+			}
 		});
 
 		

@@ -121,6 +121,12 @@ function bgColorChange(color){
 			        <button class="icon_consulting" type="button" onclick="javascript:location.href='<c:url value='/kicpa/myp/faqQnaCategory.do'/>';">
 			          	회원상담
 			        </button>
+			         <button class="icon_job" type="button" onclick="javascript:location.href='<c:url value='/kicpa/job/boardList.do?ijJobSep=1'/>';">
+			        	 구인정보
+			        </button>
+			        <button class="icon_obituary" type="button" onclick="javascript:location.href='<c:url value='/kicpa/memberEvent/boardList.do'/>';">
+			       		   회원경조사
+			        </button>
 			       
 	     		</div>
 	      		<div id="mfm12">

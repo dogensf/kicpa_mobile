@@ -58,8 +58,8 @@ public class KicpaCommController {
 				sErrorUrl = map.get("movePage").toString();          // 실패시 이동될 URL
 			}
 			else{
-				sReturnUrl = "http://localhost:8080/kicpa/common/getCheckplusSuccess.do";      // 성공시 이동될 URL
-				sErrorUrl = "http://localhost:8080/kicpa/common/getCheckplusFail.do";          // 실패시 이동될 URL
+				sReturnUrl = "https://mkip.kicpa.or.kr/kicpa/common/getCheckplusSuccess.do";      // 성공시 이동될 URL
+				sErrorUrl = "https://mkip.kicpa.or.kr/kicpa/common/getCheckplusFail.do";          // 실패시 이동될 URL
 			}
 
 	        // 입력될 plain 데이타를 만든다.

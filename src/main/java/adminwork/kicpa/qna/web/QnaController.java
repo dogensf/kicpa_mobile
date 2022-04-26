@@ -4,7 +4,9 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -130,7 +132,7 @@ public class QnaController {
 
 
 	@RequestMapping(value = "/kicpa/qna/qnaList.do")
-	public String qnaResult(@RequestParam Map<String,Object> map, ModelMap model, HttpServletRequest request)
+	public String qnaResult(@RequestParam Map<String,Object> map, ModelMap model, HttpServletRequest request, HttpServletResponse response)
 	  throws Exception{
 
 		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
@@ -171,12 +173,16 @@ public class QnaController {
 //			System.out.println("pin========="+Pin);
 //			model.addAttribute("id", Pin);
 			model.addAttribute("returnUrl", "/kicpa/qna/qnaList.do");
+			Cookie cookie = new Cookie("returnUrl", "/kicpa/qna/qnaList.do");
+			cookie.setPath("/");
+			cookie.setMaxAge(60*60);
+			response.addCookie(cookie);
 			return "redirect:/uat/uia/LoginUsr.do";
 		}
 
 	}
 	@RequestMapping(value = "/kicpa/qna/qnaForm.do")
-	public String qnaForm(@RequestParam Map<String,Object> map, ModelMap model, HttpServletRequest request)
+	public String qnaForm(@RequestParam Map<String,Object> map, ModelMap model, HttpServletRequest request, HttpServletResponse response)
 			throws Exception{
 
 		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
@@ -189,13 +195,17 @@ public class QnaController {
 //			System.out.println("pin========="+Pin);
 //			model.addAttribute("id", Pin);
 			model.addAttribute("returnUrl", "/kicpa/qna/qnaList.do");
+			Cookie cookie = new Cookie("returnUrl", "/kicpa/qna/qnaList.do");
+			cookie.setPath("/");
+			cookie.setMaxAge(60*60);
+			response.addCookie(cookie);
 			return "redirect:/uat/uia/LoginUsr.do";
 		}
 
 	}
 
 	@RequestMapping(value = "/kicpa/qna/qnaDetail.do")
-	public String qnaResultDetail(@RequestParam Map<String,Object> map, ModelMap model, HttpServletRequest request)
+	public String qnaResultDetail(@RequestParam Map<String,Object> map, ModelMap model, HttpServletRequest request, HttpServletResponse response)
 	  throws Exception{
 
 		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
@@ -208,13 +218,17 @@ public class QnaController {
 			model.addAttribute("result", result);
 			return "kicpa/qna/qnaDetail";
 		}else {
+			Cookie cookie = new Cookie("returnUrl", "/kicpa/qna/qnaList.do");
+			cookie.setPath("/");
+			cookie.setMaxAge(60*60);
+			response.addCookie(cookie);
 			return "redirect:/uat/uia/LoginUsr.do";
 		}
 
 	}
 
 	@RequestMapping(value="/kicpa/qna/getQnaList.do")
-    public ModelAndView getBoardList(@RequestBody Map<String,Object> map, HttpServletRequest request) throws Exception{
+    public ModelAndView getBoardList(@RequestBody Map<String,Object> map, HttpServletRequest request, HttpServletResponse response) throws Exception{
 		ModelAndView modelAndView = new ModelAndView();
 
     	try{
@@ -237,6 +251,11 @@ public class QnaController {
 				modelAndView.addObject("isLogin", true);
     		}else {
     			modelAndView.addObject("returnUrl", "/kicpa/qna/qnaList.do");
+    			
+    			Cookie cookie = new Cookie("returnUrl", "/kicpa/qna/qnaList.do");
+    			cookie.setPath("/");
+    			cookie.setMaxAge(60*60);
+    			response.addCookie(cookie);
     			modelAndView.addObject("isLogin", false);
     		}
     	}catch (Exception e) {
