@@ -58,15 +58,12 @@ public class ApiController {
 		//backgroundColor
 		List bg = new ArrayList();		 
 		bg.add("981815");
-		bg.add("DD1D50");
-		bg.add("F64B56");
-		bg.add("DC6900");
+		bg.add("012060");
+		bg.add("17B1B1");
+		bg.add("702FA2");
 		bg.add("EB8C00");
-		bg.add("92D050");
-		bg.add("17B1B2");
-		bg.add("53559F");
-		bg.add("7030A0");
-		bg.add("003976");
+		bg.add("DD1D50");
+	
 
 		model.addAttribute("bgcolorList", bg);
 		//홈버튼 생성

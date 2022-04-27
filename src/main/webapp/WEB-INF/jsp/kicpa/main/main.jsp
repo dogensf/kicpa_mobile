@@ -1,6 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8" session="true"%>
 <%@ taglib prefix='c' uri='http://java.sun.com/jsp/jstl/core' %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ page import ="adminwork.com.cmm.LoginVO" %>
+<%@ page import ="javax.servlet.http.Cookie" %>
+<%@ page import ="javax.servlet.http.HttpServletResponse" %>
 <script src="/js/kicpa/board/board.js"></script>
 <script src="/js/kicpa/main/main.js"></script>
 <script>
@@ -27,6 +30,7 @@ $(document).ready(function(){
 	//window.bridge.userDataGet('loginIng', 'window.alert');
 	
 	if (window['bridge'] )  {
+		(function(cmd) { if (!!window.bridge['getBgColor']) window.bridge['getBgColor'](cmd); } )('function(color){ window.bgColorChange(color); }');
 		window.bridge.reqFavorite();
 		window.bridge.displayBottom(true);
 		window.bridge.getFcmToken('function(d) {setFcmToken(d);}');
@@ -112,7 +116,40 @@ function tutorialHide(){
 	 swiper.update();
 }
 </script>
+<section class="head-main">
+    <h1>
+      <img src="/images/kicpa/logo.png" alt="KICPA">
+    </h1>
+    <%
+	    Cookie cookie = new Cookie("returnUrl", "/kicpa/main/main.do");
+		cookie.setPath("/");
+		cookie.setMaxAge(60*15);
+		response.addCookie(cookie);
+    
+    
+        LoginVO loginVO = (LoginVO)session.getAttribute("LoginVO");
+        if(loginVO == null){
+        %>
+        <button class="btn-login" onclick="javascript:location.href='<c:url value='/uat/uia/LoginUsr.do'/>';" type="button">
+     	 로그인
+    	</button>
+	  	<%
+        }else{
+	  	%>
+	  	<button class="btn-login" onclick="javascript:logOut();" type="button">
+     	 로그아웃
+    	</button>
 
+	  	<%
+	  	}
+        %>
+    
+    
+
+    <button class="btn-menu" type="button" onClick="javascript:window.bridge.showCategory();">
+      	카테고리
+    </button>
+</section>
 <section class="bookmark-wrap">
 
 	
@@ -339,7 +376,7 @@ function tutorialHide(){
 <!-- 하단 레이어 팝업 / 활성화시 show -->
         <div class="layer-popup-wrap " id="tutorialExit">
             <div class="layer-container layer-tutorial">
-                <div class="swiper mySwiper">
+                <div class="swiper mySwiper2">
                     <div class="swiper-wrapper">
                         <div class="swiper-slide">
                             <div class="title-box">
@@ -437,11 +474,50 @@ function tutorialHide(){
         </div>
 
         <script>
-      var swiper = new Swiper(".mySwiper", {
+      var swiper = new Swiper(".mySwiper2", {
         pagination: {
           el: ".swiper-pagination2",
         },
       });
     </script>
+
+
+
+
+
+
+
+
+<section class="link-url">
+	<a href="javascript:window.bridge.newWebView('kicpa1','https://cyber.kicpa.or.kr/sso/main.php','')">회계연수원</a>
+ 	<a href="javascript:window.bridge.newWebView('kicpa2','https://blog.naver.com/kicpaline','')" >KICPA블로그</a>
+	<a href="javascript:window.bridge.newWebView('kicpa3','https://blog.naver.com/kicpa1','')" >조세지원센터</a>
+	<a href="javascript:window.bridge.newWebView('kicpa4','https://www.youtube.com/channel/UCCXEbJkEOo2DrPNxYjTdIVQ','')">KICPA유튜브</a>
+	<a href="javascript:window.bridge.newWebView('kicpa5','https://mail.kicpa.or.kr','')" >회원용 email</a>
+	<a href="javascript:window.bridge.newWebView('kicpa6','https://www.kicpa.or.kr/portal/default/kicpa/main/kr_pc_guest','')" >PC버전 </a>
+ </section>
+
+<footer>
+	<address>
+	  	<span>
+	    	서울특별시 서대문구 충정로7길 12 (충정로 2가) 한국공인회계사회
+	  	</span>
+	  	<span>TEL : 02-3149-0100</span>
+	  	<span class="between-line">
+	    	<a href="#">개인정보처리방침</a>
+	   		 <a href="#">이용약관</a>
+	  	</span>
+	  	<span>COPYRIGHT (C) KICPA, ALL RIGHTS RESERVED.</span>
+	</address>
+</footer>
+
+<script>
+var swiper = new Swiper(".mySwiper", {
+  pagination: {
+    el: ".swiper-pagination",
+  },
+});
+</script>
+
 
 

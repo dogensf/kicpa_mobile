@@ -14,7 +14,7 @@
     pageEncoding="utf-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!--begin::Footer-->
-<section class="link-url">
+<!-- <section class="link-url">
 	<a href="javascript:window.bridge.newWebView('kicpa1','https://cyber.kicpa.or.kr/sso/main.php','')">회계연수원</a>
  	<a href="javascript:window.bridge.newWebView('kicpa2','https://blog.naver.com/kicpaline','')" >KICPA블로그</a>
 	<a href="javascript:window.bridge.newWebView('kicpa3','https://blog.naver.com/kicpa1','')" >조세지원센터</a>
@@ -43,5 +43,5 @@ var swiper = new Swiper(".mySwiper", {
     el: ".swiper-pagination",
   },
 });
-</script>
+</script> -->
 <!--end::Footer-->
