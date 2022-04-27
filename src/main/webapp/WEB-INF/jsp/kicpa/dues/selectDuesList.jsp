@@ -185,7 +185,8 @@
                 $('#giroCd').val(girocd);
                 $('#dudtInAmt_').val(dudtamt);
                 $('#dudtInAmt').val(sumDudtamt);
-                sumDudtamt= sumDudtamt.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+                //sumDudtamt= sumDudtamt.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+                sumDudtamt= sumDudtamt.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
                 if(sumDudtamt != '0' ){
                 	$('#paymentBtn').css("background","#EB640F");
                 	$('#paymentBtn').css("color","#fff");

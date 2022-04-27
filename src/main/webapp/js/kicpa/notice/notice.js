@@ -5,7 +5,7 @@ var flag = true;
 notice.boardListInit = function(){
 
 	$(".search-box .search").on("click",function(){
-		fn_portal_pop("searchPop")
+		fn_portal_pop("searchPop");
 	});
 
 

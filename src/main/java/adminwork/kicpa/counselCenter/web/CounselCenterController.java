@@ -71,7 +71,8 @@ public class CounselCenterController {
 			cookie.setPath("/");
 			cookie.setMaxAge(60*60);
 			response.addCookie(cookie);
-			return "kicpa/common/authLogin";
+			//return "kicpa/common/authLogin";
+			return "redirect:/uat/uia/LoginUsr.do";
 		}
 	}
 
@@ -99,7 +100,8 @@ public class CounselCenterController {
 			cookie.setPath("/");
 			cookie.setMaxAge(60*60);
 			response.addCookie(cookie);
-			return "kicpa/common/authLogin";
+			//return "kicpa/common/authLogin";
+			return "redirect:/uat/uia/LoginUsr.do";
 		}
 
 	}
@@ -116,7 +118,8 @@ public class CounselCenterController {
 			cookie.setPath("/");
 			cookie.setMaxAge(60*60);
 			response.addCookie(cookie);
-			return "kicpa/common/authLogin";
+			//return "kicpa/common/authLogin";
+			return "redirect:/uat/uia/LoginUsr.do";
 		}
 
 	}
@@ -132,7 +135,8 @@ public class CounselCenterController {
 			cookie.setPath("/");
 			cookie.setMaxAge(60*60);
 			response.addCookie(cookie);
-			return "kicpa/common/authLogin";
+			//return "kicpa/common/authLogin";
+			return "redirect:/uat/uia/LoginUsr.do";
 		}
 
 	}
@@ -160,7 +164,8 @@ public class CounselCenterController {
 			cookie.setPath("/");
 			cookie.setMaxAge(60*60);
 			response.addCookie(cookie);
-			return "kicpa/common/authLogin";
+			//return "kicpa/common/authLogin";
+			return "redirect:/uat/uia/LoginUsr.do";
 		}
 
 
@@ -179,7 +184,8 @@ public class CounselCenterController {
 			cookie.setPath("/");
 			cookie.setMaxAge(60*60);
 			response.addCookie(cookie);
-			return "kicpa/common/authLogin";
+			//return "kicpa/common/authLogin";
+			return "redirect:/uat/uia/LoginUsr.do";
 		}
 
 
@@ -198,7 +204,8 @@ public class CounselCenterController {
 			cookie.setPath("/");
 			cookie.setMaxAge(60*60);
 			response.addCookie(cookie);
-			return "kicpa/common/authLogin";
+			//return "kicpa/common/authLogin";
+			return "redirect:/uat/uia/LoginUsr.do";
 		}
 
 
@@ -219,7 +226,8 @@ public class CounselCenterController {
 			cookie.setPath("/");
 			cookie.setMaxAge(60*60);
 			response.addCookie(cookie);
-			return "kicpa/common/authLogin";
+			//return "kicpa/common/authLogin";
+			return "redirect:/uat/uia/LoginUsr.do";
 		}
 
 	}
@@ -265,7 +273,8 @@ public class CounselCenterController {
 				response.addCookie(cookie);
 			}
 
-			return "kicpa/common/authLogin";
+			//return "kicpa/common/authLogin";
+			return "redirect:/uat/uia/LoginUsr.do";
 		}
 
 
@@ -285,7 +294,8 @@ public class CounselCenterController {
 			cookie.setPath("/");
 			cookie.setMaxAge(60*60);
 			response.addCookie(cookie);
-			return "kicpa/common/authLogin";
+			//return "kicpa/common/authLogin";
+			return "redirect:/uat/uia/LoginUsr.do";
 		}
 
 

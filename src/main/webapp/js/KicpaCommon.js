@@ -256,6 +256,13 @@ function fn_load_html(href, container, param, fn, args) {
 
 function fn_portal_pop(obj,text){
 	$("#"+ obj).addClass("show");
+	if(obj == "searchPop"){
+		var aFormElement = document.getElementById("boardSearchForm");
+		var fromChildElements = aFormElement.querySelectorAll('input:not([type=hidden])');
+		var lastElement       = fromChildElements[fromChildElements.length - 1];
+		lastElement.focus();
+	}
+	
 	$("body").addClass("stop");
 
 	$("#" +obj + " .btn-close").off().on("click",function(){

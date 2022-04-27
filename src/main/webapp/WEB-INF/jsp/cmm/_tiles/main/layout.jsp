@@ -93,11 +93,11 @@ $(document).ready(function(){
 </script>
 	<body>
         <div class="wrap">
-            <div class="container main">            	 
+            <!-- <div class="container main"> -->            	 
             	<tiles:insertAttribute name="header"/>
             	<tiles:insertAttribute name="body"/>
 				<tiles:insertAttribute name="footer"/>
-            </div>
+            <!-- </div> -->
         </div>
         <!-- 하단 레이어 팝업 / 활성화시 show -->
 	 <div class="layer-popup-wrap" id="appExit">
