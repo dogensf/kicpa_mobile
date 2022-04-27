@@ -205,9 +205,9 @@ sntBook.cartInit = function(){
 }
 
 sntBook.bookDetailInit = function(){
-	$(".btn-sticky").on("click",function(){
+	/*$(".btn-sticky").on("click",function(){
 		sntBook.insertCart();
-	});
+	});*/
 }
 
 sntBook.orderFormInit = function(){

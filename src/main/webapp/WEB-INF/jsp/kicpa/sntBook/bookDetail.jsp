@@ -89,7 +89,7 @@ function fncLocation(){
 			        <button class="btn-sticky" disabled="disabled"  type="button">구매하기</button>
 		   		</c:when>
 		   		<c:otherwise>
-		   			<button class="btn-sticky" type="button">구매하기</button>
+		   			<button class="btn-sticky" type="button" onClick="javascript:sntBook.insertCart();">구매하기</button>
 		   		</c:otherwise>
     		</c:choose>
 	    </div>

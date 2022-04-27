@@ -62,8 +62,10 @@ function logOut(){
 	location.href='<c:url value='/uat/uia/actionLogout.do'/>';
 	
 }
-
-function getCookie3(Name) {
+function setCookie (name, value, expires) {
+    document.cookie = name + "=" + escape (value) + "; path=/; expires=" + expires.toGMTString();
+}
+function getCookie(Name) {
     var search = Name + "="
     if (document.cookie.length > 0) { // 쿠키가 설정되어 있다면
         offset = document.cookie.indexOf(search)
@@ -81,9 +83,9 @@ function getCookie3(Name) {
 }
 $(document).ready(function(){
 	//alert(getCookie("loginIng"));
-	if("" != getCookie3("loginIng") && null != getCookie3("loginIng")){
+	if("" != getCookie("loginIng") && null != getCookie("loginIng")){
 		if (window['bridge'] )  {
-			window.bridge.userDataSave('loginIng', getCookie3("loginIng"));
+			window.bridge.userDataSave('loginIng', getCookie("loginIng"));
 		}
 	}
 	

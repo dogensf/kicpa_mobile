@@ -2881,8 +2881,8 @@ body.stop {
 }
 
 .layer-popup-wrap .layer-content {
-  margin-top: 3rem;
-  margin-bottom: 5rem;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
 }
 
 .layer-popup-wrap .btn-bottom {
@@ -2890,6 +2890,7 @@ body.stop {
 }
 
 .layer-popup-wrap .btn-text-blue {
+  margin-top: 2rem;
   margin-bottom: 2rem;
 }
 
@@ -2936,6 +2937,28 @@ body.stop {
   line-height: 2.2rem;
   color: #222;
   background-color: #EFF4F9;
+}
+
+
+.layer-tutorial {
+  text-align: center;
+}
+
+.layer-tutorial .layer-content {
+  margin-top: 1.7rem;
+}
+
+.layer-tutorial .img-tutorial {
+  text-align: center;
+  margin-top: 1rem;
+}
+
+.layer-tutorial .img-tutorial img {
+  width: 53.86%;
+}
+
+.layer-tutorial .today-check {
+  margin-top: 0;
 }
 
 @-webkit-keyframes fuIn {

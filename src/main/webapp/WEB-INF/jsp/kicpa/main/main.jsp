@@ -35,6 +35,9 @@ $(document).ready(function(){
 		//$('#ss2').show();
 		//swiper.update();
 	}
+	if(getCookie("tutorial") ==""){
+		$('#tutorialExit').addClass("show");
+	}
 	
 	
 });
@@ -93,6 +96,20 @@ function calDetail(type){
 
 function bgColorChange(color){
 	$(".bookmark-wrap").css("background-color","#"+color);
+}
+
+function tutorialHide(){
+	var expdate = new Date();
+    // 기본적으로 3일동안 기억하게 함. 일수를 조절하려면 * 3에서 숫자를 조절하면 됨
+    if ($('#viewck').is(':checked')){
+    	expdate.setTime(expdate.getTime() + 1000 * 3600 * 24 * 3); // 30일
+    }else{
+    	expdate.setTime(expdate.getTime() - 1); // 쿠키 삭제조건
+    }
+        
+    setCookie("tutorial", "Y", expdate);
+	$('#tutorialExit').hide();
+	 swiper.update();
 }
 </script>
 
@@ -183,19 +200,19 @@ function bgColorChange(color){
           <ul class="todo-list">
             <li>
               <a  href="javascript:calDetail('01');">
-              	<span style="padding-right:11px;">회계감사</span>
+              	<span style="padding-right:16px;">회계감사</span>
               <em id="cal01">${sumCal.cnt01 } 건</em>
               </a>
             </li>
             <li>
             	<a  href="javascript:calDetail('02');">
-              		<span style="padding-right:22px;">세무</span>
+              		<span style="padding-right:32px;">세무</span>
               		<em id="cal02">${sumCal.cnt02 } 건</em>
               	</a>	
             </li>
             <li>
             	<a  href="javascript:calDetail('03');">
-	              <span style="padding-right:22px;">업무</span>
+	              <span style="padding-right:35px;">업무</span>
 	              <em id="cal03">${sumCal.cnt03 } 건</em>
 	            </a>  
             </li>
@@ -314,3 +331,117 @@ function bgColorChange(color){
 		</div>
 	</div> --%>
 </section>
+
+
+
+
+
+<!-- 하단 레이어 팝업 / 활성화시 show -->
+        <div class="layer-popup-wrap " id="tutorialExit">
+            <div class="layer-container layer-tutorial">
+                <div class="swiper mySwiper">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide">
+                            <div class="title-box">
+                                <h2>한국공인회계사회</h2>
+                            </div>
+                            <div class="layer-content">
+                                <div class="gray-box">
+                                    모바일소통플랫폼 서비스를 언제 어디서나 간편하게 만나 보실 수 있습니다.                                    
+                                </div>
+                                <div class="img-tutorial">
+                                    <img src="../images/img-tutorial01.png" alt="튜토리얼이미지" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="swiper-slide">
+                            <div class="title-box">
+                                <h2>즐겨찾기 메뉴 편집</h2>
+                            </div>
+                            <div class="layer-content">
+                                <div class="gray-box">
+                                    자주 사용하는 메뉴는 My 즐겨찾기 메뉴리스트에서 자유롭게 편집할 수 있습니다.
+                                </div>
+                                <div class="img-tutorial">
+                                    <img src="../images/img-tutorial02.png" alt="튜토리얼이미지" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="swiper-slide">
+                            <div class="title-box">
+                                <h2>배경색상 편집</h2>
+                            </div>
+                            <div class="layer-content">
+                                <div class="gray-box">
+                                    My 즐겨찾기 배경화면 색상을 이용자 선호에 따라 자유롭게 편집할 수 있습니다.
+                                </div>
+                                <div class="img-tutorial">
+                                    <img src="../images/img-tutorial03.png" alt="튜토리얼이미지" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="swiper-slide">
+                            <div class="title-box">
+                                <h2>마이페이지 수정</h2>
+                            </div>
+                            <div class="layer-content">
+                                <div class="gray-box">
+                                    소중한 개인정보를  간편하게 수정할 수 있습니다.
+                                </div>
+                                <div class="img-tutorial">
+                                    <img src="../images/img-tutorial04.png" alt="튜토리얼이미지" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="swiper-slide">
+                            <div class="title-box">
+                                <h2>회비 납부/조회</h2>
+                            </div>
+                            <div class="layer-content">
+                                <div class="gray-box">
+                                    납부한 회비 내역과 내야할 회비를 조회하여 
+                                    간편하게 납부하실 수 있습니다.
+                                </div>
+                                <div class="img-tutorial">
+                                    <img src="../images/img-tutorial05.png" alt="튜토리얼이미지" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="swiper-slide">
+                            <div class="title-box">
+                                <h2>경조사 등록</h2>
+                            </div>
+                            <div class="layer-content">
+                                <div class="gray-box">
+                                    회원 경조사 발생 시 직접 등록 하실 수 있습니다.
+                                </div>
+                                <div class="img-tutorial">
+                                    <img src="../images/img-tutorial06.png" alt="튜토리얼이미지" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-pagination2 popup-swiper"></div>
+                </div>
+                
+                <div class="layer-bottom">
+
+                    <button class="btn-text-blue" type="button" onclick="javascript:tutorialHide();">Skip</button>
+
+                    <div class="today-check">
+                        <input type="checkbox" name="viewck" id="viewck" />
+                        <label for="viewck">3일간 보지않기</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+      var swiper = new Swiper(".mySwiper", {
+        pagination: {
+          el: ".swiper-pagination2",
+        },
+      });
+    </script>
+
+
