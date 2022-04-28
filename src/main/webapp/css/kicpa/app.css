@@ -1585,6 +1585,10 @@ button:focus {
   margin-top: 2rem;
 }
 
+.textline img {
+  width: 100%;
+}
+
 .board-detail .cont-line {
   border-bottom: 1px solid #ccc;
   padding-bottom: 2rem;
@@ -2865,19 +2869,19 @@ body.stop {
   left: 0;
   width: 100%;
   background-color: #fff;
-  padding: 2rem 1.6rem 2rem;
+  padding: 2rem 1.6rem 5rem;
   border-radius: 2rem 2rem 0 0;
   bottom: -100%;
 }
 
 .layer-popup-wrap h2 {
   text-align: center;
-  font-size: 2.0rem;
+  font-size: 2.2rem;
   font-weight: 500;
   line-height: 3.0rem;
   color: #222;
-  height: 3.5rem;
-  line-height: 3.5rem;
+  height: 4.8rem;
+  line-height: 4.8rem;
 }
 
 .layer-popup-wrap .layer-content {
@@ -2890,8 +2894,8 @@ body.stop {
 }
 
 .layer-popup-wrap .btn-text-blue {
-  margin-top: 1rem;
-  margin-bottom: 1rem;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
 }
 
 .layer-popup-wrap .notice {
@@ -2903,7 +2907,7 @@ body.stop {
 }
 
 .layer-popup-wrap .text-gray {
-  margin-bottom: 1.1rem;
+  margin-bottom: 1.3rem;
   text-align: center;
   display: block;
   font-size: 1.4rem;
@@ -2919,7 +2923,7 @@ body.stop {
 .layer-popup-wrap .today-check label {
   font-size: 1.4rem;
   font-weight: 400;
-  line-height: 1rem;
+  line-height: 2rem;
   color: #666;
   -webkit-box-pack: center;
       -ms-flex-pack: center;
@@ -2931,7 +2935,7 @@ body.stop {
 }
 
 .gray-box {
-  padding: 1rem 1.6rem;
+  padding: 2rem 1.6rem;
   font-size: 1.6rem;
   font-weight: 400;
   line-height: 2.2rem;
@@ -2954,11 +2958,11 @@ body.stop {
 }
 
 .layer-tutorial .img-tutorial img {
-  width: 45.86%;
+  width: 53.86%;
 }
 
 .layer-tutorial .today-check {
-  margin-top: 1rem;
+  margin-top: 0;
 }
 
 @-webkit-keyframes fuIn {
@@ -3093,7 +3097,7 @@ body.stop {
       -ms-flex: 1;
           flex: 1;
   text-align: right;
-  font-size: 1.4rem;
+  font-size: 1.3rem;
   font-weight: 700;
   line-height: 2rem;
   color: #F5222D;

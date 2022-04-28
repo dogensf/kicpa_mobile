@@ -3,6 +3,9 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <script src="/js/kicpa/sntBook/sntBook.js"></script>
 <script>
+if (window['bridge'] )  {
+	window.bridge.displayBottom(false);
+}
 $(document).ready(function(){
 	sntBook.kifrsBookInit();
 });

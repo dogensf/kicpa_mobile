@@ -63,6 +63,14 @@ $(document).ready(function(){
 		$('#tutorialExit').addClass("show");
 	}
 	
+	/* $('#tutorialExit').click(function(){
+		$('#tutorialExit').hide();
+		if (window['bridge'] )  {
+			window.bridge.displayBottom(true);
+		}	
+		 swiper.update();
+	}); */
+	
 	
 });
 
@@ -261,19 +269,19 @@ function tutorialHide(){
 	          <ul class="todo-list">
 	            <li>
 	              <a  href="javascript:calDetail('01');">
-	              	<span style="padding-right:16px;">회계감사</span>
+	              	<span>회계감사</span>&nbsp;&nbsp;&nbsp;
 	              <em id="cal01">${sumCal.cnt01 } 건</em>
 	              </a>
 	            </li>
 	            <li>
 	            	<a  href="javascript:calDetail('02');">
-	              		<span style="padding-right:32px;">세무</span>
+	              		<span>세  무</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 	              		<em id="cal02">${sumCal.cnt02 } 건</em>
 	              	</a>	
 	            </li>
 	            <li>
 	            	<a  href="javascript:calDetail('03');">
-		              <span style="padding-right:35px;">업무</span>
+		              <span>업  무</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 		              <em id="cal03">${sumCal.cnt03 } 건</em>
 		            </a>  
 	            </li>

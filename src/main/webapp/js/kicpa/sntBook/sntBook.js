@@ -60,7 +60,8 @@ sntBook.cartOrderCoperationInit = function(){
 	$("#cnt").on("blur",function(){
 		var price = Number($("#price").val().replace(/,/gi,""));
 
-		$("#totPrice").val(String(price*Number($("#cnt").val())).replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+		//$("#totPrice").val(String(price*Number($("#cnt").val())).replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+		$("#totPrice").val(String(price*Number($("#cnt").val())));
 //		$(this).val( $(this).val().replace(/[^0-9]/g, ""));
 	});
 
@@ -205,9 +206,9 @@ sntBook.cartInit = function(){
 }
 
 sntBook.bookDetailInit = function(){
-	/*$(".btn-sticky").on("click",function(){
+	$(".btn-sticky").on("click",function(){
 		sntBook.insertCart();
-	});*/
+	});
 }
 
 sntBook.orderFormInit = function(){
@@ -334,7 +335,7 @@ sntBook.insertCart = function(){
 sntBook.insertCartSuccess = function(data){
 	var isLogin = data.isLogin;
 	if(isLogin){
-		fn_portal_pop("bookCartPopup")
+		fn_portal_pop("bookCartPopup");
 
 		$("#bookCartPopup .btn-send").off().on("click",function(){
 			location.href='/kicpa/sntBook/cartList.do';
@@ -346,7 +347,7 @@ sntBook.insertCartSuccess = function(data){
 			fn_portal_pop("nonLoginBookCartPopup")
 
 			$("#nonLoginBookCartPopup .btn-send").off().on("click",function(){
-				location.href="kicpa/sntBook/cartOrderCoperation.do?ibmBookCode="+$("#boardForm input[name='ibmBookCode']").val();
+				location.href="/kicpa/sntBook/cartOrderCoperation.do?ibmBookCode="+$("#boardForm input[name='ibmBookCode']").val();
 	//			sntBook.getOrderCorporation();
 	//			location.href='/kicpa/sntBook/cartList.do';
 			});
@@ -710,21 +711,20 @@ sntBook.getOfflineEduListSuccess = function(data){
 		if(list != null && list.length > 0){
 			$("#totalCnt").text(list.length+"건");
 			$.each(list,function(i,o){
-				txt+='<li> \n';
-				txt+='	<a  href="javascript:board.openDetailPop(\'/kicpa/sntBook/offlineEduDetail.do?idNum='+o.idNum+'\');"> \n';
-				txt+=' 		<div class="title-zone"> \n';
-				txt+=' 			<p>'+o.wtitle+'</p> \n';
-				txt+=' 	      	<div class="other"> \n';
-				txt+=' 	        	<span class="state">'+o.supotEdu+'</span> \n';
-
-				txt+=' 	        </div> \n';
-				txt+=' 	    </div> \n';
-				txt+='      <div class="info-zone"> \n';
-				txt+='            <span>'+o.eduTerm+'</span> \n';
-				txt+='            <span>교육시간 '+o.eduTime+'</span> \n';
-				txt+='        </div> \n';
-				txt+='	</a> \n';
-				txt+='</li> \n';
+				txt+="<li> \n";
+				txt+="	<a  href=\"javascript:board.openDetailPop('/kicpa/sntBook/offlineEduDetail.do?idNum="+o.idNum+"');\"> \n";
+				txt+=" 		<div class=\"title-zone\"> \n";
+				txt+=" 			<p>"+o.wtitle+"</p> \n";
+				txt+=" 	      	<div class=\"other\"> \n";
+				txt+=" 	        	<span class=\"state\">"+o.supotEdu+"</span> \n";
+				txt+=" 	        </div> \n";
+				txt+=" 	    </div> \n";
+				txt+="      <div class=\"info-zone\"> \n";
+				txt+="            <span>"+o.eduTerm+"</span> \n";
+				txt+="            <span>교육시간 "+o.eduTime+"</span> \n";
+				txt+="        </div> \n";
+				txt+="	</a> \n";
+				txt+="</li> \n";
 			});
 			$(".board-list ul").append(txt);
 		}else{
@@ -903,7 +903,7 @@ sntBook.orderCartFrom = function(){
 sntBook.orderCartFormSuccess = function(data){
 	var result = data.result;
 	if(result == '0000'){
-		location.href="kicpa/sntBook/cartOrderForm.do?gamYn=N";
+		location.href="/kicpa/sntBook/cartOrderForm.do?gamYn=N";
 	}else if(result == '0001'){
 		alert("장바구니에 상품이 존재하지 않습니다.");
 	}else if(result == '0002'){
@@ -1067,7 +1067,7 @@ sntBook.getOrderCorporation = function(){
 }
 
 sntBook.getOrderCorporationSuccess = function(data){
-	location.href="kicpa/sntBook/cartOrderForm.do?gamYn=Y";
+	location.href="/kicpa/sntBook/cartOrderForm.do?gamYn=Y";
 },
 
 sntBook.getCorporationList = function(){

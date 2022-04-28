@@ -93,7 +93,12 @@ notice.getNewsListSuccess = function(data){
 			if(o.knlUrl == null){
 				txt+='	<a href="javascript:board.openDetailPop(\'/kicpa/commonBoard/boardDetail.do?boardId='+o.knlGubun+'&bltnNo='+o.knlId+'\');"> \n';
 			}else{
-				txt+='	<a href="'+o.knlUrl+'" target="_blank"> \n';
+				if (window['bridge'] )  {
+					txt+="	<a href=\"javascript:window.bridge.newWebView('popss','"+o.knlUrl+"','')\"> \n";
+				}else{
+					txt+='	<a href="'+o.knlUrl+'" target="_blank"> \n';
+				}
+				
 			}
 			txt+=' 		<div class="title-zone"> \n';
 			txt+=' 			<p>'+o.knlSubject+'</p> \n';

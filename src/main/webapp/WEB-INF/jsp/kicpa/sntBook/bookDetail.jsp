@@ -3,6 +3,9 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <script src="/js/kicpa/sntBook/sntBook.js"></script>
 <script>
+if (window['bridge'] )  {
+	window.bridge.displayBottom(false);
+}
 $(document).ready(function(){
 	sntBook.bookDetailInit();
 });
@@ -86,10 +89,10 @@ function fncLocation(){
 	   	<div class="sticky-bottom">
     		<c:choose>
 	    		<c:when test="${bookDetail.ibmPublishSep eq '9' }">
-			        <button class="btn-sticky" disabled="disabled"  type="button">구매하기</button>
+			        <button class="btn-sticky" disabled="disabled"  type="button">구매 하기</button>
 		   		</c:when>
 		   		<c:otherwise>
-		   			<button class="btn-sticky" type="button" onClick="javascript:sntBook.insertCart();">구매하기</button>
+		   			<button class="btn-sticky" type="button">구매하기</button>
 		   		</c:otherwise>
     		</c:choose>
 	    </div>

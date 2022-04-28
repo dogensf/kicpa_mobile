@@ -20,11 +20,11 @@ memberEvent.insertValicationCheck = function(){
 		return false;
 	}
 
-	var regex=/^[-A-Za-z0-9_]+[-A-Za-z0-9_.]*[@]{1}[-A-Za-z0-9_]+[-A-Za-z0-9_.]*[.]{1}[A-Za-z]{1,5}$/;
+/*	var regex=/^[-A-Za-z0-9_]+[-A-Za-z0-9_.]*[@]{1}[-A-Za-z0-9_]+[-A-Za-z0-9_.]*[.]{1}[A-Za-z]{1,5}$/;
 	if(!regex.test($.trim($("#extStr0").val()))) {
 		alert("올바르지 않은 이메일주소입니다.");
 		return false;
-	}
+	}*/
 
 	if($.trim($("#relation").val()) == ''){
 		alert("고인과의 관계를 입력해주세요.")
