@@ -30,7 +30,7 @@ function fncLocation(){
 <section class="content">
     <div class="board-detail">
         <div class="inner">
-            <h4><c:out value="${ㅊ.faqSj}"/></h4>
+            <h4><c:out value="${result.faqSj}"/></h4>
 
             <div class="togl-box">
                 <button class="btn-board-togl active" type="button">부서정보</button>
@@ -53,10 +53,10 @@ function fncLocation(){
                             <th>담당부서</th>
                             <td><c:out value="${result.faqPart }"/></td>
                         </tr>
-                        <tr>
+                        <%-- <tr>
                             <th>담당자</th>
                             <td><c:out value="${result.faqManager }"/></td>
-                        </tr>
+                        </tr> --%>
                     </table>
                 </div>
             </div>

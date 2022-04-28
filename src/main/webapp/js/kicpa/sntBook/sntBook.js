@@ -252,7 +252,8 @@ sntBook.orderFormInit = function(){
 	});
 
 	$("#telNo1,#telNo2,#telNo3,#hpNo1,#hpNo2,#hpNo3").on("input",function(){
-		$(this).val( $(this).val().replace(/[^0-9]/g, ""));
+		//$(this).val( $(this).val().replace(/[^0-9]/g, ""));
+		$(this).val( $(this).val().replace("-", ""));
 	});
 
 

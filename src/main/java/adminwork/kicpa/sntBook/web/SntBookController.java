@@ -241,6 +241,7 @@ public class SntBookController {
 
 		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
 		HttpSession session = request.getSession();
+		@SuppressWarnings("unchecked")
 		List<EgovMap> orderList=   (List<EgovMap>) session.getAttribute("orderList");
 
 
@@ -250,14 +251,14 @@ public class SntBookController {
 
 				long totalPay = 0;
 				for(EgovMap m : orderList) {
-					if(isAuthenticated) {
-						LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
-						model.addAttribute("loginVO", user);
-					}
+					
 					totalPay += Long.parseLong(StringUtil.isNullToString(m.get("saleAmt"),"0"));
 				}
 
-
+				if(isAuthenticated) {
+					LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+					model.addAttribute("loginVO", user);
+				}
 				model.addAttribute("totalPay", totalPay);
 				model.addAttribute("mid",propertyService.getString("inicisMid"));
 				return "kicpa/sntBook/cartOrderForm";

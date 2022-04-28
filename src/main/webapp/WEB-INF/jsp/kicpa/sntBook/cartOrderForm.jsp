@@ -22,7 +22,7 @@ function pay0(){
 </script>
 <form name="mobileweb" id="mobileweb" method="post" accept-charset="euc-kr">
 	<input type="hidden" name="P_NEXT_URL" value="<c:url value='/kicpa/sntBook/orderReponse.do'/>">
-	<input type="hidden" name="P_MID" value="${mid }"> <!-- 에스크로테스트 : iniescrow0, 모바일빌링(정기과금)은 별도연동필요 -->
+	<input type="hidden" name="P_MID" value="${mid}"> <!-- 에스크로테스트 : iniescrow0, 모바일빌링(정기과금)은 별도연동필요 -->
 	<input type="hidden" name="P_OID" value="">
 	<input type="hidden" name="P_CHARSET" value="utf8">
 	<input type="hidden" name="P_GOODS" value="도서간행물">
@@ -232,7 +232,8 @@ function pay0(){
 	          	<div class="form">
 	          		<div class="inp-box">
 				        <label class="label essen" for="arEmail">합계금액</label>
-				        <input type="text" id="payTotalAmt" name="payTotalAmt" disabled="disabled" value="<fmt:formatNumber value="${totalPay }" pattern="#,###"/>"/>
+				        <%-- <input type="text" id="payTotalAmt" name="payTotalAmt" disabled="disabled" value="<fmt:formatNumber value="${totalPay }" pattern="#,###"/>"/> --%>
+				        <input type="text" id="payTotalAmt" name="payTotalAmt" disabled="disabled" value="${totalPay }"/>
 				    </div>
 
 
