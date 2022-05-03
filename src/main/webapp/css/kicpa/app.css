@@ -1586,7 +1586,11 @@ button:focus {
 }
 
 .textline img {
-  width: 100%;
+  width: 100% !important;
+}
+
+.textline table {
+  width: 100% !important;
 }
 
 .board-detail .cont-line {
