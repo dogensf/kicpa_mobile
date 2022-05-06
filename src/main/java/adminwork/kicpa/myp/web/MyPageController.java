@@ -88,8 +88,6 @@ public class MyPageController {
 
 			String cpaAidFlag="N";		//등록회비 납부여부
 
-			int leftDays = 0;
-
 			//합격자 정보(성명, 연락처) 가져오기(실제 테이블)
 			List<?> cpaPassRealInfo = myPageService.selectCpaPassInfoList(paramMap);
 			Map<String, Object> cpaMemPassRealInfo = new HashMap<>();
@@ -175,7 +173,7 @@ public class MyPageController {
 
 					int totalDays = (int) (totalCount / ( 24*60*60*1000));				//총기간
 					int passDays = (int) (passCount / ( 24*60*60*1000));				//지나간 일수
-					leftDays = (int) (leftCount / ( 24*60*60*1000));				//남은 일수
+					int leftDays = (int) (leftCount / ( 24*60*60*1000));				//남은 일수
 
 					int appProgressDays = (int)((double) passDays / (double) totalDays * 100.0);		//수습 기본실무 진행률
 
@@ -193,7 +191,6 @@ public class MyPageController {
 					}
 
 					model.addAttribute("cpaTrainRegReal", cpaTrainRegReal);
-					model.addAttribute("cpaTrainRegRealSize", cpaTrainRegReal.size());
 					model.addAttribute("appProgressDays", appProgressDays);
 					model.addAttribute("leftDays", leftDays);
 					trainFlag="E";

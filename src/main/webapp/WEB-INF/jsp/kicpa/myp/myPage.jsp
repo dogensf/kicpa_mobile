@@ -110,7 +110,7 @@
 					<c:if test="${cpaMemFlag eq 'N'}">
 
 						<!-- 기본실무 종료 안함 -->
-						<c:if test="${cpaTrainRegRealSize < 1 && (leftDays > 15 || leftDays eq '' || leftDays eq null)}">
+						<c:if test="${cpaTrainRegReal[0].appEndDe eq '' || cpaTrainRegReal[0].appEndDe eq null}">
 							<div class="application-status">
 								<div class="guide-ment">
 									<p>수습기본실무를 먼저 수료하세요.</p>
