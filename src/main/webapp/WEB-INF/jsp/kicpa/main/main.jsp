@@ -14,14 +14,14 @@ if (window['bridge'] )  {
 
 
 var aa =  [
-			{"name":"회원경조사", "img":"icon_obituary", "url":"location.href='/kicpa/memberEvent/boardList.do'"},
+			/* {"name":"회원경조사", "img":"icon_obituary", "url":"location.href='/kicpa/memberEvent/boardList.do'"},
 			{"name":"회비관리", "img":"icon_tax", "url":"location.href='/kicpa/dues/selectDuesList.do'"},
 			{"name":"마이페이지", "img":"icon_mypage", "url":"location.href='/kicpa/myp/myPage.do'"},			
 			{"name":"구인정보", "img":"icon_survey", "url":"/kicpa/job/boardList.do?ijJobSep=1"},
 			{"name":"알림마당", "img":"icon_notice", "url":"/kicpa/notice/boardList.do?boardId=noti"},
 			{"name":"공인회계사 소개", "img":"icon_intro_2", "url":"/kicpa/introduction/boardList.do"},			
 			{"name":"회비관리", "img":"icon_tax", "url":"/kicpa/dues/selectDuesList.do"},
-			{"name":"마이페이지", "img":"icon_blog", "url":"/kicpa/myp/myPage.do"}
+			{"name":"마이페이지", "img":"icon_blog", "url":"/kicpa/myp/myPage.do"} */
 			
 		] ;
 if (window['bridge'] )  {
@@ -201,7 +201,7 @@ function tutorialHide(){
 	  		<div class="swiper-wrapper">
 		    	<div class="swiper-slide">
 		      		<div id="mfm11">
-				        <button class="icon_dues" type="button"  onclick="javascript:location.href='<c:url value='/kicpa/dues/selectDuesList.do'/>';">
+				        <%-- <button class="icon_dues" type="button"  onclick="javascript:location.href='<c:url value='/kicpa/dues/selectDuesList.do'/>';">
 				         	 회비납부/조회
 				        </button>
 				        <button class="icon_consulting" type="button" onclick="javascript:location.href='<c:url value='/kicpa/myp/faqQnaCategory.do'/>';">
@@ -212,11 +212,11 @@ function tutorialHide(){
 				        </button>
 				        <button class="icon_obituary" type="button" onclick="javascript:location.href='<c:url value='/kicpa/memberEvent/boardList.do'/>';">
 				       		   회원경조사
-				        </button>
+				        </button> --%>
 				       
 		     		</div>
 		      		<div id="mfm12">
-				        <button class="icon_training" type="button"  onclick="javascript:location.href='<c:url value='https://cyber.kicpa.or.kr/sso/main.php'/>';">
+				        <%-- <button class="icon_training" type="button"  onclick="javascript:location.href='<c:url value='https://cyber.kicpa.or.kr/sso/main.php'/>';">
 				    	      회계연수원
 				        </button>
 				        <button class="icon_accounting" type="button"  onclick="javascript:location.href='<c:url value='/kicpa/accIstAlert/accIstAlertCategory.do'/>';">
@@ -227,7 +227,7 @@ function tutorialHide(){
 				        </button>
 				        <button class="icon_atc" type="button" onclick="javascript:location.href='<c:url value='/kicpa/counselCenter/counselCenterCategory.do'/>';">
 				      	    회계∙세무<br />삼담센터
-				        </button>
+				        </button> --%>
 		     	 	</div>
 		    	</div>
 			    <div class="swiper-slide" id="ss2" style="display:none;">

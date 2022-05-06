@@ -173,9 +173,9 @@ caption {
   color: #222;
 }
 
-.head-main h1 img {
-  width: 8.6rem;
-  height: 3rem;
+.head-main h1 img {                       
+    width: 11.5rem;
+    height: 4rem;
 }
 
 .head-main.line {
