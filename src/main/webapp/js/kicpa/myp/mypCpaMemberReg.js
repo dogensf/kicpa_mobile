@@ -403,6 +403,12 @@ mypMemberReg.mypCpaMemberReg_infoSave = function(){
 					mypMemberReg.mypMemberReg_tabMove('mypCpaMemberReg_aidDuesInfo');
 				}
 			}, // success
+			beforeSend:function(){
+				$('.wrap-loading').removeClass('display-none');
+			},
+			complete:function(){
+				$('.wrap-loading').addClass('display-none');
+			},
 			error : function(xhr, status) {
 				alert(xhr + " : " + status);
 			}

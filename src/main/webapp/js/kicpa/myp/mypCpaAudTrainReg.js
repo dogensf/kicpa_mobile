@@ -245,6 +245,12 @@ mypCpaAudTrainReg.mypCpaAudTrainReg_infoSave = function(){
 					mypCpaAudTrainReg.mypCpaAudTrainReg_tabMove('mypCpaAudTrainReg_reviewInfo');
 				}
 			}, // success
+			beforeSend:function(){
+				$('.wrap-loading').removeClass('display-none');
+			},
+			complete:function(){
+				$('.wrap-loading').addClass('display-none');
+			},
 			error : function(xhr, status) {
 				alert(xhr + " : " + status);
 			}

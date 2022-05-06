@@ -110,7 +110,7 @@
 					<c:if test="${cpaMemFlag eq 'N'}">
 
 						<!-- 기본실무 종료 안함 -->
-						<c:if test="${leftDays > 15 || leftDays eq '' || leftDays eq null}">
+						<c:if test="${cpaTrainRegReal[0].appEndDe eq '' || cpaTrainRegReal[0].appEndDe eq null}">
 							<div class="application-status">
 								<div class="guide-ment">
 									<p>수습기본실무를 먼저 수료하세요.</p>
@@ -347,10 +347,18 @@
 										</div>
 									</li>
 									<li>
-										<div class="view-box">
-											<span class="label">종료예정일</span>
-											<p>${cpaTrainRegReal[0].appRegistEndDe}</p>
-										</div>
+										<c:if test="${cpaTrainRegReal[0].appRegistEndDe ne '' && cpaTrainRegReal[0].appRegistEndDe ne null}">
+											<div class="view-box">
+												<span class="label">종료예정일</span>
+												<p>${cpaTrainRegReal[0].appRegistEndDe}</p>
+											</div>
+										</c:if>
+										<c:if test="${cpaTrainRegReal[0].appRegistEndDe eq '' || cpaTrainRegReal[0].appRegistEndDe eq null}">
+											<div class="view-box">
+												<span class="label">종료일</span>
+												<p>${cpaTrainRegReal[0].appEndDe}</p>
+											</div>
+										</c:if>
 									</li>
 									<li>
 										<div class="view-box">

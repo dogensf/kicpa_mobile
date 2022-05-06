@@ -431,6 +431,12 @@ mypCpaTrainReg.mypCpaTrainReg_infoSave = function(){
 					mypCpaTrainReg.mypCpaTrainReg_tabMove('mypCpaTrainReg_reviewInfo');
 				}
 			}, // success
+			beforeSend:function(){
+				$('.wrap-loading').removeClass('display-none');
+			},
+			complete:function(){
+				$('.wrap-loading').addClass('display-none');
+			},
 			error : function(xhr, status) {
 				alert(xhr + " : " + status);
 			}

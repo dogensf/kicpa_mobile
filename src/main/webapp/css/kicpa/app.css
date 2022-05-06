@@ -3155,6 +3155,7 @@ body.stop {
 
 .bookmark-wrap .swiper-pagination span.swiper-pagination-bullet-active {
   background-color: #EB8C00;
+  border: 1px #ffffff solid;
 }
 
 .bookmark-wrap .swiper-slide {
