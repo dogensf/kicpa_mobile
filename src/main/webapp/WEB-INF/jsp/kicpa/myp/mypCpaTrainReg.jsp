@@ -34,6 +34,29 @@
 	}
 	
 </script>
+
+<style type="text/css" >
+
+	.wrap-loading{ /*화면 전체를 어둡게 합니다.*/
+		position: fixed;
+		left:0;
+		right:0;
+		top:0;
+		bottom:0;
+		background: rgba(0,0,0,0.2); /*not in ie */
+		filter: progid:DXImageTransform.Microsoft.Gradient(startColorstr='#20000000', endColorstr='#20000000');    /* ie */
+	}
+
+	.wrap-loading div{ /*로딩 이미지*/
+		position: fixed;
+		top:30%;
+		left:30%;
+	}
+
+	.display-none{ /*감추기*/
+		display:none;
+	}
+</style>
 <body id="mypCpaTrainReg_body">
 <div class="wrap">
 
@@ -598,6 +621,12 @@
 		<aside class="fix-side">
 			<span onclick="window.scrollTo(0,0);" class="btn-top">TOP</span>
 		</aside>
+	</div>
+
+	<div class="wrap-loading display-none">
+
+		<div><img src="<c:url value='/images/loadingbar.gif'/>" /></div>
+
 	</div>
 </div>
 
