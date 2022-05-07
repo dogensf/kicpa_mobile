@@ -1,6 +1,12 @@
 package adminwork.kicpa.main.web;
 
 
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -11,6 +17,8 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -486,5 +494,74 @@ public class MainController {
 
 	        return modelAndView;
 	    }
+		
+		
+		@RequestMapping(value="/getCyberToken.do")
+	    public String getCyberToken(HttpServletRequest request,HttpServletResponse res,ModelMap model) throws Exception{
+			ModelAndView modelAndView = new ModelAndView();
+			String Token="";
+	    	try{
+	    		
+	    		String client_id = "a2ljcGFfYXBw";
+	            String client_secret = "152556ec74c53f201e0d926adf3fdcc09a9cb31488e71bc0dd5ca4f55d7af1f9";
+	            String scope = "all";
+	            String return_type = "json";
+	            String callback_data = "intent://kicpaapp";
+	            
+	            try {
+	                String user_id = URLEncoder.encode("dychung", "UTF-8");
+	                String apiURL = "https://cyber.kicpa.or.kr/resource/token";
+	                URL url = new URL(apiURL);
+	                HttpURLConnection con = (HttpURLConnection)url.openConnection();
+	                con.setRequestMethod("POST");
+	                con.setRequestProperty("Content-Type", "application/x-www-form-urlencoded;charset=utf-8");
+	                // post request
+	                String postParams = "client_id="+client_id;
+	                postParams += "&client_secret=" + client_secret;
+	                postParams += "&scope=" + scope;
+	                postParams += "&return_type=" + return_type;
+	                postParams += "&callback_data=" + callback_data;
+	                postParams += "&user_id=" + user_id;
+	                con.setDoOutput(true);
+	                DataOutputStream wr = new DataOutputStream(con.getOutputStream());
+	                wr.writeBytes(postParams);
+	                wr.flush();
+	                wr.close();
+	                int responseCode = con.getResponseCode();
+	                BufferedReader br;
+	                if(responseCode==200) { // 정상 호출
+	                    br = new BufferedReader(new InputStreamReader(con.getInputStream()));
+	                } else {  // 에러 발생
+	                    br = new BufferedReader(new InputStreamReader(con.getErrorStream()));
+	                }
+	                String inputLine;
+	                StringBuffer response = new StringBuffer();
+	                while ((inputLine = br.readLine()) != null) {	                	
+	                    response.append(inputLine);
+	                }
+	                br.close();
+	                System.out.println(response.toString());
+	                JSONParser parser = new JSONParser();
+	                JSONObject rt = (JSONObject) parser.parse(response.toString());
+	                System.out.println("--------:: "+ rt.get("token"));
+	                Token = rt.get("token").toString();
+	                
+	            } catch (Exception e) {
+	                System.out.println(e);
+	            }
+
+	    		
+	    		
+	    		model.addAttribute("token",Token);
+				model.addAttribute("login_id", Token);
+				model.addAttribute("login_pwd", Token);
+				
+	    	}catch (Exception e) {
+	    		e.printStackTrace();
+			}
+
+	    	return "kicpa/mainDetail/cyberKicpa";
+	    }
+		
 		
 }
