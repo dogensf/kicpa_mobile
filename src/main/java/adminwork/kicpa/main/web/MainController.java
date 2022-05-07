@@ -170,6 +170,11 @@ public class MainController {
 				}
 		}
 	
+		String userId="test";
+		if (isAuthenticated) {
+			LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+			userId = user.getId();
+		}
 		
 		List<EgovMap> boardList = null;
 		int totalCnt;
@@ -201,6 +206,8 @@ public class MainController {
 		model.addAttribute("boardList", boardList);
 		model.addAttribute("boardMaster", boardMaster);
 		model.addAttribute("isLogin", isAuthenticated);
+		model.addAttribute("userId", userId);
+		
 
 		
 		SimpleDateFormat sdf1 = new SimpleDateFormat("MM");		
@@ -497,7 +504,7 @@ public class MainController {
 		
 		
 		@RequestMapping(value="/getCyberToken.do")
-	    public String getCyberToken(HttpServletRequest request,HttpServletResponse res,ModelMap model) throws Exception{
+	    public String getCyberToken(@RequestParam("userId") String userId,  HttpServletRequest request,HttpServletResponse res,ModelMap model) throws Exception{
 			ModelAndView modelAndView = new ModelAndView();
 			String Token="";
 	    	try{
@@ -509,7 +516,7 @@ public class MainController {
 	            String callback_data = "intent://kicpaapp";
 	            
 	            try {
-	                String user_id = URLEncoder.encode("dychung", "UTF-8");
+	                String user_id = URLEncoder.encode(userId, "UTF-8");
 	                String apiURL = "https://cyber.kicpa.or.kr/resource/token";
 	                URL url = new URL(apiURL);
 	                HttpURLConnection con = (HttpURLConnection)url.openConnection();

@@ -4,8 +4,8 @@
 
 <script>
 $(document).ready(function(){
-	alert("${token}");
-	$('#cyberKicpa')[0].submit();
+	//alert("${token}");
+	$('#cyberKicpa').submit();
 });
 
 </script>
