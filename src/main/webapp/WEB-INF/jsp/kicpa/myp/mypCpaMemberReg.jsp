@@ -47,8 +47,8 @@
 
 	.wrap-loading div{ /*로딩 이미지*/
 		position: fixed;
-		top:30%;
-		left:30%;
+		top:40%;
+		left:40%;
 	}
 
 	.display-none{ /*감추기*/
