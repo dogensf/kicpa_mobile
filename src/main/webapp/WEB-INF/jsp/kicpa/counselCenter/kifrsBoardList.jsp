@@ -38,7 +38,8 @@ $(document).ready(function(){
 });
 
 function fncLocation(){
-	location.href="/kicpa/main/main.do";
+	//location.href="/kicpa/main/main.do";
+	location.href="/kicpa/counselCenter/counselCenterCategory.do";
 }
 
 </script>

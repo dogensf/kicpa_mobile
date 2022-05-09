@@ -523,7 +523,15 @@ function tutorialHide(){
 	<section class="link-url">
 		<!-- <a href="javascript:window.bridge.newWebView('kicpa1','https://cyber.kicpa.or.kr/sso/main.php','')">회계연수원</a> -->
 		<%-- <a href="javascript:location.href='<c:url value='/'/>kicpa/main/getCyberToken.do'">회계연수원</a> --%>
-		<a href="javascript:window.bridge.newWebView('kicpa1','http://mkip.kicpa.or.kr/kicpa/main/getCyberToken.do?userId=${userId}','')">회계연수원</a>		
+		<c:choose>
+			<c:when test="${empty userId || userId ==''|| userId =='test' || userId == null}">
+				<a href="javascript:location.href='<c:url value='/uat/uia/LoginUsr.do'/>';">회계연수원</a>
+			</c:when>
+			<c:otherwise>
+				<a href="javascript:window.bridge.newWebView('kicpa1','http://mkip.kicpa.or.kr/kicpa/main/getCyberToken.do?userId=${userId}','')">회계연수원</a>	
+			</c:otherwise>
+		</c:choose>
+				
 	 	<a href="javascript:window.bridge.newWebView('kicpa2','https://blog.naver.com/kicpaline','')" >KICPA블로그</a>
 		<a href="javascript:window.bridge.newWebView('kicpa3','https://blog.naver.com/kicpa1','')" >조세지원센터</a>
 		<a href="javascript:window.bridge.newWebView('kicpa4','https://www.youtube.com/channel/UCCXEbJkEOo2DrPNxYjTdIVQ','')">KICPA유튜브</a>

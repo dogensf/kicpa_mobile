@@ -9,7 +9,8 @@ $(document).ready(function(){
 });
 
 function fncLocation(){
-	location.href="/kicpa/main/main.do";
+	//location.href="/kicpa/main/main.do";
+	location.href="/kicpa/sntBook/sntBookCategory.do";
 }
 
 </script>
