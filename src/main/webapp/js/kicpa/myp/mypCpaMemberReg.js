@@ -293,7 +293,7 @@ mypMemberReg.mypCpaMemberReg_setDuesCreate = function() {
 				if(result.rt.linkUrl != ''){
 					//납부 URL 발생시 결제 진행팝업
 					var popupName = "등록 회비 납부";
-					var options = 'status=no, height=700, width=700, left='+ popupX + ', top='+ popupY + ', screenX='+ popupX + ', screenY= '+ popupY;
+					var options = 'status=no, height=700, width=700';
 
 					openDialog(result.rt.linkUrl, popupName, options, function(win) {
 						mypMemberReg.mypCpaMemberReg_diglogCloseCallback(result.rt.org_tran_id);
@@ -1024,3 +1024,19 @@ mypMemberReg.cpaAuditPopListError = function(data,status, error){
 //	flag = true;
 	alert("조회실패");
 }
+
+var openDialog = function(uri, name, options, closeCallback) {
+	var win = window.open(uri, name, options);
+	var interval = window.setInterval(function() {
+		try {
+			if (win == null || win.closed) {
+				window.clearInterval(interval);
+				closeCallback(win);
+			}
+			win.focus();
+		}
+		catch (e) {
+		}
+	}, 500);
+	return win ;
+};

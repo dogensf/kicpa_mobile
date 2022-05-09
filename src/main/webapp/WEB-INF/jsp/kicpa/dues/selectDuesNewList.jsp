@@ -60,7 +60,7 @@ var popupY= (window.screen.height /3) - (500 / 2);
 
 var uri = '${rt.linkUrl}';
 var popupName = "회비 결제";
-var options = 'status=no, height=700, width=700, left='+ popupX + ', top='+ popupY + ', screenX='+ popupX + ', screenY= '+ popupY;	 
+var options = 'status=no, height=700, width=700, left='+ popupX + ', top='+ popupY + ', screenX='+ popupX + ', screenY= '+ popupY;
 
 var openDialog = function(uri, name, options, closeCallback) {
      var win = window.open(uri, name, options);

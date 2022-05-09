@@ -44,6 +44,8 @@ public class DuesApiServiceImpl extends EgovAbstractServiceImpl implements DeusA
     //@Value("#{propertie id['Globals.giro.url']}")
     private String giroUrl = EgovProperties.getProperty("Globals.giro.url");
 
+    private String eai = EgovProperties.getProperty("Globals.eai.url");
+
    // @Value("#{propertie id['Globals.giro.ptco']}")
     private String ptco = EgovProperties.getProperty("Globals.giro.ptco");
 	
@@ -365,9 +367,9 @@ public class DuesApiServiceImpl extends EgovAbstractServiceImpl implements DeusA
         return success;
     }
 	
-	private static JSONObject callGiroApi(String callType , String uri , String params, String accessToken) throws Exception {
+	private JSONObject callGiroApi(String callType , String uri , String params, String accessToken) throws Exception {
 
-        String baseUrl = "http://localhost:8081/eai/" + callType;
+        String baseUrl = "http://"+ eai +"/eai/" + callType;
 
         //HEADER 셋팅
         HttpHeaders headers = new HttpHeaders();

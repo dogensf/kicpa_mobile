@@ -674,7 +674,7 @@ public class MypMemberController {
 			String giroCd = "";
 
 			DuesVO vo = new DuesVO();
-			vo.setEpay_no(user.getGiroPin());
+			vo.setEpay_no(user.getId());
 			vo.setCust_inqr_no(user.getId());
 			vo.setCstmr_cd(user.getId());
 			vo.setCstmr_nm(user.getName());
