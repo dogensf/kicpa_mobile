@@ -120,7 +120,7 @@ function fncLocation(){
             <span>회계기준원 기고문</span>
           </button> -->
         </li>
-        <li>
+        <%--<li>
           <h4>E-book</h4>
           <button class="m-link" type="button" onclick="javascript:window.bridge.newWebView('kicpa_','https://www.kicpa-ebook.com','');">
             <span>회계편람 E-book</span>
@@ -128,6 +128,6 @@ function fncLocation(){
           <button class="m-link" type="button" onclick="javascript:window.bridge.newWebView('kicpa_','https://www.school-audit.com','');">
             <span>사립학교 감사실무 편람</span>
           </button>
-        </li>
+        </li>--%>
     </ul>
 </section>
