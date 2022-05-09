@@ -561,7 +561,7 @@ public class MainController {
 	    		
 	    		model.addAttribute("token",Token);
 				model.addAttribute("login_id", Token);
-				model.addAttribute("login_pwd", Token);
+				model.addAttribute("login_pw", Token);
 				
 	    	}catch (Exception e) {
 	    		e.printStackTrace();
