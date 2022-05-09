@@ -12,5 +12,5 @@ $(document).ready(function(){
 <form id="cyberKicpa" method="post" action="https://cyber.kicpa.or.kr/login/login" enctype="application/x-www-form-urlencoded" accept-charset="utf-8">
 	<input type="hidden" name="token" value="${token}">
 	<input type="hidden" name="login_id" value="token">
-	<input type="hidden" name="login_pwd" value="token">
+	<input type="hidden" name="login_pw" value="token">
 </form>
