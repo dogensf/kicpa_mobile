@@ -1026,8 +1026,9 @@ mypMemberReg.cpaAuditPopListError = function(data,status, error){
 }
 
 var openDialog = function(uri, name, options, closeCallback) {
-	var win = window.open(uri, name, options);
-	var interval = window.setInterval(function() {
+	/*var win = window.open(uri, name, options);*/
+	window.bridge.newWebView('kicpa_',uri,'');
+	/*var interval = window.setInterval(function() {
 		try {
 			if (win == null || win.closed) {
 				window.clearInterval(interval);
@@ -1038,5 +1039,5 @@ var openDialog = function(uri, name, options, closeCallback) {
 		catch (e) {
 		}
 	}, 500);
-	return win ;
+	return win ;*/
 };
