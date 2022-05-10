@@ -19,11 +19,16 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 
 import adminwork.com.cmm.LoginVO;
@@ -569,6 +574,65 @@ public class MainController {
 
 	    	return "kicpa/mainDetail/cyberKicpa";
 	    }
-		
-		
+
+
+	@RequestMapping(value="/getCyberTokenEai.do")
+	public String getCyberTokenEai(@RequestParam("userId") String userId,  HttpServletRequest request,HttpServletResponse res,ModelMap model) throws Exception{
+		ModelAndView modelAndView = new ModelAndView();
+		String Token="";
+		try{
+
+
+			String baseUrl = "http://10.81.11.17:8081/eai/doToken";
+
+			//HEADER 셋팅
+			HttpHeaders headers = new HttpHeaders();
+			headers.set("Content-Type","application/json; charset=UTF-8");
+			//headers.setContentType(MediaType.APPLICATION_XML);
+
+			// 파라미터 세팅
+
+
+			JSONObject infos = new JSONObject();
+			infos.put("name", "doToken");
+			infos.put("uri", "https://cyber.kicpa.or.kr/resource/token");
+			infos.put("user_id", userId);
+			infos.put("contentType", "application/x-www-form-urlencoded; charset=UTF-8");
+
+			HttpEntity<String> entity = new HttpEntity<>(infos.toString(), headers);
+
+			HttpComponentsClientHttpRequestFactory factory = new HttpComponentsClientHttpRequestFactory();
+			factory.setConnectTimeout(25000); // api 호출 타임아웃
+			factory.setReadTimeout(25000);   // api 읽기 타임아웃
+
+			RestTemplate template = new RestTemplate(factory);
+
+			//Method POST 호출
+			ResponseEntity<String> response = template.postForEntity(baseUrl, entity, String.class);
+			//JSON 파싱
+			JSONParser jsonParser = new JSONParser();
+			//JSONObject json = (JSONObject) jsonParser.parse(response.getBody().toString());
+
+			//System.out.println("1.::access_token:: "+json.get("access_token").toString());
+
+			JSONObject jsonBody = (JSONObject) jsonParser.parse((String)response.getBody());
+
+			String body = (String) jsonBody.get("body");
+
+			JSONObject jsonBody2 = (JSONObject) jsonParser.parse((String) body);
+
+			System.out.println("--token--"+jsonBody2.get("token"));
+
+			Token = (String) jsonBody2.get("token");;
+
+			model.addAttribute("token",Token);
+			model.addAttribute("login_id", Token);
+			model.addAttribute("login_pw", Token);
+
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return "kicpa/mainDetail/cyberKicpa";
+	}
 }
