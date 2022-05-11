@@ -522,7 +522,7 @@ public class MainController {
 	            
 	            try {
 	                String user_id = URLEncoder.encode(userId, "UTF-8");
-	                String apiURL = "https://cyber.kicpa.or.kr/resource/token";
+	                String apiURL = "http://cyber2.kicpa.or.kr/resource/token";
 	                URL url = new URL(apiURL);
 	                HttpURLConnection con = (HttpURLConnection)url.openConnection();
 	                con.setRequestMethod("POST");
