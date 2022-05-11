@@ -65,7 +65,7 @@
 			        AND AR_STATUS = B.CODE
 			        AND CODE != 1
 			where ar_use ='Y'
-<!-- 			and ar_user_id = #userId# -->
+			and ar_user_id = #userId# 
 			<isNotNull property="searchKeyword">
 	       		<isNotEmpty property="searchKeyword">
 	       			AND (UPPER(A.AR_WTITLE) LIKE '%'||UPPER(#searchKeyword#)||'%')
@@ -84,7 +84,7 @@
        			AND (UPPER(AR_WTITLE) LIKE '%'||UPPER(#searchKeyword#)||'%')
        		</isNotEmpty>
        	</isNotNull>
-<!-- 		and ar_user_id = #userId# -->
+ 		and ar_user_id = #userId#
 		order by ar_reg_date desc
 	</select>
 
