@@ -84,7 +84,7 @@
 					<%--<span>공인회계사</span>--%>
 				</div>
 
-				<button class="btn-more" type="button" id="myPage_detailInfoBtn">자세히보기</button>
+				<button class="btn-more" type="button" id="myPage_detailInfoBtn">개인정보수정</button>
 			</div>
 
 			<!-- 탭 -->
