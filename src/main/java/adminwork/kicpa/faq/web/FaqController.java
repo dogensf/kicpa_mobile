@@ -80,7 +80,7 @@ public class FaqController {
 	public String faq(String Pin, @RequestParam Map<String,Object> map,ModelMap model, HttpServletRequest request, HttpServletResponse response)
 	  throws Exception{
 		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
-
+		model.addAttribute("title", "FAQ");
 		if (isAuthenticated) {
 //			LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
 //			if(Pin != null && user.getId() != Pin) {
@@ -118,7 +118,8 @@ public class FaqController {
 			cookie.setPath("/");
 			cookie.setMaxAge(60*60);
 			response.addCookie(cookie);
-			return "redirect:/uat/uia/LoginUsr.do";
+			return "kicpa/common/authLogin";
+			//return "redirect:/uat/uia/LoginUsr.do";
 
 		}
 
@@ -129,7 +130,7 @@ public class FaqController {
 	  throws Exception{
 
 		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
-
+		model.addAttribute("title", "FAQ");
 		if (isAuthenticated) {
 			/*LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
 			faqVO.setReg_id(user.getId());*/
@@ -143,7 +144,8 @@ public class FaqController {
 			cookie.setPath("/");
 			cookie.setMaxAge(60*60);
 			response.addCookie(cookie);
-			return "redirect:/uat/uia/LoginUsr.do";
+			return "kicpa/common/authLogin";
+			//return "redirect:/uat/uia/LoginUsr.do";
 		}
 
 

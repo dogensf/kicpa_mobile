@@ -97,6 +97,25 @@ public class LoginController {
 	 * @return 로그인 페이지
 	 * @exception Exception
 	 */
+	@RequestMapping(value = "/uat/uia/authLogin.do")
+	public String authLogin(HttpServletRequest request, HttpServletResponse response, ModelMap model) throws Exception {
+		model.addAttribute("title", "LOGIN");
+		/*HttpSession session = request.getSession();
+		System.out.println("=========="+request.getParameter("returnUrl"));
+		if(!"".equals(StringUtil.isNullToString(request.getParameter("returnUrl"))) ) {
+			session.setAttribute("returnUrl", request.getParameter("returnUrl"));
+		}*/
+		
+		//System.out.println("1=========="+session.getAttribute("returnUrl"));
+		return "kicpa/common/authLogin";
+	}
+	
+	/**
+	 * 로그인 화면으로 들어간다
+	 * @param vo - 로그인후 이동할 URL이 담긴 LoginVO
+	 * @return 로그인 페이지
+	 * @exception Exception
+	 */
 	@RequestMapping(value = "/uat/uia/egovLoginUsr.do")
 	public String loginUsrView(@ModelAttribute("loginVO") LoginVO loginVO, HttpServletRequest request, HttpServletResponse response, ModelMap model) throws Exception {
 		return "uat/uia/EgovLoginUsr";

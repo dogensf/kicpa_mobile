@@ -71,8 +71,8 @@ public class CounselCenterController {
 			cookie.setPath("/");
 			cookie.setMaxAge(60*60);
 			response.addCookie(cookie);
-			//return "kicpa/common/authLogin";
-			return "redirect:/uat/uia/LoginUsr.do";
+			return "kicpa/common/authLogin";
+			//return "redirect:/uat/uia/LoginUsr.do";
 		}
 	}
 
@@ -100,8 +100,8 @@ public class CounselCenterController {
 			cookie.setPath("/");
 			cookie.setMaxAge(60*60);
 			response.addCookie(cookie);
-			//return "kicpa/common/authLogin";
-			return "redirect:/uat/uia/LoginUsr.do";
+			return "kicpa/common/authLogin";
+			//return "redirect:/uat/uia/LoginUsr.do";
 		}
 
 	}
@@ -109,6 +109,7 @@ public class CounselCenterController {
 	@RequestMapping(value = "/declarationStep1.do")
 	public String declarationStep1(@RequestParam Map<String,Object> map,HttpServletRequest request,HttpServletResponse response,ModelMap model) throws Exception{
 		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		model.addAttribute("title", "회계부정신고·포상");
 		if(isAuthenticated) {
 			model.addAttribute("gubun", "nonAnonymous");
 			return "kicpa/counselCenter/declarationStep1";
@@ -118,14 +119,15 @@ public class CounselCenterController {
 			cookie.setPath("/");
 			cookie.setMaxAge(60*60);
 			response.addCookie(cookie);
-			//return "kicpa/common/authLogin";
-			return "redirect:/uat/uia/LoginUsr.do";
+			return "kicpa/common/authLogin";
+			//return "redirect:/uat/uia/LoginUsr.do";
 		}
 
 	}
 	@RequestMapping(value = "/declarationStep2.do")
 	public String declarationStep2(@RequestParam Map<String,Object> map,HttpServletRequest request,HttpServletResponse response,ModelMap model) throws Exception{
 		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		model.addAttribute("title", "회계부정신고·포상");
 		if(isAuthenticated) {
 			model.addAttribute("gubun", "nonAnonymous");
 			return "kicpa/counselCenter/declarationStep2";
@@ -135,8 +137,8 @@ public class CounselCenterController {
 			cookie.setPath("/");
 			cookie.setMaxAge(60*60);
 			response.addCookie(cookie);
-			//return "kicpa/common/authLogin";
-			return "redirect:/uat/uia/LoginUsr.do";
+			return "kicpa/common/authLogin";
+			//return "redirect:/uat/uia/LoginUsr.do";
 		}
 
 	}
@@ -164,8 +166,8 @@ public class CounselCenterController {
 			cookie.setPath("/");
 			cookie.setMaxAge(60*60);
 			response.addCookie(cookie);
-			//return "kicpa/common/authLogin";
-			return "redirect:/uat/uia/LoginUsr.do";
+			return "kicpa/common/authLogin";
+			//return "redirect:/uat/uia/LoginUsr.do";
 		}
 
 
@@ -184,8 +186,8 @@ public class CounselCenterController {
 			cookie.setPath("/");
 			cookie.setMaxAge(60*60);
 			response.addCookie(cookie);
-			//return "kicpa/common/authLogin";
-			return "redirect:/uat/uia/LoginUsr.do";
+			return "kicpa/common/authLogin";
+			//return "redirect:/uat/uia/LoginUsr.do";
 		}
 
 
@@ -204,8 +206,8 @@ public class CounselCenterController {
 			cookie.setPath("/");
 			cookie.setMaxAge(60*60);
 			response.addCookie(cookie);
-			//return "kicpa/common/authLogin";
-			return "redirect:/uat/uia/LoginUsr.do";
+			return "kicpa/common/authLogin";
+			//return "redirect:/uat/uia/LoginUsr.do";
 		}
 
 
@@ -226,8 +228,8 @@ public class CounselCenterController {
 			cookie.setPath("/");
 			cookie.setMaxAge(60*60);
 			response.addCookie(cookie);
-			//return "kicpa/common/authLogin";
-			return "redirect:/uat/uia/LoginUsr.do";
+			return "kicpa/common/authLogin";
+			//return "redirect:/uat/uia/LoginUsr.do";
 		}
 
 	}
@@ -273,8 +275,8 @@ public class CounselCenterController {
 				response.addCookie(cookie);
 			}
 
-			//return "kicpa/common/authLogin";
-			return "redirect:/uat/uia/LoginUsr.do";
+			return "kicpa/common/authLogin";
+			//return "redirect:/uat/uia/LoginUsr.do";
 		}
 
 
@@ -294,8 +296,8 @@ public class CounselCenterController {
 			cookie.setPath("/");
 			cookie.setMaxAge(60*60);
 			response.addCookie(cookie);
-			//return "kicpa/common/authLogin";
-			return "redirect:/uat/uia/LoginUsr.do";
+			return "kicpa/common/authLogin";
+			//return "redirect:/uat/uia/LoginUsr.do";
 		}
 
 

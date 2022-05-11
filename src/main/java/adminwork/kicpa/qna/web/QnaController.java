@@ -136,7 +136,7 @@ public class QnaController {
 	  throws Exception{
 
 		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
-
+		model.addAttribute("title", "QnA");
 		if (isAuthenticated) {
 			LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
 //			if(Pin != null && user.getId() != Pin) {
@@ -177,7 +177,8 @@ public class QnaController {
 			cookie.setPath("/");
 			cookie.setMaxAge(60*60);
 			response.addCookie(cookie);
-			return "redirect:/uat/uia/LoginUsr.do";
+			return "kicpa/common/authLogin";
+			//return "redirect:/uat/uia/LoginUsr.do";
 		}
 
 	}
@@ -186,7 +187,7 @@ public class QnaController {
 			throws Exception{
 
 		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
-
+		model.addAttribute("title", "QnA");
 		if (isAuthenticated) {
 			model.addAttribute("isLogin",isAuthenticated);
 			model.addAttribute("ccode",qnaService.selectCsCodeGroup1List());
@@ -199,7 +200,8 @@ public class QnaController {
 			cookie.setPath("/");
 			cookie.setMaxAge(60*60);
 			response.addCookie(cookie);
-			return "redirect:/uat/uia/LoginUsr.do";
+			return "kicpa/common/authLogin";
+			//return "redirect:/uat/uia/LoginUsr.do";
 		}
 
 	}
@@ -209,7 +211,7 @@ public class QnaController {
 	  throws Exception{
 
 		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
-
+		model.addAttribute("title", "QnA");
 		if (isAuthenticated) {
 			LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
 
@@ -222,7 +224,8 @@ public class QnaController {
 			cookie.setPath("/");
 			cookie.setMaxAge(60*60);
 			response.addCookie(cookie);
-			return "redirect:/uat/uia/LoginUsr.do";
+			return "kicpa/common/authLogin";
+			//return "redirect:/uat/uia/LoginUsr.do";
 		}
 
 	}
