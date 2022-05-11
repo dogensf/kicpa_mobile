@@ -150,7 +150,7 @@ function tutorialHide(){
 function goCyber(){
 	<c:choose>
 		<c:when test="${empty userId || userId ==''|| userId =='test' || userId == null}">
-			location.href="/uat/uia/LoginUsr.do";
+			location.href="/uat/uia/authLogin.do";
 		</c:when>
 		<c:otherwise>
 			location.href="javascript:window.bridge.newWebView('kicpa1','http://mkip.kicpa.or.kr/kicpa/main/getCyberToken.do?userId=${userId}','')";		
