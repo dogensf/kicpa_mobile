@@ -99,7 +99,7 @@ public class LoginController {
 	 */
 	@RequestMapping(value = "/uat/uia/authLogin.do")
 	public String authLogin(HttpServletRequest request, HttpServletResponse response, ModelMap model) throws Exception {
-		model.addAttribute("title", "LOGIN");
+		model.addAttribute("title", "회계연수원");
 		/*HttpSession session = request.getSession();
 		System.out.println("=========="+request.getParameter("returnUrl"));
 		if(!"".equals(StringUtil.isNullToString(request.getParameter("returnUrl"))) ) {
