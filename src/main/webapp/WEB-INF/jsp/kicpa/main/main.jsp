@@ -198,8 +198,8 @@ function goCyber(){
 		
 		<div class="title-box">
 			<h2>My 즐겨찾기</h2>
-			<div class="r-area">
-			    <button class="btn-edit" type="button" onClick="javascript:window.bridge.showFavorites();">
+			<div class="r-area" style="font-size: 1.5rem;">
+			    <button class="btn-edit" type="button" onClick="javascript:window.bridge.showFavorites();" style="background-size: 2rem; height: 2rem;">
 			      	편집
 			    </button>
 			</div>
