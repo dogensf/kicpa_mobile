@@ -36,7 +36,7 @@ function fncLocation(){
 		    </a>
 
 		    <a class="tab-link <c:if test="${boardId eq 'taxinfo09' }">active</c:if>" href="javascript:void(0);" onclick="taxNews.menuChange(this,'taxinfo09')">
-		        <span>Tax Letter,예규판례등</span>
+		        <span>Tax Letter</span>
 		    </a>
 		</div>
 
