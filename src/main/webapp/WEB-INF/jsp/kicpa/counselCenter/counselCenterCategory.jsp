@@ -25,9 +25,9 @@ function fncLocation(){
           <button class="m-link" type="button" onclick="javascript:location.href='/kicpa/counselCenter/kifrsBoardList.do'">
             <span>회계기준 회원상담(K-IFRS상담)</span>
           </button>
-          <button class="m-link" type="button" onclick="javascript:location.href='/kicpa/sntBook/kifrsBookList.do'">
+         <!--  <button class="m-link" type="button" onclick="javascript:location.href='/kicpa/sntBook/kifrsBookList.do'">
             <span>K-IFRS 실무사례와 해설 시리즈 구매</span>
-          </button>
+          </button> -->
           <button class="m-link" type="button" onclick="javascript:location.href='/kicpa/counselCenter/nonExtBoardList.do'">
             <span>회계기준 회원상담(비외감대상)</span>
           </button>
