@@ -43,10 +43,10 @@ public class EgovLoginLogAspect {
 
 		/* Authenticated  */
         Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
-    	if(isAuthenticated.booleanValue()) {
+    	if(isAuthenticated) {
 			LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
 			//uniqId = user.getUniqId();
-			uniqId = user.getId();
+			uniqId = user.getId() +":"+user.getUniqId()+":"+user.getName();
 			ip = user.getIp();
     	}
 
