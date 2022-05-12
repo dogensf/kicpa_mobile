@@ -25,6 +25,8 @@ import com.saltware.enpass.client.EnpassClient;
 
 import adminwork.com.cmm.EgovMessageSource;
 import adminwork.com.cmm.LoginVO;
+import adminwork.let.sym.log.clg.service.EgovLoginLogService;
+import adminwork.let.sym.log.clg.service.LoginLog;
 import adminwork.let.uat.uap.service.EgovLoginPolicyService;
 import adminwork.let.uat.uia.service.LoginService;
 import adminwork.let.utl.sim.service.ClntInfo;
@@ -69,6 +71,9 @@ public class LoginController {
 	@Resource(name = "propertiesService")
 	protected EgovPropertyService propertiesService;
 
+	@Resource(name="EgovLoginLogService")
+	private EgovLoginLogService loginLogService;
+	
 	/** TRACE */
 	@Resource(name = "leaveaTrace")
 	LeaveaTrace leaveaTrace;
@@ -220,6 +225,16 @@ public class LoginController {
 						
 						//if (resultVO != null && resultVO.getId() != null && !resultVO.getId().equals("") && loginPolicyYn) {
 						if (resultVO != null && resultVO.getId() != null && !resultVO.getId().equals("")) {
+							
+							LoginLog loginLog = new LoginLog();
+					    	loginLog.setLoginId(resultVO.getId());
+					        loginLog.setLoginIp(userIp);
+					        loginLog.setLoginMthd("I"); // 로그인:I, 로그아웃:O
+					        loginLog.setErrOccrrAt("N");
+					        loginLog.setErrorCode("");
+					        loginLogService.logInsertLoginLog(loginLog);
+							
+							
 							
 							if("Y".equals(loginVO.getCheckId())) {
 								
