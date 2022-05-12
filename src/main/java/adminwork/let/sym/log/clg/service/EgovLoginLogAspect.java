@@ -1,10 +1,9 @@
 package adminwork.let.sym.log.clg.service;
 
-import egovframework.rte.fdl.security.userdetails.util.EgovUserDetailsHelper;
-
 import javax.annotation.Resource;
 
 import adminwork.com.cmm.LoginVO;
+import egovframework.rte.fdl.security.userdetails.util.EgovUserDetailsHelper;
 
 /**
  * 시스템 로그 생성을 위한 ASPECT 클래스
@@ -46,8 +45,8 @@ public class EgovLoginLogAspect {
         Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
     	if(isAuthenticated.booleanValue()) {
 			LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
-			uniqId = user.getUniqId();
-			//uniqId = user.getId();
+			//uniqId = user.getUniqId();
+			uniqId = user.getId();
 			ip = user.getIp();
     	}
 

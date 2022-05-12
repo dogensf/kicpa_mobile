@@ -215,10 +215,7 @@ public class LoginController {
 							resultVO = loginService.actionLogin(loginVO);
 						}
 						
-						
-						
-					
-						
+		
 					
 						
 						//if (resultVO != null && resultVO.getId() != null && !resultVO.getId().equals("") && loginPolicyYn) {
