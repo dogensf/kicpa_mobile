@@ -550,7 +550,7 @@ public class MypMemberController {
 				if ("".equals(atchFileId)) {
 					String rsumPath = cpaPassExamInfo.get("psexamYear") + "/" + paramMap.get("pin") + "/ETC";
 
-					result = fileUtil.parseAtchFileInf(files, rsumPath, fileKeyParam, atchFileId, "");
+					result = fileUtil.parseAtchFileInf(files, rsumPath, fileKeyParam, atchFileId, rsumPath);
 
 					if(!"".equals(result.get(0).fileExtsn) && result.get(0).fileExtsn != null){
 
