@@ -6,7 +6,7 @@
 <script>
 $(document).ready(function(){
 
-	if('${isLogin}' == true){
+	if('${isLogin}' == 'true'){
 
 		$(".btn-write").show();
 
