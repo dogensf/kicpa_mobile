@@ -462,6 +462,44 @@ public class MypMemberController {
 
 			if("U".equals(paramMap.get("saveMode"))){
 				mypMemberService.mypCpaMemberRegisterNmstOthbcInfoUpdate(paramMap);		//실제테이블(이름) 업데이트
+
+				String imiy_add_yn = "0";
+				String imiy_off_name_yn = "0";
+				String imiy_tel_yn = "0";
+				String imiy_fax_yn = "0";
+				String imiy_email_yn = "0";
+				String imiy_picture_yn = "0";
+
+				Map<String, Object> nmstOthbcPortal = new HashMap<>();
+
+				if("Y".equals(paramMap.get("ofcAdresYn"))){
+					imiy_add_yn = "1";
+				}
+				if("Y".equals(paramMap.get("ofcNameYn"))){
+					imiy_off_name_yn = "1";
+				}
+				if("Y".equals(paramMap.get("ofcTelYn"))){
+					imiy_tel_yn = "1";
+				}
+				if("Y".equals(paramMap.get("ofcFaxYn"))){
+					imiy_fax_yn = "1";
+				}
+				if("Y".equals(paramMap.get("emailYn"))){
+					imiy_email_yn = "1";
+				}
+				if("Y".equals(paramMap.get("photoYn"))){
+					imiy_picture_yn = "1";
+				}
+
+				nmstOthbcPortal.put("pin", paramMap.get("pin"));
+				nmstOthbcPortal.put("ofcAdresYn", imiy_add_yn);
+				nmstOthbcPortal.put("ofcNameYn", imiy_off_name_yn);
+				nmstOthbcPortal.put("ofcTelYn", imiy_tel_yn);
+				nmstOthbcPortal.put("ofcFaxYn", imiy_fax_yn);
+				nmstOthbcPortal.put("emailYn", imiy_email_yn);
+				nmstOthbcPortal.put("photoYn", imiy_picture_yn);
+
+				mypMemberService.mypCpaMemberRegisterNmstOthbcInfoUpdatePortal(nmstOthbcPortal);                  //portal db 저장
 			}
 			else{
 				mypMemberService.mypCpaMemberRegisterNmstOthbcInfoSave(paramMap);		//임시테이블 저장

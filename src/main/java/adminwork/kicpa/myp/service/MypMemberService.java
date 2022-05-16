@@ -49,6 +49,9 @@ public interface MypMemberService {
     //정보공개설정 저장(실 테이블)
     public void mypCpaMemberRegisterNmstOthbcInfoUpdate(Map<String, Object> map) throws Exception;
 
+    //정보공개설정 저장(portal db 저장)
+    public void mypCpaMemberRegisterNmstOthbcInfoUpdatePortal(Map<String, Object> map) throws Exception;
+
     //납부한 등록회비 조회(실 테이블)
     public List<?> selectCpaMemberRegistSbscrbMasterInfoList(Map<String, Object> map) throws Exception;
 

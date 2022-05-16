@@ -325,6 +325,28 @@
 
 	</insert>
 
+	<insert id="MypMemberDAO.mypCpaMemberRegisterNmstOthbcInfoUpdatePortal" parameterClass="HashMap">
+		<![CDATA[
+
+            MERGE INTO portal.int_mb_info_yn@portal
+                USING DUAL
+                ON (imiy_psl_id = #pin#)
+                WHEN MATCHED THEN
+                          UPDATE SET
+                          imiy_add_yn = #ofcAdresYn#, imiy_off_name_yn = #ofcNameYn#, imiy_tel_yn = #ofcTelYn#, imiy_fax_yn = #ofcFaxYn#, imiy_email_yn = #emailYn#
+                        , imiy_picture_yn = #photoYn#, imiy_sys_date = sysdate
+
+                WHEN NOT MATCHED THEN
+                          INSERT (imiy_psl_id, imiy_add_yn, imiy_off_name_yn, imiy_tel_yn, imiy_fax_yn, imiy_email_yn, imiy_picture_yn,
+                                imiy_sys_date)
+
+                          VALUES (#pin# , #ofcAdresYn# , #ofcNameYn# , #ofcTelYn# , #ofcFaxYn# , #emailYn# , #photoYn# ,
+                                sysdate)
+
+        ]]>
+
+	</insert>
+
 	<select id="MypMemberDAO.selectCpaMemberRegistSbscrbMasterInfoList" parameterClass="HashMap" resultClass="EgovMap">
 
 		<![CDATA[

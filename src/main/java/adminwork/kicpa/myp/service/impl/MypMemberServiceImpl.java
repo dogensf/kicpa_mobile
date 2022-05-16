@@ -88,6 +88,11 @@ public class MypMemberServiceImpl extends EgovAbstractServiceImpl implements Myp
 	}
 
 	@Override
+	public void mypCpaMemberRegisterNmstOthbcInfoUpdatePortal(Map<String, Object> map) throws Exception {
+		mypMemberDAO.mypCpaMemberRegisterNmstOthbcInfoUpdatePortal(map);
+	}
+
+	@Override
 	public List<?> selectCpaMemberRegistSbscrbMasterInfoList(Map<String, Object> map) throws Exception {
 		return mypMemberDAO.selectCpaMemberRegistSbscrbMasterInfoList(map);
 	}
