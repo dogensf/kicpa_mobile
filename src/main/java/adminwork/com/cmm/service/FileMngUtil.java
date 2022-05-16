@@ -160,7 +160,7 @@ public class FileMngUtil {
 			storePathString = propertyService.getString(storePath);
 		}
 
-		storePathString = storePathString +  File.separator +  KeyStr;
+		storePathString = File.separator +  KeyStr;
 
 		if ("".equals(atchFileId) || atchFileId == null) {
 			atchFileIdString = idgenService.getNextStringId();
