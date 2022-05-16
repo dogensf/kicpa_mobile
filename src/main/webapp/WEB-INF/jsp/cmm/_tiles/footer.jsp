@@ -16,6 +16,6 @@
 <!--begin::Footer-->
    <aside class="fix-side">
         <span onclick="window.scrollTo(0,0);" class="btn-top"  >TOP</span>
-        <button class="btn-write" type="button" style="display: none;"><span>등록</span></button>
+        <button class="btn-write" type="button" style="display:none;"><span>등록</span></button>
     </aside>
 <!--end::Footer-->

@@ -239,6 +239,16 @@ public class MainController {
 		
 		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
 		
+		Cookie cookie = new Cookie("loginIng", "");
+		cookie.setPath("/");
+		cookie.setMaxAge(0);
+		response.addCookie(cookie);	
+		
+		Cookie cookie2 = new Cookie("returnUrl", "");		
+		cookie2.setPath("/");
+		cookie2.setMaxAge(0);
+		response.addCookie(cookie2);
+		
 		List<EgovMap> boardList = null;
 		int totalCnt;
 

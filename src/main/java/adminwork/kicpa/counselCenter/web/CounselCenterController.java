@@ -90,7 +90,7 @@ public class CounselCenterController {
 			map.put("codeId", "TAX_CONST_CATE");
 			List<EgovMap> codeList = kicpaCommService.selectCodebaseList(map);
 
-			model.addAttribute("isLogin", isAuthenticated);
+			model.addAttribute("isLogin", true);
 			model.addAttribute("codeList",codeList);
 
 			return "kicpa/counselCenter/counselBoardList";
