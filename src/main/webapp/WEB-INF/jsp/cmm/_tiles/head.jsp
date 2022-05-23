@@ -37,3 +37,13 @@
 		<script src="<c:url value='/js/swiper-bundle.min.js'/>"></script>
 		<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 		<!-- <link rel="shortcut icon" href="/assets/media/logos/favicon.ico" /> -->
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-B408G1FJ99"></script>
+<script>
+	window.dataLayer = window.dataLayer || [];
+	function gtag(){dataLayer.push(arguments);}
+	gtag('js', new Date());
+
+	gtag('config', 'G-B408G1FJ99');
+</script>
