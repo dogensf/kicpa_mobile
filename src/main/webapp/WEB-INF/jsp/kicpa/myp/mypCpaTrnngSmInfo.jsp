@@ -123,7 +123,7 @@
 							</li>
 						</ol>
 						<div class="btn-area">
-							<button class="btn-round" type="button" onclick="window.open('https://cyber.kicpa.or.kr/', 'popup','toolbar=no,location=no,status=no,menubar=no,scrollbars=no,resizable=yes')"><span>사이버 회계연수원 바로가기 (GO)</span></button>
+							<button class="btn-round" type="button" onclick="window.bridge.newWebView('kicpa_','https://cyber.kicpa.or.kr/','')"><span>사이버 회계연수원 바로가기 (GO)</span></button>
 						</div>
 					</div>
 
