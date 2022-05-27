@@ -140,6 +140,15 @@ public class MyPageController {
 					cpaTrainRegRealInfo.putAll((Map<String, Object>)cpaTrainRegReal.get(0));
 
 					//실제 등록취소후 새로 수습정보 입력했을 경우(승인진행 보여주기)
+					int appProgressDays = 0;
+					int leftDays = 0;
+					long totalCount = 0;
+					long passCount = 0;
+					long leftCount = 0;
+					int totalDays = 0;
+					int passDays = 0;
+
+					String appProgressDaysYn = "Y";
 					if("A1010040".equals(cpaTrainRegRealInfo.get("apntcCl"))){
 						if("Y".equals(cpaTrainRegInfo.get("regFlag"))){
 							trainFlag="Y";
@@ -147,41 +156,49 @@ public class MyPageController {
 						else if("F".equals(cpaTrainRegInfo.get("regFlag"))){
 							trainFlag="F";
 						}
+						appProgressDaysYn = "N";
 					}
 
-					//기본실무 진행률 계산
 					Calendar cal = Calendar.getInstance();
 					cal.setTime( new Date(System.currentTimeMillis()));
 					String today = new SimpleDateFormat("yyyy-MM-dd").format( cal.getTime()); // 오늘날짜
 
 					SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
-					Date appRegistEndDate = new Date();
-
-					Date appRegistDate = new Date(dateFormat.parse(cpaTrainRegRealInfo.get("appRegistDe").toString()).getTime());
-					if(!"".equals(cpaTrainRegRealInfo.get("appRegistEndDe")) && cpaTrainRegRealInfo.get("appRegistEndDe") != null){
-						appRegistEndDate = new Date(dateFormat.parse(cpaTrainRegRealInfo.get("appRegistEndDe").toString()).getTime());
-					}
-					else{
-						appRegistEndDate = new Date(dateFormat.parse(cpaTrainRegRealInfo.get("appEndDe").toString()).getTime());
-					}
 					Date todayDate = new Date(dateFormat.parse(today).getTime());
 
-					long totalCount = appRegistEndDate.getTime() - appRegistDate.getTime();
-					long passCount = todayDate.getTime() - appRegistDate.getTime();
-					long leftCount = appRegistEndDate.getTime() - todayDate.getTime();
+					//기본실무 진행률 계산
+					if(!"N".equals(appProgressDaysYn)){
 
-					int totalDays = (int) (totalCount / ( 24*60*60*1000));				//총기간
-					int passDays = (int) (passCount / ( 24*60*60*1000));				//지나간 일수
-					int leftDays = (int) (leftCount / ( 24*60*60*1000));				//남은 일수
+						Date appRegistEndDate = new Date();
 
-					int appProgressDays = (int)((double) passDays / (double) totalDays * 100.0);		//수습 기본실무 진행률
+						Date appRegistDate = new Date(dateFormat.parse(cpaTrainRegRealInfo.get("appRegistDe").toString()).getTime());
+						if(!"".equals(cpaTrainRegRealInfo.get("appRegistEndDe")) && cpaTrainRegRealInfo.get("appRegistEndDe") != null){
+							appRegistEndDate = new Date(dateFormat.parse(cpaTrainRegRealInfo.get("appRegistEndDe").toString()).getTime());
+						}
+						else{
+							if(!"".equals(cpaTrainRegRealInfo.get("appEndDe")) && cpaTrainRegRealInfo.get("appEndDe") != null){
+								appRegistEndDate = new Date(dateFormat.parse(cpaTrainRegRealInfo.get("appEndDe").toString()).getTime());
+							}
 
-					if(appProgressDays >=100){
-						appProgressDays = 100;
-					}
-					if(appProgressDays < 0){
-						appProgressDays = 0;
+						}
+
+						totalCount = appRegistEndDate.getTime() - appRegistDate.getTime();
+						passCount = todayDate.getTime() - appRegistDate.getTime();
+						leftCount = appRegistEndDate.getTime() - todayDate.getTime();
+
+						totalDays = (int) (totalCount / ( 24*60*60*1000));				//총기간
+						passDays = (int) (passCount / ( 24*60*60*1000));				//지나간 일수
+						leftDays = (int) (leftCount / ( 24*60*60*1000));				//남은 일수
+
+						appProgressDays = (int)((double) passDays / (double) totalDays * 100.0);		//수습 기본실무 진행률
+
+						if(appProgressDays >=100){
+							appProgressDays = 100;
+						}
+						if(appProgressDays < 0){
+							appProgressDays = 0;
+						}
 					}
 
 					paramMap.put("appCpaNo",cpaTrainRegRealInfo.get("appCpaNo"));
