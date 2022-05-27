@@ -30,6 +30,17 @@
 	function fncLocation(){
 		mypCpaTrnngSmInfo.mypCpaTrnngSmInfo_backMove();
 	}
+
+	function goCyber(){
+		<c:choose>
+		<c:when test="${empty userId || userId ==''|| userId =='test' || userId == null}">
+		location.href="/uat/uia/authLogin.do";
+		</c:when>
+		<c:otherwise>
+		location.href="javascript:window.bridge.newWebView('kicpa1','http://mkip.kicpa.or.kr/kicpa/main/getCyberToken.do?userId=${userId}','')";
+		</c:otherwise>
+		</c:choose>
+	}
 </script>
 <body>
 <div class="wrap">
@@ -123,7 +134,7 @@
 							</li>
 						</ol>
 						<div class="btn-area">
-							<button class="btn-round" type="button" onclick="window.bridge.newWebView('kicpa_','https://cyber.kicpa.or.kr/','')"><span>사이버 회계연수원 바로가기 (GO)</span></button>
+							<button class="btn-round" type="button" onclick="javascript:goCyber()"><span>사이버 회계연수원 바로가기 (GO)</span></button>
 						</div>
 					</div>
 
