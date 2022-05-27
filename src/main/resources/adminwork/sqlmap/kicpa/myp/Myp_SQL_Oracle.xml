@@ -5,6 +5,27 @@
 
 	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
 
+	<parameterMap class="java.util.HashMap" id="eMailInfo">
+		<parameter property="v_mail_from" jdbcType="VARCHAR"  javaType="java.lang.String" mode="IN"/>
+		<parameter property="v_recname" jdbcType="VARCHAR"  javaType="java.lang.String" mode="IN"/>
+		<parameter property="v_userid" jdbcType="VARCHAR"  javaType="java.lang.String" mode="IN"/>
+		<parameter property="v_templateid" jdbcType="VARCHAR"  javaType="java.lang.String" mode="IN"/>
+		<parameter property="v_title" jdbcType="VARCHAR"  javaType="java.lang.String" mode="IN"/>
+		<parameter property="v_reserve_date" jdbcType="VARCHAR"  javaType="java.lang.String" mode="IN"/>
+		<parameter property="v_emp_id" jdbcType="VARCHAR"  javaType="java.lang.String" mode="IN"/>
+		<parameter property="v_field1" jdbcType="VARCHAR"  javaType="java.lang.String" mode="IN"/>
+		<parameter property="v_field2" jdbcType="VARCHAR"  javaType="java.lang.String" mode="IN"/>
+		<parameter property="v_field3" jdbcType="VARCHAR"  javaType="java.lang.String" mode="IN"/>
+		<parameter property="v_field4" jdbcType="VARCHAR"  javaType="java.lang.String" mode="IN"/>
+		<parameter property="v_field5" jdbcType="VARCHAR"  javaType="java.lang.String" mode="IN"/>
+		<parameter property="v_field6" jdbcType="VARCHAR"  javaType="java.lang.String" mode="IN"/>
+		<parameter property="v_field7" jdbcType="VARCHAR"  javaType="java.lang.String" mode="IN"/>
+		<parameter property="v_field8" jdbcType="VARCHAR"  javaType="java.lang.String" mode="IN"/>
+		<parameter property="v_field9" jdbcType="VARCHAR"  javaType="java.lang.String" mode="IN"/>
+		<parameter property="v_field10" jdbcType="VARCHAR"  javaType="java.lang.String" mode="IN"/>
+		<parameter property="result" jdbcType="DECIMAL"  javaType="java.lang.Integer" mode="OUT"/>
+	</parameterMap>
+
 	<select id="MyPageDAO.selectCpaPassInfoList" parameterClass="HashMap" resultClass="egovMap">
 		<![CDATA[
             SELECT
@@ -437,4 +458,26 @@
 	</select>
 
 
+
+
+
+	<select id="MyPageDAO.selectSendMemList" parameterClass="HashMap" resultClass="egovMap">
+		<![CDATA[
+            select
+					CD
+				,	GRP_CD
+				,	CD_NM
+				,	SORT
+				,	USE_YN
+				,	UPPER_CD
+				,	OPTN1
+				,	OPTN2
+			from CMMN_CODE where grp_cd ='GQ2001' and use_yn = 'Y'
+        ]]>
+
+	</select>
+
+	<procedure id="MyPageDAO.eapQueryMain09Proc" parameterMap="eMailInfo">
+		<![CDATA[ { CALL KIPADM.EAP_QUERY_MAIN_09_PROC(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) } ]]>
+	</procedure>
 </sqlMap>

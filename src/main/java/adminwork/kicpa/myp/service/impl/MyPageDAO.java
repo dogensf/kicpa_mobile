@@ -68,4 +68,14 @@ public class MyPageDAO extends EgovComAbstractDAO2 {
         return (List<?>) list("MyPageDAO.selectCpaPassDiCheckList", (Object) map);
     }
 
+
+
+
+    public List<?> selectSendMemList() throws Exception {
+        return (List<?>) list("MyPageDAO.selectSendMemList");
+    }
+
+    public void eapQueryMain09Proc(Map<String, Object> map) throws Exception {
+        insert("MyPageDAO.eapQueryMain09Proc", (Object) map);
+    }
 }

@@ -47,4 +47,12 @@ public interface MyPageService {
 
     //DI 값 확인
     public List<?> selectCpaPassDiCheckList(Map<String, Object> map) throws Exception;
+
+
+
+    //메일 발송 대상 조회
+    public List<?> selectSendMemList() throws Exception;
+
+    //메일 발송 프로시저
+    public void eapQueryMain09Proc(Map<String, Object> map) throws Exception;
 }

@@ -85,4 +85,20 @@ public class MyPageServiceImpl extends EgovAbstractServiceImpl implements MyPage
 	public List<?> selectCpaPassDiCheckList(Map<String, Object> map) throws Exception {
 		return myPageDAO.selectCpaPassDiCheckList(map);
 	}
+
+
+
+
+
+	@Override
+	public List<?> selectSendMemList() throws Exception {
+		// TODO Auto-generated method stub
+		return myPageDAO.selectSendMemList();
+	}
+
+	@Override
+	public void eapQueryMain09Proc(Map<String, Object> map) throws Exception {
+		// TODO Auto-generated method stub
+		myPageDAO.eapQueryMain09Proc(map);
+	}
 }

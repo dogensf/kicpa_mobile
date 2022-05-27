@@ -1,8 +1,7 @@
 package adminwork.kicpa.memberEvent.web;
 
 
-import java.util.Date;
-import java.util.Map;
+import java.util.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.Cookie;
@@ -10,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import adminwork.kicpa.myp.service.MyPageService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,6 +36,9 @@ public class MemberEventController {
 
 	@Resource(name = "commonBoardService")
 	CommonBoardService commonBoardService;
+
+	@Resource(name = "myPageService")
+	private MyPageService myPageService;
 
 
 	@RequestMapping(value = "/boardList.do")
@@ -134,6 +137,45 @@ public class MemberEventController {
 
 
 				commonBoardService.insertCommonBoard(map);
+
+				//메일 발송
+				Map<String, Object> paramMap = new HashMap<>();
+				paramMap.put("pin", user.getUniqId());
+				List<?> sendMemList = myPageService.selectSendMemList();	//발송대상자(GQ2001)
+				List<?> cpaList = myPageService.selectCpaMemberRegistInfoList(paramMap);	//작성자 CPA_ID
+				paramMap.putAll((Map<String, Object>) cpaList.get(0));
+
+				//오늘날짜
+				java.text.SimpleDateFormat today = new java.text.SimpleDateFormat("yyyy년 MM월 dd일");
+				Calendar c1 = Calendar.getInstance();
+				String todayDe = today.format(c1.getTime());
+
+				for (int i = 0; i < sendMemList.size(); i++) {
+					Map<String, Object> sendMemInfo = new HashMap<>();
+					sendMemInfo.putAll((Map<String, Object>) sendMemList.get(i));
+
+					//메일 발송 프로시저
+					Map<String, Object> eMailInfo = new HashMap<>();
+					eMailInfo.put("v_mail_from","member@kicpa.or.kr");
+					eMailInfo.put("v_recname",user.getName());
+					eMailInfo.put("v_userid","member");
+					eMailInfo.put("v_templateid","164757960756849218179111");
+					eMailInfo.put("v_title","회원 경조사 게시글이 신규 등록되었습니다.");
+					eMailInfo.put("v_reserve_date","");
+					eMailInfo.put("v_emp_id",user.getUniqId());
+					eMailInfo.put("v_field1",sendMemInfo.get("optn2"));
+					eMailInfo.put("v_field2","회원 경조사 게시글이 신규 등록되었습니다.");
+					eMailInfo.put("v_field3","다음과 같이 회원경조사 게시글이 신규 등록 되었습니다.");
+					eMailInfo.put("v_field4","");
+					eMailInfo.put("v_field5","등록일 : " + todayDe);
+					eMailInfo.put("v_field6","제목 : " + paramMap.get("cpaId") + ", " +user.getName()+ "회계사님 " + map.get("relation") + "별세");
+					eMailInfo.put("v_field7","");
+					eMailInfo.put("v_field8","감사합니다.");
+					eMailInfo.put("v_field9","");
+					eMailInfo.put("v_field10","");
+
+					myPageService.eapQueryMain09Proc(eMailInfo);
+				}
 
 			}
 
