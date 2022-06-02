@@ -224,7 +224,7 @@ function goCyber(){
 				        <button class="icon_obituary" type="button" onclick="javascript:location.href='<c:url value='/kicpa/memberEvent/boardList.do'/>';">
 				       		   회원경조사
 				        </button> --%>
-				       
+
 		     		</div>
 		      		<div id="mfm12">
 				        <%-- <button class="icon_training" type="button"  onclick="javascript:location.href='<c:url value='https://cyber.kicpa.or.kr/sso/main.php'/>';">
@@ -534,7 +534,7 @@ function goCyber(){
 	<section class="link-url">
 		<!-- <a href="javascript:window.bridge.newWebView('kicpa1','https://cyber.kicpa.or.kr/sso/main.php','')">회계연수원</a> -->
 		<%-- 
-			<a href="javascript:location.href='<c:url value='/'/>kicpa/main/getCyberToken.do'">회계연수원</a> 
+			<a href="javascript:location.href='<c:url value='/'/>kicpa/main/getCyberToken.do'">회계연수원</a>
 			<a href="javascript:window.bridge.newWebView('kicpa1','http://mkip.kicpa.or.kr/kicpa/main/getCyberToken.do?userId=${userId}','')">회계연수원</a>	
 		--%>
 		<a href="javascript:goCyber();">회계연수원</a>				
@@ -553,8 +553,8 @@ function goCyber(){
 		  	</span>
 		  	<span>TEL : 02-3149-0100</span>
 		  	<span class="between-line">
-		    	<a href="#">개인정보처리방침</a>
-		   		 <a href="#">이용약관</a>
+		    	<a href="javascript:window.bridge.newWebView('kicpa6','https://www.kicpa.or.kr/portal/default/kicpa/gnb/kr_other/menu01/menu05.page','')">개인정보처리방침</a>
+		   		 <a href="javascript:window.bridge.newWebView('kicpa6','https://www.kicpa.or.kr/portal/default/kicpa/gnb/kr_other/menu01/menu08.page','')">이용약관</a>
 		  	</span>
 		  	<span>COPYRIGHT (C) KICPA, ALL RIGHTS RESERVED.</span>
 		</address>
