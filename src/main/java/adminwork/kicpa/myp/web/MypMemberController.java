@@ -209,6 +209,8 @@ public class MypMemberController {
 
 			model.addAttribute("mypCpaTrnngSmInfoPin", paramMap.get("pin"));
 
+			model.addAttribute("userId", user.getId());
+
 
 		}else {
 			System.out.println("pin========="+paramMap.get("pin"));

@@ -134,7 +134,7 @@
 							</li>
 						</ol>
 						<div class="btn-area">
-							<button class="btn-round" type="button" onclick="javascript:goCyber()"><span>사이버 회계연수원 바로가기 (GO)</span></button>
+							<button class="btn-round" type="button" onclick="javascript:goCyber();"><span>사이버 회계연수원 바로가기 (GO)</span></button>
 						</div>
 					</div>
 
