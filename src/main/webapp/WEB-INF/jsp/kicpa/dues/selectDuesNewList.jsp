@@ -264,7 +264,7 @@ function readExcel() {
                     payAmt -= preGnrlYyAmt;
                 }
 
-                if(rt[i].ageDiscountYn == "Y") { // 만60세 이상 할인체크
+                if(rt[i].ageDiscountYn == "Y") { // 만60세 이상 할인체크 if(registFlag == "2" && payInfo.ageDiscountYn == "Y") { // 휴업인경우에만 만60세 이상 할인체크
                     payAmt -= 50000;
                 }
 
@@ -440,7 +440,7 @@ function newDuesAdd(){
                 payAmt -= preGnrlYyAmt;
             }
 
-            if(rt[i].ageDiscountYn == "Y") { // 만60세 이상 할인체크
+            if(rt[i].ageDiscountYn == "Y") { // 만60세 이상 할인체크 if(registFlag == "2" && payInfo.ageDiscountYn == "Y") { // 휴업인경우에만 만60세 이상 할인체크
                 payAmt -= 50000;
             }
 

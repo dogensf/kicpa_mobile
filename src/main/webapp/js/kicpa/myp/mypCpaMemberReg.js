@@ -896,7 +896,7 @@ mypMemberReg.mypCpaMemberReg_aidDuesInfo = function(result) {
 				payAmt -= preGnrlYyAmt;
 			}
 
-			if(rt[i].ageDiscountYn == "Y") { // 만60세 이상 할인체크
+			if(keys.registFlag == 2 && rt[i].ageDiscountYn == "Y") { // 휴업인경우에만 만60세 이상 할인체크
 				payAmt -= 50000;
 			}
 
