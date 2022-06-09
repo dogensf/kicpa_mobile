@@ -258,11 +258,11 @@ public class MypPassController {
 				modelAndView.addObject("message", "자택주소를 입력하세요.");
 				return modelAndView;
 			}
-			else if("".equals(paramMap.get("husZipCd")) || paramMap.get("husZipCd") == null){
+			else if("".equals(paramMap.get("husAdresDetail")) || paramMap.get("husAdresDetail") == null){
 				modelAndView.addObject("message", "자택상세주소를 입력하세요.");
 				return modelAndView;
 			}
-			else if("".equals(paramMap.get("husZipCd")) || paramMap.get("husZipCd") == null){
+			else if("".equals(paramMap.get("postSndngYn")) || paramMap.get("postSndngYn") == null){
 				modelAndView.addObject("message", "우편물 수령여부를 선택해주세요.");
 				return modelAndView;
 			}

@@ -323,6 +323,26 @@ mypPassReg.mypCpaPassReg_infoSave = function(){
 		mypPassReg.mypCpaPassReg_passInfoSave(formData, url, "mypCpaPassReg_adresInfo");
 	}
 	else if(saveData == "mypCpaPassReg_adresInfo"){
+		if($('#mypCpaPassReg_houseInfoAdres').val().trim() == "" || $('#mypCpaPassReg_houseInfoAdres').val()== null){
+			$('#mypCpaPassReg_houseInfoAdres').val('');
+		}
+		if($('#mypCpaPassReg_houseInfoZipCd').val().trim() == "" || $('#mypCpaPassReg_houseInfoZipCd').val()== null){
+			$('#mypCpaPassReg_houseInfoZipCd').val('');
+		}
+		if($('#mypCpaPassReg_houseInfoAdresDt').val().trim() == "" || $('#mypCpaPassReg_houseInfoAdresDt').val()== null){
+			$('#mypCpaPassReg_houseInfoAdresDt').val('');
+		}
+
+		if($('#mypCpaPassReg_officeInfoAdres').val().trim() == "" || $('#mypCpaPassReg_officeInfoAdres').val()== null){
+			$('#mypCpaPassReg_officeInfoAdres').val('');
+		}
+		if($('#mypCpaPassReg_officeInfoZipCd').val().trim() == "" || $('#mypCpaPassReg_officeInfoZipCd').val()== null){
+			$('#mypCpaPassReg_officeInfoZipCd').val('');
+		}
+		if($('#mypCpaPassReg_officeInfoAdresDt').val().trim() == "" || $('#mypCpaPassReg_officeInfoAdresDt').val()== null){
+			$('#mypCpaPassReg_officeInfoAdresDt').val('');
+		}
+
 		var formData = $('#mypCpaPassReg_adressInfoForm').serializeObject();
 		formData.pin = $('#mypCpaPassReg_pin').val();
 		formData.saveMode = $('#mypCpaPassReg_saveMode').val();
@@ -331,6 +351,21 @@ mypPassReg.mypCpaPassReg_infoSave = function(){
 		mypPassReg.mypCpaPassReg_passInfoSave(formData, url, "mypCpaPassReg_contactInfo");
 	}
 	else if(saveData == "mypCpaPassReg_contactInfo"){
+
+		if($('#mypCpaPassReg_contactInfoPhonNo1').val().trim() == "" || $('#mypCpaPassReg_contactInfoPhonNo1').val()== null){
+			$('#mypCpaPassReg_contactInfoPhonNo1').val('');
+		}
+		if($('#mypCpaPassReg_contactInfoPhonNo2').val().trim() == "" || $('#mypCpaPassReg_contactInfoPhonNo2').val()== null){
+			$('#mypCpaPassReg_contactInfoPhonNo2').val('');
+		}
+		if($('#mypCpaPassReg_contactInfoPhonNo3').val().trim() == "" || $('#mypCpaPassReg_contactInfoPhonNo3').val()== null){
+			$('#mypCpaPassReg_contactInfoPhonNo3').val('');
+		}
+
+		if($('#mypCpaPassReg_contactInfoMainEmail').val().trim() == "" || $('#mypCpaPassReg_contactInfoMainEmail').val()== null){
+			$('#mypCpaPassReg_contactInfoMainEmail').val('');
+		}
+
 		var formData = $('#mypCpaPassReg_contactInfoForm').serializeObject();
 		formData.pin = $('#mypCpaPassReg_pin').val();
 		formData.saveMode = $('#mypCpaPassReg_saveMode').val();
@@ -344,6 +379,13 @@ mypPassReg.mypCpaPassReg_infoSave = function(){
 		var acdmcrInfoList  = [];
 
 		for(var i=0; i<acdmcrInfoSize; i++) {
+
+			if($("input[name='schulNm']").eq(i).val().trim() == "" || $("input[name='schulNm']").eq(i).val()== null){
+				$("input[name='schulNm']").eq(i).val('');
+			}
+			if($("input[name='major']").eq(i).val().trim() == "" || $("input[name='major']").eq(i).val()== null){
+				$("input[name='major']").eq(i).val('');
+			}
 
 			var item = {};
 			item.schulCl = $("select[name='schulCl']").eq(i).val();
