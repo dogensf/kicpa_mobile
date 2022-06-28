@@ -27,6 +27,28 @@ mypCpaTrainReg.getAuditList = function(){
 
 mypCpaTrainReg.mypCpaTrainRegInit = function(){
 
+	//실무수습기관 입사일자 기간 설정
+	const today = new Date();
+
+	const tomorrow = new Date(today);
+	const yesterday = new Date(today);
+
+	tomorrow.setDate(today.getDate() + 14);
+	yesterday.setDate(today.getDate() - 14);
+
+	var year = tomorrow.getFullYear();
+	var month = ("0" + (1 + tomorrow.getMonth())).slice(-2);
+	var day = ("0" + tomorrow.getDate()).slice(-2);
+
+	var year2 = yesterday.getFullYear();
+	var month2 = ("0" + (1 + yesterday.getMonth())).slice(-2);
+	var day2 = ("0" + yesterday.getDate()).slice(-2);
+
+	alert(year + "-" + month + "-"+ day);
+	alert(year2 + "-" + month2 + "-"+ day2);
+	$('#mypCpaTrainReg_apntcCpaHistInfoAppRegistDe').prop("max", year + "-" + month + "-"+ day);
+	$('#mypCpaTrainReg_apntcCpaHistInfoAppRegistDe').prop("min", year2 + "-" + month2 + "-"+ day2);
+
 	//수정모드(검토 및 제출 화면)
 	if($('#mypCpaTrainReg_saveMode').val() == "U"){
 		$('.mypCpaTrainReg_titleYn').hide();
