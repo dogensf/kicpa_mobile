@@ -44,8 +44,6 @@ mypCpaTrainReg.mypCpaTrainRegInit = function(){
 	var month2 = ("0" + (1 + yesterday.getMonth())).slice(-2);
 	var day2 = ("0" + yesterday.getDate()).slice(-2);
 
-	alert(year + "-" + month + "-"+ day);
-	alert(year2 + "-" + month2 + "-"+ day2);
 	$('#mypCpaTrainReg_apntcCpaHistInfoAppRegistDe').prop("max", year + "-" + month + "-"+ day);
 	$('#mypCpaTrainReg_apntcCpaHistInfoAppRegistDe').prop("min", year2 + "-" + month2 + "-"+ day2);
 
