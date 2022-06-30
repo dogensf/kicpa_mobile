@@ -415,7 +415,7 @@
 					<input type="hidden" name="atchFileId1FlagYn" id="mypCpaTrainReg_atchFileId1FlagYn"/>
 
 					<div class="inp-box mypCpaTrainReg_atchFileInfoAtchFileAdd1">
-						<div class="label essen">졸업예정 증명서류 (1개이상 파일등록)</div>
+						<div class="label essen">최종학교졸업증명서 및 졸업예정증명서 (1개이상 파일등록)</div>
 						<input class="mypCpaTrainReg_fileChange" type="file" id="mypCpaTrainReg_atchFileInfoAtchFileId1" name="atchFileId1" readonly/>
 						<label class="select" for="mypCpaTrainReg_atchFileInfoAtchFileId1">파일을 등록해 주세요</label>
 						<input type="hidden" name="atchFileId1Set" id="mypCpaTrainReg_atchFileInfoAtchFileId1Set"/>

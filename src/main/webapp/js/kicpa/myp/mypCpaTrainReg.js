@@ -346,20 +346,20 @@ mypCpaTrainReg.mypCpaTrainReg_grdtSatausChange = function(flag) {
 
 	if($('#mypCpaTrainReg_grdtSatausInfoGrdtSataus').val()=="00000020"){
 		$('.mypCpaTrainReg_grdtSatausInfoTrigger').show();
-		$('.mypCpaTrainReg_atchFileInfoAtchFileAdd1').show();
+		/*$('.mypCpaTrainReg_atchFileInfoAtchFileAdd1').show();
 		$('#mypCpaTrainReg_atchFileId1FlagYn').val("Y");
 		$("#mypCpaTrainReg_atchFileInfoAtchFileId1Set").val('');
 		$("#mypCpaTrainReg_atchFileInfoAtchFileId2Set").val('');
 		$("#mypCpaTrainReg_atchFileInfoAtchFileId3Set").val('');
-		$("#mypCpaTrainReg_atchFileInfoAtchFileId4Set").val('');
+		$("#mypCpaTrainReg_atchFileInfoAtchFileId4Set").val('');*/
 	}
 	else{
 		$('.mypCpaTrainReg_grdtSatausInfoTrigger').hide();
 		$('#mypCpaTrainReg_grdtSatausInfoGrdtDe').val('');
 		$('#mypCpaTrainReg_grdtSatausInfoStartDe').val('');
 		$('#mypCpaTrainReg_grdtSatausInfoEndDe').val('');
-		$('.mypCpaTrainReg_atchFileInfoAtchFileAdd1').hide();
-		$('#mypCpaTrainReg_atchFileId1FlagYn').val("N");
+		/*$('.mypCpaTrainReg_atchFileInfoAtchFileAdd1').hide();
+		$('#mypCpaTrainReg_atchFileId1FlagYn').val("N");*/
 	}
 
 }

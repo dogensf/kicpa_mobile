@@ -530,23 +530,30 @@ public class MypTrainController {
 						modelAndView.addObject("message", "이력서를 선택해주세요.");
 						return modelAndView;
 					}
-					else if("Y".equals(atchFileId1FlagYn)){
+					else if("atchFileId1".equals(key) || "atchFileId2".equals(key) || "atchFileId3".equals(key) || "atchFileId4".equals(key)){
+						atchFileCnt++;
+						if(atchFileCnt == 4 && oldAtchFileCnt == 0){
+							modelAndView.addObject("message", "최종학교졸업증명서 및 졸업예정증명서를 1개 이상 선택해주세요.");
+							return modelAndView;
+						}
+					}
+					/*else if("Y".equals(atchFileId1FlagYn)){
 						if("atchFileId1".equals(key) || "atchFileId2".equals(key) || "atchFileId3".equals(key) || "atchFileId4".equals(key)){
 							atchFileCnt++;
 							if(atchFileCnt == 4 && oldAtchFileCnt == 0){
-								modelAndView.addObject("message", "졸업예정 증명서류를 1개 이상 선택해주세요.");
+								modelAndView.addObject("message", "최종학교졸업증명서 및 졸업예정증명서를 1개 이상 선택해주세요.");
 								return modelAndView;
 							}
 						}
-					}
+					}*/
 				}
 			}
-			if("N".equals(atchFileId1FlagYn)){
+			/*if("N".equals(atchFileId1FlagYn)){
 				paramMap.put("atchFileId1", "");
 				paramMap.put("atchFileId2", "");
 				paramMap.put("atchFileId3", "");
 				paramMap.put("atchFileId4", "");
-			}
+			}*/
 
 			Map<String, Object> cpaPassExamInfo = new HashMap<>();
 			//합격자 정보가져오기(파일경로 지정)
