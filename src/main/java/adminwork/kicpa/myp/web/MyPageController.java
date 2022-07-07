@@ -158,6 +158,9 @@ public class MyPageController {
 						}
 						appProgressDaysYn = "N";
 					}
+					else{
+						trainFlag="E";
+					}
 
 					Calendar cal = Calendar.getInstance();
 					cal.setTime( new Date(System.currentTimeMillis()));
@@ -210,7 +213,6 @@ public class MyPageController {
 					model.addAttribute("cpaTrainRegReal", cpaTrainRegReal);
 					model.addAttribute("appProgressDays", appProgressDays);
 					model.addAttribute("leftDays", leftDays);
-					trainFlag="E";
 
 					//외감 정보가 있을경우
 					if(!"".equals(cpaTrainRegRealInfo.get("audRegistDe")) && cpaTrainRegRealInfo.get("audRegistDe") != null){
