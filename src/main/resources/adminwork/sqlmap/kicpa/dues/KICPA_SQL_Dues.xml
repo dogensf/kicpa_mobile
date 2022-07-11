@@ -367,10 +367,12 @@
 					GN.NTIC_CANCL_FLAG = 'N'
 			AND 	NVL(GN.PAY_YN,'N') = 'N'
 			AND 	GM.CUST_INQR_NO = #cust_inqr_no#
+			AND     GN.NTIC_FLAG = 'Y'
+            AND     GN.NTIC_CANCL_FLAG = 'N'
 			]]>
-			AND     TO_CHAR(SYSDATE, 'YYYYMMDD') <![CDATA[ <= ]]> GN.NOTI_DL_DT
-			<![CDATA[
-			AND     GN.SUB_GIRO_CD IS NULL			
+		AND     TO_CHAR(SYSDATE, 'YYYYMMDD') <![CDATA[ <= ]]> GN.NOTI_DL_DT
+		<![CDATA[
+			AND     GN.SUB_GIRO_CD IS NULL
 		]]>
 	</select>
 	
@@ -1684,7 +1686,7 @@
 			         to_char(to_date(ydd.PRCS_DE,'yyyymmdd'),'yyyy-mm-dd'),
 			         decode(ydm.DUES_FLAG,'Y','연회비','D','연회비(추가회비)')
 			
-			UNION
+			UNION ALL
 			select adm.pin AS EPAY_NO,		      
 			       to_char(to_date(admd.OCCRRNC_DE,'yyyymmdd'),'yyyy-mm-dd') AS PAY_DE,
 			       decode(adm.DUES_FLAG,'E','입회비','Y','부조회비','D','부조회비(추가회비)') AS RQEST_NM,
