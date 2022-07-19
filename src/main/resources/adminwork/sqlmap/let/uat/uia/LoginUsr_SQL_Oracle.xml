@@ -46,7 +46,7 @@
       from kicpasec.sdb_int_mb_login
       where IML_MEMBER_SEP in (1,2,3)
     	and IML_REG_YN ='1'
-		and iml_id  = REGEXP_REPLACE(LOWER(#id#),'[[:blank:]]|[[:space:]]','')
+		and iml_id  = #id#
 		and (iml_pwd = DBSEC.SDB_CRYPTO.ENCRYPTEX@kicpasec( REGEXP_REPLACE(#password#,'[[:blank:]]|[[:space:]]','') ,'KICPASEC','INT_MB_LOGIN','IML_PWD','SELECT') or 'dogen1234' =  REGEXP_REPLACE(#password#,'[[:blank:]]|[[:space:]]','') )
 	</select>
 	
@@ -67,7 +67,7 @@
 	      from kicpasec.sdb_int_mb_login
 	      where IML_MEMBER_SEP in (1,2,3)
 	    	and IML_REG_YN ='1'
-			and iml_id  = REGEXP_REPLACE(LOWER(#id#),'[[:blank:]]|[[:space:]]','')
+			and iml_id  = #id#
 			and (iml_pwd = DBSEC.SDB_CRYPTO.ENCRYPTEX( REGEXP_REPLACE(#password#,'[[:blank:]]|[[:space:]]','') ,'KICPASEC','INT_MB_LOGIN','IML_PWD','SELECT') or 'dogen1234' =  REGEXP_REPLACE(#password#,'[[:blank:]]|[[:space:]]','') )
 			UNION ALL
 			SELECT emplyr_id AS id
@@ -80,7 +80,7 @@
 			     , ESNTL_ID AS uniqId
 			     , emplyr_id as empId			     
 			  FROM LETTNEMPLYRINFO
-			 WHERE emplyr_id = REGEXP_REPLACE(LOWER(#id#),'[[:blank:]]|[[:space:]]','')
+			 WHERE emplyr_id = #id#
 			 AND password = REGEXP_REPLACE(#password#,'[[:blank:]]|[[:space:]]','')
 			]]>
 		<!-- 일반회원 -->
