@@ -30,12 +30,12 @@ function fncLocation(){
           <button class="m-link" type="button" onclick="javascript:location.href='/kicpa/sntBook/taxBookList.do'">
             <span>세무단행본구매</span>
           </button>
-          <button class="m-link" type="button" onclick="javascript:location.href='/kicpa/sntBook/specialLectureList.do?gbn=LISTPAGE2'">
+          <%--<button class="m-link" type="button" onclick="javascript:location.href='/kicpa/sntBook/specialLectureList.do?gbn=LISTPAGE2'">
             <span>실무특강리스트(수강신청)</span>
           </button>
           <button class="m-link" type="button" onclick="javascript:location.href='/kicpa/sntBook/specialLectureList.do?gbn=LISTPAGE3'">
             <span>실무특강리스트(신청내용)</span>
-          </button>
+          </button>--%>
           <button class="m-link" type="button" onclick="javascript:location.href='/kicpa/sntBook/offlineEduList.do?accEduUse=1'">
             <span>집합연수 리스트</span>
           </button>
