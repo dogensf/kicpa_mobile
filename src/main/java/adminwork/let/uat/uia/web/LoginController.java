@@ -213,6 +213,8 @@ public class LoginController {
 								  }		  
 								}
 						}
+
+						loginVO.setId(loginVO.getId().replaceAll(" ", "").toLowerCase());
 						
 						if(mainLogin) {
 							resultVO = loginService.actionLoginMain(loginVO);
