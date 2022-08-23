@@ -73,9 +73,6 @@
 				<span>이전</span>
 			</button>
 			<h3>개인정보</h3>
-			<div>
-				<input type="checkbox" name="cpaConfirmPass" id="myPage_cpaConfirmPass" style="display: none;"/>
-			</div>
 		</section>
 		<section class="content">
 			<!-- 프로필영역 -->
@@ -87,6 +84,12 @@
 
 			<ul class="list-wrap">
 				<li>
+					<div class="inp-box" style="display: none;">
+						<div class="inp-check">
+							<input type="checkbox" name="cpaConfirmPass" id="myPage_cpaConfirmPass"/>
+							<label for="myPage_cpaConfirmPass"></label>
+						</div>
+					</div>
 					<h4>기본정보</h4>
 					<button class="m-link" type="button" onClick="javascript:myPageInfo.myPage_memberInfoUpdateBtn('mypCpaPassReg_nameInfo','M', ${myPageInfoPin});">
 						<span>성명</span>
