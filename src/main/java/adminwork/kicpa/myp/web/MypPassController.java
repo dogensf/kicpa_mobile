@@ -401,8 +401,8 @@ public class MypPassController {
 				modelAndView.addObject("message", "휴대전화를 입력하세요.");
 				return modelAndView;
 			}
-			else if("".equals(paramMap.get("mainEmail")) || paramMap.get("mainEmail") == null){
-				modelAndView.addObject("message", "회사 Email를 입력하세요.");
+			else if("".equals(paramMap.get("subEmail")) || paramMap.get("subEmail") == null){
+				modelAndView.addObject("message", "개인 Email를 입력하세요.");
 				return modelAndView;
 			}
 			else if("".equals(paramMap.get("emailSndngYn")) || paramMap.get("emailSndngYn") == null){
