@@ -634,10 +634,21 @@ mypPassReg.mypCpaPassReg_updateInfoList_success = function(data){
 		$('#mypCpaPassReg_acdmcrInfoAcdmcrSn').val(data.cpaPassRegAcdmcrRealInfo[0].acdmcrSn);                                  //순번
 
 		if(data.cpaPassRegAcdmcrRealInfoSize>1){
+
+			var degree = "";
+			if(data.cpaPassRegAcdmcrRealInfo[1].degree != "" && data.cpaPassRegAcdmcrRealInfo[1].degree != null){
+				degree = data.cpaPassRegAcdmcrRealInfo[1].degree;
+			}
+
+			var grdtnYear = "";
+			if(data.cpaPassRegAcdmcrRealInfo[1].grdtnYear != "" && data.cpaPassRegAcdmcrRealInfo[1].grdtnYear != null){
+				grdtnYear = data.cpaPassRegAcdmcrRealInfo[1].grdtnYear;
+			}
+
 			//대학교
-			$('#mypCpaPassReg_acdmcrInfoDegree2').val(data.cpaPassRegAcdmcrRealInfo[1].degree);                                 //학위
+			$('#mypCpaPassReg_acdmcrInfoDegree2').val(degree);                                 									//학위
 			$('#mypCpaPassReg_acdmcrInfoSchulNm2').val(data.cpaPassRegAcdmcrRealInfo[1].schulNm);                               //학교명
-			$('#mypCpaPassReg_acdmcrInfoGrdtnYear2').val(data.cpaPassRegAcdmcrRealInfo[1].grdtnYear);                           //졸업년도
+			$('#mypCpaPassReg_acdmcrInfoGrdtnYear2').val(grdtnYear);                           									//졸업년도
 			$('#mypCpaPassReg_acdmcrInfoMajor2').val(data.cpaPassRegAcdmcrRealInfo[1].major);                                   //전공
 			$('#mypCpaPassReg_acdmcrInfoAcdmcrSn2').val(data.cpaPassRegAcdmcrRealInfo[1].acdmcrSn);                             //순번
 
@@ -689,11 +700,21 @@ mypPassReg.selectMypCpaPassRegReviewInfo_success = function(result){
 	if(result.cpaRegReviewAcdmcrInfoListSize>0){
 		for(var i=0; i<result.cpaRegReviewAcdmcrInfoListSize; i++){
 
+			var degree = " ";
+			if(result.cpaRegReviewAcdmcrInfoList[i].degreeNm != "" && result.cpaRegReviewAcdmcrInfoList[i].degreeNm != null){
+				degree = result.cpaRegReviewAcdmcrInfoList[i].degreeNm;
+			}
+
+			var grdtnYear = " ";
+			if(result.cpaRegReviewAcdmcrInfoList[i].grdtnYear != "" && result.cpaRegReviewAcdmcrInfoList[i].grdtnYear != null){
+				grdtnYear = result.cpaRegReviewAcdmcrInfoList[i].grdtnYear;
+			}
+
 			if(i<=1){
 				$("#mypPassReviewInfo_schulCl"+i).text(result.cpaRegReviewAcdmcrInfoList[i].schulClNm);
-				$("#mypPassReviewInfo_degree"+i).text(result.cpaRegReviewAcdmcrInfoList[i].degreeNm);
+				$("#mypPassReviewInfo_degree"+i).text(degree);
 				$("#mypPassReviewInfo_schulNm"+i).text(result.cpaRegReviewAcdmcrInfoList[i].schulNm);
-				$("#mypPassReviewInfo_grdtnYear"+i).text(result.cpaRegReviewAcdmcrInfoList[i].grdtnYear);
+				$("#mypPassReviewInfo_grdtnYear"+i).text(grdtnYear);
 				if(i==1){
 					$("#mypPassReviewInfo_major"+i).text(result.cpaRegReviewAcdmcrInfoList[i].major);
 				}
