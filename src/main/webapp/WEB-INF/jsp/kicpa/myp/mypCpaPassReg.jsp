@@ -392,13 +392,13 @@
 					</div>
 
 					<div class="inp-box">
-						<label class="label" for="mypCpaPassReg_contactInfoMainEmail">회사 Email</label>
-						<input type="text" id="mypCpaPassReg_contactInfoMainEmail" name="mainEmail" placeholder="회사 Email을 입력하세요."/>
+						<label class="label essen" for="mypCpaPassReg_contactInfoMainEmail">기본메일</label>
+						<input type="text" id="mypCpaPassReg_contactInfoMainEmail" name="mainEmail" placeholder="기본메일을 입력하세요."/>
 					</div>
 
 					<div class="inp-box">
-						<label class="label essen" for="mypCpaPassReg_contactInfoSubEmail">개인 Email</label>
-						<input type="text" id="mypCpaPassReg_contactInfoSubEmail" name="subEmail" placeholder="개인 Email을 입력하세요."/>
+						<label class="label" for="mypCpaPassReg_contactInfoSubEmail">보조메일</label>
+						<input type="text" id="mypCpaPassReg_contactInfoSubEmail" name="subEmail" placeholder="보조메일을 입력하세요."/>
 					</div>
 
 					<div class="inp-box">
