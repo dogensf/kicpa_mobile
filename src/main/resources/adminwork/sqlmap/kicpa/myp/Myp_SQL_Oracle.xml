@@ -159,19 +159,19 @@
 
 		<![CDATA[
             SELECT
-                 BRF_YEAR,
-                 DECODE (m1, 1, 'check', 'off')      BRF_MT1,
-                 DECODE (m2, 1, 'check', 'off')      BRF_MT2,
-                 DECODE (m3, 1, 'check', 'off')      BRF_MT3,
-                 DECODE (m4, 1, 'check', 'off')      BRF_MT4,
-                 DECODE (m5, 1, 'check', 'off')      BRF_MT5,
-                 DECODE (m6, 1, 'check', 'off')      BRF_MT6,
-                 DECODE (m7, 1, 'check', 'off')      BRF_MT7,
-                 DECODE (m8, 1, 'check', 'off')      BRF_MT8,
-                 DECODE (m9, 1, 'check', 'off')      BRF_MT9,
-                 DECODE (m10, 1, 'check', 'off')     BRF_MT10,
-                 DECODE (m11, 1, 'check', 'off')     BRF_MT11,
-                 DECODE (m12, 1, 'check', 'off')     BRF_MT12
+				BRF_YEAR,
+				CASE WHEN m1 > 0 THEN 'check' ELSE 'off' END BRF_MT1,
+				CASE WHEN m2 > 0 THEN 'check' ELSE 'off' END BRF_MT2,
+				CASE WHEN m3 > 0 THEN 'check' ELSE 'off' END BRF_MT3,
+				CASE WHEN m4 > 0 THEN 'check' ELSE 'off' END BRF_MT4,
+				CASE WHEN m5 > 0 THEN 'check' ELSE 'off' END BRF_MT5,
+				CASE WHEN m6 > 0 THEN 'check' ELSE 'off' END BRF_MT6,
+				CASE WHEN m7 > 0 THEN 'check' ELSE 'off' END BRF_MT7,
+				CASE WHEN m8 > 0 THEN 'check' ELSE 'off' END BRF_MT8,
+				CASE WHEN m9 > 0 THEN 'check' ELSE 'off' END BRF_MT9,
+				CASE WHEN m10 > 0 THEN 'check' ELSE 'off' END BRF_MT10,
+				CASE WHEN m11 > 0 THEN 'check' ELSE 'off' END BRF_MT11,
+				CASE WHEN m12 > 0 THEN 'check' ELSE 'off' END BRF_MT12
             FROM
              (  SELECT APP_CPA_NO,
                        BRF_YEAR,
