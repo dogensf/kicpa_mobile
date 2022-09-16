@@ -33,7 +33,7 @@
 
      FROM  CPA c
      LEFT JOIN MBER_INDVDLINFO mi ON c.PIN = mi.PIN
-     WHERE c.pin = #uniqId#
+     WHERE c.CPA_SN = (SELECT MAX(CPA_SN) FROM CPA WHERE pin = #uniqId#)
 	</select>
 	
 	
