@@ -387,8 +387,8 @@
 										<button class="btn-round mypage_trainInfoMove" type="button" value="trnngResult">연수결과</button>
 									</div>
 
-									<!-- 기본실무수습 종료예정일 15일전부터 외감 신청 가능 -->
-									<c:if test="${leftDays <= 15}">
+									<!-- 기본실무수습 종료 후 외감 신청 가능 -->
+									<c:if test="${leftDays < 1 && (cpaTrainRegReal[0].appRegistEndDe eq '' || cpaTrainRegReal[0].appRegistEndDe eq null)}">
 										<div>
 											<button class="btn-round fill mypPage_mypAudTrainRegMove" type="button">외감신청</button>
 										</div>

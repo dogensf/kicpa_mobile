@@ -274,7 +274,7 @@
 					</div>
 
 					<div class="inp-box">
-						<div class="label essen">기타</div>
+						<div class="label">기타</div>
 						<input class="mypCpaAudTrainReg_fileChange" type="file" id="mypCpaAudTrainReg_atchFileId" name="atchFileId" readonly/>
 						<label for="mypCpaAudTrainReg_atchFileId">파일을 등록해 주세요</label>
 						<input type="hidden" name="atchFileIdSet" id="mypCpaAudTrainReg_atchFileIdSet"/>
