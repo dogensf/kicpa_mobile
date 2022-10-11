@@ -304,11 +304,18 @@ public class DuesServiceImpl extends EgovAbstractServiceImpl implements DuesServ
 			System.out.println("-----getId :: " + user.getId());
 			
 			 //vo.setPayNo(payNo);
-			 vo.setRegistFlag("1");
-			 vo.setPayStatus("W");	//납부상태 W:대기
-			 vo.setPayIdFlag("A");	//납부자구분 A:감사인
-			 vo.setPayId(user.getId());		//납부자(감사인코드)
-			 vo.setGiroYn("Y");		//지로입금여부			
+            if("".equals(vo.getRegistFlag()) || vo.getRegistFlag() == null){
+                vo.setRegistFlag("1");
+            }
+            if(user.getId().length()<13){
+                vo.setPayIdFlag("A");	//납부자구분 A:감사인
+            }
+            else{
+                vo.setPayIdFlag("P");	//납부자구분 P:개인
+            }
+            vo.setPayStatus("W");	//납부상태 W:대기
+            vo.setPayId(user.getId());		//납부자(감사인코드)
+            vo.setGiroYn("Y");		//지로입금여부
 			 
 			// 입회비대장 등록
 			 NewDues rtnNewDues = duesDAO.insertNewDuesTemp(vo);
