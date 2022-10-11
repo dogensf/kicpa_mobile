@@ -323,6 +323,16 @@
 			<div class="mypage-wrap">
 				<form id="mypCpaMemberReg_nmstOthbcInfoForm">
 					<div class="inp-box">
+						<label class="label essen">정보공개 여부 설정</label>
+					</div>
+					<div class="inp-check">
+						<input type="radio" name="psnlInfoYn" value="Y" id="mypCpaMember_psnlInfoY" checked/>
+						<label for="mypCpaMember_psnlInfoY" style="margin-right: 10px;">공개</label>
+						<input type="radio" name="psnlInfoYn" value="N" id="mypCpaMember_psnlInfoN"/>
+						<label for="mypCpaMember_psnlInfoN">비공개</label>
+					</div>
+
+					<div class="inp-box" style="margin-top: 40px;">
 						<label class="label essen">사무소 주소</label>
 					</div>
 					<div class="inp-check">
@@ -658,6 +668,10 @@
 				<div class="cont-line">
 					<h4>정보공개설정</h4>
 					<ul class="breakdown-list">
+						<li>
+							<span>정보공개 여부 설정</span>
+							<p id="mypCpaMemberReviewInfo_psnlInfoYn"></p>
+						</li>
 						<li>
 							<span>사무소 주소</span>
 							<p id="mypCpaMemberReviewInfo_ofcAdresYn"></p>

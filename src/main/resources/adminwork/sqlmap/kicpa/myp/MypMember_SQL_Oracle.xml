@@ -181,13 +181,13 @@
                 WHEN MATCHED THEN
                           UPDATE SET
                           OFC_ADRES_YN = #ofcAdresYn#, OFC_NAME_YN = #ofcNameYn#, OFC_TEL_YN = #ofcTelYn#, OFC_FAX_YN = #ofcFaxYn#, EMAIL_YN = #emailYn#
-                        , PHOTO_YN = #photoYn#, LAST_UPDT_ID = #userId#, LAST_UPDT_DT = SYSTIMESTAMP
+                        , PHOTO_YN = #photoYn#, PSNL_INFO_YN = #psnlInfoYn#, LAST_UPDT_ID = #userId#, LAST_UPDT_DT = SYSTIMESTAMP
 
                 WHEN NOT MATCHED THEN
-                          INSERT (PIN, OFC_ADRES_YN, OFC_NAME_YN, OFC_TEL_YN, OFC_FAX_YN, EMAIL_YN, PHOTO_YN,
+                          INSERT (PIN, OFC_ADRES_YN, OFC_NAME_YN, OFC_TEL_YN, OFC_FAX_YN, EMAIL_YN, PHOTO_YN, PSNL_INFO_YN,
                                 FRST_REGIST_ID, FRST_REGIST_DT, LAST_UPDT_ID, LAST_UPDT_DT)
 
-                          VALUES (#pin# , #ofcAdresYn# , #ofcNameYn# , #ofcTelYn# , #ofcFaxYn# , #emailYn# , #photoYn# ,
+                          VALUES (#pin# , #ofcAdresYn# , #ofcNameYn# , #ofcTelYn# , #ofcFaxYn# , #emailYn# , #photoYn# , #psnlInfoYn#,
                                 #userId# , SYSTIMESTAMP , #userId# , SYSTIMESTAMP)
         ]]>
 	</insert>
@@ -291,12 +291,14 @@
             	,	OFC_FAX_YN
             	,	EMAIL_YN
             	,	PHOTO_YN
+            	,	PSNL_INFO_YN
 				,	CASE WHEN OFC_ADRES_YN = 'Y' THEN '공개' ELSE '비공개' END AS OFC_ADRES_YN_NM
 				,	CASE WHEN OFC_NAME_YN = 'Y' THEN '공개' ELSE '비공개' END AS OFC_NAME_YN_NM
 				,	CASE WHEN OFC_TEL_YN = 'Y' THEN '공개' ELSE '비공개' END AS OFC_TEL_YN_NM
 				,	CASE WHEN OFC_FAX_YN = 'Y' THEN '공개' ELSE '비공개' END AS OFC_FAX_YN_NM
 				,	CASE WHEN EMAIL_YN = 'Y' THEN '공개' ELSE '비공개' END AS EMAIL_YN_NM
 				,	CASE WHEN PHOTO_YN = 'Y' THEN '공개' ELSE '비공개' END AS PHOTO_YN_NM
+				,	CASE WHEN PSNL_INFO_YN = 'Y' THEN '공개' ELSE '비공개' END AS PSNL_INFO_YN_NM
 
             FROM CPA_NMST_OTHBC
             WHERE PIN = #pin#
@@ -313,13 +315,13 @@
                 WHEN MATCHED THEN
                           UPDATE SET
                           OFC_ADRES_YN = #ofcAdresYn#, OFC_NAME_YN = #ofcNameYn#, OFC_TEL_YN = #ofcTelYn#, OFC_FAX_YN = #ofcFaxYn#, EMAIL_YN = #emailYn#
-                        , PHOTO_YN = #photoYn#, LAST_UPDT_ID = #userId#, LAST_UPDT_DT = SYSTIMESTAMP
+                        , PHOTO_YN = #photoYn#, PSNL_INFO_YN = #psnlInfoYn#, LAST_UPDT_ID = #userId#, LAST_UPDT_DT = SYSTIMESTAMP
 
                 WHEN NOT MATCHED THEN
-                          INSERT (PIN, OFC_ADRES_YN, OFC_NAME_YN, OFC_TEL_YN, OFC_FAX_YN, EMAIL_YN, PHOTO_YN,
+                          INSERT (PIN, OFC_ADRES_YN, OFC_NAME_YN, OFC_TEL_YN, OFC_FAX_YN, EMAIL_YN, PHOTO_YN, PSNL_INFO_YN,
                                 FRST_REGIST_ID, FRST_REGIST_DT, LAST_UPDT_ID, LAST_UPDT_DT)
 
-                          VALUES (#pin# , #ofcAdresYn# , #ofcNameYn# , #ofcTelYn# , #ofcFaxYn# , #emailYn# , #photoYn# ,
+                          VALUES (#pin# , #ofcAdresYn# , #ofcNameYn# , #ofcTelYn# , #ofcFaxYn# , #emailYn# , #photoYn# , #psnlInfoYn#,
                                 #userId# , SYSTIMESTAMP , #userId# , SYSTIMESTAMP)
 		]]>
 
@@ -334,13 +336,13 @@
                 WHEN MATCHED THEN
                           UPDATE SET
                           imiy_add_yn = #ofcAdresYn#, imiy_off_name_yn = #ofcNameYn#, imiy_tel_yn = #ofcTelYn#, imiy_fax_yn = #ofcFaxYn#, imiy_email_yn = #emailYn#
-                        , imiy_picture_yn = #photoYn#, imiy_sys_date = sysdate
+                        , imiy_picture_yn = #photoYn#, imiy_info_yn = #psnlInfoYn#, imiy_sys_date = sysdate
 
                 WHEN NOT MATCHED THEN
-                          INSERT (imiy_psl_id, imiy_add_yn, imiy_off_name_yn, imiy_tel_yn, imiy_fax_yn, imiy_email_yn, imiy_picture_yn,
+                          INSERT (imiy_psl_id, imiy_add_yn, imiy_off_name_yn, imiy_tel_yn, imiy_fax_yn, imiy_email_yn, imiy_picture_yn, imiy_info_yn,
                                 imiy_sys_date)
 
-                          VALUES (#pin# , #ofcAdresYn# , #ofcNameYn# , #ofcTelYn# , #ofcFaxYn# , #emailYn# , #photoYn# ,
+                          VALUES (#pin# , #ofcAdresYn# , #ofcNameYn# , #ofcTelYn# , #ofcFaxYn# , #emailYn# , #photoYn# , #psnlInfoYn#,
                                 sysdate)
 
         ]]>
@@ -393,12 +395,14 @@
 				,	OFC_FAX_YN
 				,	EMAIL_YN
 				,	PHOTO_YN
+				,	PSNL_INFO_YN
 				,	CASE WHEN OFC_ADRES_YN = 'Y' THEN '공개' ELSE '비공개' END AS OFC_ADRES_YN_NM
 				,	CASE WHEN OFC_NAME_YN = 'Y' THEN '공개' ELSE '비공개' END AS OFC_NAME_YN_NM
 				,	CASE WHEN OFC_TEL_YN = 'Y' THEN '공개' ELSE '비공개' END AS OFC_TEL_YN_NM
 				,	CASE WHEN OFC_FAX_YN = 'Y' THEN '공개' ELSE '비공개' END AS OFC_FAX_YN_NM
 				,	CASE WHEN EMAIL_YN = 'Y' THEN '공개' ELSE '비공개' END AS EMAIL_YN_NM
 				,	CASE WHEN PHOTO_YN = 'Y' THEN '공개' ELSE '비공개' END AS PHOTO_YN_NM
+				,	CASE WHEN PSNL_INFO_YN = 'Y' THEN '공개' ELSE '비공개' END AS PSNL_INFO_YN_NM
 
             FROM CPA_NMST_OTHBC_MYP
             WHERE PIN = #pin#

@@ -562,6 +562,7 @@ mypMemberReg.mypCpaMember_updateInfoList_success = function(data){
 	//정보공개설정 수정
 	if($('#mypCpaMemberReg_movePage').val() == "mypCpaMemberReg_nmstOthbcInfo"){
 		$('.mypCpaMemberReg_titleNm').text('정보공개설정');
+		$("input:radio[name='psnlInfoYn'][value='"+data.cpaMemberNmstOthbcInfo[0].psnlInfoYn+"']").attr('checked', true);      //정보공개 여부 설정
 		$("input:radio[name='ofcAdresYn'][value='"+data.cpaMemberNmstOthbcInfo[0].ofcAdresYn+"']").attr('checked', true);      //사무소 주소
 		$("input:radio[name='ofcNameYn'][value='"+data.cpaMemberNmstOthbcInfo[0].ofcNameYn+"']").attr('checked', true);      //사무소 명
 		$("input:radio[name='emailYn'][value='"+data.cpaMemberNmstOthbcInfo[0].emailYn+"']").attr('checked', true);      //전자메일
@@ -639,6 +640,7 @@ mypMemberReg.mypCpaMember_regFlagFList_success = function(data){
 	mypMemberReg.mypCpaMemberReg_mberFlagChange();
 
 	//정보공개설정
+	$("input:radio[name='psnlInfoYn'][value='"+data.cpaMemberRegNmstOthbcInfoList[0].psnlInfoYn+"']").attr('checked', true);      //정보공개 여부 설정
 	$("input:radio[name='ofcAdresYn'][value='"+data.cpaMemberRegNmstOthbcInfoList[0].ofcAdresYn+"']").attr('checked', true);      //사무소 주소
 	$("input:radio[name='ofcNameYn'][value='"+data.cpaMemberRegNmstOthbcInfoList[0].ofcNameYn+"']").attr('checked', true);      //사무소 명
 	$("input:radio[name='emailYn'][value='"+data.cpaMemberRegNmstOthbcInfoList[0].emailYn+"']").attr('checked', true);      //전자메일
@@ -985,6 +987,7 @@ mypMemberReg.selectmypCpaMemberRegReviewInfo_success = function (result){
 	}
 
 	//정보공개설정
+	$('#mypCpaMemberReviewInfo_psnlInfoYn').text(result.cpaMemberRegNmstOthbcInfoList[0].psnlInfoYnNm);
 	$('#mypCpaMemberReviewInfo_ofcAdresYn').text(result.cpaMemberRegNmstOthbcInfoList[0].ofcAdresYnNm);
 	$('#mypCpaMemberReviewInfo_ofcNameYn').text(result.cpaMemberRegNmstOthbcInfoList[0].ofcNameYnNm);
 	$('#mypCpaMemberReviewInfo_emailYn').text(result.cpaMemberRegNmstOthbcInfoList[0].emailYnNm);

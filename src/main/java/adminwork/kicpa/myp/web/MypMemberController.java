@@ -435,7 +435,11 @@ public class MypMemberController {
 
 		try {
 
-			if("".equals(paramMap.get("ofcAdresYn")) || (paramMap.get("ofcAdresYn") == null)){
+			if("".equals(paramMap.get("psnlInfoYn")) || (paramMap.get("psnlInfoYn") == null)){
+				modelAndView.addObject("message", "정보공개 설정을 선택하세요.");
+				return modelAndView;
+			}
+			else if("".equals(paramMap.get("ofcAdresYn")) || (paramMap.get("ofcAdresYn") == null)){
 				modelAndView.addObject("message", "사무소 주소를 선택하세요.");
 				return modelAndView;
 			}
@@ -471,6 +475,7 @@ public class MypMemberController {
 				String imiy_fax_yn = "0";
 				String imiy_email_yn = "0";
 				String imiy_picture_yn = "0";
+				String imiy_info_yn = "0";
 
 				Map<String, Object> nmstOthbcPortal = new HashMap<>();
 
@@ -492,6 +497,9 @@ public class MypMemberController {
 				if("Y".equals(paramMap.get("photoYn"))){
 					imiy_picture_yn = "1";
 				}
+				if("Y".equals(paramMap.get("psnlInfoYn"))){
+					imiy_info_yn = "1";
+				}
 
 				nmstOthbcPortal.put("pin", paramMap.get("pin"));
 				nmstOthbcPortal.put("ofcAdresYn", imiy_add_yn);
@@ -500,6 +508,7 @@ public class MypMemberController {
 				nmstOthbcPortal.put("ofcFaxYn", imiy_fax_yn);
 				nmstOthbcPortal.put("emailYn", imiy_email_yn);
 				nmstOthbcPortal.put("photoYn", imiy_picture_yn);
+				nmstOthbcPortal.put("psnlInfoYn", imiy_info_yn);
 
 				mypMemberService.mypCpaMemberRegisterNmstOthbcInfoUpdatePortal(nmstOthbcPortal);                  //portal db 저장
 			}
