@@ -292,29 +292,29 @@ public class DuesServiceImpl extends EgovAbstractServiceImpl implements DuesServ
         
         for(NewDues vo : newList) {
         	
-        	 if("admin".equals(user.getId())) {
+        	 if("admin".equals(user.getUniqId())) {
         		 vo.setFrstRegistId("0000000000000");
         		 vo.setLastUpdtId("0000000000000");
              }else {
-            	 vo.setFrstRegistId(user.getId());
-            	 vo.setLastUpdtId(user.getId());
+            	 vo.setFrstRegistId(user.getUniqId());
+            	 vo.setLastUpdtId(user.getUniqId());
              }
         	
 			System.out.println("-----pin :: " + vo.getPin());
-			System.out.println("-----getId :: " + user.getId());
+			System.out.println("-----getUniqId :: " + user.getUniqId());
 			
 			 //vo.setPayNo(payNo);
             if("".equals(vo.getRegistFlag()) || vo.getRegistFlag() == null){
                 vo.setRegistFlag("1");
             }
-            if(user.getId().length()<13){
+            if(user.getUniqId().length()<13){
                 vo.setPayIdFlag("A");	//납부자구분 A:감사인
             }
             else{
                 vo.setPayIdFlag("P");	//납부자구분 P:개인
             }
             vo.setPayStatus("W");	//납부상태 W:대기
-            vo.setPayId(user.getId());		//납부자(감사인코드)
+            vo.setPayId(user.getUniqId());		//납부자(감사인코드)
             vo.setGiroYn("Y");		//지로입금여부
 			 
 			// 입회비대장 등록
