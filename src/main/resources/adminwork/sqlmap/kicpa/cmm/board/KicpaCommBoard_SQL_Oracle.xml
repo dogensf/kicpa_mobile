@@ -376,7 +376,10 @@
 						</isNull>
 		             ) m1
 		        WHERE  rownum  <![CDATA[<=]]> #pageIndex#+#pageSize#
-		 ) r1 where r1.rnum BETWEEN #pageIndex# AND (#pageIndex#-1)+#pageSize#
+		<isEqual property="boardId" compareValue="mstate">
+			AND m1.reg_datim >= to_char(add_months(sysdate,-1),'yyyy-mm-dd')
+		</isEqual>
+		) r1 where r1.rnum BETWEEN #pageIndex# AND (#pageIndex#-1)+#pageSize#
 
 	</select>
 
@@ -481,6 +484,9 @@
 				       			AND (UPPER(T1.BLTN_SUBJ) LIKE '%'||UPPER(#searchKeyword#)||'%')
 				       		</isNotEmpty>
 				       	</isNotNull>
+						<isEqual property="boardId" compareValue="mstate">
+							AND to_char(t1.reg_datim, 'yyyy-mm-dd') >= to_char(add_months(sysdate, -1), 'yyyy-mm-dd')
+						</isEqual>
 	</select>
 
 
