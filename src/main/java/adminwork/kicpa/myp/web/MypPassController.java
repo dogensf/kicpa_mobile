@@ -91,9 +91,15 @@ public class MypPassController {
 				paramMap.put("movePage","");
 			}
 
+			List<?> cpaMemFlagInfo = new ArrayList<>();
+			if("H".equals(paramMap.get("memFlag"))){
+				cpaMemFlagInfo = myPageService.selectCpaMemberRegistInfoList(paramMap);
+			}
+
 
 			model.addAttribute("mypCpaPassRegPin", paramMap.get("pin"));
 			model.addAttribute("mypCpaPassRegSaveMode", paramMap);
+			model.addAttribute("cpaMemFlagInfo", cpaMemFlagInfo);
 			model.addAttribute("cpaPassRealInfo", cpaPassRealInfo);
 
 
@@ -362,6 +368,32 @@ public class MypPassController {
 
 				//우편물수령지 저장
 				mypPassService.mypCpaPassRegisterPostSndngYnUpdate(paramMap);
+
+				//회원(휴업) 분류 저장
+				if(!"".equals(paramMap.get("closedCl")) && paramMap.get("closedCl") != null){
+
+					Map<String, Object> paramMap2 = new HashMap<>();
+					paramMap2.put("pin",paramMap.get("pin"));
+					paramMap2.put("closedCl",paramMap.get("closedCl"));
+					paramMap2.put("userId",paramMap.get("userId"));
+
+					//휴업분류 저장
+					mypPassService.cpaPassClosedClSave(paramMap2);
+
+					List<?> cpaMemLastInfo = myPageService.selectCpaMemberRegistInfoList(paramMap2);        //최종 회원정보
+
+					Map<String, Object> cpaMemLastUdtInfo = new HashMap<>();
+					cpaMemLastUdtInfo.putAll((Map<String, Object>)cpaMemLastInfo.get(0));
+
+					if(!cpaMemLastUdtInfo.get("closedCl").equals(cpaMemLastUdtInfo.get("oldClosedCl"))){
+
+						cpaMemLastUdtInfo.put("userId", paramMap.get("userId"));
+						cpaMemLastUdtInfo.put("updtCl", "A2010020");        //변경구분 -기타
+						cpaMemLastUdtInfo.put("deleteYn", "N");
+
+						mypPassService.cpaMemberCpaHistInsert(cpaMemLastUdtInfo);     //기타이력 추가
+					}
+				}
 			}
 			else{
 				mypPassService.mypCpaPassRegisterAdressInfoSave(paramMap);		//임시테이블 저장

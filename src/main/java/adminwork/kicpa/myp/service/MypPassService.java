@@ -73,4 +73,10 @@ public interface MypPassService {
 
     //학력 삭제
     public void mypCpaPassRegisterAcdmcrDelete(Map<String, Object> map) throws Exception;
+
+    //휴업분류 저장
+    public void cpaPassClosedClSave(Map<String, Object> map) throws Exception;
+
+    //회원등록갱신(기타이력) 추가
+    public void cpaMemberCpaHistInsert(Map<String, Object> map) throws Exception;
 }

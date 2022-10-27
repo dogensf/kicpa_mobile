@@ -190,13 +190,13 @@
 								<li>
 									<div class="view-box">
 										<span class="label">최초등록일</span>
-										<p>${cpaMemberRegReal[0].registDe}</p>
+										<p>${cpaMemberRegReal[0].intgRegistDe}</p>
 									</div>
 								</li>
 								<li>
 									<div class="view-box">
 										<span class="label">등록갱신일</span>
-										<p>${cpaMemberRegReal[0].lastRegistDe}</p>
+										<p>${cpaMemberRegReal[0].intgLastRegistDe}</p>
 									</div>
 								</li>
 								<li>
@@ -224,6 +224,14 @@
 										<p>${cpaMemberRegReal[0].mberFlagNm}</p>
 									</div>
 								</li>
+								<c:if test="${cpaMemberRegReal[0].mberFlag eq 'A2020050'}">
+									<li>
+										<div class="view-box">
+											<span class="label">회원(휴업) 분류</span>
+											<p>${cpaMemberRegReal[0].closedClNm}</p>
+										</div>
+									</li>
+								</c:if>
 								<li>
 									<div class="view-box">
 										<span class="label">소속</span>

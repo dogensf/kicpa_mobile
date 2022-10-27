@@ -132,6 +132,7 @@
 			<input type="hidden" id="myPageInfo_myPageInfoDi" value="${diCheckList[0].immDi}"/>
 			<input type="hidden" id="myPageInfo_cpaTrainInfoListCnt" value="${cpaTrainInfoListCnt}"/>
 			<input type="hidden" id="myPageInfo_cpaMemberInfoListCnt" value="${cpaMemberInfoListCnt}"/>
+			<input type="hidden" id="myPageInfo_cpaMemberMemFlag" value="${cpaMemberInfoList[0].mberFlag}"/>
 
 		</section>
 	</div>

@@ -127,4 +127,14 @@ public class MypPassServiceImpl extends EgovAbstractServiceImpl implements MypPa
 	public void mypCpaPassRegisterAcdmcrDelete(Map<String, Object> map) throws Exception {
 		mypPassDAO.mypCpaPassRegisterAcdmcrDelete(map);
 	}
+
+	@Override
+	public void cpaPassClosedClSave(Map<String, Object> map) throws Exception {
+		mypPassDAO.cpaPassClosedClSave(map);
+	}
+
+	@Override
+	public void cpaMemberCpaHistInsert(Map<String, Object> map) throws Exception {
+		mypPassDAO.cpaMemberCpaHistInsert(map);
+	}
 }

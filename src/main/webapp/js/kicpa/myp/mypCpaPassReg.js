@@ -24,6 +24,15 @@ mypPassReg.mypPassRegInit = function(){
 		$('.mypCpaPassReg_preBtn').hide();
 		$('.mypCpaPassReg_titleYn').hide();
 
+		if($('#mypCpaPassReg_memFlag').val() == "H"){
+			var closedCl = $('#mypCpaPassReg_closeCl').val();
+
+			window.open("/kicpa/myp/cpaClosedPop.do?closedCl="+closedCl+"&memFlag=H","cpaClosedPop");
+
+			$('.cpaRegMemFlag').show();
+		}
+
+
 		if($('#mypCpaPassReg_movePage').val() == "mypCpaPassReg_reviewInfo"){
 			$('.mypCpaPassReg_backBtn').hide();
 			$('.mypCpaPassReg_submitBtn a').text("확인");
@@ -305,6 +314,15 @@ mypPassReg.mypPassRegInit = function(){
 	$("#mypCpaPassReg_trainMovePopBtn").on("click",function(e) {
 
 		location.replace(mypPassReg.getContextPath()+'/myp/mypCpaTrainReg.do?pin='+$('#mypCpaPassReg_pin').val());
+
+	});
+
+	//회원(휴업) 분류 클릭
+	$("#mypCpaPassReg_closedClNm").on("click",function(e) {
+
+		var closedCl = $('#mypCpaPassReg_closedCl').val();
+
+		window.open("/kicpa/myp/cpaClosedPop.do?closedCl="+closedCl,"cpaClosedPop");
 
 	});
 }

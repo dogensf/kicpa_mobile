@@ -4,6 +4,14 @@
 <script>
 $(document).ready(function(){
 
+	if($('#mypCpaMemberPop_closedCl').val() != "" && $('#mypCpaMemberPop_closedCl').val() != null){
+		$("input[value='"+$('#mypCpaMemberPop_closedCl').val()+"']").prop('checked', true);
+	}
+
+	if($('#mypCpaMemberPop_memFlag').val() == "H"){
+		fnCpaClosedPopList();
+	}
+
 	//회원(휴업)분류 선택
 	$('#cpaClosedPop_closedClSet').on("click", function (e){
 		fnCpaClosedPopList();
@@ -239,6 +247,8 @@ function fnCpaClosedPopList(){
 					  </li>
 				  </ul>
 		      </div>
+				<input type="hidden" id="mypCpaMemberPop_closedCl" value="${closedCl}"/>
+				<input type="hidden" id="mypCpaMemberPop_memFlag" value="${memFlag}"/>
 		  </div><!-- tabSub1 -->
 		</div><!-- tabMain1 -->
 	</section>

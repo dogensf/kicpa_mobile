@@ -102,4 +102,12 @@ public class MypPassDAO extends EgovComAbstractDAO2 {
     public void mypCpaPassRegisterAcdmcrDelete(Map<String, Object> map) throws Exception {
         update("MypPassDAO.mypCpaPassRegisterAcdmcrDelete", (Object) map);
     }
+
+    public void cpaPassClosedClSave(Map<String, Object> map) throws Exception {
+        update("MypPassDAO.cpaPassClosedClSave",map);
+    }
+
+    public void cpaMemberCpaHistInsert(Map<String, Object> map) throws Exception {
+        insert("MypPassDAO.cpaMemberCpaHistInsert", (Object) map);
+    }
 }

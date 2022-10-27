@@ -55,7 +55,11 @@ myPageInfo.myPage_memberInfoUpdateBtn = function (movePage, moveFlag, pin){     
 
 		if($("#myPage_cpaConfirmPass").is(":checked") || sessionStorage.getItem("인증여부") == "Y"  ){        //본인인증 패스
 			if(moveFlag =="M"){
-				location.replace(myPageInfo.getContextPath()+'/myp/mypCpaPassReg.do?movePage='+movePage+'&pin='+pin);
+				var memFlag = "";
+				if($('#myPageInfo_cpaMemberMemFlag').val() == "A2020050"){      //휴업일 경우 휴업분류도 수정가능하도록
+					memFlag = "H";
+				}
+				location.replace(myPageInfo.getContextPath()+'/myp/mypCpaPassReg.do?movePage='+movePage+'&pin='+pin+'&memFlag='+memFlag);
 			}
 			else if(moveFlag =="C"){
 				location.replace(myPageInfo.getContextPath()+'/myp/mypCpaMemberReg.do?movePage='+movePage+'&pin='+pin);
@@ -105,7 +109,11 @@ myPageInfo.myPage_memberConfirmSuccMove = function (di, movePage, moveFlag, pin)
 	else{
 		sessionStorage.setItem("인증여부", "Y");
 		if(moveFlag =="M"){
-			location.replace(myPageInfo.getContextPath()+'/myp/mypCpaPassReg.do?movePage='+movePage+'&pin='+pin);
+			var memFlag = "";
+			if($('#myPageInfo_cpaMemberMemFlag').val() == "A2020050"){      //휴업일 경우 휴업분류도 수정가능하도록
+				memFlag = "H";
+			}
+			location.replace(myPageInfo.getContextPath()+'/myp/mypCpaPassReg.do?movePage='+movePage+'&pin='+pin+'&memFlag='+memFlag);
 		}
 		else if(moveFlag =="C"){
 			location.replace(myPageInfo.getContextPath()+'/myp/mypCpaMemberReg.do?movePage='+movePage+'&pin='+pin);

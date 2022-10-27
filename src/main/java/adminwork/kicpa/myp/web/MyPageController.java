@@ -422,6 +422,7 @@ public class MyPageController {
 
 				//회원정보 조회(실제테이블)
 				List<?> cpaMemberInfoList = myPageService.selectCpaMemberRegistInfoList(paramMap);
+				model.addAttribute("cpaMemberInfoList", cpaMemberInfoList);
 				model.addAttribute("cpaMemberInfoListCnt", cpaMemberInfoList.size());
 
 

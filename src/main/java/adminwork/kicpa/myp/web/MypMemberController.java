@@ -187,6 +187,9 @@ public class MypMemberController {
 	@RequestMapping(value = "/cpaClosedPop.do")
 	public String cpaClosePop(@RequestParam Map<String,Object> map,HttpServletRequest request,HttpServletResponse response,ModelMap model) throws Exception{
 
+		model.addAttribute("closedCl", map.get("closedCl"));
+		model.addAttribute("memFlag", map.get("memFlag"));
+
 		return "kicpa/myp/cpaClosedPop";
 	}
 

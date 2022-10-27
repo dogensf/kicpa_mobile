@@ -492,4 +492,61 @@
               AND PIN = #pin#
 		]]>
 	</update>
+
+	<update id="MypPassDAO.cpaPassClosedClSave" parameterClass="HashMap" >
+
+		<![CDATA[
+
+            UPDATE CPA c
+            SET
+                    c.CLOSED_CL = #closedCl#
+                ,   c.LAST_UPDT_ID = #userId#
+                ,   c.LAST_UPDT_DT = SYSTIMESTAMP
+
+            WHERE c.PIN = #pin#
+              AND c.CPA_SN = (SELECT MAX(CPA_SN) FROM CPA WHERE PIN = #pin#)
+
+        ]]>
+
+	</update>
+
+	<insert id="MypPassDAO.cpaMemberCpaHistInsert" parameterClass="HashMap">
+
+		<![CDATA[
+
+            INSERT INTO CPA_HIST(
+
+					    CPA_HIST_SN
+                    ,   CPA_SN
+                    ,   UPDT_CL
+                    ,   REGIST_DE
+                    ,   LAST_REGIST_DE
+                    ,   EXTRL_AUD_CL
+                    ,   EXTRL_AUD_DE
+                    ,   BIZR_NO
+                    ,   CLOSED_CL
+                    ,   DELETE_YN
+                    ,   FRST_REGIST_ID
+                    ,   FRST_REGIST_DT
+                    ,   LAST_UPDT_ID
+                    ,   LAST_UPDT_DT
+                )
+				VALUES(
+					    KIPADM.CPA_HIST_SEQ.nextval
+					,   #cpaSn#
+					,   #updtCl#
+					,   #registDe#
+					,   #lastRegistDe#
+					,   #extrlAudCl#
+					,   #extrlAudDe#
+					,   #bizrNo#
+					,   #closedCl#
+					,   #deleteYn#
+					,   #userId#
+					,   SYSTIMESTAMP
+					,   #userId#
+					,   SYSTIMESTAMP)
+        ]]>
+	</insert>
+
 </sqlMap>

@@ -173,7 +173,8 @@ mypMemberReg.mypMemberRegInit = function(){
 
 	//회원(휴업)분류 클릭
 	$('#mypCpaMember_closedClNm').on("click", function (e){
-		window.open("/kicpa/myp/cpaClosedPop.do","cpaClosedPop");
+		var closedCl = $('#mypCpaMember_closedCl').val();
+		window.open("/kicpa/myp/cpaClosedPop.do?closedCl="+closedCl,"cpaClosedPop");
 	});
 
 	//첨부파일 파일 변경

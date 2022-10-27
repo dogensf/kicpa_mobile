@@ -240,8 +240,10 @@
                 ,   c.CPA_CL
                 ,   c.CPA_ID
                 ,   c.OPETR_DE
-                ,   TO_CHAR(TO_DATE(REGIST_DE,'YYYY-MM-DD'),'YYYY-MM-DD') AS REGIST_DE
-                ,   TO_CHAR(TO_DATE(LAST_REGIST_DE,'YYYY-MM-DD'),'YYYY-MM-DD') AS LAST_REGIST_DE
+                ,   c.REGIST_DE
+                ,   TO_CHAR(TO_DATE(REGIST_DE,'YYYY-MM-DD'),'YYYY-MM-DD') AS INTG_REGIST_DE
+                ,   c.LAST_REGIST_DE
+                ,   TO_CHAR(TO_DATE(LAST_REGIST_DE,'YYYY-MM-DD'),'YYYY-MM-DD') AS INTG_LAST_REGIST_DE
                 ,   c.MBER_FLAG
                 ,   (SELECT cc.CD_NM FROM CMMN_CODE cc WHERE cc.GRP_CD ='GA2020' AND cc.CD = c.MBER_FLAG) AS MBER_FLAG_NM
                 ,   c.AUDIT_ID
@@ -249,6 +251,8 @@
                 ,   c.AUDIT_OFCPS
                 ,   (SELECT cc.CD_NM FROM CMMN_CODE cc WHERE cc.GRP_CD ='GA3020' AND cc.CD = c.AUDIT_OFCPS) AS AUDIT_OFCPS_NM
                 ,   c.CANCL_CL
+                ,   c.CLOSED_CL
+                ,   (SELECT cc.CD_NM FROM CMMN_CODE cc WHERE cc.GRP_CD IN ('GA2170','GA2171', 'GA2179') AND cc.CD = c.CLOSED_CL) AS CLOSED_CL_NM
                 ,   c.RSNDQF_END_DE
                 ,   c.REMARK
                 ,   c.MEMO
@@ -258,7 +262,8 @@
                 ,   TO_CHAR(ADD_MONTHS(TO_DATE(c.LAST_REGIST_DE, 'YYYY-MM-DD'), + 60),'YYYY-MM-DD') AS UPDT_REGIST_DE
                 ,	(SELECT ao.TEL_NO1 FROM AUDIT_OFFICE ao WHERE ao.AUDIT_ID = c.AUDIT_ID) AS AUDIT_TEL_NO
                 ,	(SELECT ao.FAX_NO FROM AUDIT_OFFICE ao WHERE ao.AUDIT_ID = c.AUDIT_ID) AS AUDIT_FAX_NO
-                ,	(SELECT CASE WHEN MBER_FLAG = 'R' THEN '정회원' ELSE '준회원' END AS MBER_FLAG_NM FROM AID_MASTER WHERE PIN = #pin#) AS AID_MBER_FLAG_NM
+                ,	(SELECT ch.CLOSED_CL FROM CPA_HIST ch WHERE ch.CPA_HIST_SN = (SELECT MAX(CPA_HIST_SN) FROM CPA_HIST WHERE CPA_SN = c.CPA_SN)) AS OLD_CLOSED_CL
+                ,	CASE WHEN (SELECT am.MBER_FLAG FROM AID_MASTER am WHERE am.PIN = c.PIN) = 'R' THEN '정회원' ELSE '준회원' END AS AID_MBER_FLAG_NM
 
             FROM CPA c
             WHERE c.CPA_SN = (SELECT MAX(CPA_SN) FROM CPA WHERE PIN = #pin#)

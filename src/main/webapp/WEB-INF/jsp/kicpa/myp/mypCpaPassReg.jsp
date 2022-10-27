@@ -319,6 +319,12 @@
 									<label class="label" for="mypCpaPassReg_officeInfoDeptNm">하위부서(과)</label>
 									<input type="text" id="mypCpaPassReg_officeInfoDeptNm" name="deptNm" placeholder="하위부서(과)를 입력하세요."/>
 								</div>
+
+								<div class="inp-box cpaRegMemFlag" style="display: none;">
+									<label class="label" for="mypCpaPassReg_closedClNm">회원(휴업) 분류</label>
+									<input type="text" id="mypCpaPassReg_closedClNm" name="closedClNm" placeholder="회원(휴업)분류를 등록하세요."/>
+									<input type="hidden" id="mypCpaPassReg_closedCl" name="closedCl"/>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -891,6 +897,8 @@
 <input type="hidden" id="mypCpaPassReg_pin" value="${mypCpaPassRegPin}"/>
 <input type="hidden" id="mypCpaPassReg_saveMode" value="${mypCpaPassRegSaveMode.saveMode}"/>
 <input type="hidden" id="mypCpaPassReg_movePage" value="${mypCpaPassRegSaveMode.movePage}"/>
+<input type="hidden" id="mypCpaPassReg_memFlag" value="${mypCpaPassRegSaveMode.memFlag}"/>
+<input type="hidden" id="mypCpaPassReg_closeCl" value="${cpaMemFlagInfo[0].closedCl}"/>
 <input type="hidden" id="mypCpaPassReg_saveData"/>
 </body>
 </html>
