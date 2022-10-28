@@ -309,13 +309,48 @@
 
 		<section class="content">
 
-			<div class="step-box mypCpaMemberReg_titleYn">
-				<span>공인회계사등록</span>
-				<h4>정보공개설정</h4>
-				<p>
+			<div class="step-box">
+				<span class="mypCpaMemberReg_titleYn">공인회계사등록</span>
+				<h4 class="mypCpaMemberReg_titleYn">정보공개설정</h4>
+				<p style="font-size: 1.5rem;" class="mypCpaMemberReg_titleYn">
 					정보공개를 설정해주세요.
 				</p>
-				<div class="step-by">
+
+				<div class="responsive-form-box" style="margin-top:10px;">
+
+					<div class="contents-title" style="text-align: left; margin-bottom: 10px;">
+						<p style="font-size: 1.6rem;">※ 본회 홈페이지에 공개되는 항목입니다. 해당내용은 공개 설정 시 웹페이지에 표시됩니다.
+						</p>
+					</div>
+
+					<table class="mypCpaMember_aidDuesTable" style="width: 100%; margin: auto; border: 1px solid #cdcdcd;">
+						<colgroup>
+							<col style="width: 25%; border: 1px solid #cdcdcd;" />
+							<col style="width: 75%;" />
+						</colgroup>
+						<thead>
+						<tr style="background-color: #cae0ef;">
+							<th style="height:30px; font-weight: bold; font-size: 1.4rem;">대상서비스</th>
+							<th style="font-weight: bold; font-size: 1.4rem;">공개 항목</th>
+						</tr>
+						</thead>
+						<tbody style="text-align: center;">
+						<tr>
+							<td style="height:25px; font-size: 1.4rem;">KICPA 홈페이지</td>
+							<td style="font-size: 1.4rem;">성명, 사무소명, 사무실 주소, 사무실 전화, 관할세무서</td>
+						</tr>
+
+						</tbody>
+					</table>
+
+					<div class="contents-title" style="text-align: left; margin-top: 20px;">
+						<p style="font-size: 1.5rem;">*  “등록회원 확인” 메뉴는 공개유무 상관없이 회원여부만 홈페이지에 표시됩니다.(개인정보 미표시)<br>
+							** 회원 홍보 등 회원 영리가 목적인 경우 공개유무 상관없이 홈페이지에 성명, 사무소명이 표시 됩니다. (지자체교육 이수자 현황, 영세납세자지원단, 세정협의회, 회원경조사 등)
+						</p>
+					</div>
+				</div>
+
+				<div class="step-by mypCpaMemberReg_titleYn">
 					<b>4</b> / <em>7</em>
 				</div>
 			</div>
