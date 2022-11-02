@@ -266,7 +266,7 @@ public class DuesServiceImpl extends EgovAbstractServiceImpl implements DuesServ
     public NewDues saveNewDuesPay(NewDues newDues) throws Exception {
         LoginVO user = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
 
-        if("admin".equals(user.getId())) {
+        if("admin".equals(user.getUniqId())) {
             newDues.setFrstRegistId("0000000000000");
             newDues.setLastUpdtId("0000000000000");
         }else {

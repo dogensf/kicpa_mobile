@@ -115,7 +115,7 @@ public class DuesController {
 		if (isAuthenticated) {
 			LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
 			Pin = user.getUniqId();
-			/*if(Pin != null && user.getId() != Pin) {
+			/*if(Pin != null && user.getUniqId() != Pin) {
 				System.out.println("pin========="+Pin);
 				
 				model.addAttribute("id", Pin);
@@ -191,7 +191,7 @@ public class DuesController {
 		model.addAttribute("rt", rtt);
 		return "kicpa/dues/paymentLink";*/
 		
-		vo.setCust_inqr_no(user.getId());
+		vo.setCust_inqr_no(user.getUniqId());
 		vo.setEpay_no(user.getGiroPin());
 		boolean success = true;
 		Dues giroInfo = new Dues();
@@ -369,12 +369,12 @@ public class DuesController {
         
 		/*for(NewDues vo : list) {
 			System.out.println("-----pin :: " + vo.getPin());
-			System.out.println("-----getId :: " + user.getId());
+			System.out.println("-----getId :: " + user.getUniqId());
 			
 			 vo.setPayNo(payNo);
 			 vo.setPayStatus("W");	//납부상태 W:대기
 			 vo.setPayIdFlag("A");	//납부자구분 A:감사인
-			 vo.setPayId(user.getId());		//납부자(감사인코드)
+			 vo.setPayId(user.getUniqId());		//납부자(감사인코드)
 			 vo.setGiroYn("Y");		//지로입금여부			 
 			 NewDues rtnNewDues = duesService.saveNewDuesPay(vo);
 			 vo.setSbscrbSn(rtnNewDues.getSbscrbSn());
@@ -388,8 +388,8 @@ public class DuesController {
 			
 			DuesVO vo = new DuesVO();
 			vo.setEpay_no(user.getGiroPin());
-			vo.setCust_inqr_no(user.getId());
-			vo.setCstmr_cd(user.getId());
+			vo.setCust_inqr_no(user.getUniqId());
+			vo.setCstmr_cd(user.getUniqId());
 			vo.setCstmr_nm(user.getName());
 			
 			//입회비 지로 정보 등록후 결제처리
@@ -408,14 +408,14 @@ public class DuesController {
 	        GiroRegVO giroRegVO = new GiroRegVO();
 	        	giroRegVO.setRqestDe(DateUtil.getToday());
 	        	giroRegVO.setEtcTypeCode("11");
-	        	giroRegVO.setEmpPin(user.getId());
+	        	giroRegVO.setEmpPin(user.getUniqId());
 	        	giroRegVO.setEtcInfoTtl("입회비");
 	        	giroRegVO.setEtcInfoCnte("입회비");
 	        List<GiroVO> giroList = new ArrayList<GiroVO>();
 	        	GiroVO giro = new GiroVO();
 		        	giro.setSubGiroCd("");
 		        
-			        giro.setCustInqrNo(user.getId());
+			        giro.setCustInqrNo(user.getUniqId());
 		            giro.setNticDe(DateUtil.getToday());
 		            giro.setNticAmt(vo.getDudt_in_amt());
 		            
@@ -619,16 +619,16 @@ public class DuesController {
 		
 		if (isAuthenticated) {
 			LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();	
-			if(Pin != null && user.getId() != Pin) {
+			if(Pin != null && user.getUniqId() != Pin) {
 				System.out.println("pin========="+Pin);
 				model.addAttribute("id", Pin);
 				model.addAttribute("url", "/kicpa/dues/selectDuesRefList.do");
 				return "uat/uia/LoginSso";
 			}
-			System.out.println("==================id :: "+ user.getId());
+			System.out.println("==================id :: "+ user.getUniqId());
 			PaginationInfo paginationInfo = new PaginationInfo();
 			
-			duesRefVO.setPin(user.getId());
+			duesRefVO.setPin(user.getUniqId());
 			
 			paginationInfo.setCurrentPageNo(duesRefVO.getPageIndex());
 			paginationInfo.setRecordCountPerPage(duesRefVO.getPageUnit());
@@ -669,7 +669,7 @@ public class DuesController {
 		if (isAuthenticated) {
 			LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
 
-			duesRefVO.setPin(user.getId());
+			duesRefVO.setPin(user.getUniqId());
 			DuesRef result = duesService.selectDuesRefInfo(duesRefVO);
 			modelAndView.addObject("rt", result);
 		}else {
@@ -691,7 +691,7 @@ public class DuesController {
 		if (isAuthenticated) {
 			LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
 			
-			duesRefVO.setReg_id(user.getId());
+			duesRefVO.setReg_id(user.getUniqId());
 			duesService.insertDuesRef(duesRefVO);
 			
 		}else {
@@ -712,7 +712,7 @@ public class DuesController {
 
 		if (isAuthenticated) {
 			LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
-			duesRefVO.setUpdt_id(user.getId());
+			duesRefVO.setUpdt_id(user.getUniqId());
 				
 			duesService.updateDuesRef(duesRefVO);
 			
@@ -734,7 +734,7 @@ public class DuesController {
 
 		if (isAuthenticated) {
 			/*LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
-			faqVO.setReg_id(user.getId());*/
+			faqVO.setReg_id(user.getUniqId());*/
 				
 			duesService.deleteDuesRef(duesRefVO);
 			
@@ -756,15 +756,15 @@ public class DuesController {
 		
 		if (isAuthenticated) {
 			LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();	
-			if(pin != null && user.getId() != pin) {
+			if(pin != null && user.getUniqId() != pin) {
 				System.out.println("pin========="+pin);
 				model.addAttribute("id", pin);
 				model.addAttribute("url", "/bridge/kicpa/duespayments.do");
 				return "uat/uia/LoginSso";
 			}
 			
-			System.out.println("========="+user.getId());
-			vo.setCust_inqr_no(user.getId());
+			System.out.println("========="+user.getUniqId());
+			vo.setCust_inqr_no(user.getUniqId());
 			vo.setName(user.getName());
 			boolean success = true;
 			// 합산지로 있는지 체크해서 삭제  TEMP --> PAY_YN = 'N' 취소 처리
@@ -820,7 +820,7 @@ public class DuesController {
 		model.addAttribute("rt", rtt);
 		return "kicpa/dues/paymentLink";*/
 		
-		vo.setCust_inqr_no(user.getId());
+		vo.setCust_inqr_no(user.getUniqId());
 		boolean success = true;
 		Dues giroInfo = new Dues();
 		String giroCd = "";		
@@ -926,7 +926,7 @@ public class DuesController {
 		}else {
 			return "redirect:/uat/uia/LoginUsr.do";
 		}*/
-		vo.setCust_inqr_no(user.getId());
+		vo.setCust_inqr_no(user.getUniqId());
 		boolean success = true;
 		Dues giroInfo = new Dues();
 		success = duesApiService.giroPayments(vo);
@@ -951,7 +951,7 @@ public class DuesController {
 			vo.setSearchBgnDe(DateUtil.getCurrentDate(""));
 			vo.setSearchEndDe(DateUtil.getCurrentDate(""));
 		}
-		vo.setCust_inqr_no(user.getId());
+		vo.setCust_inqr_no(user.getUniqId());
 		Dues info = duesService.selectDuesResultInfo(vo);
 		List<Dues> list = duesService.selectDuesResultList(vo);
 		model.addAttribute("info",info);

@@ -212,7 +212,7 @@ public class MypMemberController {
 
 			model.addAttribute("mypCpaTrnngSmInfoPin", paramMap.get("pin"));
 
-			model.addAttribute("userId", user.getId());
+			model.addAttribute("userId", user.getUniqId());
 
 
 		}else {
@@ -726,9 +726,9 @@ public class MypMemberController {
 			String giroCd = "";
 
 			DuesVO vo = new DuesVO();
-			vo.setEpay_no(user.getId());
-			vo.setCust_inqr_no(user.getId());
-			vo.setCstmr_cd(user.getId());
+			vo.setEpay_no(user.getUniqId());
+			vo.setCust_inqr_no(user.getUniqId());
+			vo.setCstmr_cd(user.getUniqId());
 			vo.setCstmr_nm(user.getName());
 
 			//입회비 지로 정보 등록후 결제처리
@@ -747,14 +747,14 @@ public class MypMemberController {
 			GiroRegVO giroRegVO = new GiroRegVO();
 			giroRegVO.setRqestDe(DateUtil.getToday());
 			giroRegVO.setEtcTypeCode("11");
-			giroRegVO.setEmpPin(user.getId());
+			giroRegVO.setEmpPin(user.getUniqId());
 			giroRegVO.setEtcInfoTtl("입회비");
 			giroRegVO.setEtcInfoCnte("입회비");
 			List<GiroVO> giroList = new ArrayList<GiroVO>();
 			GiroVO giro = new GiroVO();
 			giro.setSubGiroCd("");
 
-			giro.setCustInqrNo(user.getId());
+			giro.setCustInqrNo(user.getUniqId());
 			giro.setNticDe(DateUtil.getToday());
 			giro.setNticAmt(vo.getDudt_in_amt());
 
@@ -812,7 +812,7 @@ public class MypMemberController {
 		}else {
 			return "redirect:/uat/uia/LoginUsr.do";
 		}*/
-		vo.setCust_inqr_no(user.getId());
+		vo.setCust_inqr_no(user.getUniqId());
 		boolean success = true;
 		Dues giroInfo = new Dues();
 		success = duesApiService.giroPayments(vo);
@@ -823,8 +823,8 @@ public class MypMemberController {
 			Map<String, Object> sendSmsInfo = new HashMap<>();
 
 			sendSmsInfo.put("msgCl", "N0021013");      //둥록회비납부 완료 알림톡
-			sendSmsInfo.put("pin", user.getId());
-			sendSmsInfo.put("userId", user.getId());
+			sendSmsInfo.put("pin", user.getUniqId());
+			sendSmsInfo.put("userId", user.getUniqId());
 			sendSmsInfo.put("orgTranId", vo.getOrg_tran_id());
 			List<?> sendSmsInfoList = mypMemberService.selectMemSendMessageInfoList(sendSmsInfo);      //알림톡 내용
 			sendSmsInfo.putAll((Map<String, Object>)sendSmsInfoList.get(0));
@@ -837,7 +837,7 @@ public class MypMemberController {
 
 			sendSmsInfo.put("msgBody", contents);
 			sendSmsInfo.put("nationCode", "82");   //국가코드
-			sendSmsInfo.put("userId", user.getId());
+			sendSmsInfo.put("userId", user.getUniqId());
 
 			mypMemberService.cpaMemMessageSend(sendSmsInfo);      //알림톡 전송
 		}
