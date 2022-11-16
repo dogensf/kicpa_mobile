@@ -226,7 +226,9 @@ public class MyPageController {
 							audRegistEndDate = new Date(dateFormat.parse(cpaTrainRegRealInfo.get("audRegistEndDe").toString()).getTime());
 						}
 						else{
-							audRegistEndDate = new Date(dateFormat.parse(cpaTrainRegRealInfo.get("audEndDe").toString()).getTime());
+							if(!"".equals(cpaTrainRegRealInfo.get("audEndDe")) && cpaTrainRegRealInfo.get("audEndDe") != null){
+								audRegistEndDate = new Date(dateFormat.parse(cpaTrainRegRealInfo.get("audEndDe").toString()).getTime());
+							}
 						}
 
 						totalCount = audRegistEndDate.getTime() - audRegistDate.getTime();
