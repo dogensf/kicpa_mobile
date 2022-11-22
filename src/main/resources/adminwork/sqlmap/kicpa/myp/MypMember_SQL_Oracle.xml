@@ -238,14 +238,18 @@
 
 			select
 				decode(STDR_TM,0,0,tot_accnut_tm)     as temp01,
-				accnut_tm                             as temp02,
+				case when accnut_tm >decode(STDR_TM,0,0,tot_accnut_tm) then decode(STDR_TM,0,0,tot_accnut_tm) else accnut_tm end                             as temp02,
 				greatest(decode(STDR_TM,0,0,tot_accnut_tm)-accnut_tm,0)   as temp03,
 				decode(STDR_TM,0,0,tot_morals_tm)     as temp04,
-				morals_time                           as temp05,
+				case when morals_time >decode(STDR_TM,0,0,tot_morals_tm) then decode(STDR_TM,0,0,tot_morals_tm) else morals_time end                           as temp05,
 				greatest(decode(STDR_TM,0,0,tot_morals_tm)-morals_time,0)   as temp06,
 				greatest(CYFD_ATMPT_TM +STDR_TM - decode(STDR_TM,0,0,tot_accnut_tm) - decode(STDR_TM,0,0,tot_morals_tm),0) as temp07,
-				greatest(CTFD_RCOGN_TM + RCOGN_TM - accnut_tm - morals_time,0) as temp08,
-				greatest(greatest(CYFD_ATMPT_TM +STDR_TM - decode(STDR_TM,0,0,tot_accnut_tm) - decode(STDR_TM,0,0,tot_morals_tm),0) - greatest(CTFD_RCOGN_TM + RCOGN_TM - accnut_tm - morals_time,0),0) as temp09,
+				greatest(ctfd_rcogn_tm + RCOGN_TM - ACCNUT_TM - MORALS_TIME +
+                  (case when ACCNUT_TM > decode(stdr_tm,0,0,tot_accnut_tm) then ACCNUT_TM-decode(stdr_tm,0,0,tot_accnut_tm) else 0 end) +
+                  (case when MORALS_TIME > decode(stdr_tm,0,0,tot_morals_tm) then MORALS_TIME-decode(stdr_tm,0,0,tot_morals_tm) else 0 end),0) as temp08,
+				greatest(greatest(CYFD_ATMPT_TM +STDR_TM - decode(STDR_TM,0,0,tot_accnut_tm) - decode(STDR_TM,0,0,tot_morals_tm),0) - greatest(CTFD_RCOGN_TM + RCOGN_TM -
+                (case when accnut_tm >decode(STDR_TM,0,0,tot_accnut_tm) then accnut_tm-decode(STDR_TM,0,0,tot_accnut_tm) else accnut_tm end) -
+                (case when morals_time >decode(STDR_TM,0,0,tot_morals_tm) then morals_time-decode(STDR_TM,0,0,tot_morals_tm) else morals_time end),0),0) as temp09,
 				cyfd_atmpt_tm+stdr_tm as temp10,
 				CTFD_RCOGN_TM+rcogn_tm as temp11,
 				atmpt_tm as temp12
