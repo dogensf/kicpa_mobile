@@ -368,16 +368,6 @@
 					</div>
 
 					<div class="inp-box" style="margin-top: 40px;">
-						<label class="label essen">사무소 주소</label>
-					</div>
-					<div class="inp-check">
-						<input type="radio" name="ofcAdresYn" value="Y" id="mypCpaMember_ofcAdresY" checked/>
-						<label for="mypCpaMember_ofcAdresY" style="margin-right: 10px;">공개</label>
-						<input type="radio" name="ofcAdresYn" value="N" id="mypCpaMember_ofcAdresN"/>
-						<label for="mypCpaMember_ofcAdresN">비공개</label>
-					</div>
-
-					<div class="inp-box" style="margin-top: 40px;">
 						<label class="label essen">사무소명</label>
 					</div>
 					<div class="inp-check">
@@ -388,16 +378,6 @@
 					</div>
 
 					<div class="inp-box" style="margin-top: 40px;">
-						<label class="label essen">전자메일</label>
-					</div>
-					<div class="inp-check">
-						<input type="radio" name="emailYn" value="Y" id="mypCpaMember_emailY" checked/>
-						<label for="mypCpaMember_emailY" style="margin-right: 10px;">공개</label>
-						<input type="radio" name="emailYn" value="N" id="mypCpaMember_emailN"/>
-						<label for="mypCpaMember_emailN">비공개</label>
-					</div>
-
-					<div class="inp-box" style="margin-top: 40px;">
 						<label class="label essen">사무소 전화</label>
 					</div>
 					<div class="inp-check">
@@ -405,6 +385,26 @@
 						<label for="mypCpaMember_ofcTelY" style="margin-right: 10px;">공개</label>
 						<input type="radio" name="ofcTelYn" value="N" id="mypCpaMember_ofcTelN"/>
 						<label for="mypCpaMember_ofcTelN">비공개</label>
+					</div>
+
+					<div class="inp-box" style="margin-top: 40px;">
+						<label class="label essen">사무소 주소</label>
+					</div>
+					<div class="inp-check">
+						<input type="radio" name="ofcAdresYn" value="Y" id="mypCpaMember_ofcAdresY" checked/>
+						<label for="mypCpaMember_ofcAdresY" style="margin-right: 10px;">공개</label>
+						<input type="radio" name="ofcAdresYn" value="N" id="mypCpaMember_ofcAdresN"/>
+						<label for="mypCpaMember_ofcAdresN">비공개</label>
+					</div>
+
+					<%--<div class="inp-box" style="margin-top: 40px;">
+						<label class="label essen">전자메일</label>
+					</div>
+					<div class="inp-check">
+						<input type="radio" name="emailYn" value="Y" id="mypCpaMember_emailY" checked/>
+						<label for="mypCpaMember_emailY" style="margin-right: 10px;">공개</label>
+						<input type="radio" name="emailYn" value="N" id="mypCpaMember_emailN"/>
+						<label for="mypCpaMember_emailN">비공개</label>
 					</div>
 
 					<div class="inp-box" style="margin-top: 40px;">
@@ -425,7 +425,7 @@
 						<label for="mypCpaMember_ofcFaxY" style="margin-right: 10px;">공개</label>
 						<input type="radio" name="ofcFaxYn" value="N" id="mypCpaMember_ofcFaxN"/>
 						<label for="mypCpaMember_ofcFaxN">비공개</label>
-					</div>
+					</div>--%>
 				</form>
 			</div>
 		</section>
