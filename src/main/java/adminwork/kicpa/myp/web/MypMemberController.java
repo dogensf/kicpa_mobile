@@ -352,6 +352,18 @@ public class MypMemberController {
 				paramMap.put("bizrNo","");
 			}
 
+			if(("".equals(paramMap.get("aidMberFlag")) || paramMap.get("aidMberFlag") == null)){
+				List<?> cpaAidMasterInfo = myPageService.selectCpaMemberRegistInfoList(paramMap);;
+
+				if(cpaAidMasterInfo != null && cpaAidMasterInfo.size() > 0){
+
+					Map<String, Object> cpaAidInfo = new HashMap<>();
+					cpaAidInfo.putAll((Map<String, Object>)cpaAidMasterInfo.get(0));
+
+					paramMap.put("aidMberFlag", cpaAidInfo.get("mberFlag"));
+				}
+			}
+
 			paramMap.put("bizrNo", paramMap.get("bizrNo").toString().replaceAll("-",""));
 			paramMap.put("userId", paramMap.get("pin"));
 

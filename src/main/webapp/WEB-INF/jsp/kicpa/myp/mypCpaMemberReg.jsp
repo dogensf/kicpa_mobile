@@ -397,35 +397,35 @@
 						<label for="mypCpaMember_ofcAdresN">비공개</label>
 					</div>
 
-					<%--<div class="inp-box" style="margin-top: 40px;">
+					<div class="inp-box" style="margin-top: 40px; display: none;">
 						<label class="label essen">전자메일</label>
 					</div>
-					<div class="inp-check">
+					<div class="inp-check" style="display: none;">
 						<input type="radio" name="emailYn" value="Y" id="mypCpaMember_emailY" checked/>
 						<label for="mypCpaMember_emailY" style="margin-right: 10px;">공개</label>
 						<input type="radio" name="emailYn" value="N" id="mypCpaMember_emailN"/>
 						<label for="mypCpaMember_emailN">비공개</label>
 					</div>
 
-					<div class="inp-box" style="margin-top: 40px;">
+					<div class="inp-box" style="margin-top: 40px; display: none;">
 						<label class="label essen">사진</label>
 					</div>
-					<div class="inp-check">
+					<div class="inp-check" style="display: none;">
 						<input type="radio" name="photoYn" value="Y" id="mypCpaMember_photoY" checked/>
 						<label for="mypCpaMember_photoY" style="margin-right: 10px;">공개</label>
 						<input type="radio" name="photoYn" value="N" id="mypCpaMember_photoN"/>
 						<label for="mypCpaMember_photoN">비공개</label>
 					</div>
 
-					<div class="inp-box" style="margin-top: 40px;">
+					<div class="inp-box" style="margin-top: 40px; display: none;">
 						<label class="label essen">사무소 팩스</label>
 					</div>
-					<div class="inp-check">
+					<div class="inp-check" style="display: none;">
 						<input type="radio" name="ofcFaxYn" value="Y" id="mypCpaMember_ofcFaxY" checked/>
 						<label for="mypCpaMember_ofcFaxY" style="margin-right: 10px;">공개</label>
 						<input type="radio" name="ofcFaxYn" value="N" id="mypCpaMember_ofcFaxN"/>
 						<label for="mypCpaMember_ofcFaxN">비공개</label>
-					</div>--%>
+					</div>
 				</form>
 			</div>
 		</section>
