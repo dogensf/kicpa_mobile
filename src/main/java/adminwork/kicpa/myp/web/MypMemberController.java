@@ -462,22 +462,22 @@ public class MypMemberController {
 				modelAndView.addObject("message", "사무소 명을 선택하세요.");
 				return modelAndView;
 			}
-			else if("".equals(paramMap.get("emailYn")) || (paramMap.get("emailYn") == null)){
+			/*else if("".equals(paramMap.get("emailYn")) || (paramMap.get("emailYn") == null)){
 				modelAndView.addObject("message", "전자메일을 선택하세요.");
 				return modelAndView;
-			}
+			}*/
 			else if("".equals(paramMap.get("ofcTelYn")) || (paramMap.get("ofcTelYn") == null)){
 				modelAndView.addObject("message", "사무소 전화를 선택하세요.");
 				return modelAndView;
 			}
-			else if("".equals(paramMap.get("photoYn")) || (paramMap.get("photoYn") == null)){
+			/*else if("".equals(paramMap.get("photoYn")) || (paramMap.get("photoYn") == null)){
 				modelAndView.addObject("message", "사진을 선택하세요.");
 				return modelAndView;
 			}
 			else if("".equals(paramMap.get("ofcFaxYn")) || (paramMap.get("ofcFaxYn") == null)){
 				modelAndView.addObject("message", "사무소 팩스를 선택하세요.");
 				return modelAndView;
-			}
+			}*/
 
 			paramMap.put("userId", paramMap.get("pin"));
 
