@@ -708,20 +708,20 @@
 							<p id="mypCpaMemberReviewInfo_psnlInfoYn"></p>
 						</li>
 						<li>
-							<span>사무소 주소</span>
-							<p id="mypCpaMemberReviewInfo_ofcAdresYn"></p>
-						</li>
-						<li>
 							<span>사무소명</span>
 							<p id="mypCpaMemberReviewInfo_ofcNameYn"></p>
 						</li>
 						<li>
-							<span>전자메일</span>
-							<p id="mypCpaMemberReviewInfo_emailYn"></p>
+							<span>사무소 전화</span>
+							<p id="mypCpaMemberReviewInfo_ofcTelYn"></p>
 						</li>
 						<li>
-							<span>사무소 전회</span>
-							<p id="mypCpaMemberReviewInfo_ofcTelYn"></p>
+							<span>사무소 주소</span>
+							<p id="mypCpaMemberReviewInfo_ofcAdresYn"></p>
+						</li>
+						<%--<li>
+							<span>전자메일</span>
+							<p id="mypCpaMemberReviewInfo_emailYn"></p>
 						</li>
 						<li>
 							<span>사진</span>
@@ -730,7 +730,7 @@
 						<li>
 							<span>사무소 팩스</span>
 							<p id="mypCpaMemberReviewInfo_ofcFaxYn"></p>
-						</li>
+						</li>--%>
 					</ul>
 				</div>
 
