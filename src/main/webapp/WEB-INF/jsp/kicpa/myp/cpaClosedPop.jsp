@@ -96,24 +96,24 @@ function fnCpaClosedPopList(){
                                 </span>
 								  <span class="radio">
                                     <input type="radio" name="closedCl" id="mypCpaMemberPop_closedClChk023" value="A2170203"/>
-                                    <label for="mypCpaMemberPop_closedClChk023">(3)국가회계재정통계센터</label>
+                                    <label for="mypCpaMemberPop_closedClChk023">(3)한국조세재정연구원</label>
                                 </span>
 							  </div>
 						  </div>
 					  </li>
 					  <li class="addRow">
 						  <div class="title-zone" style="display: inline-block;">
-							  <p><label style="margin: 20px 0 12px 0; width: 20%;">3. 공공기관</label></p>
+							  <p><label style="margin: 20px 0 12px 0; width: 20%;">3. 공기업</label></p>
 
 							  <div class="radio-group" style="margin: 15px 0 25px 30px;line-height: 3em;">
                                 <span class="radio">
                                     <input type="radio" name="closedCl" id="mypCpaMemberPop_closedClChk031" value="A2170301"/>
-                                    <label for="mypCpaMemberPop_closedClChk031">(1)공공기관</label>
+                                    <label for="mypCpaMemberPop_closedClChk031">(1)공기업</label>
                                 </span>
 							  </div>
 						  </div>
 					  </li>
-					  <li class="addRow">
+					  <%--<li class="addRow">
 						  <div class="title-zone" style="display: inline-block;">
 							  <p><label style="margin: 20px 0 12px 0; width: 20%;">4. 경제단체</label></p>
 
@@ -124,7 +124,7 @@ function fnCpaClosedPopList(){
                                 </span>
 							  </div>
 						  </div>
-					  </li>
+					  </li>--%>
 					  <li class="addRow">
 						  <div class="title-zone" style="display: inline-block;">
 							  <p><label style="margin: 20px 0 12px 0; width: 20%;">5. 각종 협회 및 단체</label></p>
@@ -229,6 +229,22 @@ function fnCpaClosedPopList(){
                                 <span class="radio">
                                     <input type="radio" name="closedCl" id="mypCpaMemberPop_closedClChk111" value="A2179701"/>
                                     <label for="mypCpaMemberPop_closedClChk111">(1) 본회 상근 임직원</label>
+                                </span>
+							  </div>
+						  </div>
+					  </li>
+					  <li class="addRow">
+						  <div class="title-zone" style="display: inline-block;">
+							  <p><label style="margin: 20px 0 12px 0; width: 20%;">98. 개업</label></p>
+
+							  <div class="radio-group" style="margin: 15px 0 25px 30px;line-height: 3em;">
+                                <span class="radio" style="margin-right: 10px;">
+                                    <input type="radio" name="closedCl" id="mypCpaMemberPop_closedClChk9801" value="A2179801"/>
+                                    <label for="mypCpaMemberPop_closedClChk9801">(1)회계(세무)법인</label>
+                                </span>
+								  <span class="radio">
+                                    <input type="radio" name="closedCl" id="mypCpaMemberPop_closedClChk9802" value="A2179802"/>
+                                    <label for="mypCpaMemberPop_closedClChk9802">(2)회계(세무)사무소</label>
                                 </span>
 							  </div>
 						  </div>
