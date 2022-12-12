@@ -256,7 +256,11 @@ function fnCpaClosedPopList(){
 							  <div class="radio-group" style="margin: 15px 0 25px 30px;line-height: 3em;">
                                 <span class="radio">
                                     <input type="radio" name="closedCl" id="mypCpaMemberPop_closedClChk121" value="A2179999"/>
-                                    <label for="mypCpaMemberPop_closedClChk121">기타 분류되지 않은 회원</label>
+                                    <label for="mypCpaMemberPop_closedClChk121">(1)기타 분류되지 않은 회원</label>
+                                </span>
+								  <span class="radio">
+                                    <input type="radio" name="closedCl" id="mypCpaMemberPop_closedClChk122" value="A2179998"/>
+                                    <label for="mypCpaMemberPop_closedClChk122">(2)해외 체류</label>
                                 </span>
 							  </div>
 						  </div>
