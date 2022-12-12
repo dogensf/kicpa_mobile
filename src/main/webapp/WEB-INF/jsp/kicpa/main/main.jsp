@@ -161,7 +161,7 @@ function goCyber(){
 <div class="container main">
 	<section class="head-main">
 	    <h1>
-	      <img src="/images/kicpa/logo.png" alt="KICPA" style="height: auto; width: 8.5rem;">
+	      <img src="/images/kicpa/logo.png" alt="KICPA">
 	    </h1>
 	    <%
 		    Cookie cookie = new Cookie("returnUrl", "/kicpa/main/main.do");

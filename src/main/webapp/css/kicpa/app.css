@@ -553,7 +553,7 @@ ol.blt li::before {
 .login-wrap {
   padding: 21rem 1.6rem 2rem;
   background: url(../../images/logo-login.png) no-repeat 50% 5rem;
-  background-size: 18.6rem;
+  background-size: 18.6rem 6rem;
 }
 
 .login-wrap .inp-box + .inp-box {
