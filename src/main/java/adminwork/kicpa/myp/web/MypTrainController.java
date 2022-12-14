@@ -188,6 +188,7 @@ public class MypTrainController {
 			paramMap.put("appCpaNo",cpaTrainRegRealInfo.get("appCpaNo"));
 			List<?> cpaApntcBrfRealInfo = myPageService.selectCpaTrainApntcBrfInfoList(paramMap);
 			//연수결과 조회(실제 테이블)
+			paramMap.put("complYn", "T");       // 이수여부 != 'T' 조회
 			List<?> cpaTrnngResultRealInfo = myPageService.selectCpaTrainTrnngResultInfoList(paramMap);
 
 

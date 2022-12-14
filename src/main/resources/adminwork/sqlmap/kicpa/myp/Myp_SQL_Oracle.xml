@@ -226,6 +226,13 @@
             WHERE
                 atr.DELETE_YN = 'N'
             AND atr.APP_CPA_NO = #appCpaNo#
+            ]]>
+		<isNotEmpty property="complYn">
+			<![CDATA[
+                    AND    atr.COMPL_YN != #complYn#
+                ]]>
+		</isNotEmpty>
+		<![CDATA[
             ORDER BY atr.TRN_ODR DESC, atr.APP_TRN_SN DESC
          ]]>
 
