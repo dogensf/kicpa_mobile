@@ -607,5 +607,12 @@ public class DuesServiceImpl extends EgovAbstractServiceImpl implements DuesServ
         duesDAO.updateSingleGiroMasterSub(vo);
     }
 
+    public String selectGiroRqestCdNm(Map<String, Object> map) throws Exception {
+        return duesDAO.selectGiroRqestCdNm(map);
+    }
+
+    public List<?> callGiroInterestProc(Map<String, Object> map) throws Exception {
+        return duesDAO.callGiroInterestProc(map);
+    }
 	
 }

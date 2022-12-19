@@ -1,8 +1,8 @@
 package adminwork.kicpa.dues.web;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.Cookie;
@@ -15,6 +15,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import org.springframework.web.servlet.ModelAndView;
@@ -960,7 +961,53 @@ public class DuesController {
 		
 		return "kicpa/dues/duespaymentresult";
 	}
-	
-	
+
+	//추가회비 프로시저
+	@RequestMapping(value = "/kicpa/dues/callGiroInterestProc.do")
+	public ModelAndView callGiroInterestProc(@RequestParam Map<String, Object> paramMap)
+			throws Exception{
+		LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("jsonView");
+
+		//오늘날짜(납부일자)
+		SimpleDateFormat today = new SimpleDateFormat("yyyyMMdd");
+		Calendar c1 = Calendar.getInstance();
+		String registDe = today.format(c1.getTime());
+
+		//숫자 3자리마다 , 표시
+		DecimalFormat decFormat = new DecimalFormat("###,###");
+
+		//변수 초기화
+		Map<String, Object> giroInterestProcResult = new HashMap<>();
+		String v_amt = "";
+
+		String[] giroCds = paramMap.get("giro_cd").toString().split(",");
+
+		//선택한 회비가 있는 경우
+		if(giroCds.length > 0) {
+
+			for(int i=0; i<giroCds.length; i++){
+				//선택한 회비 조회
+				paramMap.put("giro_cd", giroCds[i]);
+				String giroRqestCdNm = duesService.selectGiroRqestCdNm(paramMap);
+
+				giroInterestProcResult.put("v_giro_cd", paramMap.get("giro_cd"));
+				giroInterestProcResult.put("v_pay_de", registDe);
+				giroInterestProcResult.put("v_amt", "");
+
+				duesService.callGiroInterestProc(giroInterestProcResult);       //(프로시저 호출)
+
+				if(!"0".equals(giroInterestProcResult.get("v_amt").toString()) && !"".equals(giroInterestProcResult.get("v_amt").toString()) && giroInterestProcResult.get("v_amt") != null){
+					v_amt = v_amt + giroRqestCdNm + " : " + decFormat.format(giroInterestProcResult.get("v_amt")) + "원\n";
+				}
+			}
+		}
+
+		modelAndView.addObject("v_amt", v_amt);
+
+		return modelAndView;
+	}
 	
 }

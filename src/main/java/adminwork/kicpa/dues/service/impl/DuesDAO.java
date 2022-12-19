@@ -3,6 +3,7 @@ package adminwork.kicpa.dues.service.impl;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Repository;
 
@@ -329,4 +330,11 @@ public class DuesDAO extends EgovComAbstractDAO2{
         update("DuesDAO.updateSingleGiroMasterSub",vo);
     }
 
+    public String selectGiroRqestCdNm(Map<String, Object> map) throws Exception {
+        return (String) select("DuesDAO.selectGiroRqestCdNm", (Object) map);
+    }
+
+    public List<?> callGiroInterestProc(Map<String, Object> map) throws Exception {
+        return (List<?>) list("DuesDAO.callGiroInterestProc", (Object) map);
+    }
 }

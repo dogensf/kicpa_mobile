@@ -79,7 +79,7 @@
         
 
         $(document).ready(function(e) {
-        	window.bridge.displayBottom(true);	
+        	window.bridge.displayBottom(true);
         	
             $('#appLoadingIndicator2', parent.document).hide();
 
@@ -202,8 +202,31 @@
                     alert("결제금액을 확인해 주세요.")
                     return;
                 }
-                document.frm.action = "<c:url value='/kicpa/dues/setDuesPayment.do'/>";
-                document.frm.submit();
+
+				var formData = $('#selectDuesList_frm').serialize();
+
+				//추가회비 프로시저
+				$.ajax({
+					url : "<c:url value='/kicpa/dues/callGiroInterestProc.do'/>",
+					data : formData,
+					method : "POST",
+					dataType : "json",
+					success : function(data) {
+
+						if(data.v_amt != "" && data.v_amt != null){
+							alert(data.v_amt);
+						}
+						else{
+							document.frm.action = "<c:url value='/kicpa/dues/setDuesPayment.do'/>";
+							document.frm.submit();
+						}
+
+					},
+
+					error : function(status, e) {
+						alert("데이터 요청에 실패하였습니다.\r status : " + status);
+					}
+				});
 
             });
 
@@ -264,7 +287,7 @@
         </section>
 
           <section class="content">
-              <form name="frm" action ="<c:url value='/kicpa/dues/selectDuesList.do'/>" method="post">
+              <form name="frm" id="selectDuesList_frm" action ="<c:url value='/kicpa/dues/selectDuesList.do'/>" method="post">
 		            <input type="hidden" name="giro_cd" id="giroCd">
 		            <input type="hidden" name="dudt_in_amt_" id="dudtInAmt_">
 		            <input type="hidden" name="dudt_in_amt" id="dudtInAmt" value="0">

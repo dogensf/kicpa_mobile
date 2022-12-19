@@ -64,4 +64,10 @@ public interface  DuesService {
 	public void insertGiroApiLog(GiroApiLog giroApiLog) throws Exception;
 
 	public void updateSingleGiroMasterSub(Dues vo) throws Exception;
+
+	//선택한 회비 조회
+	public String selectGiroRqestCdNm(Map<String, Object> map) throws Exception;
+
+	//추가회비 프로시저
+	public List<?> callGiroInterestProc(Map<String, Object> map) throws Exception;
 }

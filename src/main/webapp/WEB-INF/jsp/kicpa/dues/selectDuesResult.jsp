@@ -73,7 +73,7 @@ function downloadURI(uri, name){
 
     $(function() {
     	
-    	window.bridge.displayBottom(true);	
+    	window.bridge.displayBottom(true);
     	
     	
     	<c:if test="${searchVO.searchBgnDe eq '' || searchVO.searchEndDe eq ''}"> 

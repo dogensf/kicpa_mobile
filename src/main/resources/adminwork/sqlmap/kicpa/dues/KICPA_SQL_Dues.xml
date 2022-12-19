@@ -15,6 +15,19 @@
     
     
 	<typeAlias  alias="comDefaultVO" type="adminwork.com.cmm.ComDefaultVO"/>
+
+	<parameterMap class="java.util.HashMap" id="giroInterestParamMap">
+		<parameter property="v_giro_cd"              javaType="java.lang.String"     jdbcType="VARCHAR" mode="IN" />
+		<parameter property="v_pay_de"              javaType="java.lang.String"     jdbcType="VARCHAR" mode="IN" />
+		<parameter property="v_amt"            javaType="java.lang.Integer"     jdbcType="DECIMAL" mode="OUT" />
+		<parameter property="v_result"            javaType="java.lang.Integer"   jdbcType="DECIMAL" mode="OUT" />
+	</parameterMap>
+
+	<procedure id="DuesDAO.callGiroInterestProc" parameterMap="giroInterestParamMap">
+		<![CDATA[
+			{ call KIPADM.giro_interest_proc(?,?,?,?) }
+		 ]]>
+	</procedure>
 			
 	<select id="DuesDAO.selectDuesPayNo" resultClass="Long">
         SELECT KIPADM.DUES_PAY_SEQ.NEXTVAL FROM DUAL
@@ -1887,10 +1900,23 @@
 		     ref_id = #ref_id#			 		
 				
 		]]>				
-	</select> 
-	
-	
-	
+	</select>
+
+
+	<select id="DuesDAO.selectGiroRqestCdNm" parameterClass="HashMap" resultClass="java.lang.String">
+		<![CDATA[
+
+			SELECT
+					CASE WHEN RQEST_CD = '35230010' THEN '직무회비 추가회비'
+						WHEN RQEST_CD = '35230040' THEN '법인 연회비 추가회비'
+						WHEN RQEST_CD = '35230090' THEN '개인 연회비 추가회비'
+						WHEN RQEST_CD = '35230100' THEN '부조회비 추가회비'
+						ELSE '' END AS RQEST_CD_NM
+			FROM kipadm.GIRO_MASTER gm
+			WHERE GIRO_CD = #giro_cd#
+
+		]]>
+	</select>
 	
 	
 	
