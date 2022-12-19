@@ -1000,7 +1000,7 @@ public class DuesController {
 				duesService.callGiroInterestProc(giroInterestProcResult);       //(프로시저 호출)
 
 				if(!"0".equals(giroInterestProcResult.get("v_amt").toString()) && !"".equals(giroInterestProcResult.get("v_amt").toString()) && giroInterestProcResult.get("v_amt") != null){
-					v_amt = v_amt + giroRqestCdNm + " : " + decFormat.format(giroInterestProcResult.get("v_amt")) + "원\n";
+					v_amt = v_amt + "-" + giroRqestCdNm + " : " + decFormat.format(giroInterestProcResult.get("v_amt")) + "원\n";
 				}
 			}
 		}

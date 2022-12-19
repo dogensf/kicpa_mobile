@@ -214,12 +214,14 @@
 					success : function(data) {
 
 						if(data.v_amt != "" && data.v_amt != null){
-							alert(data.v_amt);
+
+							alert("납부하실 회비 중 납기경과분이 포함되어 있습니다.\n\n회비규정 제5조 제1항에 따라 납부 후 아래와 같이 추가회비(경과일수에 따라 연6% 이자율 적용)가 부과될 예정입니다.\n\n"+
+									data.v_amt
+									+ "\n추가회비에 대한 추가회비는 부과되지 않으며, 다음 회비 고지시 합산 청구됩니다.");
 						}
-						else{
-							document.frm.action = "<c:url value='/kicpa/dues/setDuesPayment.do'/>";
-							document.frm.submit();
-						}
+
+						document.frm.action = "<c:url value='/kicpa/dues/setDuesPayment.do'/>";
+						document.frm.submit();
 
 					},
 
