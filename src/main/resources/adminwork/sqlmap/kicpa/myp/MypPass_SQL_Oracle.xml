@@ -33,6 +33,7 @@
 			UPDATE CPA_PSEXAM_MYP
             SET
                 CHCRT_NM = #chcrtNm#
+            ,   CHCRT_NM2 = $chcrtNm2$
             ,   ENG_NM = #engNm#
             ,   LAST_UPDT_ID = #userId#
             ,   LAST_UPDT_DT = SYSTIMESTAMP
@@ -130,6 +131,7 @@
 				,	cpm.AGREE_INFO2_YN
 				,	cpm.KOREAN_NM
 				,	cpm.CHCRT_NM
+				,	cpm.CHCRT_NM2
 				,	cpm.ENG_NM
 				,	cpm.BRTHDY
 				,	cpm.HUS_ADR_CL
@@ -232,13 +234,13 @@
                 ON (PIN = #pin#)
                 WHEN MATCHED THEN
                           UPDATE SET
-                                KOREAN_NM = #koreanNm#, CHCRT_NM = #chcrtNm#, ENG_NM = #engNm#, BRTHDY = #brthdy#, HOUSE_TEL_NO = #husTelNo#,
+                                KOREAN_NM = #koreanNm#, CHCRT_NM = #chcrtNm#, CHCRT_NM2 = $chcrtNm2$, ENG_NM = #engNm#, BRTHDY = #brthdy#, HOUSE_TEL_NO = #husTelNo#,
                                 MOBL_PHON_NO = #moblPhonNo#, MAIN_EMAIL = #mainEmail#, SUB_EMAIL = #subEmail#, EMAIL_SNDNG_YN = #emailSndngYn#, SMS_SNDNG_YN = #smsSndngYn#,
                                 POST_SNDNG_YN = #postSndngYn# , REG_FLAG = #regFlag# , LAST_UPDT_ID = #userId#, LAST_UPDT_DT = SYSTIMESTAMP
                 WHEN NOT MATCHED THEN
-                          INSERT (PIN,   KOREAN_NM,   CHCRT_NM,   ENG_NM,   SEX,   BRTHDY,   HOUSE_TEL_NO,   MOBL_PHON_NO,   MAIN_EMAIL,   SUB_EMAIL,
+                          INSERT (PIN,   KOREAN_NM,   CHCRT_NM,   CHCRT_NM2,   ENG_NM,   SEX,   BRTHDY,   HOUSE_TEL_NO,   MOBL_PHON_NO,   MAIN_EMAIL,   SUB_EMAIL,
                                     EMAIL_SNDNG_YN,   SMS_SNDNG_YN,   POST_SNDNG_YN, REG_FLAG,   FRST_REGIST_ID,   FRST_REGIST_DT,   LAST_UPDT_ID,   LAST_UPDT_DT)
-                          VALUES (#pin# , #koreanNm# , #chcrtNm# , #engNm# , #sex# , #brthdy# , #husTelNo# , #moblPhonNo#, #mainEmail#, #subEmail#,
+                          VALUES (#pin# , #koreanNm# , #chcrtNm# , $chcrtNm2$ , #engNm# , #sex# , #brthdy# , #husTelNo# , #moblPhonNo#, #mainEmail#, #subEmail#,
                                     #emailSndngYn#, #smsSndngYn#, #postSndngYn#, #regFlag#, #userId# , SYSTIMESTAMP , #userId# , SYSTIMESTAMP)
 
 		]]>
@@ -356,6 +358,7 @@
 			UPDATE MBER_INDVDLINFO
             SET
                 CHCRT_NM = #chcrtNm#
+            ,   CHCRT_NM2 = $chcrtNm2$
             ,   ENG_NM = #engNm#
             ,   LAST_UPDT_ID = #userId#
             ,   LAST_UPDT_DT = SYSTIMESTAMP

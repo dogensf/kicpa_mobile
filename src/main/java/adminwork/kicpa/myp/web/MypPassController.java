@@ -228,6 +228,13 @@ public class MypPassController {
 
 			paramMap.put("userId", paramMap.get("pin"));
 
+			if(!"".equals(paramMap.get("chcrtNm")) && paramMap.get("chcrtNm") != null){
+				paramMap.put("chcrtNm2", "N'"+paramMap.get("chcrtNm")+"'");
+			}
+			else{
+				paramMap.put("chcrtNm2", "''");
+			}
+
 			if("U".equals(paramMap.get("saveMode"))){
 				mypPassService.mypCpaPassRegisterPassInfoUpdate(paramMap);		//실제테이블(이름) 업데이트
 			}
@@ -632,6 +639,13 @@ public class MypPassController {
 
 		Map<String, Object> cpaRegReviewInfoSave = new HashMap<>();
 		cpaRegReviewInfoSave.putAll((Map<String, Object>)cpaRegReviewInfoList.get(0));
+
+		if(!"".equals(cpaRegReviewInfoSave.get("chcrtNm2")) && cpaRegReviewInfoSave.get("chcrtNm2") != null){
+			cpaRegReviewInfoSave.put("chcrtNm2", "N'"+cpaRegReviewInfoSave.get("chcrtNm2")+"'");
+		}
+		else{
+			cpaRegReviewInfoSave.put("chcrtNm2", "''");
+		}
 
 		cpaRegReviewInfoSave.put("regFlag","Y");
 		cpaRegReviewInfoSave.put("userId", paramMap.get("pin"));

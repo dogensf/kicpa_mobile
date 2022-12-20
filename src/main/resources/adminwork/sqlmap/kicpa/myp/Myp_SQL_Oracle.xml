@@ -32,6 +32,7 @@
             		PIN
 				,	KOREAN_NM
 				,	CHCRT_NM
+				,	CHCRT_NM2
 				,	ENG_NM
 				,	TO_CHAR(TO_DATE(BRTHDY,'YYYY-MM-DD'), 'YYYY-MM-DD') AS BRTHDY
 				,	HOUSE_TEL_NO

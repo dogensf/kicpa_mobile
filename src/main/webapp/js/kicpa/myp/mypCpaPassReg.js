@@ -550,7 +550,7 @@ mypPassReg.mypCpaPassReg_updateInfoList_success = function(data){
 	//이름 수정
 	if($('#mypCpaPassReg_movePage').val() == "mypCpaPassReg_nameInfo"){
 		$('.mypCpaPassReg_titleNm').text('합격자 기본정보');
-		$('#mypCpaPassReg_chcrtNm').val(data.cpaPassRegRealInfo[0].chcrtNm);                                //한자이름
+		$('#mypCpaPassReg_chcrtNm').val(data.cpaPassRegRealInfo[0].chcrtNm2);                                //한자이름
 		$('#mypCpaPassReg_engNm').val(data.cpaPassRegRealInfo[0].engNm);                                //영문이름
 	}
 	//자택,직장주소 수정
@@ -690,7 +690,7 @@ mypPassReg.mypCpaPassReg_updateInfoList_success = function(data){
 mypPassReg.selectMypCpaPassRegReviewInfo_success = function(result){
 
 	$('#mypPassReviewInfo_korNm').text(result.cpaRegReviewInfoList[0].koreanNm);
-	$('#mypPassReviewInfo_chcNm').text(result.cpaRegReviewInfoList[0].chcrtNm);
+	$('#mypPassReviewInfo_chcNm').text(result.cpaRegReviewInfoList[0].chcrtNm2);
 	$('#mypPassReviewInfo_engNm').text(result.cpaRegReviewInfoList[0].engNm);
 	$('#mypPassReviewInfo_husZipCd').text(result.cpaRegReviewInfoList[0].husZipCd);
 	$('#mypPassReviewInfo_husAdres').text(result.cpaRegReviewInfoList[0].husAdres);
