@@ -397,6 +397,16 @@
 						<label for="mypCpaMember_ofcAdresN">비공개</label>
 					</div>
 
+					<div class="inp-box" style="margin-top: 40px;">
+						<label class="label essen">메일 수신 여부</label>
+					</div>
+					<div class="inp-check">
+						<input type="radio" name="emailSndngYn" value="Y" id="mypCpaMember_emailSndngY" checked/>
+						<label for="mypCpaMember_emailSndngY" style="margin-right: 10px;">공개</label>
+						<input type="radio" name="emailSndngYn" value="N" id="mypCpaMember_emailSndngN"/>
+						<label for="mypCpaMember_emailSndngN">비공개</label>
+					</div>
+
 					<div class="inp-box" style="margin-top: 40px; display: none;">
 						<label class="label essen">전자메일</label>
 					</div>
@@ -718,6 +728,10 @@
 						<li>
 							<span>사무소 주소</span>
 							<p id="mypCpaMemberReviewInfo_ofcAdresYn"></p>
+						</li>
+						<li>
+							<span>메일 수신 여부</span>
+							<p id="mypCpaMemberReviewInfo_emailSndngYn"></p>
 						</li>
 						<%--<li>
 							<span>전자메일</span>

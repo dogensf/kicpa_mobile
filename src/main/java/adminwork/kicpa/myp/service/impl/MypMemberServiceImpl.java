@@ -93,6 +93,11 @@ public class MypMemberServiceImpl extends EgovAbstractServiceImpl implements Myp
 	}
 
 	@Override
+	public void udtEmailSndngYn(Map<String, Object> map) throws Exception {
+		mypMemberDAO.udtEmailSndngYn(map);
+	}
+
+	@Override
 	public List<?> selectCpaMemberRegistSbscrbMasterInfoList(Map<String, Object> map) throws Exception {
 		return mypMemberDAO.selectCpaMemberRegistSbscrbMasterInfoList(map);
 	}

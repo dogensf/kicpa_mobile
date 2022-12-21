@@ -570,6 +570,7 @@ mypMemberReg.mypCpaMember_updateInfoList_success = function(data){
 		$("input:radio[name='ofcTelYn'][value='"+data.cpaMemberNmstOthbcInfo[0].ofcTelYn+"']").attr('checked', true);      //사무소 전화
 		$("input:radio[name='photoYn'][value='"+data.cpaMemberNmstOthbcInfo[0].photoYn+"']").attr('checked', true);      //사진
 		$("input:radio[name='ofcFaxYn'][value='"+data.cpaMemberNmstOthbcInfo[0].ofcFaxYn+"']").attr('checked', true);      //사무소 팩스
+		$("input:radio[name='emailSndngYn'][value='"+data.cpaMemberNmstOthbcInfo[0].emailSndngYn+"']").attr('checked', true);      //메일 수신 여부
 	}
 }
 
@@ -614,14 +615,16 @@ mypMemberReg.mypCpaMember_regFlagFList_success = function(data){
 	}
 
 	//부조회원구분 & 사업자등록번호
-	var number = data.cpaMemberRegReviewInfoList[0].bizrNo;
 	var bizrNo = "";
-	if(number.length == 10) {
-		bizrNo += number.substr(0, 3);
-		bizrNo += "-";
-		bizrNo += number.substr(3, 2);
-		bizrNo += "-";
-		bizrNo += number.substr(5);
+	if(data.cpaMemberRegReviewInfoList[0].bizrNo != "" && data.cpaMemberRegReviewInfoList[0].bizrNo != null){
+		var number = data.cpaMemberRegReviewInfoList[0].bizrNo;
+		if(number.length == 10) {
+			bizrNo += number.substr(0, 3);
+			bizrNo += "-";
+			bizrNo += number.substr(3, 2);
+			bizrNo += "-";
+			bizrNo += number.substr(5);
+		}
 	}
 	$('#mypCpaMember_aidMberFlag').val(data.cpaMemberRegReviewInfoList[0].aidMberFlag);         //부조회원 구분
 	$('#mypCpaMember_bizrNo').val(bizrNo);                                                      //사업자등록번호
@@ -995,6 +998,7 @@ mypMemberReg.selectmypCpaMemberRegReviewInfo_success = function (result){
 	$('#mypCpaMemberReviewInfo_ofcTelYn').text(result.cpaMemberRegNmstOthbcInfoList[0].ofcTelYnNm);
 	$('#mypCpaMemberReviewInfo_photoYn').text(result.cpaMemberRegNmstOthbcInfoList[0].photoYnNm);
 	$('#mypCpaMemberReviewInfo_ofcFaxYn').text(result.cpaMemberRegNmstOthbcInfoList[0].ofcFaxYnNm);
+	$('#mypCpaMemberReviewInfo_emailSndngYn').text(result.cpaMemberRegNmstOthbcInfoList[0].emailSndngYnNm);
 
 	//등록 회비
 	if(result.cpaMemberAidDuesInfoList == null || result.cpaMemberAidDuesInfoListSize < 1){

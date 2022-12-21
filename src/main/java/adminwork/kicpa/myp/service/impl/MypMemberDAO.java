@@ -73,6 +73,10 @@ public class MypMemberDAO extends EgovComAbstractDAO2 {
         insert("MypMemberDAO.mypCpaMemberRegisterNmstOthbcInfoUpdatePortal", (Object) map);
     }
 
+    public void udtEmailSndngYn(Map<String, Object> map) throws Exception {
+        update("MypMemberDAO.udtEmailSndngYn", (Object) map);
+    }
+
     public List<?> selectCpaMemberRegistSbscrbMasterInfoList(Map<String, Object> map) throws Exception {
         return (List<?>) list("MypMemberDAO.selectCpaMemberRegistSbscrbMasterInfoList", (Object) map);
     }
