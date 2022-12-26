@@ -95,6 +95,10 @@ public class MypPassDAO extends EgovComAbstractDAO2 {
         update("MypPassDAO.mypCpaPassRegisterContactInfoUpdate", (Object) map);
     }
 
+    public void cpaEmailSndngYnInfoSavePortal(Map<String, Object> map) throws Exception {
+        insert("MypPassDAO.cpaEmailSndngYnInfoSavePortal",map);
+    }
+
     public void mypCpaPassRegisterAcdmcrInfoUpdate(Map<String, Object> map) throws Exception {
         update("MypPassDAO.mypCpaPassRegisterAcdmcrInfoUpdate", (Object) map);
     }

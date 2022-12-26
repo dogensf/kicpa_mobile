@@ -75,7 +75,20 @@ myPage.myPage_tabMove = function(flag) {
 }
 
 //반려사유 조회
-myPage.myPage_rejectRsnClick = function (rejectRsn){
+myPage.myPage_rejectRsnClick = function (flag){
+
+	var rejectRsn = "";
+
+	if(flag == "APP"){
+		rejectRsn = $('#cpaTrainRegInfo_regectRsn').text();
+	}
+	if(flag == "AUD"){
+		rejectRsn = $('#cpaAudTrainRegInfo_regectRsn').text();
+	}
+	if(flag == "CPA"){
+		rejectRsn = $('.cpaMemberRegInfo_regectRsn').text();
+	}
+
 	$('#myPagePop_rejectRsnText').text(rejectRsn);
 	$('#myPage_body').addClass('stop');
 	$('#myPagePop_rejectRsn').addClass('show');

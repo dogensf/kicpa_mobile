@@ -464,6 +464,26 @@
 		]]>
 	</update>
 
+	<insert id="MypPassDAO.cpaEmailSndngYnInfoSavePortal" parameterClass="HashMap" >
+
+		<![CDATA[
+
+            MERGE INTO portal.int_mb_info_yn@portal
+                USING DUAL
+                ON (imiy_psl_id = #pin#)
+                WHEN MATCHED THEN
+                          UPDATE SET
+                          imiy_doc_mail_yn = #emailSndngYn#, imiy_sys_date = sysdate
+
+                WHEN NOT MATCHED THEN
+                          INSERT (imiy_psl_id, imiy_doc_mail_yn, imiy_sys_date)
+
+                          VALUES (#pin# , #emailSndngYn# , sysdate)
+
+        ]]>
+
+	</insert>
+
 	<update id="MypPassDAO.mypCpaPassRegisterAcdmcrInfoUpdate" parameterClass="HashMap">
 		<![CDATA[
 

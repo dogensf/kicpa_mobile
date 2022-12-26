@@ -168,8 +168,9 @@
 							</div>
 
 							<div class="btn-area">
-								<button class="btn-round" type="button" onclick="myPage.myPage_rejectRsnClick('${cpaMemberRegInfo.rejectRsn}')">반려사유 조회</button>
+								<button class="btn-round" type="button" onclick="myPage.myPage_rejectRsnClick('CPA')">반려사유 조회</button>
 								<button class="btn-round fill" type="button" onClick="location.href='${pageContext.request.contextPath}/kicpa/myp/mypCpaMemberReg.do?pin=${myPagePin}'">재신청하기</button>
+								<textarea class="cpaMemberRegInfo_regectRsn" style="display: none;">${cpaMemberRegInfo.rejectRsn}</textarea>
 							</div>
 						</div>
 
@@ -325,8 +326,9 @@
 								</div>
 
 								<div class="btn-area">
-									<button class="btn-round" type="button" onclick="myPage.myPage_rejectRsnClick('${cpaTrainRegInfo.rejectRsn}')">반려사유 조회</button>
+									<button class="btn-round" type="button" onclick="myPage.myPage_rejectRsnClick('APP')">반려사유 조회</button>
 									<button class="btn-round fill" type="button" onClick="location.href='${pageContext.request.contextPath}/kicpa/myp/mypCpaTrainReg.do?pin=${myPagePin}'">재신청하기</button>
+									<textarea id="cpaTrainRegInfo_regectRsn" style="display: none;">${cpaTrainRegInfo.rejectRsn}</textarea>
 								</div>
 							</div>
 						</c:if>
@@ -434,8 +436,9 @@
 								</div>
 
 								<div class="btn-area">
-									<button class="btn-round" type="button" onclick="myPage.myPage_rejectRsnClick('${cpaAudTrainRegInfo.rejectRsn}')">반려사유 조회</button>
+									<button class="btn-round" type="button" onclick="myPage.myPage_rejectRsnClick('AUD')">반려사유 조회</button>
 									<button class="btn-round fill" type="button" onClick="location.href='${pageContext.request.contextPath}/kicpa/myp/mypCpaAudTrainReg.do?pin=${myPagePin}'">재신청하기</button>
+									<textarea id="cpaAudTrainRegInfo_regectRsn" style="display: none;">${cpaAudTrainRegInfo.rejectRsn}</textarea>
 								</div>
 							</div>
 						</c:if>
@@ -653,7 +656,7 @@
 		</div>
 
 		<div class="layer-content" style="text-align: center;">
-			<div class="gray-box" id="myPagePop_rejectRsnText">
+			<div class="gray-box" id="myPagePop_rejectRsnText" style="white-space: break-spaces;">
 
 			</div>
 		</div>

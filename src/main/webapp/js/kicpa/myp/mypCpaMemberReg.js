@@ -570,7 +570,6 @@ mypMemberReg.mypCpaMember_updateInfoList_success = function(data){
 		$("input:radio[name='ofcTelYn'][value='"+data.cpaMemberNmstOthbcInfo[0].ofcTelYn+"']").attr('checked', true);      //사무소 전화
 		$("input:radio[name='photoYn'][value='"+data.cpaMemberNmstOthbcInfo[0].photoYn+"']").attr('checked', true);      //사진
 		$("input:radio[name='ofcFaxYn'][value='"+data.cpaMemberNmstOthbcInfo[0].ofcFaxYn+"']").attr('checked', true);      //사무소 팩스
-		$("input:radio[name='emailSndngYn'][value='"+data.cpaMemberNmstOthbcInfo[0].emailSndngYn+"']").attr('checked', true);      //메일 수신 여부
 	}
 }
 

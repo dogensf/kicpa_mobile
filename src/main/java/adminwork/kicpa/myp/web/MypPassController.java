@@ -477,6 +477,20 @@ public class MypPassController {
 			//연락처 저장
 			if("U".equals(paramMap.get("saveMode"))){
 				mypPassService.mypCpaPassRegisterContactInfoUpdate(paramMap);		//실제테이블 업데이트
+
+				//메일 수신여부 portal 저장
+				String imiy_doc_mail_yn = "0";
+
+				Map<String, Object> EmailSndngPortal = new HashMap<>();
+
+				if("Y".equals(paramMap.get("emailSndngYn"))){
+					imiy_doc_mail_yn = "1";
+				}
+
+				EmailSndngPortal.put("pin", paramMap.get("pin"));
+				EmailSndngPortal.put("emailSndngYn", imiy_doc_mail_yn);
+
+				mypPassService.cpaEmailSndngYnInfoSavePortal(EmailSndngPortal);                  //portal db 저장
 			}
 			else{
 				mypPassService.mypCpaPassRegisterContactInfoSave(paramMap);	//임시테이블 저장

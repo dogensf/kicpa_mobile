@@ -68,6 +68,9 @@ public interface MypPassService {
     //연락처 저장
     public void mypCpaPassRegisterContactInfoUpdate(Map<String, Object> map) throws Exception;
 
+    //메일 수신여부 portal 저장
+    public void cpaEmailSndngYnInfoSavePortal(Map<String, Object> map) throws Exception;
+
     //학력 저장
     public void mypCpaPassRegisterAcdmcrInfoUpdate(Map<String, Object> map) throws Exception;
 

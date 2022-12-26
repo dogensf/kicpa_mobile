@@ -478,16 +478,11 @@ public class MypMemberController {
 				modelAndView.addObject("message", "사무소 팩스를 선택하세요.");
 				return modelAndView;
 			}*/
-			else if("".equals(paramMap.get("emailSndngYn")) || (paramMap.get("emailSndngYn") == null)){
-				modelAndView.addObject("message", "메일 수신 여부를 선택하세요.");
-				return modelAndView;
-			}
 
 			paramMap.put("userId", paramMap.get("pin"));
 
 			if("U".equals(paramMap.get("saveMode"))){
 				mypMemberService.mypCpaMemberRegisterNmstOthbcInfoUpdate(paramMap);		//실제테이블(정보공개설정) 업데이트
-				mypMemberService.udtEmailSndngYn(paramMap); 							//실제테이블(메일수신여부) 업데이트
 
 				String imiy_add_yn = "0";
 				String imiy_off_name_yn = "0";
@@ -495,7 +490,6 @@ public class MypMemberController {
 				String imiy_fax_yn = "0";
 				String imiy_email_yn = "0";
 				String imiy_picture_yn = "0";
-				String imiy_doc_mail_yn = "0";
 				String imiy_info_yn = "0";
 
 				Map<String, Object> nmstOthbcPortal = new HashMap<>();
@@ -518,9 +512,6 @@ public class MypMemberController {
 				if("Y".equals(paramMap.get("photoYn"))){
 					imiy_picture_yn = "1";
 				}
-				if("Y".equals(paramMap.get("emailSndngYn"))){
-					imiy_doc_mail_yn = "1";
-				}
 				if("Y".equals(paramMap.get("psnlInfoYn"))){
 					imiy_info_yn = "1";
 				}
@@ -532,7 +523,6 @@ public class MypMemberController {
 				nmstOthbcPortal.put("ofcFaxYn", imiy_fax_yn);
 				nmstOthbcPortal.put("emailYn", imiy_email_yn);
 				nmstOthbcPortal.put("photoYn", imiy_picture_yn);
-				nmstOthbcPortal.put("emailSndngYn", imiy_doc_mail_yn);
 				nmstOthbcPortal.put("psnlInfoYn", imiy_info_yn);
 
 				mypMemberService.mypCpaMemberRegisterNmstOthbcInfoUpdatePortal(nmstOthbcPortal);                  //portal db 저장

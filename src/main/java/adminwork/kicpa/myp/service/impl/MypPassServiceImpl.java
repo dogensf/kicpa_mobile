@@ -119,6 +119,11 @@ public class MypPassServiceImpl extends EgovAbstractServiceImpl implements MypPa
 	}
 
 	@Override
+	public void cpaEmailSndngYnInfoSavePortal(Map<String, Object> map) throws Exception {
+		mypPassDAO.cpaEmailSndngYnInfoSavePortal(map);
+	}
+
+	@Override
 	public void mypCpaPassRegisterAcdmcrInfoUpdate(Map<String, Object> map) throws Exception {
 		mypPassDAO.mypCpaPassRegisterAcdmcrInfoUpdate(map);
 	}
