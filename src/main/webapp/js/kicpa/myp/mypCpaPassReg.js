@@ -184,22 +184,26 @@ mypPassReg.mypPassRegInit = function(){
 	//직장정보 등록 체크 클릭
 	$("#mypCpaPassReg_ofcRegYn").on("click",function(e) {
 
-		if($("input:checkbox[name=ofcRegYn]").is(":checked")){
-			$('#mypCpaPassReg_ofcInfoReg').slideDown(1000);
-			$('.mypCpaPassReg_postOfficeHidden').show();
-			$('input:radio[name="postSndngYn"][value="O"]').prop('checked', true);
-		}else{
+		if($('#mypCpaPassReg_mberFlag').val() != 'A2020010'){
+			if($("input:checkbox[name=ofcRegYn]").is(":checked")){
+				$('#mypCpaPassReg_ofcInfoReg').slideDown(1000);
+				$('.mypCpaPassReg_postOfficeHidden').show();
+				$('input:radio[name="postSndngYn"][value="O"]').prop('checked', true);
+			}else{
 
-			if(!confirm("체크 해제시 기존 직장정보가 삭제됩니다. 체크 해제하시겠습니까?")){
-				$("input:checkbox[id='mypCpaPassReg_ofcRegYn']").prop("checked", true);
+				if(!confirm("체크 해제시 기존 직장정보가 삭제됩니다. 체크 해제하시겠습니까?")){
+					$("input:checkbox[id='mypCpaPassReg_ofcRegYn']").prop("checked", true);
+				}
+				else{
+					$('#mypCpaPassReg_ofcInfoReg').slideUp(1000);
+					$('.mypCpaPassReg_postOfficeHidden').hide();
+					$('input:radio[name="postSndngYn"][value="H"]').prop('checked', true);
+					mypPassReg.mypCpaPassReg_officeInfoInit();
+				}
 			}
-			else{
-				$('#mypCpaPassReg_ofcInfoReg').slideUp(1000);
-				$('.mypCpaPassReg_postOfficeHidden').hide();
-				$('input:radio[name="postSndngYn"][value="H"]').prop('checked', true);
-				mypPassReg.mypCpaPassReg_officeInfoInit();
-			}
-
+		}
+		else{
+			alert('현재 회계법인 소속으로 수정이 불가합니다.');
 		}
 
 	});

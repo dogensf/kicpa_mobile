@@ -261,24 +261,24 @@
 
 						<div class="form">
 							<div class="inp-check" style="margin-bottom: 20px;">
-								<input type="checkbox" name="ofcRegYn" id="mypCpaPassReg_ofcRegYn" value="Y"/>
+								<input type="checkbox" name="ofcRegYn" id="mypCpaPassReg_ofcRegYn" value="Y" <c:if test="${cpaMemFlagInfo[0].mberFlag eq 'A2020010'}">onclick='return false;' </c:if>/>
 								<label for="mypCpaPassReg_ofcRegYn">직장정보 등록 체크</label>
 							</div>
 
 							<div id="mypCpaPassReg_ofcInfoReg">
 								<div class="inp-box">
 									<label class="label essen" for="mypCpaPassReg_officeInfoZipCd">직장 우편번호</label>
-									<input type="text" id="mypCpaPassReg_officeInfoZipCd" onclick="mypPassReg.mypAdresGoPopup('O');" name="ofcZipCd" placeholder="직장 우편번호를 입력하세요."/>
+									<input type="text" id="mypCpaPassReg_officeInfoZipCd" <c:if test="${cpaMemFlagInfo[0].mberFlag ne 'A2020010'}">onclick="mypPassReg.mypAdresGoPopup('O');"</c:if> name="ofcZipCd" placeholder="직장 우편번호를 입력하세요." <c:if test="${cpaMemFlagInfo[0].mberFlag eq 'A2020010'}">style="background-color: #fafafa;" readonly</c:if>/>
 								</div>
 
 								<div class="inp-box">
 									<label class="label essen" for="mypCpaPassReg_officeInfoAdres">직장 주소</label>
-									<input type="text" id="mypCpaPassReg_officeInfoAdres" onclick="mypPassReg.mypAdresGoPopup('O');" name="ofcAdres" placeholder="직장 주소를 입력하세요."/>
+									<input type="text" id="mypCpaPassReg_officeInfoAdres" <c:if test="${cpaMemFlagInfo[0].mberFlag ne 'A2020010'}">onclick="mypPassReg.mypAdresGoPopup('O');"</c:if> name="ofcAdres" placeholder="직장 주소를 입력하세요." <c:if test="${cpaMemFlagInfo[0].mberFlag eq 'A2020010'}">style="background-color: #fafafa;" readonly</c:if>/>
 								</div>
 
 								<div class="inp-box">
-									<label class="label essen" for="mypCpaPassReg_officeInfoAdresDt">직장 상세주소</label>
-									<input type="text" id="mypCpaPassReg_officeInfoAdresDt" name="ofcAdresDetail" placeholder="직장 상세주소를 입력하세요."/>
+									<label class="label" for="mypCpaPassReg_officeInfoAdresDt">직장 상세주소</label>
+									<input type="text" id="mypCpaPassReg_officeInfoAdresDt" name="ofcAdresDetail" placeholder="직장 상세주소를 입력하세요." <c:if test="${cpaMemFlagInfo[0].mberFlag eq 'A2020010'}">style="background-color: #fafafa;" readonly</c:if>/>
 									<input type="hidden" name="ofcLegalCd" id="mypCpaPassReg_officeInfoLegalCd"/>
 								</div>
 
@@ -302,7 +302,7 @@
 
 								<div class="inp-box">
 									<label class="label" for="mypCpaPassReg_officeInfoOficeNm">직장명</label>
-									<input type="text" id="mypCpaPassReg_officeInfoOficeNm" name="oficeNm" placeholder="직장명을 입력하세요."/>
+									<input type="text" id="mypCpaPassReg_officeInfoOficeNm" name="oficeNm" placeholder="직장명을 입력하세요." <c:if test="${cpaMemFlagInfo[0].mberFlag eq 'A2020010'}">style="background-color: #fafafa;" readonly</c:if>/>
 								</div>
 
 								<div class="inp-box">
@@ -899,6 +899,7 @@
 <input type="hidden" id="mypCpaPassReg_movePage" value="${mypCpaPassRegSaveMode.movePage}"/>
 <input type="hidden" id="mypCpaPassReg_memFlag" value="${mypCpaPassRegSaveMode.memFlag}"/>
 <input type="hidden" id="mypCpaPassReg_closeCl" value="${cpaMemFlagInfo[0].closedCl}"/>
+<input type="hidden" id="mypCpaPassReg_mberFlag" value="${cpaMemFlagInfo[0].mberFlag}"/>
 <input type="hidden" id="mypCpaPassReg_saveData"/>
 </body>
 </html>

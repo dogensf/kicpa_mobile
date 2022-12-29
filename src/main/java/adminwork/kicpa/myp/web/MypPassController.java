@@ -91,10 +91,7 @@ public class MypPassController {
 				paramMap.put("movePage","");
 			}
 
-			List<?> cpaMemFlagInfo = new ArrayList<>();
-			if("H".equals(paramMap.get("memFlag"))){
-				cpaMemFlagInfo = myPageService.selectCpaMemberRegistInfoList(paramMap);
-			}
+			List<?> cpaMemFlagInfo = myPageService.selectCpaMemberRegistInfoList(paramMap);
 
 
 			model.addAttribute("mypCpaPassRegPin", paramMap.get("pin"));
@@ -290,10 +287,10 @@ public class MypPassController {
 					modelAndView.addObject("message", "직장주소를 입력하세요.");
 					return modelAndView;
 				}
-				else if("".equals(paramMap.get("ofcAdresDetail")) || paramMap.get("ofcAdresDetail") == null){
+				/*else if("".equals(paramMap.get("ofcAdresDetail")) || paramMap.get("ofcAdresDetail") == null){
 					modelAndView.addObject("message", "직장상세주소를 입력하세요.");
 					return modelAndView;
-				}
+				}*/
 				//직장번호 앞자리, 중간자리, 뒷자리중 한개라도 데이터가 있을경우 3개 다 입력하는 알럿
 				if((!"".equals(paramMap.get("ofcTelNo1")) && paramMap.get("ofcTelNo1") != null)
 						|| (!"".equals(paramMap.get("ofcTelNo2")) && paramMap.get("ofcTelNo2") != null)
