@@ -173,9 +173,9 @@ caption {
   color: #222;
 }
 
-.head-main h1 img {                       
-    width: 11.5rem;
-    height: 4rem;
+.head-main h1 img {
+  padding-top: 13px;
+    width: 13.5rem;
 }
 
 .head-main.line {
@@ -553,7 +553,7 @@ ol.blt li::before {
 .login-wrap {
   padding: 21rem 1.6rem 2rem;
   background: url(../../images/logo-login.png) no-repeat 50% 5rem;
-  background-size: 18.6rem 6rem;
+  background-size: 20rem;
 }
 
 .login-wrap .inp-box + .inp-box {
