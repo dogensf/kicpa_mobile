@@ -375,6 +375,11 @@ public class MypTrainController {
 					paramMap.put("grdtDe",paramMap.get("grdtDe").toString().replaceAll("-",""));
 					paramMap.put("vacationStrDe",paramMap.get("vacationStrDe").toString().replaceAll("-",""));
 					paramMap.put("vacationEndDe",paramMap.get("vacationEndDe").toString().replaceAll("-",""));
+
+					if(Integer.parseInt(paramMap.get("vacationStrDe").toString()) > Integer.parseInt(paramMap.get("vacationEndDe").toString())){
+						modelAndView.addObject("message", "방학종료일은 방학시작일 이후 날짜를 선택해주세요.");
+						return modelAndView;
+					}
 				}
 			}
 
