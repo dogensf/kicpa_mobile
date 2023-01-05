@@ -184,7 +184,7 @@ mypPassReg.mypPassRegInit = function(){
 	//직장정보 등록 체크 클릭
 	$("#mypCpaPassReg_ofcRegYn").on("click",function(e) {
 
-		if($('#mypCpaPassReg_mberFlag').val() != 'A2020010'){
+		if($('#mypCpaPassReg_mberFlag').val() != 'A2020010' || $('#mypCpaPassReg_audGrpCl').val() != 'A3010010'){
 			if($("input:checkbox[name=ofcRegYn]").is(":checked")){
 				$('#mypCpaPassReg_ofcInfoReg').slideDown(1000);
 				$('.mypCpaPassReg_postOfficeHidden').show();
