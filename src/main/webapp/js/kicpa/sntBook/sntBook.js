@@ -440,7 +440,7 @@ sntBook.getBookListSuccess = function(data){
 			txt+=' 	        </div> \n';
 			txt+=' 	    </div> \n';
 			txt+='      <div class="info-zone"> \n';
-			txt+='            <span>벌간년월 '+o.ibmYm+' 발간</span> \n';
+			txt+='            <span>발간년월 '+o.ibmYm+' 발간</span> \n';
 			txt+='            <span>'+o.ibmPrice2+' (회원할인가: '+o.ibmPrice1+')</span> \n';
 			txt+='        </div> \n';
 			txt+='	</a> \n';
@@ -528,7 +528,7 @@ sntBook.geTaxBookListSuccess = function(data){
 			txt+=' 	        </div> \n';
 			txt+=' 	    </div> \n';
 			txt+='      <div class="info-zone"> \n';
-			txt+='            <span>벌간년월 '+o.ibmYm+'</span> \n';
+			txt+='            <span>발간년월 '+o.ibmYm+'</span> \n';
 			txt+='            <span>'+o.ibmPrice1+'원</span> \n';
 			txt+='        </div> \n';
 			txt+='</li> \n';
