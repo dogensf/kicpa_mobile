@@ -27,9 +27,9 @@ function fncLocation(){
           <button class="m-link" type="button" onclick="javascript:location.href='/kicpa/sntBook/kifrsBookList.do'">
             <span>K-IFRS 실무사례와 해설 시리즈 구매</span>
           </button>
-          <button class="m-link" type="button" onclick="javascript:location.href='/kicpa/sntBook/taxBookList.do'">
+          <%--<button class="m-link" type="button" onclick="javascript:location.href='/kicpa/sntBook/taxBookList.do'">
             <span>세무단행본구매</span>
-          </button>
+          </button>--%>
           <%--<button class="m-link" type="button" onclick="javascript:location.href='/kicpa/sntBook/specialLectureList.do?gbn=LISTPAGE2'">
             <span>실무특강리스트(수강신청)</span>
           </button>
