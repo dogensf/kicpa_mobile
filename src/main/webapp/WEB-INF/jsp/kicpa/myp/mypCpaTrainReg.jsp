@@ -415,7 +415,7 @@
 					<input type="hidden" name="atchFileId1FlagYn" id="mypCpaTrainReg_atchFileId1FlagYn"/>
 
 					<div class="inp-box mypCpaTrainReg_atchFileInfoAtchFileAdd1">
-						<div class="label essen">최종학교졸업증명서 및 졸업예정증명서 (1개이상 파일등록)</div>
+						<div class="label essen">최종학교졸업증명서 혹은 졸업예정증명서</div>
 						<input class="mypCpaTrainReg_fileChange" type="file" id="mypCpaTrainReg_atchFileInfoAtchFileId1" name="atchFileId1" readonly/>
 						<label class="select" for="mypCpaTrainReg_atchFileInfoAtchFileId1">파일을 등록해 주세요</label>
 						<input type="hidden" name="atchFileId1Set" id="mypCpaTrainReg_atchFileInfoAtchFileId1Set"/>
@@ -423,6 +423,7 @@
 					</div>
 
 					<div class="inp-box mypCpaTrainReg_atchFileInfoAtchFileAdd1">
+						<div class="label">실무수습계획서 (본회 홈페이지 자료실-공시·자료실-서식자료-수습공인회계 관련 참고)</div>
 						<input class="mypCpaTrainReg_fileChange" type="file" id="mypCpaTrainReg_atchFileInfoAtchFileId2" name="atchFileId2" readonly/>
 						<label for="mypCpaTrainReg_atchFileInfoAtchFileId2">파일을 등록해 주세요</label>
 						<input type="hidden" name="atchFileId2Set" id="mypCpaTrainReg_atchFileInfoAtchFileId2Set"/>
@@ -430,6 +431,7 @@
 					</div>
 
 					<div class="inp-box mypCpaTrainReg_atchFileInfoAtchFileAdd1">
+						<div class="label">학사일정 (재학중인 경우 첨부파일 등록)</div>
 						<input class="mypCpaTrainReg_fileChange" type="file" id="mypCpaTrainReg_atchFileInfoAtchFileId3" name="atchFileId3" readonly/>
 						<label for="mypCpaTrainReg_atchFileInfoAtchFileId3">파일을 등록해 주세요</label>
 						<input type="hidden" name="atchFileId3Set" id="mypCpaTrainReg_atchFileInfoAtchFileId3Set"/>
@@ -437,6 +439,7 @@
 					</div>
 
 					<div class="inp-box mypCpaTrainReg_atchFileInfoAtchFileAdd1">
+						<div class="label">기타</div>
 						<input class="mypCpaTrainReg_fileChange" type="file" id="mypCpaTrainReg_atchFileInfoAtchFileId4" name="atchFileId4" readonly/>
 						<label for="mypCpaTrainReg_atchFileInfoAtchFileId4">파일을 등록해 주세요</label>
 						<input type="hidden" name="atchFileId4Set" id="mypCpaTrainReg_atchFileInfoAtchFileId4Set"/>
@@ -571,19 +574,19 @@
 					<h4>첨부파일 (첨부서류)</h4>
 					<ul class="breakdown-list">
 						<li>
-							<span>졸업예정 증명서류</span>
+							<span>최종학교졸업증명서 혹은 졸업예정증명서</span>
 							<p id="mypCpaTrainRegReviewInfo_atchFileId1"></p>
 						</li>
 						<li class="mypTrainReview_atchFileId2">
-							<span></span>
+							<span>실무수습계획서</span>
 							<p id="mypCpaTrainRegReviewInfo_atchFileId2"></p>
 						</li>
 						<li class="mypTrainReview_atchFileId3">
-							<span></span>
+							<span>학사일정</span>
 							<p id="mypCpaTrainRegReviewInfo_atchFileId3"></p>
 						</li>
 						<li class="mypTrainReview_atchFileId4">
-							<span></span>
+							<span>기타</span>
 							<p id="mypCpaTrainRegReviewInfo_atchFileId4"></p>
 						</li>
 						<li>

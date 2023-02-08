@@ -524,7 +524,11 @@ public class MypTrainController {
 
 				if(file.isEmpty()){
 
-					if("passCrtiFileId".equals(key) && oldPassCrtiFileCnt == 0){
+					if("atchFileId1".equals(key)){
+						modelAndView.addObject("message", "최종학교졸업증명서 혹은 졸업예정증명서를 선택해주세요.");
+						return modelAndView;
+					}
+					else if("passCrtiFileId".equals(key) && oldPassCrtiFileCnt == 0){
 						modelAndView.addObject("message", "합격증서 사본을 선택해주세요.");
 						return modelAndView;
 					}
@@ -535,13 +539,6 @@ public class MypTrainController {
 					else if("rsumFileId".equals(key) && oldEventnCnt == 0){
 						modelAndView.addObject("message", "이력서를 선택해주세요.");
 						return modelAndView;
-					}
-					else if("atchFileId1".equals(key) || "atchFileId2".equals(key) || "atchFileId3".equals(key) || "atchFileId4".equals(key)){
-						atchFileCnt++;
-						if(atchFileCnt == 4 && oldAtchFileCnt == 0){
-							modelAndView.addObject("message", "최종학교졸업증명서 및 졸업예정증명서를 1개 이상 선택해주세요.");
-							return modelAndView;
-						}
 					}
 					/*else if("Y".equals(atchFileId1FlagYn)){
 						if("atchFileId1".equals(key) || "atchFileId2".equals(key) || "atchFileId3".equals(key) || "atchFileId4".equals(key)){
