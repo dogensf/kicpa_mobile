@@ -85,7 +85,7 @@
 							<th>구분</th>
 							<th>필수</th>
 							<th>의무시간<br />(A)</th>
-							<th>의무시간<br />(B)</th>
+							<th>이수시간<br />(B)</th>
 							<th>미 이수시간<br />(A-B)</th>
 						</tr>
 						</thead>
