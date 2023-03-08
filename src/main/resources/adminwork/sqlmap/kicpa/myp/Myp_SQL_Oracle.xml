@@ -303,7 +303,7 @@
 				,	lqm.OPBIZ_DE
 				,	lqm.OPBIZ_CL
 				,   (SELECT cc.CD_NM FROM CMMN_CODE cc WHERE cc.GRP_CD ='GA4010' AND cc.CD = lqm.OPBIZ_CL) AS OPBIZ_CL_NM
-				,   CASE WHEN lqm.LNDCTN_CL || lqm.LNDCTN_NO || lqm.VRIFY_NO IS NOT NULL THEN lqm.LNDCTN_CL || '-' || lqm.LNDCTN_NO || '-' || lqm.VRIFY_NO ELSE NULL END AS LNDCTN_VRIFY_NO_CL
+				,   CASE WHEN lqm.LNDCTN_CL || lqm.LNDCTN_NO || lqm.VRIFY_NO IS NOT NULL THEN lqm.LNDCTN_CL || '-' || CASE WHEN length(lqm.LNDCTN_NO) <5 THEN LPAD(LNDCTN_NO, 4, '0') ELSE substr(lqm.LNDCTN_NO,2,5)  END || '-' || lqm.VRIFY_NO ELSE NULL END AS LNDCTN_VRIFY_NO_CL
 				, 	CASE WHEN lqm.UPDT_DE IS NOT NULL THEN TO_CHAR(TO_DATE(lqm.UPDT_DE,'YYYY-MM-DD') + (INTERVAL '5' YEAR) - 1, 'YYYY-MM-DD')
 		            WHEN lqm.REGIST_DE IS NOT NULL THEN TO_CHAR(TO_DATE(lqm.REGIST_DE,'YYYY-MM-DD') + (INTERVAL '5' YEAR) - 1, 'YYYY-MM-DD')
 		            ELSE NULL
@@ -312,6 +312,38 @@
             FROM LNDCTN_QUALF_MANAGE lqm
             WHERE lqm.PIN = #pin#
               AND lqm.SEQ = (SELECT MAX(SEQ) FROM LNDCTN_QUALF_MANAGE WHERE PIN = #pin#)
+         ]]>
+
+	</select>
+
+	<select id="MyPageDAO.selectCpaTaxAcutInfoListVer2" parameterClass="HashMap" resultClass="EgovMap">
+
+		<![CDATA[
+            SELECT
+                	tm.PIN
+				,	tm.SEQ
+				,	tm.LNDCTN_SBSCRB
+				,	tl.CRQFC_NO
+				,	TO_CHAR(TO_DATE(tl.CRQFC_ISUE_DE,'YYYY-MM-DD'),'YYYY-MM-DD') AS CRQFC_ISUE_DE
+				,	tm.LNDCTN_CL
+				,	tm.LNDCTN_NO
+				,	tm.VRIFY_NO
+				,	tm.LNDCTN_ID
+				,	TO_CHAR(TO_DATE(tm.REGIST_DE,'YYYY-MM-DD'),'YYYY-MM-DD') AS REGIST_DE
+				,	TO_CHAR(TO_DATE(tm.LAST_REGIST_DE,'YYYY-MM-DD'),'YYYY-MM-DD') AS UPDT_DE
+				,	tm.REMARK AS RM
+				,	tm.OPBIZ_CL
+				,   (SELECT cc.CD_NM FROM CMMN_CODE cc WHERE cc.GRP_CD ='GA4010' AND cc.CD = tm.OPBIZ_CL) AS OPBIZ_CL_NM
+				,   CASE WHEN tm.LNDCTN_CL || tm.LNDCTN_NO || tm.VRIFY_NO IS NOT NULL THEN tm.LNDCTN_CL || '-' || CASE WHEN length(tm.LNDCTN_NO) <5 THEN LPAD(LNDCTN_NO, 4, '0') ELSE substr(tm.LNDCTN_NO,2,5)  END || '-' || tm.VRIFY_NO ELSE NULL END AS LNDCTN_VRIFY_NO_CL
+				, 	CASE WHEN tm.LAST_REGIST_DE IS NOT NULL THEN TO_CHAR(TO_DATE(tm.LAST_REGIST_DE,'YYYY-MM-DD') + (INTERVAL '5' YEAR) - 1, 'YYYY-MM-DD')
+		            WHEN tm.REGIST_DE IS NOT NULL THEN TO_CHAR(TO_DATE(tm.REGIST_DE,'YYYY-MM-DD') + (INTERVAL '5' YEAR) - 1, 'YYYY-MM-DD')
+		            ELSE NULL
+					END AS LAST_UPDT_DE
+
+            FROM TAX_MASTER tm
+            LEFT JOIN TAX_LICENSE tl ON tl.PIN = tm.PIN
+            WHERE tm.PIN = #pin#
+              AND tm.SEQ = (SELECT MAX(SEQ) FROM TAX_MASTER WHERE PIN = #pin#)
          ]]>
 
 	</select>
@@ -495,4 +527,13 @@
 	<procedure id="MyPageDAO.eapQueryMain09Proc" parameterMap="eMailInfo">
 		<![CDATA[ { CALL KIPADM.EAP_QUERY_MAIN_09_PROC(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) } ]]>
 	</procedure>
+
+	<select id="MypDAO.selectTaxVersion" parameterClass="HashMap" resultClass="String">
+
+		<![CDATA[
+            select cd from CMMN_CODE where grp_cd = 'GN0040' and use_yn = 'Y'
+         ]]>
+
+	</select>
+
 </sqlMap>

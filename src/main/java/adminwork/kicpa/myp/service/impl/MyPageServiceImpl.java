@@ -62,7 +62,14 @@ public class MyPageServiceImpl extends EgovAbstractServiceImpl implements MyPage
 
 	@Override
 	public List<?> selectCpaTaxAcutInfoList(Map<String, Object> map) throws Exception {
-		return myPageDAO.selectCpaTaxAcutInfoList(map);
+		String verNum = myPageDAO.selectTaxVersion();
+
+		if("1".equals(verNum)){
+			return myPageDAO.selectCpaTaxAcutInfoList(map);
+		}
+		else{
+			return myPageDAO.selectCpaTaxAcutInfoListVer2(map);
+		}
 	}
 
 

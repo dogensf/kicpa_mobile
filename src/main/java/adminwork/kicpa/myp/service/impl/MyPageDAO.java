@@ -51,6 +51,10 @@ public class MyPageDAO extends EgovComAbstractDAO2 {
         return (List<?>) list("MyPageDAO.selectCpaTaxAcutInfoList", (Object) map);
     }
 
+    public List<?> selectCpaTaxAcutInfoListVer2(Map<String, Object> map) throws Exception {
+        return (List<?>) list("MyPageDAO.selectCpaTaxAcutInfoListVer2", (Object) map);
+    }
+
 
     public List<?> selectCpaTrainRegistReviewInfoList(Map<String, Object> map) throws Exception {
         return (List<?>) list("MyPageDAO.selectCpaTrainRegistReviewInfoList", (Object) map);
@@ -77,5 +81,9 @@ public class MyPageDAO extends EgovComAbstractDAO2 {
 
     public void eapQueryMain09Proc(Map<String, Object> map) throws Exception {
         insert("MyPageDAO.eapQueryMain09Proc", (Object) map);
+    }
+
+    public String selectTaxVersion() throws Exception {
+        return (String) select("MyPageDAO.selectTaxVersion");
     }
 }
