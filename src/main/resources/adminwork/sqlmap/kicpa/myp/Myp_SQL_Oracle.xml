@@ -528,7 +528,7 @@
 		<![CDATA[ { CALL KIPADM.EAP_QUERY_MAIN_09_PROC(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) } ]]>
 	</procedure>
 
-	<select id="MypDAO.selectTaxVersion" parameterClass="HashMap" resultClass="String">
+	<select id="MyPageDAO.selectTaxVersion" parameterClass="HashMap" resultClass="String">
 
 		<![CDATA[
             select cd from CMMN_CODE where grp_cd = 'GN0040' and use_yn = 'Y'
