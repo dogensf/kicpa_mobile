@@ -53,11 +53,15 @@
             ,   HUS_ADRES = #husAdres#
             ,   HUS_ADRES_DETAIL = #husAdresDetail#
             ,   HUS_LEGAL_CD = #husLegalCd#
+            ,   HUS_BULD_NM = #husBdNm#
+            ,   HUS_BULD_NO = #husBdMgtSn#
             ,   OFC_ADR_CL = #ofcAdrCl#
             ,   OFC_ZIP_CD = #ofcZipCd#
             ,   OFC_ADRES = #ofcAdres#
             ,   OFC_ADRES_DETAIL = #ofcAdresDetail#
             ,   OFC_LEGAL_CD = #ofcLegalCd#
+            ,   OFC_BULD_NM = #ofcBdNm#
+            ,   OFC_BULD_NO = #ofcBdMgtSn#
             ,   POST_SNDNG_YN = #postSndngYn#
             ,   OFC_TEL_NO = #ofcTelNo#
             ,   OFC_FAX_NO = #ofcFaxNo#
@@ -139,11 +143,15 @@
 				,	cpm.HUS_ADRES
 				,	cpm.HUS_ADRES_DETAIL
 				,	cpm.HUS_LEGAL_CD
+				,	cpm.HUS_BULD_NM
+				,	cpm.HUS_BULD_NO
 				,	cpm.OFC_ADR_CL
 				,	cpm.OFC_ZIP_CD
 				,	cpm.OFC_ADRES
 				,	cpm.OFC_ADRES_DETAIL
 				,	cpm.OFC_LEGAL_CD
+				,	cpm.OFC_BULD_NM
+				,	cpm.OFC_BULD_NO
 				,	cpm.POST_SNDNG_YN
 				,   CASE WHEN cpm.POST_SNDNG_YN = 'O' THEN '직장' ELSE '자택' END AS POST_SNDNG_NM
 				,	cpm.OFC_TEL_NO
@@ -258,12 +266,12 @@
         ]]>
 		<isEqual property="adrCl" compareValue="HOUSE">
 			<![CDATA[
-                  ZIP_CD = #husZipCd#, RD_ADRES = #husAdres# , RD_ADRES_DETAIL = #husAdresDetail#, LEGAL_CD = #husLegalCd#,
+                  ZIP_CD = #husZipCd#, RD_ADRES = #husAdres# , RD_ADRES_DETAIL = #husAdresDetail#, LEGAL_CD = #husLegalCd#, BULD_NM = #husBuldNm#, BULD_NO = #husBuldNo#,
                 ]]>
 		</isEqual>
 		<isEqual property="adrCl" compareValue="OFICE">
 			<![CDATA[
-                  ZIP_CD = #ofcZipCd#, RD_ADRES = #ofcAdres# , RD_ADRES_DETAIL = #ofcAdresDetail#, LEGAL_CD = #ofcLegalCd#,
+                  ZIP_CD = #ofcZipCd#, RD_ADRES = #ofcAdres# , RD_ADRES_DETAIL = #ofcAdresDetail#, LEGAL_CD = #ofcLegalCd#, BULD_NM = #ofcBuldNm#, BULD_NO = #ofcBuldNo#,
                 ]]>
 		</isEqual>
 
@@ -271,18 +279,18 @@
                                 REGIST_DE = #registDe#, REGIST_Cl = #registCl#,
                                 LAST_UPDT_ID = #userId#, LAST_UPDT_DT = SYSTIMESTAMP
                 WHEN NOT MATCHED THEN
-                          INSERT (ADR_CL, ADR_TRG_CL, ADR_TRG_ID, ZIP_CD, RD_ADRES, RD_ADRES_DETAIL,LEGAL_CD, REGIST_DE,
+                          INSERT (ADR_CL, ADR_TRG_CL, ADR_TRG_ID, ZIP_CD, RD_ADRES, RD_ADRES_DETAIL, LEGAL_CD, BULD_NM, BULD_NO, REGIST_DE,
                                      REGIST_Cl, FRST_REGIST_ID, FRST_REGIST_DT, LAST_UPDT_ID, LAST_UPDT_DT)
                           VALUES (#adrCl# , #adrTrgCl# , #pin# ,
         ]]>
 		<isEqual property="adrCl" compareValue="HOUSE">
 			<![CDATA[
-									#husZipCd# , #husAdres# , #husAdresDetail#, #husLegalCd#,
+									#husZipCd# , #husAdres# , #husAdresDetail#, #husLegalCd#, #husBuldNm#, #husBuldNo#,
 							]]>
 		</isEqual>
 		<isEqual property="adrCl" compareValue="OFICE">
 			<![CDATA[
-									#ofcZipCd# , #ofcAdres# , #ofcAdresDetail#, #ofcLegalCd#,
+									#ofcZipCd# , #ofcAdres# , #ofcAdresDetail#, #ofcLegalCd#, #ofcBuldNm#, #ofcBuldNo#,
 							]]>
 		</isEqual>
 
@@ -379,12 +387,12 @@
         ]]>
 		<isEqual property="adrCl" compareValue="HOUSE">
 			<![CDATA[
-					  ZIP_CD = #husZipCd#, RD_ADRES = #husAdres# , RD_ADRES_DETAIL = #husAdresDetail#, LEGAL_CD = #husLegalCd#,
+					  ZIP_CD = #husZipCd#, RD_ADRES = #husAdres# , RD_ADRES_DETAIL = #husAdresDetail#, LEGAL_CD = #husLegalCd#, BULD_NM = #husBdNm#, BULD_NO = #husBdMgtSn#,
 					]]>
 		</isEqual>
 		<isEqual property="adrCl" compareValue="OFICE">
 			<![CDATA[
-					  ZIP_CD = #ofcZipCd#, RD_ADRES = #ofcAdres# , RD_ADRES_DETAIL = #ofcAdresDetail#, LEGAL_CD = #ofcLegalCd#,
+					  ZIP_CD = #ofcZipCd#, RD_ADRES = #ofcAdres# , RD_ADRES_DETAIL = #ofcAdresDetail#, LEGAL_CD = #ofcLegalCd#, BULD_NM = #ofcBdNm#, BULD_NO = #ofcBdMgtSn#,
 					]]>
 		</isEqual>
 
@@ -392,18 +400,18 @@
                                 REGIST_DE = #registDe#, REGIST_Cl = #registCl#,
                                 LAST_UPDT_ID = #userId#, LAST_UPDT_DT = SYSTIMESTAMP
                 WHEN NOT MATCHED THEN
-                          INSERT (ADR_CL, ADR_TRG_CL, ADR_TRG_ID, ZIP_CD, RD_ADRES, RD_ADRES_DETAIL,LEGAL_CD, REGIST_DE,
+                          INSERT (ADR_CL, ADR_TRG_CL, ADR_TRG_ID, ZIP_CD, RD_ADRES, RD_ADRES_DETAIL, LEGAL_CD, BULD_NM, BULD_NO, REGIST_DE,
                                      REGIST_Cl, FRST_REGIST_ID, FRST_REGIST_DT, LAST_UPDT_ID, LAST_UPDT_DT)
                           VALUES (#adrCl# , #adrTrgCl# , #pin# ,
         ]]>
 		<isEqual property="adrCl" compareValue="HOUSE">
 			<![CDATA[
-						#husZipCd# , #husAdres# , #husAdresDetail#, #husLegalCd#,
+						#husZipCd# , #husAdres# , #husAdresDetail#, #husLegalCd#, #husBdNm#, #husBdMgtSn#,
 				]]>
 		</isEqual>
 		<isEqual property="adrCl" compareValue="OFICE">
 			<![CDATA[
-						#ofcZipCd# , #ofcAdres# , #ofcAdresDetail#, #ofcLegalCd#,
+						#ofcZipCd# , #ofcAdres# , #ofcAdresDetail#, #ofcLegalCd#, #ofcBdNm#, #ofcBdMgtSn#,
 				]]>
 		</isEqual>
 

@@ -564,6 +564,8 @@ mypPassReg.mypCpaPassReg_updateInfoList_success = function(data){
 		$('#mypCpaPassReg_houseInfoAdres').val(data.cpaPassRegHusAeresRealInfo[0].rdAdres);                                 //자택주소
 		$('#mypCpaPassReg_houseInfoAdresDt').val(data.cpaPassRegHusAeresRealInfo[0].rdAdresDetail);                         //자택상세주소
 		$('#mypCpaPassReg_houseInfoLegalCd').val(data.cpaPassRegHusAeresRealInfo[0].legalCd);                               //자택법정동코드
+		$('#mypCpaPassReg_houseInfoBdNm').val(data.cpaPassRegHusAeresRealInfo[0].buldNm);                                   //자택건물명
+		$('#mypCpaPassReg_houseInfoBdMgtSn').val(data.cpaPassRegHusAeresRealInfo[0].buldNo);                                //자택건물번호
 
 		if(data.cpaPassRegOfcAeresRealInfoSize >0 || data.cpaPassRegOfcRealInfoSize >0){
 			$("input:checkbox[name='ofcRegYn']").attr('checked', true);      //직장정보 등록 체크
@@ -575,6 +577,8 @@ mypPassReg.mypCpaPassReg_updateInfoList_success = function(data){
 				$('#mypCpaPassReg_officeInfoAdres').val(data.cpaPassRegOfcAeresRealInfo[0].rdAdres);                                //직장주소
 				$('#mypCpaPassReg_officeInfoAdresDt').val(data.cpaPassRegOfcAeresRealInfo[0].rdAdresDetail);                        //직장상세주소
 				$('#mypCpaPassReg_officeInfoLegalCd').val(data.cpaPassRegOfcAeresRealInfo[0].legalCd);                              //직장법정동코드
+				$('#mypCpaPassReg_officeInfoBdNm').val(data.cpaPassRegOfcAeresRealInfo[0].buldNm);                                  //직장건물명
+				$('#mypCpaPassReg_officeInfoBdMgtSn').val(data.cpaPassRegOfcAeresRealInfo[0].buldNo);                               //직장건물번호
 			}
 
 			if(data.cpaPassRegOfcRealInfoSize >0) {
@@ -777,12 +781,16 @@ function mypAdresCallBack(roadFullAddr,roadAddrPart1,addrDetail,roadAddrPart2,en
 		$('#mypCpaPassReg_houseInfoAdres').val(roadAddrPart1);			    //도로명주소
 		$('#mypCpaPassReg_houseInfoAdresDt').val(addrDetail);		        //도로명상세
 		$('#mypCpaPassReg_houseInfoLegalCd').val(admCd);		            //법정동코드
+		$('#mypCpaPassReg_houseInfoBdNm').val(bdNm);		                //건물명
+		$('#mypCpaPassReg_houseInfoBdMgtSn').val(bdMgtSn);		            //건물번호
 	}
 	else{
 		$('#mypCpaPassReg_officeInfoZipCd').val(zipNo);						//우편번호
 		$('#mypCpaPassReg_officeInfoAdres').val(roadAddrPart1);			    //도로명주소
 		$('#mypCpaPassReg_officeInfoAdresDt').val(addrDetail);		        //도로명상세
 		$('#mypCpaPassReg_officeInfoLegalCd').val(admCd);		            //법정동코드
+		$('#mypCpaPassReg_officeInfoBdNm').val(bdNm);		                //건물명
+		$('#mypCpaPassReg_officeInfoBdMgtSn').val(bdMgtSn);		            //건물번호
 	}
 
 }

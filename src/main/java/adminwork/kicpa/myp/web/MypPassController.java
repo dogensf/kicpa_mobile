@@ -322,6 +322,8 @@ public class MypPassController {
 				paramMap.put("ofcAdres", "");					//직장주소
 				paramMap.put("ofcAdresDetail", ""); 			//직장상세주소
 				paramMap.put("ofcLegalCd", ""); 				//직장법정동코드
+				paramMap.put("ofcBdNm", "");  					//직장건물명
+				paramMap.put("ofcBdMgtSn", "");  				//직장건물번호
 				paramMap.put("ofcTelNo", "");					//직장전화번호
 				paramMap.put("ofcFaxNo", "");					//팩스번호
 				paramMap.put("oficeNm", ""); 					//직장명

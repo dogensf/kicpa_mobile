@@ -59,6 +59,8 @@
 				,	RD_ADRES_DETAIL
 				,	LEGAL_CD
 				,   TRIM(TRIM(RD_ADRES)||' '||TRIM(RD_ADRES_DETAIL)) AS SUM_RD_ADRES
+				,	BULD_NM
+				,	BULD_NO
 
             FROM ADRES_INFO
             WHERE ADR_CL = #adrCl#

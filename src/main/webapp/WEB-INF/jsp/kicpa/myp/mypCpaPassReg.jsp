@@ -236,6 +236,8 @@
 								<label class="label essen" for="mypCpaPassReg_houseInfoAdresDt">상세주소</label>
 								<input type="text" id="mypCpaPassReg_houseInfoAdresDt" name="husAdresDetail" placeholder="상세주소를 입력하세요."/>
 								<input type="hidden" name="husLegalCd" id="mypCpaPassReg_houseInfoLegalCd"/>
+								<input type="hidden" name="husBdNm" id="mypCpaPassReg_houseInfoBdNm"/>
+								<input type="hidden" name="husBdMgtSn" id="mypCpaPassReg_houseInfoBdMgtSn"/>
 							</div>
 
 							<div class="inp-box">
@@ -280,6 +282,8 @@
 									<label class="label" for="mypCpaPassReg_officeInfoAdresDt">직장 상세주소</label>
 									<input type="text" id="mypCpaPassReg_officeInfoAdresDt" name="ofcAdresDetail" placeholder="직장 상세주소를 입력하세요." <c:if test="${cpaMemFlagInfo[0].mberFlag eq 'A2020010' && cpaMemFlagInfo[0].audGrpCl eq 'A3010010'}">style="background-color: #fafafa;" readonly</c:if>/>
 									<input type="hidden" name="ofcLegalCd" id="mypCpaPassReg_officeInfoLegalCd"/>
+									<input type="hidden" name="ofcBdNm" id="mypCpaPassReg_officeInfoBdNm"/>
+									<input type="hidden" name="ofcBdMgtSn" id="mypCpaPassReg_officeInfoBdMgtSn"/>
 								</div>
 
 								<div class="inp-box">
