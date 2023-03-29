@@ -57,6 +57,9 @@ mypPassReg.mypPassRegInit = function(){
 
 	$('#mypCpaPassReg_ofcInfoReg').hide();
 
+	$('.husNatiYn').prop('readonly', true);
+	$('.ofcNatiYn').prop('readonly', true);
+
 	//약관동의 저장(다음버튼)
 	$("#mypCpaPassReg_agreeSaveBtn").on("click",function(e) {
 		var formData = $('#mypCpaPassReg_agreeForm').serializeObject();
@@ -321,6 +324,40 @@ mypPassReg.mypPassRegInit = function(){
 
 	});
 
+	//자택 국내,외국 주소 선택
+	$("input[name='husNati']").change(function(){
+		if($('input[name=husNati]:checked').val() == 'F'){
+			$('.husNatiYn').prop('readonly', false);
+		}
+		else{
+			$('.husNatiYn').prop('readonly', true);
+		}
+
+		$('#mypCpaPassReg_houseInfoZipCd').val('');		    //자택우편번호
+		$('#mypCpaPassReg_houseInfoAdres').val('');		    //자택주소
+		$('#mypCpaPassReg_houseInfoAdresDt').val('');		//자택상세주소
+		$('#mypCpaPassReg_houseInfoLegalCd').val('');		//자택법정동코드
+		$('#mypCpaPassReg_houseInfoBdNm').val('');		    //자택건물명
+		$('#mypCpaPassReg_houseInfoBdMgtSn').val('');		//자택건물번호
+	});
+
+	//직장 국내,외국 주소 선택
+	$("input[name='ofcNati']").change(function(){
+		if($('input[name=ofcNati]:checked').val() == 'F'){
+			$('.ofcNatiYn').prop('readonly', false);
+		}
+		else{
+			$('.ofcNatiYn').prop('readonly', true);
+		}
+
+		$('#mypCpaPassReg_officeInfoZipCd').val('');		//직장우편번호
+		$('#mypCpaPassReg_officeInfoAdres').val('');		//직장주소
+		$('#mypCpaPassReg_officeInfoAdresDt').val('');		//직장상세주소
+		$('#mypCpaPassReg_officeInfoLegalCd').val('');		//직장법정동코드
+		$('#mypCpaPassReg_officeInfoBdNm').val('');		    //직장건물명
+		$('#mypCpaPassReg_officeInfoBdMgtSn').val('');		//직장건물번호
+	});
+
 	//회원(휴업) 분류 클릭
 	$("#mypCpaPassReg_closedClNm").on("click",function(e) {
 
@@ -480,6 +517,8 @@ mypPassReg.mypCpaPassReg_officeInfoInit = function(){
 	$('#mypCpaPassReg_officeInfoAdres').val('');		//직장주소
 	$('#mypCpaPassReg_officeInfoAdresDt').val('');		//직장상세주소
 	$('#mypCpaPassReg_officeInfoLegalCd').val('');		//직장법정동코드
+	$('#mypCpaPassReg_officeInfoBdNm').val('');		    //직장건물명
+	$('#mypCpaPassReg_officeInfoBdMgtSn').val('');		//직장건물번호
 	$('#mypCpaPassReg_officeInfoTelNo1').val('');		//직장전화번호1
 	$('#mypCpaPassReg_officeInfoTelNo2').val('');		//직장전화번호2
 	$('#mypCpaPassReg_officeInfoTelNo3').val('');		//직장전화번호3
@@ -766,6 +805,17 @@ mypPassReg.selectMypCpaPassRegReviewInfo_success = function(result){
 
 //우편번호, 주소 클릭
 mypPassReg.mypAdresGoPopup = function(flag){
+
+	if(flag == 'H'){
+		if($('input[name=husNati]:checked').val() == 'F'){
+			return ;
+		}
+	}
+	else{
+		if($('input[name=ofcNati]:checked').val() == 'F'){
+			return ;
+		}
+	}
 
 	var pop = window.open(mypPassReg.getContextPath()+"/myp/mypAdresPop.do?flag="+flag,"pop","scrollbars=yes, resizable=yes");
 

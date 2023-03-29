@@ -141,6 +141,7 @@
             ,   TO_CHAR(TO_DATE((SELECT acev.AUD_END_DE FROM kipadm.apntc_cpa_end2_view acev WHERE acev.APP_CPA_NO=ac.APP_CPA_NO),'YYYY-MM-DD'),'YYYY-MM-DD') AS AUD_REGIST_END_DE
             ,   TO_CHAR(TO_DATE(ac.AUD_END_DE,'YYYY-MM-DD'),'YYYY-MM-DD') AS AUD_END_DE
             ,   ac.APNTC_CL
+            ,   (SELECT TRIM(cc.CD_NM) FROM CMMN_CODE cc WHERE cc.GRP_CD ='GA1010' AND cc.CD = ac.APNTC_CL) AS APNTC_CL_NM
             ,   ac.APP_INSTT_CD
             ,   (SELECT ai.KOR_AUD_NM FROM AUDIT_INFO ai WHERE ai.AUDIT_CD=ac.APP_INSTT_CD) AS APP_INSTT_CD_NM
             ,   ac.APP_INSTT_ETC
