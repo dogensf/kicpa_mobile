@@ -14,6 +14,20 @@ function download(fileName){
 }
 </script>
 
+<style>
+    .ico-file {
+        border: 1px solid #0070C0;
+        background: url("data:image/svg+xml;charset=utf8,%3Csvg width='16' height='14' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='m8.178 11.264-5.42-5.422a2.666 2.666 0 1 1 3.77-3.77l5.893 5.892a1.667 1.667 0 0 1-2.357 2.357l-4.95-4.95a.669.669 0 0 1 0-.943c.26-.26.684-.26.943 0l4.479 4.478.707-.707-4.479-4.478a1.667 1.667 0 0 0-2.357 2.357l4.95 4.95a2.666 2.666 0 1 0 3.771-3.771L7.236 1.364a3.665 3.665 0 0 0-5.186 0 3.665 3.665 0 0 0 0 5.185l5.421 5.422.707-.707Z' fill='%230070C0'/%3E%3C/svg%3E") no-repeat 50%;
+        background-size: 1.5rem;
+        background-position: 5px 5px;
+        margin-right: 10px;
+        padding-left:15px;
+        width: 40px;
+        height: 21px;
+        font-size: 12px;
+    }
+</style>
+
 <form id="introductionForm" name="introduction">
 	<input type="hidden" name="fileName">
 </form>
@@ -64,22 +78,108 @@ function download(fileName){
             <div class="cont">
                 <h3>CI 소개</h3>
                 <div class="ci-zone">
-                    <img src="/images/kicpa/img-ci.png" alt="ci" />
+                    <iframe width="100%" height="250" src="https://www.youtube.com/embed/F-TcLy3eW3M?rel=0&amp;autoplay=1&amp;feature=player_detailpage" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
+                </div>
 
-                    <div class="ci-color">
-                        <span class="c-281">PANTONE 281 C</span>
-                        <span class="c-279">PANTONE 279 C</span>
-                        <span class="c-gray">PANTONE Cool Gray 9</span>
+                <h3 style="font-size: 1.5rem; margin-bottom: 5px;">국문 시그니처 (Signature)</h3>
+
+                <div style="display: flex; justify-content: space-between;">
+                    <div style="width: 40%;">
+                        <label style="font-weight: 700; line-height: 3.0rem; font-size: 1.2rem;">상하조합</label>
+                        <div style="margin-bottom:5px; border:1px solid #cfcfcf;padding:10px; height: 82px; display: flex; align-items: center; justify-content: space-around;">
+                            <img src="<c:url value='/images/kicpa/korTB_ci.png'/>" style="width: 70%; max-width: 120px;">
+                        </div>
+
+                        <div style="display: flex; justify-content: flex-end;">
+                            <button class="btn-round ico-file" onclick="download('korTB_ci.ai');" type="button">AI</button>
+                            <button class="btn-round ico-file" onclick="download('korTB_ci.png');" type="button" style="padding-left: 15px; width: 52px; margin-right: 0;">PNG</button>
+                        </div>
+                    </div>
+
+                    <div style="width: 50%;">
+                        <label style="font-weight: 700; line-height: 3.0rem; font-size: 1.2rem;">좌우조합</label>
+                        <div style="margin-bottom:5px; border:1px solid #cfcfcf;padding:10px; height: 82px; display: flex; align-items: center; justify-content: space-around;">
+                            <img src="<c:url value='/images/kicpa/korLR_ci.png'/>" style="width: 100%; max-width: 300px;">
+                        </div>
+
+                        <div style="display: flex; justify-content: flex-end;">
+                            <button class="btn-round ico-file" onclick="download('korLR_ci.ai');" type="button">AI</button>
+                            <button class="btn-round ico-file" onclick="download('korLR_ci.png');" type="button" style="padding-left: 15px; width: 52px; margin-right: 0;">PNG</button>
+                        </div>
                     </div>
                 </div>
 
-                <p>
-                    KICPA의 CI는 “KICPA”라는 간결한 워드마크에 확대경 이미지를 결합하여 국내 최고의 회계ㆍ세무전문가로서 투명한 경제사회를 견인하겠다는 의지가 담겨 있습니다.
-                </p>
 
+                <h3 style="font-size: 1.5rem; margin: 30px 0 5px 0;">한문 시그니처 (Signature)</h3>
+
+                <div style="display: flex; justify-content: space-between;">
+                    <div style="width: 40%;">
+                        <label style="font-weight: 700; line-height: 3.0rem; font-size: 1.2rem;">상하조합</label>
+                        <div style="margin-bottom:5px; border:1px solid #cfcfcf;padding:10px; height: 82px; display: flex; align-items: center; justify-content: space-around;">
+                            <img src="<c:url value='/images/kicpa/chcTB_ci.png'/>" style="width: 70%; max-width: 120px;">
+                        </div>
+
+                        <div style="display: flex; justify-content: flex-end;">
+                            <button class="btn-round ico-file" onclick="download('chcTB_ci.ai');" type="button">AI</button>
+                            <button class="btn-round ico-file" onclick="download('chcTB_ci.png');" type="button" style="padding-left: 15px; width: 52px; margin-right: 0;">PNG</button>
+                        </div>
+                    </div>
+
+                    <div style="width: 50%;">
+                        <label style="font-weight: 700; line-height: 3.0rem; font-size: 1.2rem;">좌우조합</label>
+                        <div style="margin-bottom:5px; border:1px solid #cfcfcf;padding:10px; height: 82px; display: flex; align-items: center; justify-content: space-around;">
+                            <img src="<c:url value='/images/kicpa/chcLR_ci.png'/>" style="width: 100%; max-width: 300px;">
+                        </div>
+
+                        <div style="display: flex; justify-content: flex-end;">
+                            <button class="btn-round ico-file" onclick="download('chcLR_ci.ai');" type="button">AI</button>
+                            <button class="btn-round ico-file" onclick="download('chcLR_ci.png');" type="button" style="padding-left: 15px; width: 52px; margin-right: 0;">PNG</button>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <h3 style="font-size: 1.5rem; margin: 30px 0 5px 0;">영문 시그니처 (Signature)</h3>
+
+                <div style="display: flex; justify-content: space-between;">
+                    <div style="width: 40%;">
+                        <label style="font-weight: 700; line-height: 3.0rem; font-size: 1.2rem;">상하조합</label>
+                        <div style="margin-bottom:5px; border:1px solid #cfcfcf;padding:10px; height: 82px; display: flex; align-items: center; justify-content: space-around;">
+                            <img src="<c:url value='/images/kicpa/engTB_ci.png'/>" style="width: 70%; max-width: 120px;">
+                        </div>
+
+                        <div style="display: flex; justify-content: flex-end;">
+                            <button class="btn-round ico-file" onclick="download('engTB_ci.ai');" type="button">AI</button>
+                            <button class="btn-round ico-file" onclick="download('engTB_ci.png');" type="button" style="padding-left: 15px; width: 52px; margin-right: 0;">PNG</button>
+                        </div>
+                    </div>
+
+                    <div style="width: 50%;">
+                        <label style="font-weight: 700; line-height: 3.0rem; font-size: 1.2rem;">좌우조합</label>
+                        <div style="margin-bottom:5px; border:1px solid #cfcfcf;padding:10px; height: 82px; display: flex; align-items: center; justify-content: space-around;">
+                            <img src="<c:url value='/images/kicpa/engLR_ci.png'/>" style="width: 100%; max-width: 300px;">
+                        </div>
+
+                        <div style="display: flex; justify-content: flex-end;">
+                            <button class="btn-round ico-file" onclick="download('engLR_ci.ai');" type="button">AI</button>
+                            <button class="btn-round ico-file" onclick="download('engLR_ci.png');" type="button" style="padding-left: 15px; width: 52px; margin-right: 0;">PNG</button>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <h3 style="font-size: 1.5rem; margin: 50px 0 5px 0;">사용 금지 규정 (Incorrect Usage)</h3>
+                <div style="margin-bottom:20px;">
+                    <img src="<c:url value='/images/kicpa/ci_rule.png'/>" style="width: 100%;">
+                </div>
+
+
+                <h3 style="font-size: 1.5rem; margin-bottom: 5px;">CI 다운로드</h3>
+                <p style="margin: 0 0 10px 0;">- 엠블럼, 지방공인회계사회 로고, 명함 등을 내려받으실 수 있습니다.</p>
                 <div class="btn-area">
                     <button class="btn-round"  onclick="download('ci.zip');" type="button">원본 이미지 다운로드</button>
-                    <button class="btn-round" onclick="download('ci_rule.zip');" type="button">CI 사용규정 다운로드</button>
                 </div>
             </div>
 

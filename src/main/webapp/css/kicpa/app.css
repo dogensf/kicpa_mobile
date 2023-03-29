@@ -857,6 +857,10 @@ ol.blt li::before {
   background-color: #4D90CD;
 }
 
+.info-page .ci-zone .ci-color span.c-ci::before {
+  background-color: #0050FF;
+}
+
 .info-page .ci-zone .ci-color span.c-gray::before {
   background-color: #77787B;
 }
