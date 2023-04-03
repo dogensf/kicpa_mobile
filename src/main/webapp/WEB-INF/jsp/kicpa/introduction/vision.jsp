@@ -41,7 +41,7 @@ function download(fileName){
 <section class="content">
     <div class="tab-main">
         <a class="tab-link active" href="javascript:void(0);">
-            <span>비전</span>
+            <span>CI소개</span>
         </a>
         <a class="tab-link" href="/kicpa/introduction/greetings.do">
             <span>인사말</span>
@@ -53,7 +53,7 @@ function download(fileName){
 
     <div id="tabMain1" class="tab-main-content show">
         <div class="info-page">
-            <div class="visions">
+            <%--<div class="visions">
                 KICPA의 Vision은 <b>"공인회계사의 사회적 위상제고"</b>입니다.
             </div>
 
@@ -73,10 +73,10 @@ function download(fileName){
                         KICPA는 이러한 Vision 달성을 바탕으로 공인회계사는 물론 국민 모두가 윤택한 삶을 누릴 수 있도록 23,000여 명의 공인회계사와 함께 모든 역량을 집중해 나아가겠습니다.
                     </li>
                 </ul>
-            </div>
+            </div>--%>
 
             <div class="cont">
-                <h3>CI 소개</h3>
+                <h3 style="margin-top: 0;">CI 소개</h3>
                 <div class="ci-zone">
                     <iframe width="100%" height="250" src="https://www.youtube.com/embed/F-TcLy3eW3M?rel=0&amp;autoplay=1&amp;feature=player_detailpage" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
                 </div>

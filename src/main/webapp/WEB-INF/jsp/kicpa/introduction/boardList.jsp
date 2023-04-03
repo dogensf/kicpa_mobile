@@ -31,7 +31,7 @@ function fncLocation(){
 
 		<div class="tab-main">
 		    <a class="tab-link" href="/kicpa/introduction/vision.do">
-		        <span>비전</span>
+		        <span>CI소개</span>
 		    </a>
 		    <a class="tab-link" href="/kicpa/introduction/greetings.do">
 		        <span>인사말</span>
