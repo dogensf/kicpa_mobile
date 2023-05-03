@@ -78,7 +78,7 @@ function fncLocation(){
 		        <ul>
 		        	<c:if test="${codeList ne null and fn:length(codeList) ne 0 and param.boardId eq null}">
 		        		<c:forEach items="${codeList }" var="code"  varStatus="index" >
-		        			<c:if test="${code.code ne 8}">
+		        			<c:if test="${code.code ne 6}">
 			        			<c:choose>
 			        				<c:when test="${index.index eq 0}">
 		        						 <li class="active">
