@@ -316,11 +316,11 @@
                 <div class="blue-box">
                   <ul class="guest-private">
                     <li>
-                      <b>회원명</b>
+                      <b style="font-weight: 900; font-size: 1.6rem;">회원명</b>
                       <span>${searchVO.name}</span>
                     </li>
                     <li>
-                      <b>전자납부번호</b>
+                      <b style="font-weight: 900; font-size: 1.6rem;">전자납부번호</b>
 	                      <span>
 	                      	${fn:substring(detail[0].epay_no,0,1)}
 		                    ${fn:substring(detail[0].epay_no,1,2)}
@@ -340,13 +340,13 @@
 		                  </span>
                     </li>
                     <li>
-                      <b>지로번호</b>
+                      <b style="font-weight: 900; font-size: 1.6rem;">지로번호</b>
                       <span>7613018</span>
                     </li>
                   </ul>
-                  <p class="text-guide">
-                    회비납부 방식이 금융결제원 온라인 지로 방식으로  변경되었음을 알려드립니다. 현재 화면에서 고지된  회비 목록 중 선하여 납부하거나, 인터넷 지로 또는 은행 사이트에서도 납부 할 수 있습니다.</br>
-					  회칙 제28조 제6항 제3호의 규정에 따라 “총회소집 공고일(개회 2주전) 현재 개인연간회비를 3년 이상 납부하지 않은 회원”은 총회 의결권이 제한됩니다.
+                  <p class="text-guide" style="color:black; font-size: 14px; line-height: 17px; margin-top:40px;">
+					  현재 화면에서 고지된 회비 목록 중 선택하여 납부하거나, 인터넷 지로 또는 은행 사이트에서도 "전자납부번호"를 이용해 납부 할 수 있습니다.</br></br>
+					  ※ 회칙 제28조 제6항 제3호의 규정에 따라 “총회소집 공고일(개회 2주전) 현재 개인연간회비를 3년 이상 납부하지 않은 회원”은 총회 의결권이 제한됩니다.
                   </p>
 
                 </div>

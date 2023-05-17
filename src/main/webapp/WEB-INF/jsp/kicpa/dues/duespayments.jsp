@@ -190,12 +190,12 @@ $(document).ready(function(e) {
                   </colgroup>
                   <tbody>
                     <tr>
-                      <th>회원명</th>
-                      <td>${searchVO.name}</td>
+                      <th style="color: black; font-size: 14px;">회원명</th>
+                      <td style="color: black; font-size: 14px;">${searchVO.name}</td>
                     </tr>
                     <tr class="digital-number">
-                        <th>전자납부번호</th>
-                        <td>
+                        <th style="color: black; font-size: 14px;">전자납부번호</th>
+                        <td style="color: black; font-size: 14px;">
                             ${fn:substring(detail[0].epay_no,0,1)}
                             ${fn:substring(detail[0].epay_no,1,2)}
                             ${fn:substring(detail[0].epay_no,2,3)}
@@ -214,8 +214,8 @@ $(document).ready(function(e) {
                         </td>
                     </tr>
                     <tr>
-                      <th>지로번호</th>
-                      <td>7613018</td>
+                      <th style="color: black; font-size: 14px;">지로번호</th>
+                      <td style="color: black; font-size: 14px;">7613018</td>
                     </tr>
                   </tbody>
                 </table>
@@ -239,12 +239,11 @@ $(document).ready(function(e) {
         </form>
 
       <div class="membership-fee-result-title">
-      	<p style="font-size:6px;">
+      	<p style="font-size:14px;">
 
-                &nbsp;&nbsp;회비납부 방식이 금융결제원 온라인 지로 방식으로 변경되었음을 알려드립니다. 현재 화면에서 고지된 회비 목록 중 선택하여 납부하거나, </br>
-                &nbsp;&nbsp;인터넷 지로 또는 은행 사이트에서도 납부 할 수 있습니다. </br>
-                &nbsp;※ 지로용지로 납부하고자 하는 회원분께서는 아래에 고지된 회비별로 "오프라인 지로받기"를 선택해주시기 바랍니다.</br>
-            회칙 제28조 제6항 제3호의 규정에 따라 “총회소집 공고일(개회 2주전) 현재 개인연간회비를 3년 이상 납부하지 않은 회원”은 총회 의결권이 제한됩니다.</br>
+            &nbsp;&nbsp;현재 화면에서 고지된 회비 목록 중 선택하여 납부하거나, 인터넷 지로 또는 은행 사이트에서도 "전자납부번호"를 이용해 납부 할 수 있습니다. </br>
+            &nbsp;&nbsp;</br>
+            &nbsp;※ 회칙 제28조 제6항 제3호의 규정에 따라 “총회소집 공고일(개회 2주전) 현재 개인연간회비를 3년 이상 납부하지 않은 회원”은 총회 의결권이 제한됩니다.'</br>
 
                 <!-- <button type="button" onclick="javascript:$('.image-view-layer').show();">회비고지서 확인</button> -->
                 <!-- <button type="button" onclick="javascript:giroReport();" style="position:absolute;right:0px;top:10px;">회비고지서 확인</button> -->
