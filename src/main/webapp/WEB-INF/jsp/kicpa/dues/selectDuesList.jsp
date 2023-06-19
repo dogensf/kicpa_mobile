@@ -21,6 +21,7 @@
     <script type="text/javascript" src="<c:url value='/js/swiper-bundle.min.js'/>"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.12.4.min.js"></script>
+	<script src="/js/KicpaCommon.js"></script>
     <%-- <script src="<c:url value='/js/html2canvas.js'/>"></script>
 	<script src="<c:url value='/js/html2canvas.min.js'/>"></script> --%>
     <style>
@@ -79,7 +80,7 @@
         
 
         $(document).ready(function(e) {
-        	window.bridge.displayBottom(true);
+        	//window.bridge.displayBottom(true);
         	
             $('#appLoadingIndicator2', parent.document).hide();
 
@@ -191,8 +192,8 @@
                 	$('#paymentBtn').css("background","#EB640F");
                 	$('#paymentBtn').css("color","#fff");
                 }else{
-                	$('#paymentBtn').css("background","#fff");
-                	$('#paymentBtn').css("color","#EB640F");
+                	$('#paymentBtn').css("background","#0070C0");
+                	$('#paymentBtn').css("color","#fff");
                 }
                 $('#paymentBtn').html(sumDudtamt +' 원 결제');
 
@@ -232,6 +233,18 @@
 
             });
 
+
+            //세부내역 확인 버튼 클릭
+			$("#selectDuesList_detailBtn").click(function(){
+				selectDuesList_detsilBtnClick();
+			});
+
+			//세부내역 확인 팝업 확인 버튼
+			$('#selectDuesListPop_ok').click(function(){
+				$('#selectDuesList_body').removeClass('stop');
+				$('#selectDuesListPop_duesDetail').removeClass('show');
+			});
+
         });
 
 
@@ -262,10 +275,585 @@
     		//location.href='<c:url value='/kicpa/main/main.do'/>';
     		$('#appExit').addClass("show");
     	}
+
+    	//세부내역 확인 화면 이동
+		function selectDuesList_detsilBtnClick() {
+
+			if($("#selectDuesList_confirmPass").is(":checked") || sessionStorage.getItem("본인인증") == "Y"  ){        //본인인증 패스
+				duesDetailReport();
+			}
+			else{
+				getSelectDuesListDetsilCheckplusEncData();
+			}
+		}
+
+		//세부내역 확인 화면 이동 전 본인 인증
+		function getSelectDuesListDetsilCheckplusEncData() {
+			var param = {};
+			param.movePage = "https://mkip.kicpa.or.kr"+"<c:url value='/dues/selectDuesListConfirmSucc.do'/>";
+			fn_ajax_call("/kicpa/common/getCheckplusEncData.do",param,getSelectDuesListDetsilCheckplusEncDataSuccess,selectDuesListError);
+		}
+
+        function getSelectDuesListDetsilCheckplusEncDataSuccess(data) {
+			var sMessage = data.sMessage;
+			var sEncData = data.sEncData;
+
+
+			$("#selectDuesList_nice input[name='EncodeData']").val(sEncData);
+
+			var form = document.getElementById("selectDuesList_nice");
+
+			window.open('', 'popupChk');
+			form.action = "https://nice.checkplus.co.kr/CheckPlusSafeModel/checkplus.cb";
+			form.target = "popupChk";
+			form.submit();
+        }
+
+		//본인인증 후 세부내역 확인 화면으로 이동
+		function selectDuesList_duesDetailConfirmSuccMove() {
+
+			if(di != $('#selectDuesList_duesDetailInfoDi').val()){
+				alert("회원정보가 일치하지 않습니다.");
+			}
+			else{
+				sessionStorage.setItem("본인인증", "Y");
+				duesDetailReport();
+			}
+		}
+
+		function duesDetailReport() {
+			var formData = $('#selectDuesList_frm').serializeObject();
+
+			formData.duesFlag = $("input[name=duesFlagChk]").val();
+
+			//location.href='<c:url value='/kicpa/dues/selectDuesListDetailPop.do'/>';
+
+			$.ajax({
+				url: "<c:url value='/kicpa/dues/selectDuesListDetailPop.do'/>",
+				type : "POST",
+				data : formData,
+				success : function(data) {
+					var duesFlag1 = false;
+					var duesFlag2 = false;
+					var duesFlag3 = false;
+					var duesFlag4 = false;
+					var duesFlag5 = false;
+					var duesFlag6 = false;
+
+					$('input:checkbox[name="duesFlagChk"]').each(function() {
+
+						if(this.checked){
+							if($(this).attr('duescl') == '00170008'){
+								duesFlag1 = true;
+							}
+							if($(this).attr('duescl') == '00170002'){
+								duesFlag2 = true;
+							}
+							if($(this).attr('duescl') == '00170003'){
+								duesFlag3 = true;
+							}
+							if($(this).attr('duescl') == '00170004'){
+								duesFlag4 = true;
+							}
+							if($(this).attr('duescl') == '56030010' || $(this).attr('duescl') == '56030040' || $(this).attr('duescl') == '00170001'){
+								duesFlag5 = true;
+							}
+							if($(this).attr('duescl') == '00170005' || $(this).attr('duescl') == '00170006' || $(this).attr('duescl') == '00170007'){
+								duesFlag6 = true;
+							}
+						}
+
+					});
+
+					$("#selectDuesList_duesContents").empty();
+					$("#selectDuesList_duesContentsSum").empty();
+					//$("#selectDuesList_duesList").empty();
+
+					var result="";
+					var pass_sum = 0;
+					var add_sum = 0;
+					var delay_sum = 0;
+					var cur_sum = 0;
+
+					$('#selectDuesList_duesNum').text(data.detail[0].epay_no.substring(0,1)+" "+
+							data.detail[0].epay_no.substring(1,2)+" "+
+							data.detail[0].epay_no.substring(2,3)+" "+
+							data.detail[0].epay_no.substring(3,4)+" "+
+							"- " +
+							data.detail[0].epay_no.substring(4,5)+" "+
+							data.detail[0].epay_no.substring(5,6)+" "+
+							data.detail[0].epay_no.substring(6,7)+" "+
+							data.detail[0].epay_no.substring(7,8)+" "+
+							data.detail[0].epay_no.substring(8,9)+" "+
+							"- " +
+							data.detail[0].epay_no.substring(9,10)+" "+
+							data.detail[0].epay_no.substring(10,11)+" "+
+							data.detail[0].epay_no.substring(11,12)+" "+
+							data.detail[0].epay_no.substring(12,13)+" ");
+
+					$('#selectDuesList_cpaName').text(data.searchVO.name);
+
+					for(var i=0; i<data.billSum.length; i++){
+
+						var showYn = "N";
+
+						if(data.billSum[i].dues_cl == '00170008' && duesFlag1){      //입회비
+							showYn = "Y";
+						}
+						if(data.billSum[i].dues_cl == '00170002' && duesFlag2){      //연회비
+							showYn = "Y";
+						}
+						if(data.billSum[i].dues_cl == '00170003' && duesFlag3){      //부조회비
+							showYn = "Y";
+						}
+						if(data.billSum[i].dues_cl == '00170004' && duesFlag4){      //복지회비
+							showYn = "Y";
+						}
+						if((data.billSum[i].dues_cl == '56030010' || data.billSum[i].dues_cl == '56030040' || data.billSum[i].dues_cl == '00170001') && duesFlag5){      //직무회비
+							showYn = "Y";
+						}
+						if((data.billSum[i].dues_cl == '00170005' || data.billSum[i].dues_cl == '00170006' || data.billSum[i].dues_cl == '00170007') && duesFlag6){      //감리업무수수료
+							showYn = "Y";
+						}
+
+						if(showYn == "Y"){
+							pass_sum = pass_sum + data.billSum[i].pass_amt;
+							add_sum = add_sum + data.billSum[i].add_amt;
+							delay_sum = delay_sum + data.billSum[i].delay_amt;
+							cur_sum = cur_sum + data.billSum[i].cur_amt;
+						}
+
+					}
+
+					for(var i=0; i<data.billSum.length; i++){
+						//입회비
+						if(data.billSum[i].dues_cl == '00170008' && duesFlag1){
+
+							var cur_amt = 0;
+
+							result = result +
+									"<div class='bill-group duesChkToggle1'>" +
+									"<strong class='tb-title'>입회비</strong>" +
+									"<div class='bill-group-tb'>" +
+									"<table>" +
+									"<colgroup>" +
+									"<col />" +
+									"<col />" +
+									"<col />" +
+									"</colgroup>" +
+									"<thead>" +
+									"<tr>" +
+									"<th>수습공인회계사등록번호</th>" +
+									"<th>성명 </th>" +
+									"<th>금액</th>" +
+									"</tr>" +
+									"</thead>" +
+									"<tbody>";
+
+							for(var j=0; j<data.bill.length; j++){
+
+								if(data.bill[j].dues_cl == '00170008'){
+
+									result = result +
+											"<tr>" +
+											"<td>"+data.bill[j].odr+"</td>" +
+											"<td>"+data.bill[j].cmpy_nm+"</td>" +
+											"<td>"+duesCommaCheck(data.bill[j].cur_amt)+"</td>" +
+											"</tr>";
+
+									cur_amt = cur_amt + data.bill[j].cur_amt;
+								}
+							}
+
+							result = result +
+									"</tbody>" +
+									"<tfoot>" +
+									"<tr>" +
+									"<td>합계</td>" +
+									"<td></td>" +
+									"<td><strong>"+duesCommaCheck(cur_amt)+"</strong></td>" +
+									"</tr>" +
+									"</tfoot>" +
+									"</table>" +
+									"</div>" +
+									"</div>";
+
+						}
+
+						//연회비
+						if(data.billSum[i].dues_cl == '00170002' && duesFlag2){
+
+							var add_sum = 0;
+							var dues_sum = 0;
+
+							result = result +
+									"<div class='bill-group duesChkToggle2'>" +
+									"<strong class='tb-title'>연회비</strong>" +
+									"<div class='bill-group-tb'>" +
+									"<table>" +
+									"<colgroup>" +
+									"<col />" +
+									"<col />" +
+									"<col />" +
+									"<col />" +
+									"</colgroup>" +
+									"<thead>" +
+									"<tr>" +
+									"<th>연도</th>" +
+									"<th>연회비</th>" +
+									"<th>추가회비</th>" +
+									"<th>납기</th>" +
+									"</tr>" +
+									"</thead>" +
+									"<tbody>";
+
+							for(var j=0; j<data.bill.length; j++){
+
+								if(data.bill[j].dues_cl == '00170002'){
+
+									result = result +
+											"<tr>" +
+											"<td>"+data.bill[j].due_de.substring(0,4)+"</td>" +
+											"<td>"+duesCommaCheck(data.bill[j].dues_amt)+"</td>" +
+											"<td>"+duesCommaCheck(data.bill[j].add_amt)+"</td>" +
+											"<td>"+data.bill[j].due_de.substring(0,4)+"."+data.bill[j].due_de.substring(4,6)+"."+data.bill[j].due_de.substring(6,8)+"</td>" +
+											"</tr>";
+
+									dues_sum = dues_sum + data.bill[j].dues_amt;
+									add_sum = add_sum + data.bill[j].add_amt;
+
+								}
+							}
+
+							result = result +
+									"</tbody>" +
+									"<tfoot>" +
+									"<tr>" +
+									"<td>합계</td>" +
+									"<td>"+duesCommaCheck(dues_sum)+"</td>" +
+									"<td>"+duesCommaCheck(add_sum)+"</td>" +
+									"<td><strong>"+duesCommaCheck(dues_sum+add_sum)+"</strong></td>" +
+									"</tr>" +
+									"</tfoot>" +
+									"</table>" +
+									"</div>" +
+									"</div>";
+
+						}
+
+						//부조회비
+						if(data.billSum[i].dues_cl == '00170003' && duesFlag3){
+
+							var add_sum = 0;
+							var dues_sum = 0;
+
+							result = result +
+									"<div class='bill-group duesChkToggle3'>" +
+									"<strong class='tb-title'>부조회비</strong>" +
+									"<div class='bill-group-tb'>" +
+									"<table>" +
+									"<colgroup>" +
+									"<col />" +
+									"<col />" +
+									"<col />" +
+									"<col />" +
+									"</colgroup>" +
+									"<thead>" +
+									"<tr>" +
+									"<th>연도</th>" +
+									"<th>부조회비</th>" +
+									"<th>추가회비</th>" +
+									"<th>납기</th>" +
+									"</tr>" +
+									"</thead>" +
+									"<tbody>";
+
+							for(var j=0; j<data.bill.length; j++){
+
+								if(data.bill[j].dues_cl == '00170003'){
+
+									result = result +
+											"<tr>" +
+											"<td>"+data.bill[j].due_de.substring(0,4)+"</td>" +
+											"<td>"+duesCommaCheck(data.bill[j].dues_amt)+"</td>" +
+											"<td>"+duesCommaCheck(data.bill[j].add_amt)+"</td>" +
+											"<td>"+data.bill[j].due_de.substring(0,4)+"."+data.bill[j].due_de.substring(4,6)+"."+data.bill[j].due_de.substring(6,8)+"</td>" +
+											"</tr>";
+
+									dues_sum = dues_sum + data.bill[j].dues_amt;
+									add_sum = add_sum + data.bill[j].add_amt;
+
+								}
+							}
+
+							result = result +
+									"</tbody>" +
+									"<tfoot>" +
+									"<tr>" +
+									"<td>합계</td>" +
+									"<td>"+duesCommaCheck(dues_sum)+"</td>" +
+									"<td>"+duesCommaCheck(add_sum)+"</td>" +
+									"<td><strong>"+duesCommaCheck(dues_sum+add_sum)+"</strong></td>" +
+									"</tr>" +
+									"</tfoot>" +
+									"</table>" +
+									"</div>" +
+									"</div>";
+
+						}
+
+						//복지회비
+						if(data.billSum[i].dues_cl == '00170004' && duesFlag4){
+
+							var dues_sum = 0;
+
+							result = result +
+									"<div class='bill-group duesChkToggle4'>" +
+									"<strong class='tb-title'>복지회비</strong>" +
+									"<div class='bill-group-tb'>" +
+									"<table>" +
+									"<colgroup>" +
+									"<col />" +
+									"<col />" +
+									"<col />" +
+									"<col />" +
+									"</colgroup>" +
+									"<thead>" +
+									"<tr>" +
+									"<th>해당년월</th>" +
+									"<th>복지회비</th>" +
+									"<th>납부방법 : 월납</th>" +
+									"</tr>" +
+									"</thead>" +
+									"<tbody>";
+
+							for(var j=0; j<data.bill.length; j++){
+
+								if(data.bill[j].dues_cl == '00170004'){
+
+									if(data.bill[j].due_de == null){
+										data.bill[j].due_de ="";
+									}
+
+									result = result +
+											"<tr>" +
+											"<td>"+data.bill[j].due_de.substring(0,4)+"."+data.bill[j].due_de.substring(4,6)+"</td>" +
+											"<td>"+duesCommaCheck(data.bill[j].dues_amt)+"</td>" +
+											"</tr>";
+
+									dues_sum = dues_sum + data.bill[j].dues_amt;
+
+								}
+							}
+
+							result = result +
+									"</tbody>" +
+									"<tfoot>" +
+									"<tr>" +
+									"<td>합계</td>" +
+									"<td><strong>"+duesCommaCheck(dues_sum)+"</strong></td>" +
+									"</tr>" +
+									"</tfoot>" +
+									"</table>" +
+									"</div>" +
+									"</div>";
+
+						}
+
+						//직무회비
+						if(data.billSum[i].dues_cl == '56030010' || data.billSum[i].dues_cl == '56030040' || data.billSum[i].dues_cl == '00170001' && duesFlag5){
+
+							var dues_sum = 0;
+
+							result = result +
+									"<div class='bill-group duesChkToggle5'>" +
+									"<strong class='tb-title'>직무회비</strong>" +
+									"<div class='bill-group-tb'>" +
+									"<table>" +
+									"<colgroup>" +
+									"<col width='120px'/>" +
+									"<col />" +
+									"<col width='120px'/>" +
+									"<col width='120px'/>" +
+									"<col width='120px'/>" +
+									"<col />" +
+									"<col />" +
+									"</colgroup>" +
+									"<thead>" +
+									"<tr>" +
+									"<th>업무구분</th>" +
+									"<th>회사명</th>" +
+									"<th>접수일(결산종료일)</th>" +
+									"<th>회비구분</th>" +
+									"<th>차수</th>" +
+									"<th>회비</th>" +
+									"<th>납기</th>" +
+									"</tr>" +
+									"</thead>" +
+									"<tbody>";
+
+							for(var j=0; j<data.bill.length; j++){
+
+								if(data.bill[j].dues_cl == '56030010' || data.bill[j].dues_cl == '56030040' || data.bill[j].dues_cl == '00170001'){
+
+									var rcept_de = "";
+									if(data.bill[j].rcept_de.length == 8){
+										rcept_de = data.bill[j].rcept_de.substring(0,4)+"."+data.bill[j].rcept_de.substring(4,6)+"."+data.bill[j].rcept_de.substring(6,8);
+									}
+									else if(data.bill[j].rcept_de.length == 6){
+										rcept_de = data.bill[j].rcept_de.substring(0,4)+"."+data.bill[j].rcept_de.substring(4,6);
+									}
+									else{
+										rcept_de = data.bill[j].rcept_de;
+									}
+
+									result = result +
+											"<tr>" +
+											"<td>"+data.bill[j].duty_dues_cl+"</td>" +
+											"<td>"+data.bill[j].cmpy_nm+"</td>" +
+											"<td>"+rcept_de+"</td>" +
+											"<td>"+data.bill[j].duty_flag+"</td>" +
+											"<td>"+data.bill[j].odr+"차</td>" +
+											"<td>"+duesCommaCheck(data.bill[j].dues_amt + data.bill[j].add_amt + data.bill[j].delay_amt)+"</td>" +
+											"<td>"+data.bill[j].due_de.substring(0,4)+"."+data.bill[j].due_de.substring(4,6)+"."+data.bill[j].due_de.substring(6,8)+"</td>" +
+											"</tr>";
+
+									dues_sum = dues_sum + data.bill[j].dues_amt + data.bill[j].add_amt + data.bill[j].delay_amt;
+
+								}
+							}
+
+							result = result +
+									"</tbody>" +
+									"<tfoot>" +
+									"<tr>" +
+									"<td>합계</td>" +
+									"<td></td>" +
+									"<td></td>" +
+									"<td></td>" +
+									"<td></td>" +
+									"<td><strong>"+duesCommaCheck(dues_sum)+"</strong></td>" +
+									"<td></td>" +
+									"</tr>" +
+									"</tfoot>" +
+									"</table>" +
+									"</div>" +
+									"</div>";
+
+						}
+
+						//감리업무수수료
+						if(data.billSum[i].dues_cl == '00170005' || data.billSum[i].dues_cl == '00170006' || data.billSum[i].dues_cl == '00170007' && duesFlag6){
+
+							var dues_sum = 0;
+
+							result = result +
+									"<div class='bill-group duesChkToggle6'>" +
+									"<strong class='tb-title'>감리업무수수료</strong>" +
+									"<div class='bill-group-tb'>" +
+									"<table>" +
+									"<colgroup>" +
+									"<col />" +
+									"<col />" +
+									"<col />" +
+									"<col />" +
+									"</colgroup>" +
+									"<thead>" +
+									"<tr>" +
+									"<th>업무구분</th>" +
+									"<th>회사명</th>" +
+									"<th>접수일(결산종료일)</th>" +
+									"<th>회비구분</th>" +
+									"<th>차수</th>" +
+									"<th>회비</th>" +
+									"<th>납기</th>" +
+									"</tr>" +
+									"</thead>" +
+									"<tbody>";
+
+							for(var j=0; j<data.bill.length; j++){
+
+								if(data.bill[j].dues_cl == '00170005' || data.bill[j].dues_cl == '00170006' || data.bill[j].dues_cl == '00170007'){
+
+									result = result +
+											"<tr>" +
+											"<td>"+data.bill[j].duty_dues_cl+"</td>" +
+											"<td>"+data.bill[j].cmpy_nm+"</td>" +
+											"<td>"+data.bill[j].rcept_de+"</td>" +
+											"<td>"+data.bill[j].duty_flag+"</td>" +
+											"<td>"+data.bill[j].odr+"차</td>" +
+											"<td>"+duesCommaCheck(data.bill[j].dues_amt)+"</td>" +
+											"<td>"+data.bill[j].due_de.substring(0,4)+"."+data.bill[j].due_de.substring(4,6)+"."+data.bill[j].due_de.substring(6,8)+"</td>" +
+											"</tr>";
+
+									dues_sum = dues_sum + data.bill[j].dues_amt;
+
+								}
+							}
+
+							result = result +
+									"</tbody>" +
+									"<tfoot>" +
+									"<tr>" +
+									"<td>합계</td>" +
+									"<td></td>" +
+									"<td></td>" +
+									"<td></td>" +
+									"<td></td>" +
+									"<td><strong>"+duesCommaCheck(dues_sum)+"</strong></td>" +
+									"<td></td>" +
+									"</tr>" +
+									"</tfoot>" +
+									"</table>" +
+									"</div>" +
+									"</div>";
+
+						}
+
+
+					}
+
+					$('#selectDuesList_duesList').append(result);
+
+					//duesFlagChkChange();
+					$('#selectDuesList_printArea').show();
+
+
+					$('#selectDuesList_body').addClass('stop');
+					$('#selectDuesListPop_duesDetail').addClass('show');
+				}
+			});
+		}
+
+		function duesCommaCheck(num){
+			var len, point, str;
+			num = num + "";
+			point = num.length % 3 ;
+			len = num.length;
+			str = num.substring(0, point);
+			while (point < len) {
+				if (str != "") str += ",";
+				str += num.substring(point, point + 3);
+				point += 3;
+			}
+			return str;
+		}
+
+        function selectDuesListError() {
+            alert("조회실패");
+        }
+
+
     </script>
 </head>
-<body>
+<body id="selectDuesList_body">
     <div class="wrap">
+		<form name="selectDuesList_nice" id="selectDuesList_nice" method="post">
+			<input type="hidden" name="m" value="checkplusService">						<!-- 필수 데이타로, 누락하시면 안됩니다. -->
+			<input type="hidden" name="EncodeData" value="">		<!-- 위에서 업체정보를 암호화 한 데이타입니다. -->
+		</form>
+
+
       <div class="container">
         <section class="head-main">
           <h1>회비납부/조회</h1>
@@ -311,6 +899,12 @@
                       <span>환급신청 및 조회</span>
                   </a> -->
               </div>
+
+			  <div>
+				  <div>
+					  <input type="hidden" id="selectDuesList_duesDetailInfoDi" value="${diCheckList[0].immDi}"/>
+				  </div>
+			  </div>
 
               <div id="tabMain1" class="tab-main-content show">
                 <div class="blue-box">
@@ -381,6 +975,13 @@
                   <div class="board-list">
                     <div class="title-box">
                       <h3>미납회비 조회</h3>
+						<div class="inp-box" <%--style="display: none;"--%>>
+							<div class="inp-check">
+								<input type="checkbox" name="cpaConfirmPass" id="selectDuesList_confirmPass"/>
+								<label for="selectDuesList_confirmPass"></label>
+							</div>
+						</div>
+					  <button type="button" class="btn-full" id="selectDuesList_detailBtn">세부내역 확인</button>
                     </div>
 
                     <ul class="between-list line">
@@ -397,7 +998,7 @@
                     	<c:forEach var="drt" items="${detail}" varStatus="status">
 	                        <li>
 	                          <div class="inp-check">
-	                            <input type="checkbox"  id="du${status.count}" value="${drt.giro_cd}" amt="${drt.dudt_in_amt}" reqcd="${drt.rqest_cd }" class="dudtInAmtCk"/>
+	                            <input type="checkbox" name="duesFlagChk" id="du${status.count}" value="${drt.giro_cd}" amt="${drt.dudt_in_amt}" reqcd="${drt.rqest_cd }" duescl="${drt.dues_cl }" class="dudtInAmtCk"/>
 	                            <label for="du${status.count}"><c:out value='${fn:replace(drt.rqest_nm,"지로","")}'/></label>
 	                          </div>
 	
@@ -447,6 +1048,75 @@
 
       </div>
     </div>
+
+	<!-- 하단 레이어 팝업(세부내역 확인) / 활성화시 show -->
+	<div class="layer-popup-wrap" id="selectDuesListPop_duesDetail">
+		<div class="layer-container">
+			<div class="title-box">
+				<h2>세부내역 확인</h2>
+			</div>
+
+			<div class="layer-content" style="text-align: center;">
+				<div class="gray-box" id="selectDuesListPop_duesDetailContents" style="white-space: break-spaces;">
+					<div class="modal-inner wide" >
+						<div class="modal-bill" id="printArea">
+
+
+							<div class="modal-bill-info4"  id="selectDuesList_duesList">
+								<!-- DECODE(A.DUES_CL,'00170002','연회비','00170003','부조회비','00170004','복지회비','00170005','세무자료','00170006','도서자료','00170007','특별회비','56030010','직무회비','56030040','직무회비','00170001','직무회비','기타') -->
+								<div class="bill-group duesChkToggle3">
+									<strong class="tb-title">부조회비</strong>
+									<div class="bill-group-tb">
+										<table>
+											<colgroup>
+												<col><col>
+												<col><col>
+											</colgroup>
+											<thead>
+											<tr>
+												<th style="">회비구분</th>
+												<th>연도</th>
+												<th>부조회비</th>
+												<th>추가회비</th>
+												<th>납기</th>
+											</tr>
+											</thead>
+											<tbody>
+											<tr>
+												<td colspan="2">부조회비</td>
+												<td>2024</td>
+												<td>300,000</td>
+												<td>0</td>
+												<td>2024.03.31</td>
+											</tr>
+											</tbody>
+											<tfoot>
+											<tr>
+												<td>합계</td>
+												<td>300,000</td>
+												<td>0</td>
+												<td><strong>300,000</strong></td>
+											</tr>
+											</tfoot>
+										</table>
+									</div>
+								</div>
+
+							</div>
+						</div>
+					</div>
+				</div>
+
+
+			</div>
+
+			<div class="layer-bottom" style="text-align: center;">
+				<div class="btn-bottom">
+					<button class="btn-round fill" type="button" id="selectDuesListPop_ok">확인</button>
+				</div>
+			</div>
+		</div>
+	</div>
   </body>
 
 </body>

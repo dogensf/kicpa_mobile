@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import adminwork.kicpa.myp.service.MyPageService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -67,6 +68,8 @@ public class DuesController {
     @Resource(name = "ExcelUtil")
 	private ExcelUtil excelUtil;
 
+	@Resource(name = "myPageService")
+	private MyPageService myPageService;
      
 
     /**
@@ -146,7 +149,14 @@ public class DuesController {
 				model.addAttribute("bill", map.get("bill"));
 				model.addAttribute("billSum", map.get("billSum"));				
 				model.addAttribute("result", list);
-				model.addAttribute("searchVO", vo);			
+				model.addAttribute("searchVO", vo);
+
+				Map<String, Object> paramMap = new HashMap<>();
+				paramMap.put("pin",user.getUniqId());
+
+				//di 정보
+				List<?> diCheckList = myPageService.selectCpaPassDiCheckList(paramMap);
+				model.addAttribute("diCheckList", diCheckList);
 			}else {
 				List<DuesVO> tt = new ArrayList<>();
 				model.addAttribute("master", tt);
@@ -542,6 +552,58 @@ public class DuesController {
 		model.addAttribute("user", user);
 		
 		return "kicpa/dues/selectDuesResultPop";
+	}
+
+	//세부내역 확인 팝업
+	@RequestMapping(value = "/kicpa/dues/selectDuesListDetailPop.do")
+	public ModelAndView selectDuesListDetailPop(@ModelAttribute("searchVO") DuesVO vo,ModelMap model, HttpServletResponse response, HttpServletRequest request)
+			throws Exception{
+
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("jsonView");
+
+		LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+
+		try{
+			System.out.println("giroPin========="+user.getGiroPin());
+			vo.setCust_inqr_no(user.getUniqId());
+			vo.setName(user.getName());
+			boolean success = true;
+			// 합산지로 있는지 체크해서 삭제  TEMP --> PAY_YN = 'N' 취소 처리
+			List<Dues> tempList = duesService.selectTempDuesList(vo);
+			//합산지로 처리한 데이터가 있으면 일단 삭제하고 처리 한다.
+			if(tempList.size() > 0) {
+				success = false;
+				success = duesApiService.cancelNoticeGiro(tempList);
+			}
+
+			// 지로 수납 조회
+			if(success) {
+				Map<String, Object> map = duesService.selectDuesList(vo);
+				List<Dues> list = duesService.selectDuesResultListAll(vo);
+				modelAndView.addObject("master", map.get("master"));
+				modelAndView.addObject("detail", map.get("detail"));
+				modelAndView.addObject("bill", map.get("bill"));
+				modelAndView.addObject("billSum", map.get("billSum"));
+				modelAndView.addObject("result", list);
+				modelAndView.addObject("searchVO", vo);
+			}else {
+				List<DuesVO> tt = new ArrayList<>();
+				modelAndView.addObject("master", tt);
+				modelAndView.addObject("detail", tt);
+				modelAndView.addObject("bill", tt);
+				modelAndView.addObject("billSum", tt);
+				modelAndView.addObject("result", tt);
+				modelAndView.addObject("errMsg", "이전 합산지로 정보가 존재합니다. 관리자에게 문의 하세요.");
+				model.addAttribute("searchVO", vo);
+
+			}
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+
+		return modelAndView;
 	}
 	
 	/**
@@ -1008,6 +1070,149 @@ public class DuesController {
 		modelAndView.addObject("v_amt", v_amt);
 
 		return modelAndView;
+	}
+
+	//세부내역 확인 본인인증 후 화면 이동
+	@RequestMapping(value = "/dues/selectDuesListConfirmSucc.do")
+	public String mypCpaConfirmSucc(@RequestParam Map<String, Object> paramMap, HttpServletRequest request, HttpSession session, ModelMap model) throws Exception{
+
+		NiceID.Check.CPClient niceCheck = new  NiceID.Check.CPClient();
+
+		String sEncodeData = requestReplace(request.getParameter("EncodeData"), "encodeData");
+
+		String sSiteCode = "G2760"; 				// NICE로부터 부여받은 사이트 코드
+		String sSitePassword = "OGVOHRYMMD4N";		// NICE로부터 부여받은 사이트 패스워드
+
+		String sCipherTime = "";			// 복호화한 시간
+		String sRequestNumber = "";			// 요청 번호
+		String sResponseNumber = "";		// 인증 고유번호
+		String sAuthType = "";				// 인증 수단
+		String sName = "";					// 성명
+		String sDupInfo = "";				// 중복가입 확인값 (DI_64 byte)
+		String sConnInfo = "";				// 연계정보 확인값 (CI_88 byte)
+		String sBirthDate = "";				// 생년월일(YYYYMMDD)
+		String sGender = "";				// 성별
+		String sNationalInfo = "";			// 내/외국인정보 (개발가이드 참조)
+		String sMobileNo = "";				// 휴대폰번호
+		String sMobileCo = "";				// 통신사
+		String sMessage = "";
+		String sPlainData = "";
+
+		int iReturn = niceCheck.fnDecode(sSiteCode, sSitePassword, sEncodeData);
+
+		if( iReturn == 0 )
+		{
+			sPlainData = niceCheck.getPlainData();
+			sCipherTime = niceCheck.getCipherDateTime();
+
+			// 데이타를 추출합니다.
+			java.util.HashMap mapresult = niceCheck.fnParse(sPlainData);
+
+			sRequestNumber  = (String)mapresult.get("REQ_SEQ");
+			sResponseNumber = (String)mapresult.get("RES_SEQ");
+			sAuthType		= (String)mapresult.get("AUTH_TYPE");
+			sName			= (String)mapresult.get("NAME");
+			//sName			= (String)mapresult.get("UTF8_NAME"); //charset utf8 사용시 주석 해제 후 사용
+			sBirthDate		= (String)mapresult.get("BIRTHDATE");
+			sGender			= (String)mapresult.get("GENDER");
+			sNationalInfo  	= (String)mapresult.get("NATIONALINFO");
+			sDupInfo		= (String)mapresult.get("DI");
+			sConnInfo		= (String)mapresult.get("CI");
+			sMobileNo		= (String)mapresult.get("MOBILE_NO");
+			sMobileCo		= (String)mapresult.get("MOBILE_CO");
+
+			model.addAttribute("sCipherTime",sCipherTime);
+			model.addAttribute("sRequestNumber",sRequestNumber);
+			model.addAttribute("sResponseNumber",sResponseNumber);
+			model.addAttribute("sAuthType",sAuthType);
+			model.addAttribute("sName",sName);
+			model.addAttribute("sBirthDate",sBirthDate);
+			model.addAttribute("sGender",sGender);
+			model.addAttribute("sNationalInfo",sNationalInfo);
+			model.addAttribute("sDupInfo",sDupInfo);
+			model.addAttribute("sConnInfo",sConnInfo);
+			model.addAttribute("sMobileNo",sMobileNo);
+			model.addAttribute("sMobileCo",sMobileCo);
+
+			String session_sRequestNumber = (String)session.getAttribute("REQ_SEQ");
+			if(!sRequestNumber.equals(session_sRequestNumber))
+			{
+				sMessage = "세션값 불일치 오류입니다.";
+				sResponseNumber = "";
+				sAuthType = "";
+			}
+		}
+		else if( iReturn == -1)
+		{
+			sMessage = "복호화 시스템 오류입니다.";
+		}
+		else if( iReturn == -4)
+		{
+			sMessage = "복호화 처리 오류입니다.";
+		}
+		else if( iReturn == -5)
+		{
+			sMessage = "복호화 해쉬 오류입니다.";
+		}
+		else if( iReturn == -6)
+		{
+			sMessage = "복호화 데이터 오류입니다.";
+		}
+		else if( iReturn == -9)
+		{
+			sMessage = "입력 데이터 오류입니다.";
+		}
+		else if( iReturn == -12)
+		{
+			sMessage = "사이트 패스워드 오류입니다.";
+		}
+		else
+		{
+			sMessage = "알수 없는 에러 입니다. iReturn : " + iReturn;
+		}
+
+		model.addAttribute("sMessage",sMessage);
+
+		return "kicpa/dues/duesDtailConfirmSucc";
+	}
+
+	public String requestReplace (String paramValue, String gubun) {
+
+		String result = "";
+
+		if (paramValue != null) {
+
+			paramValue = paramValue.replaceAll("<", "&lt;").replaceAll(">", "&gt;");
+
+			paramValue = paramValue.replaceAll("\\*", "");
+			paramValue = paramValue.replaceAll("\\?", "");
+			paramValue = paramValue.replaceAll("\\[", "");
+			paramValue = paramValue.replaceAll("\\{", "");
+			paramValue = paramValue.replaceAll("\\(", "");
+			paramValue = paramValue.replaceAll("\\)", "");
+			paramValue = paramValue.replaceAll("\\^", "");
+			paramValue = paramValue.replaceAll("\\$", "");
+			paramValue = paramValue.replaceAll("'", "");
+			paramValue = paramValue.replaceAll("@", "");
+			paramValue = paramValue.replaceAll("%", "");
+			paramValue = paramValue.replaceAll(";", "");
+			paramValue = paramValue.replaceAll(":", "");
+			paramValue = paramValue.replaceAll("-", "");
+			paramValue = paramValue.replaceAll("#", "");
+			paramValue = paramValue.replaceAll("--", "");
+			paramValue = paramValue.replaceAll("-", "");
+			paramValue = paramValue.replaceAll(",", "");
+
+			if(gubun != "encodeData"){
+				paramValue = paramValue.replaceAll("\\+", "");
+				paramValue = paramValue.replaceAll("/", "");
+				paramValue = paramValue.replaceAll("=", "");
+			}
+
+			result = paramValue;
+
+		}
+		return result;
 	}
 	
 }
