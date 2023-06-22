@@ -42,12 +42,17 @@ memberEvent.insertValicationCheck = function(){
 	}
 
 	if($.trim($("#phoneNumber1").val()) == '' || $.trim($("#phoneNumber2").val()) == '' || $.trim($("#phoneNumber3").val()) == ''){
-		alert("문의전화을 입력해주세요.")
+		alert("빈소 연락처를 입력해주세요.")
 		return false;
 	}
 
 	if($.trim($("#burialDt").val()) == ''){
 		alert("발인일을 선택해주세요.")
+		return false;
+	}
+
+	if($.trim($("#regMemberEvent_cpaNmId").val()) == ''){
+		alert("성명(등록번호)을 입력해주세요.")
 		return false;
 	}
 

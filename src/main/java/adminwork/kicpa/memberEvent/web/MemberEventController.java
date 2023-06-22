@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import adminwork.kicpa.myp.service.MyPageService;
+import adminwork.kicpa.myp.service.MypMemberService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -39,6 +40,9 @@ public class MemberEventController {
 
 	@Resource(name = "myPageService")
 	private MyPageService myPageService;
+
+	@Resource(name = "mypMemberService")
+	private MypMemberService mypMemberService;
 
 
 	@RequestMapping(value = "/boardList.do")
@@ -115,17 +119,29 @@ public class MemberEventController {
 				d = format.parse(StringUtil.isNullToString(map.get("burialDt")));
 				format2 = new SimpleDateFormat("yyyy년 MM월 dd일 ( E 요 일 )");
 				String burialDtFormat = format2.format(d);
+
+				//빈소 연락처
+				String mortuaryNum = StringUtil.isNullToString(map.get("phoneNumber1")) + "-" +StringUtil.isNullToString(map.get("phoneNumber2")) + "-" +StringUtil.isNullToString(map.get("phoneNumber3"));
+
 //
+				map.put("extStr3", StringUtil.isNullToString(map.get("cpaNmId")) );											//성명(등록번호)
+				map.put("extStr4", StringUtil.isNullToString(map.get("regUserAgency")) );									//소속
+				map.put("extStr5", StringUtil.isNullToString(map.get("relation")));											//고인관계
+				map.put("extStr6", StringUtil.isNullToString(map.get("deaDate")).replaceAll("-",""));		//작고일
+				map.put("extStr7", StringUtil.isNullToString(map.get("mortuary")));											//빈소
+				map.put("extStr8", mortuaryNum.replaceAll("-",""));											//빈소 연락처
+				map.put("extStr9", StringUtil.isNullToString(map.get("burialDt")).replaceAll("-",""));		//발인일
 
 				String bltnCntt = "";
 				bltnCntt += "<p class=\"0\" style=\"line-height:200%;text-align:center;word-break:keep-all;mso-pagination:none;text-autospace:none;mso-padding-alt:0pt 0pt 0pt 0pt;letter-spacing:1.2pt;\" align=\"center\"><u><span style=\"font-family:궁서체;mso-fareast-font-family:궁서체;letter-spacing:1.2pt;font-size:24.0pt;\">부    고</span></u></p>\n";
 				bltnCntt += "<p></p><p></p>\n";
-				bltnCntt += "<p class=\"0\" style=\"text-align: center; line-height: 200%;\" align=\"center\"><span lang=\"EN-US\" style=\"mso-fareast-font-family:궁서체;letter-spacing:0.3pt;font-size:15.0pt;\">      </span><span style=\"font-family:궁서체;mso-fareast-font-family:궁서체;letter-spacing:0.3pt;font-size:15.0pt;\">"+user.getName()+"</span><span lang=\"EN-US\" style=\"mso-fareast-font-family:궁서체;letter-spacing:0.1pt;font-size:15.0pt;\"> </span><span lang=\"EN-US\" style=\"mso-fareast-font-family:궁서체;font-family:궁서체;mso-ascii-font-family:궁서체;mso-font-width:100%;letter-spacing:0.1pt;mso-text-raise:0pt;font-size:15.0pt;\">("+cpaId+", </span><span style=\"font-family:궁서체;mso-fareast-font-family:궁서체;letter-spacing:0.1pt;font-size:15.0pt;\">"+status+"</span><span lang=\"EN-US\" style=\"mso-fareast-font-family:궁서체;font-family:궁서체;mso-ascii-font-family:궁서체;mso-font-width:100%;letter-spacing:0.1pt;mso-text-raise:0pt;font-size:15.0pt;\">)</span><span style=\"font-family:궁서체;mso-fareast-font-family:궁서체;letter-spacing:0.1pt;font-size:15.0pt;\">회원의 </span></p>\n";
-				bltnCntt += "<p class=\"0\" style=\"text-align: center; line-height: 200%;\" align=\"center\"><span lang=\"EN-US\" style=\"mso-fareast-font-family:궁서체;letter-spacing:0.1pt;font-size:15.0pt;\">      </span><span style=\"font-family:궁서체;mso-fareast-font-family:궁서체;letter-spacing:0.1pt;font-size:15.0pt;\">"+StringUtil.isNullToString(map.get("relation"))+"께서 </span><span style=\"font-family:궁서체;mso-fareast-font-family:궁서체;letter-spacing:0.3pt;font-size:15.0pt;\">작고하셨음을 알려드립니다</span><span lang=\"EN-US\" style=\"mso-fareast-font-family:궁서체;font-family:궁서체;mso-ascii-font-family:궁서체;mso-font-width:100%;letter-spacing:0.3pt;mso-text-raise:0pt;font-size:15.0pt;\">.</span></p>\n";
-				bltnCntt += "<p></p>\n";
-				bltnCntt += "<p class=\"0\" style=\"text-align: center; line-height: 200%;\" align=\"center\"><span style=\"font-family:궁서체;mso-fareast-font-family:궁서체;mso-hansi-font-family:궁서체;mso-font-width:100%;letter-spacing:1.2pt;mso-text-raise:0pt;font-size:14.0pt;\">○ </span><span style=\"font-family:궁서체;mso-fareast-font-family:궁서체;letter-spacing:1.2pt;font-size:14.0pt;\">작고일 </span><span style=\"mso-fareast-font-family:궁서체;font-family:궁서체;mso-ascii-font-family:궁서체;mso-font-width:100%;letter-spacing:1.2pt;mso-text-raise:0pt;font-size:14.0pt;\">: "+deaDateFormat+"</span></p>\n";
-				bltnCntt += "<p class=\"0\" style=\"text-align: center; line-height: 200%;\" align=\"center\"><span style=\"font-family:궁서체;mso-fareast-font-family:궁서체;mso-hansi-font-family:궁서체;mso-font-width:100%;letter-spacing:1.2pt;mso-text-raise:0pt;font-size:14.0pt;\">○ </span><span style=\"font-family:궁서체;mso-fareast-font-family:궁서체;letter-spacing:1.2pt;font-size:14.0pt;\">빈  소  </span><span style=\"mso-fareast-font-family:궁서체;font-family:궁서체;mso-ascii-font-family:궁서체;mso-font-width:100%;letter-spacing:1.2pt;mso-text-raise:0pt;font-size:14.0pt;\">: "+StringUtil.isNullToString(map.get("mortuary"))+"</span></p>\n";
-				bltnCntt += "<p class=\"0\" style=\"text-align: center; line-height: 200%;\" align=\"center\"><span style=\"font-family:궁서체;mso-fareast-font-family:궁서체;mso-hansi-font-family:궁서체;mso-font-width:100%;letter-spacing:1.2pt;mso-text-raise:0pt;font-size:14.0pt;\">○ </span><span style=\"font-family:궁서체;mso-fareast-font-family:궁서체;letter-spacing:1.2pt;font-size:14.0pt;\">발인일 </span><span style=\"mso-fareast-font-family:궁서체;font-family:궁서체;mso-ascii-font-family:궁서체;mso-font-width:100%;letter-spacing:1.2pt;mso-text-raise:0pt;font-size:14.0pt;\">: "+burialDtFormat+"</span></p>\n";
+				bltnCntt += "<p class=\"0\" style=\"text-align: left; line-height: 200%; margin-left: 30px;\" align=\"center\"><span style=\"font-family:궁서체;mso-fareast-font-family:궁서체;mso-hansi-font-family:궁서체;mso-font-width:100%;letter-spacing:1.2pt;mso-text-raise:0pt;font-size:14.0pt;\">○ </span><span style=\"font-family:궁서체;mso-fareast-font-family:궁서체;letter-spacing:1.2pt;font-size:14.0pt;\">성명(등록번호) </span><span style=\"mso-fareast-font-family:궁서체;font-family:궁서체;mso-ascii-font-family:궁서체;mso-font-width:100%;letter-spacing:1.2pt;mso-text-raise:0pt;font-size:14.0pt;\">: "+StringUtil.isNullToString(map.get("cpaNmId"))+"</span></p>\n";
+				bltnCntt += "<p class=\"0\" style=\"text-align: left; line-height: 200%; margin-left: 30px;\" align=\"center\"><span style=\"font-family:궁서체;mso-fareast-font-family:궁서체;mso-hansi-font-family:궁서체;mso-font-width:100%;letter-spacing:1.2pt;mso-text-raise:0pt;font-size:14.0pt;\">○ </span><span style=\"font-family:궁서체;mso-fareast-font-family:궁서체;letter-spacing:1.2pt;font-size:14.0pt;\">소속  </span><span style=\"mso-fareast-font-family:궁서체;font-family:궁서체;mso-ascii-font-family:궁서체;mso-font-width:100%;letter-spacing:1.2pt;mso-text-raise:0pt;font-size:14.0pt;\">: "+StringUtil.isNullToString(map.get("regUserAgency"))+"</span></p>\n";
+				bltnCntt += "<p class=\"0\" style=\"text-align: left; line-height: 200%; margin-left: 30px;\" align=\"center\"><span style=\"font-family:궁서체;mso-fareast-font-family:궁서체;mso-hansi-font-family:궁서체;mso-font-width:100%;letter-spacing:1.2pt;mso-text-raise:0pt;font-size:14.0pt;\">○ </span><span style=\"font-family:궁서체;mso-fareast-font-family:궁서체;letter-spacing:1.2pt;font-size:14.0pt;\">고인관계 </span><span style=\"mso-fareast-font-family:궁서체;font-family:궁서체;mso-ascii-font-family:궁서체;mso-font-width:100%;letter-spacing:1.2pt;mso-text-raise:0pt;font-size:14.0pt;\">: "+StringUtil.isNullToString(map.get("relation"))+"</span></p>\n";
+				bltnCntt += "<p class=\"0\" style=\"text-align: left; line-height: 200%; margin-left: 30px;\" align=\"center\"><span style=\"font-family:궁서체;mso-fareast-font-family:궁서체;mso-hansi-font-family:궁서체;mso-font-width:100%;letter-spacing:1.2pt;mso-text-raise:0pt;font-size:14.0pt;\">○ </span><span style=\"font-family:궁서체;mso-fareast-font-family:궁서체;letter-spacing:1.2pt;font-size:14.0pt;\">작고일 </span><span style=\"mso-fareast-font-family:궁서체;font-family:궁서체;mso-ascii-font-family:궁서체;mso-font-width:100%;letter-spacing:1.2pt;mso-text-raise:0pt;font-size:14.0pt;\">: "+deaDateFormat+"</span></p>\n";
+				bltnCntt += "<p class=\"0\" style=\"text-align: left; line-height: 200%; margin-left: 30px;\" align=\"center\"><span style=\"font-family:궁서체;mso-fareast-font-family:궁서체;mso-hansi-font-family:궁서체;mso-font-width:100%;letter-spacing:1.2pt;mso-text-raise:0pt;font-size:14.0pt;\">○ </span><span style=\"font-family:궁서체;mso-fareast-font-family:궁서체;letter-spacing:1.2pt;font-size:14.0pt;\">빈소  </span><span style=\"mso-fareast-font-family:궁서체;font-family:궁서체;mso-ascii-font-family:궁서체;mso-font-width:100%;letter-spacing:1.2pt;mso-text-raise:0pt;font-size:14.0pt;\">: "+StringUtil.isNullToString(map.get("mortuary"))+"</span></p>\n";
+				bltnCntt += "<p class=\"0\" style=\"text-align: left; line-height: 200%; margin-left: 30px;\" align=\"center\"><span style=\"font-family:궁서체;mso-fareast-font-family:궁서체;mso-hansi-font-family:궁서체;mso-font-width:100%;letter-spacing:1.2pt;mso-text-raise:0pt;font-size:14.0pt;\">○ </span><span style=\"font-family:궁서체;mso-fareast-font-family:궁서체;letter-spacing:1.2pt;font-size:14.0pt;\">빈소 연락처 </span><span style=\"mso-fareast-font-family:궁서체;font-family:궁서체;mso-ascii-font-family:궁서체;mso-font-width:100%;letter-spacing:1.2pt;mso-text-raise:0pt;font-size:14.0pt;\">: "+mortuaryNum+"</span></p>\n";
+				bltnCntt += "<p class=\"0\" style=\"text-align: left; line-height: 200%; margin-left: 30px;\" align=\"center\"><span style=\"font-family:궁서체;mso-fareast-font-family:궁서체;mso-hansi-font-family:궁서체;mso-font-width:100%;letter-spacing:1.2pt;mso-text-raise:0pt;font-size:14.0pt;\">○ </span><span style=\"font-family:궁서체;mso-fareast-font-family:궁서체;letter-spacing:1.2pt;font-size:14.0pt;\">발인일 </span><span style=\"mso-fareast-font-family:궁서체;font-family:궁서체;mso-ascii-font-family:궁서체;mso-font-width:100%;letter-spacing:1.2pt;mso-text-raise:0pt;font-size:14.0pt;\">: "+burialDtFormat+"</span></p>\n";
 				map.put("bltnCntt", bltnCntt );
 
 
@@ -141,7 +157,8 @@ public class MemberEventController {
 				//메일 발송
 				Map<String, Object> paramMap = new HashMap<>();
 				paramMap.put("pin", user.getUniqId());
-				List<?> sendMemList = myPageService.selectSendMemList();	//발송대상자(GQ2001)
+				paramMap.put("grpCd", "GQ2001");
+				List<?> sendMemList = myPageService.selectSendMemList(paramMap);	//발송대상자(GQ2001)
 				List<?> cpaList = myPageService.selectCpaMemberRegistInfoList(paramMap);	//작성자 CPA_ID
 				paramMap.putAll((Map<String, Object>) cpaList.get(0));
 
@@ -175,6 +192,33 @@ public class MemberEventController {
 					eMailInfo.put("v_field10","");
 
 					myPageService.eapQueryMain09Proc(eMailInfo);
+				}
+
+
+				//문자발송
+				Map<String, Object> sendSmsInfo = new HashMap<>();
+				paramMap.put("grpCd", "GQ3200");
+				List<?> sendMesList = myPageService.selectSendMemList(paramMap);		//대상자 조회
+
+				sendSmsInfo.put("msgCl", "N0021023");      //회원경조사 등록 알림톡
+				sendSmsInfo.put("userId", user.getUniqId());
+				List<?> sendSmsInfoList = mypMemberService.selectMemSendMessageInfoList(sendSmsInfo);      //알림톡 내용
+				sendSmsInfo.putAll((Map<String, Object>)sendSmsInfoList.get(0));
+
+				String contents = sendSmsInfo.get("msgBody").toString();
+
+				sendSmsInfo.put("msgBody", contents);
+				sendSmsInfo.put("nationCode", "82");   //국가코드
+				sendSmsInfo.put("userId", user.getUniqId());
+
+				for (int i = 0; i < sendMesList.size(); i++) {
+					Map<String, Object> sendSmsDestInfo = new HashMap<>();
+					sendSmsDestInfo.putAll((Map<String, Object>) sendMesList.get(i));
+
+					sendSmsInfo.put("destPhone", sendSmsDestInfo.get("optn1"));
+
+					mypMemberService.cpaMemMessageSend(sendSmsInfo);      //알림톡 전송
+
 				}
 
 			}

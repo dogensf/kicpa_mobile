@@ -51,7 +51,7 @@ public interface MyPageService {
 
 
     //메일 발송 대상 조회
-    public List<?> selectSendMemList() throws Exception;
+    public List<?> selectSendMemList(Map<String, Object> map) throws Exception;
 
     //메일 발송 프로시저
     public void eapQueryMain09Proc(Map<String, Object> map) throws Exception;

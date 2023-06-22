@@ -98,9 +98,9 @@ public class MyPageServiceImpl extends EgovAbstractServiceImpl implements MyPage
 
 
 	@Override
-	public List<?> selectSendMemList() throws Exception {
+	public List<?> selectSendMemList(Map<String, Object> map) throws Exception {
 		// TODO Auto-generated method stub
-		return myPageDAO.selectSendMemList();
+		return myPageDAO.selectSendMemList(map);
 	}
 
 	@Override

@@ -40,12 +40,12 @@ function fncLocation(){
                  <!-- 인풋 필수 -->
                  <div class="inp-box">
                      <label class="label essen" for="regUserName">작성자</label>
-                     <input type="text" id="regUserName" name="regUserName" disabled="disabled" placeholder="입력하세요." value="${loginVO.name }"/>
+                     <input type="text" id="regUserName" name="regUserName" readonly placeholder="입력하세요." value="${loginVO.name }" style="border-color: #ccc; color: #ccc; background-color: transparent;"/>
                  </div>
 
                  <div class="inp-box">
                      <label class="label essen" for="regUserAgency">소속</label>
-                     <input type="text" id="regUserAgency" name="regUserAgency" disabled="disabled" placeholder="입력하세요." value=${sessionScope.auditNm  } />
+                     <input type="text" id="regUserAgency" name="regUserAgency" readonly placeholder="입력하세요." value="${sessionScope.auditNm  }" style="border-color: #ccc; color: #ccc; background-color: transparent;"/>
                  </div>
 
                  <div class="inp-box">
@@ -91,7 +91,7 @@ function fncLocation(){
 
                  <!-- 전화번호 -->
                  <div class="inp-box">
-                     <label class="label essen" for="etc">문의전화</label>
+                     <label class="label essen">빈소 연락처</label>
                      <div class="phone">
                          <input type="text" id="phoneNumber1" name="phoneNumber1" maxlength="3" placeholder="010" />
                          <input type="text" id="phoneNumber2" name="phoneNumber2" maxlength="4" />
@@ -103,6 +103,11 @@ function fncLocation(){
                  <div class="inp-box">
                      <label class="label essen" for="burialDt">발인일</label>
                      <input type="date" id="burialDt" name="burialDt" data-placeholder="날짜를 선택하세요." required />
+                 </div>
+
+                 <div class="inp-box">
+                     <label class="label essen" for="regMemberEvent_cpaNmId">성명(등록번호)</label>
+                     <input type="text" id="regMemberEvent_cpaNmId" name="cpaNmId" placeholder="성명(등록번호)을 입력해주세요." />
                  </div>
 
 <!--                	<div class="inp-box"> -->

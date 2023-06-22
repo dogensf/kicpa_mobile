@@ -522,7 +522,7 @@
 				,	UPPER_CD
 				,	OPTN1
 				,	OPTN2
-			from CMMN_CODE where grp_cd ='GQ2001' and use_yn = 'Y'
+			from CMMN_CODE where grp_cd = #grpCd# and use_yn = 'Y'
         ]]>
 
 	</select>

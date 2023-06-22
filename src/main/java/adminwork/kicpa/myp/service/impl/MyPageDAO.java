@@ -75,8 +75,8 @@ public class MyPageDAO extends EgovComAbstractDAO2 {
 
 
 
-    public List<?> selectSendMemList() throws Exception {
-        return (List<?>) list("MyPageDAO.selectSendMemList");
+    public List<?> selectSendMemList(Map<String, Object> map) throws Exception {
+        return (List<?>) list("MyPageDAO.selectSendMemList", (Object) map);
     }
 
     public void eapQueryMain09Proc(Map<String, Object> map) throws Exception {
