@@ -38,12 +38,12 @@ function fncLocation(){
                             <col width="40%">
                             <col width="60%">
                         </colgroup>
-                        <c:if test="${boardMaster.funcYns8 eq 'Y'}">
+                        <%--<c:if test="${boardMaster.funcYns8 eq 'Y'}">
 	                        <tr>
 	                            <th>카테고리</th>
 	                            <td><c:out value="${boardDetail.cateNm }"/></td>
 	                        </tr>
-                        </c:if>
+                        </c:if>--%>
                         <c:if test="${boardMaster.extTitle1 eq null}">
                         	<tr>
 	                            <th>작성자</th>
@@ -63,7 +63,8 @@ function fncLocation(){
 
                         </c:if>
 
-                        <c:if test="${boardMaster.funcYns9 eq 'Y'}">
+						<%--담당부서, 이메일, 부서번호--%>
+                        <%--<c:if test="${boardMaster.funcYns9 eq 'Y'}">
 	                        <c:if test="${boardMaster.extTitle1 ne null}">
 		                        <tr>
 		                            <th><c:out value="${boardMaster.extTitle1}"/></th>
@@ -82,16 +83,16 @@ function fncLocation(){
 		                            <td><c:out value="${boardDetail.extStr2 }"/></td>
 		                        </tr>
 	                        </c:if>
-                        </c:if>
+                        </c:if>--%>
 
-                        <tr>
+                        <%--<tr>
                             <th>등록일</th>
                             <td><c:out value="${boardDetail.regDatim }"/></td>
-                        </tr>
-                        <tr>
+                        </tr>--%>
+                        <%--<tr>
                             <th>조회수</th>
                             <td><c:out value="${boardDetail.bltnReadCnt }"/></td>
-                        </tr>
+                        </tr>--%>
 						<!-- 확장필드 -->
 					 	<c:if test="${boardMaster.funcYns8 eq 'Y'}">
 						 	<c:if test="${boardMaster.extTitle3 ne null}">
@@ -166,9 +167,9 @@ function fncLocation(){
 		<!--                     </div> -->
 		                </div>
 	               	</c:when>
-	               	<c:otherwise>
+	               	<%--<c:otherwise>
 	               		<button class="btn-board-togl" disabled type="button">첨부파일</button>
-	               	</c:otherwise>
+	               	</c:otherwise>--%>
             	</c:choose>
             </div>
 
@@ -181,9 +182,13 @@ function fncLocation(){
 
         </div>
     </div>
-	<c:if test="${boardDetail.userId eq loginVO.id and (param.boardId eq 'kifrs' or param.boardId eq 'kifrsReview' or param.boardId eq 'kifrsCase' or param.boardId eq 'mstate'  ) }">
+
 	    <div class="btn-bottom">
+			<c:if test="${loginVO.userTy eq '임직원'}">
+				<button class="btn-round fill" type="button" id="boardDetail_mailSend">메일 발송</button>
+			</c:if>
+			<c:if test="${boardDetail.userId eq loginVO.id and (param.boardId eq 'kifrs' or param.boardId eq 'kifrsReview' or param.boardId eq 'kifrsCase' or param.boardId eq 'mstate'  ) }">
 	    	<button class="btn-round" type="button" onclick="board.boardDelete();">삭제</button>
+			</c:if>
 	    </div>
-	</c:if>
 </section>

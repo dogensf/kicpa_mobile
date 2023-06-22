@@ -37,7 +37,12 @@ board.detailInit = function(){
 			$(this).removeClass("active");
 		}else{
 			$(this).addClass("active");
-		}z
+		}
+	});
+
+	//메일발송 (임직원용)
+	$("#boardDetail_mailSend").on("click",function(){
+		board.boardSendMail();
 	});
 }
 
@@ -233,6 +238,26 @@ board.commonBoardArrListSuccess = function(data){
 	flag = true;
 }
 
+board.boardSendMail = function(){
+
+	var param = $("#boardForm").serializeObject();
+	fn_ajax_call("/kicpa/commonBoard/boardInfoSendMail.do",param,board.boardSendMailSuccess ,board.boardListError);
+}
+
+board.boardSendMailSuccess = function(result){
+
+	if(result.boardSendMailInfo == null){
+		alert("메일발송 실패");
+	}
+	else{
+		alert("메일발송 완료");
+	}
+
+	/*if(result.boardSendMailInfo.v_result != '9'){
+		alert("메일발송 완료");
+	}*/
+}
+
 board.searchTypeHtml = function(list,title,id,firstOption){
 	var txt= "";
 	var rowData = $("#searchPop .first-row").clone();
@@ -289,8 +314,10 @@ board.openDetailPop = function(url,popId){
 
 
 board.boardDelete = function(){
-	var param = $("#boardForm").serializeObject();
-	fn_ajax_call("/kicpa/commonBoard/updateCommonBoardDelete.do",param,board.updateCommonBoardDeleteSuccess,board.boardListError);
+	if(confirm("삭제하시겠습니까?")) {
+		var param = $("#boardForm").serializeObject();
+		fn_ajax_call("/kicpa/commonBoard/updateCommonBoardDelete.do",param,board.updateCommonBoardDeleteSuccess,board.boardListError);
+	}
 }
 
 board.updateCommonBoardDeleteSuccess = function(data){
@@ -305,7 +332,7 @@ board.updateCommonBoardDeleteSuccess = function(data){
 
 board.boardListError = function(data,status, error){
 	flag = true;
-	alert("조회실패");
+	alert("실패");
 }
 
 

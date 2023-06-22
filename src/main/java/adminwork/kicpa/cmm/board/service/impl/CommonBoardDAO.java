@@ -59,6 +59,10 @@ public class CommonBoardDAO extends EgovAbstractDAO{
 		return update("KicpaCommBoardDAO.updateCommonCafeBoardReadCnt",map);
 	}
 
+	public List<?> boardInfoSendMailProc(Map<String, Object> map) throws Exception {
+		return (List<?>) list("KicpaCommBoardDAO.boardInfoSendMailProc",map);
+	}
+
 	public List<EgovMap> selectCommonBoardIdArrList(Map<String, Object> map) throws Exception {
 		return (List<EgovMap>) list("KicpaCommBoardDAO.selectCommonBoardIdArrList",map);
 	}

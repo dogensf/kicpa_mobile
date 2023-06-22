@@ -2,6 +2,7 @@ package adminwork.kicpa.cmm.board.web;
 
 
 import java.io.File;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -219,6 +220,27 @@ public class CommonBoardController {
 
         return modelAndView;
     }
+
+	@RequestMapping(value="/boardInfoSendMail.do")
+	public ModelAndView boardInfoSendMail(@RequestBody Map<String,Object> paramMap, HttpServletRequest request) throws Exception{
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("jsonView");
+
+		try{
+			Map<String, Object> boardSendMailInfo = new HashMap<>();
+
+			boardSendMailInfo.put("v_bltn_no", paramMap.get("bltnNo"));
+
+			commonBoardService.boardInfoSendMailProc(boardSendMailInfo);       //(프로시저 호출)
+
+            modelAndView.addObject("boardSendMailInfo", boardSendMailInfo);
+
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return modelAndView;
+	}
 
 
 	@RequestMapping(value="/getCommonBoardDetail.do")
