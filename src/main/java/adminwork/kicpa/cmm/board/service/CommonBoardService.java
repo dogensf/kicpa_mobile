@@ -37,10 +37,6 @@ public interface  CommonBoardService {
 
 	public int selectCommonBoardIdArrListCnt(Map<String, Object> map) throws Exception;
 
-	public List<?> boardInfoSendMailProc(Map<String, Object> map) throws Exception;
-
-    public List<?> boardInfoSendAtfFlowerProc(Map<String, Object> map) throws Exception;
-
 	public void insertCommonBoard(Map<String, Object> map) throws Exception;
 
 	public EgovMap selectCommonBoardFileDetail(Map<String, Object> map) throws Exception;

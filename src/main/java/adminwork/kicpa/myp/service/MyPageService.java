@@ -55,4 +55,11 @@ public interface MyPageService {
 
     //메일 발송 프로시저
     public void eapQueryMain09Proc(Map<String, Object> map) throws Exception;
+
+
+    //경조사 메일발송 프로시저
+    public List<?> boardInfoSendMailProc(Map<String, Object> map) throws Exception;
+
+    //경조사 화환발송 프로시저
+    public List<?> boardInfoSendAtfFlowerProc(Map<String, Object> map) throws Exception;
 }

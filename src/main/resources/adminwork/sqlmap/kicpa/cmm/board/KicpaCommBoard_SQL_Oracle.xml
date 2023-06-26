@@ -5,16 +5,6 @@
 
 	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
 
-	<parameterMap class="java.util.HashMap" id="boardInfoSendMailParamMap">
-		<parameter property="v_bltn_no"           javaType="java.lang.String"     jdbcType="kipadm.bizems_temp_rcpt.field10%TYPE" mode="IN" />
-		<parameter property="v_result"            javaType="java.lang.String"   jdbcType="VARCHAR" mode="OUT" />
-	</parameterMap>
-
-	<parameterMap class="java.util.HashMap" id="boardInfoSendAtfFlowerParamMap">
-		<parameter property="v_bltn_no"           javaType="java.lang.String"     jdbcType="VARCHAR" mode="IN" />
-		<parameter property="v_result"            javaType="java.lang.String"   jdbcType="VARCHAR" mode="OUT" />
-	</parameterMap>
-
 	<resultMap id="egovMapDetail" class="egovMap">
 		<result property="boardId" column="BOARD_ID" />
 		<result property="bltnNo" column="BLTN_NO"  />
@@ -56,18 +46,6 @@
 		<result property="cateNm" column="CATE_NM" />
 		<result property="bltnCntt" column="BLTN_CNTT" jdbcType="CLOB"  javaType="java.lang.String" />
 	</resultMap>
-
-	<procedure id="KicpaCommBoardDAO.boardInfoSendMailProc" parameterMap="boardInfoSendMailParamMap">
-		<![CDATA[
-			{ call kipadm.audit_email_tran_proc(?,?) }
-		 ]]>
-	</procedure>
-
-	<procedure id="KicpaCommBoardDAO.boardInfoSendAtfFlowerProc" parameterMap="boardInfoSendAtfFlowerParamMap">
-		<![CDATA[
-			{ call kipadm.sms_fe_send_proc(?,?) }
-		 ]]>
-	</procedure>
 
 	<select id="KicpaCommBoardDAO.selectBoardMaster" parameterClass="HashMap" resultClass="egovMap">
 		SELECT A.board_id,

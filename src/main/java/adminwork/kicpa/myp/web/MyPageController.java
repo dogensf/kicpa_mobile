@@ -20,12 +20,14 @@ import javax.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.util.Base64Utils;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import adminwork.com.cmm.LoginVO;
 import adminwork.kicpa.myp.service.MyPageService;
 import egovframework.rte.fdl.security.userdetails.util.EgovUserDetailsHelper;
+import org.springframework.web.servlet.ModelAndView;
 
 
 @Controller
@@ -560,6 +562,50 @@ public class MyPageController {
 		model.addAttribute("sMessage",sMessage);
 
 		return "kicpa/myp/mypCpaConfirmSucc";
+	}
+
+	//경조사 메일발송 프로시저
+	@RequestMapping(value="/boardInfoSendMail.do")
+	public ModelAndView boardInfoSendMail(@RequestBody Map<String,Object> paramMap, HttpServletRequest request) throws Exception{
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("jsonView");
+
+		try{
+			Map<String, Object> boardSendMailInfo = new HashMap<>();
+
+			boardSendMailInfo.put("v_bltn_no", paramMap.get("bltnNo"));
+
+			myPageService.boardInfoSendMailProc(boardSendMailInfo);       //(프로시저 호출)
+
+			modelAndView.addObject("boardSendMailInfo", boardSendMailInfo);
+
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return modelAndView;
+	}
+
+	//경조사 화환발송 프로시저
+	@RequestMapping(value="/boardInfoSendAtfFlower.do")
+	public ModelAndView boardInfoSendAtfFlower(@RequestBody Map<String,Object> paramMap, HttpServletRequest request) throws Exception{
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("jsonView");
+
+		try{
+			Map<String, Object> boardSendAtfFlowerInfo = new HashMap<>();
+
+			boardSendAtfFlowerInfo.put("v_bltn_no", paramMap.get("bltnNo"));
+
+			myPageService.boardInfoSendAtfFlowerProc(boardSendAtfFlowerInfo);       //(프로시저 호출)
+
+			modelAndView.addObject("boardSendAtfFlowerInfo", boardSendAtfFlowerInfo);
+
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return modelAndView;
 	}
 
 	public String requestReplace (String paramValue, String gubun) {

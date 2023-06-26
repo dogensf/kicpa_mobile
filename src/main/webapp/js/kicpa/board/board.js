@@ -247,7 +247,7 @@ board.commonBoardArrListSuccess = function(data){
 board.boardSendMail = function(){
 
 	var param = $("#boardForm").serializeObject();
-	fn_ajax_call("/kicpa/commonBoard/boardInfoSendMail.do",param,board.boardSendMailSuccess ,board.boardListError);
+	fn_ajax_call("/kicpa/myp/boardInfoSendMail.do",param,board.boardSendMailSuccess ,board.boardListError);
 }
 
 board.boardSendMailSuccess = function(result){
@@ -256,7 +256,18 @@ board.boardSendMailSuccess = function(result){
 		alert("메일발송 실패");
 	}
 	else{
-		alert("메일발송 완료");
+		if(result.boardSendMailInfo.v_result == "0"){
+			alert("v_result ==>  0, 리턴" );
+		}
+		else if(result.boardSendMailInfo.v_result == "1"){
+			alert("v_result ==>  1, 정상" );
+		}
+		else if(result.boardSendMailInfo.v_result == "3"){
+			alert("v_result ==>  3, 발송내역 존재" );
+		}
+		else{
+			alert("v_result ==>  "+result.boardSendMailInfo.v_result+", 기타오류");
+		}
 	}
 
 	/*if(result.boardSendMailInfo.v_result != '9'){
@@ -268,7 +279,7 @@ board.boardSendMailSuccess = function(result){
 board.boardSendAtfFlower = function(){
 
 	var param = $("#boardForm").serializeObject();
-	fn_ajax_call("/kicpa/commonBoard/boardInfoSendAtfFlower.do",param,board.boardSendAtfFlowerSuccess ,board.boardListError);
+	fn_ajax_call("/kicpa/myp/boardInfoSendAtfFlower.do",param,board.boardSendAtfFlowerSuccess ,board.boardListError);
 }
 
 board.boardSendAtfFlowerSuccess = function(result){
@@ -277,7 +288,15 @@ board.boardSendAtfFlowerSuccess = function(result){
 		alert("화환발송 실패");
 	}
 	else{
-		alert("화환발송 완료");
+		if(result.boardSendAtfFlowerInfo.v_result == "0"){
+			alert("v_result ==>  0, 실패" );
+		}
+		else if(result.boardSendAtfFlowerInfo.v_result == "1"){
+			alert("v_result ==>  1, 정상" );
+		}
+		else{
+			alert("v_result ==>  "+result.boardSendAtfFlowerInfo.v_result+", 기타오류");
+		}
 	}
 }
 

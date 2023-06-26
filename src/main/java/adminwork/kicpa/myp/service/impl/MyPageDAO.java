@@ -86,4 +86,14 @@ public class MyPageDAO extends EgovComAbstractDAO2 {
     public String selectTaxVersion() throws Exception {
         return (String) select("MyPageDAO.selectTaxVersion");
     }
+
+
+
+    public List<?> boardInfoSendMailProc(Map<String, Object> map) throws Exception {
+        return (List<?>) list("MyPageDAO.boardInfoSendMailProc",map);
+    }
+
+    public List<?> boardInfoSendAtfFlowerProc(Map<String, Object> map) throws Exception {
+        return (List<?>) list("MyPageDAO.boardInfoSendAtfFlowerProc",map);
+    }
 }

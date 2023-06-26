@@ -108,4 +108,15 @@ public class MyPageServiceImpl extends EgovAbstractServiceImpl implements MyPage
 		// TODO Auto-generated method stub
 		myPageDAO.eapQueryMain09Proc(map);
 	}
+
+
+	@Override
+	public List<?> boardInfoSendMailProc(Map<String, Object> map) throws Exception {
+		return myPageDAO.boardInfoSendMailProc(map);
+	}
+
+	@Override
+	public List<?> boardInfoSendAtfFlowerProc(Map<String, Object> map) throws Exception {
+		return myPageDAO.boardInfoSendAtfFlowerProc(map);
+	}
 }
