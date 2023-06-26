@@ -10,6 +10,11 @@
 		<parameter property="v_result"            javaType="java.lang.String"   jdbcType="VARCHAR" mode="OUT" />
 	</parameterMap>
 
+	<parameterMap class="java.util.HashMap" id="boardInfoSendAtfFlowerParamMap">
+		<parameter property="v_bltn_no"           javaType="java.lang.String"     jdbcType="VARCHAR" mode="IN" />
+		<parameter property="v_result"            javaType="java.lang.String"   jdbcType="VARCHAR" mode="OUT" />
+	</parameterMap>
+
 	<resultMap id="egovMapDetail" class="egovMap">
 		<result property="boardId" column="BOARD_ID" />
 		<result property="bltnNo" column="BLTN_NO"  />
@@ -55,6 +60,12 @@
 	<procedure id="KicpaCommBoardDAO.boardInfoSendMailProc" parameterMap="boardInfoSendMailParamMap">
 		<![CDATA[
 			{ call kipadm.audit_email_tran_proc(?,?) }
+		 ]]>
+	</procedure>
+
+	<procedure id="KicpaCommBoardDAO.boardInfoSendAtfFlowerProc" parameterMap="boardInfoSendAtfFlowerParamMap">
+		<![CDATA[
+			{ call kipadm.sms_fe_send_proc(?,?) }
 		 ]]>
 	</procedure>
 

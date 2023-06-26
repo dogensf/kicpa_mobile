@@ -44,6 +44,11 @@ board.detailInit = function(){
 	$("#boardDetail_mailSend").on("click",function(){
 		board.boardSendMail();
 	});
+
+	//화환발송 (임직원용)
+	$("#boardDetail_atfFlower").on("click",function(){
+		board.boardSendAtfFlower();
+	});
 }
 
 
@@ -238,6 +243,7 @@ board.commonBoardArrListSuccess = function(data){
 	flag = true;
 }
 
+//메일발송
 board.boardSendMail = function(){
 
 	var param = $("#boardForm").serializeObject();
@@ -256,6 +262,23 @@ board.boardSendMailSuccess = function(result){
 	/*if(result.boardSendMailInfo.v_result != '9'){
 		alert("메일발송 완료");
 	}*/
+}
+
+//화환발송
+board.boardSendAtfFlower = function(){
+
+	var param = $("#boardForm").serializeObject();
+	fn_ajax_call("/kicpa/commonBoard/boardInfoSendAtfFlower.do",param,board.boardSendAtfFlowerSuccess ,board.boardListError);
+}
+
+board.boardSendAtfFlowerSuccess = function(result){
+
+	if(result.boardSendAtfFlowerInfo == null){
+		alert("화환발송 실패");
+	}
+	else{
+		alert("화환발송 완료");
+	}
 }
 
 board.searchTypeHtml = function(list,title,id,firstOption){

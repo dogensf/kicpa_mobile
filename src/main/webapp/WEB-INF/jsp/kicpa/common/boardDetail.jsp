@@ -186,6 +186,7 @@ function fncLocation(){
 	    <div class="btn-bottom">
 			<c:if test="${loginVO.userTy eq '임직원'}">
 				<button class="btn-round fill" type="button" id="boardDetail_mailSend">메일 발송</button>
+				<button class="btn-round fill" type="button" id="boardDetail_atfFlower">화환 발송</button>
 			</c:if>
 			<c:if test="${boardDetail.userId eq loginVO.id and (param.boardId eq 'kifrs' or param.boardId eq 'kifrsReview' or param.boardId eq 'kifrsCase' or param.boardId eq 'mstate'  ) }">
 	    	<button class="btn-round" type="button" onclick="board.boardDelete();">삭제</button>

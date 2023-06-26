@@ -242,6 +242,27 @@ public class CommonBoardController {
 		return modelAndView;
 	}
 
+	@RequestMapping(value="/boardInfoSendAtfFlower.do")
+	public ModelAndView boardInfoSendAtfFlower(@RequestBody Map<String,Object> paramMap, HttpServletRequest request) throws Exception{
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("jsonView");
+
+		try{
+			Map<String, Object> boardSendAtfFlowerInfo = new HashMap<>();
+
+			boardSendAtfFlowerInfo.put("v_bltn_no", paramMap.get("bltnNo"));
+
+			commonBoardService.boardInfoSendAtfFlowerProc(boardSendAtfFlowerInfo);       //(프로시저 호출)
+
+			modelAndView.addObject("boardSendAtfFlowerInfo", boardSendAtfFlowerInfo);
+
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return modelAndView;
+	}
+
 
 	@RequestMapping(value="/getCommonBoardDetail.do")
     public ModelAndView getCommonBoardDetail(@RequestBody Map<String,Object> map, HttpServletRequest request) throws Exception{

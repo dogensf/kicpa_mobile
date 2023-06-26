@@ -126,6 +126,11 @@ public class CommonBoardServiceImpl extends EgovAbstractServiceImpl implements C
 		return commonBoardDAO.boardInfoSendMailProc(map);
 	}
 
+    @Override
+    public List<?> boardInfoSendAtfFlowerProc(Map<String, Object> map) throws Exception {
+        return commonBoardDAO.boardInfoSendAtfFlowerProc(map);
+    }
+
 	@Override
 	public int selectCommonBoardIdArrListCnt(Map<String, Object> map) throws Exception {
 		return commonBoardDAO.selectCommonBoardIdArrListCnt(map);
