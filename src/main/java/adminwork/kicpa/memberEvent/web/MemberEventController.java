@@ -109,7 +109,7 @@ public class MemberEventController {
 				map.put("bltnEndYmd", "2900-01-01");
 				map.put("extStr2", StringUtil.isNullToString(map.get("phoneNumber1"))+"-"+StringUtil.isNullToString(map.get("phoneNumber2"))+"-" +StringUtil.isNullToString(map.get("phoneNumber3")));
 				map.put("extStr1", "회원서비스센터");
-				map.put("bltnSubj", "["+cpaId+"] "+user.getName()+" 회계사님 " +StringUtil.isNullToString(map.get("relation"))+"별세" );
+				map.put("bltnSubj", user.getName()+" 회계사님 " +StringUtil.isNullToString(map.get("relation"))+"별세" );
 
 				SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 				Date d = format.parse(StringUtil.isNullToString(map.get("deaDate")));
@@ -185,7 +185,7 @@ public class MemberEventController {
 					eMailInfo.put("v_field3","다음과 같이 회원경조사 게시글이 신규 등록 되었습니다.");
 					eMailInfo.put("v_field4","");
 					eMailInfo.put("v_field5","등록일 : " + todayDe);
-					eMailInfo.put("v_field6","제목 : " + paramMap.get("cpaId") + ", " +user.getName()+ "회계사님 " + map.get("relation") + "별세");
+					eMailInfo.put("v_field6","제목 : " + user.getName()+ "회계사님 " + map.get("relation") + "별세");
 					eMailInfo.put("v_field7","");
 					eMailInfo.put("v_field8","감사합니다.");
 					eMailInfo.put("v_field9","");
@@ -205,15 +205,22 @@ public class MemberEventController {
 				List<?> sendSmsInfoList = mypMemberService.selectMemSendMessageInfoList(sendSmsInfo);      //알림톡 내용
 				sendSmsInfo.putAll((Map<String, Object>)sendSmsInfoList.get(0));
 
-				String contents = sendSmsInfo.get("msgBody").toString();
+				String orgContents = sendSmsInfo.get("msgBody").toString();
+				String contents = "";
 
-				sendSmsInfo.put("msgBody", contents);
 				sendSmsInfo.put("nationCode", "82");   //국가코드
 				sendSmsInfo.put("userId", user.getUniqId());
 
 				for (int i = 0; i < sendMesList.size(); i++) {
 					Map<String, Object> sendSmsDestInfo = new HashMap<>();
 					sendSmsDestInfo.putAll((Map<String, Object>) sendMesList.get(i));
+
+					contents = orgContents;
+
+					contents = contents.replaceAll("\\{담당자}", sendSmsDestInfo.get("optn2").toString() + " 담당자");
+					contents = contents.replaceAll("\\{게시글제목}", user.getName()+ "회계사님 " + map.get("relation") + "별세");
+
+					sendSmsInfo.put("msgBody", contents);
 
 					sendSmsInfo.put("destPhone", sendSmsDestInfo.get("optn1"));
 
