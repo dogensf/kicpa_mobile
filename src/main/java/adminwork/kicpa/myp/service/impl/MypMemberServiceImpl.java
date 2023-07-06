@@ -123,6 +123,11 @@ public class MypMemberServiceImpl extends EgovAbstractServiceImpl implements Myp
 	}
 
 	@Override
+	public List<?> selectMemEventSendMemList(Map<String, Object> map) throws Exception {
+		return mypMemberDAO.selectMemEventSendMemList(map);
+	}
+
+	@Override
 	public List<?> selectMemSendMessageInfoList(Map<String, Object> map) throws Exception {
 		return mypMemberDAO.selectMemSendMessageInfoList(map);
 	}

@@ -173,12 +173,12 @@ function fncLocation(){
             	</c:choose>
             </div>
 
-            <div class="cont-line">
+            <%--<div class="cont-line">
                 <h5>내용</h5>
                 <div class="textline">
 					${boardDetail.bltnCntt}
                 </div>
-            </div>
+            </div>--%>
 
         </div>
     </div>

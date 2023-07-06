@@ -485,6 +485,36 @@
 
 	</update>
 
+	<select id="MypMemberDAO.selectMemEventSendMemList" parameterClass="HashMap" resultClass="EgovMap">
+
+		<![CDATA[
+			select
+				/*a.iml_id,*/
+				a.IML_KNAME,
+				b.imb_hp
+			from kicpasec.sdb_int_mb_login@portal a
+			left outer join  portal.int_mb_basic@portal b  on a.iml_psl_id = b.imb_psl_id
+			where a.iml_id in (
+				(select short_path
+				from portal.security_principal@portal spu
+				join(select sur.user_id from portal.security_principal@portal spr
+						join portal.security_user_role@portal sur on spr.principal_id = sur.role_id
+						where spr.principal_type = 'R'
+						and spr.short_path = 'mstate' /* id */
+						) upi on spu.principal_id = upi.user_id
+				where  spu.principal_type = 'U'
+				)
+				union
+				(select short_path
+				from portal.security_principal@portal
+				where principal_type = 'U'
+				and short_path =  'mstate' /* id */
+				)
+			)
+        ]]>
+
+	</select>
+
 	<select id="MypMemberDAO.selectMemSendMessageInfoList" parameterClass="HashMap" resultClass="EgovMap">
 
 		<![CDATA[

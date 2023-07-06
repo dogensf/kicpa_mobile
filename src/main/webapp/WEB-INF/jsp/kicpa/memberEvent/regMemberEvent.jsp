@@ -39,13 +39,18 @@ function fncLocation(){
 
                  <!-- 인풋 필수 -->
                  <div class="inp-box">
-                     <label class="label essen" for="regUserName">작성자</label>
-                     <input type="text" id="regUserName" name="regUserName" readonly placeholder="입력하세요." value="${loginVO.name }" style="border-color: #ccc; color: #ccc; background-color: transparent;"/>
+                     <label class="label essen" for="regTitle">제목</label>
+                     <input type="text" id="regTitle" name="regTitle" readonly placeholder="성명(등록번호), 고인관계 작성시 자동으로 입력됩니다." style="border-color: #ccc; color: #ccc; background-color: transparent;"/>
+                 </div>
+
+                 <div class="inp-box">
+                     <label class="label essen" for="regMemberEvent_cpaNmId">성명(등록번호)</label>
+                     <input type="text" id="regMemberEvent_cpaNmId" name="cpaNmId" placeholder="성명(등록번호)을 입력해주세요." />
                  </div>
 
                  <div class="inp-box">
                      <label class="label essen" for="regUserAgency">소속</label>
-                     <input type="text" id="regUserAgency" name="regUserAgency" readonly placeholder="입력하세요." value="${sessionScope.auditNm  }" style="border-color: #ccc; color: #ccc; background-color: transparent;"/>
+                     <input type="text" id="regUserAgency" name="regUserAgency" placeholder="입력하세요." value="${sessionScope.auditNm  }"/>
                  </div>
 
                  <div class="inp-box">
@@ -55,7 +60,14 @@ function fncLocation(){
 
                  <div class="inp-box">
                      <label class="label essen" for="relation">고인관계</label>
-                     <input type="text" id="relation" name="relation" placeholder="예) 부친,모친,빙부,빙모,본인" />
+                     <select class="select" id="relation" name="relation">
+                         <option value="">선택하세요.</option>
+                         <option value="부친상">부친상</option>
+                         <option value="모친상">모친상</option>
+                         <option value="빙부상">빙부상</option>
+                         <option value="빙모상">빙모상</option>
+                         <option value="본인상">본인상</option>
+                     </select>
                  </div>
 
 
@@ -80,7 +92,7 @@ function fncLocation(){
                  </div>
                  <div class="inp-box">
                      <label class="label essen" for="mortuary">빈소</label>
-                     <input type="text" id="mortuary" name="mortuary" placeholder="예) 서울대병원 장례식장 3호실" />
+                     <input type="text" id="mortuary" name="mortuary" placeholder="예) OO병원 장례식장 3호실" />
                  </div>
 
                  <!-- 인풋 disabled -->
@@ -93,9 +105,9 @@ function fncLocation(){
                  <div class="inp-box">
                      <label class="label essen">빈소 연락처</label>
                      <div class="phone">
-                         <input type="text" id="phoneNumber1" name="phoneNumber1" maxlength="3" placeholder="010" />
-                         <input type="text" id="phoneNumber2" name="phoneNumber2" maxlength="4" />
-                         <input type="text" id="phoneNumber3" name="phoneNumber3" maxlength="4" />
+                         <input type="text" id="phoneNumber1" name="phoneNumber1" maxlength="3" placeholder="000" />
+                         <input type="text" id="phoneNumber2" name="phoneNumber2" maxlength="4" placeholder="0000" />
+                         <input type="text" id="phoneNumber3" name="phoneNumber3" maxlength="4" placeholder="0000" />
                      </div>
                  </div>
 
@@ -106,8 +118,8 @@ function fncLocation(){
                  </div>
 
                  <div class="inp-box">
-                     <label class="label essen" for="regMemberEvent_cpaNmId">성명(등록번호)</label>
-                     <input type="text" id="regMemberEvent_cpaNmId" name="cpaNmId" placeholder="성명(등록번호)을 입력해주세요." />
+                     <label class="label essen" for="regUserName">작성자</label>
+                     <input type="text" id="regUserName" name="regUserName" readonly placeholder="입력하세요." value="${loginVO.name }" style="border-color: #ccc; color: #ccc; background-color: transparent;"/>
                  </div>
 
 <!--                	<div class="inp-box"> -->

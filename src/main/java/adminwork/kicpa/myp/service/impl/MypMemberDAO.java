@@ -97,6 +97,10 @@ public class MypMemberDAO extends EgovComAbstractDAO2 {
         update("MypMemberDAO.mypCpaMemberRegisterRegFlagSave", (Object) map);
     }
 
+    public List<?> selectMemEventSendMemList(Map<String, Object> map) throws Exception {
+        return (List<?>) list("MypMemberDAO.selectMemEventSendMemList", (Object) map);
+    }
+
     public List<?> selectMemSendMessageInfoList(Map<String, Object> map) throws Exception {
         return (List<?>) list("MypMemberDAO.selectMemSendMessageInfoList", (Object) map);
     }

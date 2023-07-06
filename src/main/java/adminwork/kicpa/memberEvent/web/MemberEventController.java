@@ -93,8 +93,11 @@ public class MemberEventController {
 				String auditNm = (String) session.getAttribute("auditNm");
 				String status = (String) session.getAttribute("status");;
 
+				//게시 종료 일자 = 오늘부터 1개월
+				java.text.SimpleDateFormat currentDe = new java.text.SimpleDateFormat("yyyyMMdd");
+				Calendar cal = Calendar.getInstance();
 
-
+				cal.add(Calendar.MONTH, 1);
 
 				map.put("actionCd", "01" );
 				map.put("entityName", "BULLETIN.BLTN_GN" );
@@ -106,18 +109,18 @@ public class MemberEventController {
 				map.put("bltnTopTag", "N");
 				map.put("bltnSecretYn", "N");
 				map.put("bltnPermitYn", "Y");
-				map.put("bltnEndYmd", "2900-01-01");
+				map.put("bltnEndYmd", currentDe.format(cal.getTime()));
 				map.put("extStr2", StringUtil.isNullToString(map.get("phoneNumber1"))+"-"+StringUtil.isNullToString(map.get("phoneNumber2"))+"-" +StringUtil.isNullToString(map.get("phoneNumber3")));
 				map.put("extStr1", "회원서비스센터");
-				map.put("bltnSubj", user.getName()+" 회계사님 " +StringUtil.isNullToString(map.get("relation"))+"별세" );
+				map.put("bltnSubj", user.getName()+" 회계사님 " +StringUtil.isNullToString(map.get("relation")));
 
 				SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 				Date d = format.parse(StringUtil.isNullToString(map.get("deaDate")));
-				SimpleDateFormat format2 = new SimpleDateFormat("yyyy년 MM월 dd일 ( E 요 일 )");
+				SimpleDateFormat format2 = new SimpleDateFormat("yyyy.MM.dd (E요일)");
 				String deaDateFormat = format2.format(d);
 
 				d = format.parse(StringUtil.isNullToString(map.get("burialDt")));
-				format2 = new SimpleDateFormat("yyyy년 MM월 dd일 ( E 요 일 )");
+				format2 = new SimpleDateFormat("yyyy.MM.dd (E요일)");
 				String burialDtFormat = format2.format(d);
 
 				//빈소 연락처
@@ -127,10 +130,10 @@ public class MemberEventController {
 				map.put("extStr3", StringUtil.isNullToString(map.get("cpaNmId")) );											//성명(등록번호)
 				map.put("extStr4", StringUtil.isNullToString(map.get("regUserAgency")) );									//소속
 				map.put("extStr5", StringUtil.isNullToString(map.get("relation")));											//고인관계
-				map.put("extStr6", StringUtil.isNullToString(map.get("deaDate")).replaceAll("-",""));		//작고일
+				map.put("extStr6", StringUtil.isNullToString(deaDateFormat));												//작고일
 				map.put("extStr7", StringUtil.isNullToString(map.get("mortuary")));											//빈소
-				map.put("extStr8", mortuaryNum.replaceAll("-",""));											//빈소 연락처
-				map.put("extStr9", StringUtil.isNullToString(map.get("burialDt")).replaceAll("-",""));		//발인일
+				map.put("extStr8", mortuaryNum);																			//빈소 연락처
+				map.put("extStr9", StringUtil.isNullToString(burialDtFormat));												//발인일
 
 				String bltnCntt = "";
 				bltnCntt += "<p class=\"0\" style=\"line-height:200%;text-align:center;word-break:keep-all;mso-pagination:none;text-autospace:none;mso-padding-alt:0pt 0pt 0pt 0pt;letter-spacing:1.2pt;\" align=\"center\"><u><span style=\"font-family:궁서체;mso-fareast-font-family:궁서체;letter-spacing:1.2pt;font-size:24.0pt;\">부    고</span></u></p>\n";
@@ -185,7 +188,7 @@ public class MemberEventController {
 					eMailInfo.put("v_field3","다음과 같이 회원경조사 게시글이 신규 등록 되었습니다.");
 					eMailInfo.put("v_field4","");
 					eMailInfo.put("v_field5","등록일 : " + todayDe);
-					eMailInfo.put("v_field6","제목 : " + user.getName()+ "회계사님 " + map.get("relation") + "별세");
+					eMailInfo.put("v_field6","제목 : " + user.getName()+ "회계사님 " + map.get("relation"));
 					eMailInfo.put("v_field7","");
 					eMailInfo.put("v_field8","감사합니다.");
 					eMailInfo.put("v_field9","");
@@ -197,8 +200,7 @@ public class MemberEventController {
 
 				//문자발송
 				Map<String, Object> sendSmsInfo = new HashMap<>();
-				paramMap.put("grpCd", "GQ3200");
-				List<?> sendMesList = myPageService.selectSendMemList(paramMap);		//대상자 조회
+				List<?> sendMesList = mypMemberService.selectMemEventSendMemList(paramMap);		//대상자 조회
 
 				sendSmsInfo.put("msgCl", "N0021023");      //회원경조사 등록 알림톡
 				sendSmsInfo.put("userId", user.getUniqId());
@@ -217,12 +219,12 @@ public class MemberEventController {
 
 					contents = orgContents;
 
-					contents = contents.replaceAll("\\{담당자}", sendSmsDestInfo.get("optn2").toString() + " 담당자");
-					contents = contents.replaceAll("\\{게시글제목}", user.getName()+ "회계사님 " + map.get("relation") + "별세");
+					contents = contents.replaceAll("\\{담당자}", sendSmsDestInfo.get("imlKname").toString() + " 담당자");
+					contents = contents.replaceAll("\\{게시글제목}", user.getName()+ "회계사님 " + map.get("relation"));
 
 					sendSmsInfo.put("msgBody", contents);
 
-					sendSmsInfo.put("destPhone", sendSmsDestInfo.get("optn1"));
+					sendSmsInfo.put("destPhone", sendSmsDestInfo.get("imbHp"));
 
 					mypMemberService.cpaMemMessageSend(sendSmsInfo);      //알림톡 전송
 
