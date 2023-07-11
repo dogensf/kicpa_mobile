@@ -28,7 +28,7 @@ function fncLocation(){
 	     <h3>등록</h3>
 	 </section>
 
-	 <section class="content">
+	 <section class="content" style="margin-bottom: 50px;">
 	     <div class="pd-wrap">
              <fieldset>
                  <!-- 인풋 기본 -->
@@ -40,7 +40,7 @@ function fncLocation(){
                  <!-- 인풋 필수 -->
                  <div class="inp-box">
                      <label class="label essen" for="regTitle">제목</label>
-                     <input type="text" id="regTitle" name="regTitle" readonly placeholder="성명(등록번호), 고인관계 작성시 자동으로 입력됩니다." style="border-color: #ccc; color: #ccc; background-color: transparent;"/>
+                     <input type="text" id="regTitle" name="regTitle" <c:if test="${loginVO.userTy ne '임직원'}">readonly style="border-color: #ccc; color: #ccc; background-color: transparent;"</c:if> placeholder="성명(등록번호), 고인관계 작성시 자동으로 입력됩니다."/>
                  </div>
 
                  <div class="inp-box">
@@ -119,7 +119,7 @@ function fncLocation(){
 
                  <div class="inp-box">
                      <label class="label essen" for="regUserName">작성자</label>
-                     <input type="text" id="regUserName" name="regUserName" readonly placeholder="입력하세요." value="${loginVO.name }" style="border-color: #ccc; color: #ccc; background-color: transparent;"/>
+                     <input type="text" id="regUserName" name="regUserName" readonly style="border-color: #ccc; color: #ccc; background-color: transparent;" placeholder="입력하세요." value="${loginVO.name }"/>
                  </div>
 
 <!--                	<div class="inp-box"> -->

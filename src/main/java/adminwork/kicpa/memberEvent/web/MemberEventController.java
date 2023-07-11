@@ -112,7 +112,7 @@ public class MemberEventController {
 				map.put("bltnEndYmd", currentDe.format(cal.getTime()));
 				map.put("extStr2", StringUtil.isNullToString(map.get("phoneNumber1"))+"-"+StringUtil.isNullToString(map.get("phoneNumber2"))+"-" +StringUtil.isNullToString(map.get("phoneNumber3")));
 				map.put("extStr1", "회원서비스센터");
-				map.put("bltnSubj", user.getName()+" 회계사님 " +StringUtil.isNullToString(map.get("relation")));
+				map.put("bltnSubj", StringUtil.isNullToString(map.get("regTitle")));
 
 				SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 				Date d = format.parse(StringUtil.isNullToString(map.get("deaDate")));
@@ -162,8 +162,8 @@ public class MemberEventController {
 				paramMap.put("pin", user.getUniqId());
 				paramMap.put("grpCd", "GQ2001");
 				List<?> sendMemList = myPageService.selectSendMemList(paramMap);	//발송대상자(GQ2001)
-				List<?> cpaList = myPageService.selectCpaMemberRegistInfoList(paramMap);	//작성자 CPA_ID
-				paramMap.putAll((Map<String, Object>) cpaList.get(0));
+				//List<?> cpaList = myPageService.selectCpaMemberRegistInfoList(paramMap);	//작성자 CPA_ID
+				//paramMap.putAll((Map<String, Object>) cpaList.get(0));
 
 				//오늘날짜
 				java.text.SimpleDateFormat today = new java.text.SimpleDateFormat("yyyy년 MM월 dd일");
@@ -188,7 +188,7 @@ public class MemberEventController {
 					eMailInfo.put("v_field3","다음과 같이 회원경조사 게시글이 신규 등록 되었습니다.");
 					eMailInfo.put("v_field4","");
 					eMailInfo.put("v_field5","등록일 : " + todayDe);
-					eMailInfo.put("v_field6","제목 : " + user.getName()+ "회계사님 " + map.get("relation"));
+					eMailInfo.put("v_field6","제목 : " + StringUtil.isNullToString(map.get("regTitle")));
 					eMailInfo.put("v_field7","");
 					eMailInfo.put("v_field8","감사합니다.");
 					eMailInfo.put("v_field9","");
@@ -220,7 +220,7 @@ public class MemberEventController {
 					contents = orgContents;
 
 					contents = contents.replaceAll("\\{담당자}", sendSmsDestInfo.get("imlKname").toString() + " 담당자");
-					contents = contents.replaceAll("\\{게시글제목}", user.getName()+ "회계사님 " + map.get("relation"));
+					contents = contents.replaceAll("\\{게시글제목}", StringUtil.isNullToString(map.get("regTitle")));
 
 					sendSmsInfo.put("msgBody", contents);
 
