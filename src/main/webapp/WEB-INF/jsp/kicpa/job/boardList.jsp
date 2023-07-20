@@ -78,7 +78,7 @@ function fncLocation(){
 		        <ul>
 		        	<c:if test="${codeList ne null and fn:length(codeList) ne 0 and param.boardId eq null}">
 		        		<c:forEach items="${codeList }" var="code"  varStatus="index" >
-		        			<c:if test="${code.code ne 6}">
+		        			<c:if test="${code.code ne 6 && code.code ne 8}">
 			        			<c:choose>
 			        				<c:when test="${index.index eq 0}">
 		        						 <li class="active">
@@ -92,6 +92,22 @@ function fncLocation(){
 			        				</c:otherwise>
 			        			</c:choose>
 		        			</c:if>
+
+							<%--한국공인회계사회 클릭시 공인회계사회 게시판 연결--%>
+							<c:if test="${code.code eq 8}">
+								<c:choose>
+									<c:when test="${index.index eq 0}">
+										<li class="active">
+											<a href="javascript:void(0);" onclick="job.menuChange(this,'jobInfoKicpa')">${code.codeName}</a>
+										</li>
+									</c:when>
+									<c:otherwise>
+										<li>
+											<a href="javascript:void(0);" onclick="job.menuChange(this,'jobInfoKicpa')">${code.codeName}</a>
+										</li>
+									</c:otherwise>
+								</c:choose>
+							</c:if>
 		        		</c:forEach>
 
 		        	</c:if>
