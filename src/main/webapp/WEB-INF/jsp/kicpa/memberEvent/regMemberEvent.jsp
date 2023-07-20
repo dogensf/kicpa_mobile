@@ -64,8 +64,8 @@ function fncLocation(){
                          <option value="">선택하세요.</option>
                          <option value="부친상">부친상</option>
                          <option value="모친상">모친상</option>
-                         <option value="빙부상">빙부상</option>
-                         <option value="빙모상">빙모상</option>
+                         <option value="배우자의 부친상">배우자의 부친상</option>
+                         <option value="배우자의 모친상">배우자의 모친상</option>
                          <option value="본인상">본인상</option>
                      </select>
                  </div>
