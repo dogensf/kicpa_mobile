@@ -131,10 +131,10 @@ board.commonBoardListSuccess = function(data){
 						txt+='            <span>'+o.userNick+'</span> \n';
 					}
 					//확징필드 사용설정
-					else if(boardMaster.funcYns9 == 'Y' && boardMaster.extTitle1 != null && boardMaster.extTitle1 != ''){
+					/*else if(boardMaster.funcYns9 == 'Y' && boardMaster.extTitle1 != null && boardMaster.extTitle1 != ''){
 						txt+='            <span>'+o.extStr1+'</span> \n';
 
-					}
+					}*/
 					//조회수 표시 사용설정
 					if(boardMaster.ttlYns10 == 'Y'){
 						txt+='            <span>'+o.bltnReadCnt+'</span> \n';
