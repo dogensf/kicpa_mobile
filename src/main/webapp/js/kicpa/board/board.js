@@ -294,6 +294,9 @@ board.boardSendAtfFlowerSuccess = function(result){
 		else if(result.boardSendAtfFlowerInfo.v_result == "1"){
 			alert("v_result ==>  1, 정상" );
 		}
+		else if(result.boardSendAtfFlowerInfo.v_result == "3"){
+			alert("v_result ==>  3, 발송내역 존재" );
+		}
 		else{
 			alert("v_result ==>  "+result.boardSendAtfFlowerInfo.v_result+", 기타오류");
 		}
