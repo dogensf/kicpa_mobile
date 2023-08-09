@@ -195,56 +195,87 @@
                                 <div class="bill-group duesChkToggle3">
                                     <strong class="tb-title">부조회비</strong>
                                     <div class="bill-group-tb">
-                                        <table id="duesExcelDown">
-                                            <colgroup>
-                                                <col />
-                                                <col />
-                                                <col />
-                                                <col />
-                                            </colgroup>
-                                            <thead>
-                                            <tr>
-                                                <th>연도</th>
-                                                <th>부조회비</th>
-                                                <th>추가회비</th>
-                                                <th>납기</th>
-                                            </tr>
-                                            </thead>
-                                            <tbody>
-                                            <c:set var="pass_sum" value="0"/>
-                                            <c:set var="add_sum" value="0"/>
-                                            <c:set var="delay_sum"  value="0"/>
-                                            <c:set var="cur_sum" value="0"/>
-                                            <c:set var="dues_sum" value="0"/>
-                                            <c:forEach var="bi" items="${bill}" varStatus="status">
-                                                <!-- 부조회비 -->
-                                                <c:if test="${bi.dues_cl eq '00170003' }">
-                                                    <tr>
-                                                        <td>${fn:substring(bi.due_de,0,4)}</td>
-                                                        <c:set var="dues_sum" value="${dues_sum + bi.dues_amt}"/>
-                                                        <fmt:formatNumber type="number" maxFractionDigits="3" value="${bi.dues_amt}" var="dues_amt_" />
-                                                        <td>${dues_amt_}</td>
-                                                        <c:set var="add_sum" value="${add_sum + bi.add_amt}"/>
-                                                        <fmt:formatNumber type="number" maxFractionDigits="3" value="${bi.add_amt}" var="add_amt_" />
-                                                        <td>${add_amt_}</td>
-                                                        <td>${fn:substring(bi.due_de,0,4)}.${fn:substring(bi.due_de,4,6)}.${fn:substring(bi.due_de,6,8)}</td>
-                                                    </tr>
-                                                </c:if>
-                                            </c:forEach>
+<div class="bill-box">
+    <div class="bill-title">직무회비</div>
+    <div class="title-box">
+        <span>업무구분</span>
+        <span>회사명</span>
+        <span>접수일<br>(결산종료일)</span>
+        <span>회비구분</span>
+        <span>차수</span>
+        <span>회비</span>
+        <span>납기</span>
+    </div>
+    <div class="table-box">
+        <p>감리업무 수수료</p>
+        <p>(주)기수정밀</p>
+        <p>2022.03.07</p>
+        <p>추가회비</p>
+        <p>1차</p>
+        <p>320,000</p>
+        <p>2099.12.31</p>
+    </div>
+    <div class="table-box">
+        <p>감리업무 수수료</p>
+        <p>(주)기수정밀</p>
+        <p>2022.03.07</p>
+        <p>추가회비</p>
+        <p>1차</p>
+        <p>320,000</p>
+        <p>2099.12.31</p>
+    </div>
+</div>
 
-                                            </tbody>
-                                            <tfoot>
-                                            <tr>
-                                                <td>합계</td>
-                                                <fmt:formatNumber type="number" maxFractionDigits="3" value="${dues_sum}" var="dues_sum_" />
-                                                <td>${dues_sum_ }</td>
-                                                <fmt:formatNumber type="number" maxFractionDigits="3" value="${add_sum}" var="add_sum_" />
-                                                <td>${add_sum_ }</td>
-                                                <fmt:formatNumber type="number" maxFractionDigits="3" value="${dues_sum + add_sum}" var="tot_sum_" />
-                                                <td><strong>${tot_sum_ }</strong></td>
-                                            </tr>
-                                            </tfoot>
-                                        </table>
+<%--                                        <table id="duesExcelDown">--%>
+<%--                                            <colgroup>--%>
+<%--                                                <col />--%>
+<%--                                                <col />--%>
+<%--                                                <col />--%>
+<%--                                                <col />--%>
+<%--                                            </colgroup>--%>
+<%--                                            <thead>--%>
+<%--                                            <tr>--%>
+<%--                                                <th>연도</th>--%>
+<%--                                                <th>부조회비</th>--%>
+<%--                                                <th>추가회비</th>--%>
+<%--                                                <th>납기</th>--%>
+<%--                                            </tr>--%>
+<%--                                            </thead>--%>
+<%--                                            <tbody>--%>
+<%--                                            <c:set var="pass_sum" value="0"/>--%>
+<%--                                            <c:set var="add_sum" value="0"/>--%>
+<%--                                            <c:set var="delay_sum"  value="0"/>--%>
+<%--                                            <c:set var="cur_sum" value="0"/>--%>
+<%--                                            <c:set var="dues_sum" value="0"/>--%>
+<%--                                            <c:forEach var="bi" items="${bill}" varStatus="status">--%>
+<%--                                                <!-- 부조회비 -->--%>
+<%--                                                <c:if test="${bi.dues_cl eq '00170003' }">--%>
+<%--                                                    <tr>--%>
+<%--                                                        <td>${fn:substring(bi.due_de,0,4)}</td>--%>
+<%--                                                        <c:set var="dues_sum" value="${dues_sum + bi.dues_amt}"/>--%>
+<%--                                                        <fmt:formatNumber type="number" maxFractionDigits="3" value="${bi.dues_amt}" var="dues_amt_" />--%>
+<%--                                                        <td>${dues_amt_}</td>--%>
+<%--                                                        <c:set var="add_sum" value="${add_sum + bi.add_amt}"/>--%>
+<%--                                                        <fmt:formatNumber type="number" maxFractionDigits="3" value="${bi.add_amt}" var="add_amt_" />--%>
+<%--                                                        <td>${add_amt_}</td>--%>
+<%--                                                        <td>${fn:substring(bi.due_de,0,4)}.${fn:substring(bi.due_de,4,6)}.${fn:substring(bi.due_de,6,8)}</td>--%>
+<%--                                                    </tr>--%>
+<%--                                                </c:if>--%>
+<%--                                            </c:forEach>--%>
+
+<%--                                            </tbody>--%>
+<%--                                            <tfoot>--%>
+<%--                                            <tr>--%>
+<%--                                                <td>합계</td>--%>
+<%--                                                <fmt:formatNumber type="number" maxFractionDigits="3" value="${dues_sum}" var="dues_sum_" />--%>
+<%--                                                <td>${dues_sum_ }</td>--%>
+<%--                                                <fmt:formatNumber type="number" maxFractionDigits="3" value="${add_sum}" var="add_sum_" />--%>
+<%--                                                <td>${add_sum_ }</td>--%>
+<%--                                                <fmt:formatNumber type="number" maxFractionDigits="3" value="${dues_sum + add_sum}" var="tot_sum_" />--%>
+<%--                                                <td><strong>${tot_sum_ }</strong></td>--%>
+<%--                                            </tr>--%>
+<%--                                            </tfoot>--%>
+<%--                                        </table>--%>
                                     </div>
                                 </div>
                             </c:if>
