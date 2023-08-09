@@ -4764,7 +4764,7 @@ ul.list-wrap.main button:last-child {
   overflow-y: auto;
 }
 .gray-box .bill-box5{
-  margin: 24px 0;
+  margin: 24px 60px;
 }
 .gray-box .bill-box5 .bill-title{
   font-weight: 700;
@@ -4851,7 +4851,7 @@ ul.list-wrap.main button:last-child {
 /*//////////////////////////////////////////////////////////*/
 /*//////////////////////////////////////////////////////////*/
 .gray-box .bill-box2{
-  margin: 24px 0;
+  margin: 24px 60px;
 }
 .gray-box .bill-box2 .bill-title{
   font-weight: 700;
