@@ -68,6 +68,11 @@ public class IntroductionController {
 		return "kicpa/introduction/greetings";
 	}
 
+	@RequestMapping(value = "/missionVision.do")
+	public String vision(@RequestParam Map<String,Object> map,HttpServletRequest request,HttpServletResponse response,ModelMap model) throws Exception{
+		return "kicpa/introduction/missionVision";
+	}
+
 
 	@RequestMapping(value="/ciFileDownload.do")
 	public void boardFileDownload(@RequestParam Map<String,Object> map, HttpServletRequest request,HttpServletResponse response) throws Exception{
