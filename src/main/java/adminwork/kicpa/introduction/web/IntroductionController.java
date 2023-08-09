@@ -69,7 +69,7 @@ public class IntroductionController {
 	}
 
 	@RequestMapping(value = "/missionVision.do")
-	public String vision(@RequestParam Map<String,Object> map,HttpServletRequest request,HttpServletResponse response,ModelMap model) throws Exception{
+	public String missionVision(@RequestParam Map<String,Object> map,HttpServletRequest request,HttpServletResponse response,ModelMap model) throws Exception{
 		return "kicpa/introduction/missionVision";
 	}
 

@@ -1902,7 +1902,9 @@ button:focus {
   transition: ease-out .2s;
   display: none;
 }
-
+.tab-main-content .info-page img{
+  width: 100%;
+}
 .tab-main-content.show, .tab-sub-content.show {
   opacity: 1;
   display: block;
