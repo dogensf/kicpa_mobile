@@ -230,7 +230,9 @@
                     atr.APP_TRN_SN
                 ,   atr.APP_CPA_NO
                 ,   atr.PIN
-                ,   CASE WHEN atr.TRN_ODR = 1 THEN '기본' ELSE '외감' END AS TRN_ODR
+                ,	atr.TRN_CL
+                ,	decode(trn_cl,'1','기본실무','2','외감실무','3','재학생연수') as TRN_CL_NM
+                ,   atr.TRN_ODR
                 ,   atr.COMPL_YN
                 ,   atr.PSEXAM_YN
                 ,   TO_CHAR(TO_DATE(atr.TRN_BGN_DE,'YYYY-MM-DD'),'YYYY-MM-DD') AS TRN_BGN_DE
@@ -254,6 +256,8 @@
             WHERE
                 atr.DELETE_YN = 'N'
             AND atr.APP_CPA_NO = #appCpaNo#
+            AND (atr.TRN_CL = '1' OR atr.TRN_CL = '2')
+            AND atr.FINAL_YN = 'Y'
             ]]>
 		<isNotEmpty property="complYn">
 			<![CDATA[
@@ -261,7 +265,7 @@
                 ]]>
 		</isNotEmpty>
 		<![CDATA[
-            ORDER BY atr.TRN_ODR DESC, atr.APP_TRN_SN DESC
+            ORDER BY atr.APP_TRN_SN ASC
          ]]>
 
 	</select>

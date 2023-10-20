@@ -127,7 +127,7 @@
 					<c:if test="${cpaTrnngResultRealInfoSize > 0}">
 						<c:forEach var="cpaTrnngResultRealInfo" items="${cpaTrnngResultRealInfo}" varStatus="status">
 							<div class="cont">
-								<h3>${cpaTrnngResultRealInfo.trnOdr}실무</h3>
+								<h3>${cpaTrnngResultRealInfo.trnClNm}</h3>
 
 								<ul class="view-list">
 									<li>
