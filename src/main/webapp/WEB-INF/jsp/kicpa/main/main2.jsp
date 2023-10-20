@@ -16,7 +16,7 @@ var aa =  [
 			{"name":"마이페이지", "img":"icon_mypage", "url":"location.href='/kicpa/myp/myPage.do'"},			
 			{"name":"구인정보", "img":"icon_survey", "url":"/kicpa/job/boardList.do?ijJobSep=1"},
 			{"name":"알림마당", "img":"icon_notice", "url":"/kicpa/notice/boardList.do?boardId=noti"},
-			{"name":"공인회계사 소개", "img":"icon_intro_2", "url":"/kicpa/introduction/boardList.do"},			
+			{"name":"공인회계사 소개", "img":"icon_intro_2", "url":"/kicpa/introduction/greetings.do"},
 			{"name":"회비관리", "img":"icon_tax", "url":"/kicpa/dues/selectDuesList.do"},
 			{"name":"마이페이지", "img":"icon_blog", "url":"/kicpa/myp/myPage.do"}
 			
