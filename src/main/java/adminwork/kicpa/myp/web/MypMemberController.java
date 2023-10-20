@@ -212,7 +212,7 @@ public class MypMemberController {
 
 			model.addAttribute("mypCpaTrnngSmInfoPin", paramMap.get("pin"));
 
-			model.addAttribute("userId", user.getUniqId());
+			model.addAttribute("userId", user.getId());
 
 
 		}else {

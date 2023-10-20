@@ -532,7 +532,7 @@ public class MainController {
 	            
 	            try {
 	                String user_id = URLEncoder.encode(userId, "UTF-8");
-	                String apiURL = "http://cyber2.kicpa.or.kr/resource/token";
+	                String apiURL = "https://cyber.kicpa.or.kr/resource/token";
 	                URL url = new URL(apiURL);
 	                HttpURLConnection con = (HttpURLConnection)url.openConnection();
 	                con.setRequestMethod("POST");
@@ -558,7 +558,7 @@ public class MainController {
 	                }
 	                String inputLine;
 	                StringBuffer response = new StringBuffer();
-	                while ((inputLine = br.readLine()) != null) {	                	
+	                while ((inputLine = br.readLine()) != null) {
 	                    response.append(inputLine);
 	                }
 	                br.close();
@@ -567,7 +567,7 @@ public class MainController {
 	                JSONObject rt = (JSONObject) parser.parse(response.toString());
 	                System.out.println("--------:: "+ rt.get("token"));
 	                Token = rt.get("token").toString();
-	                
+
 	            } catch (Exception e) {
 	                System.out.println(e);
 	            }
