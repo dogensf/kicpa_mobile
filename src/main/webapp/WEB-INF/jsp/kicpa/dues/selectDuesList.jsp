@@ -425,120 +425,40 @@
 
 					}
 
-// toggle2,3
-					result+= "<div class='bill-box2'>" +
-							"<div class='bill-title'>연회비</div>" +
-							"<div class='bill-title-box'>" +
-							"<span>연도</span>" +
-							"<span>연회비</span>" +
-							"<span>추가회비</span>" +
-							"<span>납기</span>" +
-							"</div>" +
-							"<div class='table-box'>" +
-							"<p>2023</p>" +
-							"<p>333,000</p>" +
-							"<p>0</p>" +
-							"<p>2099.12.31</p>" +
-							"</div>" +
-							"<div class='table-box'>" +
-							"<p>2023</p>" +
-							"<p>333,000</p>" +
-							"<p>0</p>" +
-							"<p>2099.12.31</p>" +
-							"</div>" +
-							"<div class='sum-box'>" +
-							"<p>합계</p>" +
-							"<p>999,999</p>" +
-							"<p>0</p>" +
-							"<p>999,999</p>" +
-							"</div>" +
-							"</div>";
-// toggle5
-					result+= "<div class='bill-box5'>" +
-					"<div class='bill-title'>직무회비</div>" +
-					"<div class='bill-title-box'>" +
-						"<span>업무구분</span>" +
-						"<span>회사명</span>" +
-						"<span>접수일(결산종료일)</span>" +
-						"<span>회비구분</span>" +
-						"<span>차수</span>" +
-						"<span>회비</span>" +
-						"<span>납기</span>" +
-					"</div>" +
-					"<div class='table-box'>" +
-						"<p>감리업무 수수료</p>" +
-						"<p>(주)기수정밀</p>" +
-						"<p>2022.03.07</p>" +
-						"<p>추가회비</p>" +
-						"<p>1차</p>" +
-						"<p>320,000</p>" +
-						"<p>2099.12.31</p>" +
-					"</div>" +
-					"<div class='table-box'>" +
-						"<p>감리업무 수수료</p>" +
-						"<p>(주)기수정밀</p>" +
-						"<p>2022.03.07</p>" +
-						"<p>추가회비</p>" +
-						"<p>1차</p>" +
-						"<p>320,000</p>" +
-						"<p>2099.12.31</p>" +
-					"</div>" +
-							"<div class='sum-box'>" +
-							"<p>합계</p>" +
-							"<p>999,999</p>" +
-							"</div>" +
-				"</div>";
-
-					/*for(var i=0; i<data.billSum.length; i++){
+					for(var i=0; i<data.billSum.length; i++){
 						//입회비
 						if(data.billSum[i].dues_cl == '00170008' && duesFlag1){
 
 							var cur_amt = 0;
 
 							result = result +
-									"<div class='bill-group duesChkToggle1'>" +
-									"<strong class='tb-title'>입회비</strong>" +
-									"<div class='bill-group-tb'>" +
-									"<table>" +
-									"<colgroup>" +
-									"<col />" +
-									"<col />" +
-									"<col />" +
-									"</colgroup>" +
-									"<thead>" +
-									"<tr>" +
-									"<th>수습공인회계사등록번호</th>" +
-									"<th>성명 </th>" +
-									"<th>금액</th>" +
-									"</tr>" +
-									"</thead>" +
-									"<tbody>";
+									"<div class='bill-box2'>" +
+									"<div class='bill-title'>입회비</div>" +
+									"<div class='bill-title-box'>" +
+									"<span>수습공인회계사등록번호</span>" +
+									"<span>성명 </span>" +
+									"<span>금액</span>" +
+									"</div>";
 
 							for(var j=0; j<data.bill.length; j++){
 
 								if(data.bill[j].dues_cl == '00170008'){
 
 									result = result +
-											"<tr>" +
-											"<td>"+data.bill[j].odr+"</td>" +
-											"<td>"+data.bill[j].cmpy_nm+"</td>" +
-											"<td>"+duesCommaCheck(data.bill[j].cur_amt)+"</td>" +
-											"</tr>";
+											"<div class='table-box'>" +
+											"<p>"+data.bill[j].odr+"</p>" +
+											"<p>"+data.bill[j].cmpy_nm+"</p>" +
+											"<p>"+duesCommaCheck(data.bill[j].cur_amt)+"</p>" +
+											"</div>";
 
 									cur_amt = cur_amt + data.bill[j].cur_amt;
 								}
 							}
 
 							result = result +
-									"</tbody>" +
-									"<tfoot>" +
-									"<tr>" +
-									"<td>합계</td>" +
-									"<td></td>" +
-									"<td><strong>"+duesCommaCheck(cur_amt)+"</strong></td>" +
-									"</tr>" +
-									"</tfoot>" +
-									"</table>" +
+									"<div class='sum-box'>" +
+									"<p>합계</p>" +
+									"<p>"+duesCommaCheck(cur_amt)+"</p>" +
 									"</div>" +
 									"</div>";
 
@@ -551,37 +471,26 @@
 							var dues_sum = 0;
 
 							result = result +
-									"<div class='bill-group duesChkToggle2'>" +
-									"<strong class='tb-title'>연회비</strong>" +
-									"<div class='bill-group-tb'>" +
-									"<table>" +
-									"<colgroup>" +
-									"<col />" +
-									"<col />" +
-									"<col />" +
-									"<col />" +
-									"</colgroup>" +
-									"<thead>" +
-									"<tr>" +
-									"<th>연도</th>" +
-									"<th>연회비</th>" +
-									"<th>추가회비</th>" +
-									"<th>납기</th>" +
-									"</tr>" +
-									"</thead>" +
-									"<tbody>";
+									"<div class='bill-box2'>" +
+									"<div class='bill-title'>연회비</div>" +
+									"<div class='bill-title-box'>" +
+									"<span>연도</span>" +
+									"<span>연회비</span>" +
+									"<span>추가회비</span>" +
+									"<span>납기</span>" +
+									"</div>";
 
 							for(var j=0; j<data.bill.length; j++){
 
 								if(data.bill[j].dues_cl == '00170002'){
 
 									result = result +
-											"<tr>" +
-											"<td>"+data.bill[j].due_de.substring(0,4)+"</td>" +
-											"<td>"+duesCommaCheck(data.bill[j].dues_amt)+"</td>" +
-											"<td>"+duesCommaCheck(data.bill[j].add_amt)+"</td>" +
-											"<td>"+data.bill[j].due_de.substring(0,4)+"."+data.bill[j].due_de.substring(4,6)+"."+data.bill[j].due_de.substring(6,8)+"</td>" +
-											"</tr>";
+											"<div class='table-box'>" +
+											"<p>"+data.bill[j].due_de.substring(0,4)+"</p>" +
+											"<p>"+duesCommaCheck(data.bill[j].dues_amt)+"</p>" +
+											"<p>"+duesCommaCheck(data.bill[j].add_amt)+"</p>" +
+											"<p>"+data.bill[j].due_de.substring(0,4)+"."+data.bill[j].due_de.substring(4,6)+"."+data.bill[j].due_de.substring(6,8)+"</p>" +
+											"</div>";
 
 									dues_sum = dues_sum + data.bill[j].dues_amt;
 									add_sum = add_sum + data.bill[j].add_amt;
@@ -590,16 +499,11 @@
 							}
 
 							result = result +
-									"</tbody>" +
-									"<tfoot>" +
-									"<tr>" +
-									"<td>합계</td>" +
-									"<td>"+duesCommaCheck(dues_sum)+"</td>" +
-									"<td>"+duesCommaCheck(add_sum)+"</td>" +
-									"<td><strong>"+duesCommaCheck(dues_sum+add_sum)+"</strong></td>" +
-									"</tr>" +
-									"</tfoot>" +
-									"</table>" +
+									"<div class='sum-box'>" +
+									"<p>합계</p>" +
+									"<p>"+duesCommaCheck(dues_sum)+"</p>" +
+									"<p>"+duesCommaCheck(add_sum)+"</p>" +
+									"<p>"+duesCommaCheck(dues_sum+add_sum)+"</p>" +
 									"</div>" +
 									"</div>";
 
@@ -612,37 +516,26 @@
 							var dues_sum = 0;
 
 							result = result +
-									"<div class='bill-group duesChkToggle3'>" +
-									"<strong class='tb-title'>부조회비</strong>" +
-									"<div class='bill-group-tb'>" +
-									"<table>" +
-									"<colgroup>" +
-									"<col />" +
-									"<col />" +
-									"<col />" +
-									"<col />" +
-									"</colgroup>" +
-									"<thead>" +
-									"<tr>" +
-									"<th>연도</th>" +
-									"<th>부조회비</th>" +
-									"<th>추가회비</th>" +
-									"<th>납기</th>" +
-									"</tr>" +
-									"</thead>" +
-									"<tbody>";
+									"<div class='bill-box2'>" +
+									"<div class='bill-title'>부조회비</div>" +
+									"<div class='bill-title-box'>" +
+									"<span>연도</span>" +
+									"<span>부조회비</span>" +
+									"<span>추가회비</span>" +
+									"<span>납기</span>" +
+									"</div>";
 
 							for(var j=0; j<data.bill.length; j++){
 
 								if(data.bill[j].dues_cl == '00170003'){
 
 									result = result +
-											"<tr>" +
-											"<td>"+data.bill[j].due_de.substring(0,4)+"</td>" +
-											"<td>"+duesCommaCheck(data.bill[j].dues_amt)+"</td>" +
-											"<td>"+duesCommaCheck(data.bill[j].add_amt)+"</td>" +
-											"<td>"+data.bill[j].due_de.substring(0,4)+"."+data.bill[j].due_de.substring(4,6)+"."+data.bill[j].due_de.substring(6,8)+"</td>" +
-											"</tr>";
+											"<div class='table-box'>" +
+											"<p>"+data.bill[j].due_de.substring(0,4)+"</p>" +
+											"<p>"+duesCommaCheck(data.bill[j].dues_amt)+"</p>" +
+											"<p>"+duesCommaCheck(data.bill[j].add_amt)+"</p>" +
+											"<p>"+data.bill[j].due_de.substring(0,4)+"."+data.bill[j].due_de.substring(4,6)+"."+data.bill[j].due_de.substring(6,8)+"</p>" +
+											"</div>";
 
 									dues_sum = dues_sum + data.bill[j].dues_amt;
 									add_sum = add_sum + data.bill[j].add_amt;
@@ -651,16 +544,11 @@
 							}
 
 							result = result +
-									"</tbody>" +
-									"<tfoot>" +
-									"<tr>" +
-									"<td>합계</td>" +
-									"<td>"+duesCommaCheck(dues_sum)+"</td>" +
-									"<td>"+duesCommaCheck(add_sum)+"</td>" +
-									"<td><strong>"+duesCommaCheck(dues_sum+add_sum)+"</strong></td>" +
-									"</tr>" +
-									"</tfoot>" +
-									"</table>" +
+									"<div class='sum-box'>" +
+									"<p>합계</p>" +
+									"<p>"+duesCommaCheck(dues_sum)+"</p>" +
+									"<p>"+duesCommaCheck(add_sum)+"</p>" +
+									"<p>"+duesCommaCheck(dues_sum+add_sum)+"</p>" +
 									"</div>" +
 									"</div>";
 
@@ -672,24 +560,13 @@
 							var dues_sum = 0;
 
 							result = result +
-									"<div class='bill-group duesChkToggle4'>" +
-									"<strong class='tb-title'>복지회비</strong>" +
-									"<div class='bill-group-tb'>" +
-									"<table>" +
-									"<colgroup>" +
-									"<col />" +
-									"<col />" +
-									"<col />" +
-									"<col />" +
-									"</colgroup>" +
-									"<thead>" +
-									"<tr>" +
-									"<th>해당년월</th>" +
-									"<th>복지회비</th>" +
-									"<th>납부방법 : 월납</th>" +
-									"</tr>" +
-									"</thead>" +
-									"<tbody>";
+									"<div class='bill-box2'>" +
+									"<div class='bill-title'>복지회비</div>" +
+									"<div class='bill-title-box'>" +
+									"<span>해당년월</span>" +
+									"<span>복지회비 </span>" +
+									"<span>납부방법 : 월납</span>" +
+									"</div>";
 
 							for(var j=0; j<data.bill.length; j++){
 
@@ -700,10 +577,10 @@
 									}
 
 									result = result +
-											"<tr>" +
-											"<td>"+data.bill[j].due_de.substring(0,4)+"."+data.bill[j].due_de.substring(4,6)+"</td>" +
-											"<td>"+duesCommaCheck(data.bill[j].dues_amt)+"</td>" +
-											"</tr>";
+											"<div class='table-box'>" +
+											"<p>"+data.bill[j].due_de.substring(0,4)+"."+data.bill[j].due_de.substring(4,6)+"</p>" +
+											"<p>"+duesCommaCheck(data.bill[j].dues_amt)+"</p>" +
+											"</div>";
 
 									dues_sum = dues_sum + data.bill[j].dues_amt;
 
@@ -711,14 +588,9 @@
 							}
 
 							result = result +
-									"</tbody>" +
-									"<tfoot>" +
-									"<tr>" +
-									"<td>합계</td>" +
-									"<td><strong>"+duesCommaCheck(dues_sum)+"</strong></td>" +
-									"</tr>" +
-									"</tfoot>" +
-									"</table>" +
+									"<div class='sum-box'>" +
+									"<p>합계</p>" +
+									"<p>"+duesCommaCheck(dues_sum)+"</p>" +
 									"</div>" +
 									"</div>";
 
@@ -730,31 +602,17 @@
 							var dues_sum = 0;
 
 							result = result +
-									"<div class='bill-group duesChkToggle5'>" +
-									"<strong class='tb-title'>직무회비</strong>" +
-									"<div class='bill-group-tb'>" +
-									"<table>" +
-									"<colgroup>" +
-									"<col width='120px'/>" +
-									"<col />" +
-									"<col width='120px'/>" +
-									"<col width='120px'/>" +
-									"<col width='120px'/>" +
-									"<col />" +
-									"<col />" +
-									"</colgroup>" +
-									"<thead>" +
-									"<tr>" +
-									"<th>업무구분</th>" +
-									"<th>회사명</th>" +
-									"<th>접수일(결산종료일)</th>" +
-									"<th>회비구분</th>" +
-									"<th>차수</th>" +
-									"<th>회비</th>" +
-									"<th>납기</th>" +
-									"</tr>" +
-									"</thead>" +
-									"<tbody>";
+									"<div class='bill-box5'>" +
+									"<div class='bill-title'>직무회비</div>" +
+									"<div class='bill-title-box'>" +
+									"<span>업무구분</span>" +
+									"<span>회사명</span>" +
+									"<span>접수일(결산종료일)</span>" +
+									"<span>회비구분</span>" +
+									"<span>차수</span>" +
+									"<span>회비</span>" +
+									"<span>납기</span>" +
+									"</div>";
 
 							for(var j=0; j<data.bill.length; j++){
 
@@ -772,15 +630,15 @@
 									}
 
 									result = result +
-											"<tr>" +
-											"<td>"+data.bill[j].duty_dues_cl+"</td>" +
-											"<td>"+data.bill[j].cmpy_nm+"</td>" +
-											"<td>"+rcept_de+"</td>" +
-											"<td>"+data.bill[j].duty_flag+"</td>" +
-											"<td>"+data.bill[j].odr+"차</td>" +
-											"<td>"+duesCommaCheck(data.bill[j].dues_amt + data.bill[j].add_amt + data.bill[j].delay_amt)+"</td>" +
-											"<td>"+data.bill[j].due_de.substring(0,4)+"."+data.bill[j].due_de.substring(4,6)+"."+data.bill[j].due_de.substring(6,8)+"</td>" +
-											"</tr>";
+											"<div class='table-box'>" +
+											"<p>"+data.bill[j].duty_dues_cl+"</p>" +
+											"<p>"+data.bill[j].cmpy_nm+"</p>" +
+											"<p>"+rcept_de+"</p>" +
+											"<p>"+data.bill[j].duty_flag+"</p>" +
+											"<p>"+data.bill[j].odr+"차</p>" +
+											"<p>"+duesCommaCheck(data.bill[j].dues_amt + data.bill[j].add_amt + data.bill[j].delay_amt)+"</p>" +
+											"<p>"+data.bill[j].due_de.substring(0,4)+"."+data.bill[j].due_de.substring(4,6)+"."+data.bill[j].due_de.substring(6,8)+"</p>" +
+											"</div>";
 
 									dues_sum = dues_sum + data.bill[j].dues_amt + data.bill[j].add_amt + data.bill[j].delay_amt;
 
@@ -788,20 +646,9 @@
 							}
 
 							result = result +
-									"</tbody>" +
-									"<tfoot>" +
-									"<tr>" +
-									"<td>합계</td>" +
-									"<td></td>" +
-									"<td></td>" +
-									"<td></td>" +
-									"<td></td>" +
-									"<td><strong>"+duesCommaCheck(dues_sum)+"</strong></td>" +
-									"<td></td>" +
-									"</tr>" +
-									"</tfoot>" +
-									"</table>" +
-									"</div>" +
+									"<div class='sum-box'>" +
+									"<p>합계</p>" +
+									"<p>"+duesCommaCheck(dues_sum)+"</p>" +
 									"</div>";
 
 						}
@@ -812,43 +659,32 @@
 							var dues_sum = 0;
 
 							result = result +
-									"<div class='bill-group duesChkToggle6'>" +
-									"<strong class='tb-title'>감리업무수수료</strong>" +
-									"<div class='bill-group-tb'>" +
-									"<table>" +
-									"<colgroup>" +
-									"<col />" +
-									"<col />" +
-									"<col />" +
-									"<col />" +
-									"</colgroup>" +
-									"<thead>" +
-									"<tr>" +
-									"<th>업무구분</th>" +
-									"<th>회사명</th>" +
-									"<th>접수일(결산종료일)</th>" +
-									"<th>회비구분</th>" +
-									"<th>차수</th>" +
-									"<th>회비</th>" +
-									"<th>납기</th>" +
-									"</tr>" +
-									"</thead>" +
-									"<tbody>";
+									"<div class='bill-box5'>" +
+									"<div class='bill-title'>감리업무수수료</div>" +
+									"<div class='bill-title-box'>" +
+									"<span>업무구분</span>" +
+									"<span>회사명</span>" +
+									"<span>접수일(결산종료일)</span>" +
+									"<span>회비구분</span>" +
+									"<span>차수</span>" +
+									"<span>회비</span>" +
+									"<span>납기</span>" +
+									"</div>";
 
 							for(var j=0; j<data.bill.length; j++){
 
 								if(data.bill[j].dues_cl == '00170005' || data.bill[j].dues_cl == '00170006' || data.bill[j].dues_cl == '00170007'){
 
 									result = result +
-											"<tr>" +
-											"<td>"+data.bill[j].duty_dues_cl+"</td>" +
-											"<td>"+data.bill[j].cmpy_nm+"</td>" +
-											"<td>"+data.bill[j].rcept_de+"</td>" +
-											"<td>"+data.bill[j].duty_flag+"</td>" +
-											"<td>"+data.bill[j].odr+"차</td>" +
-											"<td>"+duesCommaCheck(data.bill[j].dues_amt)+"</td>" +
-											"<td>"+data.bill[j].due_de.substring(0,4)+"."+data.bill[j].due_de.substring(4,6)+"."+data.bill[j].due_de.substring(6,8)+"</td>" +
-											"</tr>";
+											"<div class='table-box'>" +
+											"<p>"+data.bill[j].duty_dues_cl+"</p>" +
+											"<p>"+data.bill[j].cmpy_nm+"</p>" +
+											"<p>"+data.bill[j].rcept_de+"</p>" +
+											"<p>"+data.bill[j].duty_flag+"</p>" +
+											"<p>"+data.bill[j].odr+"차</p>" +
+											"<p>"+duesCommaCheck(data.bill[j].dues_amt)+"</p>" +
+											"<p>"+data.bill[j].due_de.substring(0,4)+"."+data.bill[j].due_de.substring(4,6)+"."+data.bill[j].due_de.substring(6,8)+"</p>" +
+											"</div>";
 
 									dues_sum = dues_sum + data.bill[j].dues_amt;
 
@@ -856,26 +692,15 @@
 							}
 
 							result = result +
-									"</tbody>" +
-									"<tfoot>" +
-									"<tr>" +
-									"<td>합계</td>" +
-									"<td></td>" +
-									"<td></td>" +
-									"<td></td>" +
-									"<td></td>" +
-									"<td><strong>"+duesCommaCheck(dues_sum)+"</strong></td>" +
-									"<td></td>" +
-									"</tr>" +
-									"</tfoot>" +
-									"</table>" +
-									"</div>" +
+									"<div class='sum-box'>" +
+									"<p>합계</p>" +
+									"<p>"+duesCommaCheck(dues_sum)+"</p>" +
 									"</div>";
 
 						}
 
 
-					}*/
+					}
 
 					$('#selectDuesList_duesList').append(result);
 
@@ -1039,13 +864,13 @@
                   <div class="board-list">
                     <div class="title-box">
                       <h3>미납회비 조회</h3>
-						<div class="inp-box" <%--style="display: none;"--%>>
+						<div class="inp-box" style="display: none;">
 							<div class="inp-check">
-								<input type="checkbox" name="cpaConfirmPass" id="selectDuesList_confirmPass" checked/>
+								<input type="checkbox" name="cpaConfirmPass" id="selectDuesList_confirmPass"/>
 								<label for="selectDuesList_confirmPass"></label>
 							</div>
 						</div>
-					  <button type="button" class="btn-full" id="selectDuesList_detailBtn">세부내역 확인</button>
+					  <%--<button type="button" class="btn-full" id="selectDuesList_detailBtn">세부내역 확인</button>--%>
                     </div>
 
                     <ul class="between-list line">
