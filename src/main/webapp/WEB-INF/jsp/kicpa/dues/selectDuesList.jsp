@@ -367,7 +367,7 @@
 
 					$("#selectDuesList_duesContents").empty();
 					$("#selectDuesList_duesContentsSum").empty();
-					//$("#selectDuesList_duesList").empty();
+					$("#selectDuesList_duesList").empty();
 
 					var result="";
 					var pass_sum = 0;
@@ -425,7 +425,71 @@
 
 					}
 
-					for(var i=0; i<data.billSum.length; i++){
+// toggle2,3
+					result+= "<div class='bill-box2'>" +
+							"<div class='bill-title'>연회비</div>" +
+							"<div class='bill-title-box'>" +
+							"<span>연도</span>" +
+							"<span>연회비</span>" +
+							"<span>추가회비</span>" +
+							"<span>납기</span>" +
+							"</div>" +
+							"<div class='table-box'>" +
+							"<p>2023</p>" +
+							"<p>333,000</p>" +
+							"<p>0</p>" +
+							"<p>2099.12.31</p>" +
+							"</div>" +
+							"<div class='table-box'>" +
+							"<p>2023</p>" +
+							"<p>333,000</p>" +
+							"<p>0</p>" +
+							"<p>2099.12.31</p>" +
+							"</div>" +
+							"<div class='sum-box'>" +
+							"<p>합계</p>" +
+							"<p>999,999</p>" +
+							"<p>0</p>" +
+							"<p>999,999</p>" +
+							"</div>" +
+							"</div>";
+// toggle5
+					result+= "<div class='bill-box5'>" +
+					"<div class='bill-title'>직무회비</div>" +
+					"<div class='bill-title-box'>" +
+						"<span>업무구분</span>" +
+						"<span>회사명</span>" +
+						"<span>접수일(결산종료일)</span>" +
+						"<span>회비구분</span>" +
+						"<span>차수</span>" +
+						"<span>회비</span>" +
+						"<span>납기</span>" +
+					"</div>" +
+					"<div class='table-box'>" +
+						"<p>감리업무 수수료</p>" +
+						"<p>(주)기수정밀</p>" +
+						"<p>2022.03.07</p>" +
+						"<p>추가회비</p>" +
+						"<p>1차</p>" +
+						"<p>320,000</p>" +
+						"<p>2099.12.31</p>" +
+					"</div>" +
+					"<div class='table-box'>" +
+						"<p>감리업무 수수료</p>" +
+						"<p>(주)기수정밀</p>" +
+						"<p>2022.03.07</p>" +
+						"<p>추가회비</p>" +
+						"<p>1차</p>" +
+						"<p>320,000</p>" +
+						"<p>2099.12.31</p>" +
+					"</div>" +
+							"<div class='sum-box'>" +
+							"<p>합계</p>" +
+							"<p>999,999</p>" +
+							"</div>" +
+				"</div>";
+
+					/*for(var i=0; i<data.billSum.length; i++){
 						//입회비
 						if(data.billSum[i].dues_cl == '00170008' && duesFlag1){
 
@@ -811,7 +875,7 @@
 						}
 
 
-					}
+					}*/
 
 					$('#selectDuesList_duesList').append(result);
 
@@ -977,7 +1041,7 @@
                       <h3>미납회비 조회</h3>
 						<div class="inp-box" <%--style="display: none;"--%>>
 							<div class="inp-check">
-								<input type="checkbox" name="cpaConfirmPass" id="selectDuesList_confirmPass"/>
+								<input type="checkbox" name="cpaConfirmPass" id="selectDuesList_confirmPass" checked/>
 								<label for="selectDuesList_confirmPass"></label>
 							</div>
 						</div>
@@ -1057,7 +1121,7 @@
 			</div>
 
 			<div class="layer-content" style="text-align: center;">
-				<div class="gray-box" id="selectDuesListPop_duesDetailContents" style="white-space: break-spaces;">
+				<div class="gray-box" id="selectDuesListPop_duesDetailContents" style="white-space: break-spaces";>
 					<div class="modal-inner wide" >
 						<div class="modal-bill" id="printArea">
 

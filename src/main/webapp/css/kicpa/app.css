@@ -4756,3 +4756,169 @@ ul.list-wrap.main button:last-child {
   line-height: 2.2rem;
   color: #222;
 }
+
+
+/*회비관리 수정 CSS*/
+.modal-bill {
+  max-height: 650px;
+  overflow-y: auto;
+}
+.gray-box .bill-box5{
+  margin: 24px 60px;
+}
+.gray-box .bill-box5 .bill-title{
+  font-weight: 700;
+  margin-bottom: 10px;
+  color: #0070C0;
+  font-size: 2rem;
+}
+.gray-box .bill-box5 .bill-title-box, .gray-box .bill-box5 .table-box{
+  /*display: flex;*/
+  /*gap: 4px;*/
+  flex-wrap: wrap;
+  display: grid;
+  row-gap: 4px;
+  grid-template-areas: "a a b b b b c c c"
+                        "d d e e f f g g g";
+  grid-template-columns: repeat(8, 1fr);
+  justify-items: center;
+}
+
+.gray-box .bill-box5 .bill-title-box span,.gray-box .bill-box5 .table-box p{
+  word-break: keep-all;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  /*text-align: start;*/
+  font-weight: 500;
+}
+.gray-box .bill-box5 .bill-title-box span{
+  font-size: 1.4rem;
+  font-weight: 700;
+}
+.gray-box .bill-box5 .table-box p{
+  font-size: 1.4rem;
+  font-weight: 500;
+}
+.gray-box .bill-box5 .bill-title-box span:nth-child(1),.gray-box .bill-box5 .table-box p:nth-child(1){
+  grid-area: a;
+}
+.gray-box .bill-box5 .bill-title-box span:nth-child(2),.gray-box .bill-box5 .table-box p:nth-child(2){
+  grid-area: b;
+}
+.gray-box .bill-box5 .bill-title-box span:nth-child(3),.gray-box .bill-box5 .table-box p:nth-child(3){
+  grid-area: c;
+}
+.gray-box .bill-box5 .bill-title-box span:nth-child(4),.gray-box .bill-box5 .table-box p:nth-child(4){
+  grid-area: d;
+}
+.gray-box .bill-box5 .bill-title-box span:nth-child(5),.gray-box .bill-box5 .table-box p:nth-child(5){
+  grid-area: e;
+}
+.gray-box .bill-box5 .bill-title-box span:nth-child(6),.gray-box .bill-box5 .table-box p:nth-child(6){
+  grid-area: f;
+}
+.gray-box .bill-box5 .bill-title-box span:nth-child(7),.gray-box .bill-box5 .table-box p:nth-child(7){
+  grid-area: g;
+}
+.gray-box .bill-box5 .bill-title-box{
+  padding: 16px 0;
+  border-bottom: 1px solid #000;
+}
+.gray-box .bill-box5 .table-box{
+  padding: 16px 0;
+  border-bottom: 1px solid #ccc;
+}
+.gray-box .bill-box5 .sum-box{
+  display: grid;
+  row-gap: 4px;
+  grid-template-areas: "a a . . b b . . .";
+  grid-template-columns: repeat(8, 1fr);
+  justify-items: center;
+  padding: 10px 0;
+}
+.gray-box .bill-box5 .sum-box p:nth-child(1){
+  grid-area: a;
+}
+.gray-box .bill-box5 .sum-box p:nth-child(2){
+  grid-area: b;
+  font-weight: 700;
+  color: #0070C0;
+}
+
+/*//////////////////////////////////////////////////////////*/
+/*//////////////////////////////////////////////////////////*/
+/*//////////////////////////////////////////////////////////*/
+.gray-box .bill-box2{
+  margin: 24px 60px;
+}
+.gray-box .bill-box2 .bill-title{
+  font-weight: 700;
+  margin-bottom: 10px;
+  color: #0070C0;
+  font-size: 2rem;
+}
+.gray-box .bill-box2 .bill-title-box, .gray-box .bill-box2 .table-box{
+  flex-wrap: wrap;
+  display: grid;
+  row-gap: 4px;
+  grid-template-areas: "a a b b c c d d";
+  grid-template-columns: repeat(8, 1fr);
+  justify-items: center;
+}
+
+.gray-box .bill-box2 .bill-title-box span,.gray-box .bill-box2 .table-box p{
+  word-break: keep-all;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  text-align: start;
+  font-weight: 500;
+
+}
+.gray-box .bill-box2 .bill-title-box span{
+  font-size: 1.4rem;
+  font-weight: 700;
+}
+.gray-box .bill-box2 .table-box p{
+  font-size: 1.4rem;
+  font-weight: 500;
+}
+.gray-box .bill-box2 .bill-title-box span:nth-child(1),.gray-box .bill-box2 .table-box p:nth-child(1), .gray-box .bill-box2 .sum-box p:nth-child(1){
+  grid-area: a;
+}
+.gray-box .bill-box2 .bill-title-box span:nth-child(2),.gray-box .bill-box2 .table-box p:nth-child(2), .gray-box .bill-box2 .sum-box p:nth-child(2){
+  grid-area: b;
+}
+.gray-box .bill-box2 .bill-title-box span:nth-child(3),.gray-box .bill-box2 .table-box p:nth-child(3), .gray-box .bill-box2 .sum-box p:nth-child(3){
+  grid-area: c;
+}
+.gray-box .bill-box2 .bill-title-box span:nth-child(4),.gray-box .bill-box2 .table-box p:nth-child(4), .gray-box .bill-box2 .sum-box p:nth-child(4){
+  grid-area: d;
+}
+.gray-box .bill-box2 .bill-title-box{
+  padding: 10px 0;
+  border-bottom: 1px solid #000;
+}
+.gray-box .bill-box2 .table-box{
+  padding: 10px 0;
+  border-bottom: 1px solid #ccc;
+}
+.gray-box .bill-box2 .sum-box{
+  display: grid;
+  row-gap: 4px;
+  grid-template-areas: "a a b b c c d d";
+  grid-template-columns: repeat(8, 1fr);
+  justify-items: center;
+  padding: 10px 0;
+}
+.gray-box .bill-box2 .sum-box p{
+  font-size: 1.4rem;
+}
+.gray-box .bill-box2 .sum-box p:nth-child(4){
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #0070C0;
+}
