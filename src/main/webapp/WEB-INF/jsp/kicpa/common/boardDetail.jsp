@@ -140,6 +140,15 @@ function fncLocation(){
 					 	</c:if>
                     </table>
                 </div>
+
+				<c:if test="${boardDetail.bltnCntt ne '' and boardDetail.bltnCntt ne null and param.boardId ne 'mstate'}">
+					<div class="cont-line">
+					<h5>내용</h5>
+					<div class="textline">
+							${boardDetail.bltnCntt}
+					</div>
+				</c:if>
+            </div>
             </div>
 
             <div class="togl-box">
@@ -184,7 +193,7 @@ function fncLocation(){
     </div>
 
 	    <div class="btn-bottom">
-			<c:if test="${loginVO.userTy eq '임직원'}">
+			<c:if test="${loginVO.userTy eq '임직원' and param.boardId eq 'mstate'}">
 				<button class="btn-round fill" type="button" id="boardDetail_mailSend">메일 발송</button>
 				<button class="btn-round fill" type="button" id="boardDetail_atfFlower">화환 발송</button>
 			</c:if>
