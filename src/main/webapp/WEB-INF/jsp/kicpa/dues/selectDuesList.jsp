@@ -946,7 +946,7 @@
 			</div>
 
 			<div class="layer-content" style="text-align: center;">
-				<div class="gray-box" id="selectDuesListPop_duesDetailContents" style="white-space: break-spaces";>
+				<div class="gray-box" id="selectDuesListPop_duesDetailContents">
 					<div class="modal-inner wide" >
 						<div class="modal-bill" id="printArea">
 
