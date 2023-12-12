@@ -27,14 +27,14 @@ mypCpaTrainReg.getAuditList = function(){
 
 mypCpaTrainReg.mypCpaTrainRegInit = function(){
 
-	//실무수습기관 입사일자 기간 설정
+	//실무수습 개시일 기간 설정
 	const today = new Date();
 
 	const tomorrow = new Date(today);
 	const yesterday = new Date(today);
 
-	tomorrow.setDate(today.getDate());
-	yesterday.setDate(today.getDate() - 30);
+	tomorrow.setDate(today.getDate() + 14);
+	yesterday.setDate(today.getDate());
 
 	var year = tomorrow.getFullYear();
 	var month = ("0" + (1 + tomorrow.getMonth())).slice(-2);
@@ -594,7 +594,7 @@ mypCpaTrainReg.mypCpaTrainReg_regFlagFList_success = function(data){
 	mypCpaTrainReg.mypCpaTrainReg_grdtSatausChange();
 
 	//이력정보
-	$('#mypCpaTrainReg_apntcCpaHistInfoAppRegistDe').val(data.cpaTrainRegReviewInfoList[0].appRegistDe);             //실무수습기관 입사일자
+	$('#mypCpaTrainReg_apntcCpaHistInfoAppRegistDe').val(data.cpaTrainRegReviewInfoList[0].appRegistDe);             //실무수습 개시일
 	$('#mypCpaTrainReg_apntcCpaHistInfoGuideCpa').val(data.cpaTrainRegReviewInfoList[0].guideCpaNm);                //지도공인회계사명
 	$('#mypCpaTrainReg_apntcCpaHistInfoGuideCpaId').val(data.cpaTrainRegReviewInfoList[0].guideCpaNo);              //지도공인회계사번호
 	$('#mypCpaTrainReg_apntcCpaHistInfoAppInsttNm').val(data.cpaTrainRegReviewInfoList[0].appInsttNm);              //실무수습기관명

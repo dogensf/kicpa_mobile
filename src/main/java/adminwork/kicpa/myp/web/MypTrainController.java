@@ -408,7 +408,7 @@ public class MypTrainController {
 		try {
 
 			if("".equals(paramMap.get("appRegistDe")) || (paramMap.get("appRegistDe") == null)){
-				modelAndView.addObject("message", "실무수습기관 입사일자를 선택하세요.");
+				modelAndView.addObject("message", "실무수습 개시일을 선택하세요.");
 				return modelAndView;
 			}
 			else if("".equals(paramMap.get("guideCpaNm")) || (paramMap.get("guideCpaNm") == null)){

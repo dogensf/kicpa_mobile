@@ -343,7 +343,7 @@
 				<form id="mypCpaTrainReg_apntcCpaHistInfoForm">
 
 					<div class="inp-box">
-						<label class="label essen" for="mypCpaTrainReg_apntcCpaHistInfoAppRegistDe">실무수습기관 입사일자</label>
+						<label class="label essen" for="mypCpaTrainReg_apntcCpaHistInfoAppRegistDe">실무수습 개시일</label>
 						<input type="date" id="mypCpaTrainReg_apntcCpaHistInfoAppRegistDe" name="appRegistDe" data-placeholder="날짜를 입력하세요." max="9999-12-31" required />
 					</div>
 
@@ -552,7 +552,7 @@
 					<h4>이력정보</h4>
 					<ul class="breakdown-list">
 						<li>
-							<span>실무수습기관 입사일자</span>
+							<span>실무수습 개시일</span>
 							<p id="mypCpaTrainRegReviewInfo_appRegistDe"></p>
 						</li>
 						<li>
