@@ -185,6 +185,89 @@ public class DuesController {
 		
 		return "kicpa/dues/selectDuesList";
 	}
+
+	@RequestMapping(value = "/kicpa/dues/selectDuesList2.do")
+	public String selectDuesList2(String path,String Auth, DuesVO vo,ModelMap model, HttpServletRequest request,HttpServletResponse response,HttpSession session)
+			throws Exception{
+		if("result".equals(path)){
+			return "forward:/kicpa/dues/selectDuesResult.do";
+		}
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		System.out.println("Auth========="+Auth);
+		if(Auth != null) {
+			session.setAttribute("auth", Auth);
+		}
+		model.addAttribute("auth", Auth);
+		String Pin = "";
+		if (isAuthenticated) {
+			LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+			Pin = user.getUniqId();
+			/*if(Pin != null && user.getUniqId() != Pin) {
+				System.out.println("pin========="+Pin);
+
+				model.addAttribute("id", Pin);
+				model.addAttribute("url", "/kicpa/dues/selectDuesList2.do");
+				return "uat/uia/LoginSso";
+			}*/
+
+			System.out.println("giroPin========="+user.getUniqId());
+			vo.setCust_inqr_no(user.getUniqId());
+			vo.setName(user.getName());
+			vo.setSearchCnd("Main");
+			boolean success = true;
+			// 합산지로 있는지 체크해서 삭제  TEMP --> PAY_YN = 'N' 취소 처리
+			List<Dues> tempList = duesService.selectTempDuesList(vo);
+			//합산지로 처리한 데이터가 있으면 일단 삭제하고 처리 한다.
+			if(tempList.size() > 0) {
+				success = false;
+				success = duesApiService.cancelNoticeGiro(tempList);
+			}
+
+			// 지로 수납 조회
+			if(success) {
+				Map<String, Object> map = duesService.selectDuesList(vo);
+				List<Dues> list = duesService.selectDuesResultListAll(vo);
+				model.addAttribute("master", map.get("master"));
+				model.addAttribute("detail", map.get("detail"));
+				model.addAttribute("bill", map.get("bill"));
+				model.addAttribute("billSum", map.get("billSum"));
+				model.addAttribute("result", list);
+				model.addAttribute("searchVO", vo);
+
+				Map<String, Object> paramMap = new HashMap<>();
+				paramMap.put("pin",user.getUniqId());
+
+				//di 정보
+				List<?> diCheckList = myPageService.selectCpaPassDiCheckList(paramMap);
+				model.addAttribute("diCheckList", diCheckList);
+			}else {
+				List<DuesVO> tt = new ArrayList<>();
+				model.addAttribute("master", tt);
+				model.addAttribute("detail", tt);
+				model.addAttribute("bill", tt);
+				model.addAttribute("billSum", tt);
+				model.addAttribute("result", tt);
+				model.addAttribute("errMsg", "이전 합산지로 정보가 존재합니다. 관리자에게 문의 하세요.");
+				model.addAttribute("searchVO", vo);
+
+			}
+
+
+		}else {
+			System.out.println("pin========="+Pin);
+			model.addAttribute("id", Pin);
+			Cookie cookie = new Cookie("returnUrl", "/kicpa/dues/selectDuesList2.do");
+			cookie.setPath("/");
+			cookie.setMaxAge(60*15);
+			response.addCookie(cookie);
+			model.addAttribute("returnUrl", "/kicpa/dues/selectDuesList2.do");
+			model.addAttribute("title", "회비납부/조회");
+			return "kicpa/common/authLogin";
+
+		}
+
+		return "kicpa/dues/selectDuesList2";
+	}
 	
 	@RequestMapping(value = "/kicpa/dues/setDuesPayment.do")
 	public String setDuesPayment(@ModelAttribute("searchVO") DuesVO vo,ModelMap model, HttpServletRequest request, RedirectAttributes rttr)
