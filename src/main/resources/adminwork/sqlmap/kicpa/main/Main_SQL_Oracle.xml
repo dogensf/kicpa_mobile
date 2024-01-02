@@ -10,9 +10,9 @@
 	<select id="mainDAO.selectCalCnt" parameterClass="scalendar" resultClass="scalendar">
 		<![CDATA[ 
             SELECT
-			      	SUM(DECODE(SCH_TY,'01',1,'회계감사',1,0)) as cnt01
-			      	,SUM(DECODE(SCH_TY,'02',1,'세무',1,0)) as cnt02
-			      	,SUM(DECODE(SCH_TY,'03',1,'업무',1,0)) as cnt03
+			      	NVL(SUM(DECODE(SCH_TY,'01',1,'회계감사',1,0)), 0) as cnt01
+			      	,NVL(SUM(DECODE(SCH_TY,'02',1,'세무',1,0)), 0) as cnt02
+			      	,NVL(SUM(DECODE(SCH_TY,'03',1,'업무',1,0)), 0) as cnt03
 			FROM  SCHEDULE_CALENDAR
 			WHERE  SCH_DT like to_char(sysdate,'yyyy')||#ymd#||'%'
 
