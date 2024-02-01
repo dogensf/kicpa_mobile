@@ -1872,6 +1872,13 @@
 			</isNotEmpty>	
 			
 	</select>
+
+	<!-- 단일지로 건   sub_giro_cd 정정 처리 -->
+	<update id="DuesDAO.updateSingleGiroMasterSub" parameterClass="dues">
+		UPDATE GIRO_MASTER
+		SET SUP_GIRO_CD = #giro_cd#
+		WHERE GIRO_CD = #giro_cd#
+	</update>
 	
 	<select id="DuesDAO.selectDuesRefInfo" parameterClass="duesRefVO" resultClass="duesRef" >
 		<![CDATA[
