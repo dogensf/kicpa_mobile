@@ -211,6 +211,11 @@ mypPassReg.mypPassRegInit = function(){
 
 	});
 
+	//학력 - 대학교 학위 변경
+	$("#mypCpaPassReg_acdmcrInfoDegree2").change(function(){
+		mypPassReg.fn_acdmcrInfoGrdtnChange();
+	});
+
 	//학력추가 버튼클릭
 	$("#mypCpaPassReg_acdmcrInfoAddBtn").on("click",function(e) {
 
@@ -453,6 +458,12 @@ mypPassReg.mypCpaPassReg_infoSave = function(){
 			item.grdtnYear = $("input[name='grdtnYear']").eq(i).val();
 			item.major = $("input[name='major']").eq(i).val();
 			item.acdmcrSn = $("input[name='acdmcrSn']").eq(i).val();
+
+			//재학일경우
+			if($("select[name='degree']").eq(i).val() == "A9030060"){
+				item.grdtnYear = $("#mypCpaPassReg_acdmcrInfoGrdtnYearMonth2").val();
+			}
+
 			acdmcrInfoList.push(item);
 
 		}
@@ -507,6 +518,37 @@ mypPassReg.mypCpaPassReg_acdmcrInfoRemove = function(rowNum){
 	var divId= "acdmcrInfoAddDiv"+rowNum;
 
 	$("#"+divId).remove();
+
+}
+
+//학력 정보 변경(대학교 - 학위 변경)
+mypPassReg.fn_acdmcrInfoGrdtnChange = function(){
+
+	if($('#mypCpaPassReg_acdmcrInfoDegree2').val() == "A9030060"){
+
+		$('#mypCpaPassReg_grdtnYearMonth').text("졸업예정연월");
+
+		$('#mypCpaPassReg_acdmcrInfoGrdtnYear2').prop("disabled", true);
+		$('#mypCpaPassReg_acdmcrInfoGrdtnYearMonth2').prop("disabled", false);
+
+		$('#mypCpaPassReg_acdmcrInfoGrdtnYear2').hide();
+		$('#mypCpaPassReg_acdmcrInfoGrdtnYearMonth2').show();
+
+	}
+	else{
+
+		$('#mypCpaPassReg_grdtnYearMonth').text("학위취득연도(졸업예정)");
+
+		$('#mypCpaPassReg_acdmcrInfoGrdtnYear2').prop("disabled", false);
+		$('#mypCpaPassReg_acdmcrInfoGrdtnYearMonth2').prop("disabled", true);
+
+		$('#mypCpaPassReg_acdmcrInfoGrdtnYear2').show();
+		$('#mypCpaPassReg_acdmcrInfoGrdtnYearMonth2').hide();
+
+	}
+
+	$('#mypCpaPassReg_acdmcrInfoGrdtnYear2').val('');
+	$('#mypCpaPassReg_acdmcrInfoGrdtnYearMonth2').val('');
 
 }
 
@@ -712,8 +754,12 @@ mypPassReg.mypCpaPassReg_updateInfoList_success = function(data){
 
 			//대학교
 			$('#mypCpaPassReg_acdmcrInfoDegree2').val(degree);                                 									//학위
+
+			mypPassReg.fn_acdmcrInfoGrdtnChange();
+
 			$('#mypCpaPassReg_acdmcrInfoSchulNm2').val(data.cpaPassRegAcdmcrRealInfo[1].schulNm);                               //학교명
 			$('#mypCpaPassReg_acdmcrInfoGrdtnYear2').val(grdtnYear);                           									//졸업년도
+			$('#mypCpaPassReg_acdmcrInfoGrdtnYearMonth2').val(grdtnYear);                           							//졸업년도
 			$('#mypCpaPassReg_acdmcrInfoMajor2').val(data.cpaPassRegAcdmcrRealInfo[1].major);                                   //전공
 			$('#mypCpaPassReg_acdmcrInfoAcdmcrSn2').val(data.cpaPassRegAcdmcrRealInfo[1].acdmcrSn);                             //순번
 
@@ -776,6 +822,15 @@ mypPassReg.selectMypCpaPassRegReviewInfo_success = function(result){
 			}
 
 			if(i<=1){
+
+				var grdtnYearMonthNm = "학위취득연도(졸업예정)";
+
+				if(result.cpaRegReviewAcdmcrInfoList[i].degree == "A9030060") {
+					grdtnYearMonthNm = "졸업예정연월";
+				}
+
+				$('#mypPassReviewInfo_grdtnYear1Nm').text(grdtnYearMonthNm);
+
 				$("#mypPassReviewInfo_schulCl"+i).text(result.cpaRegReviewAcdmcrInfoList[i].schulClNm);
 				$("#mypPassReviewInfo_degree"+i).text(degree);
 				$("#mypPassReviewInfo_schulNm"+i).text(result.cpaRegReviewAcdmcrInfoList[i].schulNm);

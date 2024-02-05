@@ -563,6 +563,7 @@
 									<option value="A9030030">석사</option>
 									<option value="A9030040">박사</option>
 									<option value="A9030050">수료</option>
+									<option value="A9030060">재학</option>
 								</select>
 							</div>
 
@@ -572,8 +573,9 @@
 							</div>
 
 							<div class="inp-box">
-								<label class="label" for="mypCpaPassReg_acdmcrInfoGrdtnYear2">졸업년도</label>
-								<input type="text" id="mypCpaPassReg_acdmcrInfoGrdtnYear2" name="grdtnYear" maxlength="4" oninput="this.value=this.value.replace(/[^0-9]/g,'');" placeholder="졸업년도를 선택하세요." required />
+								<label class="label" for="mypCpaPassReg_acdmcrInfoGrdtnYear2" id="mypCpaPassReg_grdtnYearMonth">학위취득연도(졸업예정)</label>
+								<input type="text" id="mypCpaPassReg_acdmcrInfoGrdtnYear2" name="grdtnYear" maxlength="4" oninput="this.value=this.value.replace(/[^0-9]/g,'');" placeholder="날짜를 선택하세요." required />
+								<input type="month" id="mypCpaPassReg_acdmcrInfoGrdtnYearMonth2" placeholder="날짜를 선택하세요." style="display: none; border: none; border-radius: 0; width: 100%; height: 3.4rem; font-size: 1.8rem; font-weight: 400; line-height: 2.6rem; color: #222; -webkit-appearance: none; border-bottom: 1px solid #666;" required disabled/>
 							</div>
 
 							<div class="inp-box">
@@ -812,7 +814,7 @@
 								<p id="mypPassReviewInfo_schulNm1"></p>
 							</li>
 							<li>
-								<span>졸업년도</span>
+								<span id="mypPassReviewInfo_grdtnYear1Nm">졸업년도</span>
 								<p id="mypPassReviewInfo_grdtnYear1"></p>
 							</li>
 							<li>

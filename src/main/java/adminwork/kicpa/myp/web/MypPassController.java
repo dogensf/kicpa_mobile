@@ -569,7 +569,7 @@ public class MypPassController {
 					paramMap.put("schulCl", list.get(i).get("schulCl").toString());
 					paramMap.put("degree", list.get(i).get("degree").toString());
 					paramMap.put("schulNm", list.get(i).get("schulNm").toString());
-					paramMap.put("grdtnYear", list.get(i).get("grdtnYear").toString());
+					paramMap.put("grdtnYear", list.get(i).get("grdtnYear").toString().replaceAll("-",""));
 					paramMap.put("major", list.get(i).get("major").toString());
 
 					mypPassService.mypCpaPassRegisterAcdmcrInfoUpdate(paramMap);		//실제테이블 업데이트
@@ -594,7 +594,7 @@ public class MypPassController {
 					paramMap.put("schulCl", list.get(i).get("schulCl").toString());
 					paramMap.put("degree", list.get(i).get("degree").toString());
 					paramMap.put("schulNm", list.get(i).get("schulNm").toString());
-					paramMap.put("grdtnYear", list.get(i).get("grdtnYear").toString());
+					paramMap.put("grdtnYear", list.get(i).get("grdtnYear").toString().replaceAll("-",""));
 					paramMap.put("major", list.get(i).get("major").toString());
 
 					mypPassService.mypCpaPassRegisterAcdmcrInfoSave(paramMap);
