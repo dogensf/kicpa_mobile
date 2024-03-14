@@ -28,8 +28,14 @@
         <h1>회원경조사 로그인 / 본인인증</h1>
         <button class="btn-menu" type="button" onClick="javascript:window.bridge.showCategory();">카테고리</button>
     </section>
-    <section class="content">
-
-
+    <section class="content memberEventLogin">
+        <div class="login-box box">
+            <div class="text">본회 홈페이지 회원인 경우 아래 <b>로그인</b> 버튼을 클릭하시기 바랍니다.</div>
+            <button class="login">로그인</button>
+        </div>
+        <div class="verify-box box">
+            <div class="text">본회 홈페이지 회원이 아닌 경우 아래 <b>본인인증</b> 버튼을 클릭하시기 바랍니다.</div>
+            <button class="login">본인인증</button>
+        </div>
     </section>
 </form>

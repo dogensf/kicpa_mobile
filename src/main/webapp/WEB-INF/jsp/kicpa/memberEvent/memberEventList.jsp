@@ -53,8 +53,7 @@
         <h1>회원경조사</h1>
         <button class="btn-menu" type="button" onClick="javascript:window.bridge.showCategory();">카테고리</button>
     </section>
-    <section class="content">
-
+    <section class="content memberEventList">
         <div id="tabMain1" class="tab-main-content show">
             <div class="search-box">
                 <input class="search" type="text" readonly="readonly" name="searchKeyword" placeholder="검색하세요." />
@@ -74,6 +73,7 @@
                     <ul>
                     </ul>
                 </div>
+
             </div><!-- tabSub1 -->
         </div><!-- tabMain1 -->
         <jsp:include page="/include/includeLoign.jsp"/>

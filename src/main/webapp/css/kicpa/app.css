@@ -5754,3 +5754,244 @@ ul.list-wrap.main button:last-child {
 .layer-popup-wrap.rpmf .modal-data-box .row > :nth-last-child(1) {
     grid-column-start: 5;
 }
+
+/*memberEventList  회원경조사메뉴 CSS 수정*/
+.content.memberEventList .tab-sub-content.show .board-top .board-list ul li{
+    margin: 0;
+padding-bottom: 8px;
+    margin-bottom: 8px;
+    border-bottom: 1px solid #efefef;
+
+}
+/*.board-list li .title-zone p{*/
+/*    font-size: 14px;*/
+/*}*/
+/*.board-list li + li{*/
+/*    margin-top: 0;*/
+/*}*/
+.tab-main-content.show{
+    background-color: #EFF1F4;
+    padding: 10px 10px 20px;
+}.tab-sub-content.show{
+    margin-top: 10px;
+    background-color: #fff;
+     border-radius: 8px;
+
+     box-shadow: 0 4px 16px rgba(0, 0, 0, .05);
+ }
+.content.memberEventList .search-box{
+    background-color: #fff;
+    margin: 0;
+    border-radius: 8px;
+    padding: 8px 16px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, .05);
+}
+.content.memberEventList .board-top{
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 8px 16px;
+    margin: 0;
+}
+.content.memberEventList .board-list{
+    margin: 0;
+    padding: 16px;
+}
+
+.content.memberEventLogin{
+    background-color: #EFF1F4;
+    padding: 20px 10px 20px;
+}
+.content.memberEventLogin .box{
+    background-color: #fff;
+    margin: 0;
+    border-radius: 8px;
+    padding: 20px 10px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, .05);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap:16px;
+    margin-bottom: 20px;
+}
+.content.memberEventLogin .box .text{
+    font-size: 14px;
+    font-weight: 700;
+    text-wrap: balance;
+    word-break: keep-all;
+}
+.content.memberEventLogin .box .text b{
+    color: #F09156;
+}
+.content.memberEventLogin .box button{
+    width: 100%;
+    background-color: #F09156;
+    color: #FFFFFF;
+    border-radius: 20px;
+    height: 40px;
+    font-size: 16px;
+    font-weight: 600;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.content.memberEvent{
+    background-color: #EFF1F4;
+    padding: 20px 10px 20px;
+}
+.content.memberEvent .input-wrap{
+    background-color: #fff;
+    margin: 0;
+    border-radius: 8px;
+    padding: 20px 10px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, .05);
+    display: flex;
+    flex-direction: column;
+    gap:16px;
+    margin-bottom: 20px;
+}
+.content.memberEvent .input-wrap .input-box{
+    display: grid;
+    grid-template-columns: 1fr 2.5fr;
+    align-items: center;
+    gap: 8px;
+}
+.content.memberEvent .input-wrap .input-box:nth-child(1){
+    padding-bottom: 16px;
+    border-bottom: 1px solid #efefef;
+    margin-bottom: 8px;
+}
+.content.memberEvent .input-wrap .input-box .key{
+    font-size: 14px;
+    font-weight: 700;
+}
+.content.memberEvent .input-wrap .input-box .val {
+    font-size: 14px;
+    display: flex;
+    gap: 8px;
+}
+.content.memberEvent .input-wrap .input-box .val .val-box .val-desc{
+    font-size: 12px;
+}
+.content.memberEvent .input-wrap .input-box .val .search-button{
+    padding: 7px 14px;
+    font-size: 12px;
+    font-weight: 500;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 8px;
+    color: #F09156;
+    border: 1px solid rgba(240, 145, 86, 0.2);
+    word-break: keep-all;
+}
+.content.memberEvent .input-wrap .input-box .val input,
+.content.memberEvent .input-wrap .input-box .val select{
+    font-size: 14px;
+}
+.content.memberEvent .input-wrap label{
+    color: #1D1D1D;
+    font-size: 16px;
+    cursor: pointer;
+    display: block;
+    position: relative;
+    overflow: hidden;
+    width: 20px;
+    height: 20px;
+}
+.content.memberEvent .input-wrap label input[type="checkbox"]{
+    opacity: 0;
+    position: absolute;
+    top: -20px;
+    /*left: -9999px;*/
+}
+
+.content.memberEvent .input-wrap .label-dummy{
+    width: 100%;
+    height: 100%;
+}
+.content.memberEvent .input-wrap .label-dummy:before{
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 20px;
+    height: 20px;
+    border-radius: 2px;
+    background: #CBCED3 url(../../image/img_checkbox-check.png) center center no-repeat;
+    background-size: 50%;
+    box-sizing: border-box;
+}
+.content.memberEvent .input-wrap label input[type=checkbox]:checked + .label-dummy:before {
+    background: #F15C3B url(../../image/img_checkbox-check.png) center center no-repeat;
+    background-size: 50%;
+}
+.content.memberEvent .input-wrap .checkbox-box{
+    display: flex;
+    flex-wrap: wrap;
+    row-gap: 8px;
+    column-gap: 16px;
+    margin-top: 24px;
+}
+.content.memberEvent .input-wrap .checkbox-box .label-box{
+    display: flex;
+    gap: 4px;
+}
+.content.memberEvent .input-wrap .checkbox-box .label-box .text{
+    font-size: 14px;
+    width: auto;
+    word-break: keep-all;
+}
+
+.content.memberEvent .input-wrap .announce-box .text{
+    color: #F09156;
+    font-size: 14px;
+    font-weight: 500;
+}
+.content.memberEvent .input-wrap .button-box{
+    margin-top: 24px;
+    display: flex;
+    flex-wrap: wrap;
+    column-gap: 8px;
+    row-gap: 24px;
+}
+.content.memberEvent .input-wrap .button-box .save-button,
+.content.memberEvent .input-wrap .button-box .del-button{
+    width: calc((100% - 8px)/2);
+    background-color: #F09156;
+    color: #FFFFFF;
+    border-radius: 4px;
+    height: 40px;
+    font-size: 16px;
+    font-weight: 600;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+margin-top: 24px;
+}
+.content.memberEvent .input-wrap .button-box button.list,.content.memberEvent .input-wrap .button-box button.send{
+    width: calc((100% - 16px)/3);
+    padding: 7px 14px;
+    font-size: 12px;
+    font-weight: 500;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 4px;
+}
+.content.memberEvent .input-wrap .button-box button.list{
+    color: #414141;
+    border: 1px solid rgba(27, 31, 35, 0.15);
+}
+
+.content.memberEvent .input-wrap .button-box button.send{
+    color: #24B5B6;
+    border: 1px solid rgba(36, 181, 182, 0.2);
+}
+
+.content.memberEvent .input-wrap .button-box button.del-button{
+    color: #E85656;
+    border: 1px solid rgba(232,86,86, 0.2);
+    background-color: transparent;
+}
