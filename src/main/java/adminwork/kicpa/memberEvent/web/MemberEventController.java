@@ -77,6 +77,31 @@ public class MemberEventController {
 
 	}
 
+	//경조사 화면 변경
+	@RequestMapping(value = "/memberEventList.do")
+	public String memberEventListMove(@RequestParam Map<String,Object> map,HttpServletRequest request,HttpServletResponse response,ModelMap model) throws Exception{
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		model.addAttribute("views", map.get("views"));
+		model.addAttribute("isLogin", isAuthenticated);
+		model.addAttribute("title", "회원경조사");
+
+		return "kicpa/memberEvent/memberEventList";
+	}
+
+	@RequestMapping(value = "/memberEventRegMove.do")
+	public String memberEventRegMove(@RequestParam Map<String,Object> map,HttpServletRequest request,HttpServletResponse response,ModelMap model) throws Exception{
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		if(isAuthenticated) {
+			LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+			model.addAttribute("loginVO", user);
+			return "kicpa/memberEvent/memberEventReg";
+		}else {
+			model.addAttribute("returnUrl", "/kicpa/memberEvent/memberEventList.do");
+			return "kicpa/memberEvent/memberEventLogin";
+		}
+
+	}
+
 
 	@RequestMapping(value="/insertMemberEvent.do")
 	public ModelAndView getOfflineEduAppList(@RequestParam Map<String,Object> map, HttpServletRequest request,MultipartHttpServletRequest multipart) throws Exception{

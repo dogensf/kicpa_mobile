@@ -72,6 +72,42 @@ public class CommonBoardController {
 
 		return "kicpa/common/boardDetail";
 	}
+
+	@RequestMapping(value = "/memberEventDetail.do")
+	public String memberEventDetail(@RequestParam Map<String,Object> map,HttpServletRequest request,HttpServletResponse response,ModelMap model) throws Exception{
+
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		if(isAuthenticated) {
+
+			EgovMap boardDetail = null;
+
+
+			Map<String,Object> boardMaster = commonBoardService.selectBoardMaster(map);
+
+			//param를 boardmaster맵으로 merge
+			map.forEach((key,value)-> boardMaster.merge(key, value, (v1,v2)->v2));
+
+			if("Y".equals(boardMaster.get("owntblYn")) && "CAFE".equals(boardMaster.get("owntblFix"))) {
+				commonBoardService.updateCommonBoardReadCnt(boardMaster);
+				boardDetail = commonBoardService.selectCommonCafeBoardDetail(boardMaster);
+			}else {
+				commonBoardService.updateCommonCafeBoardReadCnt(boardMaster);
+				boardDetail = commonBoardService.selectCommonBoardDetail(boardMaster);
+			}
+
+			LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+			model.addAttribute("loginVO", user);
+
+//        StringUtil.checkMapReplaceHtml(boardDetail);
+			model.addAttribute("boardDetail", boardDetail);
+			model.addAttribute("boardMaster", boardMaster);
+
+			return "kicpa/memberEvent/memberEventReg";
+		}else {
+			model.addAttribute("returnUrl", "/kicpa/memberEvent/memberEventList.do");
+			return "kicpa/memberEvent/memberEventLogin";
+		}
+	}
 	
 	@RequestMapping(value = "/boardDetailMain.do")
 	public String boardDetailMain(@RequestParam Map<String,Object> map,HttpServletRequest request,HttpServletResponse response,ModelMap model) throws Exception{
@@ -115,7 +151,7 @@ public class CommonBoardController {
     		modelAndView.setViewName("jsonView");
 
     		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
-    		if(!"Y".equals(map.get("loginYn")) || isAuthenticated) {
+    		if(!"Y".equals(map.get("loginYn")) || isAuthenticated || "memEvent".equals(map.get("boardInfo"))) {
 
     			if(isAuthenticated) {
     				LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
