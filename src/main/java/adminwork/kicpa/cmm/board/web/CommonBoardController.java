@@ -102,7 +102,7 @@ public class CommonBoardController {
 			model.addAttribute("boardDetail", boardDetail);
 			model.addAttribute("boardMaster", boardMaster);
 
-			return "kicpa/memberEvent/memberEventReg";
+			return "kicpa/memberEvent/memberEventDetail";
 		}else {
 			model.addAttribute("returnUrl", "/kicpa/memberEvent/memberEventList.do");
 			return "kicpa/memberEvent/memberEventLogin";
