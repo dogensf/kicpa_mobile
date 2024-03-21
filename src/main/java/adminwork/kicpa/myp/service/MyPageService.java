@@ -32,6 +32,12 @@ public interface MyPageService {
     //회원정보 (실제 테이블)
     public List<?> selectCpaMemberRegistInfoList(Map<String, Object> map) throws Exception;
 
+    //di값으로 pin 조회
+    public String selectCpaMemberDiInfo(Map<String, Object> map) throws Exception;
+
+    //등록번호와 성명 일치여부 확인
+    public List<?> selectCpaMemberSearchChk(Map<String, Object> map) throws Exception;
+
     //세무사 세무대리 정보 (실제 테이블)
     public List<?> selectCpaTaxAcutInfoList(Map<String, Object> map) throws Exception;
 

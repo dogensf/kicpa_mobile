@@ -39,6 +39,8 @@ public interface  CommonBoardService {
 
 	public void insertCommonBoard(Map<String, Object> map) throws Exception;
 
+	public void deleteCommonBoard(Map<String, Object> map) throws Exception;
+
 	public EgovMap selectCommonBoardFileDetail(Map<String, Object> map) throws Exception;
 
 	public EgovMap selectCommonCateBoardFileDetail(Map<String, Object> map) throws Exception;

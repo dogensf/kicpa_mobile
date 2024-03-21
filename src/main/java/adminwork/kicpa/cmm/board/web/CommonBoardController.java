@@ -103,7 +103,34 @@ public class CommonBoardController {
 			model.addAttribute("boardMaster", boardMaster);
 
 			return "kicpa/memberEvent/memberEventDetail";
-		}else {
+		}
+		else if(!"".equals(map.get("di")) && map.get("di") != null){
+
+			EgovMap boardDetail = null;
+
+
+			Map<String,Object> boardMaster = commonBoardService.selectBoardMaster(map);
+
+			//param를 boardmaster맵으로 merge
+			map.forEach((key,value)-> boardMaster.merge(key, value, (v1,v2)->v2));
+
+			if("Y".equals(boardMaster.get("owntblYn")) && "CAFE".equals(boardMaster.get("owntblFix"))) {
+				commonBoardService.updateCommonBoardReadCnt(boardMaster);
+				boardDetail = commonBoardService.selectCommonCafeBoardDetail(boardMaster);
+			}else {
+				commonBoardService.updateCommonCafeBoardReadCnt(boardMaster);
+				boardDetail = commonBoardService.selectCommonBoardDetail(boardMaster);
+			}
+
+			model.addAttribute("boardDetail", boardDetail);
+			model.addAttribute("boardMaster", boardMaster);
+
+			model.addAttribute("di", map.get("di"));
+			model.addAttribute("name", map.get("name"));
+
+			return "kicpa/memberEvent/memberEventDetail";
+		}
+		else {
 			model.addAttribute("returnUrl", "/kicpa/memberEvent/memberEventList.do");
 			return "kicpa/memberEvent/memberEventLogin";
 		}
@@ -156,8 +183,12 @@ public class CommonBoardController {
     			if(isAuthenticated) {
     				LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
     				map.put("userId", user.getId());
+    				map.put("admin", user.getUserTy());
     				modelAndView.addObject("userId", user.getId());
     			}
+    			else{
+					map.put("userId", map.get("immDi"));
+				}
 
 	    		List<EgovMap> boardList = null;
 	    		int totalCnt;

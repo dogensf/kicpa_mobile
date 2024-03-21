@@ -40,9 +40,20 @@
 		<result property="extStr7" column="EXT_STR7" />
 		<result property="extStr8" column="EXT_STR8" />
 		<result property="extStr9" column="EXT_STR9" />
+		<result property="extStr10" column="EXT_STR10" />
+		<result property="extStr11" column="EXT_STR11" />
+		<result property="extStr12" column="EXT_STR12" />
+		<result property="extStr13" column="EXT_STR13" />
+		<result property="extStr14" column="EXT_STR14" />
+		<result property="extStr15" column="EXT_STR15" />
+		<result property="extStr16" column="EXT_STR16" />
+		<result property="extStr17" column="EXT_STR17" />
+		<result property="extStr6Dd" column="EXT_STR6_DD" />
+		<result property="extStr9Dd" column="EXT_STR9_DD" />
 		<result property="bltnSubj" column="BLTN_SUBJ" />
 		<result property="regDatim" column="REG_DATIM" />
 		<result property="updDatim" column="UPD_DATIM" />
+		<result property="timediff" column="timediff" />
 		<result property="cateNm" column="CATE_NM" />
 		<result property="bltnCntt" column="BLTN_CNTT" jdbcType="CLOB"  javaType="java.lang.String" />
 	</resultMap>
@@ -201,7 +212,17 @@
 	       r1.EXT_STR7,
 	       r1.EXT_STR8,
 	       r1.EXT_STR9,
+			r1.EXT_STR10,
+			r1.EXT_STR11,
+			r1.EXT_STR12,
+			r1.EXT_STR13,
+			r1.EXT_STR14,
+			r1.EXT_STR15,
+			r1.EXT_STR16,
+			r1.EXT_STR17,
 	       r1.user_id,
+		to_char(to_date(concat(substr(r1.EXT_STR6,0,8), (lpad(trim(substr(r1.EXT_STR6,9,2)), 2,'0'))), 'YYYY-MM-DD'), 'YYYY-MM-DD') AS EXT_STR6_DD,
+		to_char(to_date(concat(substr(r1.EXT_STR9,0,8), (lpad(trim(substr(r1.EXT_STR9,9,2)), 2,'0'))), 'YYYY-MM-DD'), 'YYYY-MM-DD') AS EXT_STR9_DD,
 	       (SELECT COUNT(*) FROM BLTN_FILE WHERE R1.board_id = board_id AND R1.bltn_no = bltn_no) FILE_CNT
 		from   (SELECT rownum rnum,
 		               m1.board_id,
@@ -225,6 +246,14 @@
 				       m1.EXT_STR7,
 				       m1.EXT_STR8,
 				       m1.EXT_STR9,
+						m1.EXT_STR10,
+						m1.EXT_STR11,
+						m1.EXT_STR12,
+						m1.EXT_STR13,
+						m1.EXT_STR14,
+						m1.EXT_STR15,
+						m1.EXT_STR16,
+						m1.EXT_STR17,
 				       m1.user_id
 		        FROM   (SELECT t1.board_id,
 		                       t1.bltn_no,
@@ -247,12 +276,24 @@
 						       t6.EXT_STR7,
 						       t6.EXT_STR8,
 						       t6.EXT_STR9,
+								t6.EXT_STR10,
+								t6.EXT_STR11,
+								t6.EXT_STR12,
+								t6.EXT_STR13,
+								t6.EXT_STR14,
+								t6.EXT_STR15,
+								t6.EXT_STR16,
+								t6.EXT_STR17,
 						       t1.user_id
 		                FROM   bulletin t1
 		                	LEFT JOIN BLTN_EXTN T6
 					    	    ON t6.board_id=t1.board_id
 						        AND    t6.bltn_no=t1.bltn_no
 		                WHERE  t1.board_id= #boardId#
+
+						<isNotEqual property="admin" compareValue="임직원">
+							and (T6.ext_str14 = 'Y' or T6.ext_str16 = #userId# )
+						</isNotEqual>
 
 		                <isEqual property="listYns3" compareValue="Y">
 		                	AND    t1.bltn_gq = '0' <!-- LIST_YNS 3번째가 Y이면 아니면 조건없이-->
@@ -385,7 +426,14 @@
 	<select id="KicpaCommBoardDAO.selectCommonBoardListCnt" parameterClass="egovMap" resultClass="int">
 						SELECT COUNT(*)
 		                FROM   bulletin t1
+						LEFT JOIN BLTN_EXTN T6
+						ON t6.board_id=t1.board_id
+						AND    t6.bltn_no=t1.bltn_no
 		                WHERE  t1.board_id= #boardId#
+
+						<isNotEqual property="admin" compareValue="임직원">
+							and (T6.ext_str14 = 'Y' or T6.ext_str16 = #userId# )
+						</isNotEqual>
 		               <isEqual property="listYns3" compareValue="Y">
 		                	AND    t1.bltn_gq = '0' <!-- LIST_YNS 3번째가 Y이면 아니면 조건없이-->
 		                </isEqual>
@@ -510,7 +558,17 @@
 		       r1.EXT_STR7,
 		       r1.EXT_STR8,
 		       r1.EXT_STR9,
+				r1.EXT_STR10,
+				r1.EXT_STR11,
+				r1.EXT_STR12,
+				r1.EXT_STR13,
+				r1.EXT_STR14,
+				r1.EXT_STR15,
+				r1.EXT_STR16,
+				r1.EXT_STR17,
 		       r1.user_id,
+				to_char(to_date(concat(substr(r1.EXT_STR6,0,8), (lpad(trim(substr(r1.EXT_STR6,9,2)), 2,'0'))), 'YYYY-MM-DD'), 'YYYY-MM-DD') AS EXT_STR6_DD,
+				to_char(to_date(concat(substr(r1.EXT_STR9,0,8), (lpad(trim(substr(r1.EXT_STR9,9,2)), 2,'0'))), 'YYYY-MM-DD'), 'YYYY-MM-DD') AS EXT_STR9_DD,
 		       (SELECT COUNT(*) FROM BLTN_CAFE_FILE WHERE R1.board_id = board_id AND R1.bltn_no = bltn_no) FILE_CNT
 		from   (SELECT rownum rnum,
 		               m1.board_id,
@@ -534,6 +592,14 @@
 				       m1.EXT_STR7,
 				       m1.EXT_STR8,
 				       m1.EXT_STR9,
+						m1.EXT_STR10,
+						m1.EXT_STR11,
+						m1.EXT_STR12,
+						m1.EXT_STR13,
+						m1.EXT_STR14,
+						m1.EXT_STR15,
+						m1.EXT_STR16,
+						m1.EXT_STR17,
 				       m1.user_id
 		        FROM   (SELECT t1.board_id,
 		                       t1.bltn_no,
@@ -556,12 +622,24 @@
 						       t6.EXT_STR7,
 						       t6.EXT_STR8,
 						       t6.EXT_STR9,
+								t6.EXT_STR10,
+								t6.EXT_STR11,
+								t6.EXT_STR12,
+								t6.EXT_STR13,
+								t6.EXT_STR14,
+								t6.EXT_STR15,
+								t6.EXT_STR16,
+								t6.EXT_STR17,
 						       t1.user_id
 		                FROM   bltn_cafe t1
 	                	    LEFT JOIN BLTN_EXTN T6
 						        ON t6.board_id=t1.board_id
 						        AND    t6.bltn_no=t1.bltn_no
 		                WHERE  t1.board_id= #boardId#
+
+		<isNotEqual property="admin" compareValue="임직원">
+			and (T6.ext_str14 = 'Y' or T6.ext_str16 = #userId# )
+		</isNotEqual>
 
 		               <isEqual property="listYns3" compareValue="Y">
 		                	AND    t1.bltn_gq = '0' <!-- LIST_YNS 3번째가 Y이면 아니면 조건없이-->
@@ -691,7 +769,14 @@
 	<select id="KicpaCommBoardDAO.selectCommonCafeBoardListCnt" parameterClass="egovMap" resultClass="int">
 						SELECT COUNT(*)
 		                FROM   bltn_cafe t1
+						LEFT JOIN BLTN_EXTN T6
+						ON t6.board_id=t1.board_id
+						AND    t6.bltn_no=t1.bltn_no
 		                WHERE  t1.board_id= #boardId#
+
+						<isNotEqual property="admin" compareValue="임직원">
+							and (T6.ext_str14 = 'Y' or T6.ext_str16 = #userId# )
+						</isNotEqual>
 		              <isEqual property="listYns3" compareValue="Y">
 		                	AND    t1.bltn_gq = '0' <!-- LIST_YNS 3번째가 Y이면 아니면 조건없이-->
 		                </isEqual>
@@ -826,10 +911,21 @@
 		       t6.EXT_STR7,
 		       t6.EXT_STR8,
 		       t6.EXT_STR9,
+			   t6.EXT_STR10,
+			   t6.EXT_STR11,
+			   t6.EXT_STR12,
+			   t6.EXT_STR13,
+			   t6.EXT_STR14,
+			   t6.EXT_STR15,
+			   t6.EXT_STR16,
+			   t6.EXT_STR17,
+				to_char(to_date(concat(substr(t6.EXT_STR6,0,8), (lpad(trim(substr(t6.EXT_STR6,9,2)), 2,'0'))), 'YYYY-MM-DD'), 'YYYY-MM-DD') AS EXT_STR6_DD,
+				to_char(to_date(concat(substr(t6.EXT_STR9,0,8), (lpad(trim(substr(t6.EXT_STR9,9,2)), 2,'0'))), 'YYYY-MM-DD'), 'YYYY-MM-DD') AS EXT_STR9_DD,
 		       bltn_subj,
 		       <![CDATA[replace(t2.bltn_cntt,chr(10),'<br/>') bltn_cntt]]>,
 	   		   TO_CHAR(t1.reg_datim,'YYYY.MM.DD') reg_datim,
 		       TO_CHAR(t1.upd_datim,'YYYY.MM.DD') upd_datim,
+				TRUNC((sysdate - TO_DATE(TO_CHAR(t1.reg_datim,'YYYYMMDD HH24:MI:SS'), 'YYYY-MM-DD HH24:MI:SS')) * 24 * 60) as timediff,
 		       c.cate_nm
 		FROM   BULLETIN t1
 		    INNER JOIN BLTN_CNTT t2
@@ -885,10 +981,21 @@
 		       t6.EXT_STR7,
 		       t6.EXT_STR8,
 		       t6.EXT_STR9,
+			   t6.EXT_STR10,
+			   t6.EXT_STR11,
+		  	   t6.EXT_STR12,
+			   t6.EXT_STR13,
+			   t6.EXT_STR14,
+			   t6.EXT_STR15,
+			   t6.EXT_STR16,
+			   t6.EXT_STR17,
+				to_char(to_date(concat(substr(t6.EXT_STR6,0,8), (lpad(trim(substr(t6.EXT_STR6,9,2)), 2,'0'))), 'YYYY-MM-DD'), 'YYYY-MM-DD') AS EXT_STR6_DD,
+				to_char(to_date(concat(substr(t6.EXT_STR9,0,8), (lpad(trim(substr(t6.EXT_STR9,9,2)), 2,'0'))), 'YYYY-MM-DD'), 'YYYY-MM-DD') AS EXT_STR9_DD,
 		       bltn_subj,
 		       <![CDATA[replace(t2.bltn_cntt,chr(10),'<br/>') bltn_cntt]]>,
 	   		   TO_CHAR(t1.reg_datim,'YYYY.MM.DD') reg_datim,
-		       TO_CHAR(t1.upd_datim,'YYYY.MM.DD') upd_datim
+		       TO_CHAR(t1.upd_datim,'YYYY.MM.DD') upd_datim,
+				TRUNC((sysdate - TO_DATE(TO_CHAR(t1.reg_datim,'YYYYMMDD HH24:MI:SS'), 'YYYY-MM-DD HH24:MI:SS')) * 24 * 60) as timediff
 		FROM   BLTN_CAFE t1
 		    INNER JOIN BLTN_CAFE_CNTT t2
 		        ON t2.board_id=t1.board_id
@@ -1193,110 +1300,112 @@
 	</select>
 
 	<insert id="KicpaCommBoardDAO.insertCommonBoard" parameterClass="HashMap">
-		INSERT INTO BULLETIN ( board_id, bltn_no, bltn_gid, bltn_gn, bltn_gq, bltn_lev, del_flag, cate_id, user_id, user_pass,
-							 user_nick, user_ip, bltn_read_cnt, bltn_reply_cnt, bltn_memo_cnt, bltn_file_cnt, bltn_top_tag, bltn_best_level, bltn_secret_yn, bltn_permit_yn,
-		 					 bet_pnt, bltn_icon, bltn_bgn_ymd, bltn_end_ymd, sub_board_id, bltn_subj, reg_datim, upd_datim )
-		 			 VALUES(
-		 			 #boardId#
-					,#bltnNo#
-					,'EB'
-					,#bltnGn#
-					,0
-					,1
-					,'N'
-					,#cateId#
-					,#userId#
-					,#userPass#
-					,#userNick#
-					,#userIp#
-					,0
-					,0
-					,0
-					,#bltnFileCnt#
-					,#bltnTopTag#
-					,0
-					,#bltnSecretYn#
-					,#bltnPermitYn#
-					,0
-					,#bltnIcon#
-					<isNotNull property="bltnEndYmd">
-			       		<isNotEmpty property="bltnEndYmd">
-							,sysdate
-			       		</isNotEmpty>
-			       	</isNotNull>
-			       	<isNull property="bltnEndYmd">
-						,null
-			       	</isNull>
-					,#bltnEndYmd#
-					,#subBoardId#
-					,#bltnSubj#
-					,sysdate
-					,sysdate
-		 			 )
+
+		MERGE INTO BULLETIN
+			USING DUAL
+			ON (BOARD_ID = #boardId# AND BLTN_NO = #bltnNo#)
+			WHEN MATCHED THEN
+				UPDATE SET
+						bltn_subj = #bltnSubj#, upd_datim = sysdate
+			WHEN NOT MATCHED THEN
+				INSERT (board_id, bltn_no, bltn_gid, bltn_gn, bltn_gq, bltn_lev, del_flag, cate_id, user_id, user_pass,
+						user_nick, user_ip, bltn_read_cnt, bltn_reply_cnt, bltn_memo_cnt, bltn_file_cnt, bltn_top_tag, bltn_best_level, bltn_secret_yn, bltn_permit_yn,
+						bet_pnt, bltn_icon, bltn_bgn_ymd, bltn_end_ymd, sub_board_id, bltn_subj, reg_datim, upd_datim)
+
+				VALUES (#boardId#, #bltnNo#, 'EB', #bltnGn#, 0, 1, 'N', #cateId#, #userId#, #userPass#
+		, #userNick#, #userIp#, 0, 0, 0, #bltnFileCnt#, #bltnTopTag#, 0, #bltnSecretYn#, #bltnPermitYn#
+		, 0, #bltnIcon#
+		<isNotNull property="bltnEndYmd">
+			<isNotEmpty property="bltnEndYmd">
+				, sysdate
+			</isNotEmpty>
+		</isNotNull>
+		<isNull property="bltnEndYmd">
+			, null
+		</isNull>
+		, #bltnEndYmd#, #subBoardId#, #bltnSubj#, sysdate, sysdate
+		)
 
 	</insert>
 
 	<insert id="KicpaCommBoardDAO.insertCommonCafeBoard" parameterClass="HashMap">
-		INSERT INTO BLTN_CAFE ( board_id, bltn_no, bltn_gid, bltn_gn, bltn_gq, bltn_lev, del_flag, cate_id, user_id, user_pass,
-							 user_nick, user_ip, bltn_read_cnt, bltn_reply_cnt, bltn_memo_cnt, bltn_file_cnt, bltn_top_tag, bltn_best_level, bltn_secret_yn, bltn_permit_yn,
-		 					 bet_pnt, bltn_icon, bltn_bgn_ymd, bltn_end_ymd, sub_board_id, bltn_subj, reg_datim, upd_datim )
-		 			 VALUES(
-		 			 #boardId#
-					,#bltn_no#
-					,'EB'
-					,#bltnGn#
-					,0
-					,1
-					,'N'
-					,#cateId#
-					,#userId#
-					,#userPass#
-					,#userNick#
-					,#userIp#
-					,0
-					,0
-					,0
-					,#bltnFileCnt#
-					,#bltnTopTag#
-					,0
-					,#bltnSecretYn#
-					,#bltnPermitYn#
-					,0
-					,#bltnIcon#
-					,#bltnBgnYmd#
-					,#bltnEndYmd#
-					,#subBoardId#
-					,#bltnSubj#
-					,sysdate
-					,sysdate
-		 			 )
+
+		MERGE INTO BLTN_CAFE
+			USING DUAL
+			ON (BOARD_ID = #boardId# AND BLTN_NO = #bltnNo#)
+			WHEN NOT MATCHED THEN
+				INSERT (board_id, bltn_no, bltn_gid, bltn_gn, bltn_gq, bltn_lev, del_flag, cate_id, user_id, user_pass,
+						user_nick, user_ip, bltn_read_cnt, bltn_reply_cnt, bltn_memo_cnt, bltn_file_cnt, bltn_top_tag, bltn_best_level, bltn_secret_yn, bltn_permit_yn,
+						bet_pnt, bltn_icon, bltn_bgn_ymd, bltn_end_ymd, sub_board_id, bltn_subj, reg_datim, upd_datim)
+
+				VALUES (#boardId#, #bltn_no#, 'EB', #bltnGn#, 0, 1, 'N', #cateId#, #userId#, #userPass#
+						, #userNick#, #userIp#, 0, 0, 0, #bltnFileCnt#, #bltnTopTag#, 0, #bltnSecretYn#, #bltnPermitYn#
+						, 0, #bltnIcon#, #bltnBgnYmd#, #bltnEndYmd#, #subBoardId#, #bltnSubj#, sysdate, sysdate)
+
 	</insert>
 
 	<insert id="KicpaCommBoardDAO.insertCommonBoardExtn"  parameterClass="HashMap">
-		INSERT INTO BLTN_EXTN(BOARD_ID, BLTN_NO, EXT_STR0, EXT_STR1, EXT_STR2, EXT_STR3, EXT_STR4, EXT_STR5, EXT_STR6, EXT_STR7, EXT_STR8, EXT_STR9)
-		VALUES(
-				  #boardId#
-				, #bltnNo#
-				, #extStr0#
-				, #extStr1#
-				, #extStr2#
-				, #extStr3#
-				, #extStr4#
-				, #extStr5#
-				, #extStr6#
-				, #extStr7#
-				, #extStr8#
-				, #extStr9#
-			)
+
+		MERGE INTO BLTN_EXTN
+			USING DUAL
+			ON (BOARD_ID = #boardId# AND BLTN_NO = #bltnNo#)
+			WHEN MATCHED THEN
+				UPDATE SET
+					EXT_STR0 = #extStr0#, EXT_STR1 = #extStr1#, EXT_STR2 = #extStr2#, EXT_STR3 = #extStr3#, EXT_STR4 = #extStr4#,
+					EXT_STR5 = #extStr5#, EXT_STR6 = #extStr6#, EXT_STR7 = #extStr7#, EXT_STR8 = #extStr8#, EXT_STR9 = #extStr9#,
+					EXT_STR10 = #extStr10#, EXT_STR11 = #extStr11#, EXT_STR12 = #extStr12#, EXT_STR13 = #extStr13#, EXT_STR14 = #extStr14#,
+					EXT_STR15 = #extStr15#, EXT_STR16 = #extStr16#, EXT_STR17 = #extStr17#
+
+			WHEN NOT MATCHED THEN
+				INSERT (BOARD_ID, BLTN_NO, EXT_STR0, EXT_STR1, EXT_STR2, EXT_STR3, EXT_STR4, EXT_STR5, EXT_STR6, EXT_STR7, EXT_STR8, EXT_STR9,
+						EXT_STR10, EXT_STR11, EXT_STR12, EXT_STR13, EXT_STR14, EXT_STR15, EXT_STR16, EXT_STR17)
+
+				VALUES (#boardId#, #bltnNo#, #extStr0#, #extStr1#, #extStr2#, #extStr3#, #extStr4#, #extStr5#, #extStr6#, #extStr7#, #extStr8#, #extStr9#,
+						#extStr10#, #extStr11#, #extStr12#, #extStr13#, #extStr14#, #extStr15#, #extStr16#, #extStr17#)
+
 	</insert>
 
 	<insert id="KicpaCommBoardDAO.insertCommonBoardCnnt" parameterClass="HashMap">
-		INSERT INTO BLTN_CNTT (BOARD_ID, BLTN_NO, BLTN_CNTT) VALUES (#boardId#,#bltnNo#,#bltnCntt#)
+
+		MERGE INTO BLTN_CNTT
+			USING DUAL
+			ON (BOARD_ID = #boardId# AND BLTN_NO = #bltnNo#)
+			WHEN NOT MATCHED THEN
+				INSERT (BOARD_ID, BLTN_NO, BLTN_CNTT)
+
+				VALUES (#boardId#, #bltnNo#, #bltnCntt#)
+
 	</insert>
 
 	<insert id="KicpaCommBoardDAO.insertCommonCafeBoardCnnt" parameterClass="HashMap">
-		INSERT INTO BLTN_CAFE_CNTT (BOARD_ID, BLTN_NO, BLTN_CNTT) VALUES (#boardId#,#bltnNo#,#bltnCntt#)
+
+		MERGE INTO BLTN_CAFE_CNTT
+			USING DUAL
+			ON (BOARD_ID = #boardId# AND BLTN_NO = #bltnNo#)
+			WHEN NOT MATCHED THEN
+				INSERT (BOARD_ID, BLTN_NO, BLTN_CNTT)
+
+				VALUES (#boardId#, #bltnNo#, #bltnCntt#)
+
 	</insert>
+
+	<delete id="KicpaCommBoardDAO.deleteCommonBoardExtn"  parameterClass="HashMap">
+
+		DELETE FROM BLTN_EXTN WHERE BOARD_ID = #boardId# AND BLTN_NO = #bltnNo#
+
+	</delete>
+
+	<delete id="KicpaCommBoardDAO.deleteCommonBoard"  parameterClass="HashMap">
+
+		DELETE FROM BULLETIN WHERE BOARD_ID = #boardId# AND BLTN_NO = #bltnNo#
+
+	</delete>
+
+	<delete id="KicpaCommBoardDAO.deleteCommonBoardCnnt"  parameterClass="HashMap">
+
+		DELETE FROM BLTN_CNTT WHERE BOARD_ID = #boardId# AND BLTN_NO = #bltnNo#
+
+	</delete>
 
 
 	<insert id="KicpaCommBoardDAO.insertCommonBoardFile" parameterClass="HashMap">

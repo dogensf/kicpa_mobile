@@ -47,6 +47,14 @@ public class MyPageDAO extends EgovComAbstractDAO2 {
         return (List<?>) list("MyPageDAO.selectCpaMemberRegistInfoList", (Object) map);
     }
 
+    public String selectCpaMemberDiInfo(Map<String, Object> map) throws Exception {
+        return (String) select("MyPageDAO.selectCpaMemberDiInfo", (Object) map);
+    }
+
+    public List<?> selectCpaMemberSearchChk(Map<String, Object> map) throws Exception {
+        return (List<?>) list("MyPageDAO.selectCpaMemberSearchChk", (Object) map);
+    }
+
     public List<?> selectCpaTaxAcutInfoList(Map<String, Object> map) throws Exception {
         return (List<?>) list("MyPageDAO.selectCpaTaxAcutInfoList", (Object) map);
     }

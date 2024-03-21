@@ -51,6 +51,9 @@ memberEventList.commonBoardList_success = function(data){
     var userId = data.userId;
     var txt = "";
 
+    var di = $('#memberEventList_di').val();
+    var name = $('#memberEventList_name').val();
+
     if(isLogin){
         $(".login-guide").hide();
         $("#tabMain1").show();
@@ -70,7 +73,7 @@ memberEventList.commonBoardList_success = function(data){
                     if(o.bltnIcon  == 'D' && o.userId != userId){
                         txt+='	<a href="javascript:void(0);"> \n';
                     }else{
-                        txt+='	<a href="/kicpa/commonBoard/memberEventDetail.do?boardId='+o.boardId+'&bltnNo='+o.bltnNo+'"> \n';
+                        txt+='	<a href="/kicpa/commonBoard/memberEventDetail.do?boardId='+o.boardId+'&bltnNo='+o.bltnNo+'&di='+di+'&name='+name+'"> \n';
                     }
                     txt+=' 		<div class="title-zone"> \n';
 

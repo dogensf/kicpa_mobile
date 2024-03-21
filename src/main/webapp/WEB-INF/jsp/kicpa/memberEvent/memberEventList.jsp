@@ -9,7 +9,7 @@
 <%@ taglib prefix='c' uri='http://java.sun.com/jsp/jstl/core' %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
-<script src="/js/kicpa/memberEvent/memberEventList.js"></script>
+<script src="/js/kicpa/memberEvent/memberEventList.js?ver=1"></script>
 
 <script>
     if (window['bridge'] )  {
@@ -21,7 +21,12 @@
         $(".btn-write").show();
 
         $(".btn-write").on("click",function(){
-            location.href="/kicpa/memberEvent/memberEventRegMove.do?boardId="+$("#boardForm input[name='boardId']").val();
+
+            var di = $("#memberEventList_di").val();
+            var name = $("#memberEventList_name").val();
+
+            location.href="/kicpa/memberEvent/memberEventRegMove.do?boardId="+$("#boardForm input[name='boardId']").val()+"&di="+di+"&name="+name;
+            //window.open("/kicpa/memberEvent/memberEventRegMove.do?boardId="+$("#boardForm input[name='boardId']").val()+"&di="+di+"&name="+name , "boardForm")
         });
 
         memberEventList.memberEventListInit();
@@ -76,6 +81,10 @@
 
             </div><!-- tabSub1 -->
         </div><!-- tabMain1 -->
+
+        <input type="hidden" id="memberEventList_di" name="immDi" value="${di}"/>
+        <input type="hidden" id="memberEventList_name" name="diName" value="${name}"/>
+
         <jsp:include page="/include/includeLoign.jsp"/>
     </section>
 </form>

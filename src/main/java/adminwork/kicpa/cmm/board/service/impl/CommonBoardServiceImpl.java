@@ -151,9 +151,11 @@ public class CommonBoardServiceImpl extends EgovAbstractServiceImpl implements C
 			commonBoardDAO.mergeCommonBoardKey(map);
 
 
+			if(("".equals(map.get("bltnNo")) || map.get("bltnNo") == null) || !"mstate".equals(map.get("boardId"))){
+				String bltnNo = "1" + System.currentTimeMillis();
+				map.put("bltnNo", bltnNo);
+			}
 
-			String bltnNo = "1" + System.currentTimeMillis();
-			map.put("bltnNo", bltnNo);
 			if("Y".equals(boardMaster.get("owntblYn")) && "CAFE".equals(boardMaster.get("owntblFix"))) {
 				commonBoardDAO.insertCommonCafeBoard(map);
 				commonBoardDAO.insertCommonCafeBoardCnnt(map);
@@ -180,9 +182,28 @@ public class CommonBoardServiceImpl extends EgovAbstractServiceImpl implements C
 
 			}
 
-			commonBoardDAO.mergeCommonBoardUserHistory(map);
-			commonBoardDAO.insertCommonBoardUserActionHistory(map);
+			if(!"".equals(map.get("userId")) && map.get("userId") != null){
+				commonBoardDAO.mergeCommonBoardUserHistory(map);
+				commonBoardDAO.insertCommonBoardUserActionHistory(map);
+			}
 
+
+		}catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+
+
+	}
+
+	@Override
+	public void deleteCommonBoard(Map<String, Object> map) throws Exception {
+
+		try {
+
+			commonBoardDAO.deleteCommonBoardExtn(map);
+			commonBoardDAO.deleteCommonBoard(map);
+			commonBoardDAO.deleteCommonBoardCnnt(map);
 
 		}catch (Exception e) {
 			e.printStackTrace();

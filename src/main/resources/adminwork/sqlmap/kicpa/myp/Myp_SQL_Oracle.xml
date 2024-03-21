@@ -276,6 +276,7 @@
             SELECT
                     c.CPA_SN
                 ,   c.PIN
+                ,	mi.KOREAN_NM
                 ,   c.CPA_CL
                 ,   c.CPA_ID
                 ,   c.OPETR_DE
@@ -307,8 +308,40 @@
                 ,   (SELECT AUD_GRP_CL FROM AUDIT_INFO ai WHERE ai.AUDIT_CD = (SELECT ao.AUDIT_CD FROM AUDIT_OFFICE ao WHERE ao.AUDIT_ID = c.AUDIT_ID)) AS AUD_GRP_CL
 
             FROM CPA c
+            LEFT JOIN MBER_INDVDLINFO mi ON mi.PIN = c.PIN
             WHERE c.CPA_SN = (SELECT MAX(CPA_SN) FROM CPA WHERE PIN = #pin#)
          ]]>
+
+	</select>
+
+	<select id="MyPageDAO.selectCpaMemberDiInfo" parameterClass="HashMap" resultClass="String">
+
+		<![CDATA[
+            select IMM_VNUM
+
+            from sdb_int_mb_master@kicpasec
+
+            where imm_di = #di#
+        ]]>
+
+	</select>
+
+	<select id="MyPageDAO.selectCpaMemberSearchChk" parameterClass="HashMap" resultClass="EgovMap">
+
+		<![CDATA[
+            SELECT
+                    c.CPA_SN
+                ,   c.PIN
+                ,	mi.KOREAN_NM
+                ,   c.CPA_CL
+                ,   c.CPA_ID
+
+            FROM CPA c
+            LEFT JOIN MBER_INDVDLINFO mi ON mi.PIN = c.PIN
+            WHERE c.CPA_ID = #cpaId#
+            AND mi.KOREAN_NM = #koreanNm#
+
+        ]]>
 
 	</select>
 

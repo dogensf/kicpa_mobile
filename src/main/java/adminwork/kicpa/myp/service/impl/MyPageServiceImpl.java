@@ -61,6 +61,16 @@ public class MyPageServiceImpl extends EgovAbstractServiceImpl implements MyPage
 	}
 
 	@Override
+	public String selectCpaMemberDiInfo(Map<String, Object> map) throws Exception {
+		return myPageDAO.selectCpaMemberDiInfo(map);
+	}
+
+	@Override
+	public List<?> selectCpaMemberSearchChk(Map<String, Object> map) throws Exception {
+		return myPageDAO.selectCpaMemberSearchChk(map);
+	}
+
+	@Override
 	public List<?> selectCpaTaxAcutInfoList(Map<String, Object> map) throws Exception {
 		String verNum = myPageDAO.selectTaxVersion();
 
