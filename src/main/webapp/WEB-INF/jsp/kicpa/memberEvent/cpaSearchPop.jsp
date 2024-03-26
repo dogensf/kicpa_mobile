@@ -79,8 +79,8 @@
 
         <div id="tabMain1" class="tab-main-content show">
             <div class="search-box" style="display: flex;">
-                <input class="search" type="text" name="searchKeyword1" placeholder="대상자명을 입력하세요." style="padding: 0; margin-right: 20px;" readonly/>
-                <input class="search" type="text" name="searchKeyword2" placeholder="대상자 등록번호를 입력하세요." style="padding: 0;" readonly/>
+                <input class="search" type="text" name="searchKeyword1" placeholder="대상자명" style="padding: 0; margin-right: 20px;" readonly/>
+                <input class="search" type="text" name="searchKeyword2" placeholder="등록번호" style="padding: 0;" readonly/>
             </div>
 
             <div id="tabSub1" class="tab-sub-content show">

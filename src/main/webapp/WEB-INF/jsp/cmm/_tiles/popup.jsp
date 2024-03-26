@@ -211,8 +211,8 @@
                     </div>
 
                     <div class="inp-box" style="display: flex;">
-                        <input type="search" class="search" name="searchKeyword1" placeholder="대상자명을 입력하세요." style="padding: 0; margin-right: 20px;"/>
-                        <input type="search" class="search" name="searchKeyword2" placeholder="대상자 등록번호를 입력하세요." style="padding: 0;" oninput="this.value=this.value.replace(/[^0-9]/g,'');"/>
+                        <input type="search" class="search" name="searchKeyword1" placeholder="대상자명" style="padding: 0; margin-right: 20px;"/>
+                        <input type="search" class="search" name="searchKeyword2" placeholder="등록번호" style="padding: 0;" oninput="this.value=this.value.replace(/[^0-9]/g,'');"/>
                     </div>
                 </fieldset>
             </form>
