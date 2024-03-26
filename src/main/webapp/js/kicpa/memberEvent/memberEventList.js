@@ -32,6 +32,12 @@ memberEventList.memberEventListInit = function(){
     });
 
     memberEventList.memberEventListListAjax();
+
+    if(sessionStorage.getItem("본인인증") != 'Y'){
+        sessionStorage.setItem("di", '');
+        sessionStorage.setItem("sName", '');
+    }
+
 }
 
 
@@ -51,8 +57,13 @@ memberEventList.commonBoardList_success = function(data){
     var userId = data.userId;
     var txt = "";
 
-    var di = $('#memberEventList_di').val();
-    var name = $('#memberEventList_name').val();
+    var di = "";
+    var name = "";
+
+    if(sessionStorage.getItem("di") != '' && sessionStorage.getItem("di") != null){
+        di = sessionStorage.getItem("di");
+        name = sessionStorage.getItem("sName");
+    }
 
     if(isLogin){
         $(".login-guide").hide();

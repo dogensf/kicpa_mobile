@@ -31,8 +31,8 @@ memberEventDetail.memberEventDetailInit = function(){
 
     //목록 버튼 클릭
     $("#memberEventDetail_list").on("click",function(){
-        var di = $('#memberEventDetail_di').val();
-        var sName = $('#memberEventDetail_name').val();
+        var di = sessionStorage.getItem("di");
+        var sName = sessionStorage.getItem("sName");
 
         location.href="/kicpa/memberEvent/memberEventList.do?di="+di+"&name="+sName;
     });
@@ -177,8 +177,8 @@ memberEventDetail.memberSearch_error = function(data, status, error){
 memberEventDetail.memberEventDetailSaveSuccess = function(data){
     alert("수정되었습니다.");
 
-    var di = $('#memberEventDetail_di').val();
-    var sName = $('#memberEventDetail_name').val();
+    var di = sessionStorage.getItem("di");
+    var sName = sessionStorage.getItem("sName");
 
     location.href="/kicpa/memberEvent/memberEventList.do?di="+di+"&name="+sName;
 }
@@ -186,8 +186,8 @@ memberEventDetail.memberEventDetailSaveSuccess = function(data){
 memberEventDetail.memberEventDetailDeleteSuccess = function(data){
     alert("삭제되었습니다.");
 
-    var di = $('#memberEventDetail_di').val();
-    var sName = $('#memberEventDetail_name').val();
+    var di = sessionStorage.getItem("di");
+    var sName = sessionStorage.getItem("sName");
 
     location.href="/kicpa/memberEvent/memberEventList.do?di="+di+"&name="+sName;
 }

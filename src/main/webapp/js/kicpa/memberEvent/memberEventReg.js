@@ -137,8 +137,8 @@ memberEventReg.cpaMemSearch_error = function(data, status, error){
 memberEventReg.memberEventRegSaveSuccess = function(data){
     alert("등록되었습니다.");
 
-    var di = $('#memberEventReg_di').val();
-    var sName = $('#memberEventReg_name').val();
+    var di = sessionStorage.getItem("di");
+    var sName = sessionStorage.getItem("sName");
 
     location.href="/kicpa/memberEvent/memberEventList.do?di="+di+"&name="+sName;
     //window.close();

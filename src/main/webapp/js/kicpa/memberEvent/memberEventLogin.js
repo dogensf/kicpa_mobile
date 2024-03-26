@@ -50,6 +50,8 @@ memberEventLogin.memberEvent_confirmSuccMove = function (di, sName){
     $('#memberEventLogin_name').val(sName);
 
     sessionStorage.setItem("본인인증", "Y");
+    sessionStorage.setItem("di", di);
+    sessionStorage.setItem("sName", sName);
 
     location.replace(memberEventLogin.getContextPath()+'/memberEvent/memberEventList.do?di='+di+'&name='+sName);
 }

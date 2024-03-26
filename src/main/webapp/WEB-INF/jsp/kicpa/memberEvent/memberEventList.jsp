@@ -23,8 +23,8 @@
 
         $(".btn-write").on("click",function(){
 
-            var di = $("#memberEventList_di").val();
-            var name = $("#memberEventList_name").val();
+            var di = sessionStorage.getItem("di");
+            var name = sessionStorage.getItem("sName");
 
             location.href="/kicpa/memberEvent/memberEventRegMove.do?boardId="+$("#boardForm input[name='boardId']").val()+"&di="+di+"&name="+name;
             //window.open("/kicpa/memberEvent/memberEventRegMove.do?boardId="+$("#boardForm input[name='boardId']").val()+"&di="+di+"&name="+name , "boardForm")
