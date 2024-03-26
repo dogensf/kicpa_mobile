@@ -13,12 +13,16 @@
 
 <script>
 
+    if (window['bridge'] )  {
+        window.bridge.displayBottom(true);
+    }
+
     $(document).ready(function(){
         memberEventDetail.memberEventDetailInit();
     });
 
     function fncLocation(){
-        window.close();
+        location.href="/kicpa/memberEvent/memberEventList.do";
     }
 
 </script>
@@ -28,11 +32,14 @@
     <input type="hidden" name="bltnNo" id="memberEventDetail_bltnNo" value="${param.bltnNo }">
     <input type="hidden" name="fileSeq">
 
-
-    <section class="head-main">
-        <h1>경조사 내용보기</h1>
+    <section class="head-sub head-main">
+        <button class="btn-back" type="button" onclick="javascript:fncLocation();">
+            <span>이전</span>
+        </button>
+        <h3>경조사 내용보기</h3>
         <button class="btn-menu" type="button" onClick="javascript:window.bridge.showCategory();">카테고리</button>
     </section>
+
     <section class="content memberEvent">
         <div class="input-wrap">
             <div class="input-box">
@@ -97,13 +104,13 @@
             </div>
             <div class="input-box">
                 <div class="key">작고일</div>
-                <div class="val"><input type="date" name="deaDate" id="memberEventDetail_deaDate" value="<c:out value="${boardDetail.extStr6Dd }"/>"
-                <c:if test="${(boardDetail.extStr15 eq 'Y' && loginVO.userTy ne '임직원') || boardDetail.timediff > 30}"> readonly</c:if>></div>
+                <div class="val"><input style="text-align: left;" type="date" name="deaDate" id="memberEventDetail_deaDate" value="<c:out value="${boardDetail.extStr6Dd }"/>"
+                <c:if test="${(boardDetail.extStr15 eq 'Y' && loginVO.userTy ne '임직원') || boardDetail.timediff > 30}"> onclick="return false;"</c:if>></div>
             </div>
             <div class="input-box">
                 <div class="key">발인일</div>
-                <div class="val"><input type="date" name="burialDt" id="memberEventDetail_burialDt" value="<c:out value="${boardDetail.extStr9Dd }"/>"
-                <c:if test="${(boardDetail.extStr15 eq 'Y' && loginVO.userTy ne '임직원') || boardDetail.timediff > 30}"> readonly</c:if>></div>
+                <div class="val"><input style="text-align: left;" type="date" name="burialDt" id="memberEventDetail_burialDt" value="<c:out value="${boardDetail.extStr9Dd }"/>"
+                <c:if test="${(boardDetail.extStr15 eq 'Y' && loginVO.userTy ne '임직원') || boardDetail.timediff > 30}">onclick="return false;" </c:if>></div>
             </div>
             <div class="input-box">
                 <div class="key">빈소</div>

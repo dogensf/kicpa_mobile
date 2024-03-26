@@ -8,6 +8,7 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@ taglib prefix='c' uri='http://java.sun.com/jsp/jstl/core' %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ page import ="adminwork.com.cmm.LoginVO" %>
 
 <script src="/js/kicpa/memberEvent/memberEventList.js?ver=1"></script>
 
@@ -56,6 +57,22 @@
     </section> -->
     <section class="head-main">
         <h1>회원경조사</h1>
+        <%
+            LoginVO loginVO = (LoginVO)session.getAttribute("LoginVO");
+            if(loginVO == null){
+        %>
+        <button class="btn-login" onclick="location.href='<c:url value='/uat/uia/LoginUsr.do'/>';" type="button">
+            로그인
+        </button>
+        <%
+        }else{
+        %>
+        <button class="btn-login" onclick="javascript:logOut();" type="button">
+            로그아웃
+        </button>
+        <%
+            }
+        %>
         <button class="btn-menu" type="button" onClick="javascript:window.bridge.showCategory();">카테고리</button>
     </section>
     <section class="content memberEventList">

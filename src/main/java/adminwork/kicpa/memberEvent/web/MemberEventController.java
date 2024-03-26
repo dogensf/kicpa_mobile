@@ -106,6 +106,7 @@ public class MemberEventController {
 			List<?> cpaMemInfo = myPageService.selectCpaMemberRegistInfoList(paramMap);
 
 			model.addAttribute("loginVO", user);
+			model.addAttribute("name", user.getName());
 			model.addAttribute("cpaMemInfo", cpaMemInfo);
 			return "kicpa/memberEvent/memberEventReg";
 		}

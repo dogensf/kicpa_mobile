@@ -14,7 +14,7 @@
 <script>
 
     if (window['bridge'] )  {
-        window.bridge.displayBottom(false);
+        window.bridge.displayBottom(true);
     }
     $(document).ready(function(){
         memberEventReg.memberEventRegInit();
@@ -22,7 +22,7 @@
 
 
     function fncLocation(){
-        window.close();
+        location.href="/kicpa/memberEvent/memberEventList.do";
     }
 
 </script>
@@ -33,17 +33,20 @@
     <input type="hidden" name="loginYn" id="loginYn" value="Y">
     <input type="hidden" name="returnUrl" id="returnUrl" value="">
 
-    <section class="head-main">
-        <h1>회원경조사 등록 / 수정</h1>
+    <section class="head-sub head-main">
+        <button class="btn-back" type="button" onclick="javascript:fncLocation();">
+            <span>이전</span>
+        </button>
+        <h3>회원경조사 등록 / 수정</h3>
         <button class="btn-menu" type="button" onClick="javascript:window.bridge.showCategory();">카테고리</button>
     </section>
+
     <section class="content memberEvent">
         <div class="input-wrap">
             <div class="input-box">
                 <input type="hidden" id="memberEventReg_regTitle" name="regTitle"/>
                 <div class="key">신청자</div>
-                <c:if test="${cpaMemInfo[0].koreanNm ne '' && cpaMemInfo[0].koreanNm ne null && name eq null}"><div class="val">${cpaMemInfo[0].koreanNm}</div></c:if>
-                <c:if test="${name ne '' && name ne null && cpaMemInfo[0].koreanNm eq null}"><div class="val">${name}</div></c:if>
+                <c:if test="${name ne '' && name ne null}"><div class="val">${name}</div></c:if>
             </div>
             <div class="input-box">
                 <div class="key">대상자</div>
@@ -82,11 +85,11 @@
             </div>
             <div class="input-box">
                 <div class="key">작고일</div>
-                <div class="val"><input type="date" name="deaDate" id="memberEventReg_deaDate"></div>
+                <div class="val"><input style="text-align: left;" type="date" name="deaDate" id="memberEventReg_deaDate"></div>
             </div>
             <div class="input-box">
                 <div class="key">발인일</div>
-                <div class="val"><input type="date" name="burialDt" id="memberEventReg_burialDt"></div>
+                <div class="val"><input style="text-align: left;" type="date" name="burialDt" id="memberEventReg_burialDt"></div>
             </div>
             <div class="input-box">
                 <div class="key">빈소</div>
@@ -99,7 +102,7 @@
             <div class="checkbox-box">
                 <div class="label-box">
                     <label for="memberEventReg_flowerYn">
-                        <input type="checkbox" name="flowerYn" id="memberEventReg_flowerYn" value="Y">
+                        <input type="checkbox" name="flowerYn" id="memberEventReg_flowerYn" value="Y" checked>
                         <div class="label-dummy"></div>
                     </label>
                     <div class="text">조화신청</div>
