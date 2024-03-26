@@ -19,6 +19,8 @@ memberEventDetail.memberEventDetailInit = function(){
 
         memberEventDetail.memberEventTitle();
 
+        var relation = $('#memberEventDetail_relation').val();
+
         if(relation == "자녀상"){
             $('#memberEventDetail_children').show();
         }
