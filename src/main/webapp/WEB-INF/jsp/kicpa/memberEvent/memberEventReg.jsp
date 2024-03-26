@@ -53,11 +53,11 @@
                 <div class="val">
                     <div class="val-box">
                         <div class="val-desc">대상자</div>
-                        <input type="text" placeholder="홍길동" name="koreanNm" id="memberEventReg_koreanNm" value="${cpaMemInfo[0].koreanNm}">
+                        <input type="text" placeholder="홍길동" name="koreanNm" id="memberEventReg_koreanNm" value="${cpaMemInfo[0].koreanNm}" readonly>
                     </div>
                     <div class="val-box">
                         <div class="val-desc">등록번호</div>
-                        <input type="text" placeholder="1234" name="cpaId" id="memberEventReg_cpaId" value="${cpaMemInfo[0].cpaId}">
+                        <input type="text" placeholder="1234" name="cpaId" id="memberEventReg_cpaId" value="${cpaMemInfo[0].cpaId}" readonly>
                     </div>
                     <input type="hidden" id="memberEventReg_capSearchYn" <c:if test="${cpaMemInfo[0].cpaId ne '' && cpaMemInfo[0].cpaId ne null}">value="Y"</c:if>/>
                     <button class="search-button" type="button" id="memberEventReg_capSearchBtn">조회</button>

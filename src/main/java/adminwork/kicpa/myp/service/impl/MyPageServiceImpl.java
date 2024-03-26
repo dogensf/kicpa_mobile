@@ -3,6 +3,7 @@ package adminwork.kicpa.myp.service.impl;
 
 import adminwork.kicpa.myp.service.MyPageService;
 import egovframework.rte.fdl.cmmn.EgovAbstractServiceImpl;
+import egovframework.rte.psl.dataaccess.util.EgovMap;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -128,5 +129,10 @@ public class MyPageServiceImpl extends EgovAbstractServiceImpl implements MyPage
 	@Override
 	public List<?> boardInfoSendAtfFlowerProc(Map<String, Object> map) throws Exception {
 		return myPageDAO.boardInfoSendAtfFlowerProc(map);
+	}
+
+	@Override
+	public List<EgovMap> selectCpaSearchPopList(Map<String, Object> map) throws Exception {
+		return myPageDAO.selectCpaSearchPopList(map);
 	}
 }

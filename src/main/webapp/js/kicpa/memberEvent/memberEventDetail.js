@@ -7,52 +7,17 @@ memberEventDetail.getContextPath = function() {
 
 memberEventDetail.memberEventDetailInit = function(){
 
+    memberEventDetail.memberEventTitle();
+
     //조회 버튼 클릭
     $("#memberEventDetail_capSearchBtn").on("click",function(){
-        memberEventDetail.memberSearch();
-    });
-
-    //성명(등록번호) 입력
-    $("#memberEventDetail_koreanNm").on("input",function(e) {
-
-        var cpaNm = $('#memberEventDetail_koreanNm').val();
-        var relation = $('#memberEventDetail_relation').val();
-
-        if((cpaNm != "" && cpaNm != null) && (relation != "" && relation != null)){
-
-            if(relation != "자녀상"){
-                relation = relation.replaceAll("상", " 별세")
-            }
-
-            $('#memberEventDetail_regTitle').val(cpaNm + " 회계사님 " + relation);
-        }
-        else{
-            $('#memberEventDetail_regTitle').val('');
-        }
-
-        $('#memberEventDetail_capSearchYn').val('N');
-    });
-
-    $("#memberEventDetail_cpaId").on("input",function(e) {
-        $('#memberEventDetail_capSearchYn').val('N');
+        window.open("/kicpa/memberEvent/cpaSearchPop2.do","cpaSearchPop");
     });
 
     //고인관계 변경
     $('#memberEventDetail_relation').on('change', function(){
-        var cpaNm = $('#memberEventDetail_koreanNm').val();
-        var relation = $('#memberEventDetail_relation').val();
 
-        if((cpaNm != "" && cpaNm != null) && (relation != "" && relation != null)){
-
-            if(relation != "자녀상"){
-                relation = relation.replaceAll("상", " 별세")
-            }
-
-            $('#memberEventDetail_regTitle').val(cpaNm + " 회계사님 " + relation);
-        }
-        else{
-            $('#memberEventDetail_regTitle').val('');
-        }
+        memberEventDetail.memberEventTitle();
 
         if(relation == "자녀상"){
             $('#memberEventDetail_children').show();
@@ -76,19 +41,19 @@ memberEventDetail.memberEventDetailInit = function(){
     $('#memberEventDetail_save').on('click', function(){
 
         if($.trim($("#memberEventDetail_koreanNm").val()) == ''){
-            alert("대상자 성명을 입력해주세요.")
+            alert("대상자를 조회 해주세요.")
             return false;
         }
 
         if($.trim($("#memberEventDetail_cpaId").val()) == ''){
-            alert("대상자 등록번호를 입력해주세요.")
-            return false;
-        }
-
-        if($("#memberEventDetail_capSearchYn").val() != 'Y'){
             alert("대상자를 조회 해주세요.")
             return false;
         }
+
+        /*if($("#memberEventDetail_capSearchYn").val() != 'Y'){
+            alert("대상자를 조회 해주세요.")
+            return false;
+        }*/
 
         if($.trim($("#memberEventDetail_relation").val()) == ''){
             alert("고인과의 관계를 입력해주세요.")
@@ -150,6 +115,24 @@ memberEventDetail.memberEventDetailInit = function(){
 
     });
 
+}
+
+//제목 입력
+memberEventDetail.memberEventTitle = function(){
+    var cpaNm = $('#memberEventDetail_koreanNm').val();
+    var relation = $('#memberEventDetail_relation').val();
+
+    if((cpaNm != "" && cpaNm != null) && (relation != "" && relation != null)){
+
+        if(relation != "자녀상"){
+            relation = relation.replaceAll("상", " 별세")
+        }
+
+        $('#memberEventDetail_regTitle').val(cpaNm + " 회계사님 " + relation);
+    }
+    else{
+        $('#memberEventDetail_regTitle').val('');
+    }
 }
 
 //등록번호와 성명 일치여부 확인
@@ -271,4 +254,47 @@ memberEventDetail.memberEventFlowerSendSuccess = function(result){
 
 memberEventDetail.memberEventFlowerSendError = function(){
     alert("화환발송 오류");
+}
+
+
+//회원조회 팝업
+memberEventDetail.cpaSearchPop2Init = function(){
+
+
+    $(".search-box .search").on("click",function(){
+        fn_portal_pop("cpaSearchPop");
+        $("#cpaSearchPop2Form input[name='searchKeyword1']").attr("placeholder","대상자명을 입력하세요.");
+        $("#cpaSearchPop2Form input[name='searchKeyword2']").attr("placeholder","대상자 등록번호를 입력하세요.");
+    });
+
+
+    $("#cpaSearchPop .btn-send").on("click",function(){
+
+        if($("#cpaSearchForm input[name='searchKeyword1']").val() == '' || $("#cpaSearchForm input[name='searchKeyword1']").val() == null){
+            alert("대상자명을 입력하세요.");
+            return ;
+        }
+
+        if($("#cpaSearchForm input[name='searchKeyword2']").val() == '' || $("#cpaSearchForm input[name='searchKeyword2']").val() == null){
+            alert("대상자 등록번호를 입력하세요.");
+            return ;
+        }
+
+        $("#cpaSearchPop .btn-close").click();
+        $("#cpaSearchPop2Form input[name='searchKeyword1']").val($("#cpaSearchForm input[name='searchKeyword1']").val());
+        $("#cpaSearchPop2Form input[name='searchKeyword2']").val($("#cpaSearchForm input[name='searchKeyword2']").val());
+        memberEventDetail.getCpaSearchPop2List();
+    });
+
+}
+
+//회원 조회
+memberEventDetail.getCpaSearchPop2List = function(){
+    var param =$("#cpaSearchPop2Form").serializeObject();
+    fn_ajax_call("/kicpa/memberEvent/getCpaSearchPopList.do",param,fnCpaSearchPop2ListSuccess,memberEventDetail.cpaSearchPop2ListError);
+}
+
+//회원조회 실패
+memberEventDetail.cpaSearchPop2ListError = function(data,status, error){
+    alert("조회실패");
 }

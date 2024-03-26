@@ -600,4 +600,40 @@
 
 	</select>
 
+	<select id="MyPageDAO.selectCpaSearchPopList" parameterClass="HashMap" resultClass="egovMap">
+		<![CDATA[
+            SELECT
+                    c.CPA_SN
+                ,   c.PIN
+                ,	mi.KOREAN_NM
+                ,   c.CPA_CL
+                ,   c.CPA_ID
+                ,   c.OPETR_DE
+                ,   TO_CHAR(TO_DATE(c.REGIST_DE,'YYYY-MM-DD'),'YYYY-MM-DD') AS REGIST_DE
+                ,   TO_CHAR(TO_DATE(c.LAST_REGIST_DE,'YYYY-MM-DD'),'YYYY-MM-DD') AS LAST_REGIST_DE
+                ,   c.MBER_FLAG
+                ,   (SELECT cc.CD_NM FROM CMMN_CODE cc WHERE cc.GRP_CD ='GA2020' AND cc.CD = c.MBER_FLAG) AS MBER_FLAG_NM
+                ,   c.AUDIT_ID
+                ,   (SELECT cch.AUDIT_NM FROM CPA_CAREER_HIST cch WHERE cch.CAREER_SN = (SELECT MAX(CAREER_SN) FROM CPA_CAREER_HIST WHERE DELETE_YN='N' AND CPA_SN = c.CPA_SN)) AS AUDIT_NM
+                ,   c.AUDIT_OFCPS
+                ,   (SELECT cc.CD_NM FROM CMMN_CODE cc WHERE cc.GRP_CD ='GA3020' AND cc.CD = c.AUDIT_OFCPS) AS AUDIT_OFCPS_NM
+                ,   c.CANCL_CL
+                ,   c.CLOSED_CL
+                ,   (SELECT cc.CD_NM FROM CMMN_CODE cc WHERE cc.GRP_CD IN ('GA2170','GA2171', 'GA2179') AND cc.CD = c.CLOSED_CL) AS CLOSED_CL_NM
+                ,   c.RSNDQF_END_DE
+                ,   c.REMARK
+                ,   c.MEMO
+                ,   c.EXTRL_AUD_CL
+                ,   c.EXTRL_AUD_DE
+                ,   c.BIZR_NO
+                ,   TO_CHAR(ADD_MONTHS(TO_DATE(c.LAST_REGIST_DE, 'YYYY-MM-DD'), + 60),'YYYY-MM-DD') AS UPDT_REGIST_DE
+
+            FROM CPA c
+            LEFT JOIN MBER_INDVDLINFO mi ON mi.PIN = c.PIN
+            WHERE c.CPA_ID = #searchKeyword2#
+              AND mi.KOREAN_NM = #searchKeyword1#
+        ]]>
+
+	</select>
+
 </sqlMap>

@@ -66,11 +66,11 @@
                 <div class="val">
                     <div class="val-box">
                         <div class="val-desc">대상자</div>
-                        <input type="text" placeholder="홍길동" name="koreanNm" id="memberEventDetail_koreanNm" value="<c:out value="${boardDetail.extStr3 }"/>" <c:if test="${(boardDetail.extStr15 eq 'Y' && loginVO.userTy ne '임직원') || boardDetail.timediff > 30}"> readonly</c:if>>
+                        <input type="text" placeholder="홍길동" name="koreanNm" id="memberEventDetail_koreanNm" value="<c:out value="${boardDetail.extStr3 }"/>" readonly>
                     </div>
                     <div class="val-box">
                         <div class="val-desc">등록번호</div>
-                        <input type="text" placeholder="1234" name="cpaId" id="memberEventDetail_cpaId" value="<c:out value="${boardDetail.extStr10 }"/>" <c:if test="${(boardDetail.extStr15 eq 'Y' && loginVO.userTy ne '임직원') || boardDetail.timediff > 30}"> readonly</c:if>>
+                        <input type="text" placeholder="1234" name="cpaId" id="memberEventDetail_cpaId" value="<c:out value="${boardDetail.extStr10 }"/>" readonly>
                     </div>
                     <input type="hidden" id="memberEventDetail_capSearchYn" value="Y"/>
                     <c:if test="${(boardDetail.extStr15 ne 'Y' || loginVO.userTy eq '임직원') && boardDetail.timediff <= 30}">

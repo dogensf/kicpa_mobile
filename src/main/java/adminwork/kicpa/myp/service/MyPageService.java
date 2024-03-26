@@ -1,5 +1,7 @@
 package adminwork.kicpa.myp.service;
 
+import egovframework.rte.psl.dataaccess.util.EgovMap;
+
 import java.util.List;
 import java.util.Map;
 
@@ -68,4 +70,7 @@ public interface MyPageService {
 
     //경조사 화환발송 프로시저
     public List<?> boardInfoSendAtfFlowerProc(Map<String, Object> map) throws Exception;
+
+    //경조사 대상자 조회
+    public List<EgovMap> selectCpaSearchPopList(Map<String, Object> map) throws Exception;
 }

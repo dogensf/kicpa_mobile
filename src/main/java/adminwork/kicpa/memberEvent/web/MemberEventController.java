@@ -12,6 +12,7 @@ import javax.servlet.http.HttpSession;
 
 import adminwork.kicpa.myp.service.MyPageService;
 import adminwork.kicpa.myp.service.MypMemberService;
+import egovframework.rte.psl.dataaccess.util.EgovMap;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -130,6 +131,40 @@ public class MemberEventController {
 			return "kicpa/memberEvent/memberEventLogin";
 		}
 
+	}
+
+	//회원 조회 팝업
+	@RequestMapping(value = "/cpaSearchPop.do")
+	public String cpaSearchPop(@RequestParam Map<String,Object> map,HttpServletRequest request,HttpServletResponse response,ModelMap model) throws Exception{
+
+		return "kicpa/memberEvent/cpaSearchPop";
+	}
+
+	//회원 조회 팝업
+	@RequestMapping(value = "/cpaSearchPop2.do")
+	public String cpaSearchPop2(@RequestParam Map<String,Object> map,HttpServletRequest request,HttpServletResponse response,ModelMap model) throws Exception{
+
+		return "kicpa/memberEvent/cpaSearchPop2";
+	}
+
+	//회원조회
+	@RequestMapping(value="/getCpaSearchPopList.do")
+	public ModelAndView getCpaSearchPopList(@RequestBody Map<String,Object> map, HttpServletRequest request) throws Exception{
+		ModelAndView modelAndView = new ModelAndView();
+
+		try{
+			modelAndView.setViewName("jsonView");
+
+			List<EgovMap> list = myPageService.selectCpaSearchPopList(map);
+
+			list.forEach(x -> StringUtil.checkMapReplaceHtml(x));
+			modelAndView.addObject("list", list);
+
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return modelAndView;
 	}
 
 	@RequestMapping(value = "/memberEventLoginMove.do")

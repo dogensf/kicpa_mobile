@@ -190,4 +190,39 @@
     </div>
 </div>
 
+<!-- 하단 레이어 팝업 / 활성화시 show -->
+<div class="layer-popup-wrap" id="cpaSearchPop">
+    <div class="layer-container">
+        <div class="title-box">
+            <h2>검색</h2>
+        </div>
 
+        <div class="layer-content">
+            <form id="cpaSearchForm" name="cpaSearchForm" onsubmit="return false;">
+                <fieldset>
+                    <div class="inp-box first-row" style="display: none;">
+                        <label class="label"></label>
+
+                        <!-- 1. select class="select" : 옵션값이 선택되었을 때 select 클래스 추가-->
+                        <!-- 2. select class="readonly" : readonly 일경우 readonly 클래스 추가-->
+                        <select class="select" name="name">
+                            <option value="">전체</option>
+                        </select>
+                    </div>
+
+                    <div class="inp-box" style="display: flex;">
+                        <input type="search" class="search" name="searchKeyword1" placeholder="대상자명을 입력하세요." style="padding: 0; margin-right: 20px;"/>
+                        <input type="search" class="search" name="searchKeyword2" placeholder="대상자 등록번호를 입력하세요." style="padding: 0;" oninput="this.value=this.value.replace(/[^0-9]/g,'');"/>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+
+        <div class="layer-bottom">
+            <div class="btn-bottom">
+                <button class="btn-round btn-close" type="button">취소</button>
+                <button class="btn-round fill btn-send" type="button">검색</button>
+            </div>
+        </div>
+    </div>
+</div>

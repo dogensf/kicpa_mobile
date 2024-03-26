@@ -3,6 +3,7 @@ package adminwork.kicpa.myp.service.impl;
 
 import adminwork.com.cmm.service.impl.EgovComAbstractDAO2;
 import egovframework.rte.psl.dataaccess.EgovAbstractDAO;
+import egovframework.rte.psl.dataaccess.util.EgovMap;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -103,5 +104,9 @@ public class MyPageDAO extends EgovComAbstractDAO2 {
 
     public List<?> boardInfoSendAtfFlowerProc(Map<String, Object> map) throws Exception {
         return (List<?>) list("MyPageDAO.boardInfoSendAtfFlowerProc",map);
+    }
+
+    public List<EgovMap> selectCpaSearchPopList(Map<String, Object> map) throws Exception {
+        return (List<EgovMap>) list("MyPageDAO.selectCpaSearchPopList",map);
     }
 }
