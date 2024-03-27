@@ -151,14 +151,23 @@ public class MemberEventController {
 	@RequestMapping(value="/getCpaSearchPopList.do")
 	public ModelAndView getCpaSearchPopList(@RequestBody Map<String,Object> map, HttpServletRequest request) throws Exception{
 		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("jsonView");
 
 		try{
-			modelAndView.setViewName("jsonView");
+			Map<String, Object> webCpaCheckInfo = new HashMap<>();
 
-			List<EgovMap> list = myPageService.selectCpaSearchPopList(map);
+			webCpaCheckInfo.put("v_id", map.get("searchKeyword2"));
+			webCpaCheckInfo.put("v_name", map.get("searchKeyword1"));
+
+			myPageService.webCpaCheckProc(webCpaCheckInfo);
+
+			modelAndView.addObject("webCpaCheckInfo", webCpaCheckInfo);
+			modelAndView.addObject("webCpaCheckInfoSize", webCpaCheckInfo.size());
+
+			/*List<EgovMap> list = myPageService.selectCpaSearchPopList(map);
 
 			list.forEach(x -> StringUtil.checkMapReplaceHtml(x));
-			modelAndView.addObject("list", list);
+			modelAndView.addObject("list", list);*/
 
 		}catch (Exception e) {
 			e.printStackTrace();

@@ -19,41 +19,41 @@
     }
 
     function fnCpaSearchPopListSuccess(data){
-        var list = data.list;
+        var list = data.webCpaCheckInfo;
+        var size = data.webCpaCheckInfoSize;
         $(".board-list ul .addRow").remove();
-        if(list != null && list.length > 0 ){
-            $.each(list,function(i,o){
 
+        if(list != null && size > 0 ){
+
+            if(list.x_return == "1"){
+                $(opener.document).find("input[name='koreanNm']").val(list.v_name);
+                $(opener.document).find("input[name='cpaId']").val(list.v_id);
+
+                window.close();
+            }
+            else{
                 var rowData = $(".board-list ul .firstRow").clone();
                 rowData.removeClass("firstRow");
                 rowData.addClass("addRow");
-                rowData.find(".title-zone p").html(o.koreanNm +' ['+ o.cpaId+ ']');
+                rowData.find(".title-zone p").html(list.x_msg);
                 rowData.show();
-
-                rowData.off().on("click",function(){
-                    $(opener.document).find("input[name='koreanNm']").val(o.koreanNm);
-                    $(opener.document).find("input[name='cpaId']").val(o.cpaId);
-
-                    window.close();
-                });
-
-                var cpaNm = o.koreanNm;
-                var relation = $(opener.document).find("select[name='relation']").val();
-
-                if((cpaNm != "" && cpaNm != null) && (relation != "" && relation != null)){
-
-                    if(relation != "자녀상"){
-                        relation = relation.replaceAll("상", " 별세")
-                    }
-
-                    $(opener.document).find("input[name='regTitle']").val(cpaNm + " 회계사님 " + relation);
-                }
-                else{
-                    $(opener.document).find("input[name='regTitle']").val('');
-                }
-
                 $(".board-list ul").append(rowData);
-            });
+            }
+
+            var cpaNm = list.v_name;
+            var relation = $(opener.document).find("select[name='relation']").val();
+
+            if((cpaNm != "" && cpaNm != null) && (relation != "" && relation != null)){
+
+                if(relation != "자녀상"){
+                    relation = relation.replaceAll("상", " 별세")
+                }
+
+                $(opener.document).find("input[name='regTitle']").val(cpaNm + " 회계사님 " + relation);
+            }
+            else{
+                $(opener.document).find("input[name='regTitle']").val('');
+            }
         }
         else{
             var rowData = $(".board-list ul .firstRow").clone();

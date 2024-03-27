@@ -153,8 +153,8 @@ memberEventReg.cpaSearchPopInit = function(){
 
     $(".search-box .search").on("click",function(){
         fn_portal_pop("cpaSearchPop");
-        $("#cpaSearchPopForm input[name='searchKeyword1']").attr("placeholder","대상자명을 입력하세요.");
-        $("#cpaSearchPopForm input[name='searchKeyword2']").attr("placeholder","대상자 등록번호를 입력하세요.");
+        $("#cpaSearchPopForm input[name='searchKeyword1']").attr("placeholder","대상자명");
+        $("#cpaSearchPopForm input[name='searchKeyword2']").attr("placeholder","등록번호");
     });
 
 

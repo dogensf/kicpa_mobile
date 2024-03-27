@@ -15,6 +15,13 @@
 		<parameter property="v_result"            javaType="java.lang.String"   jdbcType="VARCHAR" mode="OUT" />
 	</parameterMap>
 
+	<parameterMap class="java.util.HashMap" id="webCpaCheckParamMap">
+		<parameter property="v_id"           javaType="java.lang.String"     jdbcType="VARCHAR" mode="IN" />
+		<parameter property="v_name"           javaType="java.lang.String"     jdbcType="VARCHAR" mode="IN" />
+		<parameter property="x_return"            javaType="java.lang.String"   jdbcType="VARCHAR" mode="OUT" />
+		<parameter property="x_msg"            javaType="java.lang.String"   jdbcType="VARCHAR" mode="OUT" />
+	</parameterMap>
+
 	<parameterMap class="java.util.HashMap" id="eMailInfo">
 		<parameter property="v_mail_from" jdbcType="VARCHAR"  javaType="java.lang.String" mode="IN"/>
 		<parameter property="v_recname" jdbcType="VARCHAR"  javaType="java.lang.String" mode="IN"/>
@@ -47,6 +54,12 @@
 	<procedure id="MyPageDAO.boardInfoSendAtfFlowerProc" parameterMap="boardInfoSendAtfFlowerParamMap">
 		<![CDATA[
 			{ call kipadm.sms_fe_send_proc(?,?) }
+		 ]]>
+	</procedure>
+
+	<procedure id="MyPageDAO.webCpaCheckProc" parameterMap="webCpaCheckParamMap">
+		<![CDATA[
+			{ call KIPADM.web_cpa_check_proc(?,?,?,?) }
 		 ]]>
 	</procedure>
 

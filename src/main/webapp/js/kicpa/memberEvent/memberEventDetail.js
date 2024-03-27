@@ -267,8 +267,8 @@ memberEventDetail.cpaSearchPop2Init = function(){
 
     $(".search-box .search").on("click",function(){
         fn_portal_pop("cpaSearchPop");
-        $("#cpaSearchPop2Form input[name='searchKeyword1']").attr("placeholder","대상자명을 입력하세요.");
-        $("#cpaSearchPop2Form input[name='searchKeyword2']").attr("placeholder","대상자 등록번호를 입력하세요.");
+        $("#cpaSearchPop2Form input[name='searchKeyword1']").attr("placeholder","대상자명");
+        $("#cpaSearchPop2Form input[name='searchKeyword2']").attr("placeholder","등록번호");
     });
 
 

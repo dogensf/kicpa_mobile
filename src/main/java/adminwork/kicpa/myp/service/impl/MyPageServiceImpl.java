@@ -135,4 +135,9 @@ public class MyPageServiceImpl extends EgovAbstractServiceImpl implements MyPage
 	public List<EgovMap> selectCpaSearchPopList(Map<String, Object> map) throws Exception {
 		return myPageDAO.selectCpaSearchPopList(map);
 	}
+
+	@Override
+	public List<?> webCpaCheckProc(Map<String, Object> map) throws Exception {
+		return myPageDAO.webCpaCheckProc(map);
+	}
 }

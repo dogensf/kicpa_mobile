@@ -109,4 +109,8 @@ public class MyPageDAO extends EgovComAbstractDAO2 {
     public List<EgovMap> selectCpaSearchPopList(Map<String, Object> map) throws Exception {
         return (List<EgovMap>) list("MyPageDAO.selectCpaSearchPopList",map);
     }
+
+    public List<?> webCpaCheckProc(Map<String, Object> map) throws Exception {
+        return (List<?>) list("MyPageDAO.webCpaCheckProc",map);
+    }
 }

@@ -73,4 +73,7 @@ public interface MyPageService {
 
     //경조사 대상자 조회
     public List<EgovMap> selectCpaSearchPopList(Map<String, Object> map) throws Exception;
+
+    //경조사 대상자 조회(프로시저)
+    public List<?> webCpaCheckProc(Map<String, Object> map) throws Exception;
 }
