@@ -6,6 +6,13 @@ memberEventList.getContextPath = function() {
 }
 
 memberEventList.memberEventListInit = function(){
+
+    if(sessionStorage.getItem("본인인증") != 'Y'){
+        sessionStorage.setItem("di", '');
+        sessionStorage.setItem("sName", '');
+    }
+
+
     $(".search-box .search").on("click",function(){
         fn_portal_pop("searchPop");
     });
@@ -32,11 +39,6 @@ memberEventList.memberEventListInit = function(){
     });
 
     memberEventList.memberEventListListAjax();
-
-    if(sessionStorage.getItem("본인인증") != 'Y'){
-        sessionStorage.setItem("di", '');
-        sessionStorage.setItem("sName", '');
-    }
 
 }
 
