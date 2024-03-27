@@ -99,9 +99,6 @@
             </div><!-- tabSub1 -->
         </div><!-- tabMain1 -->
 
-        <input type="hidden" id="memberEventList_di" name="immDi" value="${di}"/>
-        <input type="hidden" id="memberEventList_name" name="diName" value="${name}"/>
-
         <jsp:include page="/include/includeLoign.jsp"/>
     </section>
 </form>

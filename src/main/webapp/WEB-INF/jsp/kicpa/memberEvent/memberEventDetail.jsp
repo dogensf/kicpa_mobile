@@ -168,8 +168,6 @@
                     <button class="del-button" type="button" id="memberEventDetail_delete">삭제</button>
                 </c:if>
 
-                <input type="hidden" id="memberEventDetail_di" name="immDi" value="${di}"/>
-                <input type="hidden" id="memberEventDetail_name" name="diName" value="${name}"/>
             </div>
         </div>
     </section>

@@ -89,6 +89,8 @@ memberEventReg.memberEventRegInit = function(){
 
 
         var param = new FormData($("#memberEventRegForm")[0]);
+        param.append('immDi',sessionStorage.getItem("di"));
+        param.append('diName',sessionStorage.getItem("sName"));
         fn_ajax_form_call("/kicpa/memberEvent/memberEventRegSave.do",param,memberEventReg.memberEventRegSaveSuccess);
 
     });

@@ -45,6 +45,8 @@ memberEventList.memberEventListListAjax = function(){
     $("#returnUrl").val($(location).attr('pathname')+"?boardId="+$("#boardId").val());
 
     var param = $("#boardForm").serializeObject();
+    param.immDi = sessionStorage.getItem("di");
+    param.diName = sessionStorage.getItem("sName");
     fn_ajax_call("/kicpa/commonBoard/getCommonBoardList.do",param,memberEventList.commonBoardList_success,memberEventList.commonBoardList_error);
 }
 

@@ -130,8 +130,6 @@
                 <button class="save-button" type="button" id="memberEventReg_save">등록</button>
             </div>
 
-            <input type="hidden" id="memberEventReg_di" name="immDi" value="${di}"/>
-            <input type="hidden" id="memberEventReg_name" name="diName" value="${name}"/>
         </div>
     </section>
 </form>
