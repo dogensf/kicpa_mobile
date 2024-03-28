@@ -35,7 +35,7 @@
                 var rowData = $(".board-list ul .firstRow").clone();
                 rowData.removeClass("firstRow");
                 rowData.addClass("addRow");
-                rowData.find(".title-zone p").html(list.x_msg);
+                rowData.find(".title-zone p").html(list.x_msg.replaceAll("\\n","<br>"));
                 rowData.show();
                 $(".board-list ul").append(rowData);
             }
