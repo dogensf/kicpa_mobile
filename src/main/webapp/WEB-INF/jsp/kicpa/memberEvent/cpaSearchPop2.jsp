@@ -88,8 +88,8 @@
                 <div class="board-list">
                     <ul>
                         <li class="firstRow" style="display: none;">
-                            <div class="title-zone">
-                                <p></p>
+                            <div class="title-zone" style="height: auto;">
+                                <p style="white-space: pre-wrap;"></p>
                             </div>
                             <div class="info-zone">
                                 <span></span>
