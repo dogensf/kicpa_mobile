@@ -109,7 +109,7 @@
                 </div>
                 <div class="label-box">
                     <label for="memberEventReg_homepageYn">
-                        <input type="checkbox" name="homepageYn" id="memberEventReg_homepageYn" value="Y">
+                        <input type="checkbox" name="homepageYn" id="memberEventReg_homepageYn" value="Y" checked>
                         <div class="label-dummy"></div>
                     </label>
                     <div class="text">홈페이지게시</div>
