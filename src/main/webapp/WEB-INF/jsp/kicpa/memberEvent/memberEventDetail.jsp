@@ -83,6 +83,11 @@
                 <div class="val">부고</div>
             </div>
             <div class="input-box">
+                <div class="key">소속</div>
+                <div class="val"><input type="text" name="regUserAgency" id="memberEventDetail_regUserAgency" value="<c:out value="${boardDetail.extStr4 }"/>"
+                <c:if test="${(boardDetail.extStr15 eq 'Y' && loginVO.userTy ne '임직원') || boardDetail.timediff > 30}"> readonly</c:if>></div>
+            </div>
+            <div class="input-box">
                 <div class="key">고인과의 관계</div>
                 <div class="val">
                     <select name="relation" id="memberEventDetail_relation" style="color: black;" <c:if test="${(boardDetail.extStr15 eq 'Y' && loginVO.userTy ne '임직원') || boardDetail.timediff > 30}"> disabled</c:if>>

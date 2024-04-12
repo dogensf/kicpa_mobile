@@ -278,7 +278,7 @@ public class MemberEventController {
 				//map.put("extStr2", StringUtil.isNullToString(map.get("relation")));										//부서번호
 
 				map.put("extStr3", StringUtil.isNullToString(map.get("koreanNm")) );										//성명
-				//map.put("extStr4", StringUtil.isNullToString(map.get("regUserAgency")) );									//소속
+				map.put("extStr4", StringUtil.isNullToString(map.get("regUserAgency")) );									//소속
 				map.put("extStr5", StringUtil.isNullToString(map.get("relation")));											//고인관계
 				map.put("extStr6", StringUtil.isNullToString(deaDateFormat));												//작고일
 				map.put("extStr7", StringUtil.isNullToString(map.get("mortuary")));											//빈소

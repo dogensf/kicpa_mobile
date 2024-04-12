@@ -68,6 +68,10 @@
                 <div class="val">부고</div>
             </div>
             <div class="input-box">
+                <div class="key">소속</div>
+                <div class="val"><input type="text" id="memberEventReg_regUserAgency" name="regUserAgency"/></div>
+            </div>
+            <div class="input-box">
                 <div class="key">고인과의 관계</div>
                 <div class="val">
                     <select name="relation" id="memberEventReg_relation" style="color: black;">
