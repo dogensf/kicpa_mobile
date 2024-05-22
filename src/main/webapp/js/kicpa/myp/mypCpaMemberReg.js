@@ -27,6 +27,13 @@ mypMemberReg.getCpaAuditPopList = function(){
 
 mypMemberReg.mypMemberRegInit = function(){
 
+	//등록예정일 날짜범위 제한
+	let offset = new Date().getTimezoneOffset() * 60000; // 9시간 밀리세컨드 값
+	var today = new Date(Date.now() - offset);
+	document.getElementById('mypCpaMember_registDe').min = today.toISOString().substring(0,10);
+	today.setDate(today.getDate()+14);
+	document.getElementById('mypCpaMember_registDe').max = today.toISOString().substring(0,10);
+
 	//수정모드
 	if($('#mypCpaMemberReg_saveMode').val() == "U"){
 		$('.mypCpaMemberReg_titleYn').hide();

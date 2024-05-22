@@ -23,7 +23,7 @@
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
 	<script src="//code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>
 <script src="/js/KicpaCommon.js"></script>
-<script src="/js/kicpa/myp/mypCpaMemberReg.js?ver=1"></script>
+<script src="/js/kicpa/myp/mypCpaMemberReg.js?ver=2"></script>
 <script>
 	$(document).ready(function(){
 		mypMemberReg.mypMemberRegInit();
