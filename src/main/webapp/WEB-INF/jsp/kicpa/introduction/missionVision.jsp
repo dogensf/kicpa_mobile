@@ -36,7 +36,7 @@
 
     <div id="tabMain1" class="tab-main-content show">
         <div class="info-page">
-            <img src="../../../../images/vision/vision_2023_f.png" alt="mission&vision">
+            <img src="../../../../images/vision/vision_2024_f.jpg" alt="mission&vision">
         </div>
     </div><!-- //tabMain1 -->
 </section>
