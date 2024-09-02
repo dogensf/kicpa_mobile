@@ -475,7 +475,7 @@
 				<form id="mypCpaMemberReg_atchFileInfoForm">
 
 					<div class="inp-box">
-						<div class="label essen">공인회계사 합격증 사본</div>
+						<div class="label essen">공인회계사 합격증 사본 (또는 금융감독원의 '시험합격사실확인서' https://cpa.fss.or.kr )</div>
 						<input class="mypCpaMemberReg_fileChange" type="file" id="mypCpaMember_passCrtiFileId" name="passCrtiFileId" readonly/>
 						<label for="mypCpaMember_passCrtiFileId">파일을 등록해 주세요</label>
 						<input type="hidden" name="passCrtiFileIdSet" id="mypCpaMember_passCrtiFileIdSet"/>

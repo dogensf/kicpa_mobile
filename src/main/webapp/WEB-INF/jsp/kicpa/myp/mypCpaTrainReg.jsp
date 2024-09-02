@@ -447,7 +447,7 @@
 					</div>
 
 					<div class="inp-box">
-						<div class="label essen">합격증서 사본</div>
+						<div class="label essen">합격증서 사본 (또는 금융감독원의 '시험합격사실확인서' https://cpa.fss.or.kr )</div>
 						<input class="mypCpaTrainReg_fileChange" type="file" id="mypCpaTrainReg_atchFileInfoPassCrtiFileId" name="passCrtiFileId" readonly/>
 						<label for="mypCpaTrainReg_atchFileInfoPassCrtiFileId">파일을 등록해 주세요</label>
 						<input type="hidden" name="passCrtiFileIdSet" id="mypCpaTrainReg_atchFileInfoPassCrtiFileIdSet"/>
