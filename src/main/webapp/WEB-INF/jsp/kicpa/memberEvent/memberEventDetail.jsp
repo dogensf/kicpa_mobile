@@ -9,7 +9,7 @@
 <%@ taglib prefix='c' uri='http://java.sun.com/jsp/jstl/core' %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
-<script src="/js/kicpa/memberEvent/memberEventDetail.js?ver=1"></script>
+<script src="/js/kicpa/memberEvent/memberEventDetail.js?ver=2"></script>
 
 <script>
 
@@ -162,10 +162,11 @@
                 <div class="text">- 글내용 수정/삭제는 최초 글등록후 30분까지만 가능</div>
             </div>
             <div class="button-box">
-                <button class="list" type="button" id="memberEventDetail_list">목록</button>
+                <button class="list" type="button" style="width: calc((100% - 24px)/4);" id="memberEventDetail_list">목록</button>
+                <button class="list" type="button" style="width: calc((100% - 24px)/4);" id="memberEventDetail_copy">내용복사</button>
 
-                <button class="send" type="button" id="memberEventDetail_mailSend" <c:if test="${loginVO.userTy ne '임직원'}">style="visibility: hidden;"</c:if>>메일발송</button>
-                <button class="send" type="button" id="memberEventDetail_flowerSend" <c:if test="${loginVO.userTy ne '임직원'}">style="visibility: hidden;"</c:if>>화환발송</button>
+                <button class="send" type="button" id="memberEventDetail_mailSend" <c:if test="${loginVO.userTy ne '임직원'}">style="visibility: hidden; width: calc((100% - 24px)/4);"</c:if>>메일발송</button>
+                <button class="send" type="button" id="memberEventDetail_flowerSend" <c:if test="${loginVO.userTy ne '임직원'}">style="visibility: hidden; width: calc((100% - 24px)/4);"</c:if>>화환발송</button>
 
 
                 <c:if test="${(boardDetail.extStr15 ne 'Y' || loginVO.userTy eq '임직원') && boardDetail.timediff <= 30}">

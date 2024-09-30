@@ -8,7 +8,7 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@ taglib prefix='c' uri='http://java.sun.com/jsp/jstl/core' %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
-<script src="/js/kicpa/memberEvent/memberEventDetail.js?ver=1"></script>
+<script src="/js/kicpa/memberEvent/memberEventDetail.js?ver=2"></script>
 <script>
     $(document).ready(function(){
         memberEventDetail.cpaSearchPop2Init();

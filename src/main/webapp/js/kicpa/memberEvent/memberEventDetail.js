@@ -39,6 +39,28 @@ memberEventDetail.memberEventDetailInit = function(){
         location.href="/kicpa/memberEvent/memberEventList.do?di="+di+"&name="+sName;
     });
 
+    //내용복사 버튼 클릭
+    $("#memberEventDetail_copy").on("click",function(){
+        var copyText = "대상자 : " + $('#memberEventDetail_koreanNm').val() + "\n";        //클립보드에 복사할 텍스트
+        copyText += "등록번호 : " + $('#memberEventDetail_cpaId').val() + "\n";
+        copyText += "소속 : " + $('#memberEventDetail_regUserAgency').val() + "\n";
+        copyText += "고인과의 관계 : " + $('#memberEventDetail_relation').val() + "\n";
+        copyText += "작고일 : " + $('#memberEventDetail_deaDate').val() + "\n";
+        copyText += "발인일 : " + $('#memberEventDetail_burialDt').val() + "\n";
+        copyText += "빈소 : " + $('#memberEventDetail_mortuary').val() + "\n";
+        copyText += "빈소 연락처 : " + $('#memberEventDetail_phoneNumber').val();
+
+        var textArea = document.createElement("textarea");                      //textarea 생성
+
+        textArea.value = copyText;                                                      //textarea에 텍스트 입력
+        document.body.appendChild(textArea);                                            //body에 textarea 추가
+
+        textArea.select();                                                              //선택
+        document.execCommand("Copy");                                         //복사
+        textArea.remove();                                                              //생성한 textarea 삭제
+
+    });
+
     //수정 버튼 클릭
     $('#memberEventDetail_save').on('click', function(){
 
