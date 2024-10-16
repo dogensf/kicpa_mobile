@@ -292,7 +292,9 @@
 		                WHERE  t1.board_id= #boardId#
 						and del_flag = 'N'
 						<isNotEqual property="admin" compareValue="임직원">
-							and (T6.ext_str14 = 'Y' or T6.ext_str16 = #userId# )
+							<isEqual property="boardId" compareValue="mstate">
+								and (T6.ext_str14 = 'Y' or T6.ext_str16 = #userId# )
+							</isEqual>
 						</isNotEqual>
 
 		                <isEqual property="listYns3" compareValue="Y">
