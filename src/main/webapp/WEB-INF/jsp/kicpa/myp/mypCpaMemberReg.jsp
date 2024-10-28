@@ -23,7 +23,7 @@
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
 	<script src="//code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>
 <script src="/js/KicpaCommon.js"></script>
-<script src="/js/kicpa/myp/mypCpaMemberReg.js?ver=2"></script>
+<script src="/js/kicpa/myp/mypCpaMemberReg.js?ver=3"></script>
 <script>
 	$(document).ready(function(){
 		mypMemberReg.mypMemberRegInit();
@@ -527,97 +527,6 @@
 		</aside>
 	</div>
 
-	<!-- 등록회비 납부 -->
-	<div class="container myPageMemInfoTabMove" id="mypCpaMemberReg_aidDuesInfo">
-		<section class="head-pop">
-			<h3>등록</h3>
-			<button class="btn-close" type="button" onClick="location.href='${pageContext.request.contextPath}/kicpa/myp/myPage.do?Pin=${mypCpaMemberRegPin}'">
-				<span>닫기</span>
-			</button>
-		</section>
-
-		<section class="content">
-
-			<div class="step-box">
-				<span>공인회계사등록</span>
-				<h4>등록 회비 납부</h4>
-				<p>
-					납부하실 금액은 아래와 같습니다.
-				</p>
-				<div class="step-by">
-					<b>6</b> / <em>7</em>
-				</div>
-			</div>
-
-			<div class="mypage-wrap">
-				<ul class="pay-list">
-					<li>
-						<span>일반회계 입회금</span>
-						<b id="mypCpaMember_gnrlEntrncAmt"></b>
-					</li>
-					<li>
-						<span>일반회계 연회비</span>
-						<b id="mypCpaMember_yearDuesAmt"></b>
-					</li>
-					<li>
-						<span>회관회계 입회금</span>
-						<b id="mypCpaMember_cmitEntrncAmt"></b>
-					</li>
-					<li>
-						<span>공제회 부조회계 입회금</span>
-						<b id="mypCpaMember_asstnEntrncAmt"></b>
-					</li>
-					<li>
-						<span>공제회 부조회계 연회비</span>
-						<b id="mypCpaMember_asstnYyAmt"></b>
-					</li>
-					<li class="total">
-						<span>총액</span>
-						<b id="mypCpaMember_totAmt"></b>
-					</li>
-				</ul>
-
-				<div class="pay-guide mypCpaMember_aidDuesN" style="display: none;">
-					<button type="button" class="btn-round" id="mypCpaMember_setDuesCreate" style="width: 100%;">
-                        납부하기
-                    </button>
-					<p>
-						납부하지 않으셔도 다음단계로 이동이 가능합니다.<br />
-						승인을 받으시려면 꼭 납부하시기 바랍니다.
-					</p>
-				</div>
-
-				<div class="pay-guide mypCpaMember_aidDuesY" style="display: none;">
-					<p>
-						등록회비를 이미 납부하셨습니다.
-					</p>
-				</div>
-			</div>
-
-			<form id="mypCpaMember_aidDuesInfoForm">
-				<input type="hidden" name="appCpaNo" id="mypCpaMember_aidDuesAppCpaNo" value="${mypCpaMemberRegAppCpaNo}"/>
-				<input type="hidden" name="name" id="mypCpaMember_aidDuesName"  value="${mypCpaMemberRegKoreanNm}"/>
-			</form>
-
-		</section>
-
-		<!-- 이전페이지로 이동 -->
-		<div class="btn-page-bottom">
-			<button class="btn-text-back mypCpaMember_preBtn" onclick="mypMemberReg.mypMemberReg_tabMove('mypCpaMemberReg_atchFileInfo')" type="button">이전페이지로 이동</button>
-		</div>
-
-		<!-- 페이지하단 버튼 -->
-		<div class="sticky-bottom">
-			<button class="btn-sticky mypCpaMember_nextBtn" type="button" id="mypCpaMemberReg_aidDuesInfoSaveBtn">다음</button>
-			<button class="btn-sticky mypCpaMember_mypBtn" type="button" onClick="location.href='${pageContext.request.contextPath}/kicpa/myp/myPage.do?Pin=${mypCpaMemberRegPin}'">확인</button>
-		</div>
-
-		<!-- 사이드 버튼 -->
-		<aside class="fix-side">
-			<span onclick="window.scrollTo(0,0);" class="btn-top">TOP</span>
-		</aside>
-	</div>
-
 	<!-- 검토 및 제출 -->
 	<div class="container myPageMemInfoTabMove" id="mypCpaMemberReg_reviewInfo">
 		<section class="head-pop">
@@ -637,7 +546,7 @@
 					제출 버튼을 눌러주세요.
 				</p>
 				<div class="step-by">
-					<b>7</b> / <em>7</em>
+					<b>6</b> / <em>7</em>
 				</div>
 			</div>
 
@@ -776,6 +685,97 @@
 		<!--페이지하단 버튼 -->
 		<div class="sticky-bottom">
 			<button class="btn-sticky mypCpaMember_submitBtn" type="button" id="mypCpaMember_reviewInfoSaveBtn">제출</button>
+			<button class="btn-sticky mypCpaMember_mypBtn" type="button" onClick="location.href='${pageContext.request.contextPath}/kicpa/myp/myPage.do?Pin=${mypCpaMemberRegPin}'">확인</button>
+		</div>
+
+		<!-- 사이드 버튼 -->
+		<aside class="fix-side">
+			<span onclick="window.scrollTo(0,0);" class="btn-top">TOP</span>
+		</aside>
+	</div>
+
+	<!-- 등록회비 납부 -->
+	<div class="container myPageMemInfoTabMove" id="mypCpaMemberReg_aidDuesInfo">
+		<section class="head-pop">
+			<h3>등록</h3>
+			<button class="btn-close" type="button" onClick="location.href='${pageContext.request.contextPath}/kicpa/myp/myPage.do?Pin=${mypCpaMemberRegPin}'">
+				<span>닫기</span>
+			</button>
+		</section>
+
+		<section class="content">
+
+			<div class="step-box">
+				<span>공인회계사등록</span>
+				<h4>등록 회비 납부</h4>
+				<p>
+					납부하실 금액은 아래와 같습니다.
+				</p>
+				<div class="step-by">
+					<b>7</b> / <em>7</em>
+				</div>
+			</div>
+
+			<div class="mypage-wrap">
+				<ul class="pay-list">
+					<li>
+						<span>일반회계 입회금</span>
+						<b id="mypCpaMember_gnrlEntrncAmt"></b>
+					</li>
+					<li>
+						<span>일반회계 연회비</span>
+						<b id="mypCpaMember_yearDuesAmt"></b>
+					</li>
+					<li>
+						<span>회관회계 입회금</span>
+						<b id="mypCpaMember_cmitEntrncAmt"></b>
+					</li>
+					<li>
+						<span>공제회 부조회계 입회금</span>
+						<b id="mypCpaMember_asstnEntrncAmt"></b>
+					</li>
+					<li>
+						<span>공제회 부조회계 연회비</span>
+						<b id="mypCpaMember_asstnYyAmt"></b>
+					</li>
+					<li class="total">
+						<span>총액</span>
+						<b id="mypCpaMember_totAmt"></b>
+					</li>
+				</ul>
+
+				<div class="pay-guide mypCpaMember_aidDuesN" style="display: none;">
+					<button type="button" class="btn-round" id="mypCpaMember_setDuesCreate" style="width: 100%;">
+						납부하기
+					</button>
+					<p style="text-align: left;">
+						※ 입회비가 납부되어야 등록 가능하니 꼭 납부하시기 바랍니다.<br>
+						※ 소속 회계법인의 대납 여부를 확인하시기 바랍니다. 회계법인에서 입회비를 대납하는 경우 납부하지 마시기 바랍니다.
+					</p>
+				</div>
+
+				<div class="pay-guide mypCpaMember_aidDuesY" style="display: none;">
+					<p>
+						등록회비를 이미 납부하셨습니다.
+					</p>
+				</div>
+			</div>
+
+			<form id="mypCpaMember_aidDuesInfoForm">
+				<input type="hidden" name="appCpaNo" id="mypCpaMember_aidDuesAppCpaNo" value="${mypCpaMemberRegAppCpaNo}"/>
+				<input type="hidden" name="name" id="mypCpaMember_aidDuesName"  value="${mypCpaMemberRegKoreanNm}"/>
+			</form>
+
+		</section>
+
+		<!-- 이전페이지로 이동 -->
+		<div class="btn-page-bottom">
+			<button class="btn-text-back mypCpaMember_preBtn" onclick="mypMemberReg.mypMemberReg_tabMove('mypCpaMemberReg_atchFileInfo')" type="button">이전페이지로 이동</button>
+		</div>
+
+		<!-- 페이지하단 버튼 -->
+		<div class="sticky-bottom">
+			<button class="btn-sticky mypCpaMember_nextBtn" type="button" id="mypCpaMemberReg_aidDuesInfoSaveBtn">확인</button>
 			<button class="btn-sticky mypCpaMember_mypBtn" type="button" onClick="location.href='${pageContext.request.contextPath}/kicpa/myp/myPage.do?Pin=${mypCpaMemberRegPin}'">확인</button>
 		</div>
 

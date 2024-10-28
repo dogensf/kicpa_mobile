@@ -271,6 +271,7 @@ mypMemberReg.mypMemberRegInit = function(){
 	$("#mypCpaMemberReg_saveRegPopBtn").on("click",function(e) {
 
 		mypMemberReg.mypCpaMemberReg_infoSave();
+		$('#mypCpaMemberReg_saveRegPop').removeClass('show');
 
 	});
 }
@@ -408,7 +409,8 @@ mypMemberReg.mypCpaMemberReg_infoSave = function(){
 					alert(data.message);
 				}
 				else{
-					mypMemberReg.mypMemberReg_tabMove('mypCpaMemberReg_aidDuesInfo');
+					//mypMemberReg.mypMemberReg_tabMove('mypCpaMemberReg_aidDuesInfo');
+					mypMemberReg.mypMemberReg_tabMove('mypCpaMemberReg_reviewInfo');
 				}
 			}, // success
 			beforeSend:function(){
@@ -423,7 +425,8 @@ mypMemberReg.mypCpaMemberReg_infoSave = function(){
 		}); // $.ajax */
 	}
 	else if(saveData == "mypCpaMemberReg_aidDuesInfo"){				//등록회비 납부
-		mypMemberReg.mypMemberReg_tabMove('mypCpaMemberReg_reviewInfo');
+		//mypMemberReg.mypMemberReg_tabMove('mypCpaMemberReg_reviewInfo');
+		location.replace(mypMemberReg.getContextPath()+'/myp/myPage.do?Pin='+$('#mypCpaMemberReg_pin').val());
 	}
 	else if(saveData == "mypCpaMemberReg_reviewInfo"){				//제출
 		var formData = {};
@@ -435,7 +438,8 @@ mypMemberReg.mypCpaMemberReg_infoSave = function(){
 			type : "POST",
 			data : formData,
 			success : function(data) {
-				location.replace(mypMemberReg.getContextPath()+'/myp/myPage.do?Pin='+$('#mypCpaMemberReg_pin').val());
+				mypMemberReg.mypMemberReg_tabMove('mypCpaMemberReg_aidDuesInfo');
+				//location.replace(mypMemberReg.getContextPath()+'/myp/myPage.do?Pin='+$('#mypCpaMemberReg_pin').val());
 			}
 		});
 	}
