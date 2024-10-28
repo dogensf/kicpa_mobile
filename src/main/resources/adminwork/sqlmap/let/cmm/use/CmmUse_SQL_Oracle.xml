@@ -24,6 +24,7 @@
 				CS_CCODE
 			WHERE 
 				1=1
+				AND del_yn = 'N'
 			ORDER BY 1,2
 		]]>
 	</select>	
