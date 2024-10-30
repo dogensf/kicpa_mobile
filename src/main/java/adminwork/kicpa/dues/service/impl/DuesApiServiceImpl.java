@@ -187,7 +187,7 @@ public class DuesApiServiceImpl extends EgovAbstractServiceImpl implements DeusA
                 params.put("ptco_code" , ptco); //제휴사 코드
                 params.put("cls_code" , "90"); //고지내역 이용기관 분류코드
                 params.put("giro_no" , "7613018"); //고지내역 이용기관 지로번호
-                params.put("cust_inqr_no" , vo.getGiro_cd() + StringUtil.nullConvert(vo.getCheckDigit())); //고객조회번호
+                params.put("cust_inqr_no" , vo.getGiro_cd() + StringUtil.nullConvert(vo.getCheck_digit())); //고객조회번호
                 params.put("dudt_in_amt" , String.valueOf(vo.getDudt_in_amt())); //납기내 금액
                 params.put("dudt_aft_amt" , String.valueOf(vo.getDudt_aft_amt())); //납기후 금액
                 params.put("data_form_type" , "A"); //데이터 형식구분
