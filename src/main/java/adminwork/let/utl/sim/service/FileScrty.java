@@ -7,11 +7,15 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStreamReader;
+import java.nio.file.Files;
 import java.security.MessageDigest;
 
 import org.apache.commons.codec.binary.Base64;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import javax.crypto.Cipher;
+import javax.crypto.spec.SecretKeySpec;
 
 /**
  * Base64인코딩/디코딩 방식을 이용한 데이터를 암호화/복호화하는 Business Interface class
@@ -38,6 +42,40 @@ public class FileScrty {
 	static final char FILE_SEPARATOR = File.separatorChar;
 	// 버퍼사이즈
 	static final int BUFFER_SIZE = 1024;
+
+	/*이미지 파일 암호화*/
+	public static void encryptImg(String key, String inputFilePath, String outputFilePath) throws Exception {
+		SecretKeySpec secretKey = new SecretKeySpec(key.getBytes(), "AES");
+		Cipher cipher = Cipher.getInstance("AES");
+		cipher.init(Cipher.ENCRYPT_MODE, secretKey);
+
+		File inputFile = new File(inputFilePath);
+		File outputFile = new File(outputFilePath);
+
+		byte[] inputBytes = Files.readAllBytes(inputFile.toPath());
+		byte[] outputBytes = cipher.doFinal(inputBytes);
+
+		try (FileOutputStream fos = new FileOutputStream(outputFile) ) {
+			fos.write(outputBytes);
+		}
+	}
+
+	/*이미지 파일 복호화*/
+	public static void decryptImg(String key, String encryptedFilePath, String outputFilePath) throws Exception {
+		SecretKeySpec secretKey = new SecretKeySpec(key.getBytes(), "AES");
+		Cipher cipher = Cipher.getInstance("AES");
+		cipher.init(Cipher.DECRYPT_MODE, secretKey);
+
+		File encryptedFile = new File(encryptedFilePath);
+		File outputFile = new File(outputFilePath);
+
+		byte[] encryptedBytes = Files.readAllBytes(encryptedFile.toPath());
+		byte[] decryptedBytes = cipher.doFinal(encryptedBytes);
+
+		try (FileOutputStream fos = new FileOutputStream(outputFile)) {
+			fos.write(decryptedBytes);
+		}
+	}
 
 	/**
 	 * 파일을 암호화하는 기능

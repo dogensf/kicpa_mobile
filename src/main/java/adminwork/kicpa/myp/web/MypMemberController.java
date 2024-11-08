@@ -11,6 +11,7 @@ import adminwork.kicpa.myp.service.MyPageService;
 import adminwork.kicpa.myp.service.MypMemberService;
 import adminwork.kicpa.myp.service.MypPassService;
 import adminwork.let.utl.fcc.service.DateUtil;
+import adminwork.let.utl.sim.service.FileScrty;
 import egovframework.rte.fdl.security.userdetails.util.EgovUserDetailsHelper;
 import egovframework.rte.psl.dataaccess.util.EgovMap;
 import org.apache.commons.io.FilenameUtils;
@@ -612,9 +613,11 @@ public class MypMemberController {
 			while (itr.hasNext()) {
 				atchFileId = "";
 				if ("".equals(atchFileId)) {
-					String rsumPath = "opt/file/"+cpaPassExamInfo.get("psexamYear") + "/" + paramMap.get("pin") + "/ETC";
+					String rsumPath = "opt/file/NEW" + cpaPassExamInfo.get("psexamYear") + "/" + paramMap.get("pin") + "/ETC";
 
 					result = fileUtil.parseAtchFileInf(files, rsumPath, fileKeyParam, atchFileId, rsumPath);
+
+					String fileKey = "KicpaDImgFileKey"; // 16자리 키
 
 					if(!"".equals(result.get(0).fileExtsn) && result.get(0).fileExtsn != null){
 
@@ -627,14 +630,22 @@ public class MypMemberController {
 
 						if("passCrtiFileId".equals(key)){
 							paramMap.put("passCrtiFileId", vo.getAtchFileId());
+
+							String source = rsumPath + "/" + vo.getStreFileNm();
+							String target = rsumPath + "/" + vo.getStreFileNm();
+							FileScrty.encryptImg(fileKey, source, target);
 						}
 						else if("rsumFileId".equals(key)){
 							if(!"F".equals(regFlag)){
 								List<MultipartFile> mf = multiRequest.getFiles("rsumFileId");
 
-								paramMap.put("rsumFileId", mf.get(0).getBytes());
+								paramMap.put("rsumFileId", Base64.getEncoder().encode(mf.get(0).getBytes()));
 								paramMap.put("rsumFileNm", mf.get(0).getOriginalFilename());
 								paramMap.put("eventn", FilenameUtils.getExtension(mf.get(0).getOriginalFilename()));
+
+								String source = rsumPath + "/" + vo.getStreFileNm();
+								String target = rsumPath + "/" + vo.getStreFileNm();
+								FileScrty.encryptImg(fileKey, source, target);
 							}
 						}
 						else if("apntcEndFileId".equals(key)){
