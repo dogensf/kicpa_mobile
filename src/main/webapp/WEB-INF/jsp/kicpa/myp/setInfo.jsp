@@ -51,7 +51,7 @@ function fncLocation(){
 							</div>
 						</div>
 						
-						<div class="set-box">
+						<%--<div class="set-box">
 							<h5>알림</h5>
 							<ul class="set-notify">
 								<li>
@@ -69,7 +69,7 @@ function fncLocation(){
 									</div>
 								</li> -->	
 							</ul>
-						</div>
+						</div>--%>
 					</div>
 
 				</section>
