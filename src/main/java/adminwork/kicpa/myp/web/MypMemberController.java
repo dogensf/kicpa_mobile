@@ -849,20 +849,26 @@ public class MypMemberController {
 			sendSmsInfo.put("pin", user.getUniqId());
 			sendSmsInfo.put("userId", user.getUniqId());
 			sendSmsInfo.put("orgTranId", vo.getOrg_tran_id());
-			List<?> sendSmsInfoList = mypMemberService.selectMemSendMessageInfoList(sendSmsInfo);      //알림톡 내용
-			sendSmsInfo.putAll((Map<String, Object>)sendSmsInfoList.get(0));
 
-			String contents = sendSmsInfo.get("msgBody").toString();
+			//발송예외 조회
+			List<?> sendSmsExcept = mypMemberService.selectSendMessageExceptInfo(sendSmsInfo);
 
-			contents = contents.replaceAll("\\{회원명}", sendSmsInfo.get("destName").toString());
-			contents = contents.replaceAll("\\{납부일자}", sendSmsInfo.get("payDe").toString());
-			contents = contents.replaceAll("\\{납부금액}", sendSmsInfo.get("dudtInAmt").toString());
+			if(sendSmsExcept.size() == 0 || sendSmsExcept == null){
+				List<?> sendSmsInfoList = mypMemberService.selectMemSendMessageInfoList(sendSmsInfo);      //알림톡 내용
+				sendSmsInfo.putAll((Map<String, Object>)sendSmsInfoList.get(0));
 
-			sendSmsInfo.put("msgBody", contents);
-			sendSmsInfo.put("nationCode", "82");   //국가코드
-			sendSmsInfo.put("userId", user.getUniqId());
+				String contents = sendSmsInfo.get("msgBody").toString();
 
-			mypMemberService.cpaMemMessageSend(sendSmsInfo);      //알림톡 전송
+				contents = contents.replaceAll("\\{회원명}", sendSmsInfo.get("destName").toString());
+				contents = contents.replaceAll("\\{납부일자}", sendSmsInfo.get("payDe").toString());
+				contents = contents.replaceAll("\\{납부금액}", sendSmsInfo.get("dudtInAmt").toString());
+
+				sendSmsInfo.put("msgBody", contents);
+				sendSmsInfo.put("nationCode", "82");   //국가코드
+				sendSmsInfo.put("userId", user.getUniqId());
+
+				mypMemberService.cpaMemMessageSend(sendSmsInfo);      //알림톡 전송
+			}
 		}
 
 		//return "redirect:/kicpa/dues/selectDuesList.do";

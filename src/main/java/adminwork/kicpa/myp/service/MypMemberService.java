@@ -73,6 +73,9 @@ public interface MypMemberService {
     //경조사 등록 알림톡 대상자 조회
     public List<?> selectMemEventSendMemList(Map<String, Object> map) throws Exception;
 
+    //알림톡 발송예외 조회
+    public List<?> selectSendMessageExceptInfo(Map<String, Object> map) throws Exception;
+
     //알림톡 정보
     public List<?> selectMemSendMessageInfoList(Map<String, Object> map) throws Exception;
 

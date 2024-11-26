@@ -101,6 +101,10 @@ public class MypMemberDAO extends EgovComAbstractDAO2 {
         return (List<?>) list("MypMemberDAO.selectMemEventSendMemList", (Object) map);
     }
 
+    public List<?> selectSendMessageExceptInfo(Map<String, Object> map) throws Exception {
+        return (List<?>) list("MypMemberDAO.selectSendMessageExceptInfo", (Object) map);
+    }
+
     public List<?> selectMemSendMessageInfoList(Map<String, Object> map) throws Exception {
         return (List<?>) list("MypMemberDAO.selectMemSendMessageInfoList", (Object) map);
     }

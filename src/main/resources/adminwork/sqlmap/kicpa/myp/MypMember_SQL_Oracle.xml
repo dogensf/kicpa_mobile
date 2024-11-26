@@ -515,6 +515,22 @@
 
 	</select>
 
+	<select id="MypMemberDAO.selectSendMessageExceptInfo" parameterClass="HashMap" resultClass="EgovMap">
+
+		<![CDATA[
+            SELECT
+                    me.MSG_NO
+                ,   me.MSG_CL
+                ,   me.CPA_CL
+                ,   me.PIN
+            FROM MESSAGE_EXCEPT me
+            WHERE me.DELETE_YN = 'N'
+              AND me.MSG_CL = #msgCl#
+              AND me.PIN = #pin#
+        ]]>
+
+	</select>
+
 	<select id="MypMemberDAO.selectMemSendMessageInfoList" parameterClass="HashMap" resultClass="EgovMap">
 
 		<![CDATA[
