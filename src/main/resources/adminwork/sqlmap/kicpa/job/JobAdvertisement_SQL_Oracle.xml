@@ -19,7 +19,9 @@
 	            A.IJ_MENU_CODE,
 	            A.IJ_RECOUNT,
 	            A.IJ_JOB_SEP,
-	            A.IJ_AREA,
+				A.IJ_JOB_TERM_SEP,
+				A.IJ_EMP_SEP,
+				A.IJ_AREA,
 	            A.IJ_INT_ID,
 	            A.IJ_USE,
 	            A.IJ_SORT_ORD,
@@ -66,6 +68,8 @@
 	        	<isEmpty property="ijJobSep">
 		        	AND
 					IJ_JOB_SEP <![CDATA[ <> ]]> 1
+					AND
+					IJ_JOB_SEP <![CDATA[ <> ]]> 8
 				</isEmpty>
 		        <isNotNull property="ijCoSep">
 			 		AND
@@ -75,6 +79,10 @@
 		        	AND
 		        	IJ_CO_SEP = '1'
 		        </isNull>
+
+		<isEmpty property="searchType2">
+			AND A.IJ_EMP_SEP = '5'
+		</isEmpty>
 
 
 		     	<isNotNull property="searchType1">
@@ -89,7 +97,7 @@
         		</isNotNull>
 		     	<isNotNull property="searchType3">
         			<isNotEmpty property="searchType3">
-        				AND A.IJ_JOB_SEP = #searchType2#
+        				AND A.IJ_JOB_SEP = #searchType3#
         			</isNotEmpty>
         		</isNotNull>
 
@@ -131,6 +139,8 @@
         	<isEmpty property="ijJobSep">
 	        	AND
 				IJ_JOB_SEP <![CDATA[ <> ]]> 1
+				AND
+				IJ_JOB_SEP <![CDATA[ <> ]]> 8
 			</isEmpty>
 	        <isNotNull property="ijCoSep">
 		 		AND
@@ -140,6 +150,11 @@
 	        	AND
 	        	IJ_CO_SEP = '1'
 	        </isNull>
+
+		 <isEmpty property="searchType2">
+			 AND A.IJ_EMP_SEP = '5'
+		 </isEmpty>
+
 	     	<isNotNull property="searchType1">
        			<isNotEmpty property="searchType1">
        				AND  SUBSTR(A.IJ_AREA, 0, 2) = #searchType1#

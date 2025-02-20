@@ -36,6 +36,9 @@ function fncLocation(){
 					<a class="tab-link active" href="javascript:void(0);" onclick="job.menuChange(this,1)">
 				        <span>공인회계사</span>
 				    </a>
+					<a class="tab-link" href="javascript:void(0);" onclick="job.menuChange(this,8)">
+						<span>수습CPA</span>
+					</a>
 				    <a class="tab-link" href="javascript:void(0);" onclick="job.menuChange(this,'')">
 				        <span>일반</span>
 				    </a>
@@ -43,10 +46,27 @@ function fncLocation(){
 				        <span>공인회계사회</span>
 				    </a>
 				</c:when>
+				<c:when test="${param.ijJobSep eq 2}">
+					<a class="tab-link" href="javascript:void(0);" onclick="job.menuChange(this,1)">
+						<span>공인회계사</span>
+					</a>
+					<a class="tab-link active" href="javascript:void(0);" onclick="job.menuChange(this,8)">
+						<span>수습CPA</span>
+					</a>
+					<a class="tab-link" href="javascript:void(0);" onclick="job.menuChange(this,'')">
+						<span>일반</span>
+					</a>
+					<a class="tab-link" href="javascript:void(0);" onclick="job.menuChange(this,'jobInfoKicpa')" >
+						<span>공인회계사회</span>
+					</a>
+				</c:when>
 				<c:when test="${param.boardId eq 'jobInfoKicpa'}">
 					<a class="tab-link" href="javascript:void(0);" onclick="job.menuChange(this,1)">
 				        <span>공인회계사</span>
 				    </a>
+					<a class="tab-link" href="javascript:void(0);" onclick="job.menuChange(this,8)">
+						<span>수습CPA</span>
+					</a>
 				    <a class="tab-link" href="javascript:void(0);" onclick="job.menuChange(this,'')">
 				        <span>일반</span>
 				    </a>
@@ -58,6 +78,9 @@ function fncLocation(){
 					<a class="tab-link" href="javascript:void(0);" onclick="job.menuChange(this,1)">
 				        <span>공인회계사</span>
 				    </a>
+					<a class="tab-link" href="javascript:void(0);" onclick="job.menuChange(this,8)">
+						<span>수습CPA</span>
+					</a>
 				    <a class="tab-link active" href="javascript:void(0);" onclick="job.menuChange(this,'')">
 				        <span>일반</span>
 				    </a>
