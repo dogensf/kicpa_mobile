@@ -555,7 +555,7 @@
 							</div>
 
 							<div class="inp-box">
-								<label class="label" for="mypCpaPassReg_acdmcrInfoDegree2">학위</label>
+								<label class="label essen" for="mypCpaPassReg_acdmcrInfoDegree2">학위</label>
 								<select class="select" id="mypCpaPassReg_acdmcrInfoDegree2" name="degree">
 									<option selected value=''>선택하세요</option>
 									<option value="A9030010">졸업</option>
@@ -573,7 +573,7 @@
 							</div>
 
 							<div class="inp-box">
-								<label class="label" for="mypCpaPassReg_acdmcrInfoGrdtnYear2" id="mypCpaPassReg_grdtnYearMonth">학위취득연도(졸업예정)</label>
+								<label class="label essen" for="mypCpaPassReg_acdmcrInfoGrdtnYear2" id="mypCpaPassReg_grdtnYearMonth">학위취득연도(졸업예정)</label>
 								<input type="text" id="mypCpaPassReg_acdmcrInfoGrdtnYear2" name="grdtnYear" maxlength="4" oninput="this.value=this.value.replace(/[^0-9]/g,'');" placeholder="날짜를 선택하세요." required />
 								<input type="month" id="mypCpaPassReg_acdmcrInfoGrdtnYearMonth2" placeholder="날짜를 선택하세요." style="display: none; border: none; border-radius: 0; width: 100%; height: 3.4rem; font-size: 1.8rem; font-weight: 400; line-height: 2.6rem; color: #222; -webkit-appearance: none; border-bottom: 1px solid #666;" required disabled/>
 							</div>

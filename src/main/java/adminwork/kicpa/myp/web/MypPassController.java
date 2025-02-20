@@ -539,10 +539,8 @@ public class MypPassController {
 					return modelAndView;
 				}
 				if("".equals(list.get(i).get("degree").toString()) || list.get(i).get("degree").toString() == null){
-					if(!"A2230030".equals(list.get(i).get("schulCl"))){
-						modelAndView.addObject("message", "학위를 선택해주세요.");
-						return modelAndView;
-					}
+					modelAndView.addObject("message", "학위를 선택해주세요.");
+					return modelAndView;
 				}
 				if("".equals(list.get(i).get("schulNm").toString()) || list.get(i).get("schulNm").toString() == null){
 					modelAndView.addObject("message", "학교명을 입력하세요.");
@@ -551,6 +549,10 @@ public class MypPassController {
 				if("".equals(list.get(i).get("grdtnYear").toString()) || list.get(i).get("grdtnYear").toString() == null){
 					if(!"A2230030".equals(list.get(i).get("schulCl"))){
 						modelAndView.addObject("message", "졸업년도를 선택해주세요.");
+						return modelAndView;
+					}
+					else{
+						modelAndView.addObject("message", "학위취득연도(졸업예정)를 선택해주세요.");
 						return modelAndView;
 					}
 				}
