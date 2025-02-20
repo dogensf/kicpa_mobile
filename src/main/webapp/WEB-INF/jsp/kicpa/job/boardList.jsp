@@ -46,7 +46,7 @@ function fncLocation(){
 				        <span>공인회계사회</span>
 				    </a>
 				</c:when>
-				<c:when test="${param.ijJobSep eq 2}">
+				<c:when test="${param.ijJobSep eq 8}">
 					<a class="tab-link" href="javascript:void(0);" onclick="job.menuChange(this,1)">
 						<span>공인회계사</span>
 					</a>
