@@ -212,6 +212,12 @@ job.boardListSuccess = function(data){
 			txt+='            <span>'+o.ijWdate+'</span> \n';
 			txt+='            <span>'+o.ijCoName+'</span> \n';
 			txt+='            <span>'+o.sidoArea+' '+o.gugunArea+'</span> \n';
+
+			//수습cpa 일 경우에만 구직완료구분 보여주기
+			if($("#ijJobSep").val() == '8'){
+				txt+='            <span>'+o.ijJobTermSepNm+'</span> \n';
+			}
+
 			txt+='            <span>'+o.ijRecount+'</span> \n';
 			txt+='        </div> \n';
 			txt+='	</a> \n';
