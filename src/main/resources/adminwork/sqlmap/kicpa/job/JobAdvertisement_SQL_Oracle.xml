@@ -167,7 +167,7 @@
        		</isNotNull>
 	     	<isNotNull property="searchType3">
        			<isNotEmpty property="searchType3">
-       				AND A.IJ_JOB_SEP = #searchType2#
+       				AND A.IJ_JOB_SEP = #searchType3#
        			</isNotEmpty>
        		</isNotNull>
 
@@ -177,6 +177,145 @@
        			</isNotEmpty>
        		</isNotNull>
 	 </select>
+
+	<select id="JobAdvertisementDAO.selectBoardList2" parameterClass="HashMap" resultClass="egovMap">
+		SELECT A.*
+		FROM(
+		SELECT ROW_NUMBER() OVER( ORDER BY A.ij_sort_ord DESC, A.ij_wdate DESC) RUWNUM,
+		ROW_NUMBER() OVER( ORDER BY A.ij_sort_ord ASC, A.ij_wdate ASC) RUWNUM_SHOW,
+		TRIM(A.IJ_ID_NUM) BOARD_ID,
+		TO_CHAR(A.IJ_WDATE,'YYYY.MM.DD') IJ_WDATE,
+		A.IJ_CO_NAME,
+		A.IJ_WTITLE,
+		A.IJ_CO_SEP,
+		A.IJ_USE_AT,
+		A.IJ_MENU_CODE,
+		A.IJ_RECOUNT,
+		A.IJ_JOB_SEP,
+		A.IJ_JOB_TERM_SEP,
+		A.IJ_EMP_SEP,
+		A.IJ_AREA,
+		A.IJ_INT_ID,
+		A.IJ_USE,
+		A.IJ_SORT_ORD,
+		NVL(B.CODE_NAME,'') SIDO_AREA,
+		NVL(C.CODE_NAME,'') GUGUN_AREA,
+		NVL(D.CODE_NAME,'') JOB_NAME,
+		lead(A.IJ_ID_NUM,1) over (order by A.ij_sort_ord DESC) pre_id,
+		lag(A.IJ_ID_NUM,1) over (order by A.ij_sort_ord DESC) next_id,
+		lead(A.IJ_SORT_ORD,1) over (order by A.ij_sort_ord DESC) pre_sort_ord,
+		lag(A.IJ_SORT_ORD,1) over (order by A.ij_sort_ord DESC) next_sort_ord,
+		(SELECT CODE_NAME FROM CODEBASE WHERE CODE_ID = 'EMP_NEW_TYP' AND CODE = A.IJ_EMP_SEP) AS COMP_FLAG
+		FROM INFO_JOB  A
+		LEFT JOIN CODEBASE B
+		ON B.system_code ='KP'
+		AND B.CODE_ID = 'DIST_CLS'
+		AND    SUBSTR(A.IJ_AREA, 0, 2) = B.CODE
+		LEFT JOIN CODEBASE C
+		ON C.system_code ='KP'
+		AND C.CODE_ID = CONCAT('DIST',SUBSTR(A.IJ_AREA,0,2))
+		AND    A.IJ_AREA = C.CODE
+		LEFT JOIN CODEBASE D
+		ON D.system_code ='KP'
+		AND D.CODE_ID = 'HIRE_TYP'
+		AND D.CODE = A.IJ_JOB_SEP
+		WHERE
+		IJ_MENU_CODE = '001'
+		AND
+		((IJ_USE <![CDATA[ <> ]]> 0 AND IJ_INT_ID = #ijIntId#) OR IJ_USE = 1)
+		<isNotNull property="ijJobSep">
+			<isNotEmpty property="ijJobSep">
+				AND
+				IJ_JOB_SEP = #ijJobSep#
+			</isNotEmpty>
+		</isNotNull>
+		<isEmpty property="ijJobSep">
+			AND
+			IJ_JOB_SEP <![CDATA[ <> ]]> 1
+			AND
+			IJ_JOB_SEP <![CDATA[ <> ]]> 8
+		</isEmpty>
+
+		<isNotNull property="ijCoSep">
+			AND
+			IJ_EMP_SEP = #ijCoSep#
+		</isNotNull>
+		<isNull property="ijCoSep">
+			AND
+			IJ_EMP_SEP = '5'
+		</isNull>
+
+
+		<isNotNull property="searchType1">
+			<isNotEmpty property="searchType1">
+				AND  SUBSTR(A.IJ_AREA, 0, 2) = #searchType1#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="searchType4">
+			<isNotEmpty property="searchType4">
+				AND A.IJ_CO_SEP = #searchType4#
+			</isNotEmpty>
+		</isNotNull>
+
+		<isNotNull property="searchKeyword">
+			<isNotEmpty property="searchKeyword">
+				AND (UPPER(A.IJ_WTITLE) LIKE '%'||UPPER(#searchKeyword#)||'%' OR UPPER(A.IJ_CO_NAME) LIKE '%'||UPPER(#searchKeyword#)||'%' )
+			</isNotEmpty>
+		</isNotNull>
+
+		ORDER BY RUWNUM_SHOW DESC
+		)A
+		WHERE A.RUWNUM BETWEEN #pageIndex# AND (#pageIndex#-1)+#pageSize#
+	</select>
+
+
+	<select id="JobAdvertisementDAO.selectBoardListCnt2" parameterClass="HashMap" resultClass="int">
+		SELECT	COUNT(*)
+		FROM INFO_JOB A
+		WHERE
+		IJ_MENU_CODE = '001'
+		AND
+		((IJ_USE <![CDATA[ <> ]]> 0 AND IJ_INT_ID = #ijIntId#) OR IJ_USE = 1)
+		<isNotNull property="ijJobSep">
+			<isNotEmpty property="ijJobSep">
+				AND
+				IJ_JOB_SEP = #ijJobSep#
+			</isNotEmpty>
+		</isNotNull>
+		<isEmpty property="ijJobSep">
+			AND
+			IJ_JOB_SEP <![CDATA[ <> ]]> 1
+			AND
+			IJ_JOB_SEP <![CDATA[ <> ]]> 8
+		</isEmpty>
+
+		<isNotNull property="ijCoSep">
+			AND
+			IJ_EMP_SEP = #ijCoSep#
+		</isNotNull>
+		<isNull property="ijCoSep">
+			AND
+			IJ_EMP_SEP = '5'
+		</isNull>
+
+
+		<isNotNull property="searchType1">
+			<isNotEmpty property="searchType1">
+				AND  SUBSTR(A.IJ_AREA, 0, 2) = #searchType1#
+			</isNotEmpty>
+		</isNotNull>
+		<isNotNull property="searchType4">
+			<isNotEmpty property="searchType4">
+				AND A.IJ_CO_SEP = #searchType4#
+			</isNotEmpty>
+		</isNotNull>
+
+		<isNotNull property="searchKeyword">
+			<isNotEmpty property="searchKeyword">
+				AND (UPPER(A.IJ_WTITLE) LIKE '%'||UPPER(#searchKeyword#)||'%' OR UPPER(A.IJ_CO_NAME) LIKE '%'||UPPER(#searchKeyword#)||'%' )
+			</isNotEmpty>
+		</isNotNull>
+	</select>
 
 	 <select id="JobAdvertisementDAO.selectBoardFileList" parameterClass="HashMap" resultClass="egovMap">
 	  	SELECT

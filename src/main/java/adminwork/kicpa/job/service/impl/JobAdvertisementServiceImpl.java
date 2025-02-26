@@ -29,6 +29,16 @@ public class JobAdvertisementServiceImpl extends EgovAbstractServiceImpl impleme
 	}
 
 	@Override
+	public List<EgovMap> selectBoardList2(Map<String,Object> map) throws Exception {
+		return jobAdvertisementDAO.selectBoardList2(map);
+	}
+
+	@Override
+	public int selectBoardListCnt2(Map<String,Object> map) throws Exception {
+		return jobAdvertisementDAO.selectBoardListCnt2(map);
+	}
+
+	@Override
 	public List<EgovMap> selectBoardFileList(Map<String, Object> map) throws Exception {
 		return jobAdvertisementDAO.selectBoardFileList(map);
 	}

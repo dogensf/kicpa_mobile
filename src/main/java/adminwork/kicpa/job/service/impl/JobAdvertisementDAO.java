@@ -30,6 +30,24 @@ public class JobAdvertisementDAO extends EgovAbstractDAO{
 		return (int) select("JobAdvertisementDAO.selectBoardListCnt",map);
 	}
 	/**
+	 * 구인정보 목록조회
+	 * @param map
+	 * @return
+	 * @throws Exception
+	 */
+	public List<EgovMap> selectBoardList2(Map<String,Object> map) throws Exception {
+		return (List<EgovMap>) list("JobAdvertisementDAO.selectBoardList2",map);
+	}
+	/**
+	 * 구인정보 목록개수
+	 * @param map
+	 * @return
+	 * @throws Exception
+	 */
+	public int selectBoardListCnt2(Map<String,Object> map) throws Exception {
+		return (int) select("JobAdvertisementDAO.selectBoardListCnt2",map);
+	}
+	/**
 	 * 구인정보 첨부파일목록
 	 * @param map
 	 * @return

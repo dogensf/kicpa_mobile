@@ -11,6 +11,10 @@ public interface  JobAdvertisementService {
 	public List<EgovMap> selectBoardList(Map<String,Object> map) throws Exception;
 	
 	public int selectBoardListCnt(Map<String,Object> map) throws Exception;
+
+	public List<EgovMap> selectBoardList2(Map<String,Object> map) throws Exception;
+
+	public int selectBoardListCnt2(Map<String,Object> map) throws Exception;
 	
 	public List<EgovMap> selectBoardFileList(Map<String,Object> map) throws Exception;
 	

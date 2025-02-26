@@ -1,6 +1,7 @@
 package adminwork.kicpa.job.web;
 
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -42,7 +43,11 @@ public class JobAdvertisementController {
 		map.put("codeId", "COMP_TYP");
 		List<EgovMap> codeList = kicpaCommService.selectCodebaseList(map);
 
+		map.put("codeId", "EMP_NEW_TYP");
+		List<EgovMap> codeList2 = kicpaCommService.selectCodebaseList(map);
+
 		model.addAttribute("codeList",codeList);
+		model.addAttribute("codeList2",codeList2);
 		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
 		if(!isAuthenticated) {
 			if("jobInfoKicpa".equals(boardId)) {
@@ -87,9 +92,24 @@ public class JobAdvertisementController {
 	        modelAndView.setViewName("jsonView");
 	        map.put("pageIndex", StringUtil.isNullToString(map.get("pageIndex"), "1"));
 	        map.put("pageSize", 10);
-	        List<EgovMap> list = jobAdvertisementService.selectBoardList(map);
 
-	        int totalCnt = jobAdvertisementService.selectBoardListCnt(map);
+			List<EgovMap> list = new ArrayList<>();
+			int totalCnt = 0;
+
+			/*공인회계사, 일반*/
+	        if(!"8".equals(map.get("ijJobSep"))){
+
+				list = jobAdvertisementService.selectBoardList(map);
+
+				totalCnt = jobAdvertisementService.selectBoardListCnt(map);
+			}
+	        /*수습CPA*/
+	        else{
+
+				list = jobAdvertisementService.selectBoardList2(map);
+
+				totalCnt = jobAdvertisementService.selectBoardListCnt2(map);
+			}
 
 
 	        list.forEach(x -> StringUtil.checkMapReplaceHtml(x));
@@ -116,18 +136,29 @@ public class JobAdvertisementController {
 
 			String codeTag2 = StringUtil.isNullToString(map.get("codeTag2"));
 
+			List<EgovMap> empCodeList = null;
 			List<EgovMap> hireCodeList = null;
-			map.put("codeId", "EMP_TYP"); // 채용구분 일반
-			List<EgovMap> empCodeList = kicpaCommService.selectCodebaseList(map);
-			map.put("codeTag2", null);
+			List<EgovMap> distCodeList = null;
+			List<EgovMap> compCodeList = null;
+
+			if(!"수습CPA".equals(codeTag2)) {
+				map.put("codeId", "EMP_TYP"); // 채용구분 일반
+				empCodeList = kicpaCommService.selectCodebaseList(map);
+				map.put("codeTag2", null);
 
 
-			if("".equals(codeTag2)) {
-				map.put("codeId", "HIRE_TYP"); // 채용구분
-				hireCodeList = kicpaCommService.selectCodebaseList(map);
+				if("".equals(codeTag2)) {
+					map.put("codeId", "HIRE_TYP"); // 채용구분
+					hireCodeList = kicpaCommService.selectCodebaseList(map);
+				}
+			}
+			else{
+				map.put("codeId", "COMP_TYP"); // 회사구분
+				compCodeList = kicpaCommService.selectCodebaseList(map);
+				map.put("codeTag2", null);
 			}
 			map.put("codeId", "DIST_CLS");  //근무지역
-			List<EgovMap> distCodeList = kicpaCommService.selectCodebaseList(map);
+			distCodeList = kicpaCommService.selectCodebaseList(map);
 //			map.put("codeId", "EMP_TYP"); //채용구분 CPA
 //			map.put("codeTag2", "CPA");
 //			List<EgovMap> empCpaCodeList = kicpaCommService.selectCodebaseList(map);
@@ -135,6 +166,7 @@ public class JobAdvertisementController {
 			modelAndView.addObject("hireCodeList",hireCodeList);
 			modelAndView.addObject("distCodeList",distCodeList);
 			modelAndView.addObject("empCodeList",empCodeList);
+			modelAndView.addObject("compCodeList",compCodeList);
 
 		}catch (Exception e) {
 			e.printStackTrace();

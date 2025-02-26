@@ -33,6 +33,12 @@ job.init = function(){
 		}
 
 		if($("#ijJobSep").val() != 'jobInfoKicpa'){
+
+			//수습CPA일 경우 기본 ijCoSep 값 변경
+			if($("#ijJobSep").val() == '8' && $('#ijCoSep').val() == '1'){
+				$('#ijCoSep').val('5');
+			}
+
 			var param = $("#boardForm").serializeObject();
 			fn_ajax_call("/kicpa/job/getBoardList.do",param,job.boardListSuccess,job.boardListError);
 		}else{
@@ -55,6 +61,12 @@ job.init = function(){
 
 		$(".board-list ul").html("");
 		if($("#boardId").val() != 'jobInfoKicpa'){
+
+			//수습CPA일 경우 기본 ijCoSep 값 변경
+			if($("#ijJobSep").val() == '8' && $('#ijCoSep').val() == '1'){
+				$('#ijCoSep').val('5');
+			}
+
 			var param = $("#boardForm").serializeObject();
 			fn_ajax_call("/kicpa/job/getBoardList.do",param,job.boardListSuccess,job.boardListError);
 		}else{
@@ -65,6 +77,12 @@ job.init = function(){
 
 
 	if($("#boardId").val() != 'jobInfoKicpa'){
+
+		//수습CPA일 경우 기본 ijCoSep 값 변경
+		if($("#ijJobSep").val() == '8' && $('#ijCoSep').val() == '1'){
+			$('#ijCoSep').val('5');
+		}
+
 		var param = $("#boardForm").serializeObject();
 		fn_ajax_call("/kicpa/job/getBoardList.do",param,job.boardListSuccess,job.boardListError);
 		job.getSearchTypeList();
@@ -89,6 +107,8 @@ job.getSearchTypeList = function(){
 
 	if($("#ijJobSep").val() == '1'){
 		param = {"codeTag2" : "CPA" }
+	}else if($("#ijJobSep").val() == '8'){
+		param = {"codeTag2" : "수습CPA" }
 	}else{
 		param = {"codeTag2Gbn" : "Y" }
 	}
@@ -101,10 +121,18 @@ job.getSearchTypeListSuccess = function(data){
 	var hireCodeList = data.hireCodeList;
 	var distCodeList = data.distCodeList;
 	var empCodeList = data.empCodeList;
+	var compCodeList = data.compCodeList;
 	$("#boardForm input[name^='searchType']").remove();
 	$("#searchPop .add-row").remove();
-	board.searchTypeHtml(distCodeList,"근무지역","searchType1",false);
-	board.searchTypeHtml(empCodeList,"고용형태","searchType2",true)
+	if(compCodeList != null && compCodeList.length > 0){
+		board.searchTypeHtml(compCodeList,"회사구분","searchType4",true);
+	}
+	if(distCodeList != null && distCodeList.length > 0){
+		board.searchTypeHtml(distCodeList,"근무지역","searchType1",false);
+	}
+	if(empCodeList != null && empCodeList.length > 0){
+		board.searchTypeHtml(empCodeList,"고용형태","searchType2",true);
+	}
 	if(hireCodeList != null && hireCodeList.length > 0){
 		board.searchTypeHtml(hireCodeList,"채용구분","searchType3",true);
 	}
@@ -125,6 +153,15 @@ job.ijCoSepChange = function(obj,ijCoSep){
 }
 
 job.menuChange = function(obj,ijJobSep){
+
+	//수습CPA일 경우 기본 ijCoSep 값 변경
+	if(ijJobSep == '8'){
+		$('#ijCoSep').val('5');
+	}
+	else{
+		$('#ijCoSep').val('1');
+	}
+
 	$("#boardForm input[name='readInput']").removeClass("value");
 	$("#readInput").val("");
 	$("#boardForm input[name='searchKeyword']").val("");
@@ -183,6 +220,15 @@ job.boardListSuccess = function(data){
 		$(".board-list ul").append(txt);
 	}else{
 		$("#totalCnt").text(totalCnt+"건")
+	}
+
+	if($("#ijJobSep").val() == '8'){
+		$('.job_cpaTrain').show();
+		$('.job_cpa').hide();
+	}
+	else{
+		$('.job_cpaTrain').hide();
+		$('.job_cpa').show();
 	}
 
 	if(totalCnt < Number($("#pageIndex").val())){
