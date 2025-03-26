@@ -110,7 +110,7 @@
 					<c:if test="${cpaMemFlag eq 'N'}">
 
 						<!-- 기본실무 종료 안함 -->
-						<c:if test="${cpaTrainRegReal[0].appEndDe eq '' || cpaTrainRegReal[0].appEndDe eq null}">
+						<c:if test="${cpaTrainRegReal[0].appEndDe eq '' || cpaTrainRegReal[0].appEndDe eq null && !(trainFlag eq 'E' && (cpaTrainRegReal[0].appRegistDe eq '' || cpaTrainRegReal[0].appRegistDe eq null))}">
 							<div class="application-status">
 								<div class="guide-ment">
 									<p>수습기본실무를 먼저 수료하세요.</p>
@@ -119,7 +119,7 @@
 						</c:if>
 
 						<!-- 기본실무 종료예정일 15일 이전 -->
-						<c:if test="${leftDays <= 15}">
+						<c:if test="${leftDays <= 15 || (trainFlag eq 'E' && (cpaTrainRegReal[0].appRegistDe eq '' || cpaTrainRegReal[0].appRegistDe eq null))}">
 							<div class="application-status">
 								<div class="guide-ment">
 									<p>등록정보가 없습니다.</p>
@@ -334,7 +334,7 @@
 						</c:if>
 
 						<!-- 기본실무 승인완료 -->
-						<c:if test="${myPageRegFlag ne 'N' && trainFlag eq 'E' && audTrainFlag eq 'N'}">
+						<c:if test="${myPageRegFlag ne 'N' && (trainFlag eq 'E' && (cpaTrainRegReal[0].appRegistDe ne '' && cpaTrainRegReal[0].appRegistDe ne null)) && audTrainFlag eq 'N'}">
 							<div class="application-status">
 
 								<div class="status-detail">
@@ -407,9 +407,22 @@
 							</div>
 						</c:if>
 
+						<!-- 1차시험 면제일경우 외감 등록버튼 활성화 -->
+						<c:if test="${myPageRegFlag ne 'N' && (trainFlag eq 'E' && (cpaTrainRegReal[0].appRegistDe eq '' || cpaTrainRegReal[0].appRegistDe eq null)) && audTrainFlag eq 'N'}">
+							<div class="application-status">
+								<div class="guide-ment">
+									<p>외감실무를 등록하세요.</p>
+								</div>
+
+								<div class="btn-area">
+									<button class="btn-primary mypPage_mypAudTrainRegMove" type="button">외감신청</button>
+								</div>
+							</div>
+						</c:if>
+
 
 						<!-- 외감실무 승인대기 -->
-						<c:if test="${trainFlag eq 'E' && audTrainFlag eq 'Y'}">
+						<c:if test="${audTrainFlag eq 'Y'}">
 							<div class="application-status">
 								<div class="guide-ment">
 									<em>수습회계사 외감실무 신청일 ${cpaAudTrainRegInfo.opetrDe}</em>
@@ -426,7 +439,7 @@
 						</c:if>
 
 						<!-- 외감실무 반려 -->
-						<c:if test="${trainFlag eq 'E' && audTrainFlag eq 'F'}">
+						<c:if test="${audTrainFlag eq 'F'}">
 							<div class="application-status">
 								<div class="guide-ment">
 									<em>수습회계사 외감실무 신청이 반려됐습니다.</em>
@@ -444,7 +457,7 @@
 						</c:if>
 
 						<!-- 외감실무 승인완료 -->
-						<c:if test="${trainFlag eq 'D' && audTrainFlag eq 'E'}">
+						<c:if test="${audTrainFlag eq 'E'}">
 							<div class="application-status">
 
 								<div class="status-detail">

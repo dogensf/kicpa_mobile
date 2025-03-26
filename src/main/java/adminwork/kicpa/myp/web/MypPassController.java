@@ -710,6 +710,11 @@ public class MypPassController {
 		paramMap.put("userId", paramMap.get("pin"));
 		mypPassService.mypCpaPassRegisterRegFlagSave(paramMap);
 
+		//시험면제자구분 조회
+		List<?> cpaPsexamRegInfo = mypPassService.selectMypCpaPsexamInfo(paramMap);
+
+		modelAndView.addObject("cpaPsexamRegInfo", cpaPsexamRegInfo);
+
 		return modelAndView;
 	}
 

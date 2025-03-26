@@ -307,7 +307,16 @@ mypPassReg.mypPassRegInit = function(){
 			success : function(data) {
 
 				$('#mypCpaPassReg_saveRegPop').removeClass('show');
-				$('#mypCpaPassReg_trainMovePop').addClass('show');
+
+				if(data.cpaPsexamRegInfo[0].excluExam1 == "A1200010"){
+					$('#mypCpaPassReg_trainMovePop').addClass('show');
+				}
+				else{
+					$('#mypCpaPassReg_body').removeClass('stop');
+					$('#mypCpaPassReg_trainMovePop').removeClass('show');
+
+					location.href="/kicpa/myp/myPage.do?Pin="+$('#mypCpaPassReg_pin').val();
+				}
 
 			}
 		});

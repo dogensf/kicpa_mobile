@@ -227,6 +227,7 @@
             	,   ORGIN_CTLF
             	,   NLTY
             	,   REMARK
+            	,   EXCLU_EXAM1
             FROM CPA_PSEXAM
             WHERE PIN = #pin#
 

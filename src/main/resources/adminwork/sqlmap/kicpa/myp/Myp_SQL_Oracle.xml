@@ -80,8 +80,9 @@
 				,	SMS_SNDNG_YN
 				,	POST_SNDNG_YN
 				,	REG_FLAG
+				,	(SELECT EXCLU_EXAM1 FROM CPA_PSEXAM WHERE PIN = mi.PIN) AS EXCLU_EXAM1
 
-            FROM MBER_INDVDLINFO
+            FROM MBER_INDVDLINFO mi
             WHERE PIN = #pin#
         ]]>
 

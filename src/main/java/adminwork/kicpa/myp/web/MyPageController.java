@@ -151,7 +151,7 @@ public class MyPageController {
 					int passDays = 0;
 
 					String appProgressDaysYn = "Y";
-					if("A1010040".equals(cpaTrainRegRealInfo.get("apntcCl"))){
+					if("A1010040".equals(cpaTrainRegRealInfo.get("apntcCl"))){			//등록취소인경우
 						if("Y".equals(cpaTrainRegInfo.get("regFlag"))){
 							trainFlag="Y";
 						}
@@ -161,7 +161,17 @@ public class MyPageController {
 						appProgressDaysYn = "N";
 					}
 					else{
+
+						if("A1010050".equals(cpaTrainRegRealInfo.get("apntcCl"))){		//수습중지인경우 진행률 표시 안함
+							appProgressDaysYn = "N";
+						}
+
 						trainFlag="E";
+					}
+
+					//1차시험면제자
+					if("A1200020".equals(cpaMemPassRealInfo.get("excluExam1")) && ("".equals(cpaTrainRegRealInfo.get("appRegistDe")) || cpaTrainRegRealInfo.get("appRegistDe") == null)) {
+						appProgressDaysYn = "N";
 					}
 
 					Calendar cal = Calendar.getInstance();
@@ -287,6 +297,38 @@ public class MyPageController {
 					else if("F".equals(cpaTrainRegInfo.get("regFlag"))){
 						trainFlag="F";
 					}
+
+					if("A1200020".equals(cpaMemPassRealInfo.get("excluExam1"))) {	//1차시험면제자
+						trainFlag = "E";
+
+						//외감 정보조회(임시테이블)
+						List<?> cpaAudTrainReg = myPageService.selectCpaAudTrainRegistReviewInfoList(paramMap);
+						Map<String, Object> cpaAudTrainRegInfo = new HashMap<>();
+						if(cpaAudTrainReg.size()>0){
+							cpaAudTrainRegInfo.putAll((Map<String, Object>)cpaAudTrainReg.get(0));
+						}
+						else{
+							cpaAudTrainRegInfo.put("regFlag","N");
+							audTrainFlag="N";
+						}
+
+
+						model.addAttribute("cpaAudTrainRegInfo", cpaAudTrainRegInfo);
+
+						//외감 regFlag에 따라 화면 정보 보여주기
+						if("Y".equals(cpaAudTrainRegInfo.get("regFlag"))){
+							audTrainFlag="Y";
+						}
+						else if("F".equals(cpaAudTrainRegInfo.get("regFlag"))){
+							audTrainFlag="F";
+						}
+					}
+
+					if("A1200030".equals(cpaMemPassRealInfo.get("excluExam1"))) {	//수습면제자
+						trainFlag = "H";
+					}
+
+
 					model.addAttribute("cpaTrainRegInfo", cpaTrainRegInfo);
 				}
 
@@ -301,7 +343,7 @@ public class MyPageController {
 					cpaMemberRegRealInfo.putAll((Map<String, Object>)cpaMemberRegReal.get(0));
 					model.addAttribute("cpaMemberRegReal", cpaMemberRegReal);
 
-					if(cpaTrainRegReal.size() < 1 || cpaTrainRegReal == null) {
+					if((cpaTrainRegReal.size() < 1 || cpaTrainRegReal == null) && "A1200010".equals(cpaMemPassRealInfo.get("excluExam1"))) {
 						trainFlag = "H";
 					}
 				}
@@ -326,8 +368,8 @@ public class MyPageController {
 
 					model.addAttribute("cpaMemberRegInfo", cpaMemberRegInfo);
 
-					//회원 regFlag에 따라 화면 정보 보여주기 (수습정보가 있을경우)
-					if("Y".equals(cpaMemberRegInfo.get("regFlag")) && cpaTrainRegReal != null && cpaTrainRegReal.size() > 0){
+					//회원 regFlag에 따라 화면 정보 보여주기 (수습정보가 있을경우 or 1차시험면제자 or 수습면제자)
+					if("Y".equals(cpaMemberRegInfo.get("regFlag")) && ((cpaTrainRegReal != null && cpaTrainRegReal.size() > 0) || "A1200020".equals(cpaMemPassRealInfo.get("excluExam1")) || "A1200030".equals(cpaMemPassRealInfo.get("excluExam1")))){
 						cpaMemFlag="Y";
 
 
