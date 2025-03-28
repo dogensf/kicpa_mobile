@@ -412,15 +412,15 @@ public class MypTrainController {
 				modelAndView.addObject("message", "실무수습 개시일을 선택하세요.");
 				return modelAndView;
 			}
-			else if("".equals(paramMap.get("guideCpaNm")) || (paramMap.get("guideCpaNm") == null)){
+			else if(("".equals(paramMap.get("guideCpaNm")) || (paramMap.get("guideCpaNm") == null)) && !"S0001".equals(paramMap.get("appInsttCd"))){
 				modelAndView.addObject("message", "지도공인회계사명을 입력하세요.");
 				return modelAndView;
 			}
-			else if("".equals(paramMap.get("guideCpaNo")) || (paramMap.get("guideCpaNo") == null)){
+			else if(("".equals(paramMap.get("guideCpaNo")) || (paramMap.get("guideCpaNo") == null)) && !"S0001".equals(paramMap.get("appInsttCd"))){
 				modelAndView.addObject("message", "지도공인회계사번호를 입력하세요.");
 				return modelAndView;
 			}
-			/*else if("".equals(paramMap.get("appInsttCd")) || (paramMap.get("appInsttCd") == null)){
+			else if("".equals(paramMap.get("appInsttCd")) || (paramMap.get("appInsttCd") == null)){
 				modelAndView.addObject("message", "실무수습기관을 선택하세요.");
 				return modelAndView;
 			}
@@ -430,13 +430,15 @@ public class MypTrainController {
 					modelAndView.addObject("message", "실제 실무수습기관명을 입력하세요.");
 					return modelAndView;
 				}
-			}*/
+			}
 
-			int guideCpaCnt = mypTrainService.selectApntcCpaHistGuideCpaCehck(paramMap);
+			if(!"S0001".equals(paramMap.get("appInsttCd"))){
+				int guideCpaCnt = mypTrainService.selectApntcCpaHistGuideCpaCehck(paramMap);
 
-			if(guideCpaCnt<1){
-				modelAndView.addObject("message", "지도공인회계사 성명 혹은 번호가\n일치하지 않습니다.");
-				return modelAndView;
+				if(guideCpaCnt<1){
+					modelAndView.addObject("message", "지도공인회계사 성명 혹은 번호가\n일치하지 않습니다.");
+					return modelAndView;
+				}
 			}
 
 			paramMap.put("appRegistDe",paramMap.get("appRegistDe").toString().replaceAll("-",""));
