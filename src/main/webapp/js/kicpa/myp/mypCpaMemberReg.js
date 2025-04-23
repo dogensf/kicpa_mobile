@@ -184,6 +184,39 @@ mypMemberReg.mypMemberRegInit = function(){
 		window.open("/kicpa/myp/cpaClosedPop.do?closedCl="+closedCl,"cpaClosedPop");
 	});
 
+	//정보공개설정 클릭
+	$('input:radio[name=psnlInfoYn]').on('click', function (e){
+
+		if($("input:radio[name=psnlInfoYn]:checked").val() == 'Y'){
+			$("input:radio[name='ofcNameYn'][value='Y']").prop('checked', true);
+			$("input:radio[name='ofcTelYn'][value='Y']").prop('checked', true);
+			$("input:radio[name='ofcAdresYn'][value='Y']").prop('checked', true);
+			/*$("input:radio[name='emailYn'][value='Y']").attr('checked', true);
+            $("input:radio[name='photoYn'][value='Y']").attr('checked', true);
+            $("input:radio[name='ofcFaxYn'][value='Y']").attr('checked', true) ;*/
+		}
+		else{
+			$("input:radio[name='ofcNameYn'][value='N']").prop('checked', true);
+			$("input:radio[name='ofcTelYn'][value='N']").prop('checked', true);
+			$("input:radio[name='ofcAdresYn'][value='N']").prop('checked', true);
+			/*$("input:radio[name='emailYn'][value='N']").attr('checked', true);
+            $("input:radio[name='photoYn'][value='N']").attr('checked', true);
+            $("input:radio[name='ofcFaxYn'][value='N']").attr('checked', true);*/
+		}
+
+	});
+
+	$('.nmstOthbcYn').on('click', function (e){
+
+		if($("input:radio[name=ofcNameYn]:checked").val() == 'Y' || $("input:radio[name=ofcTelYn]:checked").val() == 'Y' || $("input:radio[name=ofcAdresYn]:checked").val() == 'Y'){
+			$("input:radio[name='psnlInfoYn'][value='Y']").prop('checked', true);
+		}
+		else{
+			$("input:radio[name='psnlInfoYn'][value='N']").prop('checked', true);
+		}
+
+	});
+
 	//첨부파일 파일 변경
 	$('.mypCpaMemberReg_fileChange').on('click',function(e) {
 		var fileId = $(this).attr('id');

@@ -23,7 +23,7 @@
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
 	<script src="//code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>
 <script src="/js/KicpaCommon.js"></script>
-<script src="/js/kicpa/myp/mypCpaMemberReg.js?ver=3"></script>
+<script src="/js/kicpa/myp/mypCpaMemberReg.js?ver=4"></script>
 <script>
 	$(document).ready(function(){
 		mypMemberReg.mypMemberRegInit();
@@ -371,9 +371,9 @@
 						<label class="label essen">사무소명</label>
 					</div>
 					<div class="inp-check">
-						<input type="radio" name="ofcNameYn" value="Y" id="mypCpaMember_ofcNameY" checked/>
+						<input class="nmstOthbcYn" type="radio" name="ofcNameYn" value="Y" id="mypCpaMember_ofcNameY" checked/>
 						<label for="mypCpaMember_ofcNameY" style="margin-right: 10px;">공개</label>
-						<input type="radio" name="ofcNameYn" value="N" id="mypCpaMember_ofcNameN"/>
+						<input class="nmstOthbcYn" type="radio" name="ofcNameYn" value="N" id="mypCpaMember_ofcNameN"/>
 						<label for="mypCpaMember_ofcNameN">비공개</label>
 					</div>
 
@@ -381,9 +381,9 @@
 						<label class="label essen">사무소 전화</label>
 					</div>
 					<div class="inp-check">
-						<input type="radio" name="ofcTelYn" value="Y" id="mypCpaMember_ofcTelY" checked/>
+						<input class="nmstOthbcYn" type="radio" name="ofcTelYn" value="Y" id="mypCpaMember_ofcTelY" checked/>
 						<label for="mypCpaMember_ofcTelY" style="margin-right: 10px;">공개</label>
-						<input type="radio" name="ofcTelYn" value="N" id="mypCpaMember_ofcTelN"/>
+						<input class="nmstOthbcYn" type="radio" name="ofcTelYn" value="N" id="mypCpaMember_ofcTelN"/>
 						<label for="mypCpaMember_ofcTelN">비공개</label>
 					</div>
 
@@ -391,9 +391,9 @@
 						<label class="label essen">사무소 주소</label>
 					</div>
 					<div class="inp-check">
-						<input type="radio" name="ofcAdresYn" value="Y" id="mypCpaMember_ofcAdresY" checked/>
+						<input class="nmstOthbcYn" type="radio" name="ofcAdresYn" value="Y" id="mypCpaMember_ofcAdresY" checked/>
 						<label for="mypCpaMember_ofcAdresY" style="margin-right: 10px;">공개</label>
-						<input type="radio" name="ofcAdresYn" value="N" id="mypCpaMember_ofcAdresN"/>
+						<input class="nmstOthbcYn" type="radio" name="ofcAdresYn" value="N" id="mypCpaMember_ofcAdresN"/>
 						<label for="mypCpaMember_ofcAdresN">비공개</label>
 					</div>
 
