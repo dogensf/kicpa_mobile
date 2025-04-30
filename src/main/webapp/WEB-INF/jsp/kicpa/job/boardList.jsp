@@ -104,7 +104,7 @@ function fncLocation(){
 		        			<c:if test="${code.code ne 6 && code.code ne 8}">
 			        			<c:choose>
 			        				<c:when test="${index.index eq 0}">
-		        						 <li class="job_cpa active">
+		        						 <li class="job_cpaDef job_cpa active">
 							                <a href="javascript:void(0);" onclick="job.ijCoSepChange(this,'${code.code}');">${code.codeName}</a>
 							            </li>
 			        				</c:when>
@@ -137,8 +137,14 @@ function fncLocation(){
 
 					<%--수습CPA--%>
 					<c:if test="${codeList2 ne null and fn:length(codeList2) ne 0 and param.boardId eq null}">
+						<li class="job_cpaTrainDef job_cpaTrain active">
+							<a href="javascript:void(0);" onclick="job.ijCoSepChange(this,'');">전체</a>
+						</li>
 						<c:forEach items="${codeList2 }" var="code"  varStatus="index" >
-							<c:choose>
+							<li class="job_cpaTrain">
+								<a href="javascript:void(0);" onclick="job.ijCoSepChange(this,'${code.code}');">${code.codeName}</a>
+							</li>
+							<%--<c:choose>
 								<c:when test="${index.index eq 0}">
 									<li class="job_cpaTrain active">
 										<a href="javascript:void(0);" onclick="job.ijCoSepChange(this,'${code.code}');">${code.codeName}</a>
@@ -149,7 +155,7 @@ function fncLocation(){
 										<a href="javascript:void(0);" onclick="job.ijCoSepChange(this,'${code.code}');">${code.codeName}</a>
 									</li>
 								</c:otherwise>
-							</c:choose>
+							</c:choose>--%>
 						</c:forEach>
 
 					</c:if>

@@ -36,7 +36,7 @@ job.init = function(){
 
 			//수습CPA일 경우 기본 ijCoSep 값 변경
 			if($("#ijJobSep").val() == '8' && $('#ijCoSep').val() == '1'){
-				$('#ijCoSep').val('5');
+				$('#ijCoSep').val('');
 			}
 
 			var param = $("#boardForm").serializeObject();
@@ -64,7 +64,7 @@ job.init = function(){
 
 			//수습CPA일 경우 기본 ijCoSep 값 변경
 			if($("#ijJobSep").val() == '8' && $('#ijCoSep').val() == '1'){
-				$('#ijCoSep').val('5');
+				$('#ijCoSep').val('');
 			}
 
 			var param = $("#boardForm").serializeObject();
@@ -80,7 +80,7 @@ job.init = function(){
 
 		//수습CPA일 경우 기본 ijCoSep 값 변경
 		if($("#ijJobSep").val() == '8' && $('#ijCoSep').val() == '1'){
-			$('#ijCoSep').val('5');
+			$('#ijCoSep').val('');
 		}
 
 		var param = $("#boardForm").serializeObject();
@@ -156,10 +156,18 @@ job.menuChange = function(obj,ijJobSep){
 
 	//수습CPA일 경우 기본 ijCoSep 값 변경
 	if(ijJobSep == '8'){
-		$('#ijCoSep').val('5');
+		$('#ijCoSep').val('');
+		$(".job_cpa").removeClass("active");
+		$(".job_cpaTrain").removeClass("active");
+
+		$(".job_cpaTrainDef").addClass("active");
 	}
 	else{
 		$('#ijCoSep').val('1');
+		$(".job_cpa").removeClass("active");
+		$(".job_cpaTrain").removeClass("active");
+
+		$(".job_cpaDef").addClass("active");
 	}
 
 	$("#boardForm input[name='readInput']").removeClass("value");
