@@ -412,11 +412,11 @@ public class MypTrainController {
 				modelAndView.addObject("message", "실무수습 개시일을 선택하세요.");
 				return modelAndView;
 			}
-			else if(("".equals(paramMap.get("guideCpaNm")) || (paramMap.get("guideCpaNm") == null)) && !"S0001".equals(paramMap.get("appInsttCd"))){
+			else if(("".equals(paramMap.get("guideCpaNm")) || (paramMap.get("guideCpaNm") == null)) && !"S0003".equals(paramMap.get("appInsttCd"))){
 				modelAndView.addObject("message", "지도공인회계사명을 입력하세요.");
 				return modelAndView;
 			}
-			else if(("".equals(paramMap.get("guideCpaNo")) || (paramMap.get("guideCpaNo") == null)) && !"S0001".equals(paramMap.get("appInsttCd"))){
+			else if(("".equals(paramMap.get("guideCpaNo")) || (paramMap.get("guideCpaNo") == null)) && !"S0003".equals(paramMap.get("appInsttCd"))){
 				modelAndView.addObject("message", "지도공인회계사번호를 입력하세요.");
 				return modelAndView;
 			}
@@ -432,7 +432,7 @@ public class MypTrainController {
 				}
 			}
 
-			if(!"S0001".equals(paramMap.get("appInsttCd"))){
+			if(!"S0003".equals(paramMap.get("appInsttCd"))){
 				int guideCpaCnt = mypTrainService.selectApntcCpaHistGuideCpaCehck(paramMap);
 
 				if(guideCpaCnt<1){
