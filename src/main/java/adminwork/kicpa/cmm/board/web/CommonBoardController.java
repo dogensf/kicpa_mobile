@@ -187,7 +187,14 @@ public class CommonBoardController {
     				modelAndView.addObject("userId", user.getId());
     			}
     			else{
-					map.put("userId", map.get("immDi"));
+
+    				if("".equals(map.get("immDi")) || map.get("immDi") == null){
+						map.put("userId", "");
+					}
+    				else{
+						map.put("userId", map.get("immDi"));
+					}
+
 				}
 
 	    		List<EgovMap> boardList = null;
