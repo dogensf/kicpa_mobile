@@ -23,7 +23,7 @@
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
 	<script src="//code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>
 	<script src="/js/KicpaCommon.js"></script>
-	<script src="/js/kicpa/myp/mypCpaPassReg.js?ver=1"></script>
+	<script src="/js/kicpa/myp/mypCpaPassReg.js?ver=2"></script>
 <script>
 	$(document).ready(function(){
 		mypPassReg.mypPassRegInit();
@@ -262,6 +262,8 @@
 								<label for="mypCpaPassReg_postSndngH" style="margin-right: 10px;">자택</label>
 								<input class="mypCpaPassReg_postOfficeHidden" type="radio" name="postSndngYn" value="O" id="mypCpaPassReg_postSndngO" style="display: none;"/>
 								<label class="mypCpaPassReg_postOfficeHidden" for="mypCpaPassReg_postSndngO" style="display: none;">직장</label>
+								<input type="radio" name="postSndngYn" value="N" id="mypCpaPassReg_postSndngN" checked/>
+								<label for="mypCpaPassReg_postSndngN" style="margin-left: 10px;">미수신</label>
 							</div>
 						</div>
 					</div>

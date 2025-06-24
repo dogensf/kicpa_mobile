@@ -701,10 +701,13 @@ mypPassReg.mypCpaPassReg_updateInfoList_success = function(data){
 
 
 		if(data.cpaPassRegRealInfo[0].postSndngYn == "H"){
-			$("input:radio[name='postSndngYn'][value='H']").attr('checked', true);      //우편물 수령여부-자택
+			$("input:radio[name='postSndngYn'][value='H']").prop('checked', true);      //우편물 수령여부-자택
+		}
+		else if(data.cpaPassRegRealInfo[0].postSndngYn == "N"){
+			$("input:radio[name='postSndngYn'][value='N']").prop('checked', true);      //우편물 수령여부-미수신
 		}
 		else{
-			$("input:radio[name='postSndngYn'][value='O']").attr('checked', true);      //우편물 수령여부-직장
+			$("input:radio[name='postSndngYn'][value='O']").prop('checked', true);      //우편물 수령여부-직장
 		}
 	}
 	//연락처 수정
