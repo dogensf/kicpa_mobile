@@ -23,7 +23,7 @@
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
 	<script src="//code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>
 <script src="/js/KicpaCommon.js"></script>
-<script src="/js/kicpa/myp/mypCpaTrainReg.js?ver=1"></script>
+<script src="/js/kicpa/myp/mypCpaTrainReg.js?ver=2"></script>
 <script>
 	$(document).ready(function(){
 		mypCpaTrainReg.mypCpaTrainRegInit();
@@ -369,6 +369,22 @@
 						<input type="text" id="mypCpaTrainReg_apntcCpaHistInfoAppInsttEtc" name="appInsttEtc" placeholder="실제 실무수습기관명(회사명)을 등록하세요."/>
 					</div>
 
+					<div class="inp-box">
+						<label class="label essen" for="mypCpaTrainReg_apntcCpaHistInfoEmployCl">고용형태</label>
+
+						<select name="employCl" id="mypCpaTrainReg_apntcCpaHistInfoEmployCl">
+							<option selected value=''>선택하세요</option>
+							<option value="A1130010">정규직</option>
+							<option value="A1130020">파트타임</option>
+							<option value="A1130030">인턴쉽</option>
+						</select>
+					</div>
+
+					<div class="inp-box mypCpaTrainReg_employClInfoTrigger" style="display: none;">
+						<label class="label essen" for="mypCpaTrainReg_apntcCpaHistInfoCtrtEndDe">계약종료예정일</label>
+						<input type="date" id="mypCpaTrainReg_apntcCpaHistInfoCtrtEndDe" name="ctrtEndDe" data-placeholder="날짜를 입력하세요." max="9999-12-31" required />
+					</div>
+
 				</form>
 			</div>
 		</section>
@@ -566,6 +582,14 @@
 						<li>
 							<span>실제 실무수습기관명</span>
 							<p id="mypCpaTrainRegReviewInfo_appInsttEtc"></p>
+						</li>
+						<li>
+							<span>고용형태</span>
+							<p id="mypCpaTrainRegReviewInfo_employCl"></p>
+						</li>
+						<li>
+							<span>계약종료예정일</span>
+							<p id="mypCpaTrainRegReviewInfo_ctrtEndDe"></p>
 						</li>
 					</ul>
 				</div>

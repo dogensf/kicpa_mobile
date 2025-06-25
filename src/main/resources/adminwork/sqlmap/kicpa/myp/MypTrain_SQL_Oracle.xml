@@ -161,6 +161,8 @@
 				APP_INSTT_CD = #appInsttCd#,
 				APNTC_CL = #apntcCl#,
 				APP_INSTT_ETC = #appInsttEtc#,
+				EMPLOY_CL = #employCl#,
+				CTRT_END_DE = #ctrtEndDe#,
 				LAST_UPDT_ID = #userId#,
 				LAST_UPDT_DT = SYSTIMESTAMP
 

@@ -198,6 +198,24 @@ mypCpaTrainReg.mypCpaTrainRegInit = function(){
 		window.open("/kicpa/myp/auditSearch.do","auditSearchPop");
 	});
 
+	//고용형태 변경
+	$('#mypCpaTrainReg_apntcCpaHistInfoEmployCl').on("change", function (e){
+		if($('#mypCpaTrainReg_apntcCpaHistInfoEmployCl').val() != "" && $('#mypCpaTrainReg_apntcCpaHistInfoEmployCl').val() != null){
+			$('#mypCpaTrainReg_apntcCpaHistInfoEmployCl').addClass('select');
+		}
+		else{
+			$('#mypCpaTrainReg_apntcCpaHistInfoEmployCl').removeClass('select');
+		}
+
+		if($('#mypCpaTrainReg_apntcCpaHistInfoEmployCl').val()=="A1130020" || $('#mypCpaTrainReg_apntcCpaHistInfoEmployCl').val()=="A1130030"){
+			$('.mypCpaTrainReg_employClInfoTrigger').show();
+		}
+		else{
+			$('.mypCpaTrainReg_employClInfoTrigger').hide();
+			$('#mypCpaTrainReg_apntcCpaHistInfoCtrtEndDe').val('');
+		}
+	});
+
 	//첨부파일 파일 변경
 	$('.mypCpaTrainReg_fileChange').on('click',function(e) {
 		var fileId = $(this).attr('id');
@@ -520,6 +538,8 @@ mypCpaTrainReg.selectMypCpaTrainRegReviewInfo_success = function (result){
 	$('#mypCpaTrainRegReviewInfo_guideCpa').text(result.cpaTrainRegReviewInfoList[0].guideCpaNm);
 	$('#mypCpaTrainRegReviewInfo_appInstt').text(result.cpaTrainRegReviewInfoList[0].appInsttNm);
 	$('#mypCpaTrainRegReviewInfo_appInsttEtc').text(result.cpaTrainRegReviewInfoList[0].appInsttEtc);
+	$('#mypCpaTrainRegReviewInfo_employCl').text(result.cpaTrainRegReviewInfoList[0].employClNm);
+	$('#mypCpaTrainRegReviewInfo_ctrtEndDe').text(result.cpaTrainRegReviewInfoList[0].ctrtEndDe);
 	$('#mypCpaTrainRegReviewInfo_atchFileId1').text(result.cpaTrainRegReviewInfoList[0].atchFileId1Nm);
 	$('#mypCpaTrainRegReviewInfo_passCrtiFileId').text(result.cpaTrainRegReviewInfoList[0].passCrtiFileIdNm);
 	$('#mypCpaTrainRegReviewInfo_emplCrtiFileId').text(result.cpaTrainRegReviewInfoList[0].emplCrtiFileIdNm);
@@ -614,6 +634,25 @@ mypCpaTrainReg.mypCpaTrainReg_regFlagFList_success = function(data){
 
 
 	$('#mypCpaTrainReg_apntcCpaHistInfoAppInsttEtc').val(data.cpaTrainRegReviewInfoList[0].appInsttEtc);             //기타 실무수습기관
+
+	//고용형태
+	$('#mypCpaTrainReg_apntcCpaHistInfoEmployCl').val(data.cpaTrainRegReviewInfoList[0].employCl);                  //고용형태
+	$('#mypCpaTrainReg_apntcCpaHistInfoCtrtEndDe').val(data.cpaTrainRegReviewInfoList[0].ctrtEndDe);                //계약종료예정일
+
+	if($('#mypCpaTrainReg_apntcCpaHistInfoEmployCl').val() != "" && $('#mypCpaTrainReg_apntcCpaHistInfoEmployCl').val() != null){
+		$('#mypCpaTrainReg_apntcCpaHistInfoEmployCl').addClass('select');
+	}
+	else{
+		$('#mypCpaTrainReg_apntcCpaHistInfoEmployCl').removeClass('select');
+	}
+
+	if($('#mypCpaTrainReg_apntcCpaHistInfoEmployCl').val()=="A1130020" || $('#mypCpaTrainReg_apntcCpaHistInfoEmployCl').val()=="A1130030"){
+		$('.mypCpaTrainReg_employClInfoTrigger').show();
+	}
+	else{
+		$('.mypCpaTrainReg_employClInfoTrigger').hide();
+		$('#mypCpaTrainReg_apntcCpaHistInfoCtrtEndDe').val('');
+	}
 
 	//첨부파일
 	if(data.cpaTrainRegReviewInfoList[0].atchFileId1 != "" && data.cpaTrainRegReviewInfoList[0].atchFileId1 != null){          //졸업예정증명서류1

@@ -432,6 +432,19 @@ public class MypTrainController {
 				}
 			}
 
+			if("".equals(paramMap.get("employCl")) || (paramMap.get("employCl") == null)){
+				modelAndView.addObject("message", "고용형태를 선택하세요.");
+				return modelAndView;
+			}
+			else{
+				if("A1130020".equals(paramMap.get("employCl")) || "A1130030".equals(paramMap.get("employCl"))){
+					if("".equals(paramMap.get("ctrtEndDe")) || (paramMap.get("ctrtEndDe") == null)){
+						modelAndView.addObject("message", "계약종료예정일을 선택하세요.");
+						return modelAndView;
+					}
+				}
+			}
+
 			if(!"S0003".equals(paramMap.get("appInsttCd"))){
 				int guideCpaCnt = mypTrainService.selectApntcCpaHistGuideCpaCehck(paramMap);
 
@@ -443,6 +456,7 @@ public class MypTrainController {
 
 			paramMap.put("appRegistDe",paramMap.get("appRegistDe").toString().replaceAll("-",""));
 			paramMap.put("apntcCl", "A1010020");
+			paramMap.put("ctrtEndDe", StringUtil.isNullToString(paramMap.get("ctrtEndDe")).replaceAll("-",""));
 			paramMap.put("userId", paramMap.get("pin"));
 			mypTrainService.mypCpaTrainRegisterApntcCpaHistInfoSave(paramMap);
 
