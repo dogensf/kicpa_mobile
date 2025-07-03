@@ -23,7 +23,7 @@
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
 	<script src="//code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>
 <script src="/js/KicpaCommon.js"></script>
-<script src="/js/kicpa/myp/mypCpaTrainReg.js?ver=2"></script>
+<script src="/js/kicpa/myp/mypCpaTrainReg.js?ver=3"></script>
 <script>
 	$(document).ready(function(){
 		mypCpaTrainReg.mypCpaTrainRegInit();
@@ -365,12 +365,22 @@
 					</div>
 
 					<div class="inp-box mypTrainAppInsttEtcYn" style="display: none;">
-						<label class="label essen" for="mypCpaTrainReg_apntcCpaHistInfoAppInsttEtc">실제 실무수습기관명</label>
-						<input type="text" id="mypCpaTrainReg_apntcCpaHistInfoAppInsttEtc" name="appInsttEtc" placeholder="실제 실무수습기관명(회사명)을 등록하세요."/>
+						<label class="label essen" for="mypCpaTrainReg_apntcCpaHistInfoAppInsttEtc">수습기관명</label>
+						<input type="text" id="mypCpaTrainReg_apntcCpaHistInfoAppInsttEtc" name="appInsttEtc" placeholder="수습기관명을 입력하세요."/>
+					</div>
+
+					<div class="inp-box mypTrainAppInsttEtcYn" style="display: none;">
+						<label class="label essen" for="mypCpaTrainReg_apntcCpaHistInfoAppInsttEtcDept">부서명</label>
+						<input type="text" id="mypCpaTrainReg_apntcCpaHistInfoAppInsttEtcDept" name="appInsttEtcDept" placeholder="부서명을 입력하세요."/>
+					</div>
+
+					<div class="inp-box mypTrainAppInsttEtcYn" style="display: none;">
+						<label class="label essen" for="mypCpaTrainReg_apntcCpaHistInfoAppInsttEtcTask">담당업무</label>
+						<input type="text" id="mypCpaTrainReg_apntcCpaHistInfoAppInsttEtcTask" name="appInsttEtcTask" placeholder="담당업무를 입력하세요."/>
 					</div>
 
 					<div class="inp-box">
-						<label class="label essen" for="mypCpaTrainReg_apntcCpaHistInfoEmployCl">고용형태</label>
+						<label class="label" for="mypCpaTrainReg_apntcCpaHistInfoEmployCl">고용형태</label>
 
 						<select name="employCl" id="mypCpaTrainReg_apntcCpaHistInfoEmployCl">
 							<option selected value=''>선택하세요</option>
@@ -580,8 +590,16 @@
 							<p id="mypCpaTrainRegReviewInfo_appInstt"></p>
 						</li>
 						<li>
-							<span>실제 실무수습기관명</span>
+							<span>수습기관명</span>
 							<p id="mypCpaTrainRegReviewInfo_appInsttEtc"></p>
+						</li>
+						<li>
+							<span>부서명</span>
+							<p id="mypCpaTrainRegReviewInfo_appInsttEtcDept"></p>
+						</li>
+						<li>
+							<span>담당업무</span>
+							<p id="mypCpaTrainRegReviewInfo_appInsttEtcTask"></p>
 						</li>
 						<li>
 							<span>고용형태</span>

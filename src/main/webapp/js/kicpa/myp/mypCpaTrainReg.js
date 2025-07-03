@@ -538,6 +538,8 @@ mypCpaTrainReg.selectMypCpaTrainRegReviewInfo_success = function (result){
 	$('#mypCpaTrainRegReviewInfo_guideCpa').text(result.cpaTrainRegReviewInfoList[0].guideCpaNm);
 	$('#mypCpaTrainRegReviewInfo_appInstt').text(result.cpaTrainRegReviewInfoList[0].appInsttNm);
 	$('#mypCpaTrainRegReviewInfo_appInsttEtc').text(result.cpaTrainRegReviewInfoList[0].appInsttEtc);
+	$('#mypCpaTrainRegReviewInfo_appInsttEtcDept').text(result.cpaTrainRegReviewInfoList[0].appInsttEtcDept);
+	$('#mypCpaTrainRegReviewInfo_appInsttEtcTask').text(result.cpaTrainRegReviewInfoList[0].appInsttEtcTask);
 	$('#mypCpaTrainRegReviewInfo_employCl').text(result.cpaTrainRegReviewInfoList[0].employClNm);
 	$('#mypCpaTrainRegReviewInfo_ctrtEndDe').text(result.cpaTrainRegReviewInfoList[0].ctrtEndDe);
 	$('#mypCpaTrainRegReviewInfo_atchFileId1').text(result.cpaTrainRegReviewInfoList[0].atchFileId1Nm);
@@ -624,16 +626,24 @@ mypCpaTrainReg.mypCpaTrainReg_regFlagFList_success = function(data){
 
 	if($('#mypCpaTrainReg_apntcCpaHistInfoAudGrpCl').val() != "A3019999"){
 		$('#mypCpaTrainReg_apntcCpaHistInfoAppInsttEtc').val('');
+		$('#mypCpaTrainReg_apntcCpaHistInfoAppInsttEtcDept').val('');
+		$('#mypCpaTrainReg_apntcCpaHistInfoAppInsttEtcTask').val('');
 		$('#mypCpaTrainReg_apntcCpaHistInfoAppInsttEtc').prop('disabled', true);
-		$('.mypTrainAppInsttEtcYn').hide();
+		$('#mypCpaTrainReg_apntcCpaHistInfoAppInsttEtcDept').prop('disabled', true);
+		$('#mypCpaTrainReg_apntcCpaHistInfoAppInsttEtcTask').prop('disabled', true);
+		$('.mypCpaTrainReg_apntcCpaHistInfoYn').hide();
 	}
 	else{
 		$('#mypCpaTrainReg_apntcCpaHistInfoAppInsttEtc').prop('disabled', false);
-		$('.mypTrainAppInsttEtcYn').show();
+		$('#mypCpaTrainReg_apntcCpaHistInfoAppInsttEtcDept').prop('disabled', false);
+		$('#mypCpaTrainReg_apntcCpaHistInfoAppInsttEtcTask').prop('disabled', false);
+		$('.mypCpaTrainReg_apntcCpaHistInfoYn').show();
 	}
 
 
 	$('#mypCpaTrainReg_apntcCpaHistInfoAppInsttEtc').val(data.cpaTrainRegReviewInfoList[0].appInsttEtc);             //기타 실무수습기관
+	$('#mypCpaTrainReg_apntcCpaHistInfoAppInsttEtcDept').val(data.cpaTrainRegReviewInfoList[0].appInsttEtcDept);        //부서명
+	$('#mypCpaTrainReg_apntcCpaHistInfoAppInsttEtcTask').val(data.cpaTrainRegReviewInfoList[0].appInsttEtcTask);        //담당업무
 
 	//고용형태
 	$('#mypCpaTrainReg_apntcCpaHistInfoEmployCl').val(data.cpaTrainRegReviewInfoList[0].employCl);                  //고용형태

@@ -472,6 +472,8 @@
 				,   TO_CHAR(acm.FRST_REGIST_DT, 'YYYY-MM-DD') AS FRST_REGIST_DT
 				,	acm.REJECT_RSN
 				,	acm.REMARK
+				,	acm.APP_INSTT_ETC_DEPT
+				,	acm.APP_INSTT_ETC_TASK
 
             FROM APNTC_CPA_MYP acm
             WHERE acm.APNTC_SN = (SELECT MAX(APNTC_SN) FROM APNTC_CPA_MYP WHERE PIN = #pin#)

@@ -427,7 +427,17 @@ public class MypTrainController {
 			else if("A3019999".equals(paramMap.get("audGrpCl"))){
 
 				if("".equals(paramMap.get("appInsttEtc")) || (paramMap.get("appInsttEtc") == null)){
-					modelAndView.addObject("message", "실제 실무수습기관명을 입력하세요.");
+					modelAndView.addObject("message", "수습기관명을 입력하세요.");
+					return modelAndView;
+				}
+
+				if("".equals(paramMap.get("appInsttEtcDept")) || (paramMap.get("appInsttEtcDept") == null)){
+					modelAndView.addObject("message", "부서명을 입력하세요.");
+					return modelAndView;
+				}
+
+				if("".equals(paramMap.get("appInsttEtcTask")) || (paramMap.get("appInsttEtcTask") == null)){
+					modelAndView.addObject("message", "담당업무를 입력하세요.");
 					return modelAndView;
 				}
 			}

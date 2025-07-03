@@ -30,11 +30,17 @@ function fnAuditListSuccess(data){
 
 				if(o.audGrpCl != "A3019999"){
 					$(opener.document).find("input[name='appInsttEtc']").val('');
+					$(opener.document).find("input[name='appInsttEtcDept']").val('');
+					$(opener.document).find("input[name='appInsttEtcTask']").val('');
 					$(opener.document).find("input[name='appInsttEtc']").prop('disabled', true);
+					$(opener.document).find("input[name='appInsttEtcDept']").prop('disabled', true);
+					$(opener.document).find("input[name='appInsttEtcTask']").prop('disabled', true);
 					$(opener.document).find('.mypTrainAppInsttEtcYn').hide();
 				}
 				else{
 					$(opener.document).find("input[name='appInsttEtc']").prop('disabled', false);
+					$(opener.document).find("input[name='appInsttEtcDept']").prop('disabled', false);
+					$(opener.document).find("input[name='appInsttEtcTask']").prop('disabled', false);
 					$(opener.document).find('.mypTrainAppInsttEtcYn').show();
 				}
 

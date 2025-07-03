@@ -164,7 +164,9 @@
 				EMPLOY_CL = #employCl#,
 				CTRT_END_DE = #ctrtEndDe#,
 				LAST_UPDT_ID = #userId#,
-				LAST_UPDT_DT = SYSTIMESTAMP
+				LAST_UPDT_DT = SYSTIMESTAMP,
+				APP_INSTT_ETC_DEPT = #appInsttEtcDept#,
+				APP_INSTT_ETC_TASK = #appInsttEtcTask#
 
             WHERE PIN = #pin#
               AND APNTC_SN = #apntcSn#
