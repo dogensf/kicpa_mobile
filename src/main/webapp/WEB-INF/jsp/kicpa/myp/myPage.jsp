@@ -34,6 +34,21 @@
 	}
 
 </script>
+
+<style>
+	.regColor{
+		border : 1px solid #EB640F !important;
+		background : #fff !important;
+		color : #EB640F !important;
+	}
+
+	.regColor:hover{
+		background: #EB640F !important;
+		color: #fff !important;
+	}
+</style>
+
+
 <body id="myPage_body">
 <div class="wrap">
 	<div class="container">
@@ -126,7 +141,7 @@
 								</div>
 
 								<div class="btn-area">
-									<button class="btn-primary" type="button" id="myPage_cpaMemberRegist">공인회계사 등록하기</button>
+									<button class="btn-primary regColor" type="button" id="myPage_cpaMemberRegist">공인회계사 등록하기</button>
 								</div>
 							</div>
 						</c:if>
@@ -293,7 +308,7 @@
 								</div>
 
 								<div class="btn-area">
-									<button class="btn-primary" type="button" id="mypPage_mypCpaTrainRegPageMove">기본실무 등록하기</button>
+									<button class="btn-primary regColor" type="button" id="mypPage_mypCpaTrainRegPageMove">기본실무 등록하기</button>
 								</div>
 							</div>
 						</c:if>
