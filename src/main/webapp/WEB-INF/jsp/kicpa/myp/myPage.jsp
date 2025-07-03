@@ -38,7 +38,7 @@
 <style>
 	.regColor{
 		border : 1px solid #EB640F !important;
-		background : #fff !important;
+		background : #ffe8da !important;
 		color : #EB640F !important;
 	}
 
@@ -295,7 +295,7 @@
 								</div>
 
 								<div class="btn-area">
-									<button class="btn-primary" type="button" id="myPage_cpaPassRegist">합격자 기본정보 등록하기</button>
+									<button class="btn-primary regColor" type="button" id="myPage_cpaPassRegist">합격자 기본정보 등록하기</button>
 								</div>
 							</div>
 						</c:if>
@@ -430,7 +430,7 @@
 								</div>
 
 								<div class="btn-area">
-									<button class="btn-primary mypPage_mypAudTrainRegMove" type="button">외감신청</button>
+									<button class="btn-primary regColor mypPage_mypAudTrainRegMove" type="button">외감신청</button>
 								</div>
 							</div>
 						</c:if>
