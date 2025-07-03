@@ -432,16 +432,10 @@ public class MypTrainController {
 				}
 			}
 
-			if("".equals(paramMap.get("employCl")) || (paramMap.get("employCl") == null)){
-				modelAndView.addObject("message", "고용형태를 선택하세요.");
-				return modelAndView;
-			}
-			else{
-				if("A1130020".equals(paramMap.get("employCl")) || "A1130030".equals(paramMap.get("employCl"))){
-					if("".equals(paramMap.get("ctrtEndDe")) || (paramMap.get("ctrtEndDe") == null)){
-						modelAndView.addObject("message", "계약종료예정일을 선택하세요.");
-						return modelAndView;
-					}
+			if("A1130020".equals(paramMap.get("employCl")) || "A1130030".equals(paramMap.get("employCl"))){
+				if("".equals(paramMap.get("ctrtEndDe")) || (paramMap.get("ctrtEndDe") == null)){
+					modelAndView.addObject("message", "계약종료예정일을 선택하세요.");
+					return modelAndView;
 				}
 			}
 
