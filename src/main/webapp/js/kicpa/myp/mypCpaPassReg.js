@@ -230,7 +230,7 @@ mypPassReg.mypPassRegInit = function(){
 						+"<div class='form'>"
 							+"<div class='inp-box'>"
 								+"<label class='label essen' for='mypCpaPassReg_acdmcrInfoAddSchulCl"+acdmcrInfoAddCount+"'>학력</label>"
-									+"<select class='select' name='schulCl' id='mypCpaPassReg_acdmcrInfoAddSchulCl"+acdmcrInfoAddCount+"'>"
+									+"<select class='select' name='schulCl' id='mypCpaPassReg_acdmcrInfoAddSchulCl"+acdmcrInfoAddCount+"' onchange='mypPassReg.mypCpaPassReg_schulClCnahge("+acdmcrInfoAddCount+")'>"
 									+"<option selected value=''>선택하세요</option>"
 									+"<option value='A2230010'>고등학교</option>"
 									+"<option value='A2230030'>대학교</option>"
@@ -256,8 +256,8 @@ mypPassReg.mypPassRegInit = function(){
 							+"</div>"
 
 							+"<div class='inp-box'>"
-								+"<label class='label essen' for='mypCpaPassReg_acdmcrInfoAddGrdtnYear"+acdmcrInfoAddCount+"'>졸업년도</label>"
-								+"<input type='text' id='mypCpaPassReg_acdmcrInfoAddGrdtnYear"+acdmcrInfoAddCount+"' name='grdtnYear' maxlength='4' oninput="+"this.value=this.value.replace(/[^0-9]/g,"+"''"+");"+" placeholder='졸업년도를 선택하세요.' required />"
+								+"<label class='label essen' for='mypCpaPassReg_acdmcrInfoAddGrdtnYear"+acdmcrInfoAddCount+"'>졸업년월</label>"
+								+"<input type='month' id='mypCpaPassReg_acdmcrInfoAddGrdtnYear"+acdmcrInfoAddCount+"' name='grdtnYear' placeholder='졸업년도를 선택하세요.' style='border: none; border-radius: 0; width: 100%; height: 3.4rem; font-size: 1.8rem; font-weight: 400; line-height: 2.6rem; color: #222; -webkit-appearance: none; border-bottom: 1px solid #666;' required />"
 							+"</div>"
 
 							+"<div class='inp-box'>"
@@ -559,6 +559,34 @@ mypPassReg.fn_acdmcrInfoGrdtnChange = function(){
 	$('#mypCpaPassReg_acdmcrInfoGrdtnYear2').val('');
 	$('#mypCpaPassReg_acdmcrInfoGrdtnYearMonth2').val('');
 
+}
+
+
+//추가학력 변경
+mypPassReg.mypCpaPassReg_schulClCnahge = function(rowNum){
+
+	var schulCl = $('#mypCpaPassReg_acdmcrInfoAddSchulCl'+rowNum).val();
+
+	var result  = "<option value=''>선택하세요.</option>";
+
+	//대학교일때
+	if(schulCl == "A2230030"){
+		result += "<option value='A9030020'>학사</option>" +
+			"     <option value='A9030050'>수료</option>" +
+			"     <option value='A9030060'>재학</option>";
+	}
+	//대학원
+	else if (schulCl == "A2230040"){
+		result += "<option value='A9030030'>석사</option>" +
+			"     <option value='A9030040'>박사</option>" +
+			"     <option value='A9030050'>수료</option>";
+	}
+	else{
+		result += "<option value='A9030010'>졸업</option>";
+	}
+
+	$('#mypCpaPassReg_acdmcrInfoAddDegree'+rowNum).empty();
+	$('#mypCpaPassReg_acdmcrInfoAddDegree'+rowNum).append(result);
 }
 
 //직장정보 초기화

@@ -532,8 +532,8 @@
 							</div>
 
 							<div class="inp-box">
-								<label class="label essen" for="mypCpaPassReg_acdmcrInfoGrdtnYear">졸업년도</label>
-								<input type="text" id="mypCpaPassReg_acdmcrInfoGrdtnYear" name="grdtnYear" maxlength="4" oninput="this.value=this.value.replace(/[^0-9]/g,'');" placeholder="졸업년도를 선택하세요." required />
+								<label class="label essen" for="mypCpaPassReg_acdmcrInfoGrdtnYear">졸업년월</label>
+								<input type="month" id="mypCpaPassReg_acdmcrInfoGrdtnYear" name="grdtnYear" placeholder="졸업년도를 선택하세요." style="border: none; border-radius: 0; width: 100%; height: 3.4rem; font-size: 1.8rem; font-weight: 400; line-height: 2.6rem; color: #222; -webkit-appearance: none; border-bottom: 1px solid #666;" required />
 							</div>
 
 							<div class="inp-box" style="display: none;">
@@ -579,7 +579,7 @@
 
 							<div class="inp-box">
 								<label class="label essen" for="mypCpaPassReg_acdmcrInfoGrdtnYear2" id="mypCpaPassReg_grdtnYearMonth">학위취득연도(졸업예정)</label>
-								<input type="text" id="mypCpaPassReg_acdmcrInfoGrdtnYear2" name="grdtnYear" maxlength="4" oninput="this.value=this.value.replace(/[^0-9]/g,'');" placeholder="날짜를 선택하세요." required />
+								<input type="month" id="mypCpaPassReg_acdmcrInfoGrdtnYear2" name="grdtnYear" placeholder="날짜를 선택하세요." style="border: none; border-radius: 0; width: 100%; height: 3.4rem; font-size: 1.8rem; font-weight: 400; line-height: 2.6rem; color: #222; -webkit-appearance: none; border-bottom: 1px solid #666;" required />
 								<input type="month" id="mypCpaPassReg_acdmcrInfoGrdtnYearMonth2" placeholder="날짜를 선택하세요." style="display: none; border: none; border-radius: 0; width: 100%; height: 3.4rem; font-size: 1.8rem; font-weight: 400; line-height: 2.6rem; color: #222; -webkit-appearance: none; border-bottom: 1px solid #666;" required disabled/>
 							</div>
 
