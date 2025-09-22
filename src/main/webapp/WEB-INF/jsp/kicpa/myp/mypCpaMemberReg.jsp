@@ -23,7 +23,7 @@
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
 	<script src="//code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>
 <script src="/js/KicpaCommon.js"></script>
-<script src="/js/kicpa/myp/mypCpaMemberReg.js?ver=4"></script>
+<script src="/js/kicpa/myp/mypCpaMemberReg.js?ver=5"></script>
 <script>
 	$(document).ready(function(){
 		mypMemberReg.mypMemberRegInit();
@@ -76,7 +76,7 @@
 					원활한 회원서비스 사용을 위해 아래의 개인정보 수집 및 이용동의 (필수), 개인정보 처리 위탁 동의 (필수)를 읽고 동의하여 주시기 바랍니다.
 				</p>
 				<div class="step-by">
-					<b>1</b> / <em>7</em>
+					<b>1</b> / <em>6</em>
 				</div>
 			</div>
 
@@ -150,7 +150,7 @@
 	</div>
 
 	<!-- 부조회원 구분 & 사업자등록번호 -->
-	<div class="container myPageMemInfoTabMove" id="mypCpaMemberReg_cpaCareerInfo">
+	<%--<div class="container myPageMemInfoTabMove" id="mypCpaMemberReg_cpaCareerInfo">
 		<section class="head-pop">
 			<h3>등록</h3>
 			<button class="btn-close" type="button" onclick="mypMemberReg.mypMemberReg_backMove();">
@@ -207,7 +207,7 @@
 		<aside class="fix-side">
 			<span onclick="window.scrollTo(0,0);" class="btn-top">TOP</span>
 		</aside>
-	</div>
+	</div>--%>
 
 	<!-- 회원등록구분 -->
 	<div class="container myPageMemInfoTabMove" id="mypCpaMemberReg_aidMberInfo">
@@ -227,7 +227,7 @@
 					필수항목을 등록해주세요.
 				</p>
 				<div class="step-by">
-					<b>3</b> / <em>7</em>
+					<b>2</b> / <em>6</em>
 				</div>
 			</div>
 
@@ -278,13 +278,24 @@
 						<input type="hidden" name="closedCl" id="mypCpaMember_closedCl"/>
 					</div>
 
+				<c:if test="${cpaMemberCanclInfo[0].canclCl eq null || cpaMemberCanclInfo[0].canclCl eq ''}">
+					<div class="inp-box">
+						<label class="label essen" for="mypCpaMember_aidMberFlag">부조회원 구분</label>
+
+						<select name="aidMberFlag" id="mypCpaMember_aidMberFlag">
+							<option value="">선택하세요.</option>
+							<option value="R">정회원</option>
+							<option value="A">준회원</option>
+						</select>
+					</div>
+				</c:if>
 				</form>
 			</div>
 		</section>
 
 		<!-- 이전페이지로 이동 -->
 		<div class="btn-page-bottom">
-			<button class="btn-text-back" onclick="mypMemberReg.mypMemberReg_tabMove('mypCpaMemberReg_cpaCareerInfo')" type="button">이전페이지로 이동</button>
+			<button class="btn-text-back" onclick="mypMemberReg.mypMemberReg_tabMove('mypCpaMemberReg_agreeInfo')" type="button">이전페이지로 이동</button>
 		</div>
 
 		<!-- 페이지 하단 버튼 -->
@@ -351,7 +362,7 @@
 				</div>
 
 				<div class="step-by mypCpaMemberReg_titleYn">
-					<b>4</b> / <em>7</em>
+					<b>3</b> / <em>6</em>
 				</div>
 			</div>
 
@@ -467,7 +478,7 @@
 				<h4>첨부파일 (첨부서류)</h4>
 				<p>공인회계사 등록에 필요한 첨부파일을 등록하세요.</p>
 				<div class="step-by">
-					<b>5</b> / <em>7</em>
+					<b>4</b> / <em>6</em>
 				</div>
 			</div>
 
@@ -546,7 +557,7 @@
 					제출 버튼을 눌러주세요.
 				</p>
 				<div class="step-by">
-					<b>6</b> / <em>7</em>
+					<b>5</b> / <em>6</em>
 				</div>
 			</div>
 
@@ -569,7 +580,7 @@
 					</p>
 				</div>
 
-				<div class="cont-line">
+				<%--<div class="cont-line">
 					<h4>부조회원 구분 & 사업자등록번호</h4>
 					<ul class="breakdown-list">
 						<li>
@@ -581,7 +592,7 @@
 							<p id="mypCpaMemberReviewInfo_bizrNo"></p>
 						</li>
 					</ul>
-				</div>
+				</div>--%>
 
 				<div class="cont-line">
 					<h4>회원등록구분</h4>
@@ -605,6 +616,10 @@
 						<li id="mypCpaMemberReviewInfo_closedClNmHide" style="display:none;">
 							<span>회원(휴업)분류</span>
 							<p id="mypCpaMemberReviewInfo_closedClNm"></p>
+						</li>
+						<li>
+							<span>부조회원 구분</span>
+							<p id="mypCpaMemberReviewInfo_aidMberFlag"></p>
 						</li>
 					</ul>
 				</div>
@@ -712,7 +727,7 @@
 					납부하실 금액은 아래와 같습니다.
 				</p>
 				<div class="step-by">
-					<b>7</b> / <em>7</em>
+					<b>6</b> / <em>6</em>
 				</div>
 			</div>
 

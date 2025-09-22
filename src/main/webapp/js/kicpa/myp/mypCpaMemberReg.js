@@ -393,7 +393,7 @@ mypMemberReg.mypCpaMemberReg_infoSave = function(){
 		formData.regFlag = $('#mypCpaMemberReg_regFlag').val();
 		var url = mypMemberReg.getContextPath()+"/myp/mypCpaMemberRegAgreeInfoSave.do";
 
-		mypMemberReg.mypCpaMemberReg_memberInfoSave(formData, url, "mypCpaMemberReg_cpaCareerInfo");
+		mypMemberReg.mypCpaMemberReg_memberInfoSave(formData, url, "mypCpaMemberReg_aidMberInfo");
 	}
 	else if(saveData == "mypCpaMemberReg_cpaCareerInfo"){					//부조회원 구분 & 사업자등록번호
 		var formData = $('#mypCpaMemberReg_aidMberInfoForm').serializeObject();
@@ -410,6 +410,8 @@ mypMemberReg.mypCpaMemberReg_infoSave = function(){
 		var formData = $('#mypCpaMemberReg_cpaCareerInfoForm').serializeObject();
 		formData.pin = $('#mypCpaMemberReg_pin').val();
 		formData.cpaSn = $('#mypCpaMemberReg_cpaSn').val();
+		formData.canclCl = $('#mypCpaMemberReg_canclCl').val();
+		formData.saveMode = $('#mypCpaMemberReg_saveMode').val();
 		var url = mypMemberReg.getContextPath()+"/myp/mypCpaMemberRegCpaCareerInfoSave.do";
 
 		mypMemberReg.mypCpaMemberReg_memberInfoSave(formData, url, "mypCpaMemberReg_nmstOthbcInfo");

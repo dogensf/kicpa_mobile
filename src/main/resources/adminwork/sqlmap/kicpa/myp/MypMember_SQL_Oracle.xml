@@ -154,6 +154,7 @@
 
 			UPDATE CPA_MYP
             SET
+            	AID_MBER_FLAG = #aidMberFlag#,
 				REGIST_DE = #registDe#,
 				LAST_REGIST_DE = #registDe#,
 				MBER_FLAG = #mberFlag#,

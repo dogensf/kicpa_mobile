@@ -395,7 +395,8 @@ public class MypMemberController {
 				modelAndView.addObject("message", "공인회계사 등록예정일을 선택하세요.");
 				return modelAndView;
 			}
-			else if("".equals(paramMap.get("mberFlag")) || (paramMap.get("mberFlag") == null)){
+
+			if("".equals(paramMap.get("mberFlag")) || (paramMap.get("mberFlag") == null)){
 				modelAndView.addObject("message", "회원구분을 선택하세요.");
 				return modelAndView;
 			}
@@ -413,6 +414,23 @@ public class MypMemberController {
 				if("".equals(paramMap.get("closedCl")) || (paramMap.get("closedCl") == null)) {
 					modelAndView.addObject("message", "회원(휴업)분류를 선택하세요.");
 					return modelAndView;
+				}
+			}
+
+			if(("".equals(paramMap.get("aidMberFlag")) || paramMap.get("aidMberFlag") == null) && ("".equals(paramMap.get("canclCl")) || paramMap.get("canclCl") == null)){
+				modelAndView.addObject("message", "부조회원 구분을 선택하세요.");
+				return modelAndView;
+			}
+
+			if(("".equals(paramMap.get("aidMberFlag")) || paramMap.get("aidMberFlag") == null)){
+				List<?> cpaAidMasterInfo = myPageService.selectCpaMemberRegistInfoList(paramMap);;
+
+				if(cpaAidMasterInfo != null && cpaAidMasterInfo.size() > 0){
+
+					Map<String, Object> cpaAidInfo = new HashMap<>();
+					cpaAidInfo.putAll((Map<String, Object>)cpaAidMasterInfo.get(0));
+
+					paramMap.put("aidMberFlag", cpaAidInfo.get("mberFlag"));
 				}
 			}
 
