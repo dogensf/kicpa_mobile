@@ -33,7 +33,7 @@ mypCpaTrainReg.mypCpaTrainRegInit = function(){
 	const tomorrow = new Date(today);
 	const yesterday = new Date(today);
 
-	tomorrow.setDate(today.getDate() + 14);
+	tomorrow.setDate(today.getDate() + 30);
 	yesterday.setDate(today.getDate());
 
 	var year = tomorrow.getFullYear();
