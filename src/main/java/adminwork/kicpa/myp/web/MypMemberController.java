@@ -977,4 +977,18 @@ public class MypMemberController {
 
 		return modelAndView;
 	}
+
+    //수정제출
+    @RequestMapping(value="/mypCpaMemberRegEditAndSubmitBtn.do")
+    public ModelAndView mypCpaMemberRegEditAndSubmitBtn(@RequestParam Map<String, Object> paramMap) throws Exception{
+
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("jsonView");
+
+                //수정제출 수정
+                paramMap.put("userId",paramMap.get("pin"));
+                mypMemberService.mypCpaMemberRegisterRegFlagSave(paramMap);
+
+        return modelAndView;
+    }
 }

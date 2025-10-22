@@ -23,7 +23,7 @@
 	<link rel="stylesheet" href="//code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" />
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
 	<script src="//code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>
-	<script src="/js/kicpa/myp/myPage.js"></script>
+	<script src="/js/kicpa/myp/myPage.js?ver=1"></script>
 <script>
 	$(document).ready(function(){
 		myPage.myPageInit();
@@ -161,11 +161,13 @@
 
 
 							<div class="btn-area">
+                                <!-- 등록회비 미납 -->
+                                <c:if test="${cpaAidFlag ne 'Y'}">
+                                    <button class="btn-round fill" type="button" onClick="location.href='${pageContext.request.contextPath}/kicpa/myp/mypCpaMemberReg.do?movePage=mypCpaMemberReg_aidDuesInfo&pin=${myPagePin}'">등록회비 납부</button>
+                                </c:if>
 								<button class="btn-round" type="button" onClick="location.href='${pageContext.request.contextPath}/kicpa/myp/mypCpaMemberReg.do?movePage=mypCpaMemberReg_reviewInfo&pin=${myPagePin}'">공인회계사 등록조회</button>
-								<!-- 등록회비 미납 -->
-								<c:if test="${cpaAidFlag ne 'Y'}">
-									<button class="btn-round fill" type="button" onClick="location.href='${pageContext.request.contextPath}/kicpa/myp/mypCpaMemberReg.do?movePage=mypCpaMemberReg_aidDuesInfo&pin=${myPagePin}'">등록회비 납부</button>
-								</c:if>
+                                <button id="mypCpaMemberRegEditAndSubmitBtn" class="btn-round fill" type="button">수정제출</button>
+                                <input type="hidden" value="${cpaMemberRegInfo.cpaSn}" id="mypCpaMemberRegEditAndSubmitCpaSn">
 							</div>
 						</div>
 
