@@ -70,7 +70,7 @@ mypMemberReg.mypMemberRegInit = function(){
 	}
 
 	//반려상태에서 재신청한 경우
-	if($('#mypCpaMemberReg_regFlag').val() == "F"){
+	if($('#mypCpaMemberReg_regFlag').val() == "F" || $('#mypCpaMemberReg_regFlag').val() =="N"){
 		mypMemberReg.mypCpaMember_regFlagFList();
 	}
 

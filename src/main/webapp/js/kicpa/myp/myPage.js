@@ -57,6 +57,28 @@ myPage.myPageInit = function(){
 		$('#myPage_body').removeClass('stop');
 		$('#myPagePop_rejectRsn').removeClass('show');
 	});
+
+    //수정제출 클릭 시, REG_FLAG값이 "N"으로 바뀜
+    $('#mypCpaMemberRegEditAndSubmitBtn').on('click',function() {
+
+        const pin = $('#myPage_myPagePin').val();
+
+        if(confirm('제출 전 상태로 변경되며 수정 후 반드시 제출버튼을 클릭해야 합니다.')){
+            $.ajax({
+                url: myPage.getContextPath() + '/myp/mypCpaMemberRegEditAndSubmitBtn.do',
+                type: 'POST',
+                data: { pin: pin, regFlag: 'N' , cpaSn: $('#mypCpaMemberRegEditAndSubmitCpaSn').val()},
+                success: function(response) {
+                    // 성공 시 페이지 이동
+                    location.replace(myPage.getContextPath() + '/myp/mypCpaMemberReg.do?pin=' + pin);
+                },
+                error: function(xhr, status, error) {
+                    alert('REG_FLAG 변경 중 오류가 발생했습니다.');
+                    console.error(error);
+                }
+            });
+        }
+    });
 }
 
 

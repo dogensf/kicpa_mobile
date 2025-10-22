@@ -464,8 +464,6 @@
 			UPDATE CPA_MYP
             SET
        			REG_FLAG = #regFlag#,
-       			OPETR_DE = #opetrDe#,
-
        	]]>
 
 		<isNotEmpty property="sbscrbMypSn">
@@ -474,6 +472,12 @@
 					SBSCRB_YN = #sbscrbYn#,
 			]]>
 		</isNotEmpty>
+
+        <isNotEmpty property="opetrDe">
+            <![CDATA[
+					OPETR_DE = #opetrDe#,
+			]]>
+        </isNotEmpty>
 
 		<![CDATA[
 
