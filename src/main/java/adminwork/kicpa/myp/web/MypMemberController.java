@@ -583,9 +583,9 @@ public class MypMemberController {
 		if(!"".equals(multiRequest.getParameter("eventnSet")) && multiRequest.getParameter("eventnSet") != null){
 			regFlag = "F";
 		}
-		if(!"".equals(multiRequest.getParameter("apntcEndFileIdSet")) && multiRequest.getParameter("apntcEndFileIdSet") != null){
+		/*if(!"".equals(multiRequest.getParameter("apntcEndFileIdSet")) && multiRequest.getParameter("apntcEndFileIdSet") != null){
 			paramMap.put("apntcEndFileId", multiRequest.getParameter("apntcEndFileIdSet"));
-		}
+		}*/
 		if(!"".equals(multiRequest.getParameter("atchFileIdSet")) && multiRequest.getParameter("atchFileIdSet") != null){
 			paramMap.put("atchFileId", multiRequest.getParameter("atchFileIdSet"));
 		}
@@ -666,9 +666,9 @@ public class MypMemberController {
 								FileScrty.encryptImg(fileKey, source, target);
 							}
 						}
-						else if("apntcEndFileId".equals(key)){
+						/*else if("apntcEndFileId".equals(key)){
 							paramMap.put("apntcEndFileId", vo.getAtchFileId());
-						}
+						}*/
 						else if("atchFileId".equals(key)){
 							paramMap.put("atchFileId", vo.getAtchFileId());
 						}
