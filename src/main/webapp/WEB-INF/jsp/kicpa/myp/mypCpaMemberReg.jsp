@@ -502,13 +502,13 @@
 						<button type="button" class="regFlagFRsumFileIdDelHide" onclick="mypMemberReg.mypCpaMember_atchFileInfoRemove('regFlagFRsumFileIdDelHide')" style="display:none; position: absolute; right: 0; border: 1px solid #0070C0; border-radius: 1.6rem; height: 2.4rem; padding: 0 2.2rem; font-size: 1.4rem; font-weight: 400; line-height: 2rem; color: #0070C0;">삭제</button>
 					</div>
 
-					<div class="inp-box">
+					<%--<div class="inp-box">
 						<div class="label">실무수습종료증명서</div>
 						<input class="mypCpaMemberReg_fileChange" type="file" id="mypCpaMember_apntcEndFileId" name="apntcEndFileId" readonly/>
 						<label for="mypCpaMember_apntcEndFileId">파일을 등록해 주세요</label>
 						<input type="hidden" name="apntcEndFileIdSet" id="mypCpaMember_apntcEndFileIdSet"/>
 						<button type="button" class="regFlagFApntcEndFileIdDelHide" onclick="mypMemberReg.mypCpaMember_atchFileInfoRemove('regFlagFApntcEndFileIdDelHide')" style="display:none; position: absolute; right: 0; border: 1px solid #0070C0; border-radius: 1.6rem; height: 2.4rem; padding: 0 2.2rem; font-size: 1.4rem; font-weight: 400; line-height: 2rem; color: #0070C0;">삭제</button>
-					</div>
+					</div>--%>
 
 					<div class="inp-box">
 						<div class="label">기타</div>
@@ -669,10 +669,10 @@
 							<span>이력서</span>
 							<p id="mypCpaMemberReviewInfo_rsumFileId"></p>
 						</li>
-						<li>
+						<%--<li>
 							<span>실무수습종료증명서</span>
 							<p id="mypCpaMemberReviewInfo_apntcEndFileId"></p>
-						</li>
+						</li>--%>
 						<li>
 							<span>기타</span>
 							<p id="mypCpaMemberReviewInfo_atchFileId"></p>
@@ -694,7 +694,7 @@
 
 		<!-- 이전페이지로 이동 -->
 		<div class="btn-page-bottom">
-			<button class="btn-text-back mypCpaMember_preBtn" onclick="mypMemberReg.mypMemberReg_tabMove('mypCpaMemberReg_aidDuesInfo')" type="button">이전페이지로 이동</button>
+			<button class="btn-text-back mypCpaMember_preBtn" onclick="mypMemberReg.mypMemberReg_tabMove('mypCpaMemberReg_atchFileInfo')" type="button">이전페이지로 이동</button>
 		</div>
 
 		<!--페이지하단 버튼 -->
@@ -784,9 +784,9 @@
 		</section>
 
 		<!-- 이전페이지로 이동 -->
-		<div class="btn-page-bottom">
-			<button class="btn-text-back mypCpaMember_preBtn" onclick="mypMemberReg.mypMemberReg_tabMove('mypCpaMemberReg_atchFileInfo')" type="button">이전페이지로 이동</button>
-		</div>
+		<%--<div class="btn-page-bottom">
+			<button class="btn-text-back mypCpaMember_preBtn" onclick="mypMemberReg.mypMemberReg_tabMove('mypCpaMemberReg_reviewInfo')" type="button">이전페이지로 이동</button>
+		</div>--%>
 
 		<!-- 페이지하단 버튼 -->
 		<div class="sticky-bottom">
