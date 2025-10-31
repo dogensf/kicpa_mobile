@@ -1116,8 +1116,8 @@ public class SntBookController {
 			        PrintWriter printWriter = response.getWriter();
 
 			        String script= "<script>";
-			        script += "alert('구매에 실패하였습니다.\n' "+map.get("P_RMESG1")+");";
-			        script += "location.href='/kicpa/sntBook/bookBuyHistoryList.do'";
+                    script += "alert('구매에 실패하였습니다.\\n" + StringUtil.isNullToString(map.get("P_RMESG1"), "").replace("'", "\\'").replace("\n", "\\n") + "');";
+                    script += "location.href='/kicpa/sntBook/bookBuyHistoryList.do';";
 
 	//		        script += "opener.location.reload();";
 	//		        script += "window.close();";
