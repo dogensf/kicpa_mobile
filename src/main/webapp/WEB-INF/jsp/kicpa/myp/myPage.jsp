@@ -166,7 +166,7 @@
                                     <button class="btn-round fill" type="button" onClick="location.href='${pageContext.request.contextPath}/kicpa/myp/mypCpaMemberReg.do?movePage=mypCpaMemberReg_aidDuesInfo&pin=${myPagePin}'">등록회비 납부</button>
                                 </c:if>
 								<button class="btn-round" type="button" onClick="location.href='${pageContext.request.contextPath}/kicpa/myp/mypCpaMemberReg.do?movePage=mypCpaMemberReg_reviewInfo&pin=${myPagePin}'">공인회계사 등록조회</button>
-                                <%--<button id="mypCpaMemberRegEditAndSubmitBtn" class="btn-round fill" type="button">수정제출</button>--%>
+                                <button id="mypCpaMemberRegEditAndSubmitBtn" class="btn-round fill" type="button">수정제출</button>
                                 <input type="hidden" value="${cpaMemberRegInfo.cpaSn}" id="mypCpaMemberRegEditAndSubmitCpaSn">
 							</div>
 						</div>

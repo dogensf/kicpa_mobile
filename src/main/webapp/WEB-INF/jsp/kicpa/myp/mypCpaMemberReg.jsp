@@ -23,7 +23,7 @@
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
 	<script src="//code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>
 <script src="/js/KicpaCommon.js"></script>
-<script src="/js/kicpa/myp/mypCpaMemberReg.js?ver=5"></script>
+<script src="/js/kicpa/myp/mypCpaMemberReg.js?ver=6"></script>
 <script>
 	$(document).ready(function(){
 		mypMemberReg.mypMemberRegInit();
@@ -724,7 +724,9 @@
 				<span>공인회계사등록</span>
 				<h4>등록 회비 납부</h4>
 				<p>
-					납부하실 금액은 아래와 같습니다.
+                    • 입회비가 모두 납부되어야 등록이 가능합니다.<br>
+                    • 회계법인 소속 공인회계사의 일반회계 입회금 및 연회비 납부 의무자는 회계법인이므로, 해당 회계법인에 납부를 요청하시기 바랍니다. (회비규정 제3조)<br>
+                    • 회계법인 소속인 경우, 전체 입회비에 대해 소속 회계법인의 지원 여부를 먼저 확인하시고, 이중 납부가 발생하지 않도록 유의하시기 바랍니다.
 				</p>
 				<div class="step-by">
 					<b>6</b> / <em>6</em>
@@ -844,21 +846,22 @@
 <div class="layer-popup-wrap" id="mypCpaMemberReg_saveRegPop">
 	<div class="layer-container">
 		<div class="title-box">
-			<h2>제출</h2>
+			<h2>공인회계사 등록신청서 제출 완료</h2>
 		</div>
 
 		<div class="layer-content" style="text-align: center;">
 			<div class="gray-box">
-				해당 내용으로 제출 하시겠습니까?
+                등록신청서 제출이 완료되었습니다.<br/>
+                아래의 ‘등록회비 납부’ 버튼을 클릭해주세요.
 			</div>
 		</div>
 
 		<div class="layer-bottom" style="text-align: center;">
 
-			<button class="btn-text-blue" type="button" id="mypCpaMemberReg_saveRegPopCanclBtn">제출취소</button>
+			<button class="btn-text-blue" type="button" id="mypCpaMemberReg_saveRegPopCanclBtn">마이페이지 이동</button>
 
 			<div class="btn-bottom">
-				<button class="btn-round fill" type="button" id="mypCpaMemberReg_saveRegPopBtn">제출</button>
+				<button class="btn-round fill" type="button" id="mypCpaMemberReg_saveRegPopBtn">등록회비 납부</button>
 			</div>
 		</div>
 	</div>

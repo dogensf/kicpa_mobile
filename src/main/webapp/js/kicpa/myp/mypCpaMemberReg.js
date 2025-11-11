@@ -130,6 +130,7 @@ mypMemberReg.mypMemberRegInit = function(){
 	//제출
 	$("#mypCpaMember_reviewInfoSaveBtn").on("click",function(e) {
 		$('#mypCpaMemberReg_saveData').val("mypCpaMemberReg_reviewInfo");
+        mypMemberReg.mypCpaMemberReg_infoSave();
 		$('#mypCpaMemberReg_body').addClass('stop');
 		$('#mypCpaMemberReg_saveRegPop').addClass('show');
 	});
@@ -298,13 +299,14 @@ mypMemberReg.mypMemberRegInit = function(){
 	$("#mypCpaMemberReg_saveRegPopCanclBtn").on("click",function(e) {
 		$('#mypCpaMemberReg_body').removeClass('stop');
 		$('#mypCpaMemberReg_saveRegPop').removeClass('show');
+        location.replace(mypMemberReg.getContextPath()+'/myp/myPage.do?Pin='+$('#mypCpaMemberReg_pin').val());
 	});
 
 	//저장팝업 제출버튼 클릭
 	$("#mypCpaMemberReg_saveRegPopBtn").on("click",function(e) {
-
-		mypMemberReg.mypCpaMemberReg_infoSave();
 		$('#mypCpaMemberReg_saveRegPop').removeClass('show');
+        $('#mypCpaMemberReg_saveData').val("mypCpaMemberReg_aidDuesInfo");
+
 
 	});
 }
@@ -473,7 +475,7 @@ mypMemberReg.mypCpaMemberReg_infoSave = function(){
 			type : "POST",
 			data : formData,
 			success : function(data) {
-				mypMemberReg.mypMemberReg_tabMove('mypCpaMemberReg_aidDuesInfo');
+				//mypMemberReg.mypMemberReg_tabMove('mypCpaMemberReg_aidDuesInfo');
 				//location.replace(mypMemberReg.getContextPath()+'/myp/myPage.do?Pin='+$('#mypCpaMemberReg_pin').val());
 			}
 		});
