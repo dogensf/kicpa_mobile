@@ -23,14 +23,12 @@ function pay0(){
 <form name="mobileweb" id="mobileweb" method="post" accept-charset="euc-kr">
 	<input type="hidden" name="P_NEXT_URL" value="https://mkip.kicpa.or.kr/kicpa/sntBook/orderOfflineEduReponse.do">
 	<input type="hidden" name="P_MID" value="${mid }"> <!-- 에스크로테스트 : iniescrow0, 모바일빌링(정기과금)은 별도연동필요 -->
-	<input type="hidden" name="P_OID" value="${P_OID}">
+	<input type="hidden" name="P_OID" value="">
 	<input type="hidden" name="P_CHARSET" value="utf8">
 	<input type="hidden" name="P_GOODS" value="<c:out value="${detail.wtitle }"/>">
 	<input type="hidden" name="P_AMT" value="${totalPay }">
 	<input type="hidden" name="P_UNAME" value="${loginVO.name }">
 	<input type="hidden" name="P_INI_PAYMENT" value="CARD">
-	<input type="hidden" name="P_TIMESTAMP" value="${P_TIMESTAMP}">
-	<input type="hidden" name="P_CHKFAKE" value="${P_CHKFAKE}">
 	<input type="hidden" name="gamYn" value="N">
 	<input type="hidden" name="gamId" value="">
 	<input type="hidden" name="emailYn" value="0">

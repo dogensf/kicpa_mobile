@@ -3,9 +3,7 @@ package adminwork.kicpa.sntBook.web;
 
 import java.io.File;
 import java.io.PrintWriter;
-import java.security.MessageDigest;
 import java.util.ArrayList;
-import java.util.Base64;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,7 +26,6 @@ import adminwork.com.cmm.HttpUtil;
 import adminwork.com.cmm.LoginVO;
 import adminwork.com.cmm.StringUtil;
 import adminwork.com.cmm.service.FileMngUtil;
-import adminwork.com.cmm.util.SignatureUtil;
 import adminwork.kicpa.cmm.comm.service.KicpaCommService;
 import adminwork.kicpa.sntBook.service.SntBookService;
 import egovframework.rte.fdl.property.EgovPropertyService;
@@ -262,25 +259,9 @@ public class SntBookController {
 					LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
 					model.addAttribute("loginVO", user);
 				}
-                // 이니시스 결제 파라미터 생성
-                String P_MID = propertyService.getString("inicisMid");
-                String P_AMT = String.valueOf(totalPay);
-                String P_OID = P_MID + "_" + SignatureUtil.getTimestamp();
-                String P_TIMESTAMP = SignatureUtil.getTimestamp();
-                String HashKey = propertyService.getString("inicisHashKey");
-
-                // SHA-512 해시 생성
-                String data = P_AMT + P_OID + P_TIMESTAMP + HashKey;
-                MessageDigest md = MessageDigest.getInstance("SHA-512");
-                byte[] digest = md.digest(data.getBytes("UTF-8"));
-                String P_CHKFAKE = Base64.getEncoder().encodeToString(digest);
-
-                model.addAttribute("totalPay", totalPay);
-                model.addAttribute("mid", P_MID);
-                model.addAttribute("P_OID", P_OID);
-                model.addAttribute("P_TIMESTAMP", P_TIMESTAMP);
-                model.addAttribute("P_CHKFAKE", P_CHKFAKE);
-                return "kicpa/sntBook/cartOrderForm";
+				model.addAttribute("totalPay", totalPay);
+				model.addAttribute("mid",propertyService.getString("inicisMid"));
+				return "kicpa/sntBook/cartOrderForm";
 			}else {
 				return "kicpa/main/main";
 			}
@@ -305,29 +286,11 @@ public class SntBookController {
 			LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
 			EgovMap detail = sntBookService.selectOfflineEduDetail(map);
 			if(detail != null) {
-                String totalPayStr = StringUtil.isNullToString(detail.get("eduMny")).replace(",", "");
-
-                // 이니시스 결제 파라미터 생성
-                String P_MID = propertyService.getString("inicisMid");
-                String P_AMT = totalPayStr;
-                String P_OID = P_MID + "_" + SignatureUtil.getTimestamp();
-                String P_TIMESTAMP = SignatureUtil.getTimestamp();
-                String HashKey = propertyService.getString("inicisHashKey");
-
-                // SHA-512 해시 생성
-                String data = P_AMT + P_OID + P_TIMESTAMP + HashKey;
-                MessageDigest md = MessageDigest.getInstance("SHA-512");
-                byte[] digest = md.digest(data.getBytes("UTF-8"));
-                String P_CHKFAKE = Base64.getEncoder().encodeToString(digest);
-
-                model.addAttribute("totalPay", totalPayStr);
-                model.addAttribute("detail", detail);
-                model.addAttribute("mid", P_MID);
-                model.addAttribute("P_OID", P_OID);
-                model.addAttribute("P_TIMESTAMP", P_TIMESTAMP);
-                model.addAttribute("P_CHKFAKE", P_CHKFAKE);
-                model.addAttribute("loginVO", user);
-                return "kicpa/sntBook/offlineEduForm";
+				model.addAttribute("totalPay", StringUtil.isNullToString(detail.get("eduMny")).replace(",", "") );
+				model.addAttribute("detail", detail);
+				model.addAttribute("mid",propertyService.getString("inicisMid"));
+				model.addAttribute("loginVO", user);
+				return "kicpa/sntBook/offlineEduForm";
 			}else {
 				return "kicpa/sntBook/offlineEduList";
 			}
@@ -1116,8 +1079,8 @@ public class SntBookController {
 			        PrintWriter printWriter = response.getWriter();
 
 			        String script= "<script>";
-                    script += "alert('구매에 실패하였습니다.\\n" + StringUtil.isNullToString(map.get("P_RMESG1"), "").replace("'", "\\'").replace("\n", "\\n") + "');";
-                    script += "location.href='/kicpa/sntBook/bookBuyHistoryList.do';";
+			        script += "alert('구매에 실패하였습니다.\n' "+map.get("P_RMESG1")+");";
+			        script += "location.href='/kicpa/sntBook/bookBuyHistoryList.do'";
 
 	//		        script += "opener.location.reload();";
 	//		        script += "window.close();";
