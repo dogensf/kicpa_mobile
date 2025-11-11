@@ -11,7 +11,7 @@
                 <entry key="posblAtchFileSize" value="5242880"/>
                 <entry key="Globals.fileStorePath" value="/kicpa/portal/kicpa/upload"/>
                 <entry key="Globals.addedOptions" value="false"/>
-                <entry key="inicisMid" value="INIpayTest"/> <!--kicpaorkr6-->
+                <entry key="inicisMid" value="kicpaorkr6"/> <!--kicpaorkr6  kicpaorkr7 INIpayTest-->
                 <entry key="inicisHashKey" value="3CB8183A4BE283555ACC8363C0360223"/>
             </map>
         </property>
