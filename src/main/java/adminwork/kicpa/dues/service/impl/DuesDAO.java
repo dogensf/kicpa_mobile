@@ -1,26 +1,26 @@
 package adminwork.kicpa.dues.service.impl;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.sql.Types;
+import java.util.*;
 
+import adminwork.kicpa.dues.service.*;
+import egovframework.rte.fdl.cmmn.exception.EgovBizException;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.SqlOutParameter;
+import org.springframework.jdbc.core.SqlParameter;
+import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 import org.springframework.stereotype.Repository;
 
 import adminwork.com.cmm.service.impl.EgovComAbstractDAO2;
-import adminwork.kicpa.dues.service.Dues;
-import adminwork.kicpa.dues.service.DuesRef;
-import adminwork.kicpa.dues.service.DuesRefVO;
-import adminwork.kicpa.dues.service.DuesVO;
-import adminwork.kicpa.dues.service.GiroApi;
-import adminwork.kicpa.dues.service.GiroApiLog;
-import adminwork.kicpa.dues.service.GiroDetail;
-import adminwork.kicpa.dues.service.GiroNtic;
-import adminwork.kicpa.dues.service.GiroVO;
-import adminwork.kicpa.dues.service.NewDues;
+
+import javax.annotation.Resource;
 
 @Repository("DuesDAO")
 public class DuesDAO extends EgovComAbstractDAO2{
+
+    @Resource(name="jdbcTemplateKipadm")
+    private JdbcTemplate jdbcTemplate;
 	
     // 납부번호 발생조회
     public Long selectDuesPayNo() throws Exception {
@@ -336,5 +336,91 @@ public class DuesDAO extends EgovComAbstractDAO2{
 
     public List<?> callGiroInterestProc(Map<String, Object> map) throws Exception {
         return (List<?>) list("DuesDAO.callGiroInterestProc", (Object) map);
+    }
+
+    public String canPayDuesNew(String pin) {
+        final HashMap<String, Object> paramMap = new HashMap<>();
+
+        paramMap.put("v_pin", pin);
+
+        final SimpleJdbcCall simpleJdbcCall = new SimpleJdbcCall(jdbcTemplate)
+                .withCatalogName("KIPADM")
+                .withProcedureName("SBSCRB_03_PROC")
+                .withoutProcedureColumnMetaDataAccess()
+                .declareParameters(
+                        new SqlParameter("v_pin", Types.VARCHAR),
+                        new SqlOutParameter("v_result", Types.INTEGER),
+                        new SqlOutParameter("v_sqlerrm", Types.VARCHAR)
+                );
+
+        Map<String, Object> resultMap = simpleJdbcCall.execute(paramMap);
+
+        return Objects.isNull(resultMap.get("v_result")) ? "" : String.valueOf(resultMap.get("v_result"));
+    }
+
+    public Map<String, Object> getDuesNewList(String pin) {
+        final HashMap<String, Object> paramMap = new HashMap<>();
+
+        paramMap.put("v_pin", pin);
+
+        final SimpleJdbcCall simpleJdbcCall = new SimpleJdbcCall(jdbcTemplate)
+                .withCatalogName("KIPADM")
+                .withProcedureName("SBSCRB_02_PROC")
+                .withoutProcedureColumnMetaDataAccess()
+                .useInParameterNames("v_pin")
+                .declareParameters(
+                        new SqlParameter("v_pin", Types.VARCHAR),
+                        new SqlOutParameter("r_cursor", Types.REF_CURSOR, new BeanPropertyRowMapper<NewDuesDetail>(NewDuesDetail.class)),
+                        new SqlOutParameter("v_pay_status", Types.VARCHAR),
+                        new SqlOutParameter("v_result", Types.INTEGER),
+                        new SqlOutParameter("v_sqlerrm", Types.VARCHAR)
+                );
+
+        Map<String, Object> resultMap = simpleJdbcCall.execute(paramMap);
+
+        String resultCode = Objects.isNull(resultMap.get("v_result")) ? "" : String.valueOf(resultMap.get("v_result"));
+        if(!"1".equals(resultCode)) {
+            resultMap.put("r_cursor", Collections.emptyList());
+            return resultMap;
+        }
+
+        return resultMap;
+    }
+
+    public NewDuesDto callDuesNewParameter(String pin) throws EgovBizException {
+        final HashMap<String, Object> paramMap = new HashMap<>();
+
+        paramMap.put("v_pin", pin);
+
+        final SimpleJdbcCall simpleJdbcCall = new SimpleJdbcCall(jdbcTemplate)
+                .withCatalogName("KIPADM")
+                .withProcedureName("SBSCRB_07_PROC")
+                .withoutProcedureColumnMetaDataAccess()
+                .useInParameterNames("v_pin")
+                .declareParameters(
+                        new SqlParameter("v_pin", Types.VARCHAR),
+                        new SqlOutParameter("v_mber_flag", Types.VARCHAR),
+                        new SqlOutParameter("v_audit_cd", Types.VARCHAR),
+                        new SqlOutParameter("v_audit_nm", Types.VARCHAR),
+                        new SqlOutParameter("v_reg_de", Types.VARCHAR),
+                        new SqlOutParameter("v_result", Types.INTEGER),
+                        new SqlOutParameter("v_sqlerrm", Types.VARCHAR)
+                );
+
+        Map<String, Object> resultMap = simpleJdbcCall.execute(paramMap);
+        String resultCode = Objects.isNull(resultMap.get("v_result")) ? "" : String.valueOf(resultMap.get("v_result"));
+
+        if(!"1".equals(resultCode)) {
+            throw new EgovBizException(resultMap.get("v_result_text").toString());
+        }
+
+
+        String mber_flag = Objects.isNull(resultMap.get("v_mber_flag")) ? "" : String.valueOf(resultMap.get("v_mber_flag"));
+        String audit_cd = Objects.isNull(resultMap.get("v_audit_cd")) ? "" : String.valueOf(resultMap.get("v_audit_cd"));
+        String audit_nm = Objects.isNull(resultMap.get("v_audit_nm")) ? "" : String.valueOf(resultMap.get("v_audit_nm"));
+        String reg_de = Objects.isNull(resultMap.get("v_reg_de")) ? "" : String.valueOf(resultMap.get("v_reg_de"));
+
+
+        return new NewDuesDto(pin, mber_flag, audit_cd, audit_nm, reg_de);
     }
 }

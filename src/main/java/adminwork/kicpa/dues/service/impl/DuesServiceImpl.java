@@ -1,27 +1,15 @@
 package adminwork.kicpa.dues.service.impl;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import javax.annotation.Resource;
 
+import adminwork.kicpa.dues.service.*;
+import egovframework.rte.fdl.cmmn.exception.EgovBizException;
 import org.springframework.stereotype.Service;
 
 import adminwork.com.cmm.LoginVO;
-import adminwork.kicpa.dues.service.DeusApiService;
-import adminwork.kicpa.dues.service.Dues;
-import adminwork.kicpa.dues.service.DuesRef;
-import adminwork.kicpa.dues.service.DuesRefVO;
-import adminwork.kicpa.dues.service.DuesService;
-import adminwork.kicpa.dues.service.DuesVO;
-import adminwork.kicpa.dues.service.GiroApiLog;
-import adminwork.kicpa.dues.service.GiroDetail;
-import adminwork.kicpa.dues.service.GiroNtic;
-import adminwork.kicpa.dues.service.GiroRegVO;
-import adminwork.kicpa.dues.service.GiroVO;
-import adminwork.kicpa.dues.service.NewDues;
 import egovframework.rte.fdl.cmmn.EgovAbstractServiceImpl;
 import egovframework.rte.fdl.idgnr.EgovIdGnrService;
 import egovframework.rte.fdl.security.userdetails.util.EgovUserDetailsHelper;
@@ -289,9 +277,9 @@ public class DuesServiceImpl extends EgovAbstractServiceImpl implements DuesServ
         //입회비 마스터 정보 입력
         //납부번호 조회
        // Long payNo = duesDAO.selectDuesPayNo();
-        
+
         for(NewDues vo : newList) {
-        	
+
         	 if("admin".equals(user.getUniqId())) {
         		 vo.setFrstRegistId("0000000000000");
         		 vo.setLastUpdtId("0000000000000");
@@ -299,10 +287,10 @@ public class DuesServiceImpl extends EgovAbstractServiceImpl implements DuesServ
             	 vo.setFrstRegistId(user.getUniqId());
             	 vo.setLastUpdtId(user.getUniqId());
              }
-        	
+
 			System.out.println("-----pin :: " + vo.getPin());
 			System.out.println("-----getUniqId :: " + user.getUniqId());
-			
+
 			 //vo.setPayNo(payNo);
             if("".equals(vo.getRegistFlag()) || vo.getRegistFlag() == null){
                 vo.setRegistFlag("1");
@@ -316,14 +304,14 @@ public class DuesServiceImpl extends EgovAbstractServiceImpl implements DuesServ
             vo.setPayStatus("W");	//납부상태 W:대기
             vo.setPayId(user.getUniqId());		//납부자(감사인코드)
             vo.setGiroYn("Y");		//지로입금여부
-			 
-			// 입회비대장 등록
-			 NewDues rtnNewDues = duesDAO.insertNewDuesTemp(vo);
-			 vo.setSbscrbSn(rtnNewDues.getSbscrbSn());			 
-		}
-        
-        
-      
+
+            // 입회비대장 등록
+            // NewDues rtnNewDues = duesDAO.insertNewDuesTemp(vo);
+            // vo.setSbscrbSn(rtnNewDues.getSbscrbSn());
+        }
+
+
+
         //지로마스터 정보  생성
         String rqestDe = giroRegVO.getRqestDe();
         String giroCd = "";
@@ -335,9 +323,9 @@ public class DuesServiceImpl extends EgovAbstractServiceImpl implements DuesServ
         if(giroCdList.size() > 0) {
         	giroCd = giroCdList.get(0);
         }
-        
+
         //giroVOList.stream().forEach(g -> g.setPayNo(payNo));
-        
+
         duesDAO.insertGiroAll(giroJobCd,giroCdList,giroVOList);
 
         // 지로발행 내역상세 등록
@@ -356,11 +344,11 @@ public class DuesServiceImpl extends EgovAbstractServiceImpl implements DuesServ
         	System.out.println("cancelList :: tempList = " + vos.toString());
         	System.out.println("cancelList :: tempList = " + tempList.size());
     		//지로 처리한 데이터가 있으면 일단 삭제하고 처리 한다.
-    		if(tempList.size() > 0) {    			
+    		if(tempList.size() > 0) {
     			 duesApiService.cancelNoticeGiro(tempList);
     		}
-        	
-            // 고지 내역 생성 
+
+            // 고지 내역 생성
             GiroNtic giroNtic = new GiroNtic();
 
             giroNtic.setEpayNo(giroVO.getEpayNo());
@@ -388,10 +376,10 @@ public class DuesServiceImpl extends EgovAbstractServiceImpl implements DuesServ
         }
 
         duesDAO.insertGiroNticList(giroNtics);
-        
+
         List<GiroDetail> detailList = new ArrayList<>();
-        
-        
+
+
         int i = 0;
         for(NewDues rt : newList) {
         	// 지로발행 내역상세 등록
@@ -401,6 +389,7 @@ public class DuesServiceImpl extends EgovAbstractServiceImpl implements DuesServ
         	giroDetail.setGiroSn(i);
             giroDetail.setKey1(String.valueOf(rt.getSbscrbSn()));
             giroDetail.setKey2(rt.getPin());
+            giroDetail.setDetailNticAmt(rt.getGnrlEntrncAmt() + rt.getGnrlYyAmt() + rt.getCmitEntrncAmt()  + rt.getAsstnEntrncAmt() + rt.getAsstnYyAmt());
             detailList.add(giroDetail);
             System.out.println("sbscrbsn =========" + rt.getSbscrbSn());
             i++;
@@ -414,22 +403,22 @@ public class DuesServiceImpl extends EgovAbstractServiceImpl implements DuesServ
         Dues giroInfo = new Dues();
         giroInfo = duesDAO.selectDues(vo);
         infoList.add(giroInfo);
-        
-        
-        
+
+
+
         success = duesApiService.createNoticeGiro(infoList);
-        
+
         giroInfo = new Dues();
 		vo.setGiro_cd(giroCd);
 		giroInfo = duesDAO.selectDues(vo);
-		
+
 		Dues rt = duesApiService.createNoticeGiroLink(giroInfo);
-        
-        
+
+
        // return giroCd;
         return rt;
-        
-        
+
+
     }
 	
 	
@@ -613,6 +602,38 @@ public class DuesServiceImpl extends EgovAbstractServiceImpl implements DuesServ
 
     public List<?> callGiroInterestProc(Map<String, Object> map) throws Exception {
         return duesDAO.callGiroInterestProc(map);
+    }
+
+    @Override
+    public String canPayDuesNew(String pin) {
+        return duesDAO.canPayDuesNew(pin);
+    }
+
+    @Override
+    public Map<String, Object> getDuesNewList(String pin) {
+//        List<NewDuesDetail> duesNewList = duesDAO.getDuesNewList(pin);
+        Map<String, Object> resultMap = duesDAO.getDuesNewList(pin);
+
+        List<NewDuesDetail> duesNewList = (List<NewDuesDetail>) resultMap.get("r_cursor");
+
+        List<NewDuesDetail> collect = duesNewList.stream()
+                .map(newDuesDetail -> {
+                    Arrays.stream(NewDuesCl.values())
+                            .filter(newDuesCl -> newDuesCl.getDuesCl().equals(newDuesDetail.getDues_cl()))
+                            .findFirst()
+                            .ifPresent(newDuesCl -> newDuesDetail.setNewDuesCl(newDuesCl));
+
+                    return newDuesDetail;
+                }).collect(Collectors.toList());
+
+        resultMap.put("NewDuesDetail",  collect);
+
+        return resultMap;
+    }
+
+    @Override
+    public NewDuesDto getDuesNewParameter(String id) throws EgovBizException {
+        return duesDAO.callDuesNewParameter(id);
     }
 	
 }

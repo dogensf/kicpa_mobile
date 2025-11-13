@@ -14,6 +14,7 @@ public class GiroDetail implements Serializable {
     private String key3;
     private String key4;
     private String key5;
+    private Long detailNticAmt;
 
     public String getGiroCd() {
         return giroCd;
@@ -77,6 +78,14 @@ public class GiroDetail implements Serializable {
 
     public void setKey5(String key5) {
         this.key5 = key5;
+    }
+
+    public Long getDetailNticAmt() {
+        return detailNticAmt;
+    }
+
+    public void setDetailNticAmt(Long detailNticAmt) {
+        this.detailNticAmt = detailNticAmt;
     }
 
     @Override

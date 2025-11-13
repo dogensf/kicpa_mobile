@@ -16,6 +16,10 @@
     <!-- datasource 설정(propertyConfigurer 활용) -->
     <alias name="dataSource-${Globals.DbType}" alias="dataSource" />
     <alias name="dataSource-${Globals.DbType}" alias="egov.dataSource" />
+
+    <bean id="jdbcTemplateKipadm" class="org.springframework.jdbc.core.JdbcTemplate">
+        <property name="dataSource" ref="dataSource-oracle2" />
+    </bean>
     
     <!-- mysql -->
     <bean id="dataSource-mysql" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">

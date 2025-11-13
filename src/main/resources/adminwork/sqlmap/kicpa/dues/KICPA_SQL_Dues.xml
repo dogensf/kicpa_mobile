@@ -1501,9 +1501,9 @@
         INSERT ALL
         <iterate conjunction=" ">
             INTO GIRO_DETAIL
-            ( GIRO_CD ,DUES_CL ,GIRO_SN ,KEY1 ,KEY2 ,KEY3 ,KEY4 ,KEY5 )
+            ( GIRO_CD ,DUES_CL ,GIRO_SN ,KEY1 ,KEY2 ,KEY3 ,KEY4 ,KEY5, DETAIL_NTIC_AMT )
             VALUES
-            ( #[].giroCd# ,#[].duesCl# ,#[].giroSn# ,#[].key1# ,#[].key2# ,#[].key3# ,#[].key4# ,#[].key5# )
+            ( #[].giroCd# ,#[].duesCl# ,#[].giroSn# ,#[].key1# ,#[].key2# ,#[].key3# ,#[].key4# ,#[].key5# , #[].detailNticAmt#)
         </iterate>
         SELECT * FROM DUAL
     </insert>

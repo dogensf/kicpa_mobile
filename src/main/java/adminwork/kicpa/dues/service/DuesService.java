@@ -1,5 +1,7 @@
 package adminwork.kicpa.dues.service;
 
+import egovframework.rte.fdl.cmmn.exception.EgovBizException;
+
 import java.util.List;
 import java.util.Map;
 
@@ -70,4 +72,10 @@ public interface  DuesService {
 
 	//추가회비 프로시저
 	public List<?> callGiroInterestProc(Map<String, Object> map) throws Exception;
+
+    String canPayDuesNew(String pin);
+
+    Map<String, Object> getDuesNewList(String pin);
+
+    NewDuesDto getDuesNewParameter(String id) throws EgovBizException;
 }
