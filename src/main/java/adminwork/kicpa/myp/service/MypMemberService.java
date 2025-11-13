@@ -70,6 +70,9 @@ public interface MypMemberService {
     //제출flag 저장(임시 테이블)
     public void mypCpaMemberRegisterRegFlagSave(Map<String, Object> map) throws Exception;
 
+    //제출 - 저장(임시 테이블)
+    public String mypCpaMemberRegisterSave(Map<String, Object> map) throws Exception;
+
     //경조사 등록 알림톡 대상자 조회
     public List<?> selectMemEventSendMemList(Map<String, Object> map) throws Exception;
 

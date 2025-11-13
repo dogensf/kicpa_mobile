@@ -1,6 +1,7 @@
 package adminwork.kicpa.myp.service.impl;
 
 
+import adminwork.kicpa.myp.service.CpaMyp;
 import adminwork.kicpa.myp.service.MypMemberService;
 import adminwork.kicpa.myp.service.MypPassService;
 import egovframework.rte.fdl.cmmn.EgovAbstractServiceImpl;
@@ -8,6 +9,9 @@ import egovframework.rte.psl.dataaccess.util.EgovMap;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -121,6 +125,51 @@ public class MypMemberServiceImpl extends EgovAbstractServiceImpl implements Myp
 	public void mypCpaMemberRegisterRegFlagSave(Map<String, Object> map) throws Exception {
 		mypMemberDAO.mypCpaMemberRegisterRegFlagSave(map);
 	}
+
+    @Override
+    public String mypCpaMemberRegisterSave(Map<String, Object> map) throws Exception {
+
+        String message = "";
+
+        //오늘날짜
+        SimpleDateFormat today = new SimpleDateFormat("yyyyMMdd");
+        Calendar c1 = Calendar.getInstance();
+        String opetrDe = today.format(c1.getTime());
+
+        map.put("opetrDe", opetrDe);
+        map.put("regFlag","Y");
+        map.put("userId", map.get("pin"));
+
+        mypMemberDAO.mypCpaMemberRegisterRegFlagSave(map);
+
+
+        //입회비 납부 버튼 클릭시 프로시저 호출
+        if("Y".equals(map.get("payYn"))){
+
+            //저장된 회원등록정보 조회
+            List<CpaMyp> cpaMypInfo = mypMemberDAO.selectCpaMemberRegInfo(map);
+
+            Map<String, Object> sbscrbProcResult = new HashMap<>();
+
+            sbscrbProcResult.put("v_pin", cpaMypInfo.get(0).getPin());
+            sbscrbProcResult.put("v_mber_flag", cpaMypInfo.get(0).getMberFlag());
+            sbscrbProcResult.put("v_audit_cd", cpaMypInfo.get(0).getAuditId());
+            sbscrbProcResult.put("v_reg_de", cpaMypInfo.get(0).getRegistDe());
+
+            mypMemberDAO.callSbscrb01Proc(sbscrbProcResult);       //(프로시저 호출)
+
+            if(!"1".equals(sbscrbProcResult.get("v_result"))){
+
+                if(!"".equals(sbscrbProcResult.get("v_sqlerrm")) && sbscrbProcResult.get("v_sqlerrm") != null){
+                    message = sbscrbProcResult.get("v_sqlerrm").toString();
+                }
+
+            }
+
+        }
+
+        return message;
+    }
 
 	@Override
 	public List<?> selectMemEventSendMemList(Map<String, Object> map) throws Exception {

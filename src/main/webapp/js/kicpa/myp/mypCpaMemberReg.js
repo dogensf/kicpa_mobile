@@ -61,6 +61,12 @@ mypMemberReg.mypMemberRegInit = function(){
 	}
 	//처음 등록 모드
 	else{
+
+        //제출한 정보 있을경우 마이페이지 이동
+        if($('#mypCpaMemberReg_regFlag').val() == "Y"){
+            location.replace(mypMemberReg.getContextPath()+'/myp/myPage.do?Pin='+$('#mypCpaMemberReg_pin').val());
+        }
+
 		mypMemberReg.mypMemberReg_tabMove('mypCpaMemberReg_agreeInfo');
 		$('.mypCpaMember_backBtn').hide();
 		$('.mypCpaMemberReg_titleYn').show();
@@ -129,10 +135,30 @@ mypMemberReg.mypMemberRegInit = function(){
 
 	//제출
 	$("#mypCpaMember_reviewInfoSaveBtn").on("click",function(e) {
-		$('#mypCpaMemberReg_saveData').val("mypCpaMemberReg_reviewInfo");
-        mypMemberReg.mypCpaMemberReg_infoSave();
-		$('#mypCpaMemberReg_body').addClass('stop');
-		$('#mypCpaMemberReg_saveRegPop').addClass('show');
+
+        var formData = {};
+        formData.pin = $('#mypCpaMemberReg_pin').val();
+        formData.cpaSn = $('#mypCpaMemberReg_cpaSn').val();
+        formData.payYn = "Y";
+
+        $.ajax({
+            url : mypMemberReg.getContextPath()+"/myp/mypCpaMemberSubmit.do",
+            type : "POST",
+            data : formData,
+            success : function(data) {
+
+                if(data.msg != "" && data.msg != null && "등록회비가 납부 완료되었습니다." != data.msg){
+                    alert(data.msg);
+                    return;
+                }
+
+                $('#mypCpaMemberReg_saveData').val("mypCpaMemberReg_reviewInfo");
+                $('#mypCpaMemberReg_body').addClass('stop');
+                $('#mypCpaMemberReg_saveRegPop').addClass('show');
+
+            }
+        });
+
 	});
 
 
@@ -304,9 +330,10 @@ mypMemberReg.mypMemberRegInit = function(){
 
 	//저장팝업 제출버튼 클릭
 	$("#mypCpaMemberReg_saveRegPopBtn").on("click",function(e) {
-		$('#mypCpaMemberReg_saveRegPop').removeClass('show');
-        $('#mypCpaMemberReg_saveData').val("mypCpaMemberReg_aidDuesInfo");
 
+		mypMemberReg.mypCpaMemberReg_infoSave();
+		$('#mypCpaMemberReg_saveRegPop').removeClass('show');
+        $('#mypCpaMemberReg_body').removeClass('stop');
 
 	});
 }
@@ -470,15 +497,71 @@ mypMemberReg.mypCpaMemberReg_infoSave = function(){
 		formData.pin = $('#mypCpaMemberReg_pin').val();
 		formData.cpaSn = $('#mypCpaMemberReg_cpaSn').val();
 
-		$.ajax({
-			url : mypMemberReg.getContextPath()+"/myp/mypCpaMemberSubmit.do",
-			type : "POST",
-			data : formData,
-			success : function(data) {
-				//mypMemberReg.mypMemberReg_tabMove('mypCpaMemberReg_aidDuesInfo');
-				//location.replace(mypMemberReg.getContextPath()+'/myp/myPage.do?Pin='+$('#mypCpaMemberReg_pin').val());
-			}
-		});
+        $.ajax({
+            url : mypMemberReg.getContextPath()+"/myp/selectDuesNewInfo.do",
+            type : "POST",
+            data : formData,
+            success : function(data) {
+
+                if("myPage" == data.msg){
+                    location.replace(mypMemberReg.getContextPath()+'/myp/myPage.do?Pin='+$('#mypCpaMemberReg_pin').val());
+                }
+                else{
+
+                    var result="";
+                    var total = 0;
+                    $("#mypCpaMemberReg_duesNewInfo").empty();
+                    result += "<li class='label'>";
+                    result += "    <div>회비구분</div>";
+                    result += "    <div>회비</div>";
+                    result += "    <div>납부일</div>";
+                    result += "    <div>납부자</div>";
+                    result += "</li>";
+
+                    console.log(JSON.stringify(data.duesNewList));
+
+                    if (data.duesNewList.length != 0 && data.duesNewList != null) {
+                        for (var i = 0; i < data.duesNewList.length; i++){
+                            result += "<li>";
+                            result += "    <label>"; /*"    <label for='box1'>"*/
+                            /*result += "    <input type='checkbox' name='box1' id='box1' checked>";*/
+                            result += "    <i class='checkbox'></i>";
+                            result += "    <div class='title'>"+ data.duesNewList[i].duesTypeNm + " " + data.duesNewList[i].duesNm + "</div>";
+                            result += "    <div class='amount'>"+ (data.duesNewList[i].dues_amt || 0).toLocaleString() +"</div>";
+                            result += "    <div class='date'>"+ (data.duesNewList[i].pay_de || '') +"</div>";
+                            result += "    <div class='name'>"+ (data.duesNewList[i].pay_nm || '') +"</div>";
+                            result += "    </label>";
+                            result += "</li>";
+
+                            total += (data.duesNewList[i].dues_amt || 0);
+                        }
+
+                        result += "<li class='total'>";
+                        result += "    <div>";
+                        result += "        <span>총액</span>";
+                        result += "        <div id='mypCpaMember_totAmt'>"+ (total || 0).toLocaleString() +"</div>";
+                        result += "    </div>";
+                        /*result += "    <div>";
+                        result += "        <span>납부할 금액</span>";
+                        result += "        <div id=''>0 원</div>";
+                        result += "    </div>";*/
+                        result += "</li>";
+
+                    }
+
+                    mypMemberReg.mypCpaMemberReg_aidDuesInfo2(data);
+
+                    $('#mypCpaMemberReg_duesNewInfo').append(result);
+
+                    $('.myPageMemInfoTabMove').hide();
+                    $('#mypCpaMemberReg_aidDuesInfo').show();
+
+                    $('.mypCpaMember_aidDuesN').show();
+                    $('.mypCpaMember_aidDuesY').hide();
+                }
+
+            }
+        });
 	}
 
 }
@@ -1012,6 +1095,77 @@ mypMemberReg.mypCpaMemberReg_aidDuesInfo = function(result) {
 
 	$('.mypCpaMember_aidDuesN').show();
 	$('.mypCpaMember_aidDuesY').hide();
+}
+
+//등록회비 납부금액 조회2
+mypMemberReg.mypCpaMemberReg_aidDuesInfo2 = function(result) {
+
+    formDuesData  = [];
+
+    var gnrlEntrncAmt = 0;      //일반회계 입회금
+    var yearDuesAmt = 0;        //일반회계 연회비
+    var cmitEntrncAmt = 0;      //회관회계 입회금
+    var asstnEntrncAmt = 0;     //공제회 부조회계 입회금
+    var asstnYyAmt = 0;         //공제회 부조회계 연회비
+
+    var totalAmt = 0;
+    var keys = {};
+    keys.pin 		= $('#mypCpaMemberReg_pin').val();
+
+
+    keys.cpaId 		=  "";
+    keys.registFlag = result.cpaMemberRegReviewInfoList[0].mberFlag;
+    keys.acntCd     = "11103010";
+    keys.acnutNo    = "011250010713";
+    keys.calcFlag 	=  "Y";
+    keys.registPreDe = result.cpaMemberRegReviewInfoList[0].registDe.replaceAll("-","");       //등록예정일
+    keys.accnutDe    = result.cpaMemberRegReviewInfoList[0].currentDe;      //회계일
+    keys.payDe 	     = result.cpaMemberRegReviewInfoList[0].currentDe;      //입금일
+
+
+
+    if (result.duesNewList.length != 0 && result.duesNewList != null) {
+        for (var i = 0; i < result.duesNewList.length; i++){
+
+            //일반회계 입회금
+            if(result.duesNewList[i].duesCl == "11"){
+                gnrlEntrncAmt += (result.duesNewList[i].dues_amt || 0);
+            }
+            //일반회계 연회비
+            if(result.duesNewList[i].duesCl == "12"){
+                yearDuesAmt += (result.duesNewList[i].dues_amt || 0);
+            }
+            //회관회계 입회금
+            if(result.duesNewList[i].duesCl == "21"){
+                cmitEntrncAmt += (result.duesNewList[i].dues_amt || 0);
+            }
+            //공제회 부조회계 입회금
+            if(result.duesNewList[i].duesCl == "31"){
+                asstnEntrncAmt += (result.duesNewList[i].dues_amt || 0);
+            }
+            //공제회 부조회계 연회비
+            if(result.duesNewList[i].duesCl == "32"){
+                asstnYyAmt += (result.duesNewList[i].dues_amt || 0);
+            }
+
+            totalAmt += (result.duesNewList[i].dues_amt || 0);
+        }
+    }
+
+    keys.gnrlEntrncAmt =  gnrlEntrncAmt;        //일반입회금
+    keys.gnrlYyAmt =  yearDuesAmt;              //일반연회비
+    keys.cmitEntrncAmt =  cmitEntrncAmt;        //회관회계 입회금
+    keys.asstnEntrncAmt =  asstnEntrncAmt;      //공제회 부조회계 입회금
+    keys.asstnYyAmt =  asstnYyAmt;              //공제회 부조회계 연회비
+    keys.sbscrbSn   =  result.duesNewList[0].sbscrb_sn;
+
+    if(keys.registFlag == "A2020010" || keys.registFlag == "A2020030") { // 전업,개업
+        keys.registFlag = 1;
+    }else if(keys.registFlag == "A2020050") { //휴업
+        keys.registFlag = 2;
+    }
+
+    formDuesData.push(keys);
 }
 
 //검토 및 제출 list

@@ -4,6 +4,23 @@
 <sqlMap namespace="MypMember">
 
 	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+    <typeAlias  alias="cpaMyp" type="adminwork.kicpa.myp.service.CpaMyp"/>
+
+
+    <parameterMap class="java.util.HashMap" id="sbscrb01ProcMap">
+        <parameter property="v_pin"              javaType="java.lang.String"     jdbcType="VARCHAR" mode="IN" />
+        <parameter property="v_mber_flag"              javaType="java.lang.String"     jdbcType="VARCHAR" mode="IN" />
+        <parameter property="v_audit_cd"              javaType="java.lang.String"     jdbcType="VARCHAR" mode="IN" />
+        <parameter property="v_reg_de"              javaType="java.lang.String"     jdbcType="VARCHAR" mode="IN" />
+        <parameter property="v_result"            javaType="java.lang.Integer"     jdbcType="DECIMAL" mode="OUT" />
+        <parameter property="v_sqlerrm"            javaType="java.lang.String"   jdbcType="VARCHAR" mode="OUT" />
+    </parameterMap>
+
+    <procedure id="MypMemberDAO.callSbscrb01Proc" parameterMap="sbscrb01ProcMap">
+        <![CDATA[
+			{call kipadm.sbscrb_01_proc(?,?,?,?,?,?) }
+		 ]]>
+    </procedure>
 
 	<select id="MypMemberDAO.selectCpaCanclInfoList" parameterClass="HashMap" resultClass="EgovMap">
 
@@ -456,27 +473,28 @@
 	</select>
 
 	<update id="MypMemberDAO.mypCpaMemberRegisterRegFlagSave" parameterClass="HashMap">
-		<![CDATA[
+        <![CDATA[
 
 			UPDATE CPA_MYP
             SET
        			REG_FLAG = #regFlag#,
-       	]]>
 
-		<isNotEmpty property="sbscrbMypSn">
-			<![CDATA[
-					SBSCRB_MYP_SN = #sbscrbMypSn#,
-					SBSCRB_YN = #sbscrbYn#,
-			]]>
-		</isNotEmpty>
+       	]]>
 
         <isNotEmpty property="opetrDe">
             <![CDATA[
-					OPETR_DE = #opetrDe#,
+       			OPETR_DE = CASE WHEN OPETR_DE IS NULL or OPETR_DE = '' THEN #opetrDe# ELSE OPETR_DE END,
 			]]>
         </isNotEmpty>
 
-		<![CDATA[
+        <isNotEmpty property="sbscrbMypSn">
+            <![CDATA[
+					SBSCRB_MYP_SN = #sbscrbMypSn#,
+					SBSCRB_YN = #sbscrbYn#,
+			]]>
+        </isNotEmpty>
+
+        <![CDATA[
 
                	LAST_UPDT_ID = #userId#,
                	LAST_UPDT_DT = SYSTIMESTAMP
@@ -486,6 +504,37 @@
 		]]>
 
 	</update>
+
+    <select id="MypMemberDAO.selectCpaMemberRegInfo" parameterClass="HashMap" resultClass="cpaMyp">
+
+        <![CDATA[
+            SELECT
+            		cm.CPA_SN AS cpaSn
+            	,	cm.PIN AS pin
+            	,	cm.KOREAN_NM AS koreanNm
+				,	cm.AGREE_INFO1_YN AS agreeInfo1Yn
+				,	cm.AGREE_INFO2_YN AS agreeInfo2Yn
+            	,	cm.AID_MBER_FLAG AS aidMberFlag
+				,	cm.BIZR_NO AS bizrNo
+				,	cm.REGIST_DE AS registDe
+				,	cm.MBER_FLAG AS mberFlag
+				,	cm.AUDIT_NM AS auditNm
+				,	cm.AUDIT_ID AS auditId
+				,	cm.AUDIT_OFCPS AS auditOfcps
+				,	cm.CLOSED_CL AS closedCl
+				,	cm.CLOSED_CL_NM AS closedClNm
+				,	cm.REG_FLAG AS regFlag
+				,   cm.OPETR_DE AS opetrDe
+				,	cm.REJECT_RSN AS rejectRsn
+				,	cm.REMARK AS remark
+				,	cm.SBSCRB_MYP_SN AS sbscrbMypSn
+				,	cm.SBSCRB_YN AS sbscrbYn
+
+            FROM CPA_MYP cm
+            WHERE cm.CPA_SN = #cpaSn#
+        ]]>
+
+    </select>
 
 	<select id="MypMemberDAO.selectMemEventSendMemList" parameterClass="HashMap" resultClass="EgovMap">
 

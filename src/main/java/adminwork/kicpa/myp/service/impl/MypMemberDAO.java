@@ -2,6 +2,7 @@ package adminwork.kicpa.myp.service.impl;
 
 
 import adminwork.com.cmm.service.impl.EgovComAbstractDAO2;
+import adminwork.kicpa.myp.service.CpaMyp;
 import egovframework.rte.psl.dataaccess.EgovAbstractDAO;
 import egovframework.rte.psl.dataaccess.util.EgovMap;
 import org.springframework.stereotype.Repository;
@@ -95,6 +96,14 @@ public class MypMemberDAO extends EgovComAbstractDAO2 {
 
     public void mypCpaMemberRegisterRegFlagSave(Map<String, Object> map) throws Exception {
         update("MypMemberDAO.mypCpaMemberRegisterRegFlagSave", (Object) map);
+    }
+
+    public List<CpaMyp> selectCpaMemberRegInfo(Map<String, Object> map) throws Exception {
+        return (List<CpaMyp>) list("MypMemberDAO.selectCpaMemberRegInfo", (Object) map);
+    }
+
+    public List<?> callSbscrb01Proc(Map<String, Object> map) throws Exception {
+        return (List<?>) list("MypMemberDAO.callSbscrb01Proc", (Object) map);
     }
 
     public List<?> selectMemEventSendMemList(Map<String, Object> map) throws Exception {

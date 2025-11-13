@@ -23,7 +23,7 @@
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
 <script src="//code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>
 <script src="/js/KicpaCommon.js"></script>
-<script src="/js/kicpa/myp/mypCpaMemberReg.js?ver=6"></script>
+<script src="/js/kicpa/myp/mypCpaMemberReg.js?ver=7"></script>
 <script>
     $(document).ready(function () {
         mypMemberReg.mypMemberRegInit();
@@ -766,9 +766,7 @@
           <span>공인회계사등록</span>
           <h4>등록 회비 납부</h4>
           <p>
-            • 입회비가 모두 납부되어야 등록이 가능합니다.<br>
-            • 회계법인 소속 공인회계사의 일반회계 입회금 및 연회비 납부 의무자는 회계법인이므로, 해당 회계법인에 납부를 요청하시기 바랍니다. (회비규정 제3조)<br>
-            • 회계법인 소속인 경우, 전체 입회비에 대해 소속 회계법인의 지원 여부를 먼저 확인하시고, 이중 납부가 발생하지 않도록 유의하시기 바랍니다.
+              납부하실 금액은 아래와 같습니다.
           </p>
           <div class="step-by">
             <b>6</b> / <em>6</em>
@@ -776,7 +774,7 @@
         </div>
 
         <div class="mypage-wrap">
-          <ul class="pay-list">
+          <ul class="pay-list" id="mypCpaMemberReg_duesNewInfo">
             <li class="label">
               <div>회비구분</div>
               <div>회비</div>
@@ -784,8 +782,8 @@
               <div>납부자</div>
             </li>
             <li>
-              <label for="box1">
-                <input type="checkbox" name="box1" id="box1" checked>
+              <label <%--for="box1"--%>>
+                <%--<input type="checkbox" name="box1" id="box1" checked>--%>
                 <i class="checkbox"></i>
                 <div class="title">일반회계 입회금</div>
                 <div class="amount" id="mypCpaMember_gnrlEntrncAmt"></div>
@@ -795,8 +793,8 @@
               </label>
             </li>
             <li>
-              <label for="box2">
-                <input type="checkbox" name="box2" id="box2">
+              <label <%--for="box2"--%>>
+                <%--<input type="checkbox" name="box2" id="box2">--%>
                 <i class="checkbox"></i>
                 <div class="title">일반회계 연회비</div>
                 <div class="amount" id="mypCpaMember_yearDuesAmt"></div>
@@ -806,8 +804,8 @@
               </label>
             </li>
             <li>
-              <label for="box3">
-                <input type="checkbox" name="box3" id="box3">
+              <label <%--for="box3"--%>>
+                <%--<input type="checkbox" name="box3" id="box3">--%>
                 <i class="checkbox"></i>
                 <div class="title">회관회계 입회금</div>
                 <div class="amount" id="mypCpaMember_cmitEntrncAmt"></div>
@@ -817,8 +815,8 @@
               </label>
             </li>
             <li>
-              <label for="box4">
-                <input type="checkbox" name="box4" id="box4">
+              <label <%--for="box4"--%>>
+                <%--<input type="checkbox" name="box4" id="box4">--%>
                 <i class="checkbox"></i>
                 <div class="title">공제회 부조회계 입회금</div>
                 <div class="amount" id="mypCpaMember_asstnEntrncAmt"></div>
@@ -828,8 +826,8 @@
               </label>
             </li>
             <li>
-              <label for="box5">
-                <input type="checkbox" name="box5" id="box5">
+              <label <%--for="box5"--%>>
+                <%--<input type="checkbox" name="box5" id="box5">--%>
                 <i class="checkbox"></i>
                 <div class="title">공제회 부조회계 연회비</div>
                 <div class="amount" id="mypCpaMember_asstnYyAmt"></div>
@@ -843,10 +841,10 @@
                   <span>총액</span>
                   <div id="mypCpaMember_totAmt"></div>
                 </div>
-                <div>
+                <%--<div>
                   <span>납부할 금액</span>
                   <div id="">0 원</div>
-                </div>
+                </div>--%>
             </li>
           </ul>
 
@@ -855,8 +853,9 @@
               납부하기
             </button>
             <p style="text-align: left;">
-              ※ 입회비가 납부되어야 등록 가능하니 꼭 납부하시기 바랍니다.<br>
-              ※ 소속 회계법인의 대납 여부를 확인하시기 바랍니다. 회계법인에서 입회비를 대납하는 경우 납부하지 마시기 바랍니다.
+              ※ 입회비가 모두 납부되어야 등록이 가능합니다.<br>
+              ※ 회계법인 소속 공인회계사의 일반회계 입회금 및 연회비 납부 의무자는 회계법인이므로, 해당 회계법인에 납부를 요청하시기 바랍니다. (회비규정 제3조)<br>
+              ※ 회계법인 소속인 경우, 전체 입회비에 대해 소속 회계법인의 지원 여부를 먼저 확인하시고, 이중 납부가 발생하지 않도록 유의하시기 바랍니다.
             </p>
           </div>
 

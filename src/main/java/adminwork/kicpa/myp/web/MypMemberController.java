@@ -30,6 +30,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.BufferedInputStream;
 import java.sql.Blob;
 import java.text.SimpleDateFormat;
@@ -939,14 +940,14 @@ public class MypMemberController {
 	@RequestMapping(value="/mypCpaMemberSubmit.do")
 	public ModelAndView mypCpaMemberSubmit(@RequestParam Map<String, Object> paramMap) throws Exception{
 
-		//LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+        //LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
 
-		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("jsonView");
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("jsonView");
 
 
-		//등록회비 납부 확인
-		List<?> cpaMemberInfoList = myPageService.selectCpaMemberRegistReviewInfoList(paramMap);		//회원 임시테이블정보
+        //등록회비 납부 확인
+		/*List<?> cpaMemberInfoList = myPageService.selectCpaMemberRegistReviewInfoList(paramMap);		//회원 임시테이블정보
 		Map<String, Object> cpaMemberInfo = new HashMap<>();
 		cpaMemberInfo.putAll((Map<String, Object>)cpaMemberInfoList.get(0));
 
@@ -962,20 +963,13 @@ public class MypMemberController {
 				paramMap.put("sbscrbYn", "Y");
 			}
 
-		}
+		}*/
 
-		//오늘날짜
-		SimpleDateFormat today = new SimpleDateFormat("yyyyMMdd");
-		Calendar c1 = Calendar.getInstance();
-		String opetrDe = today.format(c1.getTime());
+        String msg = mypMemberService.mypCpaMemberRegisterSave(paramMap);
 
-		paramMap.put("opetrDe", opetrDe);
-		paramMap.put("regFlag","Y");
-		paramMap.put("userId", paramMap.get("pin"));
+        modelAndView.addObject("msg", msg);
 
-		mypMemberService.mypCpaMemberRegisterRegFlagSave(paramMap);
-
-		return modelAndView;
+        return modelAndView;
 	}
 
     //수정제출
@@ -988,6 +982,54 @@ public class MypMemberController {
                 //수정제출 수정
                 paramMap.put("userId",paramMap.get("pin"));
                 mypMemberService.mypCpaMemberRegisterRegFlagSave(paramMap);
+
+        return modelAndView;
+    }
+
+    //등록회비
+    @RequestMapping(value="/selectDuesNewInfo.do")
+    public ModelAndView selectDuesNewInfo(@RequestParam Map<String, Object> paramMap) throws Exception{
+
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("jsonView");
+
+
+        LoginVO user = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
+
+        String msg = "";
+
+        // 입회비 납부 활성화 여부
+        String canPayDuesNew = duesService.canPayDuesNew(user.getUniqId());
+        if (!"1".equals(canPayDuesNew)) {
+
+            msg = "myPage";  /*마이페이지로 이동시키기*/
+            modelAndView.addObject("msg", msg);
+            return modelAndView;
+        }
+
+        modelAndView.addObject("canPayDuesNew", canPayDuesNew);
+
+        // 입회비 납부 내역 조회
+        Map<String, Object> retrunMap = duesService.getDuesNewList(user.getUniqId());
+        List<NewDuesDetail> duesNewList = (List<NewDuesDetail>) retrunMap.get("NewDuesDetail");
+        String v_pay_status = Objects.isNull(retrunMap.get("v_pay_status")) ? "" : String.valueOf(retrunMap.get("v_pay_status"));
+
+
+        modelAndView.addObject("duesNewList", duesNewList);
+        modelAndView.addObject("v_pay_status", v_pay_status);
+
+        // 입회비 생성 파라미터 조회
+        NewDuesDto newDuesDto = duesService.getDuesNewParameter(user.getUniqId());
+
+        modelAndView.addObject("pin", user.getUniqId());
+        modelAndView.addObject("newDuesParam", newDuesDto);
+
+        //회원 임시테이블정보
+        List<?> cpaMemberRegReviewInfoList = myPageService.selectCpaMemberRegistReviewInfoList(paramMap);
+
+
+        modelAndView.addObject("cpaMemberRegReviewInfoList", cpaMemberRegReviewInfoList);
+        modelAndView.addObject("msg", msg);
 
         return modelAndView;
     }
