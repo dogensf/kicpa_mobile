@@ -588,7 +588,10 @@ mypMemberReg.mypMemberReg_tabMove = function(flag) {
 
 	if(flag == "mypCpaMemberReg_aidDuesInfo"){                     //등록 회비 납부
 
-		var form = $('#mypCpaMember_aidDuesInfoForm')[0];
+        $('#mypCpaMemberReg_saveData').val('mypCpaMemberReg_reviewInfo');
+        mypMemberReg.mypCpaMemberReg_infoSave();
+
+		/*var form = $('#mypCpaMember_aidDuesInfoForm')[0];
 		var form_ = new FormData(form);
 		form_.append("pin", $('#mypCpaMemberReg_pin').val());
 
@@ -619,7 +622,7 @@ mypMemberReg.mypMemberReg_tabMove = function(flag) {
 			fail: function() {
 
 			}
-		});
+		});*/
 	}
 	else if(flag == "mypCpaMemberReg_reviewInfo"){                     //검토 및 제출
 		var reviewInfo_param = {};

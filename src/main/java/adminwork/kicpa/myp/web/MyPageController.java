@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import adminwork.kicpa.dues.service.DuesService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.util.Base64Utils;
@@ -37,6 +38,8 @@ public class MyPageController {
 	@Resource(name = "myPageService")
 	private MyPageService myPageService;
 
+    @Resource(name = "DuesService")
+    private DuesService duesService;
 
 	/**
 	 * XSS 방지 처리.
@@ -88,7 +91,7 @@ public class MyPageController {
 			String audTrainFlag ="N";	//외감 화면 구분	N- 등록안내화면, Y-승인 진행 화면, F-반려화면, E-외감정보화면,
 			String cpaMemFlag ="N";		//회원 화면 구분	N- 등록안내화면, Y-승인 진행 화면, F-반려화면, E-회원정보화면
 
-			String cpaAidFlag="N";		//등록회비 납부여부
+			String cpaAidFlag="";		//등록회비 납부여부
 
 			//합격자 정보(성명, 연락처) 가져오기(실제 테이블)
 			List<?> cpaPassRealInfo = myPageService.selectCpaPassInfoList(paramMap);
@@ -356,9 +359,13 @@ public class MyPageController {
 					if(cpaMemberReg.size()>0){
 						cpaMemberRegInfo.putAll((Map<String, Object>)cpaMemberReg.get(0));
 
-						if(!"".equals(cpaMemberRegInfo.get("sbscrbYn")) && cpaMemberRegInfo.get("sbscrbYn") != null){
+						/*if(!"".equals(cpaMemberRegInfo.get("sbscrbYn")) && cpaMemberRegInfo.get("sbscrbYn") != null){
 							cpaAidFlag = cpaMemberRegInfo.get("sbscrbYn").toString();
-						}
+						}*/
+
+                        // 입회비 납부 활성화 여부
+                        cpaAidFlag = duesService.canPayDuesNew(user.getUniqId());
+
 					}
 					else{
 						cpaMemberRegInfo.put("regFlag","N");
