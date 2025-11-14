@@ -35,7 +35,7 @@ function fncLocation(){
 
                  <div class="inp-box">
                      <label class="label essen" for="bltnSubj">제목</label>
-                     <input type="text" id="bltnSubj" name="bltnSubj" placeholder="제목을 압력하세요" />
+                     <input type="text" id="bltnSubj" name="bltnSubj" placeholder="제목을 입력하세요" />
                  </div>
 
                  <div class="inp-box">

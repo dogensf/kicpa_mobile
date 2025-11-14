@@ -142,7 +142,7 @@ function pay0(){
 				    <c:if test="${param.gamYn eq 'N' }">
 				     	<div class="inp-box">
 					        <label class="label essen" for="rvZip">우편번호</label>
-					        <input type="text" id="rvZip" name="rvZip" placeholder="우편번호를 압력하세요." readonly="readonly" onclick="sntBook.daumPostcode('cart');" maxlength="6" />
+					        <input type="text" id="rvZip" name="rvZip" placeholder="우편번호를 입력하세요." readonly="readonly" onclick="sntBook.daumPostcode('cart');" maxlength="6" />
 					    </div>
 			         	<div class="inp-box">
 					        <label class="label essen" for="rvAdd1">주소</label>
@@ -214,7 +214,7 @@ function pay0(){
 					    </div>
 						<div class="inp-box">
 					        <label class="label essen" for="rvZip">우편번호</label>
-					        <input type="text" id="rvZip" name="rvZip" placeholder="우편번호를 압력하세요." readonly="readonly" onclick="sntBook.daumPostcode('cart');" maxlength="6" />
+					        <input type="text" id="rvZip" name="rvZip" placeholder="우편번호를 입력하세요." readonly="readonly" onclick="sntBook.daumPostcode('cart');" maxlength="6" />
 					    </div>
 			         	<div class="inp-box">
 					        <label class="label essen" for="rvAdd1">주소</label>

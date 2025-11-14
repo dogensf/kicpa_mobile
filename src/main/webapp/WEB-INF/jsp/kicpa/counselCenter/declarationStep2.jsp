@@ -74,7 +74,7 @@ function fncLocation(){
 
 			       	<div class="inp-box">
 				        <label class="label essen" for="arZip">우편번호</label>
-				        <input type="text" id="arZip" name="arZip" onclick="counselCenter.daumPostcode();" placeholder="우편번호를 압력하세요." readonly="readonly" maxlength="5" />
+				        <input type="text" id="arZip" name="arZip" onclick="counselCenter.daumPostcode();" placeholder="우편번호를 입력하세요." readonly="readonly" maxlength="5" />
 				    </div>
 		         	<div class="inp-box">
 				        <label class="label essen" for="arAdd1">주소</label>
