@@ -79,12 +79,31 @@ myPageInfo.myPage_memberInfoUpdateBtn = function (movePage, moveFlag, pin){     
 myPageInfo.getMyPageCheckplusEncData = function(movePage, moveFlag, pin){
 
 	var param = {};
-	param.movePage = "https://mkip.kicpa.or.kr"+myPageInfo.getContextPath()+"/myp/mypCpaConfirmSucc.do?movePage="+movePage+"&moveFlag="+moveFlag+"&pin="+pin;
+	/*param.movePage = "https://mkip.kicpa.or.kr"+myPageInfo.getContextPath()+"/myp/mypCpaConfirmSucc.do?movePage="+movePage+"&moveFlag="+moveFlag+"&pin="+pin;
 	fn_ajax_call("/kicpa/common/getCheckplusEncData.do",param,myPageInfo.getMyPageCheckplusEncDataSuccess,myPageInfo.myPageInfoError);
+*/
+
+    //param.movePage = "https://mkip.kicpa.or.kr"+myPageInfo.getContextPath()+"/myp/cpaMemConfirmSucc.do?movePage="+movePage+"&moveFlag="+moveFlag+"&pin="+pin;
+    param.movePage = "https://mkip.kicpa.or.kr"+myPageInfo.getContextPath()+"/kicpa/myp/cpaMemConfirmSucc.do?movePage="+movePage+"&moveFlag="+moveFlag+"&pin="+pin;
+    param.customize = "";
+
+    fn_ajax_call("/kicpa/common/cpaMemNiceCheck.do",param,myPageInfo.getMyPageCheckplusEncDataSuccess,myPageInfo.myPageInfoError);
 }
 
 myPageInfo.getMyPageCheckplusEncDataSuccess = function(data){
-	var sMessage = data.sMessage;
+
+    console.log(JSON.stringify(data));
+    if(data.returnCode != "" && data.returnCode != null && data.returnCode != "0000"){
+        alert(data.resultMessage);
+    }
+    else{
+        window.open('', 'popupChk', 'width=500, height=550, top=100, left=100, fullscreen=no, menubar=no, status=no, toolbar=no, titlebar=yes, location=no, scrollbar=no');
+        form.action = data.authUrl;
+        form.target = "popupChk";
+        form.submit();
+    }
+
+	/*var sMessage = data.sMessage;
 	var sEncData = data.sEncData;
 
 
@@ -95,33 +114,45 @@ myPageInfo.getMyPageCheckplusEncDataSuccess = function(data){
 	window.open('', 'popupChk');
 	form.action = "https://nice.checkplus.co.kr/CheckPlusSafeModel/checkplus.cb";
 	form.target = "popupChk";
-	form.submit();
+	form.submit();*/
 }
 
 //본인인증 후 정보 수정 화면으로 이동
 myPageInfo.myPage_memberConfirmSuccMove = function (di, movePage, moveFlag, pin){      //moveFlag - 'M':기본정보, 'T':수습정보, 'C': 회계사정보
 
-	pin = $('#myPageInfo_pin').val();
+    pin = $('#myPageInfo_pin').val();
 
-	if(di != $('#myPageInfo_myPageInfoDi').val()){
-		alert("회원정보가 일치하지 않습니다.");
-	}
-	else{
-		sessionStorage.setItem("인증여부", "Y");
-		if(moveFlag =="M"){
-			var memFlag = "";
-			if($('#myPageInfo_cpaMemberMemFlag').val() == "A2020050"){      //휴업일 경우 휴업분류도 수정가능하도록
-				memFlag = "H";
-			}
-			location.replace(myPageInfo.getContextPath()+'/myp/mypCpaPassReg.do?movePage='+movePage+'&pin='+pin+'&memFlag='+memFlag);
-		}
-		else if(moveFlag =="C"){
-			location.replace(myPageInfo.getContextPath()+'/myp/mypCpaMemberReg.do?movePage='+movePage+'&pin='+pin);
-		}
-		else if(moveFlag =="T"){
-			location.replace(myPageInfo.getContextPath()+'/myp/mypCpaTrainReg.do?movePage='+movePage+'&pin='+pin);
-		}
-	}
+    var formData = {};
+    formData.pin = pin;
+
+    //di조회
+    $.ajax({
+        url : myPageInfo.getContextPath()+"/kicpa/myp/mypCpaDiCheck.do",
+        type : "POST",
+        data : formData,
+        success : function(data) {
+            /*alert("test" + data.diCheckList[0].immDi);*/
+            if(di != data.diCheckList[0].immDi){
+                alert("회원정보가 일치하지 않습니다.");
+            }
+            else{
+                sessionStorage.setItem("인증여부", "Y");
+                if(moveFlag =="M"){
+                    var memFlag = "";
+                    if($('#myPageInfo_cpaMemberMemFlag').val() == "A2020050"){      //휴업일 경우 휴업분류도 수정가능하도록
+                        memFlag = "H";
+                    }
+                    location.replace(myPageInfo.getContextPath()+'/myp/mypCpaPassReg.do?movePage='+movePage+'&pin='+pin+'&memFlag='+memFlag);
+                }
+                else if(moveFlag =="C"){
+                    location.replace(myPageInfo.getContextPath()+'/myp/mypCpaMemberReg.do?movePage='+movePage+'&pin='+pin);
+                }
+                else if(moveFlag =="T"){
+                    location.replace(myPageInfo.getContextPath()+'/myp/mypCpaTrainReg.do?movePage='+movePage+'&pin='+pin);
+                }
+            }
+        }
+    });
 }
 
 myPageInfo.myPageInfoError = function(data,status, error){

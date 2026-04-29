@@ -344,23 +344,22 @@
 	//세부내역 확인 화면 이동 전 본인 인증
 	function getSelectDuesListDetsilCheckplusEncData() {
 		var param = {};
-		param.movePage = "https://mkip.kicpa.or.kr" + "<c:url value='/dues/selectDuesListConfirmSucc.do'/>";
-		fn_ajax_call("/kicpa/common/getCheckplusEncData.do", param, getSelectDuesListDetsilCheckplusEncDataSuccess, selectDuesListError);
+		param.movePage = "https://mkip.kicpa.or.kr" + "<c:url value='/kicpa/dues/selectDuesListConfirmSucc.do'/>";
+		param.customize = "";
+		fn_ajax_call("/kicpa/common/cpaMemNiceCheck.do", param, getSelectDuesListDetsilCheckplusEncDataSuccess, selectDuesListError);
 	}
 
 	function getSelectDuesListDetsilCheckplusEncDataSuccess(data) {
-		var sMessage = data.sMessage;
-		var sEncData = data.sEncData;
-
-
-		$("#selectDuesList_nice input[name='EncodeData']").val(sEncData);
-
-		var form = document.getElementById("selectDuesList_nice");
-
-		window.open('', 'popupChk');
-		form.action = "https://nice.checkplus.co.kr/CheckPlusSafeModel/checkplus.cb";
-		form.target = "popupChk";
-		form.submit();
+		console.log(JSON.stringify(data));
+		if(data.returnCode != "" && data.returnCode != null && data.returnCode != "0000"){
+			alert(data.resultMessage);
+		}
+		else{
+			window.open('', 'popupChk', 'width=500, height=550, top=100, left=100, fullscreen=no, menubar=no, status=no, toolbar=no, titlebar=yes, location=no, scrollbar=no');
+			form.action = data.authUrl;
+			form.target = "popupChk";
+			form.submit();
+		}
 	}
 
 	//본인인증 후 세부내역 확인 화면으로 이동

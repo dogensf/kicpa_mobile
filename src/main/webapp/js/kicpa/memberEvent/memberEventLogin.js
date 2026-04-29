@@ -25,22 +25,23 @@ memberEventLogin.memberEventLogin_memberCheck = function (){
 
 
     var param = {};
-    param.movePage = "https://mkip.kicpa.or.kr"+memberEventLogin.getContextPath()+"/memberEvent/memberEventConfirmSucc.do";
-    fn_ajax_call("/kicpa/common/getCheckplusEncData.do",param,memberEventLogin.getMemberEventCheckplusEncDataSuccess,memberEventLogin.memberEventLoginError);
+    param.movePage = "https://mkip.kicpa.or.kr"+memberEventLogin.getContextPath()+"/kicpa/memberEvent/memberEventConfirmSucc.do";
+    param.customize = "";
+    fn_ajax_call("/kicpa/common/cpaMemNiceCheck.do",param,memberEventLogin.getMemberEventCheckplusEncDataSuccess,memberEventLogin.memberEventLoginError);
 
 }
 
 memberEventLogin.getMemberEventCheckplusEncDataSuccess = function(data){
-    var sMessage = data.sMessage;
-    var sEncData = data.sEncData;
-    $("#memberEventLogin_nice input[name='EncodeData']").val(sEncData);
-
-    var form = document.getElementById("memberEventLogin_nice");
-
-    window.open('', 'popupChk');
-    form.action = "https://nice.checkplus.co.kr/CheckPlusSafeModel/checkplus.cb";
-    form.target = "popupChk";
-    form.submit();
+    console.log(JSON.stringify(data));
+    if(data.returnCode != "" && data.returnCode != null && data.returnCode != "0000"){
+        alert(data.resultMessage);
+    }
+    else{
+        window.open('', 'popupChk', 'width=500, height=550, top=100, left=100, fullscreen=no, menubar=no, status=no, toolbar=no, titlebar=yes, location=no, scrollbar=no');
+        form.action = data.authUrl;
+        form.target = "popupChk";
+        form.submit();
+    }
 }
 
 //본인인증 후 경조사 목록 이동

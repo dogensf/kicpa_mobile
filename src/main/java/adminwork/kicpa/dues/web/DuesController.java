@@ -44,6 +44,11 @@ import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.fdl.security.userdetails.util.EgovUserDetailsHelper;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 
+import nice.intc.module.IntcClient;
+import nice.intc.module.model.IntcResultReqInfo;
+import nice.intc.module.model.IntcResultResInfo;
+import nice.intc.module.model.IntcUrlResInfo;
+
 @Controller
 public class DuesController {
 	
@@ -1155,106 +1160,57 @@ public class DuesController {
 		return modelAndView;
 	}
 
-	//세부내역 확인 본인인증 후 화면 이동
-	@RequestMapping(value = "/dues/selectDuesListConfirmSucc.do")
-	public String mypCpaConfirmSucc(@RequestParam Map<String, Object> paramMap, HttpServletRequest request, HttpSession session, ModelMap model) throws Exception{
+	//세부내역 확인 본인인증 신규 모듈 성공 화면 이동
+	@RequestMapping(value = "/kicpa/dues/selectDuesListConfirmSucc.do")
+	public String selectDuesListConfirmSuccNew(@RequestParam Map<String, Object> paramMap, HttpServletRequest request, HttpSession session, ModelMap model) throws Exception{
 
-		NiceID.Check.CPClient niceCheck = new  NiceID.Check.CPClient();
+		// 세션에서 intcUrlResInfo 가져오기
+		IntcUrlResInfo intcUrlResInfo = (IntcUrlResInfo) session.getAttribute("intcUrlResInfo");
 
-		String sEncodeData = requestReplace(request.getParameter("EncodeData"), "encodeData");
+		// 1. 인증결과 받아오기 위한 요청값 세팅
+		IntcResultReqInfo intcResultReqInfo = new IntcResultReqInfo();
+		// 표준창에서 리턴한 web_transaction_id
+		String webTransactionId = request.getParameter("web_transaction_id");
+		// 필수항목
+		intcResultReqInfo.setApiDomain("https://auth.niceid.co.kr");
+		intcResultReqInfo.setClientId("NIaa776f44-53f5-4564-a881-47572bd9936a");
+		intcResultReqInfo.setClientSecret("Yjg0ZTc1Y2MtMDlkNy00OGRmLWE3MzctYmY3Nzc1OWUyZDFhNjZDQzVGNDc5NEEyOEM0MkVBODcwRjlF");
+		intcResultReqInfo.setWebTransactionId(webTransactionId);
+		intcResultReqInfo.setRequestNo(intcUrlResInfo.getRequestNo());
+		intcResultReqInfo.setTransactionId(intcUrlResInfo.getTransactionId());
+		// 선택항목
+		intcResultReqInfo.setConnectTimeout(3000);
+		intcResultReqInfo.setReadTimeout(7000);
 
-		String sSiteCode = "G2760"; 				// NICE로부터 부여받은 사이트 코드
-		String sSitePassword = "OGVOHRYMMD4N";		// NICE로부터 부여받은 사이트 패스워드
+		// 2. 인증결과 요청
+		IntcClient intcClient = new IntcClient();
+		IntcResultResInfo intcResultResInfo = intcClient.getAuthResult(intcResultReqInfo);
 
-		String sCipherTime = "";			// 복호화한 시간
-		String sRequestNumber = "";			// 요청 번호
-		String sResponseNumber = "";		// 인증 고유번호
-		String sAuthType = "";				// 인증 수단
-		String sName = "";					// 성명
-		String sDupInfo = "";				// 중복가입 확인값 (DI_64 byte)
-		String sConnInfo = "";				// 연계정보 확인값 (CI_88 byte)
-		String sBirthDate = "";				// 생년월일(YYYYMMDD)
-		String sGender = "";				// 성별
-		String sNationalInfo = "";			// 내/외국인정보 (개발가이드 참조)
-		String sMobileNo = "";				// 휴대폰번호
-		String sMobileCo = "";				// 통신사
-		String sMessage = "";
-		String sPlainData = "";
+		// 3. 인증결과 요청에 대한 응답 처리
+		if ("0000".equals(intcResultResInfo.getReturnCode())) {
 
-		int iReturn = niceCheck.fnDecode(sSiteCode, sSitePassword, sEncodeData);
+			model.addAttribute("authResultDataName",intcResultResInfo.getAuthResultData().getName());
+			model.addAttribute("authResultDataBirthdate",intcResultResInfo.getAuthResultData().getBirthdate());
+			model.addAttribute("authResultDataGender",intcResultResInfo.getAuthResultData().getGender());
+			model.addAttribute("authResultDataNationalInfo",intcResultResInfo.getAuthResultData().getNationalInfo());
+			model.addAttribute("authResultDataCi",intcResultResInfo.getAuthResultData().getCi());
+			model.addAttribute("authResultDataCi2",intcResultResInfo.getAuthResultData().getCi2());
+			model.addAttribute("authResultDataCiUpdate",intcResultResInfo.getAuthResultData().getCiUpdate());
+			model.addAttribute("authResultDataDI",intcResultResInfo.getAuthResultData().getDi());
+			model.addAttribute("authResultDataMobileCo",intcResultResInfo.getAuthResultData().getMobileCo());
+			model.addAttribute("authResultDataMobileNo",intcResultResInfo.getAuthResultData().getMobileNo());
+			model.addAttribute("authResultDataVnumber",intcResultResInfo.getAuthResultData().getVnumber());
+			model.addAttribute("authResultDataAgeCode",intcResultResInfo.getAuthResultData().getAgeCode());
+			model.addAttribute("authResultDataAuthMethod",intcResultResInfo.getAuthResultData().getAuthMethod());
 
-		if( iReturn == 0 )
-		{
-			sPlainData = niceCheck.getPlainData();
-			sCipherTime = niceCheck.getCipherDateTime();
-
-			// 데이타를 추출합니다.
-			java.util.HashMap mapresult = niceCheck.fnParse(sPlainData);
-
-			sRequestNumber  = (String)mapresult.get("REQ_SEQ");
-			sResponseNumber = (String)mapresult.get("RES_SEQ");
-			sAuthType		= (String)mapresult.get("AUTH_TYPE");
-			sName			= (String)mapresult.get("NAME");
-			//sName			= (String)mapresult.get("UTF8_NAME"); //charset utf8 사용시 주석 해제 후 사용
-			sBirthDate		= (String)mapresult.get("BIRTHDATE");
-			sGender			= (String)mapresult.get("GENDER");
-			sNationalInfo  	= (String)mapresult.get("NATIONALINFO");
-			sDupInfo		= (String)mapresult.get("DI");
-			sConnInfo		= (String)mapresult.get("CI");
-			sMobileNo		= (String)mapresult.get("MOBILE_NO");
-			sMobileCo		= (String)mapresult.get("MOBILE_CO");
-
-			model.addAttribute("sCipherTime",sCipherTime);
-			model.addAttribute("sRequestNumber",sRequestNumber);
-			model.addAttribute("sResponseNumber",sResponseNumber);
-			model.addAttribute("sAuthType",sAuthType);
-			model.addAttribute("sName",sName);
-			model.addAttribute("sBirthDate",sBirthDate);
-			model.addAttribute("sGender",sGender);
-			model.addAttribute("sNationalInfo",sNationalInfo);
-			model.addAttribute("sDupInfo",sDupInfo);
-			model.addAttribute("sConnInfo",sConnInfo);
-			model.addAttribute("sMobileNo",sMobileNo);
-			model.addAttribute("sMobileCo",sMobileCo);
-
-			String session_sRequestNumber = (String)session.getAttribute("REQ_SEQ");
-			if(!sRequestNumber.equals(session_sRequestNumber))
-			{
-				sMessage = "세션값 불일치 오류입니다.";
-				sResponseNumber = "";
-				sAuthType = "";
-			}
-		}
-		else if( iReturn == -1)
-		{
-			sMessage = "복호화 시스템 오류입니다.";
-		}
-		else if( iReturn == -4)
-		{
-			sMessage = "복호화 처리 오류입니다.";
-		}
-		else if( iReturn == -5)
-		{
-			sMessage = "복호화 해쉬 오류입니다.";
-		}
-		else if( iReturn == -6)
-		{
-			sMessage = "복호화 데이터 오류입니다.";
-		}
-		else if( iReturn == -9)
-		{
-			sMessage = "입력 데이터 오류입니다.";
-		}
-		else if( iReturn == -12)
-		{
-			sMessage = "사이트 패스워드 오류입니다.";
-		}
-		else
-		{
-			sMessage = "알수 없는 에러 입니다. iReturn : " + iReturn;
 		}
 
-		model.addAttribute("sMessage",sMessage);
+		model.addAttribute("returnCode",intcResultResInfo.getReturnCode());
+		model.addAttribute("resultMessage",intcResultResInfo.getResultMessage());
+		model.addAttribute("sMessage",intcResultResInfo.getResultMessage());
+
+		System.out.println("응답코드:"+intcResultResInfo.getReturnCode());
+		System.out.println("응답메세지:"+intcResultResInfo.getResultMessage());
 
 		return "kicpa/dues/duesDtailConfirmSucc";
 	}

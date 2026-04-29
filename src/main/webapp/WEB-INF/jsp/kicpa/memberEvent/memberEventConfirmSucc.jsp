@@ -31,7 +31,7 @@
 
     <script>
         $(document).ready(function() {
-            window.opener.memberEventLogin.memberEvent_confirmSuccMove('${sDupInfo}', '${sName}');
+            window.opener.memberEventLogin.memberEvent_confirmSuccMove('${authResultDataDI}', '${authResultDataName}');
             window.close();
         });
 

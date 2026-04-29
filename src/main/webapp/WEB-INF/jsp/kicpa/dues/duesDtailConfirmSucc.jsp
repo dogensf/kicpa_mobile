@@ -34,7 +34,7 @@
 
     <script>
         $(document).ready(function() {
-            window.opener.selectDuesList_duesDetailConfirmSuccMove('${sDupInfo}');
+            window.opener.selectDuesList_duesDetailConfirmSuccMove('${authResultDataDI}');
             self.close();
         });
     </script>

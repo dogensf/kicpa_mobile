@@ -18,6 +18,10 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import adminwork.kicpa.dues.service.DuesService;
+import nice.intc.module.IntcClient;
+import nice.intc.module.model.IntcResultReqInfo;
+import nice.intc.module.model.IntcResultResInfo;
+import nice.intc.module.model.IntcUrlResInfo;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.util.Base64Utils;
@@ -505,6 +509,67 @@ public class MyPageController {
 		return "kicpa/myp/myPageInfo";
 	}
 
+    //본인인증 신규 모듈 성공 화면 이동
+    @RequestMapping(value = "/kicpa/myp/cpaMemConfirmSucc.do")
+    public String cpaMemConfirmSucc(@RequestParam Map<String, Object> paramMap, HttpServletRequest request, HttpSession session, ModelMap model) throws Exception{
+
+        // 세션에서 intcUrlResInfo 가져오기
+        IntcUrlResInfo intcUrlResInfo = (IntcUrlResInfo) session.getAttribute("intcUrlResInfo");
+
+        // 1. 인증결과 받아오기 위한 요청값 세팅
+        IntcResultReqInfo intcResultReqInfo = new IntcResultReqInfo();
+        // 표준창에서 리턴한 web_transaction_id
+        String webTransactionId = request.getParameter("web_transaction_id");
+        // 필수항목
+        intcResultReqInfo.setApiDomain("https://auth.niceid.co.kr");
+        intcResultReqInfo.setClientId("NIaa776f44-53f5-4564-a881-47572bd9936a");
+        intcResultReqInfo.setClientSecret("Yjg0ZTc1Y2MtMDlkNy00OGRmLWE3MzctYmY3Nzc1OWUyZDFhNjZDQzVGNDc5NEEyOEM0MkVBODcwRjlF");
+        intcResultReqInfo.setWebTransactionId(webTransactionId);
+        intcResultReqInfo.setRequestNo(intcUrlResInfo.getRequestNo());
+        intcResultReqInfo.setTransactionId(intcUrlResInfo.getTransactionId());
+        // 선택항목
+        intcResultReqInfo.setConnectTimeout(3000);
+        intcResultReqInfo.setReadTimeout(7000);
+
+        // 2. 인증결과 요청
+        IntcClient intcClient = new IntcClient();
+        IntcResultResInfo intcResultResInfo = intcClient.getAuthResult(intcResultReqInfo);
+
+        // 3. 인증결과 요청에 대한 응답 처리
+        if ("0000".equals(intcResultResInfo.getReturnCode())) {
+
+            model.addAttribute("authResultDataName",intcResultResInfo.getAuthResultData().getName());                   /*인증결과-이름*/
+            model.addAttribute("authResultDataBirthdate",intcResultResInfo.getAuthResultData().getBirthdate());         /*인증결과-생년월일*/
+            model.addAttribute("authResultDataGender",intcResultResInfo.getAuthResultData().getGender());               /*인증결과-성별*/
+            model.addAttribute("authResultDataNationalInfo",intcResultResInfo.getAuthResultData().getNationalInfo());   /*인증결과-내외국인*/
+            model.addAttribute("authResultDataCi",intcResultResInfo.getAuthResultData().getCi());                       /*인증결과-C1*/
+            model.addAttribute("authResultDataCi2",intcResultResInfo.getAuthResultData().getCi2());                     /*인증결과-CI2*/
+            model.addAttribute("authResultDataCiUpdate",intcResultResInfo.getAuthResultData().getCiUpdate());           /*인증결과-CI업데이트버전*/
+            model.addAttribute("authResultDataDI",intcResultResInfo.getAuthResultData().getDi());                       /*인증결과-DI*/
+            model.addAttribute("authResultDataMobileCo",intcResultResInfo.getAuthResultData().getMobileCo());           /*인증결과-통신사*/
+            model.addAttribute("authResultDataMobileNo",intcResultResInfo.getAuthResultData().getMobileNo());           /*인증결과-휴대폰번호*/
+            model.addAttribute("authResultDataVnumber",intcResultResInfo.getAuthResultData().getVnumber());             /*인증결과-아이핀가상번호*/
+            model.addAttribute("authResultDataAgeCode",intcResultResInfo.getAuthResultData().getAgeCode());             /*인증결과-연령코드*/
+            model.addAttribute("authResultDataAuthMethod",intcResultResInfo.getAuthResultData().getAuthMethod());       /*인증결과-아이핀 가입 인증수단*/
+
+        }
+
+        model.addAttribute("returnCode",intcResultResInfo.getReturnCode());                                         /*응답코드*/
+        model.addAttribute("resultMessage",intcResultResInfo.getResultMessage());                                   /*응답메세지*/
+
+        model.addAttribute("movePage",paramMap.get("movePage"));
+        model.addAttribute("moveFlag",paramMap.get("moveFlag"));
+        model.addAttribute("pin",paramMap.get("pin"));
+
+        model.addAttribute("sMessage",intcResultResInfo.getResultMessage());
+
+
+        System.out.println("응답코드:"+intcResultResInfo.getReturnCode());
+        System.out.println("응답메세지:"+intcResultResInfo.getResultMessage());
+
+        return "kicpa/myp/mypCpaConfirmSucc";
+    }
+
 	//마이페이지 본인인증 후 화면 이동
 	@RequestMapping(value = "/mypCpaConfirmSucc.do")
 	public String mypCpaConfirmSucc(@RequestParam Map<String, Object> paramMap, HttpServletRequest request, HttpSession session, ModelMap model) throws Exception{
@@ -612,6 +677,30 @@ public class MyPageController {
 
 		return "kicpa/myp/mypCpaConfirmSucc";
 	}
+
+    //di 확인
+    @RequestMapping(value="/kicpa/myp/mypCpaDiCheck.do")
+    public ModelAndView mypCpaDiCheck(@RequestParam Map<String, Object> paramMap) throws Exception{
+
+        LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("jsonView");
+
+        try {
+
+            //di 정보
+            List<?> diCheckList = myPageService.selectCpaPassDiCheckList(paramMap);
+
+            modelAndView.addObject("diCheckList", diCheckList);
+            modelAndView.addObject("code", "200");
+        }catch (Exception e) {
+            modelAndView.addObject("message", "저장에 실패했습니다.");
+            modelAndView.addObject("code", "400");
+        }
+
+        return modelAndView;
+    }
 
 	//경조사 메일발송 프로시저
 	@RequestMapping(value="/boardInfoSendMail.do")

@@ -2,6 +2,9 @@ package adminwork.kicpa.cmm.comm.web;
 
 
 import java.io.PrintWriter;
+import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -10,9 +13,25 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import nice.intc.module.IntcClient;
+import nice.intc.module.model.IntcResultReqInfo;
+import nice.intc.module.model.IntcResultResInfo;
+import nice.intc.module.model.IntcUrlReqInfo;
+import nice.intc.module.model.IntcUrlResInfo;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.util.EntityUtils;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import adminwork.com.cmm.StringUtil;
@@ -25,6 +44,127 @@ public class KicpaCommController {
 
 	@Resource(name = "kicpaCommService")
 	private KicpaCommService kicpaCommService;
+
+
+
+    private static String accessToken;
+    private static String refreshToken;
+    private static long expiryTime;
+    private static final ObjectMapper mapper = new ObjectMapper();
+
+    private static IntcUrlResInfo intcUrlResInfo ;
+
+
+
+    //본인인증 신규 모듈 (SDK 방식)
+    @RequestMapping(value = "/cpaMemNiceCheck.do")
+    @ResponseBody
+    public IntcUrlResInfo cpaMemNiceCheck(@RequestBody Map<String, Object> paramMap, HttpSession session) throws Exception{
+
+        //ModelAndView resultJs = new ModelAndView("jsonView");
+
+        NiceID.Check.CPClient niceCheck = new NiceID.Check.CPClient();
+
+        String sSiteCode = "G2760";			// NICE로부터 부여받은 사이트 코드
+
+        // 요청번호 생성
+        String sRequestNumber = niceCheck.getRequestNO(sSiteCode);
+        session.setAttribute("REQ_SEQ", sRequestNumber);	// 해킹등의 방지를 위하여 세션에 요청번호를 넣는다.
+
+        // SDK 방식 - IntcUrlReqInfo 설정
+        IntcUrlReqInfo intcUrlReqInfo = new IntcUrlReqInfo();
+
+        // 필수 항목
+        intcUrlReqInfo.setApiDomain("https://auth.niceid.co.kr");
+        intcUrlReqInfo.setClientId("NIaa776f44-53f5-4564-a881-47572bd9936a");
+        intcUrlReqInfo.setClientSecret("Yjg0ZTc1Y2MtMDlkNy00OGRmLWE3MzctYmY3Nzc1OWUyZDFhNjZDQzVGNDc5NEEyOEM0MkVBODcwRjlF");
+        intcUrlReqInfo.setResultUrl(paramMap.get("movePage").toString());
+        intcUrlReqInfo.setSvcTypes(Arrays.asList("M"));  // M:휴대폰 F:금융인증서 U:공동인증서 I:아이핀
+
+        // 선택 항목
+        //intcUrlReqInfo.setCloseUrl("https://your-domain/close");
+        intcUrlReqInfo.setRequestNo(sRequestNumber);
+        //intcUrlReqInfo.setMethodType(IntcCodeUtil.METHOD_TYPE.GET);
+        //intcUrlReqInfo.setExpMods(Collections.singletonList("closeButtonOn"));
+        intcUrlReqInfo.setConnectTimeout(3000);
+        intcUrlReqInfo.setReadTimeout(7000);
+
+        // IntcClient로 인증 URL 요청
+        IntcClient intcClient = new IntcClient();
+        intcUrlResInfo = intcClient.getAuthUrl(intcUrlReqInfo);
+
+        // 세션에 intcUrlResInfo 저장 (다른 컨트롤러에서 사용)
+        session.setAttribute("intcUrlResInfo", intcUrlResInfo);
+
+        //  인증할 표준창 URL 응답 처리
+        if ("0000".equals(intcUrlResInfo.getReturnCode())) {
+            System.out.println("응답코드:"+intcUrlResInfo.getReturnCode());
+            System.out.println("응답메세지:"+intcUrlResInfo.getResultMessage());
+            System.out.println("요청고유번호:"+intcUrlResInfo.getRequestNo());
+            System.out.println("트랜잭션아이디:"+intcUrlResInfo.getTransactionId());
+            System.out.println("인증요청 URL:"+intcUrlResInfo.getAuthUrl());
+        } else {
+            System.out.println("응답코드:"+intcUrlResInfo.getReturnCode());
+            System.out.println("응답메세지:"+intcUrlResInfo.getResultMessage());
+        }
+
+        return intcUrlResInfo;
+    }
+
+    //본인인증 토큰 발급
+    private static void fetchToken(String reqNo) throws Exception {
+        System.out.println("fetchToken() 실행--- reqNo ====> " + reqNo);
+        //운영
+        String body = "grant_type=client_credentials&request_no="+ reqNo;
+
+        //API 버전
+        String version = "v1.0";
+
+        //운영
+        String tokenUrl = "https://auth.niceid.co.kr/ido/intc/"+version+"/auth/token";
+        String clientId = "NIaa776f44-53f5-4564-a881-47572bd9936a";
+        String clientSecret = "Yjg0ZTc1Y2MtMDlkNy00OGRmLWE3MzctYmY3Nzc1OWUyZDFhNjZDQzVGNDc5NEEyOEM0MkVBODcwRjlF";
+
+        String auth = clientId + ":" + clientSecret;
+        String encodedAuth = Base64.getUrlEncoder().withoutPadding().encodeToString(auth.getBytes());  // Base64.getEncoder().encodeToString(auth.getBytes(StandardCharsets.UTF_8));
+        String authorization = "Basic " + encodedAuth;
+
+        System.out.println("authorization: " + authorization);
+
+        CloseableHttpClient httpClient = HttpClients.createDefault();
+        try {
+            HttpPost httpPost = new HttpPost(tokenUrl);
+            httpPost.setHeader("Authorization", authorization);
+            httpPost.setEntity(new StringEntity(body, StandardCharsets.UTF_8));
+
+            CloseableHttpResponse response = httpClient.execute(httpPost);
+            try {
+                String responseBody = EntityUtils.toString(response.getEntity(), StandardCharsets.UTF_8);
+
+                System.out.println("Token Response: " + responseBody);
+
+                JsonNode node = mapper.readTree(responseBody);
+                accessToken = node.get("access_token").asText();
+                refreshToken = node.get("refresh_token").asText();
+                int expiresIn = node.get("expires_in").asInt(); // 초 단위
+                expiryTime = System.currentTimeMillis() + ((expiresIn - 10) * 1000L);
+
+                System.out.println("New Token Issued: " + accessToken);
+            } finally {
+                response.close();
+            }
+        } finally {
+            httpClient.close();
+        }
+    }
+
+    // 유효한 토큰 가져오기
+    private static String getValidToken(String reqNo) throws Exception {
+        if (accessToken == null || System.currentTimeMillis() >= expiryTime) {
+            fetchToken(reqNo);
+        }
+        return accessToken;
+    }
 
 	@RequestMapping(value="/getCheckplusEncData.do")
     public ModelAndView getCheckplusEncData(@RequestBody Map<String,Object> map, HttpServletRequest request) throws Exception{
