@@ -224,9 +224,10 @@ function goCyber(){
 				        <button class="icon_obituary" type="button" onclick="javascript:location.href='<c:url value='/kicpa/memberEvent/boardList.do'/>';">
 				       		   회원경조사
 				        </button> --%>
-<%--							<button class="icon_obituary" type="button" onclick="javascript:location.href='<c:url value='/kicpa/dues/selectDuesList.do'/>';">--%>
-<%--								회원경조사--%>
-<%--							</button>--%>
+							<%--<button class="icon_obituary" type="button" onclick="javascript:location.href='<c:url value='/kicpa/memberEvent/memberEventList.do'/>';">
+								회원경조사
+							</button>--%>
+
 
 		     		</div>
 		      		<div id="mfm12">

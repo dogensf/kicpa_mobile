@@ -37,6 +37,7 @@ memberEventLogin.getMemberEventCheckplusEncDataSuccess = function(data){
         alert(data.resultMessage);
     }
     else{
+        var form = document.getElementById("memberEventLogin_nice");
         window.open('', 'popupChk', 'width=500, height=550, top=100, left=100, fullscreen=no, menubar=no, status=no, toolbar=no, titlebar=yes, location=no, scrollbar=no');
         form.action = data.authUrl;
         form.target = "popupChk";
