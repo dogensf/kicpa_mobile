@@ -128,7 +128,7 @@ myPageInfo.myPage_memberConfirmSuccMove = function (di, movePage, moveFlag, pin)
 
     //di조회
     $.ajax({
-        url : myPageInfo.getContextPath()+"/kicpa/myp/mypCpaDiCheck.do",
+        url : myPageInfo.getContextPath()+"/myp/mypCpaDiCheck.do",
         type : "POST",
         data : formData,
         success : function(data) {

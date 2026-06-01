@@ -159,9 +159,9 @@ public class MainController {
 				for(Cookie c : cookies) {
 					  if("loginIng".equals(c.getName().toString())){
 						  if("" != c.getValue() && null != c.getValue()) {	
-							  System.out.println("0.loginIng::::::: "+ c.getValue());
+							  System.out.println("0.loginIng::::::: "/*+ c.getValue()*/);
 							  if (!isAuthenticated) {
-								  System.out.println("1.loginIng::::::: "+ c.getValue());
+								  System.out.println("1.loginIng::::::: "/*+ c.getValue()*/);
 								  Cookie cookie = new Cookie("returnUrl", "");		
 								  	cookie.setPath("/");												  
 									cookie.setMaxAge(0);

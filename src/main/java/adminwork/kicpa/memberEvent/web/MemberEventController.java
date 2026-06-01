@@ -434,7 +434,7 @@ public class MemberEventController {
 	}
 
 	//경조사 본인인증 신규 모듈 성공 화면 이동
-	@RequestMapping(value = "/kicpa/memberEvent/memberEventConfirmSucc.do")
+	@RequestMapping(value = "/memberEventConfirmSucc.do")
 	public String memberEventConfirmSuccNew(@RequestParam Map<String, Object> paramMap, HttpServletRequest request, HttpSession session, ModelMap model) throws Exception{
 
 		// 세션에서 intcUrlResInfo 가져오기

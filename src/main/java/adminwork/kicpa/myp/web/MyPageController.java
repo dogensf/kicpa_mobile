@@ -510,7 +510,7 @@ public class MyPageController {
 	}
 
     //본인인증 신규 모듈 성공 화면 이동
-    @RequestMapping(value = "/kicpa/myp/cpaMemConfirmSucc.do")
+    @RequestMapping(value = "/cpaMemConfirmSucc.do")
     public String cpaMemConfirmSucc(@RequestParam Map<String, Object> paramMap, HttpServletRequest request, HttpSession session, ModelMap model) throws Exception{
 
         // 세션에서 intcUrlResInfo 가져오기
@@ -679,7 +679,7 @@ public class MyPageController {
 	}
 
     //di 확인
-    @RequestMapping(value="/kicpa/myp/mypCpaDiCheck.do")
+    @RequestMapping(value="/mypCpaDiCheck.do")
     public ModelAndView mypCpaDiCheck(@RequestParam Map<String, Object> paramMap) throws Exception{
 
         LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
