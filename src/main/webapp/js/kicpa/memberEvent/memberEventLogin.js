@@ -25,7 +25,7 @@ memberEventLogin.memberEventLogin_memberCheck = function (){
 
 
     var param = {};
-    param.movePage = "https://mkip.kicpa.or.kr"+memberEventLogin.getContextPath()+"/kicpa/memberEvent/memberEventConfirmSucc.do";
+    param.movePage = "https://mkip.kicpa.or.kr"+memberEventLogin.getContextPath()+"/memberEvent/memberEventConfirmSucc.do";
     param.customize = "";
     fn_ajax_call("/kicpa/common/cpaMemNiceCheck.do",param,memberEventLogin.getMemberEventCheckplusEncDataSuccess,memberEventLogin.memberEventLoginError);
 

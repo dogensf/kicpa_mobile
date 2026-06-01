@@ -84,7 +84,7 @@ myPageInfo.getMyPageCheckplusEncData = function(movePage, moveFlag, pin){
 */
 
     //param.movePage = "https://mkip.kicpa.or.kr"+myPageInfo.getContextPath()+"/myp/cpaMemConfirmSucc.do?movePage="+movePage+"&moveFlag="+moveFlag+"&pin="+pin;
-    param.movePage = "https://mkip.kicpa.or.kr"+myPageInfo.getContextPath()+"/kicpa/myp/cpaMemConfirmSucc.do?movePage="+movePage+"&moveFlag="+moveFlag+"&pin="+pin;
+    param.movePage = "https://mkip.kicpa.or.kr"+myPageInfo.getContextPath()+"/myp/cpaMemConfirmSucc.do?movePage="+movePage+"&moveFlag="+moveFlag+"&pin="+pin;
     param.customize = "";
 
     fn_ajax_call("/kicpa/common/cpaMemNiceCheck.do",param,myPageInfo.getMyPageCheckplusEncDataSuccess,myPageInfo.myPageInfoError);
