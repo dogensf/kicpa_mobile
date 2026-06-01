@@ -100,9 +100,9 @@ public class KicpaCommController {
         if ("0000".equals(intcUrlResInfo.getReturnCode())) {
             System.out.println("응답코드:"+intcUrlResInfo.getReturnCode());
             System.out.println("응답메세지:"+intcUrlResInfo.getResultMessage());
-            System.out.println("요청고유번호:"+intcUrlResInfo.getRequestNo());
+            /*System.out.println("요청고유번호:"+intcUrlResInfo.getRequestNo());
             System.out.println("트랜잭션아이디:"+intcUrlResInfo.getTransactionId());
-            System.out.println("인증요청 URL:"+intcUrlResInfo.getAuthUrl());
+            System.out.println("인증요청 URL:"+intcUrlResInfo.getAuthUrl());*/
         } else {
             System.out.println("응답코드:"+intcUrlResInfo.getReturnCode());
             System.out.println("응답메세지:"+intcUrlResInfo.getResultMessage());
