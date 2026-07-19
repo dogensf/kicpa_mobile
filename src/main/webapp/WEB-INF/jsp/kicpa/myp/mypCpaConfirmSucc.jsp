@@ -34,7 +34,12 @@
 
     <script>
         $(document).ready(function() {
-            window.opener.myPageInfo.myPage_memberConfirmSuccMove('${authResultDataDI}', '${movePage}', '${moveFlag}', '${pin}');
+            // DI 일치 여부는 서버에서 판정(authMatch). 민감값(CI/DI)은 화면에 내려보내지 않는다.
+            if ('${authMatch}' == 'Y') {
+                window.opener.myPageInfo.myPage_memberConfirmSuccMove('${movePage}', '${moveFlag}', '${pin}');
+            } else {
+                alert('회원정보가 일치하지 않습니다.');
+            }
             self.close();
         });
 

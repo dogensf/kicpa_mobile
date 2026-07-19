@@ -459,25 +459,19 @@ public class MemberEventController {
 		IntcClient intcClient = new IntcClient();
 		IntcResultResInfo intcResultResInfo = intcClient.getAuthResult(intcResultReqInfo);
 
-		// 3. 인증결과 요청에 대한 응답 처리
+		// 3. 인증결과 처리
+		//    인증결과 DI를 게시글 작성자 식별값으로 사용한다 (CI는 비교/조회에 사용하지 않는다).
+		//    DI/이름 외 민감 식별값은 클라이언트로 내려보내지 않는다.
+		String authMatch = "N";
 		if ("0000".equals(intcResultResInfo.getReturnCode())) {
 
-			model.addAttribute("authResultDataName",intcResultResInfo.getAuthResultData().getName());
-			model.addAttribute("authResultDataBirthdate",intcResultResInfo.getAuthResultData().getBirthdate());
-			model.addAttribute("authResultDataGender",intcResultResInfo.getAuthResultData().getGender());
-			model.addAttribute("authResultDataNationalInfo",intcResultResInfo.getAuthResultData().getNationalInfo());
-			model.addAttribute("authResultDataCi",intcResultResInfo.getAuthResultData().getCi());
-			model.addAttribute("authResultDataCi2",intcResultResInfo.getAuthResultData().getCi2());
-			model.addAttribute("authResultDataCiUpdate",intcResultResInfo.getAuthResultData().getCiUpdate());
-			model.addAttribute("authResultDataDI",intcResultResInfo.getAuthResultData().getDi());
-			model.addAttribute("authResultDataMobileCo",intcResultResInfo.getAuthResultData().getMobileCo());
-			model.addAttribute("authResultDataMobileNo",intcResultResInfo.getAuthResultData().getMobileNo());
-			model.addAttribute("authResultDataVnumber",intcResultResInfo.getAuthResultData().getVnumber());
-			model.addAttribute("authResultDataAgeCode",intcResultResInfo.getAuthResultData().getAgeCode());
-			model.addAttribute("authResultDataAuthMethod",intcResultResInfo.getAuthResultData().getAuthMethod());
+			authMatch = "Y";
+			model.addAttribute("authResultDataName", intcResultResInfo.getAuthResultData().getName());   /*인증결과-이름*/
+			model.addAttribute("authResultDataDI", intcResultResInfo.getAuthResultData().getDi());       /*인증결과-DI*/
 
 		}
 
+		model.addAttribute("authMatch", authMatch);
 		model.addAttribute("returnCode",intcResultResInfo.getReturnCode());
 		model.addAttribute("resultMessage",intcResultResInfo.getResultMessage());
 		model.addAttribute("sMessage",intcResultResInfo.getResultMessage());

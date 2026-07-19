@@ -535,25 +535,42 @@ public class MyPageController {
         IntcClient intcClient = new IntcClient();
         IntcResultResInfo intcResultResInfo = intcClient.getAuthResult(intcResultReqInfo);
 
-        // 3. 인증결과 요청에 대한 응답 처리
+        // 3. 인증결과 처리 + 본인 DI 일치 여부를 서버에서 검증
+        //    (CI/DI 등 민감 식별값은 클라이언트로 내려보내지 않는다)
+        String authMatch = "N";
         if ("0000".equals(intcResultResInfo.getReturnCode())) {
 
-            model.addAttribute("authResultDataName",intcResultResInfo.getAuthResultData().getName());                   /*인증결과-이름*/
-            model.addAttribute("authResultDataBirthdate",intcResultResInfo.getAuthResultData().getBirthdate());         /*인증결과-생년월일*/
-            model.addAttribute("authResultDataGender",intcResultResInfo.getAuthResultData().getGender());               /*인증결과-성별*/
-            model.addAttribute("authResultDataNationalInfo",intcResultResInfo.getAuthResultData().getNationalInfo());   /*인증결과-내외국인*/
-            model.addAttribute("authResultDataCi",intcResultResInfo.getAuthResultData().getCi());                       /*인증결과-C1*/
-            model.addAttribute("authResultDataCi2",intcResultResInfo.getAuthResultData().getCi2());                     /*인증결과-CI2*/
-            model.addAttribute("authResultDataCiUpdate",intcResultResInfo.getAuthResultData().getCiUpdate());           /*인증결과-CI업데이트버전*/
-            model.addAttribute("authResultDataDI",intcResultResInfo.getAuthResultData().getDi());                       /*인증결과-DI*/
-            model.addAttribute("authResultDataMobileCo",intcResultResInfo.getAuthResultData().getMobileCo());           /*인증결과-통신사*/
-            model.addAttribute("authResultDataMobileNo",intcResultResInfo.getAuthResultData().getMobileNo());           /*인증결과-휴대폰번호*/
-            model.addAttribute("authResultDataVnumber",intcResultResInfo.getAuthResultData().getVnumber());             /*인증결과-아이핀가상번호*/
-            model.addAttribute("authResultDataAgeCode",intcResultResInfo.getAuthResultData().getAgeCode());             /*인증결과-연령코드*/
-            model.addAttribute("authResultDataAuthMethod",intcResultResInfo.getAuthResultData().getAuthMethod());       /*인증결과-아이핀 가입 인증수단*/
+            // 로그인 세션 사용자의 pin으로 DB DI 조회 (요청 pin을 신뢰하지 않음 → IDOR 방지)
+            String pin = null;
+            LoginVO user = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
+            if (user != null) {
+                pin = user.getUniqId();
+            }
+            if (pin == null && paramMap.get("pin") != null) {
+                pin = paramMap.get("pin").toString();
+            }
 
+            String niceDi = intcResultResInfo.getAuthResultData().getDi();
+
+            Map<String, Object> diParam = new HashMap<String, Object>();
+            diParam.put("pin", pin);
+            List<?> diCheckList = myPageService.selectCpaPassDiCheckList(diParam);
+
+            String dbDi = null;
+            if (diCheckList != null && !diCheckList.isEmpty()) {
+                Object diObj = ((Map<String, Object>) diCheckList.get(0)).get("immDi");
+                if (diObj != null) {
+                    dbDi = diObj.toString();
+                }
+            }
+
+            // DI(사이트 내 동일인 식별값) 일치 여부로 본인 확인. 빈값끼리 우연 일치 방지 후 비교.
+            if (niceDi != null && !niceDi.isEmpty() && niceDi.equals(dbDi)) {
+                authMatch = "Y";
+            }
         }
 
+        model.addAttribute("authMatch", authMatch);                                                                 /*본인 DI 일치 여부(Y/N)*/
         model.addAttribute("returnCode",intcResultResInfo.getReturnCode());                                         /*응답코드*/
         model.addAttribute("resultMessage",intcResultResInfo.getResultMessage());                                   /*응답메세지*/
 

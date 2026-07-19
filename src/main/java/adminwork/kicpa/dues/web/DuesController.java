@@ -1186,25 +1186,41 @@ public class DuesController {
 		IntcClient intcClient = new IntcClient();
 		IntcResultResInfo intcResultResInfo = intcClient.getAuthResult(intcResultReqInfo);
 
-		// 3. 인증결과 요청에 대한 응답 처리
+		// 3. 인증결과 처리 + 본인 DI 일치 여부를 서버에서 검증 (CI/DI 등 민감 식별값은 클라이언트로 내려보내지 않는다)
+		String authMatch = "N";
 		if ("0000".equals(intcResultResInfo.getReturnCode())) {
 
-			model.addAttribute("authResultDataName",intcResultResInfo.getAuthResultData().getName());
-			model.addAttribute("authResultDataBirthdate",intcResultResInfo.getAuthResultData().getBirthdate());
-			model.addAttribute("authResultDataGender",intcResultResInfo.getAuthResultData().getGender());
-			model.addAttribute("authResultDataNationalInfo",intcResultResInfo.getAuthResultData().getNationalInfo());
-			model.addAttribute("authResultDataCi",intcResultResInfo.getAuthResultData().getCi());
-			model.addAttribute("authResultDataCi2",intcResultResInfo.getAuthResultData().getCi2());
-			model.addAttribute("authResultDataCiUpdate",intcResultResInfo.getAuthResultData().getCiUpdate());
-			model.addAttribute("authResultDataDI",intcResultResInfo.getAuthResultData().getDi());
-			model.addAttribute("authResultDataMobileCo",intcResultResInfo.getAuthResultData().getMobileCo());
-			model.addAttribute("authResultDataMobileNo",intcResultResInfo.getAuthResultData().getMobileNo());
-			model.addAttribute("authResultDataVnumber",intcResultResInfo.getAuthResultData().getVnumber());
-			model.addAttribute("authResultDataAgeCode",intcResultResInfo.getAuthResultData().getAgeCode());
-			model.addAttribute("authResultDataAuthMethod",intcResultResInfo.getAuthResultData().getAuthMethod());
+			// 로그인 세션 사용자의 pin으로 DB DI 조회 (요청 pin을 신뢰하지 않음 → IDOR 방지)
+			String pin = null;
+			LoginVO user = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
+			if (user != null) {
+				pin = user.getUniqId();
+			}
+			if (pin == null && paramMap.get("pin") != null) {
+				pin = paramMap.get("pin").toString();
+			}
 
+			String niceDi = intcResultResInfo.getAuthResultData().getDi();
+
+			Map<String, Object> diParam = new HashMap<String, Object>();
+			diParam.put("pin", pin);
+			List<?> diCheckList = myPageService.selectCpaPassDiCheckList(diParam);
+
+			String dbDi = null;
+			if (diCheckList != null && !diCheckList.isEmpty()) {
+				Object diObj = ((Map<String, Object>) diCheckList.get(0)).get("immDi");
+				if (diObj != null) {
+					dbDi = diObj.toString();
+				}
+			}
+
+			// DI(사이트 내 동일인 식별값) 일치 여부로 본인 확인. 빈값끼리 우연 일치 방지 후 비교.
+			if (niceDi != null && !niceDi.isEmpty() && niceDi.equals(dbDi)) {
+				authMatch = "Y";
+			}
 		}
 
+		model.addAttribute("authMatch", authMatch);
 		model.addAttribute("returnCode",intcResultResInfo.getReturnCode());
 		model.addAttribute("resultMessage",intcResultResInfo.getResultMessage());
 		model.addAttribute("sMessage",intcResultResInfo.getResultMessage());

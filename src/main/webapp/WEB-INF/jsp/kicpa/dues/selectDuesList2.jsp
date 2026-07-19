@@ -363,14 +363,10 @@
 	}
 
 	//본인인증 후 세부내역 확인 화면으로 이동
+	//  CI 일치 검증은 서버(selectDuesListConfirmSucc.do)에서 완료됨. 여기선 후속 처리만 담당.
 	function selectDuesList_duesDetailConfirmSuccMove() {
-
-		if (di != $('#selectDuesList_duesDetailInfoDi').val()) {
-			alert("회원정보가 일치하지 않습니다.");
-		} else {
-			sessionStorage.setItem("본인인증", "Y");
-			duesDetailReport();
-		}
+		sessionStorage.setItem("본인인증", "Y");
+		duesDetailReport();
 	}
 
 	function duesDetailReport() {
@@ -842,7 +838,6 @@
 
             <div>
                 <div>
-                    <input type="hidden" id="selectDuesList_duesDetailInfoDi" value="${diCheckList[0].immDi}"/>
                 </div>
             </div>
 

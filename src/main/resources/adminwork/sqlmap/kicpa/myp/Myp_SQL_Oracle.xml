@@ -578,7 +578,7 @@
 
 	<select id="MyPageDAO.selectCpaPassDiCheckList" parameterClass="HashMap" resultClass="egovMap">
 		<![CDATA[
-            select IMM_VNUM, imm_di, imm_ci
+            select IMM_VNUM, imm_di
 
             from sdb_int_mb_master@kicpasec
 

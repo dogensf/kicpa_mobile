@@ -119,41 +119,25 @@ myPageInfo.getMyPageCheckplusEncDataSuccess = function(data){
 }
 
 //본인인증 후 정보 수정 화면으로 이동
-myPageInfo.myPage_memberConfirmSuccMove = function (di, movePage, moveFlag, pin){      //moveFlag - 'M':기본정보, 'T':수습정보, 'C': 회계사정보
+//  CI 일치 검증은 서버(cpaMemConfirmSucc.do)에서 완료됨. 이 함수는 검증 통과 후 화면 이동만 담당한다.
+myPageInfo.myPage_memberConfirmSuccMove = function (movePage, moveFlag, pin){      //moveFlag - 'M':기본정보, 'T':수습정보, 'C': 회계사정보
 
     pin = $('#myPageInfo_pin').val();
 
-    var formData = {};
-    formData.pin = pin;
-
-    //di조회
-    $.ajax({
-        url : myPageInfo.getContextPath()+"/myp/mypCpaDiCheck.do",
-        type : "POST",
-        data : formData,
-        success : function(data) {
-            /*alert("test" + data.diCheckList[0].immDi);*/
-            if(di != data.diCheckList[0].immDi){
-                alert("회원정보가 일치하지 않습니다.");
-            }
-            else{
-                sessionStorage.setItem("인증여부", "Y");
-                if(moveFlag =="M"){
-                    var memFlag = "";
-                    if($('#myPageInfo_cpaMemberMemFlag').val() == "A2020050"){      //휴업일 경우 휴업분류도 수정가능하도록
-                        memFlag = "H";
-                    }
-                    location.replace(myPageInfo.getContextPath()+'/myp/mypCpaPassReg.do?movePage='+movePage+'&pin='+pin+'&memFlag='+memFlag);
-                }
-                else if(moveFlag =="C"){
-                    location.replace(myPageInfo.getContextPath()+'/myp/mypCpaMemberReg.do?movePage='+movePage+'&pin='+pin);
-                }
-                else if(moveFlag =="T"){
-                    location.replace(myPageInfo.getContextPath()+'/myp/mypCpaTrainReg.do?movePage='+movePage+'&pin='+pin);
-                }
-            }
+    sessionStorage.setItem("인증여부", "Y");
+    if(moveFlag =="M"){
+        var memFlag = "";
+        if($('#myPageInfo_cpaMemberMemFlag').val() == "A2020050"){      //휴업일 경우 휴업분류도 수정가능하도록
+            memFlag = "H";
         }
-    });
+        location.replace(myPageInfo.getContextPath()+'/myp/mypCpaPassReg.do?movePage='+movePage+'&pin='+pin+'&memFlag='+memFlag);
+    }
+    else if(moveFlag =="C"){
+        location.replace(myPageInfo.getContextPath()+'/myp/mypCpaMemberReg.do?movePage='+movePage+'&pin='+pin);
+    }
+    else if(moveFlag =="T"){
+        location.replace(myPageInfo.getContextPath()+'/myp/mypCpaTrainReg.do?movePage='+movePage+'&pin='+pin);
+    }
 }
 
 myPageInfo.myPageInfoError = function(data,status, error){
