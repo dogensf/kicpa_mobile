@@ -36,16 +36,14 @@
 					IMM_VNUM,
 				    IMM_JUPIN,
 				    IMM_DI,
-				    IMM_JUPIN_SEP,
-				    IMM_CI
+				    IMM_JUPIN_SEP
 				)
 				VALUES
 				(
 					(SELECT GET_VJUMIN() FROM DUAL),
 					(SELECT dbsec.sdb_crypto.encryptex(#immJupin#,'KICPASEC','INT_MB_MASTER','IMM_JUPIN','SELECT') FROM dual),
 					#immDi#,
-					#immJupinSep#,
-					#immCi#
+					#immJupinSep#
 				)
 	</insert>
 

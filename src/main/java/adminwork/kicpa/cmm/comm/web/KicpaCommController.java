@@ -346,7 +346,6 @@ public class KicpaCommController {
 	                sResponseNumber = "";
 	                sAuthType = "";
 	            }else {
-	            	map.put("immCi", mapresult.get("CI"));
 	            	map.put("immDi", mapresult.get("DI"));
 	            	map.put("immJupin", mapresult.get("BIRTHDATE"));
 	            	map.put("immJupinSep", "4");
