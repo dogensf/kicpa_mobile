@@ -52,8 +52,15 @@ myPageInfo.myPage_memberInfoUpdateBtn = function (movePage, moveFlag, pin){     
 		pin = $('#myPageInfo_pin').val();
 
 
-		// 본인인증은 서버(MYPAGE_NICE_AUTH)에서 최종 판정한다. 편집 진입 시 항상 재인증을 수행.
-		myPageInfo.getMyPageCheckplusEncData(movePage, moveFlag, pin);
+		// 이번 세션에 본인인증을 이미 통과했는지 서버(세션 MYPAGE_NICE_AUTH)에 확인 후 분기
+		fn_ajax_call("/kicpa/myp/selectMypNiceAuthYn.do", {}, function(authData){
+			if(authData.authYn == "Y"){        //서버 기준 본인인증 통과 → 재인증 없이 이동
+				myPageInfo.myPage_memberConfirmSuccMove(movePage, moveFlag, pin);
+			}
+			else{                              //미통과 → NICE 본인인증
+				myPageInfo.getMyPageCheckplusEncData(movePage, moveFlag, pin);
+			}
+		}, myPageInfo.myPageInfoError);
 	
 	
 }

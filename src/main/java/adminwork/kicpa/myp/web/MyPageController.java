@@ -700,6 +700,16 @@ public class MyPageController {
 	}
 
     //di 확인
+    //이번 세션의 본인인증(MYPAGE_NICE_AUTH) 통과 여부 반환 (재인증 스킵 판정용)
+    @RequestMapping(value = "/selectMypNiceAuthYn.do")
+    public ModelAndView selectMypNiceAuthYn(HttpServletRequest request) throws Exception{
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("jsonView");
+        String authYn = "Y".equals(request.getSession().getAttribute("MYPAGE_NICE_AUTH")) ? "Y" : "N";
+        modelAndView.addObject("authYn", authYn);
+        return modelAndView;
+    }
+
     @RequestMapping(value="/mypCpaDiCheck.do")
     public ModelAndView mypCpaDiCheck(@RequestParam Map<String, Object> paramMap) throws Exception{
 
