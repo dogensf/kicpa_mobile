@@ -95,6 +95,13 @@ public class MypTrainController {
 			LoginVO user = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
 			System.out.println("========="+user.getUniqId());
 
+			// 본인인증(정보수정) 진입 시 서버측 인증통과 플래그 검증 (movePage 가 있는 수정모드에만 적용)
+			Object movePageVal = paramMap.get("movePage");
+			boolean editMode = movePageVal != null && !"".equals(movePageVal) && !"null".equals(movePageVal);
+			if (editMode && !"Y".equals(request.getSession().getAttribute("MYPAGE_NICE_AUTH"))) {
+				return "redirect:/kicpa/myp/myPage.do";
+			}
+
 			//합격자 정보(성명, 연락처) 가져오기(실제 테이블)
 			List<?> cpaTrainRealRegInfo = myPageService.selectCpaPassInfoList(paramMap);
 			Map<String, Object> cpaMemTrainRealRegInfo = new HashMap<>();
@@ -268,6 +275,9 @@ public class MypTrainController {
 
 			paramMap.put("apntcSn", selectApntcSn);
 
+			// 저장 요청은 반드시 로그인 사용자 본인 pin으로 강제 (파라미터 변조/IDOR 방지)
+			if (!EgovUserDetailsHelper.isAuthenticated()) throw new RuntimeException("unauthorized");
+			paramMap.put("pin", ((LoginVO) EgovUserDetailsHelper.getAuthenticatedUser()).getUniqId());
 			paramMap.put("userId", paramMap.get("pin"));
 			paramMap.put("brthdy", paramMap.get("brthdy").toString().replaceAll("-",""));
 			Long apntcSn = mypTrainService.mypCpaTrainRegisterAgreeSave(paramMap);
@@ -297,6 +307,9 @@ public class MypTrainController {
 		paramMap.put("apntcSn", multiRequest.getParameter("apntcSn"));
 		paramMap.put("saveMode", multiRequest.getParameter("saveMode"));
 		paramMap.put("regFlag", multiRequest.getParameter("regFlag"));
+		// 저장 요청은 반드시 로그인 사용자 본인 pin으로 강제 (파라미터 변조/IDOR 방지)
+		if (!EgovUserDetailsHelper.isAuthenticated()) throw new RuntimeException("unauthorized");
+		paramMap.put("pin", ((LoginVO) EgovUserDetailsHelper.getAuthenticatedUser()).getUniqId());
 		paramMap.put("userId", paramMap.get("pin"));
 
 		ModelAndView modelAndView = new ModelAndView();
@@ -384,6 +397,9 @@ public class MypTrainController {
 				}
 			}
 
+			// 저장 요청은 반드시 로그인 사용자 본인 pin으로 강제 (파라미터 변조/IDOR 방지)
+			if (!EgovUserDetailsHelper.isAuthenticated()) throw new RuntimeException("unauthorized");
+			paramMap.put("pin", ((LoginVO) EgovUserDetailsHelper.getAuthenticatedUser()).getUniqId());
 			paramMap.put("userId", paramMap.get("pin"));
 			mypTrainService.mypCpaTrainRegisterGrdtSatausInfoSave(paramMap);
 
@@ -461,6 +477,9 @@ public class MypTrainController {
 			paramMap.put("appRegistDe",paramMap.get("appRegistDe").toString().replaceAll("-",""));
 			paramMap.put("apntcCl", "A1010020");
 			paramMap.put("ctrtEndDe", StringUtil.isNullToString(paramMap.get("ctrtEndDe")).replaceAll("-",""));
+			// 저장 요청은 반드시 로그인 사용자 본인 pin으로 강제 (파라미터 변조/IDOR 방지)
+			if (!EgovUserDetailsHelper.isAuthenticated()) throw new RuntimeException("unauthorized");
+			paramMap.put("pin", ((LoginVO) EgovUserDetailsHelper.getAuthenticatedUser()).getUniqId());
 			paramMap.put("userId", paramMap.get("pin"));
 			mypTrainService.mypCpaTrainRegisterApntcCpaHistInfoSave(paramMap);
 
@@ -484,6 +503,9 @@ public class MypTrainController {
 
 		paramMap.put("pin", multiRequest.getParameter("pin"));
 		paramMap.put("apntcSn", multiRequest.getParameter("apntcSn"));
+		// 저장 요청은 반드시 로그인 사용자 본인 pin으로 강제 (파라미터 변조/IDOR 방지)
+		if (!EgovUserDetailsHelper.isAuthenticated()) throw new RuntimeException("unauthorized");
+		paramMap.put("pin", ((LoginVO) EgovUserDetailsHelper.getAuthenticatedUser()).getUniqId());
 		paramMap.put("userId", paramMap.get("pin"));
 
 		String regFlag = "";
@@ -702,6 +724,9 @@ public class MypTrainController {
 
 		paramMap.put("opetrDe", opetrDe);
 		paramMap.put("regFlag","Y");
+		// 저장 요청은 반드시 로그인 사용자 본인 pin으로 강제 (파라미터 변조/IDOR 방지)
+		if (!EgovUserDetailsHelper.isAuthenticated()) throw new RuntimeException("unauthorized");
+		paramMap.put("pin", ((LoginVO) EgovUserDetailsHelper.getAuthenticatedUser()).getUniqId());
 		paramMap.put("userId", paramMap.get("pin"));
 
 		mypTrainService.mypCpaTrainRegisterRegFlagSave(paramMap);

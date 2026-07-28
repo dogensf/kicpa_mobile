@@ -60,14 +60,14 @@ function fncLocation(){
 										<input type="checkbox" id="set01" class="switch" name="setup01">
   										<label for="set01"></label>
 									</div>
-								</li>	
+								</li>
 								<!-- <li>
 									<span>PUSH</span>
 									<div>
 										<input type="checkbox" id="set02" class="switch" name="setup02">
   										<label for="set02"></label>
 									</div>
-								</li> -->	
+								</li> -->
 							</ul>
 						</div>--%>
 					</div>

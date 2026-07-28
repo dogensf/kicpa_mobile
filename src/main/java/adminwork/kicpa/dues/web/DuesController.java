@@ -648,6 +648,13 @@ public class DuesController {
 			throws Exception{
 
 		ModelAndView modelAndView = new ModelAndView();
+
+		// 본인인증(회비 세부내역) 서버측 인증통과 플래그 검증 (파라미터/클라이언트 상태 변조 방지)
+		if (!"Y".equals(request.getSession().getAttribute("DUES_NICE_AUTH"))) {
+			modelAndView.setViewName("jsonView");
+			modelAndView.addObject("authCheck", "N");
+			return modelAndView;
+		}
 		modelAndView.setViewName("jsonView");
 
 		LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
@@ -1186,6 +1193,9 @@ public class DuesController {
 		IntcClient intcClient = new IntcClient();
 		IntcResultResInfo intcResultResInfo = intcClient.getAuthResult(intcResultReqInfo);
 
+		// 결과 조회에 사용한 인증 거래식별값은 1회용 → 세션에서 즉시 제거 (재사용/replay 방지)
+		session.removeAttribute("intcUrlResInfo");
+
 		// 3. 인증결과 처리 + 본인 DI 일치 여부를 서버에서 검증 (CI/DI 등 민감 식별값은 클라이언트로 내려보내지 않는다)
 		String authMatch = "N";
 		if ("0000".equals(intcResultResInfo.getReturnCode())) {
@@ -1217,6 +1227,7 @@ public class DuesController {
 			// DI(사이트 내 동일인 식별값) 일치 여부로 본인 확인. 빈값끼리 우연 일치 방지 후 비교.
 			if (niceDi != null && !niceDi.isEmpty() && niceDi.equals(dbDi)) {
 				authMatch = "Y";
+				session.setAttribute("DUES_NICE_AUTH", "Y");   // 서버측 본인인증 통과 플래그
 			}
 		}
 

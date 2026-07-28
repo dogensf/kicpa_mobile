@@ -334,11 +334,8 @@
 	//세부내역 확인 화면 이동
 	function selectDuesList_detsilBtnClick() {
 
-		if ($("#selectDuesList_confirmPass").is(":checked") || sessionStorage.getItem("본인인증") == "Y") {        //본인인증 패스
-			duesDetailReport();
-		} else {
-			getSelectDuesListDetsilCheckplusEncData();
-		}
+		// 본인인증은 서버(DUES_NICE_AUTH)에서 최종 판정. 항상 재인증을 수행.
+		getSelectDuesListDetsilCheckplusEncData();
 	}
 
 	//세부내역 확인 화면 이동 전 본인 인증
@@ -365,7 +362,6 @@
 	//본인인증 후 세부내역 확인 화면으로 이동
 	//  CI 일치 검증은 서버(selectDuesListConfirmSucc.do)에서 완료됨. 여기선 후속 처리만 담당.
 	function selectDuesList_duesDetailConfirmSuccMove() {
-		sessionStorage.setItem("본인인증", "Y");
 		duesDetailReport();
 	}
 

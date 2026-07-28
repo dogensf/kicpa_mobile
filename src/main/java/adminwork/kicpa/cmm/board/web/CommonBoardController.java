@@ -77,6 +77,15 @@ public class CommonBoardController {
 	public String memberEventDetail(@RequestParam Map<String,Object> map,HttpServletRequest request,HttpServletResponse response,ModelMap model) throws Exception{
 
 		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+
+		// 비로그인 식별값은 클라이언트 파라미터가 아닌 본인인증 세션값 사용 (파라미터 변조 방지)
+		if (!isAuthenticated) {
+			Object sessionDi = request.getSession().getAttribute("MEMBER_EVENT_DI");
+			Object sessionDiName = request.getSession().getAttribute("MEMBER_EVENT_DI_NAME");
+			map.put("di", sessionDi == null ? "" : sessionDi.toString());
+			map.put("name", sessionDiName == null ? "" : sessionDiName.toString());
+		}
+
 		if(isAuthenticated) {
 
 			EgovMap boardDetail = null;
@@ -188,6 +197,10 @@ public class CommonBoardController {
     			}
     			else{
 
+    				// 비로그인 목록 필터 식별값은 본인인증 세션값 사용 (파라미터 변조 방지)
+    				Object sessionDi = request.getSession().getAttribute("MEMBER_EVENT_DI");
+    				map.put("immDi", sessionDi == null ? "" : sessionDi.toString());
+				
     				if("".equals(map.get("immDi")) || map.get("immDi") == null){
 						map.put("userId", "");
 					}

@@ -27,6 +27,7 @@ import adminwork.com.cmm.LoginVO;
 import adminwork.com.cmm.StringUtil;
 import adminwork.kicpa.cmm.board.service.CommonBoardService;
 import adminwork.kicpa.cmm.comm.service.KicpaCommService;
+import adminwork.kicpa.noti.service.NotiService;
 import egovframework.rte.fdl.security.userdetails.util.EgovUserDetailsHelper;
 
 import nice.intc.module.IntcClient;
@@ -51,6 +52,9 @@ public class MemberEventController {
 
 	@Resource(name = "mypMemberService")
 	private MypMemberService mypMemberService;
+
+	@Resource(name = "NotiService")
+	private NotiService notiService;
 
 
 	@RequestMapping(value = "/boardList.do")
@@ -93,6 +97,14 @@ public class MemberEventController {
 		model.addAttribute("isLogin", isAuthenticated);
 		model.addAttribute("title", "회원경조사");
 
+		// 비로그인 식별값은 클라이언트 파라미터가 아닌 본인인증 세션값 사용 (파라미터 변조 방지)
+		if (!isAuthenticated) {
+			Object sessionDi = request.getSession().getAttribute("MEMBER_EVENT_DI");
+			Object sessionDiName = request.getSession().getAttribute("MEMBER_EVENT_DI_NAME");
+			map.put("di", sessionDi == null ? "" : sessionDi.toString());
+			map.put("name", sessionDiName == null ? "" : sessionDiName.toString());
+		}
+
 		model.addAttribute("di", map.get("di"));
 		model.addAttribute("name", map.get("name"));
 
@@ -103,6 +115,15 @@ public class MemberEventController {
 	@RequestMapping(value = "/memberEventRegMove.do")
 	public String memberEventRegMove(@RequestParam Map<String,Object> map,HttpServletRequest request,HttpServletResponse response,ModelMap model) throws Exception{
 		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+
+		// 비로그인 식별값은 클라이언트 파라미터가 아닌 본인인증 세션값 사용 (파라미터 변조 방지)
+		if (!isAuthenticated) {
+			Object sessionDi = request.getSession().getAttribute("MEMBER_EVENT_DI");
+			Object sessionDiName = request.getSession().getAttribute("MEMBER_EVENT_DI_NAME");
+			map.put("di", sessionDi == null ? "" : sessionDi.toString());
+			map.put("name", sessionDiName == null ? "" : sessionDiName.toString());
+		}
+
 		if(isAuthenticated) {
 			LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
 
@@ -225,6 +246,19 @@ public class MemberEventController {
 			modelAndView.setViewName("jsonView");
 
 			Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+
+			// 비로그인 식별값(immDi)은 클라이언트 파라미터가 아닌 본인인증 세션값 사용 (파라미터 변조 방지)
+			if (isAuthenticated) {
+				map.put("immDi", "");
+				map.put("diName", "");
+			}
+			else {
+				Object sessionDi = request.getSession().getAttribute("MEMBER_EVENT_DI");
+				Object sessionDiName = request.getSession().getAttribute("MEMBER_EVENT_DI_NAME");
+				map.put("immDi", sessionDi == null ? "" : sessionDi.toString());
+				map.put("diName", sessionDiName == null ? "" : sessionDiName.toString());
+			}
+
 			if(isAuthenticated || (!"".equals(map.get("immDi")) && map.get("immDi") != null)) {
 				HttpSession session = request.getSession();
 
@@ -324,7 +358,21 @@ public class MemberEventController {
 				map.put("bltnFileCnt", 0);
 
 
+				//신규 등록 여부 (insertCommonBoard가 신규일 때 bltnNo를 새로 채번하므로 호출 전에 캡처)
+				boolean isNewEvent = ("".equals(map.get("bltnNo")) || map.get("bltnNo") == null);
+
 				commonBoardService.insertCommonBoard(map);
+
+				//앱 푸시 발송 + 알림함 기록 (신규 등록시에만, 실패해도 등록 흐름에 영향 없음)
+				if(isNewEvent) {
+					try {
+						notiService.registerAndPush("mstate", StringUtil.isNullToString(map.get("bltnNo")),
+								"회원경조사", StringUtil.isNullToString(map.get("regTitle")),
+								"/kicpa/commonBoard/memberEventDetail.do?boardId=mstate&bltnNo=" + map.get("bltnNo"));
+					}catch (Exception pushEx) {
+						pushEx.printStackTrace();
+					}
+				}
 
 				//메일 발송
 				Map<String, Object> paramMap = new HashMap<>();
@@ -423,8 +471,40 @@ public class MemberEventController {
 
 		try{
 
-			commonBoardService.deleteCommonBoard(map);
+			// 사용 후 비로그인 인증 세션값 폐기 (공유 PC 재사용 방지)
+			request.getSession().removeAttribute("MEMBER_EVENT_DI");
+			request.getSession().removeAttribute("MEMBER_EVENT_DI_NAME");
 
+			// 작성자 본인 확인 후 삭제 — 요청 파라미터가 아닌 서버측 값으로 판정 (파라미터 변조 방지)
+			Map<String,Object> boardMaster = commonBoardService.selectBoardMaster(map);
+			map.forEach((key,value)-> boardMaster.merge(key, value, (v1,v2)->v2));
+
+			EgovMap boardDetail;
+			if("Y".equals(boardMaster.get("owntblYn")) && "CAFE".equals(boardMaster.get("owntblFix"))) {
+				boardDetail = commonBoardService.selectCommonCafeBoardDetail(boardMaster);
+			}else {
+				boardDetail = commonBoardService.selectCommonBoardDetail(boardMaster);
+			}
+			String ownerKey = (boardDetail == null || boardDetail.get("extStr16") == null) ? "" : boardDetail.get("extStr16").toString();
+
+			Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+			boolean isOwner = false;
+			if (isAuthenticated) {
+				LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+				isOwner = !"".equals(ownerKey) && ownerKey.equals(user.getId());
+			}
+			else {
+				Object sessionDi = request.getSession().getAttribute("MEMBER_EVENT_DI");
+				isOwner = sessionDi != null && !"".equals(sessionDi.toString()) && sessionDi.toString().equals(ownerKey);
+			}
+
+			if (isOwner) {
+				commonBoardService.deleteCommonBoard(map);
+				modelAndView.addObject("result", "Y");
+			}
+			else {
+				modelAndView.addObject("result", "N");
+			}
 
 		}catch (Exception e) {
 			e.printStackTrace();
@@ -459,6 +539,9 @@ public class MemberEventController {
 		IntcClient intcClient = new IntcClient();
 		IntcResultResInfo intcResultResInfo = intcClient.getAuthResult(intcResultReqInfo);
 
+		// 결과 조회에 사용한 인증 거래식별값은 1회용 → 세션에서 즉시 제거 (재사용/replay 방지)
+		session.removeAttribute("intcUrlResInfo");
+
 		// 3. 인증결과 처리
 		//    인증결과 DI를 게시글 작성자 식별값으로 사용한다 (CI는 비교/조회에 사용하지 않는다).
 		//    DI/이름 외 민감 식별값은 클라이언트로 내려보내지 않는다.
@@ -466,6 +549,11 @@ public class MemberEventController {
 		if ("0000".equals(intcResultResInfo.getReturnCode())) {
 
 			authMatch = "Y";
+
+			// 비로그인 경조사 식별값(DI/성명)을 세션에 결속 — 후속 요청은 세션값만 신뢰 (파라미터 변조 방지)
+			session.setAttribute("MEMBER_EVENT_DI", intcResultResInfo.getAuthResultData().getDi());
+			session.setAttribute("MEMBER_EVENT_DI_NAME", intcResultResInfo.getAuthResultData().getName());
+
 			model.addAttribute("authResultDataName", intcResultResInfo.getAuthResultData().getName());   /*인증결과-이름*/
 			model.addAttribute("authResultDataDI", intcResultResInfo.getAuthResultData().getDi());       /*인증결과-DI*/
 

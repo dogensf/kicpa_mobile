@@ -103,6 +103,13 @@ public class MypMemberController {
 			LoginVO user = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
 			System.out.println("========="+user.getUniqId());
 
+			// 본인인증(정보수정) 진입 시 서버측 인증통과 플래그 검증 (movePage 가 있는 수정모드에만 적용)
+			Object movePageVal = paramMap.get("movePage");
+			boolean editMode = movePageVal != null && !"".equals(movePageVal) && !"null".equals(movePageVal);
+			if (editMode && !"Y".equals(request.getSession().getAttribute("MYPAGE_NICE_AUTH"))) {
+				return "redirect:/kicpa/myp/myPage.do";
+			}
+
 			//합격자 정보(성명, 연락처) 가져오기(실제 테이블)
 			List<?> cpaPassRealInfo = myPageService.selectCpaPassInfoList(paramMap);
 			Map<String, Object> cpaMemPassRealInfo = new HashMap<>();
@@ -307,6 +314,9 @@ public class MypMemberController {
 
 			paramMap.put("cpaSn", selectCpaSn);
 
+			// 저장 요청은 반드시 로그인 사용자 본인 pin으로 강제 (파라미터 변조/IDOR 방지)
+			if (!EgovUserDetailsHelper.isAuthenticated()) throw new RuntimeException("unauthorized");
+			paramMap.put("pin", ((LoginVO) EgovUserDetailsHelper.getAuthenticatedUser()).getUniqId());
 			paramMap.put("userId", paramMap.get("pin"));
 			paramMap.put("brthdy", paramMap.get("brthdy").toString().replaceAll("-",""));
 
@@ -367,6 +377,9 @@ public class MypMemberController {
 			}
 
 			paramMap.put("bizrNo", paramMap.get("bizrNo").toString().replaceAll("-",""));
+			// 저장 요청은 반드시 로그인 사용자 본인 pin으로 강제 (파라미터 변조/IDOR 방지)
+			if (!EgovUserDetailsHelper.isAuthenticated()) throw new RuntimeException("unauthorized");
+			paramMap.put("pin", ((LoginVO) EgovUserDetailsHelper.getAuthenticatedUser()).getUniqId());
 			paramMap.put("userId", paramMap.get("pin"));
 
 			mypMemberService.mypCpaMemberRegisterAidMberInfoSave(paramMap);
@@ -446,6 +459,9 @@ public class MypMemberController {
 			}
 
 			paramMap.put("registDe",paramMap.get("registDe").toString().replaceAll("-",""));
+			// 저장 요청은 반드시 로그인 사용자 본인 pin으로 강제 (파라미터 변조/IDOR 방지)
+			if (!EgovUserDetailsHelper.isAuthenticated()) throw new RuntimeException("unauthorized");
+			paramMap.put("pin", ((LoginVO) EgovUserDetailsHelper.getAuthenticatedUser()).getUniqId());
 			paramMap.put("userId", paramMap.get("pin"));
 			mypMemberService.mypCpaMemberRegisterCpaCareerInfoSave(paramMap);
 
@@ -499,6 +515,9 @@ public class MypMemberController {
 				return modelAndView;
 			}*/
 
+			// 저장 요청은 반드시 로그인 사용자 본인 pin으로 강제 (파라미터 변조/IDOR 방지)
+			if (!EgovUserDetailsHelper.isAuthenticated()) throw new RuntimeException("unauthorized");
+			paramMap.put("pin", ((LoginVO) EgovUserDetailsHelper.getAuthenticatedUser()).getUniqId());
 			paramMap.put("userId", paramMap.get("pin"));
 
 			if("U".equals(paramMap.get("saveMode"))){
@@ -571,6 +590,9 @@ public class MypMemberController {
 
 		paramMap.put("pin", multiRequest.getParameter("pin"));
 		paramMap.put("cpaSn", multiRequest.getParameter("cpaSn"));
+		// 저장 요청은 반드시 로그인 사용자 본인 pin으로 강제 (파라미터 변조/IDOR 방지)
+		if (!EgovUserDetailsHelper.isAuthenticated()) throw new RuntimeException("unauthorized");
+		paramMap.put("pin", ((LoginVO) EgovUserDetailsHelper.getAuthenticatedUser()).getUniqId());
 		paramMap.put("userId", paramMap.get("pin"));
 
 		String regFlag = "";
@@ -735,6 +757,10 @@ public class MypMemberController {
 
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("jsonView");
+
+		// 저장 요청은 반드시 로그인 사용자 본인 pin으로 강제 (파라미터 변조/IDOR 방지)
+		if (!EgovUserDetailsHelper.isAuthenticated()) throw new RuntimeException("unauthorized");
+		paramMap.put("pin", ((LoginVO) EgovUserDetailsHelper.getAuthenticatedUser()).getUniqId());
 
 		List<?> cpaMemberAidDuesInfoList = mypMemberService.selectCpaMemberRegistSbscrbMasterInfoList(paramMap);		//납부한 금액 조회
 
@@ -945,6 +971,10 @@ public class MypMemberController {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("jsonView");
 
+        // 저장 요청은 반드시 로그인 사용자 본인 pin으로 강제 (파라미터 변조/IDOR 방지)
+        if (!EgovUserDetailsHelper.isAuthenticated()) throw new RuntimeException("unauthorized");
+        paramMap.put("pin", ((LoginVO) EgovUserDetailsHelper.getAuthenticatedUser()).getUniqId());
+
 
         //등록회비 납부 확인
 		/*List<?> cpaMemberInfoList = myPageService.selectCpaMemberRegistReviewInfoList(paramMap);		//회원 임시테이블정보
@@ -980,6 +1010,9 @@ public class MypMemberController {
         modelAndView.setViewName("jsonView");
 
                 //수정제출 수정
+                // 저장 요청은 반드시 로그인 사용자 본인 pin으로 강제 (파라미터 변조/IDOR 방지)
+                if (!EgovUserDetailsHelper.isAuthenticated()) throw new RuntimeException("unauthorized");
+                paramMap.put("pin", ((LoginVO) EgovUserDetailsHelper.getAuthenticatedUser()).getUniqId());
                 paramMap.put("userId",paramMap.get("pin"));
                 mypMemberService.mypCpaMemberRegisterRegFlagSave(paramMap);
 

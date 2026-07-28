@@ -84,12 +84,6 @@
 
 			<ul class="list-wrap">
 				<li>
-					<div class="inp-box" style="display: none;">
-						<div class="inp-check">
-							<input type="checkbox" name="cpaConfirmPass" id="myPage_cpaConfirmPass"/>
-							<label for="myPage_cpaConfirmPass"></label>
-						</div>
-					</div>
 					<h4>기본정보</h4>
 					<button class="m-link" type="button" onClick="javascript:myPageInfo.myPage_memberInfoUpdateBtn('mypCpaPassReg_nameInfo','M', ${myPageInfoPin});">
 						<span>성명</span>

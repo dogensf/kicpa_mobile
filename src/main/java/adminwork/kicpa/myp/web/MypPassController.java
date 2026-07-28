@@ -76,6 +76,13 @@ public class MypPassController {
 			LoginVO user = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
 			System.out.println("========="+user.getUniqId());
 
+			// 본인인증(정보수정) 진입 시 서버측 인증통과 플래그 검증 (movePage 가 있는 수정모드에만 적용)
+			Object movePageVal = paramMap.get("movePage");
+			boolean editMode = movePageVal != null && !"".equals(movePageVal) && !"null".equals(movePageVal);
+			if (editMode && !"Y".equals(request.getSession().getAttribute("MYPAGE_NICE_AUTH"))) {
+				return "redirect:/kicpa/myp/myPage.do";
+			}
+
 			//합격자 정보(성명, 연락처) 가져오기(실제 테이블)
 			List<?> cpaPassRealInfo = myPageService.selectCpaPassInfoList(paramMap);
 			Map<String, Object> cpaMemPassRealInfo = new HashMap<>();
@@ -198,6 +205,9 @@ public class MypPassController {
 				return modelAndView;
 			}
 
+			// 저장 요청은 반드시 로그인 사용자 본인 pin으로 강제 (파라미터 변조/IDOR 방지)
+			if (!EgovUserDetailsHelper.isAuthenticated()) throw new RuntimeException("unauthorized");
+			paramMap.put("pin", ((LoginVO) EgovUserDetailsHelper.getAuthenticatedUser()).getUniqId());
 			paramMap.put("userId", paramMap.get("pin"));
 			paramMap.put("brthdy", paramMap.get("brthdy").toString().replaceAll("-",""));
 			mypPassService.mypCpaPassRegisterAgreeSave(paramMap);
@@ -223,6 +233,9 @@ public class MypPassController {
 
 		try {
 
+			// 저장 요청은 반드시 로그인 사용자 본인 pin으로 강제 (파라미터 변조/IDOR 방지)
+			if (!EgovUserDetailsHelper.isAuthenticated()) throw new RuntimeException("unauthorized");
+			paramMap.put("pin", ((LoginVO) EgovUserDetailsHelper.getAuthenticatedUser()).getUniqId());
 			paramMap.put("userId", paramMap.get("pin"));
 
 			if(!"".equals(paramMap.get("chcrtNm")) && paramMap.get("chcrtNm") != null){
@@ -340,6 +353,9 @@ public class MypPassController {
 			Calendar c1 = Calendar.getInstance();
 			String registDe = today.format(c1.getTime());
 
+			// 저장 요청은 반드시 로그인 사용자 본인 pin으로 강제 (파라미터 변조/IDOR 방지)
+			if (!EgovUserDetailsHelper.isAuthenticated()) throw new RuntimeException("unauthorized");
+			paramMap.put("pin", ((LoginVO) EgovUserDetailsHelper.getAuthenticatedUser()).getUniqId());
 			paramMap.put("userId", paramMap.get("pin"));
 
 			if(!"".equals(paramMap.get("ofcTelNo1")) && paramMap.get("ofcTelNo1") != null){
@@ -464,6 +480,9 @@ public class MypPassController {
 				}
 			}
 
+			// 저장 요청은 반드시 로그인 사용자 본인 pin으로 강제 (파라미터 변조/IDOR 방지)
+			if (!EgovUserDetailsHelper.isAuthenticated()) throw new RuntimeException("unauthorized");
+			paramMap.put("pin", ((LoginVO) EgovUserDetailsHelper.getAuthenticatedUser()).getUniqId());
 			paramMap.put("userId", paramMap.get("pin"));
 
 			if(!"".equals(paramMap.get("moblPhonNo1")) && paramMap.get("moblPhonNo1") != null){
@@ -514,6 +533,9 @@ public class MypPassController {
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("jsonView");
 
+		// 저장 요청은 반드시 로그인 사용자 본인 pin으로 강제 (파라미터 변조/IDOR 방지)
+		if (!EgovUserDetailsHelper.isAuthenticated()) throw new RuntimeException("unauthorized");
+		paramMap.put("pin", ((LoginVO) EgovUserDetailsHelper.getAuthenticatedUser()).getUniqId());
 		paramMap.put("userId", paramMap.get("pin"));
 		paramMap.put("deleteYn", "N");
 
@@ -643,6 +665,10 @@ public class MypPassController {
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("jsonView");
 
+		// 저장 요청은 반드시 로그인 사용자 본인 pin으로 강제 (파라미터 변조/IDOR 방지)
+		if (!EgovUserDetailsHelper.isAuthenticated()) throw new RuntimeException("unauthorized");
+		paramMap.put("pin", ((LoginVO) EgovUserDetailsHelper.getAuthenticatedUser()).getUniqId());
+
 		//오늘날짜
 		SimpleDateFormat today = new SimpleDateFormat("yyyyMMdd");
 		Calendar c1 = Calendar.getInstance();
@@ -707,6 +733,9 @@ public class MypPassController {
 
 		//제출 flag 저장
 		paramMap.put("regFlag","Y");
+		// 저장 요청은 반드시 로그인 사용자 본인 pin으로 강제 (파라미터 변조/IDOR 방지)
+		if (!EgovUserDetailsHelper.isAuthenticated()) throw new RuntimeException("unauthorized");
+		paramMap.put("pin", ((LoginVO) EgovUserDetailsHelper.getAuthenticatedUser()).getUniqId());
 		paramMap.put("userId", paramMap.get("pin"));
 		mypPassService.mypCpaPassRegisterRegFlagSave(paramMap);
 

@@ -29,7 +29,6 @@ myPageInfo.myPageInfoInit = function(){
 		}
 	});
 
-	$("input:checkbox[id='myPage_cpaConfirmPass']").prop("checked", false);
 }
 
 //화면상단 닫기버튼
@@ -53,24 +52,8 @@ myPageInfo.myPage_memberInfoUpdateBtn = function (movePage, moveFlag, pin){     
 		pin = $('#myPageInfo_pin').val();
 
 
-		if($("#myPage_cpaConfirmPass").is(":checked") || sessionStorage.getItem("인증여부") == "Y"  ){        //본인인증 패스
-			if(moveFlag =="M"){
-				var memFlag = "";
-				if($('#myPageInfo_cpaMemberMemFlag').val() == "A2020050"){      //휴업일 경우 휴업분류도 수정가능하도록
-					memFlag = "H";
-				}
-				location.replace(myPageInfo.getContextPath()+'/myp/mypCpaPassReg.do?movePage='+movePage+'&pin='+pin+'&memFlag='+memFlag);
-			}
-			else if(moveFlag =="C"){
-				location.replace(myPageInfo.getContextPath()+'/myp/mypCpaMemberReg.do?movePage='+movePage+'&pin='+pin);
-			}
-			else if(moveFlag =="T"){
-				location.replace(myPageInfo.getContextPath()+'/myp/mypCpaTrainReg.do?movePage='+movePage+'&pin='+pin);
-			}
-		}
-		else{
-			myPageInfo.getMyPageCheckplusEncData(movePage, moveFlag, pin);
-		}
+		// 본인인증은 서버(MYPAGE_NICE_AUTH)에서 최종 판정한다. 편집 진입 시 항상 재인증을 수행.
+		myPageInfo.getMyPageCheckplusEncData(movePage, moveFlag, pin);
 	
 	
 }
@@ -124,7 +107,6 @@ myPageInfo.myPage_memberConfirmSuccMove = function (movePage, moveFlag, pin){   
 
     pin = $('#myPageInfo_pin').val();
 
-    sessionStorage.setItem("인증여부", "Y");
     if(moveFlag =="M"){
         var memFlag = "";
         if($('#myPageInfo_cpaMemberMemFlag').val() == "A2020050"){      //휴업일 경우 휴업분류도 수정가능하도록
