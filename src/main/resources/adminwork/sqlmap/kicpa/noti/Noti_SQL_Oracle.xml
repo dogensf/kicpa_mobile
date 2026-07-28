@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="Noti">
+
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+
+	<!-- 알림 등록 (이미 등록된 게시글이면 0건 — 중복발송 방지 클레임) -->
+	<update id="NotiDAO.insertNotiIfNew" parameterClass="hashmap">
+		<![CDATA[
+			INSERT INTO LETTAPPNOTI (NOTI_ID, BOARD_ID, BLTN_NO, TITLE, BODY, LINK_URL, REG_DT)
+			SELECT SEQ_LETTAPPNOTI.NEXTVAL, #boardId#, #bltnNo#, #title#, #body#, #linkUrl#, SYSDATE
+			FROM   DUAL
+			WHERE  NOT EXISTS (
+			       SELECT 1 FROM LETTAPPNOTI
+			       WHERE  BOARD_ID = #boardId#
+			       AND    BLTN_NO  = #bltnNo#
+			)
+		]]>
+	</update>
+
+	<!-- 폴링: 대상 게시판의 최근 24시간 내 노출 게시글 (등록 여부는 insertNotiIfNew가 판별) -->
+	<select id="NotiDAO.selectNewBoardList" parameterClass="hashmap" resultClass="egovMap">
+		SELECT
+		       B.BOARD_ID
+		     , TO_CHAR(B.BLTN_NO) AS BLTN_NO
+		     , B.BLTN_SUBJ
+		     , F.BOARD_NM
+		FROM   BULLETIN B
+		JOIN   BOARD_LANG F
+		  ON   B.BOARD_ID = F.BOARD_ID
+		 AND   F.LANG_KND = 'ko'
+		WHERE  B.BOARD_ID IN
+		<iterate property="boardIds" open="(" close=")" conjunction=",">
+			#boardIds[]#
+		</iterate>
+		<![CDATA[
+		AND    B.DEL_FLAG       = 'N'
+		AND    B.BLTN_PERMIT_YN = 'Y'
+		AND    B.BLTN_SECRET_YN = 'N'
+		AND    B.REG_DATIM      > SYSDATE - 1
+		AND    (
+		           TO_CHAR(SYSDATE, 'YYYYMMDD') BETWEEN TO_CHAR(B.BLTN_BGN_YMD, 'YYYYMMDD') AND TO_CHAR(B.BLTN_END_YMD, 'YYYYMMDD')
+		           OR (B.BLTN_BGN_YMD IS NULL AND B.BLTN_END_YMD IS NULL)
+		       )
+		ORDER BY B.REG_DATIM
+		]]>
+	</select>
+
+	<!-- 발송 대상 토큰 목록 (알림받기 체크한 기기만 — 기본 미수신, N/NULL 제외) -->
+	<select id="NotiDAO.selectPushTokenList" resultClass="string">
+		<![CDATA[
+			SELECT TOKEN
+			FROM   LETTAPPTOKEN
+			WHERE  PUSH_YN = 'Y'
+		]]>
+	</select>
+
+	<!-- 폐기된 토큰 정리 (FCM 404/UNREGISTERED 응답 시) -->
+	<delete id="NotiDAO.deleteToken" parameterClass="hashmap">
+		<![CDATA[
+			DELETE FROM LETTAPPTOKEN
+			WHERE  TOKEN = #token#
+		]]>
+	</delete>
+
+	<!-- 발송 결과 기록 -->
+	<update id="NotiDAO.updateNotiSendResult" parameterClass="hashmap">
+		<![CDATA[
+			UPDATE LETTAPPNOTI
+			SET    SEND_DT  = SYSDATE
+			     , SEND_CNT = #sendCnt#
+			     , FAIL_CNT = #failCnt#
+			WHERE  BOARD_ID = #boardId#
+			AND    BLTN_NO  = #bltnNo#
+		]]>
+	</update>
+
+	<!-- 알림함 목록 (rownum 페이징: pageIndex=시작행, pageSize=조회건수) -->
+	<select id="NotiDAO.selectNotiList" parameterClass="hashmap" resultClass="egovMap">
+		<![CDATA[
+			SELECT * FROM (
+			    SELECT rownum rn, TB.* FROM (
+			        SELECT
+			               NOTI_ID
+			             , TITLE
+			             , BODY
+			             , LINK_URL
+			             , TO_CHAR(REG_DT, 'YYYY.MM.DD') AS REG_DT
+			        FROM   LETTAPPNOTI
+			        WHERE  SEND_DT IS NOT NULL
+			        ORDER BY NOTI_ID DESC
+			    ) TB
+			) WHERE rn BETWEEN #pageIndex# AND (#pageIndex# - 1) + #pageSize#
+		]]>
+	</select>
+
+	<select id="NotiDAO.selectNotiListCnt" parameterClass="hashmap" resultClass="int">
+		<![CDATA[
+			SELECT COUNT(*)
+			FROM   LETTAPPNOTI
+			WHERE  SEND_DT IS NOT NULL
+		]]>
+	</select>
+
+	<!-- 기기(토큰)별 수신동의 조회 — 미등록/미설정 토큰은 기본 N(미수신) -->
+	<select id="NotiDAO.selectPushSetting" parameterClass="hashmap" resultClass="string">
+		<![CDATA[
+			SELECT NVL(MAX(PUSH_YN), 'N')
+			FROM   LETTAPPTOKEN
+			WHERE  TOKEN = #token#
+		]]>
+	</select>
+
+	<update id="NotiDAO.updatePushSetting" parameterClass="hashmap">
+		<![CDATA[
+			MERGE INTO LETTAPPTOKEN t
+			USING DUAL
+			    ON ( t.TOKEN = #token# )
+			WHEN MATCHED THEN
+			    UPDATE SET t.PUSH_YN = #pushYn#, t.UPDT = SYSDATE
+			WHEN NOT MATCHED THEN
+			    INSERT ( TOKEN, PUSH_YN, REGDT ) VALUES ( #token#, #pushYn#, SYSDATE )
+		]]>
+	</update>
+
+</sqlMap>

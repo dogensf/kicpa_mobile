@@ -310,6 +310,18 @@
    <version>4.5.2</version>
  </dependency>
 
+<!-- FCM HTTP v1 발송용 (서비스계정 OAuth2 토큰 발급) -->
+<dependency>
+    <groupId>com.google.auth</groupId>
+    <artifactId>google-auth-library-oauth2-http</artifactId>
+    <version>1.39.1</version>
+</dependency>
+<dependency>
+    <groupId>com.google.http-client</groupId>
+    <artifactId>google-http-client-jackson2</artifactId>
+    <version>1.47.0</version>
+</dependency>
+
 
 
 

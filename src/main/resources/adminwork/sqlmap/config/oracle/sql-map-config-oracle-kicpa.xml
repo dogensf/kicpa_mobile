@@ -12,6 +12,7 @@
     
     <sqlMap resource="adminwork/sqlmap/kicpa/api/Api_SQL_Oracle.xml"/>
     <sqlMap resource="adminwork/sqlmap/kicpa/main/Main_SQL_Oracle.xml"/>
+    <sqlMap resource="adminwork/sqlmap/kicpa/noti/Noti_SQL_Oracle.xml"/>
     
     
 <!--     <sqlMap resource="adminwork/sqlmap/kicpa/ofnt/KICPA_SQL_Ofnt.xml"/> -->
