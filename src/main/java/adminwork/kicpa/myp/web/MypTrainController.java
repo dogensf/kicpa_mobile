@@ -97,7 +97,7 @@ public class MypTrainController {
 
 			// 본인인증(정보수정) 진입 시 서버측 인증통과 플래그 검증 (movePage 가 있는 수정모드에만 적용)
 			Object movePageVal = paramMap.get("movePage");
-			boolean editMode = movePageVal != null && !"".equals(movePageVal) && !"null".equals(movePageVal);
+			boolean editMode = movePageVal != null && !"".equals(movePageVal) && !"null".equals(movePageVal) && !String.valueOf(movePageVal).contains("reviewInfo") && !String.valueOf(movePageVal).contains("aidDuesInfo");  // 조회(reviewInfo)·납부(aidDuesInfo)는 본인인증 불요
 			// 본인인증 후 10분 초과 시 세션 인증 폐기(재인증 유도)
 			Object mypAuthTs = request.getSession().getAttribute("MYPAGE_NICE_AUTH_TIME");
 			if (mypAuthTs != null && System.currentTimeMillis() - ((Long) mypAuthTs).longValue() > 10 * 60 * 1000L) {
