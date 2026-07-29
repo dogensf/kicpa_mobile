@@ -6,13 +6,14 @@
 	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
 
 	<!-- 알림 등록 (이미 등록된 게시글이면 0건 — 중복발송 방지 클레임) -->
+	<!-- LETTAPPNOTI/SEQ_LETTAPPNOTI는 KMOBILE 접두어 필수: 신규 객체라 PORTAL 시노님이 없음(DBA 요청 불가로 GRANT+접두어 방식 채택, 2026-07-29) -->
 	<update id="NotiDAO.insertNotiIfNew" parameterClass="hashmap">
 		<![CDATA[
-			INSERT INTO LETTAPPNOTI (NOTI_ID, BOARD_ID, BLTN_NO, TITLE, BODY, LINK_URL, REG_DT)
-			SELECT SEQ_LETTAPPNOTI.NEXTVAL, #boardId#, #bltnNo#, #title#, #body#, #linkUrl#, SYSDATE
+			INSERT INTO KMOBILE.LETTAPPNOTI (NOTI_ID, BOARD_ID, BLTN_NO, TITLE, BODY, LINK_URL, REG_DT)
+			SELECT KMOBILE.SEQ_LETTAPPNOTI.NEXTVAL, #boardId#, #bltnNo#, #title#, #body#, #linkUrl#, SYSDATE
 			FROM   DUAL
 			WHERE  NOT EXISTS (
-			       SELECT 1 FROM LETTAPPNOTI
+			       SELECT 1 FROM KMOBILE.LETTAPPNOTI
 			       WHERE  BOARD_ID = #boardId#
 			       AND    BLTN_NO  = #bltnNo#
 			)
@@ -70,7 +71,7 @@
 	<!-- 발송 결과 기록 -->
 	<update id="NotiDAO.updateNotiSendResult" parameterClass="hashmap">
 		<![CDATA[
-			UPDATE LETTAPPNOTI
+			UPDATE KMOBILE.LETTAPPNOTI
 			SET    SEND_DT  = SYSDATE
 			     , SEND_CNT = #sendCnt#
 			     , FAIL_CNT = #failCnt#
@@ -90,7 +91,7 @@
 			             , BODY
 			             , LINK_URL
 			             , TO_CHAR(REG_DT, 'YYYY.MM.DD') AS REG_DT
-			        FROM   LETTAPPNOTI
+			        FROM   KMOBILE.LETTAPPNOTI
 			        WHERE  SEND_DT IS NOT NULL
 			        ORDER BY NOTI_ID DESC
 			    ) TB
@@ -101,7 +102,7 @@
 	<select id="NotiDAO.selectNotiListCnt" parameterClass="hashmap" resultClass="int">
 		<![CDATA[
 			SELECT COUNT(*)
-			FROM   LETTAPPNOTI
+			FROM   KMOBILE.LETTAPPNOTI
 			WHERE  SEND_DT IS NOT NULL
 		]]>
 	</select>
