@@ -98,6 +98,12 @@ public class MypTrainController {
 			// 본인인증(정보수정) 진입 시 서버측 인증통과 플래그 검증 (movePage 가 있는 수정모드에만 적용)
 			Object movePageVal = paramMap.get("movePage");
 			boolean editMode = movePageVal != null && !"".equals(movePageVal) && !"null".equals(movePageVal);
+			// 본인인증 후 10분 초과 시 세션 인증 폐기(재인증 유도)
+			Object mypAuthTs = request.getSession().getAttribute("MYPAGE_NICE_AUTH_TIME");
+			if (mypAuthTs != null && System.currentTimeMillis() - ((Long) mypAuthTs).longValue() > 10 * 60 * 1000L) {
+				request.getSession().removeAttribute("MYPAGE_NICE_AUTH");
+				request.getSession().removeAttribute("MYPAGE_NICE_AUTH_TIME");
+			}
 			if (editMode && !"Y".equals(request.getSession().getAttribute("MYPAGE_NICE_AUTH"))) {
 				return "redirect:/kicpa/myp/myPage.do";
 			}
@@ -167,7 +173,6 @@ public class MypTrainController {
 
 
 		}else {
-			System.out.println("pin========="+paramMap.get("pin"));
 			model.addAttribute("id", paramMap.get("pin"));
 			model.addAttribute("url", "/kicpa/myp/mypCpaTrainReg.do");
 			return "uat/uia/LoginUsr";
@@ -208,7 +213,6 @@ public class MypTrainController {
 			model.addAttribute("mypCpaTrainInfoMoveFlag", paramMap.get("moveFlag"));
 
 		}else {
-			System.out.println("pin========="+paramMap.get("pin"));
 			model.addAttribute("id", paramMap.get("pin"));
 			model.addAttribute("url", "/kicpa/myp/mypCpaTrainInfoMove.do");
 			return "uat/uia/LoginUsr";
@@ -697,6 +701,10 @@ public class MypTrainController {
 
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("jsonView");
+		// 조회는 로그인 본인 pin으로 강제 (타인정보 조회 방지)
+		if (EgovUserDetailsHelper.isAuthenticated()) {
+			paramMap.put("pin", ((LoginVO) EgovUserDetailsHelper.getAuthenticatedUser()).getUniqId());
+		}
 
 		List<?> cpaTrainRegReviewInfoList = new ArrayList<HashMap>();
 

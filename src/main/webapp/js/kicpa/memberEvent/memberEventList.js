@@ -7,10 +7,17 @@ memberEventList.getContextPath = function() {
 
 memberEventList.memberEventListInit = function(){
 
-    if(sessionStorage.getItem("본인인증") != 'Y'){
-        sessionStorage.setItem("di", '');
-        sessionStorage.setItem("sName", '');
-    }
+    // 본인인증 유효여부를 서버 세션 기준으로 판정(10분 만료 반영) 후 클라 상태 동기화 (fn_ajax_call 은 동기)
+    fn_ajax_call("/kicpa/memberEvent/selectMemberEventAuthYn.do", {}, function(res){
+        if(res && res.authYn == 'Y'){
+            sessionStorage.setItem("본인인증", "Y");
+            sessionStorage.setItem("sName", res.name == null ? '' : res.name);
+        }else{
+            sessionStorage.setItem("본인인증", "N");
+            sessionStorage.setItem("di", "");
+            sessionStorage.setItem("sName", "");
+        }
+    });
 
 
     $(".search-box .search").on("click",function(){

@@ -153,7 +153,7 @@ function goCyber(){
 			location.href="/uat/uia/authLogin.do";
 		</c:when>
 		<c:otherwise>
-			location.href="javascript:window.bridge.newWebView('kicpa1','http://mkip.kicpa.or.kr/kicpa/main/getCyberToken.do?userId=${userId}','')";		
+			location.href="javascript:window.bridge.newWebView('kicpa1','https://mkip.kicpa.or.kr/kicpa/main/getCyberToken.do?userId=${userId}','')";		
 		</c:otherwise>
 	</c:choose>
 }
@@ -539,7 +539,7 @@ function goCyber(){
 		<!-- <a href="javascript:window.bridge.newWebView('kicpa1','https://cyber.kicpa.or.kr/sso/main.php','')">회계연수원</a> -->
 		<%-- 
 			<a href="javascript:location.href='<c:url value='/'/>kicpa/main/getCyberToken.do'">회계연수원</a>
-			<a href="javascript:window.bridge.newWebView('kicpa1','http://mkip.kicpa.or.kr/kicpa/main/getCyberToken.do?userId=${userId}','')">회계연수원</a>	
+			<a href="javascript:window.bridge.newWebView('kicpa1','https://mkip.kicpa.or.kr/kicpa/main/getCyberToken.do?userId=${userId}','')">회계연수원</a>	
 		--%>
 		<a href="javascript:goCyber();">회계연수원</a>				
 	 	<a href="javascript:window.bridge.newWebView('kicpa2','https://blog.naver.com/kicpaline','')" >KICPA블로그</a>

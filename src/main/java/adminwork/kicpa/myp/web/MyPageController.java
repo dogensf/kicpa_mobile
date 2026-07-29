@@ -414,7 +414,6 @@ public class MyPageController {
 
 
 		}else {
-			System.out.println("pin========="+Pin);
 			model.addAttribute("id", Pin);
 			model.addAttribute("url", "/kicpa/myp/myPage.do");
 			model.addAttribute("title", "마이페이지");
@@ -493,7 +492,6 @@ public class MyPageController {
 
 
 		}else {
-			System.out.println("pin========="+paramMap.get("pin"));
 			model.addAttribute("id", paramMap.get("pin"));
 			model.addAttribute("url", "/kicpa/myp/myPageInfo.do");
 			Cookie cookie = new Cookie("returnUrl", "/kicpa/myp/myPageInfo.do");
@@ -571,6 +569,7 @@ public class MyPageController {
             if (niceDi != null && !niceDi.isEmpty() && niceDi.equals(dbDi)) {
                 authMatch = "Y";
                 session.setAttribute("MYPAGE_NICE_AUTH", "Y");   // 서버측 본인인증 통과 플래그
+                session.setAttribute("MYPAGE_NICE_AUTH_TIME", System.currentTimeMillis());
             }
         }
 
@@ -648,8 +647,6 @@ public class MyPageController {
 			model.addAttribute("sBirthDate",sBirthDate);
 			model.addAttribute("sGender",sGender);
 			model.addAttribute("sNationalInfo",sNationalInfo);
-			model.addAttribute("sDupInfo",sDupInfo);
-			model.addAttribute("sConnInfo",sConnInfo);
 			model.addAttribute("sMobileNo",sMobileNo);
 			model.addAttribute("sMobileCo",sMobileCo);
 
@@ -705,6 +702,12 @@ public class MyPageController {
     public ModelAndView selectMypNiceAuthYn(HttpServletRequest request) throws Exception{
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("jsonView");
+        // 본인인증 후 10분 초과 시 세션 인증 폐기(재인증 유도)
+        Object mypAuthTs = request.getSession().getAttribute("MYPAGE_NICE_AUTH_TIME");
+        if (mypAuthTs != null && System.currentTimeMillis() - ((Long) mypAuthTs).longValue() > 10 * 60 * 1000L) {
+        	request.getSession().removeAttribute("MYPAGE_NICE_AUTH");
+        	request.getSession().removeAttribute("MYPAGE_NICE_AUTH_TIME");
+        }
         String authYn = "Y".equals(request.getSession().getAttribute("MYPAGE_NICE_AUTH")) ? "Y" : "N";
         modelAndView.addObject("authYn", authYn);
         return modelAndView;
@@ -717,6 +720,8 @@ public class MyPageController {
 
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("jsonView");
+        if (user == null) { modelAndView.addObject("code", "401"); return modelAndView; }
+        paramMap.put("pin", user.getUniqId());
 
         try {
 

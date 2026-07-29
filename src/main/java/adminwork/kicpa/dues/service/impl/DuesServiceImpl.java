@@ -288,8 +288,6 @@ public class DuesServiceImpl extends EgovAbstractServiceImpl implements DuesServ
             	 vo.setLastUpdtId(user.getUniqId());
              }
 
-			System.out.println("-----pin :: " + vo.getPin());
-			System.out.println("-----getUniqId :: " + user.getUniqId());
 
 			 //vo.setPayNo(payNo);
             if("".equals(vo.getRegistFlag()) || vo.getRegistFlag() == null){

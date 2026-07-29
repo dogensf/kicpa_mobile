@@ -125,14 +125,12 @@ public class DuesController {
 			LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
 			Pin = user.getUniqId();
 			/*if(Pin != null && user.getUniqId() != Pin) {
-				System.out.println("pin========="+Pin);
 				
 				model.addAttribute("id", Pin);
 				model.addAttribute("url", "/kicpa/dues/selectDuesList.do");
 				return "uat/uia/LoginSso";
 			}*/
 			
-			System.out.println("giroPin========="+user.getUniqId());
 			vo.setCust_inqr_no(user.getUniqId());
 			vo.setName(user.getName());
 			vo.setSearchCnd("Main");
@@ -176,7 +174,6 @@ public class DuesController {
 			
 			
 		}else {
-			System.out.println("pin========="+Pin);
 			model.addAttribute("id", Pin);
 			Cookie cookie = new Cookie("returnUrl", "/kicpa/dues/selectDuesList.do");
 			cookie.setPath("/");
@@ -208,14 +205,12 @@ public class DuesController {
 			LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
 			Pin = user.getUniqId();
 			/*if(Pin != null && user.getUniqId() != Pin) {
-				System.out.println("pin========="+Pin);
 
 				model.addAttribute("id", Pin);
 				model.addAttribute("url", "/kicpa/dues/selectDuesList2.do");
 				return "uat/uia/LoginSso";
 			}*/
 
-			System.out.println("giroPin========="+user.getUniqId());
 			vo.setCust_inqr_no(user.getUniqId());
 			vo.setName(user.getName());
 			vo.setSearchCnd("Main");
@@ -259,7 +254,6 @@ public class DuesController {
 
 
 		}else {
-			System.out.println("pin========="+Pin);
 			model.addAttribute("id", Pin);
 			Cookie cookie = new Cookie("returnUrl", "/kicpa/dues/selectDuesList2.do");
 			cookie.setPath("/");
@@ -660,7 +654,6 @@ public class DuesController {
 		LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
 
 		try{
-			System.out.println("giroPin========="+user.getGiroPin());
 			vo.setCust_inqr_no(user.getUniqId());
 			vo.setName(user.getName());
 			boolean success = true;
@@ -778,7 +771,6 @@ public class DuesController {
 		if (isAuthenticated) {
 			LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();	
 			if(Pin != null && user.getUniqId() != Pin) {
-				System.out.println("pin========="+Pin);
 				model.addAttribute("id", Pin);
 				model.addAttribute("url", "/kicpa/dues/selectDuesRefList.do");
 				return "uat/uia/LoginSso";
@@ -808,7 +800,6 @@ public class DuesController {
 			
 			
 		}else {
-			System.out.println("pin========="+Pin);
 			model.addAttribute("id", Pin);
 			model.addAttribute("url", "/kicpa/faq/faqList.do");
 			return "uat/uia/LoginSso";
@@ -915,7 +906,6 @@ public class DuesController {
 		if (isAuthenticated) {
 			LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();	
 			if(pin != null && user.getUniqId() != pin) {
-				System.out.println("pin========="+pin);
 				model.addAttribute("id", pin);
 				model.addAttribute("url", "/bridge/kicpa/duespayments.do");
 				return "uat/uia/LoginSso";
@@ -951,7 +941,6 @@ public class DuesController {
 				
 			}
 		}else {
-			System.out.println("pin========="+pin);
 			model.addAttribute("id", pin);
 			model.addAttribute("url", "/bridge/kicpa/duespayments.do");
 			return "uat/uia/LoginSso";

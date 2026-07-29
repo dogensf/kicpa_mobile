@@ -89,6 +89,20 @@ public class MemberEventController {
 
 	}
 
+	// 경조사 비로그인 본인인증 세션(DI)의 서버측 유효시간 검사 — 10분 초과 시 세션값 폐기(재인증 유도)
+	private void expireEventDiIfStale(HttpSession session) {
+		final long ttlMs = 10 * 60 * 1000L; // 10분
+		Object di = session.getAttribute("MEMBER_EVENT_DI");
+		if (di == null) return;
+		Object t = session.getAttribute("MEMBER_EVENT_DI_TIME");
+		boolean stale = (t == null) || (System.currentTimeMillis() - ((Long) t).longValue() > ttlMs);
+		if (stale) {
+			session.removeAttribute("MEMBER_EVENT_DI");
+			session.removeAttribute("MEMBER_EVENT_DI_NAME");
+			session.removeAttribute("MEMBER_EVENT_DI_TIME");
+		}
+	}
+
 	//경조사 화면 변경
 	@RequestMapping(value = "/memberEventList.do")
 	public String memberEventListMove(@RequestParam Map<String,Object> map,HttpServletRequest request,HttpServletResponse response,ModelMap model) throws Exception{
@@ -99,6 +113,7 @@ public class MemberEventController {
 
 		// 비로그인 식별값은 클라이언트 파라미터가 아닌 본인인증 세션값 사용 (파라미터 변조 방지)
 		if (!isAuthenticated) {
+			expireEventDiIfStale(request.getSession());  // 10분 경과 시 서버에서 인증세션 폐기 → 재인증 유도
 			Object sessionDi = request.getSession().getAttribute("MEMBER_EVENT_DI");
 			Object sessionDiName = request.getSession().getAttribute("MEMBER_EVENT_DI_NAME");
 			map.put("di", sessionDi == null ? "" : sessionDi.toString());
@@ -111,6 +126,21 @@ public class MemberEventController {
 		return "kicpa/memberEvent/memberEventList";
 	}
 
+	//경조사 본인인증 유효여부 (서버 세션 + 10분 만료 기준) — 클라 인증판정용
+	@RequestMapping(value = "/selectMemberEventAuthYn.do")
+	public ModelAndView selectMemberEventAuthYn(HttpServletRequest request) throws Exception{
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("jsonView");
+		HttpSession session = request.getSession();
+		expireEventDiIfStale(session);
+		Object di = session.getAttribute("MEMBER_EVENT_DI");
+		Object name = session.getAttribute("MEMBER_EVENT_DI_NAME");
+		boolean valid = di != null && !"".equals(di.toString());
+		modelAndView.addObject("authYn", valid ? "Y" : "N");
+		modelAndView.addObject("name", (valid && name != null) ? name.toString() : "");
+		return modelAndView;
+	}
+
 	//경조사 등록화면 이동
 	@RequestMapping(value = "/memberEventRegMove.do")
 	public String memberEventRegMove(@RequestParam Map<String,Object> map,HttpServletRequest request,HttpServletResponse response,ModelMap model) throws Exception{
@@ -118,6 +148,7 @@ public class MemberEventController {
 
 		// 비로그인 식별값은 클라이언트 파라미터가 아닌 본인인증 세션값 사용 (파라미터 변조 방지)
 		if (!isAuthenticated) {
+			expireEventDiIfStale(request.getSession());  // 10분 경과 시 서버에서 인증세션 폐기 → 재인증 유도
 			Object sessionDi = request.getSession().getAttribute("MEMBER_EVENT_DI");
 			Object sessionDiName = request.getSession().getAttribute("MEMBER_EVENT_DI_NAME");
 			map.put("di", sessionDi == null ? "" : sessionDi.toString());
@@ -253,6 +284,7 @@ public class MemberEventController {
 				map.put("diName", "");
 			}
 			else {
+				expireEventDiIfStale(request.getSession());  // 10분 경과 시 서버에서 인증세션 폐기 → 재인증 유도
 				Object sessionDi = request.getSession().getAttribute("MEMBER_EVENT_DI");
 				Object sessionDiName = request.getSession().getAttribute("MEMBER_EVENT_DI_NAME");
 				map.put("immDi", sessionDi == null ? "" : sessionDi.toString());
@@ -474,6 +506,7 @@ public class MemberEventController {
 			// 사용 후 비로그인 인증 세션값 폐기 (공유 PC 재사용 방지)
 			request.getSession().removeAttribute("MEMBER_EVENT_DI");
 			request.getSession().removeAttribute("MEMBER_EVENT_DI_NAME");
+			request.getSession().removeAttribute("MEMBER_EVENT_DI_TIME");
 
 			// 작성자 본인 확인 후 삭제 — 요청 파라미터가 아닌 서버측 값으로 판정 (파라미터 변조 방지)
 			Map<String,Object> boardMaster = commonBoardService.selectBoardMaster(map);
@@ -553,9 +586,10 @@ public class MemberEventController {
 			// 비로그인 경조사 식별값(DI/성명)을 세션에 결속 — 후속 요청은 세션값만 신뢰 (파라미터 변조 방지)
 			session.setAttribute("MEMBER_EVENT_DI", intcResultResInfo.getAuthResultData().getDi());
 			session.setAttribute("MEMBER_EVENT_DI_NAME", intcResultResInfo.getAuthResultData().getName());
+			session.setAttribute("MEMBER_EVENT_DI_TIME", System.currentTimeMillis());  // 본인인증 시각(서버측 10분 유효시간 검사용)
 
 			model.addAttribute("authResultDataName", intcResultResInfo.getAuthResultData().getName());   /*인증결과-이름*/
-			model.addAttribute("authResultDataDI", intcResultResInfo.getAuthResultData().getDi());       /*인증결과-DI*/
+			// DI는 서버 세션(MEMBER_EVENT_DI)으로만 식별, 클라이언트로 전달하지 않음 (평문 노출 방지)
 
 		}
 

@@ -106,6 +106,12 @@ public class MypMemberController {
 			// 본인인증(정보수정) 진입 시 서버측 인증통과 플래그 검증 (movePage 가 있는 수정모드에만 적용)
 			Object movePageVal = paramMap.get("movePage");
 			boolean editMode = movePageVal != null && !"".equals(movePageVal) && !"null".equals(movePageVal);
+			// 본인인증 후 10분 초과 시 세션 인증 폐기(재인증 유도)
+			Object mypAuthTs = request.getSession().getAttribute("MYPAGE_NICE_AUTH_TIME");
+			if (mypAuthTs != null && System.currentTimeMillis() - ((Long) mypAuthTs).longValue() > 10 * 60 * 1000L) {
+				request.getSession().removeAttribute("MYPAGE_NICE_AUTH");
+				request.getSession().removeAttribute("MYPAGE_NICE_AUTH_TIME");
+			}
 			if (editMode && !"Y".equals(request.getSession().getAttribute("MYPAGE_NICE_AUTH"))) {
 				return "redirect:/kicpa/myp/myPage.do";
 			}
@@ -156,7 +162,6 @@ public class MypMemberController {
 
 
 		}else {
-			System.out.println("pin========="+paramMap.get("pin"));
 			model.addAttribute("id", paramMap.get("pin"));
 			model.addAttribute("url", "/kicpa/myp/mypCpaMemberReg.do");
 			return "uat/uia/LoginUsr";
@@ -212,6 +217,7 @@ public class MypMemberController {
 			LoginVO user = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
 			System.out.println("========="+user.getUniqId());
 
+			paramMap.put("pin", user.getUniqId());
 			List<?> cpaMemberRegTrnngSmInfo = mypMemberService.selectCpaMemberRegistTrnngSmInfoList(paramMap);			//사이버연수
 			List<?> cpaMemberRegTrnngSmYearList = mypMemberService.selectCpaMemberRegistTrnngSmYearList(paramMap);			//사이버연수 시행년도
 
@@ -225,7 +231,6 @@ public class MypMemberController {
 
 
 		}else {
-			System.out.println("pin========="+paramMap.get("pin"));
 			model.addAttribute("id", paramMap.get("pin"));
 			model.addAttribute("url", "/kicpa/myp/mypCpaTrnngSmInfo.do");
 			return "uat/uia/LoginUsr";
@@ -243,6 +248,8 @@ public class MypMemberController {
 
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("jsonView");
+		if (!EgovUserDetailsHelper.isAuthenticated()) { modelAndView.addObject("code","401"); return modelAndView; }
+		paramMap.put("pin", ((LoginVO)EgovUserDetailsHelper.getAuthenticatedUser()).getUniqId());
 
 		try {
 
@@ -266,6 +273,10 @@ public class MypMemberController {
 
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("jsonView");
+		// 조회는 로그인 본인 pin으로 강제 (타인정보 조회 방지)
+		if (EgovUserDetailsHelper.isAuthenticated()) {
+			paramMap.put("pin", ((LoginVO) EgovUserDetailsHelper.getAuthenticatedUser()).getUniqId());
+		}
 
 		try {
 
@@ -732,12 +743,22 @@ public class MypMemberController {
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("jsonView");
 
+		// 조회는 반드시 로그인 사용자 본인 pin으로 강제 (파라미터 변조/IDOR 방지)
+		if (!EgovUserDetailsHelper.isAuthenticated()) throw new RuntimeException("unauthorized");
+		String pin = ((LoginVO) EgovUserDetailsHelper.getAuthenticatedUser()).getUniqId();
+		paramMap.put("pin", pin);
+
 		NewDues vo = new NewDues();
 		vo.setAppCpaNo(paramMap.get("appCpaNo").toString());
 		vo.setName((paramMap.get("name").toString()));
 
 		List<NewDues> resultList = new ArrayList();
 		resultList = duesService.selectDuesNewSearch(vo);
+
+		// 조회결과가 로그인 본인(pin) 소유가 아니면 폐기 (타인 appCpaNo/name 조회 방지)
+		if (!resultList.isEmpty() && !pin.equals(resultList.get(0).getPin())) {
+			resultList = new ArrayList();
+		}
 
 		List<?> cpaMemberRegReviewInfoList = myPageService.selectCpaMemberRegistReviewInfoList(paramMap);		//회원 임시테이블정보
 
@@ -928,6 +949,10 @@ public class MypMemberController {
 
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("jsonView");
+		// 조회는 반드시 로그인 사용자 본인 pin으로 강제 (타인정보 조회 방지)
+		if (!EgovUserDetailsHelper.isAuthenticated()) throw new RuntimeException("unauthorized");
+		String pin = ((LoginVO) EgovUserDetailsHelper.getAuthenticatedUser()).getUniqId();
+		paramMap.put("pin", pin);
 
 		//등록회비 조회
 		NewDues vo = new NewDues();
@@ -936,6 +961,11 @@ public class MypMemberController {
 
 		List<NewDues> resultList = new ArrayList();
 		resultList = duesService.selectDuesNewSearch(vo);
+
+		// 조회결과가 로그인 본인(pin) 소유가 아니면 폐기 (타인 appCpaNo/name 조회 방지)
+		if (!resultList.isEmpty() && !pin.equals(resultList.get(0).getPin())) {
+			resultList = new ArrayList();
+		}
 
 		//등록회비 조회
 		List<?> cpaMemberRegReviewInfoList = myPageService.selectCpaMemberRegistReviewInfoList(paramMap);		//회원 임시테이블정보

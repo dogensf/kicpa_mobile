@@ -127,7 +127,6 @@ public class MypAudTrainController {
 			model.addAttribute("mypCpaAudTrainRegSaveMode", paramMap);
 
 		}else {
-			System.out.println("pin========="+paramMap.get("pin"));
 			model.addAttribute("id", paramMap.get("pin"));
 			model.addAttribute("url", "/kicpa/myp/mypCpaAudTrainReg.do");
 			return "uat/uia/LoginUsr";
@@ -168,6 +167,9 @@ public class MypAudTrainController {
 
 			paramMap.put("apntcSn", selectApntcSn);
 
+			// 저장 요청은 반드시 로그인 사용자 본인 pin으로 강제 (파라미터 변조/IDOR 방지)
+			if (!EgovUserDetailsHelper.isAuthenticated()) throw new RuntimeException("unauthorized");
+			paramMap.put("pin", ((LoginVO) EgovUserDetailsHelper.getAuthenticatedUser()).getUniqId());
 			paramMap.put("userId", paramMap.get("pin"));
 			paramMap.put("brthdy", paramMap.get("brthdy").toString().replaceAll("-",""));
 			int apntcSn = mypAudTrainService.mypCpaAudTrainRegisterAgreeSave(paramMap);
@@ -230,6 +232,9 @@ public class MypAudTrainController {
 
 			paramMap.put("audRegistDe",paramMap.get("audRegistDe").toString().replaceAll("-",""));
 			paramMap.put("apntcCl", "A1010020");
+			// 저장 요청은 반드시 로그인 사용자 본인 pin으로 강제 (파라미터 변조/IDOR 방지)
+			if (!EgovUserDetailsHelper.isAuthenticated()) throw new RuntimeException("unauthorized");
+			paramMap.put("pin", ((LoginVO) EgovUserDetailsHelper.getAuthenticatedUser()).getUniqId());
 			paramMap.put("userId", paramMap.get("pin"));
 			mypAudTrainService.mypCpaAudTrainRegisterApntcCpaHistInfoSave(paramMap);
 
@@ -253,6 +258,9 @@ public class MypAudTrainController {
 
 		paramMap.put("pin", multiRequest.getParameter("pin"));
 		paramMap.put("apntcSn", multiRequest.getParameter("apntcSn"));
+		// 저장 요청은 반드시 로그인 사용자 본인 pin으로 강제 (파라미터 변조/IDOR 방지)
+		if (!EgovUserDetailsHelper.isAuthenticated()) throw new RuntimeException("unauthorized");
+		paramMap.put("pin", ((LoginVO) EgovUserDetailsHelper.getAuthenticatedUser()).getUniqId());
 		paramMap.put("userId", paramMap.get("pin"));
 
 		String regFlag = "";
@@ -378,6 +386,10 @@ public class MypAudTrainController {
 
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("jsonView");
+		// 조회는 로그인 본인 pin으로 강제 (타인정보 조회 방지)
+		if (EgovUserDetailsHelper.isAuthenticated()) {
+			paramMap.put("pin", ((LoginVO) EgovUserDetailsHelper.getAuthenticatedUser()).getUniqId());
+		}
 
 		List<?> cpaAudTrainRegReviewInfoList = new ArrayList<HashMap>();
 
@@ -405,6 +417,9 @@ public class MypAudTrainController {
 
 		paramMap.put("opetrDe", opetrDe);
 		paramMap.put("regFlag","Y");
+		// 저장 요청은 반드시 로그인 사용자 본인 pin으로 강제 (파라미터 변조/IDOR 방지)
+		if (!EgovUserDetailsHelper.isAuthenticated()) throw new RuntimeException("unauthorized");
+		paramMap.put("pin", ((LoginVO) EgovUserDetailsHelper.getAuthenticatedUser()).getUniqId());
 		paramMap.put("userId", paramMap.get("pin"));
 
 		mypAudTrainService.mypCpaAudTrainRegisterRegFlagSave(paramMap);

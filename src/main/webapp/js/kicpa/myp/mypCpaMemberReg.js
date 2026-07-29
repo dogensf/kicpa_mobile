@@ -283,28 +283,28 @@ mypMemberReg.mypMemberRegInit = function(){
 	//공인회계사 등록신청서 클릭
 	$("#mypCpaMember_cpaRegForm").on("click",function(e) {
 		var pin = $('#mypCpaTrainReg_pin').val();
-		window.open("http://kip.kicpa.or.kr/kicpacs/kicpa/myp/mypCpaRegForm.do?pin="+pin, "pop", "scrollbars=yes, resizable=yes");
+		window.open("https://kip.kicpa.or.kr/kicpacs/kicpa/myp/mypCpaRegForm.do?pin="+pin, "pop", "scrollbars=yes, resizable=yes");
 
 	});
 
 	//입회신청서 클릭
 	$("#mypCpaMember_cpaMemRegForm").on("click",function(e) {
 		var pin = $('#mypCpaTrainReg_pin').val();
-		window.open("http://kip.kicpa.or.kr/kicpacs/kicpa/myp/mypCpaMemRegForm.do?pin="+pin, "pop", "scrollbars=yes, resizable=yes");
+		window.open("https://kip.kicpa.or.kr/kicpacs/kicpa/myp/mypCpaMemRegForm.do?pin="+pin, "pop", "scrollbars=yes, resizable=yes");
 
 	});
 
 	//개업 휴업신청서 클릭
 	$("#mypCpaMember_cpaMemFlagRegForm").on("click",function(e) {
 		var pin = $('#mypCpaTrainReg_pin').val();
-		window.open("http://kip.kicpa.or.kr/kicpacs/kicpa/myp/mypCpaMemFlagRegForm.do?pin="+pin, "pop", "scrollbars=yes, resizable=yes");
+		window.open("https://kip.kicpa.or.kr/kicpacs/kicpa/myp/mypCpaMemFlagRegForm.do?pin="+pin, "pop", "scrollbars=yes, resizable=yes");
 
 	});
 
 	//공제회 부조사업 회원가입 신청서 클릭
 	$("#mypCpaMember_mypCpaAidRegForm").on("click",function(e) {
 		var pin = $('#mypCpaTrainReg_pin').val();
-		window.open("http://kip.kicpa.or.kr/kicpacs/kicpa/myp/mypCpaAidRegForm.do?pin="+pin, "pop", "scrollbars=yes, resizable=yes");
+		window.open("https://kip.kicpa.or.kr/kicpacs/kicpa/myp/mypCpaAidRegForm.do?pin="+pin, "pop", "scrollbars=yes, resizable=yes");
 
 	});
 

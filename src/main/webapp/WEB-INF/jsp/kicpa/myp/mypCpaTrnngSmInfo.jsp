@@ -37,7 +37,7 @@
 		location.href="/uat/uia/authLogin.do";
 		</c:when>
 		<c:otherwise>
-		location.href="javascript:window.bridge.newWebView('kicpa1','http://mkip.kicpa.or.kr/kicpa/main/getCyberToken.do?userId=${userId}','')";
+		location.href="javascript:window.bridge.newWebView('kicpa1','https://mkip.kicpa.or.kr/kicpa/main/getCyberToken.do?userId=${userId}','')";
 		</c:otherwise>
 		</c:choose>
 	}

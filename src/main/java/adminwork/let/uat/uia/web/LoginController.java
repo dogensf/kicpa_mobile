@@ -270,8 +270,6 @@ public class LoginController {
 								throw new IllegalStateException("No AuthenticationProcessingFilter");
 							}
 							System.out.println("resultVO.getUserSe()=="+resultVO.getUserSe());
-							System.out.println("resultVO.getId()=="+resultVO.getId());
-							System.out.println("resultVO.getUniqId()=="+resultVO.getUniqId());
 										
 							springSecurity.doFilter(new RequestWrapperForSecurity(request, resultVO.getId(), resultVO.getUniqId()), response, null);
 							System.out.println("loginVO.getUrl()=="+loginVO.getUrl());
@@ -338,8 +336,6 @@ public class LoginController {
 				throw new IllegalStateException("No AuthenticationProcessingFilter");
 			}
 			System.out.println("resultVO.getUserSe()=="+resultVO.getUserSe());
-			System.out.println("resultVO.getId()=="+resultVO.getId());
-			System.out.println("resultVO.getUniqId()=="+resultVO.getUniqId());
 						
 			springSecurity.doFilter(new RequestWrapperForSecurity(request, resultVO.getId(), resultVO.getUniqId()), response, null);
 			

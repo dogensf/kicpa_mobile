@@ -251,7 +251,7 @@ mypCpaTrainReg.mypCpaTrainRegInit = function(){
 	//수습공인회계사 등록신청서 클릭
 	$("#mypCpaTrainReg_trainRegForm").on("click",function(e) {
 		var pin = $('#mypCpaTrainReg_pin').val();
-		window.open("http://kip.kicpa.or.kr/kicpacs/kicpa/myp/mypCpaTrainRegForm.do?pin="+pin, "pop", "scrollbars=yes, resizable=yes");
+		window.open("https://kip.kicpa.or.kr/kicpacs/kicpa/myp/mypCpaTrainRegForm.do?pin="+pin, "pop", "scrollbars=yes, resizable=yes");
 
 	});
 

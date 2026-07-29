@@ -52,7 +52,6 @@ public class KicpaCommController {
     private static long expiryTime;
     private static final ObjectMapper mapper = new ObjectMapper();
 
-    private static IntcUrlResInfo intcUrlResInfo ;
 
 
 
@@ -91,7 +90,7 @@ public class KicpaCommController {
 
         // IntcClient로 인증 URL 요청
         IntcClient intcClient = new IntcClient();
-        intcUrlResInfo = intcClient.getAuthUrl(intcUrlReqInfo);
+        IntcUrlResInfo intcUrlResInfo = intcClient.getAuthUrl(intcUrlReqInfo);
 
         // 세션에 intcUrlResInfo 저장 (다른 컨트롤러에서 사용)
         session.setAttribute("intcUrlResInfo", intcUrlResInfo);
@@ -334,11 +333,10 @@ public class KicpaCommController {
 //	            sMobileCo		= (String)mapresult.get("MOBILE_CO");
 //	            System.out.println("mapresult : " + mapresult);
 
-	            session.setAttribute("mapresult" , mapresult);
 
 
 	            String session_sRequestNumber = (String)session.getAttribute("REQ_SEQ");
-	            System.out.println("mapresult : " + mapresult);
+	            session.removeAttribute("REQ_SEQ");
 	            System.out.println("sRequestNumber : " + sRequestNumber + " : " + session_sRequestNumber ) ;
 	            if(!sRequestNumber.equals(session_sRequestNumber))
 	            {

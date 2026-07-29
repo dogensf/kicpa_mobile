@@ -111,7 +111,6 @@ public class FaqController {
 //			model.addAttribute("ccode",cmmUseService.getCsCmmCodeAll());
 			return "kicpa/faq/faqList";
 		}else {
-			System.out.println("pin========="+Pin);
 			model.addAttribute("id", Pin);
 			model.addAttribute("returnUrl", "/kicpa/faq/faqList.do");
 			Cookie cookie = new Cookie("returnUrl", "/kicpa/faq/faqList.do");

@@ -129,7 +129,7 @@ mypCpaAudTrainReg.mypCpaAudTrainRegInit = function(){
 	//외감실무수습 등록신청서 클릭
 	$("#mypCpaAudTrainReg_audTrainRegForm").on("click",function(e) {
 		var pin = $('#mypCpaAudTrainReg_pin').val();
-		window.open("http://kip.kicpa.or.kr/kicpacs/kicpa/myp/mypCpaAudTrainRegForm.do?pin="+pin, "pop", "scrollbars=yes, resizable=yes");
+		window.open("https://kip.kicpa.or.kr/kicpacs/kicpa/myp/mypCpaAudTrainRegForm.do?pin="+pin, "pop", "scrollbars=yes, resizable=yes");
 
 	});
 

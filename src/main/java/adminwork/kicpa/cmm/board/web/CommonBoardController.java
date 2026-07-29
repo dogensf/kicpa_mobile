@@ -73,6 +73,20 @@ public class CommonBoardController {
 		return "kicpa/common/boardDetail";
 	}
 
+	// 경조사 비로그인 본인인증 세션(DI)의 서버측 유효시간 검사 — 10분 초과 시 세션값 폐기(재인증 유도)
+	private void expireEventDiIfStale(HttpServletRequest request) {
+		javax.servlet.http.HttpSession session = request.getSession();
+		Object di = session.getAttribute("MEMBER_EVENT_DI");
+		if (di == null) return;
+		Object t = session.getAttribute("MEMBER_EVENT_DI_TIME");
+		boolean stale = (t == null) || (System.currentTimeMillis() - ((Long) t).longValue() > 10 * 60 * 1000L);
+		if (stale) {
+			session.removeAttribute("MEMBER_EVENT_DI");
+			session.removeAttribute("MEMBER_EVENT_DI_NAME");
+			session.removeAttribute("MEMBER_EVENT_DI_TIME");
+		}
+	}
+
 	@RequestMapping(value = "/memberEventDetail.do")
 	public String memberEventDetail(@RequestParam Map<String,Object> map,HttpServletRequest request,HttpServletResponse response,ModelMap model) throws Exception{
 
@@ -80,6 +94,7 @@ public class CommonBoardController {
 
 		// 비로그인 식별값은 클라이언트 파라미터가 아닌 본인인증 세션값 사용 (파라미터 변조 방지)
 		if (!isAuthenticated) {
+			expireEventDiIfStale(request);  // 10분 경과 시 서버에서 인증세션 폐기 → 재인증 유도
 			Object sessionDi = request.getSession().getAttribute("MEMBER_EVENT_DI");
 			Object sessionDiName = request.getSession().getAttribute("MEMBER_EVENT_DI_NAME");
 			map.put("di", sessionDi == null ? "" : sessionDi.toString());
@@ -198,6 +213,7 @@ public class CommonBoardController {
     			else{
 
     				// 비로그인 목록 필터 식별값은 본인인증 세션값 사용 (파라미터 변조 방지)
+    				expireEventDiIfStale(request);  // 10분 경과 시 서버에서 인증세션 폐기 → 재인증 유도
     				Object sessionDi = request.getSession().getAttribute("MEMBER_EVENT_DI");
     				map.put("immDi", sessionDi == null ? "" : sessionDi.toString());
 				
