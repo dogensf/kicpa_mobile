@@ -607,7 +607,6 @@ public class MyPageController {
 		String sAuthType = "";				// 인증 수단
 		String sName = "";					// 성명
 		String sDupInfo = "";				// 중복가입 확인값 (DI_64 byte)
-		String sConnInfo = "";				// 연계정보 확인값 (CI_88 byte)
 		String sBirthDate = "";				// 생년월일(YYYYMMDD)
 		String sGender = "";				// 성별
 		String sNationalInfo = "";			// 내/외국인정보 (개발가이드 참조)
@@ -635,7 +634,6 @@ public class MyPageController {
 			sGender			= (String)mapresult.get("GENDER");
 			sNationalInfo  	= (String)mapresult.get("NATIONALINFO");
 			sDupInfo		= (String)mapresult.get("DI");
-			sConnInfo		= (String)mapresult.get("CI");
 			sMobileNo		= (String)mapresult.get("MOBILE_NO");
 			sMobileCo		= (String)mapresult.get("MOBILE_CO");
 
