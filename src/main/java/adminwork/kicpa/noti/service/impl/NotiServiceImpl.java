@@ -92,7 +92,11 @@ public class NotiServiceImpl extends EgovAbstractServiceImpl implements NotiServ
 		int sendCnt = 0;
 		int failCnt = 0;
 		try {
-			List<String> tokens = notiDAO.selectPushTokenList();
+			//알림 유형별 옵트인: 경조사(mstate)=EVENT, 그 외 게시판=BOARD
+			String pushType = "mstate".equals(boardId) ? "EVENT" : "BOARD";
+			Map<String, Object> tokenParam = new HashMap<String, Object>();
+			tokenParam.put("pushType", pushType);
+			List<String> tokens = notiDAO.selectPushTokenList(tokenParam);
 			for (String token : tokens) {
 				try {
 					FcmSender.Response res = FcmSender.sendNotification(projectId, token, title, body);
@@ -174,7 +178,7 @@ public class NotiServiceImpl extends EgovAbstractServiceImpl implements NotiServ
 	}
 
 	@Override
-	public String selectPushSetting(Map<String, Object> map) throws Exception {
+	public EgovMap selectPushSetting(Map<String, Object> map) throws Exception {
 		return notiDAO.selectPushSetting(map);
 	}
 

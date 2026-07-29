@@ -51,7 +51,7 @@ public class NotiController {
 		return modelAndView;
 	}
 
-	/** 기기(토큰)별 푸시 수신동의 조회 */
+	/** 기기(토큰)별 유형별 푸시 수신동의 조회 (경조사/게시글) */
 	@RequestMapping(value = "/getPushSetting.do")
 	public ModelAndView getPushSetting(@RequestBody Map<String, Object> map) throws Exception {
 		ModelAndView modelAndView = new ModelAndView();
@@ -59,26 +59,33 @@ public class NotiController {
 			modelAndView.setViewName("jsonView");
 			String token = StringUtil.isNullToString(map.get("token"));
 			if ("".equals(token)) {
-				modelAndView.addObject("pushYn", "N");
+				modelAndView.addObject("pushEventYn", "N");
+				modelAndView.addObject("pushBoardYn", "N");
 			} else {
-				modelAndView.addObject("pushYn", notiService.selectPushSetting(map));
+				EgovMap setting = notiService.selectPushSetting(map);
+				modelAndView.addObject("pushEventYn", setting.get("pushEventYn"));
+				modelAndView.addObject("pushBoardYn", setting.get("pushBoardYn"));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			modelAndView.addObject("pushYn", "N");
+			modelAndView.addObject("pushEventYn", "N");
+			modelAndView.addObject("pushBoardYn", "N");
 		}
 		return modelAndView;
 	}
 
-	/** 기기(토큰)별 푸시 수신동의 저장 */
+	/** 기기(토큰)별 유형별 푸시 수신동의 저장 (pushType: EVENT=경조사, BOARD=게시글) */
 	@RequestMapping(value = "/savePushSetting.do")
 	public ModelAndView savePushSetting(@RequestBody Map<String, Object> map) throws Exception {
 		ModelAndView modelAndView = new ModelAndView();
 		try {
 			modelAndView.setViewName("jsonView");
 			String token = StringUtil.isNullToString(map.get("token"));
+			String pushType = StringUtil.isNullToString(map.get("pushType"));
 			String pushYn = StringUtil.isNullToString(map.get("pushYn"));
-			if ("".equals(token) || (!"Y".equals(pushYn) && !"N".equals(pushYn))) {
+			if ("".equals(token)
+					|| (!"EVENT".equals(pushType) && !"BOARD".equals(pushType))
+					|| (!"Y".equals(pushYn) && !"N".equals(pushYn))) {
 				modelAndView.addObject("result", "FAIL");
 			} else {
 				notiService.updatePushSetting(map);

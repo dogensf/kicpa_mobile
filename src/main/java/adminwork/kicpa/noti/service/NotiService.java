@@ -2,9 +2,11 @@ package adminwork.kicpa.noti.service;
 
 import java.util.Map;
 
+import egovframework.rte.psl.dataaccess.util.EgovMap;
+
 /**
  * 앱 푸시 알림 서비스.
- * 알림함(LETTAPPNOTI) 기록과 FCM 발송, 수신동의(LETTAPPTOKEN.PUSH_YN) 관리를 담당한다.
+ * 알림함(LETTAPPNOTI) 기록과 FCM 발송, 유형별 수신동의(LETTAPPTOKEN.PUSH_EVENT_YN/PUSH_BOARD_YN) 관리를 담당한다.
  */
 public interface NotiService {
 
@@ -25,12 +27,12 @@ public interface NotiService {
 	void selectNotiLists(Map<String, Object> map) throws Exception;
 
 	/**
-	 * 기기(토큰)별 수신동의 조회 (Y/N, 미등록 토큰은 Y).
+	 * 기기(토큰)별 유형별 수신동의 조회 (pushEventYn/pushBoardYn, 미등록·미설정은 N).
 	 */
-	String selectPushSetting(Map<String, Object> map) throws Exception;
+	EgovMap selectPushSetting(Map<String, Object> map) throws Exception;
 
 	/**
-	 * 기기(토큰)별 수신동의 저장.
+	 * 기기(토큰)별 유형별 수신동의 저장 (map: token, pushType=EVENT|BOARD, pushYn=Y|N).
 	 */
 	void updatePushSetting(Map<String, Object> map) throws Exception;
 }

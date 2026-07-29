@@ -23,19 +23,28 @@ function setPushToken(token){
 	}
 	fcmToken = token;
 	fn_ajax_call('/kicpa/noti/getPushSetting.do', {token : fcmToken}, function(result){
-		$("#set01").prop("checked", result.pushYn != 'N');
+		$("#setEvent").prop("checked", result.pushEventYn == 'Y');
+		$("#setBoard").prop("checked", result.pushBoardYn == 'Y');
 		$("#notiSetBox").show();
-		$("#set01").on("change", function(){
-			var pushYn = $(this).is(":checked") ? 'Y' : 'N';
-			fn_ajax_call('/kicpa/noti/savePushSetting.do', {token : fcmToken, pushYn : pushYn}, function(r){
-				if(r.result != 'OK'){
-					alert("저장에 실패했습니다.");
-				}
-			}, function(){
-				alert("저장에 실패했습니다.");
-			});
+		$("#setEvent").on("change", function(){
+			noti.saveSetting('EVENT', $(this).is(":checked"));
+		});
+		$("#setBoard").on("change", function(){
+			noti.saveSetting('BOARD', $(this).is(":checked"));
 		});
 	}, function(){});
+}
+
+//유형별 수신동의 저장 (pushType: EVENT=경조사, BOARD=게시글)
+noti.saveSetting = function(pushType, checked){
+	var pushYn = checked ? 'Y' : 'N';
+	fn_ajax_call('/kicpa/noti/savePushSetting.do', {token : fcmToken, pushType : pushType, pushYn : pushYn}, function(r){
+		if(r.result != 'OK'){
+			alert("저장에 실패했습니다.");
+		}
+	}, function(){
+		alert("저장에 실패했습니다.");
+	});
 }
 
 noti.listAjax = function(){

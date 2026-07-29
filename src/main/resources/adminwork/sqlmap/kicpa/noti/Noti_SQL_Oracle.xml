@@ -47,12 +47,15 @@
 		]]>
 	</select>
 
-	<!-- 발송 대상 토큰 목록 (알림받기 체크한 기기만 — 기본 미수신, N/NULL 제외) -->
-	<select id="NotiDAO.selectPushTokenList" resultClass="string">
+	<!-- 발송 대상 토큰 목록 (유형별 옵트인: EVENT=경조사, BOARD=게시글 — 해당 유형 Y인 기기만) -->
+	<select id="NotiDAO.selectPushTokenList" parameterClass="hashmap" resultClass="string">
 		<![CDATA[
 			SELECT TOKEN
 			FROM   LETTAPPTOKEN
-			WHERE  PUSH_YN = 'Y'
+			WHERE  (
+			           (#pushType# = 'EVENT' AND PUSH_EVENT_YN = 'Y')
+			        OR (#pushType# = 'BOARD' AND PUSH_BOARD_YN = 'Y')
+			       )
 		]]>
 	</select>
 
@@ -103,25 +106,40 @@
 		]]>
 	</select>
 
-	<!-- 기기(토큰)별 수신동의 조회 — 미등록/미설정 토큰은 기본 N(미수신) -->
-	<select id="NotiDAO.selectPushSetting" parameterClass="hashmap" resultClass="string">
+	<!-- 기기(토큰)별 수신동의 조회 — 유형별, 미등록/미설정은 기본 N(미수신) -->
+	<select id="NotiDAO.selectPushSetting" parameterClass="hashmap" resultClass="egovMap">
 		<![CDATA[
-			SELECT NVL(MAX(PUSH_YN), 'N')
+			SELECT NVL(MAX(PUSH_EVENT_YN), 'N') AS PUSH_EVENT_YN
+			     , NVL(MAX(PUSH_BOARD_YN), 'N') AS PUSH_BOARD_YN
 			FROM   LETTAPPTOKEN
 			WHERE  TOKEN = #token#
 		]]>
 	</select>
 
+	<!-- 유형별 수신동의 저장 (pushType: EVENT/BOARD — 컨트롤러에서 검증됨) -->
 	<update id="NotiDAO.updatePushSetting" parameterClass="hashmap">
-		<![CDATA[
-			MERGE INTO LETTAPPTOKEN t
-			USING DUAL
-			    ON ( t.TOKEN = #token# )
-			WHEN MATCHED THEN
-			    UPDATE SET t.PUSH_YN = #pushYn#, t.UPDT = SYSDATE
-			WHEN NOT MATCHED THEN
-			    INSERT ( TOKEN, PUSH_YN, REGDT ) VALUES ( #token#, #pushYn#, SYSDATE )
-		]]>
+		MERGE INTO LETTAPPTOKEN t
+		USING DUAL
+		    ON ( t.TOKEN = #token# )
+		WHEN MATCHED THEN
+		    UPDATE SET
+		    <isEqual property="pushType" compareValue="EVENT">
+		        t.PUSH_EVENT_YN = #pushYn#
+		    </isEqual>
+		    <isEqual property="pushType" compareValue="BOARD">
+		        t.PUSH_BOARD_YN = #pushYn#
+		    </isEqual>
+		        , t.UPDT = SYSDATE
+		WHEN NOT MATCHED THEN
+		    INSERT ( TOKEN, PUSH_EVENT_YN, PUSH_BOARD_YN, REGDT )
+		    VALUES ( #token#
+		    <isEqual property="pushType" compareValue="EVENT">
+		        , #pushYn#, 'N'
+		    </isEqual>
+		    <isEqual property="pushType" compareValue="BOARD">
+		        , 'N', #pushYn#
+		    </isEqual>
+		        , SYSDATE )
 	</update>
 
 </sqlMap>

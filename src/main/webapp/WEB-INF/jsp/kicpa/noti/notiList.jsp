@@ -31,14 +31,21 @@ function fncLocation(){
 	    <h3>알림</h3>
 	</section>
 	<section class="content">
-		<!-- 푸시 수신 설정 (앱 환경에서만 노출) -->
+		<!-- 푸시 수신 설정 (앱 환경에서만 노출, 유형별 옵트인) -->
 		<div class="set-box" id="notiSetBox" style="display:none;">
 			<ul class="set-notify">
 				<li>
-					<span>알림받기</span>
+					<span>경조사 알림</span>
 					<div>
-						<input type="checkbox" id="set01" class="switch" name="setup01">
-						<label for="set01"></label>
+						<input type="checkbox" id="setEvent" class="switch" name="setupEvent">
+						<label for="setEvent"></label>
+					</div>
+				</li>
+				<li>
+					<span>게시글 알림</span>
+					<div>
+						<input type="checkbox" id="setBoard" class="switch" name="setupBoard">
+						<label for="setBoard"></label>
 					</div>
 				</li>
 			</ul>

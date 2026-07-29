@@ -22,8 +22,8 @@ public class NotiDAO extends EgovAbstractDAO {
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<String> selectPushTokenList() throws Exception {
-		return (List<String>) list("NotiDAO.selectPushTokenList", null);
+	public List<String> selectPushTokenList(Map<String, Object> map) throws Exception {
+		return (List<String>) list("NotiDAO.selectPushTokenList", map);
 	}
 
 	public void deleteToken(Map<String, Object> map) throws Exception {
@@ -43,8 +43,8 @@ public class NotiDAO extends EgovAbstractDAO {
 		return (Integer) select("NotiDAO.selectNotiListCnt", map);
 	}
 
-	public String selectPushSetting(Map<String, Object> map) throws Exception {
-		return (String) select("NotiDAO.selectPushSetting", map);
+	public EgovMap selectPushSetting(Map<String, Object> map) throws Exception {
+		return (EgovMap) select("NotiDAO.selectPushSetting", map);
 	}
 
 	public void updatePushSetting(Map<String, Object> map) throws Exception {
