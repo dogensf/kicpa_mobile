@@ -434,7 +434,9 @@
 		                WHERE  t1.board_id= #boardId#
 						and del_flag = 'N'
 						<isNotEqual property="admin" compareValue="임직원">
+							<isEqual property="boardId" compareValue="mstate">
 							and (T6.ext_str14 = 'Y' or T6.ext_str16 = #userId# )
+							</isEqual>
 						</isNotEqual>
 		               <isEqual property="listYns3" compareValue="Y">
 		                	AND    t1.bltn_gq = '0' <!-- LIST_YNS 3번째가 Y이면 아니면 조건없이-->
@@ -640,7 +642,9 @@
 		                WHERE  t1.board_id= #boardId#
 
 		<isNotEqual property="admin" compareValue="임직원">
+			<isEqual property="boardId" compareValue="mstate">
 			and (T6.ext_str14 = 'Y' or T6.ext_str16 = #userId# )
+			</isEqual>
 		</isNotEqual>
 
 		               <isEqual property="listYns3" compareValue="Y">
@@ -777,7 +781,9 @@
 		                WHERE  t1.board_id= #boardId#
 
 						<isNotEqual property="admin" compareValue="임직원">
+							<isEqual property="boardId" compareValue="mstate">
 							and (T6.ext_str14 = 'Y' or T6.ext_str16 = #userId# )
+							</isEqual>
 						</isNotEqual>
 		              <isEqual property="listYns3" compareValue="Y">
 		                	AND    t1.bltn_gq = '0' <!-- LIST_YNS 3번째가 Y이면 아니면 조건없이-->
