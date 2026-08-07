@@ -143,8 +143,13 @@ public class MainController {
 		}
 		model.addAttribute("sumCal",cals);
 		model.addAttribute("nowMM",nowMM);
-		
-		
+
+		//회원검색(임직원 전용) 메인 즐겨찾기 고정 노출 판정
+		if (isAuthenticated) {
+			LoginVO empUser = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
+			model.addAttribute("empYn", (empUser != null && "임직원".equals(empUser.getUserTy())) ? "Y" : "N");
+		}
+
 		return "kicpa/main/main";*/
 	}
 	
@@ -229,8 +234,13 @@ public class MainController {
 		}
 		model.addAttribute("sumCal",cals);
 		model.addAttribute("nowMM",nowMM);
-		
-		
+
+		//회원검색(임직원 전용) 메인 즐겨찾기 고정 노출 판정
+		if (isAuthenticated) {
+			LoginVO empUser = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
+			model.addAttribute("empYn", (empUser != null && "임직원".equals(empUser.getUserTy())) ? "Y" : "N");
+		}
+
 		return "kicpa/main/main";
 	}
 	
@@ -295,8 +305,13 @@ public class MainController {
 		}
 		model.addAttribute("sumCal",cals);
 		model.addAttribute("nowMM",nowMM);
-		
-		
+
+		//회원검색(임직원 전용) 메인 즐겨찾기 고정 노출 판정
+		if (isAuthenticated) {
+			LoginVO empUser = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
+			model.addAttribute("empYn", (empUser != null && "임직원".equals(empUser.getUserTy())) ? "Y" : "N");
+		}
+
 		return "kicpa/main/main";
 	}
 

@@ -655,4 +655,23 @@
 
 	</select>
 
+	<!-- 회원검색(임직원 전용): 고객사 제공 프로시저 KIPADM.mbl_mem_search_proc 호출 (성명 완전일치, 커서 반환) -->
+	<resultMap id="mblMemSearchReturnMap" class="java.util.HashMap">
+		<result property="cpaRegNo" column="등록번호" />
+		<result property="koreanNm" column="성명" />
+		<result property="cpaClNm" column="CPA 구분코드" />
+		<result property="auditNm" column="소속" />
+	</resultMap>
+
+	<parameterMap class="java.util.HashMap" id="mblMemSearchParamMap">
+		<parameter property="searchKeyword" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="resultText" jdbcType="VARCHAR" javaType="java.lang.String" mode="OUT" />
+		<parameter property="resultCode" jdbcType="DECIMAL" javaType="long" mode="OUT" />
+		<parameter property="resultList" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" resultMap="mblMemSearchReturnMap" mode="OUT" />
+	</parameterMap>
+
+	<procedure id="MyPageDAO.mblMemSearchProc" parameterMap="mblMemSearchParamMap">
+		{ call KIPADM.mbl_mem_search_proc(?,?,?,?) }
+	</procedure>
+
 </sqlMap>

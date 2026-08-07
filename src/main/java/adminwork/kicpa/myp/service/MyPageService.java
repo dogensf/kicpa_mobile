@@ -76,4 +76,7 @@ public interface MyPageService {
 
     //경조사 대상자 조회(프로시저)
     public List<?> webCpaCheckProc(Map<String, Object> map) throws Exception;
+
+    //회원검색(임직원 전용) - KIPADM.mbl_mem_search_proc 호출 (성명 완전일치, 커서는 map의 resultList 키로 반환)
+    public void mblMemSearchProc(Map<String, Object> map) throws Exception;
 }

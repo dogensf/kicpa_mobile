@@ -140,4 +140,9 @@ public class MyPageServiceImpl extends EgovAbstractServiceImpl implements MyPage
 	public List<?> webCpaCheckProc(Map<String, Object> map) throws Exception {
 		return myPageDAO.webCpaCheckProc(map);
 	}
+
+	@Override
+	public void mblMemSearchProc(Map<String, Object> map) throws Exception {
+		myPageDAO.mblMemSearchProc(map);
+	}
 }

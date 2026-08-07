@@ -113,4 +113,8 @@ public class MyPageDAO extends EgovComAbstractDAO2 {
     public List<?> webCpaCheckProc(Map<String, Object> map) throws Exception {
         return (List<?>) list("MyPageDAO.webCpaCheckProc",map);
     }
+
+    public void mblMemSearchProc(Map<String, Object> map) throws Exception {
+        list("MyPageDAO.mblMemSearchProc",map);
+    }
 }

@@ -81,7 +81,12 @@ function setFcmToken(token){
 }
 
 function applyFavorite(menus) {
-	
+
+	//임직원 전용 고정 메뉴: 회원검색 (즐겨찾기 맨 앞 고정, 비임직원/비로그인 미노출)
+	if('${empYn}' == 'Y'){
+		menus = [{"name":"회원검색", "img":"icon_consulting", "url":"location.href='/kicpa/memberSearch/memberSearch.do'"}].concat(menus || []);
+	}
+
 /* 	for(i=0;i < menus.length;i++){
 	    console.log(menus[i]);
 	    console.log(index + " ::: " , data.name);
@@ -212,6 +217,12 @@ function goCyber(){
 	  		<div class="swiper-wrapper">
 		    	<div class="swiper-slide">
 		      		<div id="mfm11">
+						<%-- 회원검색: 임직원 전용 고정 (applyFavorite 호출 시 JS가 다시 그림) --%>
+						<c:if test="${empYn eq 'Y'}">
+				        <button class="icon_consulting" type="button" onclick="javascript:location.href='<c:url value='/kicpa/memberSearch/memberSearch.do'/>';">
+				          	회원검색
+				        </button>
+						</c:if>
 				        <%-- <button class="icon_dues" type="button"  onclick="javascript:location.href='<c:url value='/kicpa/dues/selectDuesList.do'/>';">
 				         	 회비납부/조회
 				        </button>
