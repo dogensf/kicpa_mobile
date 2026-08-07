@@ -97,27 +97,65 @@ public final class FcmSender {
     }
 
     /**
+     * 단말 토큰 1:1 발송 (링크/함수 없이).
+     */
+    public static Response sendNotification(String projectId, String fcmToken, String title, String body) throws IOException {
+        return sendNotification(projectId, fcmToken, title, body, "", "");
+    }
+
+    /**
      * 단말 토큰 1:1 발송.
+     * link: 푸시 클릭 시 이동할 URL(data.link), fn: 클릭 시 실행할 JS(data.fn, alert 사용 금지).
+     * 둘 다 빈값이면 data 블록을 넣지 않는다 (앱 개발사 신버전 예제와 동일 계약).
      * 404/400 + "UNREGISTERED"/"INVALID_ARGUMENT" 응답은 폐기된 토큰이므로
      * 호출부에서 해당 토큰을 DB에서 정리하는 데 statusCode를 활용할 것.
      */
-    public static Response sendNotification(String projectId, String fcmToken, String title, String body) throws IOException {
+    public static Response sendNotification(String projectId, String fcmToken, String title, String body, String link, String fn) throws IOException {
 
-        String json =
-                "{"
-                + "\"message\":{"
-                + "\"token\":\"" + escapeJson(fcmToken) + "\","
-                + "\"notification\":{"
-                + "\"title\":\"" + escapeJson(title) + "\","
-                + "\"body\":\"" + escapeJson(body) + "\""
-                + "},"
-                + "\"android\":{"
-                + "\"priority\":\"high\""
-                + "}"
-                + "}"
-                + "}";
+        StringBuilder json = new StringBuilder();
 
-        return post(projectId, json);
+        json.append("{");
+        json.append("\"message\":{");
+        json.append("\"token\":\"").append(escapeJson(fcmToken)).append("\",");
+
+        json.append("\"notification\":{");
+        json.append("\"title\":\"").append(escapeJson(title)).append("\",");
+        json.append("\"body\":\"").append(escapeJson(body)).append("\"");
+        json.append("}");
+
+        //link 또는 fn이 있을 때만 data 추가
+        if (hasText(link) || hasText(fn)) {
+            json.append(",\"data\":{");
+
+            boolean first = true;
+
+            if (hasText(link)) {
+                json.append("\"link\":\"").append(escapeJson(link)).append("\"");
+                first = false;
+            }
+
+            if (hasText(fn)) {
+                if (!first) {
+                    json.append(",");
+                }
+                json.append("\"fn\":\"").append(escapeJson(fn)).append("\"");
+            }
+
+            json.append("}");
+        }
+
+        json.append(",\"android\":{");
+        json.append("\"priority\":\"high\"");
+        json.append("}");
+
+        json.append("}");
+        json.append("}");
+
+        return post(projectId, json.toString());
+    }
+
+    private static boolean hasText(String s) {
+        return s != null && !s.trim().isEmpty();
     }
 
     /**

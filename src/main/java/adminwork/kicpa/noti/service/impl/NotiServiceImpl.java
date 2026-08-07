@@ -71,24 +71,31 @@ public class NotiServiceImpl extends EgovAbstractServiceImpl implements NotiServ
 		map.put("linkUrl", linkUrl);
 		int claimed = notiDAO.insertNotiIfNew(map);
 		if (claimed > 0) {
-			pushToAllAsync(boardId, bltnNo, title, body);
+			pushToAllAsync(boardId, bltnNo, title, body, linkUrl);
 		}
 	}
 
-	private void pushToAllAsync(final String boardId, final String bltnNo, final String title, final String body) {
+	private void pushToAllAsync(final String boardId, final String bltnNo, final String title, final String body, final String linkUrl) {
 		if (!"Y".equals(getGlobalsProperty("Globals.push.enabled", "N"))) {
 			LOGGER.info("푸시 발송 비활성(Globals.push.enabled != Y) — 알림함 기록만 저장: {}", title);
 			return;
 		}
 		PUSH_EXECUTOR.submit(new Runnable() {
 			public void run() {
-				sendToAllTokens(boardId, bltnNo, title, body);
+				sendToAllTokens(boardId, bltnNo, title, body, linkUrl);
 			}
 		});
 	}
 
-	private void sendToAllTokens(String boardId, String bltnNo, String title, String body) {
+	private void sendToAllTokens(String boardId, String bltnNo, String title, String body, String linkUrl) {
 		String projectId = getGlobalsProperty("Globals.fcm.projectId", DEFAULT_PROJECT_ID);
+
+		//푸시 클릭 이동 링크(data.link): 상대경로는 Globals.push.linkBaseUrl이 설정된 경우 절대 URL로 변환
+		String link = "";
+		if (linkUrl != null && !"".equals(linkUrl.trim())) {
+			String baseUrl = getGlobalsProperty("Globals.push.linkBaseUrl", "");
+			link = (linkUrl.startsWith("/") && !"".equals(baseUrl)) ? baseUrl + linkUrl : linkUrl;
+		}
 		int sendCnt = 0;
 		int failCnt = 0;
 		try {
@@ -99,7 +106,7 @@ public class NotiServiceImpl extends EgovAbstractServiceImpl implements NotiServ
 			List<String> tokens = notiDAO.selectPushTokenList(tokenParam);
 			for (String token : tokens) {
 				try {
-					FcmSender.Response res = FcmSender.sendNotification(projectId, token, title, body);
+					FcmSender.Response res = FcmSender.sendNotification(projectId, token, title, body, link, "");
 					if (res.isSuccess()) {
 						sendCnt++;
 					} else {
